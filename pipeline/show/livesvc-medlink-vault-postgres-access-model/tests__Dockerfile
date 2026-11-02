@@ -1,0 +1,46 @@
+# Verifier image (separate container, no network): the same pinned toolchain as the agent image plus hcl2json, the
+# grader, the task spec, the platform snapshot, the pristine verifier-owned files, the reference configuration and the
+# credentials production clients hold. /tests is root-only; the submission is applied by an unprivileged user.
+FROM postgres:17.11-bookworm@sha256:3645570cccdfa447589da9f57dd740faa29b30938e861289a5574b6ca6b03826
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends ca-certificates curl unzip python3 procps \
+ && rm -rf /var/lib/apt/lists/*
+
+ARG VAULT_VERSION=1.21.4
+ARG VAULT_SHA256=889b681990fe221b884b7932fa9c9dd0ee9811b9349554f1aa287ab63c9f3dae
+RUN set -eux; \
+    curl -fsSLo /tmp/vault.zip "https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip"; \
+    echo "${VAULT_SHA256}  /tmp/vault.zip" | sha256sum -c -; \
+    unzip -q /tmp/vault.zip -d /usr/local/bin vault; rm -f /tmp/vault.zip; vault version
+ARG TERRAFORM_VERSION=1.16.4
+ARG TERRAFORM_SHA256=dc94af0eef1147718ad7c8daea792ed199e3e0492eec180d0adafa2a65a879df
+RUN set -eux; \
+    curl -fsSLo /tmp/terraform.zip "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip"; \
+    echo "${TERRAFORM_SHA256}  /tmp/terraform.zip" | sha256sum -c -; \
+    unzip -q /tmp/terraform.zip -d /usr/local/bin terraform; rm -f /tmp/terraform.zip; \
+    d=/opt/terraform/mirror/registry.terraform.io/hashicorp/vault/5.12.0/linux_amd64; mkdir -p $d; \
+    curl -fsSLo /tmp/p.zip "https://releases.hashicorp.com/terraform-provider-vault/5.12.0/terraform-provider-vault_5.12.0_linux_amd64.zip"; \
+    echo "c61fcc4d714cefee0696e2f8bf715b5826099e405f66acc859e496de688b6a8e  /tmp/p.zip" | sha256sum -c -; unzip -q /tmp/p.zip -d $d; rm -f /tmp/p.zip; \
+    d=/opt/terraform/mirror/registry.terraform.io/cyrilgdn/postgresql/1.27.0/linux_amd64; mkdir -p $d; \
+    curl -fsSLo /tmp/p.zip "https://github.com/cyrilgdn/terraform-provider-postgresql/releases/download/v1.27.0/terraform-provider-postgresql_1.27.0_linux_amd64.zip"; \
+    echo "1c962ce9e73d96b368354607fd30dc55313c39f03f7ca5f3dea64e143b4f7c06  /tmp/p.zip" | sha256sum -c -; unzip -q /tmp/p.zip -d $d; rm -f /tmp/p.zip; \
+    chmod -R a+rX /opt/terraform; terraform version
+COPY terraformrc /etc/terraformrc
+ENV TF_CLI_CONFIG_FILE=/etc/terraformrc CHECKPOINT_DISABLE=1
+ARG HCL2JSON_VERSION=0.6.9
+ARG HCL2JSON_SHA256=b609e37094948c0b77cd8c6c0baaf8af2bd168c685c6e3334d671cc9692c34a5
+RUN set -eux; \
+    curl -fsSLo /usr/local/bin/hcl2json "https://github.com/tmccombs/hcl2json/releases/download/v${HCL2JSON_VERSION}/hcl2json_linux_amd64"; \
+    echo "${HCL2JSON_SHA256}  /usr/local/bin/hcl2json" | sha256sum -c -; chmod 0755 /usr/local/bin/hcl2json
+
+COPY . /tests/
+RUN chmod 0700 /tests \
+ && chmod 0755 /tests/test.sh \
+ && useradd -r -M -s /usr/sbin/nologin svc \
+ && useradd -r -M -s /usr/sbin/nologin tfrun \
+ && mkdir -p /logs/verifier /var/log/vault /workspace \
+ && python3 -m py_compile /tests/grade.py /tests/livesvc.py /tests/platformctl.py \
+ && python3 -c 'import json; json.load(open("/tests/spec.json"))' \
+ && rm -rf /tests/__pycache__
+ENV PATH=/usr/lib/postgresql/17/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

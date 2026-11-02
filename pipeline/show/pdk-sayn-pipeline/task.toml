@@ -1,0 +1,38 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/sayn-pipeline"
+description = ""
+authors = []
+keywords = ["python", "data-processing", "pipeline"]
+
+[metadata]
+task_id = "sayn-pipeline"
+display_title = "Incremental copies of a POS change log: latest row per order, composite delete keys, an exact append history, new columns"
+repository_url = "https://github.com/173TECH/sayn.git"
+base_commit_hash = "f6e2da51cfc9e110bd22a20f3ba10f147e0771b3"
+language = "python"
+category = "data_processing"
+archetype = "pipeline"
+
+[verifier]
+environment_mode = "separate"
+# At least 3x one full grade (both suites) on 4 CPUs, and never below 1800.
+timeout_sec = 1800
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached f6e2da51cfc9e110bd22a20f3ba10f147e0771b3 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+
+[environment]
+allow_internet = false
+build_timeout_sec = 2400
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+timeout_sec = 21600

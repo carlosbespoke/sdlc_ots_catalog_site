@@ -1,0 +1,35 @@
+{
+  "root_causes": [
+    {
+      "accept": [
+        {"file": "starlark/eval.go", "function": "Binary"}
+      ]
+    },
+    {
+      "accept": [
+        {"file": "internal/compile/serial.go", "function": "DecodeProgram"},
+        {"file": "internal/compile/serial.go", "function": "Program.Encode"}
+      ]
+    }
+  ],
+  "default_reproducer": "starlark/repro_test.go",
+  "fix_tests": [
+    "fix/starlark/probe_1_test.go",
+    "fix/starlark/probe_2_test.go",
+    "fix/starlark/probe_3_test.go",
+    "fix/starlark/probe_4_test.go"
+  ],
+  "alt_fixes": [
+    "alt_fix_1.patch",
+    "alt_fix_2.patch"
+  ],
+  "runtime_fix": {
+    "kind": "go-overlay",
+    "path": "runtime_fix"
+  },
+  "p2p": {
+    "command": "go test -json -count=1 ./...",
+    "selection": "every test passing on buggy + gold (recorded at verifier build in /opt/rca/p2p_baseline.txt)",
+    "excluded": []
+  }
+}

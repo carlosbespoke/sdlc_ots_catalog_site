@@ -1,0 +1,76 @@
+# syntax=docker/dockerfile:1
+# Verifier image (tests/Dockerfile), format 1, Python. docs/task-format.md "Verifier image".
+# Go: verifier-dockerfile-go.txt. Built by Harbor from tests/ as its own context; it rebuilds the
+# pristine buggy tree from the pinned commit + tests/faults/ (byte mirror of environment/faults/),
+# moves it to /opt/rca/pristine and runs `grade.py --prepare`, which fails the build when the
+# task is broken (fingerprints, fixes, probes, alt fixes, runtime fix, P2P baseline).
+
+# --- Toolchain (verbatim from environment/Dockerfile) ---
+# From the voyager artifact Dockerfile (celery__kombu.af3a3337): digest-pinned base, ENV, apt
+# packages, root-owned venv with the voyager freeze (dev-only tools dropped), the agent user.
+FROM --platform=linux/amd64 python@sha256:2e32f7d302adc1c37428355c1e646897c0c53f4fd60b6a551245fb90ee129f91
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_INPUT=1 PIP_NO_CACHE_DIR=1 \
+    PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONHASHSEED=0 \
+    VIRTUAL_ENV=/opt/venv PATH=/opt/venv/bin:$PATH
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
+        build-essential ca-certificates curl git pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+# --- Agent harness prerequisites ---
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
+        asciinema ca-certificates git tmux \
+    && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man
+RUN command -v git && command -v tmux && tmux -V \
+    && tmux -L harbor-build-smoke new-session -d -s smoke 'sleep 30' \
+    && tmux -L harbor-build-smoke has-session -t smoke \
+    && tmux -L harbor-build-smoke kill-server
+RUN printf 'export PYTHONDONTWRITEBYTECODE=1 PYTHONHASHSEED=0 VIRTUAL_ENV=/opt/venv PATH=/opt/venv/bin:$PATH\n' \
+    > /etc/profile.d/00-venv.sh && chmod 0644 /etc/profile.d/00-venv.sh
+# Pinned dependencies (the voyager freeze), never the project itself.
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/pip install -q pip==25.2 setuptools==75.8.2 wheel==0.45.1 \
+    && /opt/venv/bin/pip install -q pytest==9.0.2 \
+        amqp==5.4.1 azure-core==1.41.0 azure-identity==1.25.3 azure-servicebus==7.14.3 \
+        azure-storage-queue==12.16.0 backports.zstd==1.3.0 boto3==1.43.109 botocore==1.43.109 \
+        brotli==1.2.0 certifi==2026.7.22 cffi==2.1.1 charset-normalizer==3.5.2 coverage==7.16.2 \
+        cryptography==50.0.2 dnspython==2.8.0 execnet==2.1.2 freezegun==1.5.5 \
+        google-api-core==2.42.0 google-auth==2.61.0 google-cloud-monitoring==2.32.0 \
+        google-cloud-pubsub==2.38.0 googleapis-common-protos==1.75.5 greenlet==3.5.6 \
+        grpc-google-iam-v1==0.14.5 grpcio==1.80.0 grpcio-status==1.80.0 hypothesis==6.168.5 \
+        idna==3.20 iniconfig==2.3.1 isodate==0.7.2 jmespath==1.1.0 kazoo==2.11.0 msal==1.39.0 \
+        msal-extensions==1.3.1 msgpack==1.1.2 opentelemetry-api==1.45.1 opentelemetry-sdk==1.45.1 \
+        opentelemetry-semantic-conventions==0.66b1 packaging==26.3 pluggy==1.6.0 \
+        proto-plus==1.29.0 protobuf==6.33.6 pyasn1==0.6.4 pyasn1_modules==0.4.2 pycparser==3.1 \
+        pycurl==7.48.0 Pygments==2.21.0 PyJWT==2.15.1 pymongo==4.17.0 Pyro4==4.82 \
+        pytest-cov==7.1.0 pytest-rerunfailures==16.0.1 pytest-xdist==3.8.0 pytest_freezer==0.4.9 \
+        python-consul2==0.1.5 python-dateutil==2.9.0.post0 python-etcd==0.4.5 PyYAML==6.0.3 \
+        redis==7.4.1 requests==2.34.2 s3transfer==0.19.2 serpent==1.43 six==1.17.0 \
+        sortedcontainers==2.4.0 SQLAlchemy==2.0.54 typing_extensions==4.16.0 tzdata==2026.5 \
+        urllib3==2.8.0 vine==5.1.0 \
+    && find /opt/venv -name __pycache__ -prune -exec rm -rf {} +
+RUN useradd -m -u 1000 -s /bin/bash agent
+
+# --- rca:source begin (rendered by `rca regen` from rca-task.json; verbatim in tests/Dockerfile) ---
+ARG RCA_REPOSITORY=https://github.com/celery/kombu.git
+ARG RCA_COMMIT=af3a333745b436605c66a2bfe29239a215520ace
+RUN git init -q /workdir && cd /workdir \
+    && git fetch -q --depth 1 "$RCA_REPOSITORY" "$RCA_COMMIT" \
+    && git checkout -q FETCH_HEAD \
+    && test "$(git rev-parse HEAD)" = "$RCA_COMMIT" \
+    && rm -rf .git .github AGENTS.md CLAUDE.md
+COPY faults/ /workdir/
+# --- rca:source end ---
+
+# --- Verifier ---
+# The project is never installed here: grade.py --prepare writes a .pth that points the venv at
+# /workdir for candidate children only (every root interpreter runs with -I -S -B; -B because -I
+# ignores PYTHONDONTWRITEBYTECODE, and --prepare deletes any /tests/__pycache__). Add grade-time
+# dependencies here, never to environment/Dockerfile.
+RUN mkdir -p /opt/rca && mv /workdir /opt/rca/pristine && mkdir -p /workdir /logs/verifier
+COPY . /tests
+RUN rm -f /tests/Dockerfile \
+    && chown -R root:root /tests /opt/rca \
+    && chmod -R go-rwx /tests /opt/rca
+RUN /opt/venv/bin/python -I -S -B /tests/grade.py --prepare
+WORKDIR /workdir
+CMD ["sh", "-c", "sleep infinity"]

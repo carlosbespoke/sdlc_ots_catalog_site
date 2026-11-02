@@ -1,0 +1,2856 @@
+{
+ "Resources": {
+  "ArtifactKey8D84C5F0": {
+   "Type": "AWS::KMS::Key",
+   "Properties": {
+    "Description": "orion-staging artifact encryption",
+    "EnableKeyRotation": true,
+    "KeyPolicy": {
+     "Statement": [
+      {
+       "Action": "kms:*",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": "arn:aws:iam::111111111111:root"
+       },
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:GenerateDataKey*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       },
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PendingWindowInDays": 14,
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "encryption"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "ArtifactKeyAliasB27DA94F": {
+   "Type": "AWS::KMS::Alias",
+   "Properties": {
+    "AliasName": "alias/orion-staging-artifacts",
+    "TargetKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "ReportsBucket4E7C5994": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "BucketKeyEnabled": true,
+       "ServerSideEncryptionByDefault": {
+        "KMSMasterKeyID": {
+         "Fn::GetAtt": [
+          "ArtifactKey8D84C5F0",
+          "Arn"
+         ]
+        },
+        "SSEAlgorithm": "aws:kms"
+       }
+      }
+     ]
+    },
+    "BucketName": "orion-staging-reports-1111",
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "Id": "orion-staging-reports-archive",
+       "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 75
+       },
+       "Status": "Enabled",
+       "Transitions": [
+        {
+         "StorageClass": "STANDARD_IA",
+         "TransitionInDays": 25
+        }
+       ]
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     },
+     {
+      "Key": "aws-cdk:cr-owned:orion-staging:55554ad6",
+      "Value": "true"
+     },
+     {
+      "Key": "aws-cdk:cr-owned:orion-staging:6460eb18",
+      "Value": "true"
+     },
+     {
+      "Key": "aws-cdk:cr-owned:orion-staging:ec98022a",
+      "Value": "true"
+     },
+     {
+      "Key": "component",
+      "Value": "buckets/reports"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "VersioningConfiguration": {
+     "Status": "Enabled"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "ReportsBucketPolicy11C4A507": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "ReportsBucket4E7C5994"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ReportsBucket4E7C5994",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ReportsBucket4E7C5994",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:PutBucketPolicy"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ReportsBucket4E7C5994",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ReportsBucket4E7C5994",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "ReportsBucketAutoDeleteObjectsCustomResource98FB8A10": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "ReportsBucket4E7C5994"
+    }
+   },
+   "DependsOn": [
+    "ReportsBucketPolicy11C4A507"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "RqulhucBucket6981503C": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "BucketKeyEnabled": true,
+       "ServerSideEncryptionByDefault": {
+        "KMSMasterKeyID": {
+         "Fn::GetAtt": [
+          "ArtifactKey8D84C5F0",
+          "Arn"
+         ]
+        },
+        "SSEAlgorithm": "aws:kms"
+       }
+      }
+     ]
+    },
+    "BucketName": "orion-staging-rqulhuc-1111",
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "Id": "orion-staging-rqulhuc-archive",
+       "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 150
+       },
+       "Status": "Enabled",
+       "Transitions": [
+        {
+         "StorageClass": "STANDARD_IA",
+         "TransitionInDays": 25
+        }
+       ]
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     },
+     {
+      "Key": "component",
+      "Value": "buckets/rqulhuc"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "VersioningConfiguration": {
+     "Status": "Enabled"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "RqulhucBucketPolicy10D97874": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "RqulhucBucket6981503C"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "RqulhucBucket6981503C",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "RqulhucBucket6981503C",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:PutBucketPolicy"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "RqulhucBucket6981503C",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "RqulhucBucket6981503C",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "RqulhucBucketAutoDeleteObjectsCustomResource2CDB1C99": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "RqulhucBucket6981503C"
+    }
+   },
+   "DependsOn": [
+    "RqulhucBucketPolicy10D97874"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+     "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs24.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "ReportsBucket4E7C5994"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ]
+  },
+  "ReleaseTableB9556E5C": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "release_id",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "release_id",
+      "KeyType": "HASH"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "SSESpecification": {
+     "KMSMasterKeyId": {
+      "Fn::GetAtt": [
+       "ArtifactKey8D84C5F0",
+       "Arn"
+      ]
+     },
+     "SSEEnabled": true,
+     "SSEType": "KMS"
+    },
+    "TableName": "orion-staging-releases",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "releases"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "ApplicationRepository13E54097": {
+   "Type": "AWS::ECR::Repository",
+   "Properties": {
+    "EmptyOnDelete": true,
+    "ImageScanningConfiguration": {
+     "ScanOnPush": true
+    },
+    "LifecyclePolicy": {
+     "LifecyclePolicyText": "{\"rules\":[{\"rulePriority\":1,\"description\":\"orion-staging keep release images\",\"selection\":{\"tagStatus\":\"any\",\"countType\":\"imageCountMoreThan\",\"countNumber\":25},\"action\":{\"type\":\"expire\"}}]}"
+    },
+    "RepositoryName": "orion-staging-application",
+    "RepositoryPolicyText": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchGetImage",
+        "ecr:GetDownloadUrlForLayer"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Sid": "OrionStagingPull"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "platform"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "ApplicationClusterC783CD56": {
+   "Type": "AWS::ECS::Cluster",
+   "Properties": {
+    "ClusterName": "orion-staging-ecs",
+    "ClusterSettings": [
+     {
+      "Name": "containerInsights",
+      "Value": "enabled"
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "platform"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   }
+  },
+  "DeliveryAlbDA9F3384": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     },
+     {
+      "Key": "idle_timeout.timeout_seconds",
+      "Value": "75"
+     }
+    ],
+    "Scheme": "internet-facing",
+    "SecurityGroups": [
+     {
+      "Fn::GetStackOutput": {
+       "StackName": "AcceleratorStagingNetwork",
+       "Region": "us-east-1",
+       "OutputName": "PublishOutputFnGetAttDeliverySecurityGroup6A9ACBBEGroupIdC7CEA260"
+      }
+     }
+    ],
+    "Subnets": [
+     {
+      "Fn::GetStackOutput": {
+       "StackName": "AcceleratorStagingNetwork",
+       "Region": "us-east-1",
+       "OutputName": "PublishOutputRefCoreVpcpublicSubnet1Subnet57C122A20B2CBD50"
+      }
+     },
+     {
+      "Fn::GetStackOutput": {
+       "StackName": "AcceleratorStagingNetwork",
+       "Region": "us-east-1",
+       "OutputName": "PublishOutputRefCoreVpcpublicSubnet2SubnetB989FD57CD1EF545"
+      }
+     },
+     {
+      "Fn::GetStackOutput": {
+       "StackName": "AcceleratorStagingNetwork",
+       "Region": "us-east-1",
+       "OutputName": "PublishOutputRefCoreVpcpublicSubnet3Subnet4C24FB3936E5C536"
+      }
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "gateway"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "Type": "application"
+   }
+  },
+  "DeliveryAlbHttpListenerBFB14444": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "FixedResponseConfig": {
+       "ContentType": "text/plain",
+       "MessageBody": "orion-staging route not found",
+       "StatusCode": "404"
+      },
+      "Type": "fixed-response"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "DeliveryAlbDA9F3384"
+    },
+    "Port": 80,
+    "Protocol": "HTTP",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "gateway"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   }
+  },
+  "InternalZoneD0BA15A8": {
+   "Type": "AWS::Route53::HostedZone",
+   "Properties": {
+    "HostedZoneTags": [
+     {
+      "Key": "component",
+      "Value": "gateway"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "Name": "orion-staging.internal."
+   }
+  },
+  "QaServiceLogs44AAE7DA": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "KmsKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "LogGroupName": "/orion/staging/service/qa",
+    "RetentionInDays": 30,
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/qa"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "QaDeployQueue9B4EE0AC": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "KmsMasterKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "MessageRetentionPeriod": 432000,
+    "QueueName": "orion-staging-qa-deploy",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/qa"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "VisibilityTimeout": 55
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "QaDeployQueuePolicy3C40F693": {
+   "Type": "AWS::SQS::QueuePolicy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sqs:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": {
+        "Fn::GetAtt": [
+         "QaDeployQueue9B4EE0AC",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Queues": [
+     {
+      "Ref": "QaDeployQueue9B4EE0AC"
+     }
+    ]
+   }
+  },
+  "QaEventsTopic81AE31F5": {
+   "Type": "AWS::SNS::Topic",
+   "Properties": {
+    "DisplayName": "orion-staging-qa",
+    "KmsMasterKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/qa"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "TopicName": "orion-staging-qa-events"
+   }
+  },
+  "QaTaskDefinitionTaskRole73B17DB6": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/qa"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   }
+  },
+  "QaTaskDefinitionTaskRoleDefaultPolicy884C5398": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ReportsBucket4E7C5994",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ReportsBucket4E7C5994",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:DescribeKey",
+        "kms:Encrypt",
+        "kms:GenerateDataKey*",
+        "kms:ReEncrypt*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ArtifactKey8D84C5F0",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ReleaseTableB9556E5C",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "sqs:ChangeMessageVisibility",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl",
+        "sqs:ReceiveMessage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "QaDeployQueue9B4EE0AC",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "QaTaskDefinitionTaskRoleDefaultPolicy884C5398",
+    "Roles": [
+     {
+      "Ref": "QaTaskDefinitionTaskRole73B17DB6"
+     }
+    ]
+   }
+  },
+  "QaTaskDefinition6E6B45E1": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Environment": [
+       {
+        "Name": "ACCELERATOR_PROJECT",
+        "Value": "orion"
+       },
+       {
+        "Name": "ACCELERATOR_ENVIRONMENT",
+        "Value": "staging"
+       },
+       {
+        "Name": "ACCELERATOR_STAGE",
+        "Value": "qa"
+       },
+       {
+        "Name": "DEPLOY_QUEUE",
+        "Value": {
+         "Ref": "QaDeployQueue9B4EE0AC"
+        }
+       },
+       {
+        "Name": "RELEASE_TABLE",
+        "Value": {
+         "Ref": "ReleaseTableB9556E5C"
+        }
+       }
+      ],
+      "Essential": true,
+      "Image": "public.ecr.aws/docker/library/nginx:1.27",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "QaServiceLogs44AAE7DA"
+        },
+        "awslogs-stream-prefix": "orion-staging-qa",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "Name": "application",
+      "PortMappings": [
+       {
+        "ContainerPort": 8080,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "512",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "QaTaskDefinitionExecutionRoleED018CC0",
+      "Arn"
+     ]
+    },
+    "Family": "orion-staging-qa",
+    "Memory": "1024",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "RuntimePlatform": {
+     "CpuArchitecture": "X86_64",
+     "OperatingSystemFamily": "LINUX"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/qa"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "QaTaskDefinitionTaskRole73B17DB6",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "QaTaskDefinitionExecutionRoleED018CC0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/qa"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   }
+  },
+  "QaTaskDefinitionExecutionRoleDefaultPolicy87D5A176": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "QaServiceLogs44AAE7DA",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "QaTaskDefinitionExecutionRoleDefaultPolicy87D5A176",
+    "Roles": [
+     {
+      "Ref": "QaTaskDefinitionExecutionRoleED018CC0"
+     }
+    ]
+   }
+  },
+  "QaTaskDocumentAwsCliLayer864FD5D5": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "Content": {
+     "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+     "S3Key": "98f62bef9320f8c0a0a7be21d7c746f069131f196f51ffe3008a6bb730b368ec.zip"
+    },
+    "Description": "/opt/awscli/aws"
+   }
+  },
+  "QaTaskDocumentCustomResource041D111F": {
+   "Type": "Custom::CDKBucketDeployment",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536",
+      "Arn"
+     ]
+    },
+    "SourceBucketNames": [
+     "cdk-hnb659fds-assets-111111111111-us-east-1"
+    ],
+    "SourceObjectKeys": [
+     "f5c46fe20a498610a89adce72798f36fb8c96b1374cbcab5e9efbdf042ba44d3.zip"
+    ],
+    "SourceMarkers": [
+     {}
+    ],
+    "DestinationBucketName": {
+     "Ref": "ReportsBucket4E7C5994"
+    },
+    "DestinationBucketKeyPrefix": "orion-staging",
+    "WaitForDistributionInvalidation": true,
+    "RetainOnDelete": true,
+    "Prune": false,
+    "OutputObjectKeys": true
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "QaQueueAgeAlarm01FA7E8D": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "QaEventsTopic81AE31F5"
+     }
+    ],
+    "AlarmDescription": "orion-staging qa deployment queue age",
+    "AlarmName": "orion-staging-qa-queue-age",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "QueueName",
+      "Value": {
+       "Fn::GetAtt": [
+        "QaDeployQueue9B4EE0AC",
+        "QueueName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 3,
+    "MetricName": "ApproximateAgeOfOldestMessage",
+    "Namespace": "AWS/SQS",
+    "Period": 60,
+    "Statistic": "Maximum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/qa"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "Threshold": 300
+   }
+  },
+  "QaQueueDepthAlarm1628DFD0": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "QaEventsTopic81AE31F5"
+     }
+    ],
+    "AlarmDescription": "orion-staging qa deployment backlog",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "QueueName",
+      "Value": {
+       "Fn::GetAtt": [
+        "QaDeployQueue9B4EE0AC",
+        "QueueName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "ApproximateNumberOfMessagesVisible",
+    "Namespace": "AWS/SQS",
+    "Period": 300,
+    "Statistic": "Maximum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/qa"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "Threshold": 25,
+    "TreatMissingData": "notBreaching"
+   }
+  },
+  "QaTopicFailureAlarm9A895179": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": "orion-staging qa event delivery failures",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "TopicName",
+      "Value": {
+       "Fn::GetAtt": [
+        "QaEventsTopic81AE31F5",
+        "TopicName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "NumberOfNotificationsFailed",
+    "Namespace": "AWS/SNS",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/qa"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   }
+  },
+  "Yfdu9ServiceLogsAE2A26EB": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "KmsKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "LogGroupName": "/orion/staging/service/yfdu.9",
+    "RetentionInDays": 30,
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/yfdu.9"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "Yfdu9DeployQueue86187B0A": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "KmsMasterKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "MessageRetentionPeriod": 432000,
+    "QueueName": "orion-staging-yfdu-9-deploy",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/yfdu.9"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "VisibilityTimeout": 90
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "Yfdu9DeployQueuePolicy1381461A": {
+   "Type": "AWS::SQS::QueuePolicy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sqs:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": {
+        "Fn::GetAtt": [
+         "Yfdu9DeployQueue86187B0A",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Queues": [
+     {
+      "Ref": "Yfdu9DeployQueue86187B0A"
+     }
+    ]
+   }
+  },
+  "Yfdu9EventsTopic80162067": {
+   "Type": "AWS::SNS::Topic",
+   "Properties": {
+    "DisplayName": "orion-staging-yfdu.9",
+    "KmsMasterKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/yfdu.9"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "TopicName": "orion-staging-yfdu-9-events"
+   }
+  },
+  "Yfdu9TaskDefinitionTaskRoleD7129D47": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/yfdu.9"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   }
+  },
+  "Yfdu9TaskDefinitionTaskRoleDefaultPolicy6E981332": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ReportsBucket4E7C5994",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ReportsBucket4E7C5994",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:DescribeKey",
+        "kms:Encrypt",
+        "kms:GenerateDataKey*",
+        "kms:ReEncrypt*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ArtifactKey8D84C5F0",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ReleaseTableB9556E5C",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "sqs:ChangeMessageVisibility",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl",
+        "sqs:ReceiveMessage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "Yfdu9DeployQueue86187B0A",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "Yfdu9TaskDefinitionTaskRoleDefaultPolicy6E981332",
+    "Roles": [
+     {
+      "Ref": "Yfdu9TaskDefinitionTaskRoleD7129D47"
+     }
+    ]
+   }
+  },
+  "Yfdu9TaskDefinition2D6C8516": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Environment": [
+       {
+        "Name": "ACCELERATOR_PROJECT",
+        "Value": "orion"
+       },
+       {
+        "Name": "ACCELERATOR_ENVIRONMENT",
+        "Value": "staging"
+       },
+       {
+        "Name": "ACCELERATOR_STAGE",
+        "Value": "yfdu.9"
+       },
+       {
+        "Name": "DEPLOY_QUEUE",
+        "Value": {
+         "Ref": "Yfdu9DeployQueue86187B0A"
+        }
+       },
+       {
+        "Name": "RELEASE_TABLE",
+        "Value": {
+         "Ref": "ReleaseTableB9556E5C"
+        }
+       }
+      ],
+      "Essential": true,
+      "Image": "public.ecr.aws/docker/library/nginx:1.27",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "Yfdu9ServiceLogsAE2A26EB"
+        },
+        "awslogs-stream-prefix": "orion-staging-yfdu.9",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "Name": "application",
+      "PortMappings": [
+       {
+        "ContainerPort": 8080,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "1024",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "Yfdu9TaskDefinitionExecutionRole926B6D02",
+      "Arn"
+     ]
+    },
+    "Family": "orion-staging-yfdu.9",
+    "Memory": "2048",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "RuntimePlatform": {
+     "CpuArchitecture": "X86_64",
+     "OperatingSystemFamily": "LINUX"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/yfdu.9"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "Yfdu9TaskDefinitionTaskRoleD7129D47",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "Yfdu9TaskDefinitionExecutionRole926B6D02": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/yfdu.9"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   }
+  },
+  "Yfdu9TaskDefinitionExecutionRoleDefaultPolicyF8AAEE99": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "Yfdu9ServiceLogsAE2A26EB",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "Yfdu9TaskDefinitionExecutionRoleDefaultPolicyF8AAEE99",
+    "Roles": [
+     {
+      "Ref": "Yfdu9TaskDefinitionExecutionRole926B6D02"
+     }
+    ]
+   }
+  },
+  "Yfdu9TaskDocumentAwsCliLayer87E720BB": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "Content": {
+     "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+     "S3Key": "98f62bef9320f8c0a0a7be21d7c746f069131f196f51ffe3008a6bb730b368ec.zip"
+    },
+    "Description": "/opt/awscli/aws"
+   }
+  },
+  "Yfdu9TaskDocumentCustomResourceB56F1E30": {
+   "Type": "Custom::CDKBucketDeployment",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536",
+      "Arn"
+     ]
+    },
+    "SourceBucketNames": [
+     "cdk-hnb659fds-assets-111111111111-us-east-1"
+    ],
+    "SourceObjectKeys": [
+     "aca358729de5ddf689787439a4fe923dd542cf030e273f29a562ef9ebffb9d0a.zip"
+    ],
+    "SourceMarkers": [
+     {}
+    ],
+    "DestinationBucketName": {
+     "Ref": "ReportsBucket4E7C5994"
+    },
+    "DestinationBucketKeyPrefix": "orion-staging",
+    "WaitForDistributionInvalidation": true,
+    "RetainOnDelete": true,
+    "Prune": false,
+    "OutputObjectKeys": true
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "Yfdu9QueueAgeAlarmBFC30328": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "Yfdu9EventsTopic80162067"
+     }
+    ],
+    "AlarmDescription": "orion-staging yfdu.9 deployment queue age",
+    "AlarmName": "orion-staging-yfdu.9-queue-age",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "QueueName",
+      "Value": {
+       "Fn::GetAtt": [
+        "Yfdu9DeployQueue86187B0A",
+        "QueueName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 3,
+    "MetricName": "ApproximateAgeOfOldestMessage",
+    "Namespace": "AWS/SQS",
+    "Period": 60,
+    "Statistic": "Maximum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/yfdu.9"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "Threshold": 300
+   }
+  },
+  "Yfdu9QueueDepthAlarmACEFBDCC": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "Yfdu9EventsTopic80162067"
+     }
+    ],
+    "AlarmDescription": "orion-staging yfdu.9 deployment backlog",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "QueueName",
+      "Value": {
+       "Fn::GetAtt": [
+        "Yfdu9DeployQueue86187B0A",
+        "QueueName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "ApproximateNumberOfMessagesVisible",
+    "Namespace": "AWS/SQS",
+    "Period": 300,
+    "Statistic": "Maximum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/yfdu.9"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "Threshold": 25,
+    "TreatMissingData": "notBreaching"
+   }
+  },
+  "Yfdu9TopicFailureAlarm2DA0FCBF": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": "orion-staging yfdu.9 event delivery failures",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "TopicName",
+      "Value": {
+       "Fn::GetAtt": [
+        "Yfdu9EventsTopic80162067",
+        "TopicName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "NumberOfNotificationsFailed",
+    "Namespace": "AWS/SNS",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/yfdu.9"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   }
+  },
+  "DevServiceLogsEC1EBADB": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "KmsKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "LogGroupName": "/orion/staging/service/dev",
+    "RetentionInDays": 30,
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/dev"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "DevDeployQueueFC93034F": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "KmsMasterKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "MessageRetentionPeriod": 432000,
+    "QueueName": "orion-staging-dev-deploy",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/dev"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "VisibilityTimeout": 35
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "DevDeployQueuePolicy149B104B": {
+   "Type": "AWS::SQS::QueuePolicy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sqs:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": {
+        "Fn::GetAtt": [
+         "DevDeployQueueFC93034F",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Queues": [
+     {
+      "Ref": "DevDeployQueueFC93034F"
+     }
+    ]
+   }
+  },
+  "DevEventsTopicF2A6F55A": {
+   "Type": "AWS::SNS::Topic",
+   "Properties": {
+    "DisplayName": "orion-staging-dev",
+    "KmsMasterKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/dev"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "TopicName": "orion-staging-dev-events"
+   }
+  },
+  "DevTaskDefinitionTaskRole67A7AF99": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/dev"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   }
+  },
+  "DevTaskDefinitionTaskRoleDefaultPolicyF9E9F7A4": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ReportsBucket4E7C5994",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ReportsBucket4E7C5994",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:DescribeKey",
+        "kms:Encrypt",
+        "kms:GenerateDataKey*",
+        "kms:ReEncrypt*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ArtifactKey8D84C5F0",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ReleaseTableB9556E5C",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "sqs:ChangeMessageVisibility",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl",
+        "sqs:ReceiveMessage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "DevDeployQueueFC93034F",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DevTaskDefinitionTaskRoleDefaultPolicyF9E9F7A4",
+    "Roles": [
+     {
+      "Ref": "DevTaskDefinitionTaskRole67A7AF99"
+     }
+    ]
+   }
+  },
+  "DevTaskDefinition9034F39D": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Environment": [
+       {
+        "Name": "ACCELERATOR_PROJECT",
+        "Value": "orion"
+       },
+       {
+        "Name": "ACCELERATOR_ENVIRONMENT",
+        "Value": "staging"
+       },
+       {
+        "Name": "ACCELERATOR_STAGE",
+        "Value": "dev"
+       },
+       {
+        "Name": "DEPLOY_QUEUE",
+        "Value": {
+         "Ref": "DevDeployQueueFC93034F"
+        }
+       },
+       {
+        "Name": "RELEASE_TABLE",
+        "Value": {
+         "Ref": "ReleaseTableB9556E5C"
+        }
+       }
+      ],
+      "Essential": true,
+      "Image": "public.ecr.aws/docker/library/nginx:1.27",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "DevServiceLogsEC1EBADB"
+        },
+        "awslogs-stream-prefix": "orion-staging-dev",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "Name": "application",
+      "PortMappings": [
+       {
+        "ContainerPort": 8080,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "256",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "DevTaskDefinitionExecutionRole6B891438",
+      "Arn"
+     ]
+    },
+    "Family": "orion-staging-dev",
+    "Memory": "512",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "RuntimePlatform": {
+     "CpuArchitecture": "X86_64",
+     "OperatingSystemFamily": "LINUX"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/dev"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "DevTaskDefinitionTaskRole67A7AF99",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "DevTaskDefinitionExecutionRole6B891438": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/dev"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   }
+  },
+  "DevTaskDefinitionExecutionRoleDefaultPolicyF233B579": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "DevServiceLogsEC1EBADB",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DevTaskDefinitionExecutionRoleDefaultPolicyF233B579",
+    "Roles": [
+     {
+      "Ref": "DevTaskDefinitionExecutionRole6B891438"
+     }
+    ]
+   }
+  },
+  "DevTaskDocumentAwsCliLayer9873682D": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "Content": {
+     "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+     "S3Key": "98f62bef9320f8c0a0a7be21d7c746f069131f196f51ffe3008a6bb730b368ec.zip"
+    },
+    "Description": "/opt/awscli/aws"
+   }
+  },
+  "DevTaskDocumentCustomResource4994B21F": {
+   "Type": "Custom::CDKBucketDeployment",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536",
+      "Arn"
+     ]
+    },
+    "SourceBucketNames": [
+     "cdk-hnb659fds-assets-111111111111-us-east-1"
+    ],
+    "SourceObjectKeys": [
+     "fe93fd43aea7c6f04625db55d64c3b909e63e42613d55dacb7da39056d0eeaf5.zip"
+    ],
+    "SourceMarkers": [
+     {}
+    ],
+    "DestinationBucketName": {
+     "Ref": "ReportsBucket4E7C5994"
+    },
+    "DestinationBucketKeyPrefix": "orion-staging",
+    "WaitForDistributionInvalidation": true,
+    "RetainOnDelete": true,
+    "Prune": false,
+    "OutputObjectKeys": true
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "DevQueueAgeAlarmBDB50320": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "DevEventsTopicF2A6F55A"
+     }
+    ],
+    "AlarmDescription": "orion-staging dev deployment queue age",
+    "AlarmName": "orion-staging-dev-queue-age",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "QueueName",
+      "Value": {
+       "Fn::GetAtt": [
+        "DevDeployQueueFC93034F",
+        "QueueName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 3,
+    "MetricName": "ApproximateAgeOfOldestMessage",
+    "Namespace": "AWS/SQS",
+    "Period": 60,
+    "Statistic": "Maximum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/dev"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "Threshold": 300
+   }
+  },
+  "DevQueueDepthAlarmE2BAAF55": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "DevEventsTopicF2A6F55A"
+     }
+    ],
+    "AlarmDescription": "orion-staging dev deployment backlog",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "QueueName",
+      "Value": {
+       "Fn::GetAtt": [
+        "DevDeployQueueFC93034F",
+        "QueueName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "ApproximateNumberOfMessagesVisible",
+    "Namespace": "AWS/SQS",
+    "Period": 300,
+    "Statistic": "Maximum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/dev"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "Threshold": 25,
+    "TreatMissingData": "notBreaching"
+   }
+  },
+  "DevTopicFailureAlarm492014F7": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": "orion-staging dev event delivery failures",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "TopicName",
+      "Value": {
+       "Fn::GetAtt": [
+        "DevEventsTopicF2A6F55A",
+        "TopicName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "NumberOfNotificationsFailed",
+    "Namespace": "AWS/SNS",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/dev"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   }
+  },
+  "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   }
+  },
+  "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        "arn:aws:s3:::cdk-hnb659fds-assets-111111111111-us-east-1",
+        "arn:aws:s3:::cdk-hnb659fds-assets-111111111111-us-east-1/*"
+       ]
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ReportsBucket4E7C5994",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ReportsBucket4E7C5994",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:DescribeKey",
+        "kms:Encrypt",
+        "kms:GenerateDataKey*",
+        "kms:ReEncrypt*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ArtifactKey8D84C5F0",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+    "Roles": [
+     {
+      "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+     }
+    ]
+   }
+  },
+  "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+     "S3Key": "35328da138f26fbd9160297abc9a2522d93dbf75878cd5114a9c050419fc1ce0.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AWS_CA_BUNDLE": "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"
+     }
+    },
+    "Handler": "index.handler",
+    "Layers": [
+     {
+      "Ref": "QaTaskDocumentAwsCliLayer864FD5D5"
+     }
+    ],
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.13",
+    "Tags": [
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+   ]
+  },
+  "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CLogGroup817B64E9": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "QaBlueTargetAE56D98E": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckIntervalSeconds": 15,
+    "HealthCheckPath": "/healthz",
+    "HealthCheckTimeoutSeconds": 5,
+    "HealthyThresholdCount": 2,
+    "Matcher": {
+     "HttpCode": "200"
+    },
+    "Name": "orion-staging-qa-blue",
+    "Port": 8080,
+    "Protocol": "HTTP",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "routes/qa"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "TargetGroupAttributes": [
+     {
+      "Key": "deregistration_delay.timeout_seconds",
+      "Value": "25"
+     },
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "UnhealthyThresholdCount": 3,
+    "VpcId": {
+     "Fn::GetStackOutput": {
+      "StackName": "AcceleratorStagingNetwork",
+      "Region": "us-east-1",
+      "OutputName": "PublishOutputRefCoreVpcB2509D563461A567"
+     }
+    }
+   }
+  },
+  "QaGreenTarget57943032": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckIntervalSeconds": 15,
+    "HealthCheckPath": "/healthz",
+    "HealthCheckTimeoutSeconds": 5,
+    "HealthyThresholdCount": 2,
+    "Matcher": {
+     "HttpCode": "200"
+    },
+    "Name": "orion-staging-qa-green",
+    "Port": 8080,
+    "Protocol": "HTTP",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "routes/qa"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "TargetGroupAttributes": [
+     {
+      "Key": "deregistration_delay.timeout_seconds",
+      "Value": "25"
+     },
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "UnhealthyThresholdCount": 3,
+    "VpcId": {
+     "Fn::GetStackOutput": {
+      "StackName": "AcceleratorStagingNetwork",
+      "Region": "us-east-1",
+      "OutputName": "PublishOutputRefCoreVpcB2509D563461A567"
+     }
+    }
+   }
+  },
+  "QaListenerRuleD74A6B26": {
+   "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
+   "Properties": {
+    "Actions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "QaBlueTargetAE56D98E"
+      },
+      "Type": "forward"
+     }
+    ],
+    "Conditions": [
+     {
+      "Field": "host-header",
+      "HostHeaderConfig": {
+       "Values": [
+        "orion-staging-qa.internal"
+       ]
+      }
+     }
+    ],
+    "ListenerArn": {
+     "Ref": "DeliveryAlbHttpListenerBFB14444"
+    },
+    "Priority": 22,
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "routes/qa"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ]
+   }
+  },
+  "QaAliasRecord45726632": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "AliasTarget": {
+     "DNSName": {
+      "Fn::Join": [
+       "",
+       [
+        "dualstack.",
+        {
+         "Fn::GetAtt": [
+          "DeliveryAlbDA9F3384",
+          "DNSName"
+         ]
+        }
+       ]
+      ]
+     },
+     "HostedZoneId": {
+      "Fn::GetAtt": [
+       "DeliveryAlbDA9F3384",
+       "CanonicalHostedZoneID"
+      ]
+     }
+    },
+    "HostedZoneId": {
+     "Ref": "InternalZoneD0BA15A8"
+    },
+    "Name": "orion-staging-qa.internal.orion-staging.internal.",
+    "Type": "A"
+   }
+  },
+  "Yfdu9BlueTarget1C575A7A": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckIntervalSeconds": 15,
+    "HealthCheckPath": "/healthz",
+    "HealthCheckTimeoutSeconds": 5,
+    "HealthyThresholdCount": 2,
+    "Matcher": {
+     "HttpCode": "200"
+    },
+    "Name": "orion-staging-yfdu-9-blue",
+    "Port": 8080,
+    "Protocol": "HTTP",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "routes/yfdu.9"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "staging"
+     }
+    ],
+    "TargetGroupAttributes": [
+     {
+      "Key": "deregistration_delay.timeout_seconds",
+      "Value": "25"
+     },
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "UnhealthyThresholdCount": 3,
+    "VpcId": {
+     "Fn::GetStackOutput": {
+      "StackName": "AcceleratorStagingNetwork",
+      "Region": "us-east-1",
+      "OutputName": "PublishOutputRefCoreVpcB2509D563461A567"
+     }
+    }
+   }
+  },
+ 

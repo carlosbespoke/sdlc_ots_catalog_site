@@ -1,0 +1,37 @@
+networks:
+  internal: {internal: true}
+services:
+  main:
+    networks: [internal]
+    environment:
+      TYPEORM_TYPE: postgres
+      TYPEORM_HOST: postgres
+      TYPEORM_PORT: "5432"
+      TYPEORM_DATABASE: sd
+      TYPEORM_USERNAME: app
+      TYPEORM_PASSWORD: app
+      REDIS_URL: redis://redis:6379
+      GRIST_DOCS_S3_ENDPOINT: rustfs
+      GRIST_DOCS_S3_PORT: "9000"
+      GRIST_DOCS_S3_USE_SSL: "0"
+      GRIST_DOCS_S3_BUCKET: sd-docs
+      GRIST_DOCS_S3_ACCESS_KEY: gristtest
+      GRIST_DOCS_S3_SECRET_KEY: gristtestsecret
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      rustfs: {condition: service_healthy}
+  postgres:
+    networks: [internal]
+    image: postgres:16-alpine@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
+    environment: {POSTGRES_PASSWORD: postgres}
+    healthcheck: {test: ["CMD-SHELL", "pg_isready -U postgres -h 127.0.0.1"], interval: 2s, timeout: 5s, retries: 60}
+  redis:
+    networks: [internal]
+    image: redis:7-alpine@sha256:858f009f9709ce576febc734aa78b8f6d624b82571f9ddb6bda4377c833b3499
+    healthcheck: {test: ["CMD", "redis-cli", "ping"], interval: 2s, timeout: 5s, retries: 60}
+  rustfs:
+    networks: [internal]
+    image: rustfs/rustfs:latest@sha256:1803faef57627e2d9c2e7d89d655d712ddded5389040054987163043fecb6a3c
+    environment: {RUSTFS_ACCESS_KEY: gristtest, RUSTFS_SECRET_KEY: gristtestsecret}
+    healthcheck: {test: ["CMD", "/bin/sh", "-c", "test -d /data"], interval: 2s, timeout: 5s, retries: 60}

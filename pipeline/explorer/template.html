@@ -1,0 +1,294 @@
+<title>Alpharecon Taxonomy Explorer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: filter rail on the left (facets grouped by where the label comes from), crosstab and task list on the right. */
+:root {
+  --bg: #f3f5f8; --surface: #ffffff; --fg: #18202c; --muted: #5a6577; --line: #dce1e9;
+  --accent: #1d5ca6; --heat: #1d5ca6; --on-heat: #ffffff; --soft: #e8eef7;
+  --batch: #8a5a00; --batch-bg: #f6ecd8; --model: #5b3f9e; --model-bg: #ece6f7;
+  --display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f131a; --surface: #161c26; --fg: #e2e7ee; --muted: #93a0b2; --line: #283141;
+  --accent: #79adf5; --heat: #3b7ad6; --on-heat: #ffffff; --soft: #1d2836;
+  --batch: #e2b25c; --batch-bg: #33280f; --model: #b9a2f0; --model-bg: #2a2340; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f131a; --surface: #161c26; --fg: #e2e7ee; --muted: #93a0b2; --line: #283141;
+  --accent: #79adf5; --heat: #3b7ad6; --on-heat: #ffffff; --soft: #1d2836;
+  --batch: #e2b25c; --batch-bg: #33280f; --model: #b9a2f0; --model-bg: #2a2340; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 14px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 40px }
+.wrap { max-width: 1480px; margin: 0 auto; display: grid; gap: 16px }
+h1 { font-family: var(--display); font-weight: 600; font-size: 26px; margin: 0; letter-spacing: -0.01em; text-wrap: balance }
+h2 { font-family: var(--display); font-weight: 600; font-size: 16px; margin: 0 }
+.sub { color: var(--muted); margin: 2px 0 0 }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px }
+header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 12px }
+.sel { display: flex; align-items: baseline; gap: 8px }
+.sel b { font-family: var(--mono); font-size: 26px; font-weight: 500 }
+/* distinct-count strip */
+.stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 1px; background: var(--line); border-radius: 8px; overflow: hidden; border: 1px solid var(--line) }
+.stat { background: var(--surface); padding: 8px 10px; text-align: left; display: grid; gap: 1px }
+.stat:hover { background: var(--soft) }
+.stat.on { box-shadow: inset 0 -3px 0 var(--accent) }
+.stat .v { font-family: var(--mono); font-size: 20px; font-weight: 500 }
+.stat .l { font-size: 11.5px; color: var(--muted); line-height: 1.25 }
+.tag { display: inline-block; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; padding: 1px 5px; border-radius: 3px; font-weight: 600; vertical-align: 1px }
+.tag.b { color: var(--batch); background: var(--batch-bg) } .tag.f { color: var(--accent); background: var(--soft) } .tag.m { color: var(--model); background: var(--model-bg) }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 26px }
+.chip { display: inline-flex; gap: 6px; align-items: center; background: var(--soft); border: 1px solid var(--line); border-radius: 999px; padding: 2px 6px 2px 10px; font-size: 12.5px; max-width: 100% }
+.chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap } .chip em { font-style: normal; color: var(--muted) }
+.chip button { width: 18px; height: 18px; border-radius: 50%; line-height: 1; color: var(--muted) } .chip button:hover { background: var(--line); color: var(--fg) }
+.link { color: var(--accent); font-size: 12.5px } .link:hover { text-decoration: underline }
+.grid { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 16px; align-items: start }
+@media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr) } .rail { order: 2 } }
+/* facets */
+.rail { display: grid; gap: 12px }
+.group { padding: 12px; display: grid; gap: 14px }
+.group > h2 { display: flex; gap: 8px; align-items: center; justify-content: space-between }
+.group > p { margin: -8px 0 0; color: var(--muted); font-size: 12px }
+.facet { display: grid; gap: 2px }
+.fh { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; margin-bottom: 2px }
+.fv { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 3px 6px; border-radius: 4px; font-size: 12.5px; text-align: left; z-index: 0 }
+.fv .bar { position: absolute; inset: 0 auto 0 0; background: var(--soft); border-radius: 4px; z-index: -1 }
+.fv .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.fv .c { font-family: var(--mono); font-size: 12px; color: var(--muted) }
+.fv:hover { outline: 1px solid var(--line) }
+.fv.on { color: var(--on-heat) } .fv.on .bar { background: var(--accent) } .fv.on .c { color: var(--on-heat) }
+.fv.zero { opacity: .55 }
+.new { font-size: 9.5px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--model); border: 1px solid currentColor; border-radius: 3px; padding: 0 3px; margin-left: 4px; vertical-align: 1px }
+.fv.on .new { color: var(--on-heat) }
+/* controls + crosstab */
+.main { display: grid; gap: 16px; min-width: 0 }
+.ctl { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: end; padding: 12px }
+.ctl label { display: grid; gap: 3px; font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; font-weight: 600 }
+select, input[type=search] { font: inherit; font-size: 13.5px; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; max-width: 100% }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden }
+.seg button { padding: 5px 10px; font-size: 13px } .seg button + button { border-left: 1px solid var(--line) }
+.seg button[aria-pressed=true] { background: var(--accent); color: var(--on-heat) }
+.btn { border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; font-size: 13px; background: var(--bg) } .btn:hover { border-color: var(--accent) }
+.ctl .sp { flex: 1 }
+.xt { overflow: auto; max-height: 72vh; border-top: 1px solid var(--line) }
+table { border-collapse: separate; border-spacing: 0; font-size: 12.5px }
+.xt th, .xt td { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line) }
+.xt thead th { position: sticky; top: 0; background: var(--surface); z-index: 2; vertical-align: bottom; font-weight: 500 }
+.xt th.rh { position: sticky; left: 0; background: var(--surface); z-index: 1; text-align: left; font-weight: 400; padding: 0 }
+.xt thead th.corner { left: 0; z-index: 3; text-align: left; padding: 8px 10px; font-size: 11.5px; color: var(--muted); font-weight: 400; min-width: 220px }
+.rhb { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; width: 300px; padding: 4px 10px; text-align: left; align-items: center }
+.rhb:hover { background: var(--soft) } .rhb.on { box-shadow: inset 3px 0 0 var(--accent); background: var(--soft) }
+.rhb .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+@media (max-width: 600px) { .rhb { width: 150px } .xt thead th.corner { min-width: 150px } }
+.ch { padding: 6px 2px 4px; width: 46px; min-width: 46px }
+.chb { display: grid; justify-items: center; gap: 4px; width: 100% }
+.chb .t { writing-mode: vertical-rl; transform: rotate(180deg); max-height: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left }
+.chb:hover .t, .chb.on .t { color: var(--accent) } .chb.on .t { font-weight: 600 }
+.chb .c { font-family: var(--mono); font-size: 11px; color: var(--muted) }
+td.cell { padding: 0; text-align: center; font-family: var(--mono); font-size: 12px; height: 28px }
+td.cell button { width: 100%; height: 100%; min-height: 28px }
+td.cell button:hover { outline: 2px solid var(--fg); outline-offset: -2px }
+td.tot, th.tot { background: var(--bg); font-family: var(--mono); font-size: 12px; text-align: right; padding: 0 8px; color: var(--muted) }
+tfoot th, tfoot td { position: sticky; bottom: 0; background: var(--bg); z-index: 1 }
+tfoot th.rh { z-index: 2; background: var(--bg); padding: 4px 10px; font-weight: 600 }
+.legend { display: flex; gap: 10px; align-items: center; color: var(--muted); font-size: 12px; padding: 8px 12px; flex-wrap: wrap }
+.ramp { width: 120px; height: 10px; border-radius: 2px; background: linear-gradient(90deg, color-mix(in oklab, var(--heat) 8%, var(--surface)), var(--heat)) }
+/* task list */
+.tl { padding: 12px; display: grid; gap: 10px }
+.tl .hd { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between }
+.tlx { overflow-x: auto }
+.tlx table { width: 100%; font-size: 12.5px }
+.tlx th { text-align: left; font-weight: 600; color: var(--muted); font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap }
+.tlx td { padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top }
+.tlx td:first-child { font-family: var(--mono); font-size: 12px; word-break: break-all; min-width: 200px }
+.notes { color: var(--muted); font-size: 12.5px; max-width: 900px; display: grid; gap: 4px; padding: 0 4px }
+.notes p { margin: 0 }
+.toast { position: fixed; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); background: var(--fg); color: var(--bg); padding: 8px 14px; border-radius: 6px; font-size: 13px }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Alpharecon Taxonomy Explorer</h1>
+      <p class="sub">Ready-for-client tasks in the alpharecon project, pulled 27 Oct 2026. Every task sits in one batch; filter by batch, then see how the taxonomies split it.</p>
+    </div>
+    <div class="sel"><b id="selN" class="num">0</b><span class="sub" id="selOf">tasks selected</span></div>
+  </header>
+
+  <div class="stats" id="stats" aria-label="Distinct values in the current selection"></div>
+  <div class="chips" id="chips"></div>
+
+  <div class="grid">
+    <aside class="rail" id="rail"></aside>
+    <section class="main">
+      <div class="panel">
+        <div class="ctl">
+          <label for="rowDim">Rows<select id="rowDim"></select></label>
+          <button class="btn" id="swap" type="button" title="Swap rows and columns">⇄ Swap</button>
+          <label for="colDim">Columns<select id="colDim"></select></label>
+          <label>Show<span class="seg" role="group" aria-label="Cell values">
+            <button type="button" data-mode="n" aria-pressed="true">Count</button>
+            <button type="button" data-mode="row" aria-pressed="false">% of row</button>
+            <button type="button" data-mode="col" aria-pressed="false">% of column</button></span></label>
+          <span class="sp"></span>
+          <button class="btn" id="copy" type="button">Copy table for Sheets</button>
+        </div>
+        <div class="xt" id="xt"></div>
+        <div class="legend"><span>Fewer</span><span class="ramp"></span><span>More</span><span>· Click a cell to filter to it. Click a row or column label to add it to the filters.</span></div>
+      </div>
+
+      <div class="panel tl">
+        <div class="hd"><h2 id="tlTitle">Tasks</h2>
+          <input type="search" id="q" placeholder="Filter by task name, e.g. terraform" aria-label="Filter by task name"></div>
+        <div class="tlx" id="tl"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="notes">
+    <p><span class="tag f">yours</span> Final category is the classification signed off on 27 Oct. Signed off. Basis says how each task got its category: from its batch, spec drift folded into Diagnosis, Debugging, and Bug Fixing, an instruction review (fault tolerance vs. system design vs. feature), or parked (the 5 SRE tasks).</p>
+    <p><span class="tag b">batch</span> Batch, family, customer, recipe, task shape, SDLC phase and seniority follow from the batch the task belongs to.</p>
+    <p><span class="tag m">per task</span> Domain, language and role were assigned by a model from each task's instruction, files and Dockerfile. Role then takes shape-based overrides (for example IaC tasks become Platform or Cloud Security Engineer). ProgramBench domains come from the repo name, and the 51 anonymised spec-drift repos were identified from their README or manifest.</p>
+    <p>Customer is read from the batch name only. <span class="new">new</span> marks the 11 domain categories proposed for tasks that fit none of the 53 in the taxonomy; their super-group is "(needs a home)".</p>
+  </div>
+</div>
+
+<script type="application/json" id="data">__DATA__</script>
+<script>
+const D = JSON.parse(document.getElementById('data').textContent);
+const K = D.keys, NAME = K.length, ki = Object.fromEntries(K.map((k, i) => [k, i]));
+const NEW = new Set(D.newcats);
+const META = {
+  final: ['Final category', 'b'], fstat: ['Basis', 'b'],
+  batch: ['Batch', 'b'], fam: ['Batch group', 'b'], cust: ['Customer', 'b'], recipe: ['Recipe', 'b'],
+  shapec: ['Shape category', 'b'], shape: ['Task shape', 'b'], sdlc: ['SDLC phase', 'b'], sen: ['Seniority', 'b'],
+  sg: ['Domain super-group', 'm'], cat: ['Domain category', 'm'], role: ['Primary role', 'm'], lang: ['Primary language', 'm'],
+};
+const GROUPS = [['Final classification', 'f', ['final', 'fstat']], ['Set by the batch', 'b', ['batch', 'fam', 'cust', 'recipe', 'shapec', 'shape', 'sdlc', 'sen']],
+                ['Classified per task', 'm', ['sg', 'cat', 'role', 'lang']]];
+const ORDER = GROUPS.flatMap(g => g[2]);
+const S = { f: {}, row: 'fam', col: 'final', mode: 'n', q: '', open: {}, limit: 100 };
+try { const s = JSON.parse(localStorage.getItem('axe3') || '{}'); if (META[s.row]) S.row = s.row; if (META[s.col] && s.col !== S.row) S.col = s.col; if (['n','row','col'].includes(s.mode)) S.mode = s.mode; } catch (e) {}
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const fmt = n => n.toLocaleString('en-US');
+const lab = (k, v) => D.dicts[k][v];
+const labH = (k, v) => esc(lab(k, v)) + (k === 'cat' && NEW.has(lab(k, v)) ? '<span class="new">new</span>' : '');
+const pct = (a, b) => { if (!b) return ''; const p = 100 * a / b; return p > 0 && p < 1 ? '<1%' : Math.round(p) + '%'; };
+
+function pass(r, skip) {
+  for (const k in S.f) { if (k === skip) continue; const s = S.f[k]; if (s.size && !s.has(r[ki[k]])) return false; }
+  return !S.q || r[NAME].toLowerCase().includes(S.q);
+}
+function count(rows, k) { const c = new Map(), i = ki[k]; for (const r of rows) c.set(r[i], (c.get(r[i]) || 0) + 1); return c; }
+const desc = m => [...m].sort((a, b) => b[1] - a[1] || String(lab_k_cache(a[0])).localeCompare(lab_k_cache(b[0])));
+let lab_k_cache = v => v;
+function sorted(m, k) { lab_k_cache = v => lab(k, v); return desc(m); }
+
+function toggle(k, v) { const s = S.f[k] || (S.f[k] = new Set()); s.has(v) ? s.delete(v) : s.add(v); if (!s.size) delete S.f[k]; S.limit = 100; render(); }
+function save() { try { localStorage.setItem('axe3', JSON.stringify({ row: S.row, col: S.col, mode: S.mode })); } catch (e) {} }
+
+function renderStats(rows) {
+  $('selN').textContent = fmt(rows.length);
+  $('selOf').textContent = rows.length === D.rows.length ? `tasks · all ${D.dicts.batch.length} batches` : `of ${fmt(D.rows.length)} tasks`;
+  $('stats').innerHTML = ORDER.map(k => {
+    const n = count(rows, k).size;
+    return `<button type="button" class="stat${S.col === k ? ' on' : ''}" data-col="${k}" title="Show ${esc(META[k][0])} as the columns">
+      <span class="v">${n}</span><span class="l">${esc(META[k][0])}</span></button>`;
+  }).join('');
+}
+function renderChips() {
+  const parts = [];
+  for (const k of ORDER) if (S.f[k]) for (const v of S.f[k]) parts.push(`<span class="chip" title="${esc(META[k][0])}: ${esc(lab(k, v))}"><em>${esc(META[k][0])}</em><span>${esc(lab(k, v))}</span><button type="button" aria-label="Remove filter" data-k="${k}" data-v="${v}">×</button></span>`);
+  if (S.q) parts.push(`<span class="chip"><em>Name contains</em><span>${esc(S.q)}</span><button type="button" aria-label="Remove filter" data-clearq="1">×</button></span>`);
+  $('chips').innerHTML = parts.length ? parts.join('') + '<button type="button" class="link" data-reset="1">Clear all filters</button>'
+    : '<span class="sub" style="font-size:12.5px">No filters. Pick a batch on the left, or click any cell in the table.</span>';
+}
+function renderRail() {
+  $('rail').innerHTML = GROUPS.map(([title, src, keys]) => `<div class="panel group"><h2>${title}<span class="tag ${src}">${src === 'b' ? 'batch' : src === 'f' ? 'yours' : 'per task'}</span></h2>
+    ${keys.map(k => {
+      const rows = D.rows.filter(r => pass(r, k)), c = count(rows, k), sel = S.f[k] || new Set();
+      let items = sorted(c, k); for (const v of sel) if (!c.has(v)) items.push([v, 0]);
+      const max = Math.max(1, ...items.map(x => x[1])), lim = S.open[k] ? 1e9 : 8, more = items.length - lim;
+      return `<div class="facet"><div class="fh"><span>${esc(META[k][0])}</span><span>${sel.size ? `<button type="button" class="link" data-clear="${k}">clear</button>` : c.size}</span></div>
+        ${items.slice(0, lim).map(([v, n]) => `<button type="button" class="fv${sel.has(v) ? ' on' : ''}${n ? '' : ' zero'}" data-k="${k}" data-v="${v}" aria-pressed="${sel.has(v)}" title="${esc(lab(k, v))}">
+          <span class="bar" style="width:${(100 * n / max).toFixed(1)}%"></span><span class="t">${labH(k, v)}</span><span class="c">${fmt(n)}</span></button>`).join('')}
+        ${more > 0 ? `<button type="button" class="link" style="text-align:left;padding:2px 6px" data-open="${k}">Show all ${items.length}</button>` : S.open[k] && items.length > 8 ? `<button type="button" class="link" style="text-align:left;padding:2px 6px" data-open="${k}">Show fewer</button>` : ''}</div>`;
+    }).join('')}</div>`).join('');
+}
+let TABLE = null;
+function renderTable(rows) {
+  const rk = ki[S.row], ck = ki[S.col], rt = count(rows, S.row), ct = count(rows, S.col);
+  const rv = sorted(rt, S.row).map(x => x[0]), cv = sorted(ct, S.col).map(x => x[0]);
+  const m = new Map(); for (const r of rows) { const key = r[rk] * 4096 + r[ck]; m.set(key, (m.get(key) || 0) + 1); }
+  let maxN = 1; for (const n of m.values()) maxN = Math.max(maxN, n);
+  TABLE = { rv, cv, m, rt, ct };
+  const rsel = S.f[S.row] || new Set(), csel = S.f[S.col] || new Set();
+  if (!rows.length) { $('xt').innerHTML = '<p class="sub" style="padding:16px">No tasks match these filters.</p>'; return; }
+  const head = `<thead><tr><th class="corner">${esc(META[S.row][0])} ↓ &nbsp;·&nbsp; ${esc(META[S.col][0])} →</th>
+    ${cv.map(c => `<th class="ch"><button type="button" class="chb${csel.has(c) ? ' on' : ''}" data-k="${S.col}" data-v="${c}" title="${esc(lab(S.col, c))} · ${ct.get(c)} tasks"><span class="t">${esc(lab(S.col, c))}</span><span class="c">${ct.get(c)}</span></button></th>`).join('')}
+    <th class="tot">Total</th></tr></thead>`;
+  const body = rv.map(r => `<tr><th class="rh"><button type="button" class="rhb${rsel.has(r) ? ' on' : ''}" data-k="${S.row}" data-v="${r}" title="${esc(lab(S.row, r))}"><span class="t">${labH(S.row, r)}</span></button></th>
+    ${cv.map(c => {
+      const n = m.get(r * 4096 + c) || 0; if (!n) return '<td class="cell"></td>';
+      const ratio = S.mode === 'row' ? n / rt.get(r) : S.mode === 'col' ? n / ct.get(c) : Math.sqrt(n / maxN);
+      const txt = S.mode === 'row' ? pct(n, rt.get(r)) : S.mode === 'col' ? pct(n, ct.get(c)) : n;
+      return `<td class="cell"><button type="button" data-cell="${r},${c}" title="${esc(lab(S.row, r))} × ${esc(lab(S.col, c))}: ${n} tasks" style="background:color-mix(in oklab, var(--heat) ${(8 + 92 * ratio).toFixed(0)}%, var(--surface));color:${ratio > .5 ? 'var(--on-heat)' : 'var(--fg)'}">${txt}</button></td>`;
+    }).join('')}<td class="tot">${fmt(rt.get(r))}</td></tr>`).join('');
+  const foot = `<tfoot><tr><th class="rh">Total · ${rv.length} × ${cv.length}</th>${cv.map(c => `<td class="tot" style="text-align:center">${S.mode === 'row' ? pct(ct.get(c), rows.length) : ct.get(c)}</td>`).join('')}<td class="tot">${fmt(rows.length)}</td></tr></tfoot>`;
+  $('xt').innerHTML = `<table>${head}<tbody>${body}</tbody>${foot}</table>`;
+}
+function renderTasks(rows) {
+  const cols = ['batch', 'cat', 'shape', 'role', 'lang'];
+  const list = rows.slice().sort((a, b) => lab('batch', a[0]).localeCompare(lab('batch', b[0])) || a[NAME].localeCompare(b[NAME]));
+  $('tlTitle').textContent = `Tasks · ${fmt(rows.length)}`;
+  $('tl').innerHTML = `<table><thead><tr><th>Task</th>${cols.map(k => `<th>${esc(META[k][0])}</th>`).join('')}</tr></thead><tbody>
+    ${list.slice(0, S.limit).map(r => `<tr><td>${esc(r[NAME])}</td>${cols.map(k => `<td>${labH(k, r[ki[k]])}</td>`).join('')}</tr>`).join('')}</tbody></table>
+    ${list.length > S.limit ? `<p style="margin:8px 0 0"><button type="button" class="link" data-more="1">Show ${Math.min(200, list.length - S.limit)} more of ${fmt(list.length - S.limit)} remaining</button></p>` : ''}`;
+}
+function renderSelects() {
+  for (const [id, cur, other] of [['rowDim', S.row, S.col], ['colDim', S.col, S.row]])
+    $(id).innerHTML = GROUPS.map(([t, , keys]) => `<optgroup label="${t}">${keys.map(k => `<option value="${k}"${k === cur ? ' selected' : ''}${k === other ? ' disabled' : ''}>${esc(META[k][0])}</option>`).join('')}</optgroup>`).join('');
+  document.querySelectorAll('[data-mode]').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === S.mode));
+}
+function render() {
+  const rows = D.rows.filter(r => pass(r));
+  renderStats(rows); renderChips(); renderRail(); renderSelects(); renderTable(rows); renderTasks(rows); save();
+}
+
+document.addEventListener('click', e => {
+  const t = e.target.closest('button'); if (!t) return; const d = t.dataset;
+  if (d.cell) { const [r, c] = d.cell.split(',').map(Number); S.f[S.row] = new Set([r]); S.f[S.col] = new Set([c]); S.limit = 100; render(); }
+  else if (d.k !== undefined && d.v !== undefined) toggle(d.k, Number(d.v));
+  else if (d.clear) { delete S.f[d.clear]; render(); }
+  else if (d.open) { S.open[d.open] = !S.open[d.open]; renderRail(); }
+  else if (d.reset) { S.f = {}; S.q = ''; $('q').value = ''; render(); }
+  else if (d.clearq) { S.q = ''; $('q').value = ''; render(); }
+  else if (d.more) { S.limit += 200; renderTasks(D.rows.filter(r => pass(r))); }
+  else if (d.mode) { S.mode = d.mode; render(); }
+  else if (d.col) { if (d.col === S.row) S.row = S.col; S.col = d.col; render(); }
+});
+$('rowDim').addEventListener('change', e => { S.row = e.target.value; render(); });
+$('colDim').addEventListener('change', e => { S.col = e.target.value; render(); });
+$('swap').addEventListener('click', () => { [S.row, S.col] = [S.col, S.row]; render(); });
+let qt; $('q').addEventListener('input', e => { clearTimeout(qt); qt = setTimeout(() => { S.q = e.target.value.trim().toLowerCase(); S.limit = 100; render(); }, 150); });
+$('copy').addEventListener('click', () => {
+  const { rv, cv, m, rt, ct } = TABLE; const val = (n, r, c) => S.mode === 'row' ? (100 * n / rt.get(r)).toFixed(1) : S.mode === 'col' ? (100 * n / ct.get(c)).toFixed(1) : n;
+  const lines = [[META[S.row][0] + ' \\ ' + META[S.col][0], ...cv.map(c => lab(S.col, c)), 'Total'].join('\t'),
+    ...rv.map(r => [lab(S.row, r), ...cv.map(c => { const n = m.get(r * 4096 + c) || 0; return n ? val(n, r, c) : ''; }), rt.get(r)].join('\t')),
+    ['Total', ...cv.map(c => ct.get(c)), [...rt.values()].reduce((a, b) => a + b, 0)].join('\t')];
+  const text = lines.join('\n'), done = msg => { const el = document.createElement('div'); el.className = 'toast'; el.textContent = msg; document.body.appendChild(el); setTimeout(() => el.remove(), 1800); };
+  navigator.clipboard.writeText(text).then(() => done(`Copied ${rv.length} rows × ${cv.length} columns`)).catch(() => {
+    const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done('Copied'); } catch (err) { done('Copy is blocked here. Select the table and copy it instead.'); } ta.remove();
+  });
+});
+render();
+</script>

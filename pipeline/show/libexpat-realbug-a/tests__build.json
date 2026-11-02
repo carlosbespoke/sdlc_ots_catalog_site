@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "mode": "realbug",
+  "generator": {
+    "file": "realbug.py",
+    "git_revision": "b21e1f4bbbe1f28d6640cd1f2ab750baf27c9735"
+  },
+  "grader_template": "9e3a13211d7ad6ebec188f4197982b29da3f1325b1109245c06496f31224b935",
+  "grader_sha256": "4eb032bcd614c3a0e1604b9affb70d1f95dfc2b7ff65dd9740a1e23c240b4316",
+  "base_dockerfile_text": "FROM --platform=linux/amd64 ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3\nENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 SOURCE_DATE_EPOCH=0\nRUN apt-get update && apt-get install -y --no-install-recommends build-essential cmake git ca-certificates \\\n    && rm -rf /var/lib/apt/lists/*\nRUN git config --system --add safe.directory '*'\nRUN mkdir -p /workspace/repo && cd /workspace/repo \\\n    && git init -q && git remote add origin https://github.com/libexpat/libexpat.git \\\n    && git fetch --depth 1 -q origin 57c7da69b78e3698e112a6b5da19d5109b8232d1 \\\n    && git checkout -q FETCH_HEAD\nWORKDIR /workspace/repo\nRUN cmake -S expat -B build -DCMAKE_BUILD_TYPE=Release -DEXPAT_BUILD_TESTS=ON -DEXPAT_BUILD_FUZZERS=OFF -DEXPAT_SHARED_LIBS=ON\nRUN cmake --build build -j 4\nLABEL repo=\"libexpat/libexpat\" revision=\"57c7da69b78e3698e112a6b5da19d5109b8232d1\" language=\"c\"\n",
+  "spec": {
+    "repo": "libexpat",
+    "repo_name": "libexpat/libexpat",
+    "repo_url": "https://github.com/libexpat/libexpat.git",
+    "base_commit": "57c7da69b78e3698e112a6b5da19d5109b8232d1",
+    "base_ref": "R_2_4_3",
+    "source_dir": "expat",
+    "build_dir": "build",
+    "cmake_flags": "-DCMAKE_BUILD_TYPE=Release -DEXPAT_BUILD_TESTS=ON -DEXPAT_BUILD_FUZZERS=OFF -DEXPAT_SHARED_LIBS=ON",
+    "source_roots": [
+      "expat/lib"
+    ],
+    "ctest_args": "-j 2",
+    "source": {
+      "kind": "swe-sweep",
+      "task": "libexpat",
+      "url": "https://github.com/facebookresearch/swe-sweep",
+      "commit": "48e6bf74e2b2b7d055dfd39612fc8a9d60556144"
+    },
+    "licenses": [
+      {
+        "from": "repo",
+        "path": "expat/COPYING",
+        "as": "COPYING.libexpat"
+      },
+      {
+        "from": "spec",
+        "path": "LICENSE.swe-sweep",
+        "as": "LICENSE.swe-sweep"
+      }
+    ],
+    "contamination": "SWE-Sweep (2026-10-01) publishes these hidden tests and asks that they not be trained on; the bugs are libexpat fixes later than R_2_4_3 (2022-01), several of them public CVE fixes, so treat this task as high-contamination and track its results apart from injected and freshly mined tasks.",
+    "name": "libexpat-realbug-a",
+    "bugs": [
+      {
+        "id": "libexpat-0c5dbd0bb0a5",
+        "sites": [
+          {
+            "file": "expat/lib/xmlparse.c",
+            "function": "accountingGetCurrentAmplification"
+          }
+        ],
+        "expect_f2p": [
+          "runtests",
+          "runtestspp"
+        ]
+      },
+      {
+        "id": "libexpat-30d93b149d3d",
+        "sites": [
+          {
+            "file": "expat/lib/xmlparse.c",
+            "function": "internalEntityProcessor"
+          }
+        ],
+        "expect_f2p": [
+          "runtests",
+          "runtestspp"
+        ]
+      },
+      {
+        "id": "libexpat-8e5c789e8d3b",
+        "sites": [
+          {
+            "file": "expat/lib/xmlparse.c",
+            "function": "XML_GetBuffer"
+          }
+        ],
+        "expect_f2p": [
+          "runtests",
+          "runtestspp"
+        ]
+      },
+      {
+        "id": "libexpat-e567e550f1be",
+        "sites": [
+          {
+            "file": "expat/lib/xmltok.c",
+            "function": "doParseXmlDecl"
+          }
+        ],
+        "expect_f2p": [
+          "runtests",
+          "runtestspp"
+        ]
+      }
+    ]
+  },
+  "hide": {
+    "excluded_targets": [
+      "runtests",
+      "runtestspp"
+    ],
+    "kept_sources": [
+      "examples/elements.c",
+      "examples/outline.c",
+      "lib/xmlparse.c",
+      "lib/xmlrole.c",
+      "lib/xmltok.c",
+      "xmlwf/codepage.c",
+      "xmlwf/readfilemap.c",
+      "xmlwf/xmlfile.c",
+      "xmlwf/xmlwf.c"
+    ],
+    "suite": [
+      "expat/tests",
+      "testdata"
+    ]
+  }
+}

@@ -1,0 +1,252 @@
+# syntax=docker/dockerfile:1
+# dj-stripe-pdk-ots. /workdir carries dj-stripe/dj-stripe at
+# 99489642c5215d0793e101ef5412cebb9ae6c560 with its documentation curation and the selected implementation
+# drift already applied; the tree is shipped in this build context so the image needs no repository fetch.
+# Runtime has no network: everything solve-time and grade-time is installed here with exact versions.
+FROM python@sha256:2e32f7d302adc1c37428355c1e646897c0c53f4fd60b6a551245fb90ee129f91
+
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_INPUT=1 PIP_NO_CACHE_DIR=1
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONHASHSEED=42
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH=/opt/venv/bin:$PATH
+ENV PYTHONPATH=/workdir
+ENV DJANGO_SETTINGS_MODULE=djsproject.settings
+ENV SOURCE_DATE_EPOCH=0
+
+# --- Agent harness prerequisites (driftflow/harness.py, ISSUE-103) ---
+# Harbor's TerminusV2 agent opens a tmux session in this container, records it, and drives the
+# solver through it. Without tmux every rollout dies at agent setup with "Failed to start tmux
+# session" before the agent takes a turn, and the whole cohort is lost. Nothing else in the local
+# gates notices, because none of them starts the real agent.
+#
+# This layer needs build-time network for the package manager. Build with network enabled; that is
+# independent of the task's run-time isolation, which task.toml still declares as no-network. The
+# base image stays digest-pinned.
+#
+# Debian ships *.patch files under /usr/share/doc, which isolation probes that walk the filesystem
+# for private assets will flag. Drop the docs here rather than loosening a probe.
+RUN if command -v apt-get >/dev/null; then \
+        apt-get update && apt-get install -y --no-install-recommends \
+            asciinema ca-certificates git tmux \
+        && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man; \
+    elif command -v apk >/dev/null; then \
+        apk add --no-cache asciinema ca-certificates git tmux; \
+    fi
+# Fail the BUILD, not a paid cohort. Starting and tearing down a real session proves tmux works,
+# which `command -v` does not.
+RUN command -v git && command -v tmux \
+    && tmux -V \
+    && tmux -L harbor-build-smoke new-session -d -s smoke 'sleep 30' \
+    && tmux -L harbor-build-smoke has-session -t smoke \
+    && tmux -L harbor-build-smoke kill-server
+
+# Keep the toolchain visible to login shells (`bash -lc`), not just `ENV`: /etc/profile rebuilds
+# PATH and would otherwise discard the ENV entry.
+RUN printf 'export VIRTUAL_ENV="/opt/venv"\nexport PATH="/opt/venv/bin:$PATH"\nexport PYTHONPATH="/workdir"\nexport DJANGO_SETTINGS_MODULE="djsproject.settings"\nexport PYTHONDONTWRITEBYTECODE="1"\nexport PYTHONHASHSEED="42"\nexport TZ="UTC"\n' \
+      > /etc/profile.d/00-dj-stripe.sh && chmod 0644 /etc/profile.d/00-dj-stripe.sh
+
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/python -m pip install --no-cache-dir 'pip==25.2' 'setuptools==75.8.2' 'wheel==0.45.1'
+
+# --- Solve-time dependencies: dj-stripe's runtime requirements (Django 5.2 LTS, the newest Django for
+# Python 3.11, and the stripe SDK 15.x), resolved as of the pinned commit's date (uv pip compile
+# --python-version 3.11 --exclude-newer 2026-08-10), plus pytest with pytest-django and pytest-xdist so
+# the solver can run tests of its own. dj-stripe itself is not installed: it is imported from /workdir
+# through PYTHONPATH. The optional database drivers (psycopg, mysqlclient) are not installed: SQLite only.
+RUN /opt/venv/bin/python -m pip install --no-cache-dir \
+        'asgiref==3.12.1' \
+        'certifi==2026.7.22' \
+        'charset-normalizer==3.4.9' \
+        'django==5.2.17' \
+        'execnet==2.1.2' \
+        'idna==3.18' \
+        'iniconfig==2.3.0' \
+        'packaging==26.3' \
+        'pluggy==1.6.0' \
+        'pygments==2.20.0' \
+        'pytest==9.1.1' \
+        'pytest-django==4.14.0' \
+        'pytest-xdist==3.8.0' \
+        'requests==2.34.2' \
+        'sqlparse==0.5.5' \
+        'stripe==15.5.0' \
+        'typing-extensions==4.16.0' \
+        'urllib3==2.7.0' \
+        && true
+
+# dj-stripe's AppConfig reads its own version with importlib.metadata.version("dj-stripe"). Register the
+# distribution's metadata only (name and version from the pinned pyproject.toml, no code and no path
+# entry), so django.setup() works while the package itself is still imported from /workdir.
+RUN set -eu; \
+    SITE=$(/opt/venv/bin/python -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])'); \
+    DIST="$SITE/dj_stripe-2.11.0.dist-info"; \
+    mkdir -p "$DIST"; \
+    printf 'Metadata-Version: 2.1\nName: dj-stripe\nVersion: 2.11.0\n' > "$DIST/METADATA"; \
+    printf 'pip\n' > "$DIST/INSTALLER"; \
+    printf '' > "$DIST/RECORD"; \
+    /opt/venv/bin/python -c 'from importlib.metadata import version; assert version("dj-stripe") == "2.11.0"'
+
+# A small sandbox Django project, `djsproject` (DJANGO_SETTINGS_MODULE=djsproject.settings), so the
+# djstripe modules can be imported and exercised directly: the contrib apps plus djstripe, with a SQLite
+# database in /tmp, test-mode placeholder Stripe keys and the dj-stripe URLs under /stripe/. Nothing can
+# reach Stripe (no network). `djsproject_autosetup` (loaded by a .pth file) calls django.setup() on the
+# first import of a djstripe submodule when Django is configured but not set up yet (a module that setup
+# already imported is then reused, never executed twice); it does nothing once apps are loaded or loading,
+# or when no settings are configured.
+RUN set -eu; \
+    SITE=$(/opt/venv/bin/python -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])'); \
+    mkdir -p "$SITE/djsproject"; \
+    printf '' > "$SITE/djsproject/__init__.py"; \
+    printf '%s\n' \
+        '"""Settings of the djsproject sandbox Django project."""' \
+        'import os' \
+        '' \
+        'SECRET_KEY = "djsproject-sandbox"' \
+        'DEBUG = True' \
+        'USE_TZ = True' \
+        'ALLOWED_HOSTS = ["testserver", "localhost", "127.0.0.1"]' \
+        'DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"' \
+        'INSTALLED_APPS = [' \
+        '    "django.contrib.admin",' \
+        '    "django.contrib.auth",' \
+        '    "django.contrib.contenttypes",' \
+        '    "django.contrib.sessions",' \
+        '    "django.contrib.messages",' \
+        '    "djstripe",' \
+        ']' \
+        'MIDDLEWARE = [' \
+        '    "django.contrib.sessions.middleware.SessionMiddleware",' \
+        '    "django.middleware.common.CommonMiddleware",' \
+        '    "django.middleware.csrf.CsrfViewMiddleware",' \
+        '    "django.contrib.auth.middleware.AuthenticationMiddleware",' \
+        '    "django.contrib.messages.middleware.MessageMiddleware",' \
+        ']' \
+        'DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3",' \
+        '                         "NAME": os.environ.get("DJSPROJECT_DB", "/tmp/djsproject.sqlite3")}}' \
+        'TEMPLATES = [{"BACKEND": "django.template.backends.django.DjangoTemplates", "DIRS": [],' \
+        '              "APP_DIRS": True, "OPTIONS": {"context_processors": [' \
+        '                  "django.template.context_processors.request",' \
+        '                  "django.contrib.auth.context_processors.auth",' \
+        '                  "django.contrib.messages.context_processors.messages"]}}]' \
+        'ROOT_URLCONF = "djsproject.urls"' \
+        'STRIPE_TEST_SECRET_KEY = "sk_test_djsproject"' \
+        'STRIPE_LIVE_SECRET_KEY = "sk_live_djsproject"' \
+        'STRIPE_LIVE_MODE = False' \
+        'DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"' \
+        > "$SITE/djsproject/settings.py"; \
+    printf '%s\n' \
+        'from django.contrib import admin' \
+        'from django.urls import include, path' \
+        '' \
+        'urlpatterns = [path("admin/", admin.site.urls), path("stripe/", include("djstripe.urls", namespace="djstripe"))]' \
+        > "$SITE/djsproject/urls.py"; \
+    printf '%s\n' \
+        '"""Sandbox convenience: set Django up on the first import of a djstripe submodule."""' \
+        'import os' \
+        'import sys' \
+        '' \
+        '' \
+        'class _Loaded:' \
+        '    # Hands back a module that django.setup() already imported, so it is never executed twice.' \
+        '    def __init__(self, module):' \
+        '        self.module = module' \
+        '' \
+        '    def create_module(self, spec):' \
+        '        return self.module' \
+        '' \
+        '    def exec_module(self, module):' \
+        '        return None' \
+        '' \
+        '' \
+        'class _SetupOnFirstImport:' \
+        '    def find_spec(self, name, path=None, target=None):' \
+        '        if not name.startswith("djstripe."):' \
+        '            return None' \
+        '        try:' \
+        '            sys.meta_path.remove(self)' \
+        '        except ValueError:' \
+        '            return None' \
+        '        try:' \
+        '            from django.apps import apps' \
+        '            from django.conf import settings' \
+        '            if apps.ready or apps.loading:' \
+        '                return None' \
+        '            if settings.configured or os.environ.get("DJANGO_SETTINGS_MODULE"):' \
+        '                import django' \
+        '                django.setup()' \
+        '        except Exception:' \
+        '            return None' \
+        '        module = sys.modules.get(name)' \
+        '        if module is None:' \
+        '            return None' \
+        '        import importlib.util' \
+        '        return importlib.util.spec_from_loader(name, _Loaded(module), origin=getattr(module, "__file__", None))' \
+        '' \
+        '' \
+        'sys.meta_path.insert(0, _SetupOnFirstImport())' \
+        > "$SITE/djsproject_autosetup.py"; \
+    printf 'import djsproject_autosetup\n' > "$SITE/djsproject_autosetup.pth"
+
+RUN useradd -m -u 1000 -s /bin/bash agent 2>/dev/null || true \
+    && git config --system --add safe.directory /workdir
+
+# The solver starting state. Only this directory is copied into the image: the reusable baseline
+# declaration and its documentation-curation patch stay in the build context.
+COPY solver /workdir
+
+WORKDIR /workdir
+RUN find /workdir -depth \( -name __pycache__ -o -name '*.pyc' -o -name .pytest_cache \) -exec rm -rf -- {} + \
+    && find /workdir -exec touch -h -d "2001-01-01T00:00:00Z" {} + 2>/dev/null || true
+RUN chmod -R g-w,o-w /workdir
+# A sanitized repository initialised from the solver starting state only: one commit, no remotes,
+# no tags, no reflog, nothing that could expose the clean baseline or the answer.
+RUN set -eu; \
+    cd /workdir; \
+    git init -q -b main --object-format=sha1; \
+    git config core.logAllRefUpdates false; \
+    git config core.pager cat; \
+    git config gc.auto 0; \
+    git add -A -f; \
+    GIT_AUTHOR_NAME=task GIT_AUTHOR_EMAIL=task@example.invalid \
+    GIT_COMMITTER_NAME=task GIT_COMMITTER_EMAIL=task@example.invalid \
+    GIT_AUTHOR_DATE=2001-01-01T00:00:00Z GIT_COMMITTER_DATE=2001-01-01T00:00:00Z \
+        git -c commit.gpgsign=false commit -qm "Initial state"; \
+    test "$(git rev-list --all --count)" = 1; \
+    test "$(git for-each-ref --format='%(refname)')" = refs/heads/main; \
+    test -z "$(git remote)"; \
+    test -z "$(git tag --list)"; \
+    test -z "$(git stash list)"; \
+    test -z "$(git reflog --all)"; \
+    git diff --quiet; \
+    git diff --cached --quiet; \
+    test -z "$(git status --porcelain --untracked-files=all)"; \
+    test -z "$(git fsck --strict --no-progress --no-reflogs --unreachable 2>&1)"; \
+    git read-tree --reset HEAD; \
+    chown -R agent:agent /workdir
+
+# Smoke-check the solver's view the way the documentation QC does: every in-scope module imports
+# from /workdir with the image's environment, as an unprivileged user.
+RUN cd /tmp && su agent -s /bin/sh -c 'HOME=/tmp /opt/venv/bin/python -W ignore -' <<'PY'
+import importlib, pathlib
+root = pathlib.Path('/workdir')
+paths = [p for p in (root / 'djstripe').rglob('*.py') if 'migrations' not in p.relative_to(root).parts]
+names = sorted('.'.join(p.relative_to(root).with_suffix('').parts).removesuffix('.__init__') for p in paths)
+for name in names:
+    module = importlib.import_module(name)
+    assert module.__file__.startswith('/workdir/djstripe/'), (name, module.__file__)
+print(len(names), 'in-scope djstripe modules import from /workdir')
+PY
+
+# --- Verifier dependencies -------------------------------------------------------------------
+# The grader runs in its own image (tests/Dockerfile). Seal this interpreter as well: drop any .pth
+# that would put /workdir on sys.path and keep the venv root-owned and unwritable by the agent, so a
+# candidate can neither add such entries nor rewrite a library.
+RUN find /opt/venv -name '*.pth' -print0 | xargs -0 -r grep -l /workdir | xargs -r rm -f \
+    && chown -R root:root /opt/venv \
+    && chmod -R go-w /opt/venv \
+    && /opt/venv/bin/python -c "import django, asgiref, sqlparse, stripe, requests, pytest, pytest_django, xdist; print('interpreter sealed')"
+
+USER agent
+WORKDIR /workdir
+CMD ["bash", "-lc", "sleep infinity"]

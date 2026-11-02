@@ -1,0 +1,55 @@
+schema_version = "1.4"
+
+[[artifacts]]
+source = "/workspace/ctfd"
+exclude = [".git", "__pycache__", "*.pyc", ".venv", "node_modules", "target", ".pytest_cache"]
+
+[metadata]
+difficulty = "hard"
+category = "Database migration"
+tags = ["database", "migration", "postgresql", "alembic", "zero-downtime"]
+expert_time_estimate_minutes = 480
+display_description = "Zero-downtime PostgreSQL migration of a production CTFd database (1.1M rows) to the CTFd 4.0 data model with Alembic: expand, batched backfill, dual-version compatibility with bidirectional sync triggers, contract and rollback, under online-DDL lock rules."
+task_type = "zero_downtime"
+database_engine = "PostgreSQL 16.15"
+migration_tool = "Alembic 1.20.0"
+source_repository = "https://github.com/CTFd/CTFd"
+source_commit = "8d32061f156e717af66c7c294554227c6ed85da8"
+source_license = "Apache-2.0"
+grading = "partial: 0 if any gate fails (repository present, frozen files untouched, starting revision, revision graph, every release step applies, no leftover processes) or any core check fails (the final step's reads and traffic, the data invariants and the table data, on the visible and the hidden snapshot), else passed/66 checks"
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[verifier]
+timeout_sec = 3600.0
+environment_mode = "separate"
+network_mode = "no-network"
+user = "root"
+
+[verifier.environment]
+build_timeout_sec = 1800.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 16384
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 1800.0
+memory_mb = 8192
+cpus = 4
+storage_mb = 20480
+network_mode = "no-network"
+workdir = "/workspace/ctfd"
+gpus = 0
+mcp_servers = []
+
+[environment.healthcheck]
+command = "/usr/local/bin/dbm healthcheck"
+interval_sec = 5.0
+timeout_sec = 30.0
+start_period_sec = 900.0
+start_interval_sec = 5.0
+retries = 24

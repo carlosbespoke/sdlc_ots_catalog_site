@@ -1,0 +1,753 @@
+{
+  "schema": 1,
+  "generator": {
+    "file": "build_task.py",
+    "git_revision": "8c4955c8504c041991b9329f63a50cf62fa44eba",
+    "uncommitted": false,
+    "sha256": "fc9e4a0f8403604e6dfa68dbc514f0b12665548e54e5d28ff06f904e3dab437f",
+    "written_by_build": true
+  },
+  "grader_sha256": "71014adb970a7d56bb80dac93bdaf72c40fbb57c6f9ae2146701e721f78db97a",
+  "grader_template": "df853a0eccf86a1f59eb966315e1893ba1ec8d1615f3e0c6842ac12637a894b5",
+  "grader_template_commit": "8c4955c8504c041991b9329f63a50cf62fa44eba",
+  "args": {
+    "ids": "c1cde7d7,b84ae3dd,317ddd02,3731f1de,30b7f209,814d1eab,eb527623,a179657c,28f5fdb1,44919dc2,6f334a51,74891d33,617172ba,64fb6b16,cde9de3e,724264a5,bfce9fce,0388df9c,f5d528c4,3218f741,ea24dff6,a9f78ce8,f117dc42,13165a63,10387c0f,84678986",
+    "test": "",
+    "repo": "libsodium",
+    "repo_url": "https://github.com/jedisct1/libsodium.git",
+    "commit": "57d44b954969b859ce8cf6aeeabb06ef28e65548",
+    "base_image": "diagvgen-base-jedisct1__libsodium-57d44b95",
+    "workdir": "/workspace/repo",
+    "test_cmd": "{ make -C . -j 8 check TESTS= VERBOSE= AM_COLOR_TESTS=no 2>&1 | LC_ALL=C sed 's/[^[:print:][:blank:]]/?/g; s/^/| /'; (exit \"${PIPESTATUS[0]}\"); } && echo @@AMCHECK-RUN && { rc=0; echo '@@AMCHECK-DIR test/default'; make -C test/default -k check-TESTS VERBOSE= AM_COLOR_TESTS=no || rc=$?; (exit $rc); }",
+    "language": "c",
+    "baseline_failures": 0,
+    "source_roots": [
+      "src/libsodium/crypto_aead/aegis256",
+      "src/libsodium/crypto_aead/aes256gcm/aesni",
+      "src/libsodium/crypto_aead/chacha20poly1305",
+      "src/libsodium/crypto_aead/xchacha20poly1305",
+      "src/libsodium/crypto_core/ed25519",
+      "src/libsodium/crypto_core/ed25519/ref10",
+      "src/libsodium/crypto_generichash/blake2b/ref",
+      "src/libsodium/crypto_ipcrypt",
+      "src/libsodium/crypto_kem/mlkem768/ref",
+      "src/libsodium/crypto_pwhash/argon2",
+      "src/libsodium/crypto_pwhash/scryptsalsa208sha256",
+      "src/libsodium/crypto_pwhash/scryptsalsa208sha256/sse",
+      "src/libsodium/crypto_scalarmult/ed25519/ref10",
+      "src/libsodium/crypto_secretstream/xchacha20poly1305",
+      "src/libsodium/crypto_shorthash/siphash24/ref",
+      "src/libsodium/crypto_sign/ed25519/ref10",
+      "src/libsodium/crypto_xof/shake128/ref",
+      "src/libsodium/crypto_xof/shake256/ref",
+      "src/libsodium/crypto_xof/turboshake128/ref",
+      "src/libsodium/randombytes/internal",
+      "src/libsodium/sodium"
+    ],
+    "hide_tests": true,
+    "symptom": "The repository has received 26 separate undocumented edits.\n\nAn application calls this library to keep data secret, to prove where data came from, and to turn passwords and arbitrary bytes into keys, and it now gets a great many of those jobs wrong. Nothing about the algorithms changed and nothing about the callers changed. Calls that used to return correct answers now return wrong ones, and several of them stop the program outright.\n\nProving a message came from you, and checking that proof. A message that is signed and then handed straight back to be checked is reported as not verifying, so the check throws out signatures the library itself has just produced, while byte strings far too short to hold a signature at all are let through into processing rather than being turned away. For many messages the signature bytes produced do not agree with the published vectors for the same key and message, so no other implementation accepts them either.\n\nWorking with the mathematical elements those keys are built from. Asking whether a byte string names an element of the prime-order subgroup answers yes for byte strings that name elements lying outside it. Multiplying an element by an all-zero scalar reports success and writes out a result instead of returning the error that signals a degenerate scalar. Mapping an arbitrary byte string onto an element yields elements that disagree with the standard vectors, and both of the two kinds of element that offer this mapping behave that way.\n\nBoiling a message down to a short fingerprint. The small keyed fingerprint whose output is 128 bits returns values unrelated to the published vectors, for messages of any length. Asking for a fingerprint computed with a salt and a personalisation string gives a digest that disagrees with the published vectors, as if the salt bytes had never been handed over, and asking for that same fingerprint with no salt at all crashes. Asking for a keyed fingerprint with a key length of zero gives a digest different from the one the same message gives when no key is supplied. Feeding a message in a single call into any of the three interfaces that soak up input and then let you squeeze out as many bytes as you want, and then squeezing, returns bytes that do not match the published output for that message; when the message is shorter than the amount soaked up at a time the result varies with whatever memory happens to lie past the end of the input buffer, and all three of those interfaces behave the same way.\n\nKeeping a message secret between two parties. One of the combined secrecy-and-authenticity interfaces halts the program on every call that encrypts, even for a short message and short extra authenticated data. Another returns ciphertext and a tag that do not agree with the published vectors and that will not decrypt back to the message they came from. Asking for a detached decryption with no output buffer supplied, so that only the authentication tag is checked, crashes instead of returning the verification result, and it does this both for the form that takes a short nonce and for the form that takes an extended one. Pushing a long run of messages into a continuous encrypted stream gives output that stops agreeing with known-good output once enough of them have gone in, and a known-good stream produced elsewhere can no longer be decrypted past that same point. Decapsulating a post-quantum encapsulation with the secret key belonging to the public key it was made for gives back a shared secret different from the one the encapsulation step produced, so the two sides never agree on a key.\n\nTurning a password into a key, and checking a password later. Checking a password against a stored hash string that is truncated or otherwise not well formed crashes instead of reporting that the password does not match. A stored hash string carrying a version marker other than the one this build writes is accepted and verified rather than turned down. Asking whether a stored hash string ought to be recomputed under a different operations limit and memory limit answers that no recomputation is needed, even when those limits differ from the ones the string records. Deriving a key from a password through the call that takes an operations limit and a memory limit returns bytes that do not match the published vectors for those inputs. Deriving bytes through the call that takes cost, block size and parallelism as explicit numbers returns output matching no published vector even when the password and the salt have the same length, and giving a password and a salt of differing lengths changes the result again in a way the vectors do not predict.\n\nCarrying a network address through a transformation and writing it back out as text. Encrypting an IPv4 address in the mode that is supposed to keep shared leading bits intact returns a result that disagrees with the published vectors and does not keep the leading bits that two such values share. Turning a binary address back into its text form writes long runs of zero groups out in full instead of using the shortened notation, so the string produced is not the standard text form of that address.\n\nAnd after a handler has been installed to be run when the library catches an improper use of its own interfaces, provoking such a use kills the program without the handler ever being called.",
+    "drop_paths": "",
+    "title": "libsodium: 26 injected one-line faults to diagnose without a test suite",
+    "description": "A pinned checkout of the libsodium C library has had 26 deliberate one-line faults injected across its public cryptographic operations, and the test suite has been removed. The agent receives only the faulted source tree and a prose description of the misbehaviour that users observe: wrong digests and ciphertexts, verification calls that accept or reject the wrong inputs, crashes on null or malformed arguments, and aborted processes. It must localize each fault from behaviour alone, repair it, and name the faulted functions.",
+    "allow": ""
+  },
+  "base_dockerfile_sha256": "db77a8abb7ee478983d4c7951ed51400e6cae3cd804afe9d1c8371bba125ad82",
+  "base_dockerfile_text": "FROM --platform=linux/amd64 ubuntu@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3\n\nENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 SOURCE_DATE_EPOCH=0\n\n# Packages from the \"regular\" and \"other-comp\" Linux jobs in .github/workflows/ci.yml\nRUN apt-get update && apt-get install -y --no-install-recommends \\\n        build-essential \\\n        libtool \\\n        autoconf \\\n        automake \\\n        pkg-config \\\n        make \\\n        git \\\n        ca-certificates \\\n        curl \\\n    && rm -rf /var/lib/apt/lists/*\n\nRUN git config --system --add safe.directory '*'\n\nRUN mkdir -p /workspace/repo \\\n    && cd /workspace/repo \\\n    && git init -q \\\n    && git remote add origin https://github.com/jedisct1/libsodium.git \\\n    && git fetch --depth 1 origin 57d44b954969b859ce8cf6aeeabb06ef28e65548 \\\n    && git checkout -q FETCH_HEAD \\\n    && git submodule update --init --recursive --depth 1\n\nWORKDIR /workspace/repo\n\n# ci.yml: \"Autogen\" step runs ./autogen.sh -s. -b keeps it from fetching config.guess\n# and config.sub over the network; automake --add-missing installs them anyway.\nRUN ./autogen.sh -s -b\n\n# ci.yml: \"other-comp\" job, env CPPFLAGS=\"-DDEV_MODE=1\" ./configure --disable-dependency-tracking\nRUN env CPPFLAGS=\"-DDEV_MODE=1\" ./configure --disable-dependency-tracking\n\nRUN make -j\"$(nproc)\"\n\n# Link the check programs at build time, so the offline test run only executes them.\nRUN make -j\"$(nproc)\" check TESTS=\n\nLABEL org.opencontainers.image.source=\"https://github.com/jedisct1/libsodium\" \\\n      org.opencontainers.image.revision=\"57d44b954969b859ce8cf6aeeabb06ef28e65548\" \\\n      io.srcpilot.language=\"c\" \\\n      io.srcpilot.build_system=\"autotools\" \\\n      io.srcpilot.test_framework=\"automake-tests\" \\\n      io.srcpilot.results_format=\"tap\"",
+  "faults": [
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/pwhash_scrypt"
+      ],
+      "id": "c1cde7d7",
+      "kind": "drop_null_check",
+      "path": "src/libsodium/crypto_pwhash/scryptsalsa208sha256/crypto_scrypt-common.c",
+      "func": "escrypt_parse_setting",
+      "line": 126,
+      "before": "    if (!src) {\n        return NULL;\n    }\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/sign"
+      ],
+      "id": "b84ae3dd",
+      "kind": "toggle_negation",
+      "path": "src/libsodium/crypto_sign/ed25519/ref10/open.c",
+      "func": "crypto_sign_ed25519_open",
+      "line": 81,
+      "before": "if (smlen < 64 || smlen - 64 > crypto_sign_ed25519_MESSAGEBYTES_MAX) {\n        goto badsig;\n    }",
+      "after": "if (!(smlen < 64 || smlen - 64 > crypto_sign_ed25519_MESSAGEBYTES_MAX)) {\n        goto badsig;\n    }",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/ipcrypt"
+      ],
+      "id": "317ddd02",
+      "kind": "drop_if_block",
+      "path": "src/libsodium/crypto_ipcrypt/ipcrypt_aesni.c",
+      "func": "pfx_encrypt",
+      "line": 386,
+      "before": "    if (is_ipv4_mapped(in)) {\n        prefix_start = 96;\n    }\n\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/pwhash_scrypt"
+      ],
+      "id": "3731f1de",
+      "kind": "swap_call_arguments",
+      "path": "src/libsodium/crypto_pwhash/scryptsalsa208sha256/pwhash_scryptsalsa208sha256.c",
+      "func": "crypto_pwhash_scryptsalsa208sha256",
+      "line": 184,
+      "before": "crypto_pwhash_scryptsalsa208sha256_ll(\n        (const uint8_t *) passwd, (size_t) passwdlen, (const uint8_t *) salt,\n        crypto_pwhash_scryptsalsa208sha256_SALTBYTES, (uint64_t)(1) << N_log2,\n        r, p, out, (size_t) outlen)",
+      "after": "crypto_pwhash_scryptsalsa208sha256_ll(\n        (const uint8_t *) passwd, (size_t) passwdlen, (const uint8_t *) salt,\n        crypto_pwhash_scryptsalsa208sha256_SALTBYTES, (uint64_t)(1) << N_log2,\n        p, r, out, (size_t) outlen)",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/aead_xchacha20poly1305"
+      ],
+      "id": "30b7f209",
+      "kind": "drop_null_check",
+      "path": "src/libsodium/crypto_aead/xchacha20poly1305/aead_xchacha20poly1305.c",
+      "func": "_decrypt_detached",
+      "line": 132,
+      "before": "    if (m == NULL) {\n        return ret;\n    }\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/aead_aes256gcm",
+        "test/default/aead_aes256gcm2"
+      ],
+      "id": "814d1eab",
+      "kind": "named_constant_swap",
+      "path": "src/libsodium/crypto_aead/aes256gcm/aesni/aead_aes256gcm_aesni.c",
+      "func": "aes_gcm_encrypt_generic",
+      "line": 551,
+      "before": "NPUBBYTES",
+      "after": "ABYTES",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/secretstream_xchacha20poly1305"
+      ],
+      "id": "eb527623",
+      "kind": "tighten_condition",
+      "path": "src/libsodium/crypto_secretstream/xchacha20poly1305/secretstream_xchacha20poly1305.c",
+      "func": "crypto_secretstream_xchacha20poly1305_push",
+      "line": 168,
+      "before": "if ((tag & crypto_secretstream_xchacha20poly1305_TAG_REKEY) != 0 ||\n        sodium_is_zero(STATE_COUNTER(state),\n                       crypto_secretstream_xchacha20poly1305_COUNTERBYTES)) {\n        crypto_secretstream_xchacha20poly1305_rekey(state);\n    }",
+      "after": "if ((tag & crypto_secretstream_xchacha20poly1305_TAG_REKEY) != 0) {\n        crypto_secretstream_xchacha20poly1305_rekey(state);\n    }",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/pwhash_scrypt",
+        "test/default/pwhash_scrypt_ll"
+      ],
+      "id": "a179657c",
+      "kind": "wrong_variable",
+      "path": "src/libsodium/crypto_pwhash/scryptsalsa208sha256/sse/pwhash_scryptsalsa208sha256_sse.c",
+      "func": "smix",
+      "line": 263,
+      "before": "+ i",
+      "after": "+ N",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/xof_shake256"
+      ],
+      "id": "28f5fdb1",
+      "kind": "drop_clamp",
+      "path": "src/libsodium/crypto_xof/shake256/ref/shake256_ref.c",
+      "func": "shake256_ref_update",
+      "line": 46,
+      "before": "        if (chunk_size > inlen) {\n            chunk_size = inlen;\n        }\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/kem_mlkem768"
+      ],
+      "id": "44919dc2",
+      "kind": "break_chain",
+      "path": "src/libsodium/crypto_kem/mlkem768/ref/kem_mlkem768_ref.c",
+      "func": "mlkem768_ref_dec",
+      "line": 785,
+      "before": "sk + MLKEM768_POLYVECBYTES + crypto_kem_mlkem768_PUBLICKEYBYTES + 32",
+      "after": "sk + MLKEM768_POLYVECBYTES + 32",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/generichash3"
+      ],
+      "id": "6f334a51",
+      "kind": "toggle_negation",
+      "path": "src/libsodium/crypto_generichash/blake2b/ref/blake2b-ref.c",
+      "func": "blake2b_init_salt_personal",
+      "line": 165,
+      "before": "if (salt != NULL) {\n        blake2b_param_set_salt(P, (const uint8_t *) salt);\n    } else {\n        memset(P->salt, 0, sizeof(P->salt));\n    }",
+      "after": "if (!(salt != NULL)) {\n        blake2b_param_set_salt(P, (const uint8_t *) salt);\n    } else {\n        memset(P->salt, 0, sizeof(P->salt));\n    }",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/aead_aegis256"
+      ],
+      "id": "74891d33",
+      "kind": "toggle_negation",
+      "path": "src/libsodium/crypto_aead/aegis256/aead_aegis256.c",
+      "func": "crypto_aead_aegis256_encrypt_detached",
+      "line": 119,
+      "before": "if (mlen > crypto_aead_aegis256_MESSAGEBYTES_MAX ||\n        adlen > crypto_aead_aegis256_MESSAGEBYTES_MAX) {\n        sodium_misuse(); /* LCOV_EXCL_LINE */\n    }",
+      "after": "if (!(mlen > crypto_aead_aegis256_MESSAGEBYTES_MAX ||\n        adlen > crypto_aead_aegis256_MESSAGEBYTES_MAX)) {\n        sodium_misuse(); /* LCOV_EXCL_LINE */\n    }",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/sign"
+      ],
+      "id": "617172ba",
+      "kind": "break_chain",
+      "path": "src/libsodium/crypto_core/ed25519/ref10/ed25519_ref10.c",
+      "func": "sc25519_muladd",
+      "line": 1770,
+      "before": "c4 + a0 * b4 + a1 * b3 + a2 * b2",
+      "after": "c4 + a0 * b4 + a2 * b2",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/generichash3"
+      ],
+      "id": "64fb6b16",
+      "kind": "tighten_condition",
+      "path": "src/libsodium/crypto_generichash/blake2b/ref/generichash_blake2b.c",
+      "func": "crypto_generichash_blake2b_init_salt_personal",
+      "line": 80,
+      "before": "if (key == NULL || keylen <= 0U) {\n        if (blake2b_init_salt_personal((blake2b_state *) (void *) state,\n                                       (uint8_t) outlen, salt, personal) != 0) {\n            return -1; /* LCOV_EXCL_LINE */\n        }\n    } else if (blake2b_init_key_salt_personal((blake2b_state *) (void *) state,\n                                              (uint8_t) outlen, key,\n                                              (uint8_t) keylen, salt,\n                                              personal) != 0) {\n        return -1; /* LCOV_EXCL_LINE */\n    }",
+      "after": "if (key == NULL) {\n        if (blake2b_init_salt_personal((blake2b_state *) (void *) state,\n                                       (uint8_t) outlen, salt, personal) != 0) {\n            return -1; /* LCOV_EXCL_LINE */\n        }\n    } else if (blake2b_init_key_salt_personal((blake2b_state *) (void *) state,\n                                              (uint8_t) outlen, key,\n                                              (uint8_t) keylen, salt,\n                                              personal) != 0) {\n        return -1; /* LCOV_EXCL_LINE */\n    }",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/core_ed25519_h2c",
+        "test/default/core_ristretto255_h2c"
+      ],
+      "id": "cde9de3e",
+      "kind": "named_constant_swap",
+      "path": "src/libsodium/crypto_core/ed25519/core_h2c.c",
+      "func": "core_h2c_string_to_hash_sha512",
+      "line": 91,
+      "before": "HASH_BYTES",
+      "after": "HASH_BLOCKBYTES",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/pwhash_argon2i"
+      ],
+      "id": "724264a5",
+      "kind": "drop_error_check",
+      "path": "src/libsodium/crypto_pwhash/argon2/argon2-encoding.c",
+      "func": "argon2_decode_string",
+      "line": 172,
+      "before": "    if (version != ARGON2_VERSION_NUMBER) {\n        return ARGON2_INCORRECT_TYPE;\n    }\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/pwhash_argon2i",
+        "test/default/pwhash_argon2id"
+      ],
+      "id": "bfce9fce",
+      "kind": "tighten_condition",
+      "path": "src/libsodium/crypto_pwhash/argon2/pwhash_argon2i.c",
+      "func": "_needs_rehash",
+      "line": 271,
+      "before": "else if (ctx.t_cost != (uint32_t) opslimit ||\n               ctx.m_cost != (uint32_t) memlimit) {\n        ret = 1;\n    } else {\n        ret = 0;\n    }",
+      "after": "else {\n        ret = 0;\n    }",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/aead_chacha20poly1305"
+      ],
+      "id": "0388df9c",
+      "kind": "drop_null_check",
+      "path": "src/libsodium/crypto_aead/chacha20poly1305/aead_chacha20poly1305.c",
+      "func": "crypto_aead_chacha20poly1305_decrypt_detached",
+      "line": 232,
+      "before": "    if (m == NULL) {\n        return ret;\n    }\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/scalarmult_ed25519"
+      ],
+      "id": "f5d528c4",
+      "kind": "tighten_condition",
+      "path": "src/libsodium/crypto_scalarmult/ed25519/ref10/scalarmult_ed25519_ref10.c",
+      "func": "_crypto_scalarmult_ed25519",
+      "line": 53,
+      "before": "if (_crypto_scalarmult_ed25519_is_inf(q) != 0 || sodium_is_zero(n, 32)) {\n        return -1;\n    }",
+      "after": "if (_crypto_scalarmult_ed25519_is_inf(q) != 0) {\n        return -1;\n    }",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/core_ed25519"
+      ],
+      "id": "3218f741",
+      "kind": "tighten_condition",
+      "path": "src/libsodium/crypto_core/ed25519/core_ed25519.c",
+      "func": "crypto_core_ed25519_is_valid_point",
+      "line": 18,
+      "before": "if (ge25519_is_canonical(p) == 0 ||\n        ge25519_frombytes(&p_p3, p) != 0 ||\n        ge25519_is_on_curve(&p_p3) == 0 ||\n        ge25519_has_small_order(&p_p3) != 0 ||\n        ge25519_is_on_main_subgroup(&p_p3) == 0) {\n        return 0;\n    }",
+      "after": "if (ge25519_is_canonical(p) == 0 ||\n        ge25519_frombytes(&p_p3, p) != 0 ||\n        ge25519_is_on_curve(&p_p3) == 0 ||\n        ge25519_has_small_order(&p_p3) != 0) {\n        return 0;\n    }",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/siphashx24"
+      ],
+      "id": "ea24dff6",
+      "kind": "flip_comparison",
+      "path": "src/libsodium/crypto_shorthash/siphash24/ref/shorthash_siphashx24_ref.c",
+      "func": "crypto_shorthash_siphashx24",
+      "line": 25,
+      "before": "in != end",
+      "after": "in == end",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/sodium_core"
+      ],
+      "id": "a9f78ce8",
+      "kind": "toggle_negation",
+      "path": "src/libsodium/sodium/core.c",
+      "func": "sodium_misuse",
+      "line": 197,
+      "before": "if (sodium_crit_enter() == 0) {\n        handler = _misuse_handler;\n        if (sodium_crit_leave() == 0 && handler != NULL) {\n            handler();\n        }\n    }",
+      "after": "if (!(sodium_crit_enter() == 0)) {\n        handler = _misuse_handler;\n        if (sodium_crit_leave() == 0 && handler != NULL) {\n            handler();\n        }\n    }",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/codecs"
+      ],
+      "id": "f117dc42",
+      "kind": "drop_if_block",
+      "path": "src/libsodium/sodium/codecs.c",
+      "func": "sodium_bin2ip",
+      "line": 589,
+      "before": "            if (cur_len > best_len) {\n                best_start = cur_start;\n                best_len   = cur_len;\n            }\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/xof_turboshake128"
+      ],
+      "id": "13165a63",
+      "kind": "drop_clamp",
+      "path": "src/libsodium/crypto_xof/turboshake128/ref/turboshake128_ref.c",
+      "func": "turboshake128_ref_update",
+      "line": 46,
+      "before": "        if (chunk_size > inlen) {\n            chunk_size = inlen;\n        }\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/xof_shake128"
+      ],
+      "id": "10387c0f",
+      "kind": "drop_clamp",
+      "path": "src/libsodium/crypto_xof/shake128/ref/shake128_ref.c",
+      "func": "shake128_ref_update",
+      "line": 46,
+      "before": "        if (chunk_size > inlen) {\n            chunk_size = inlen;\n        }\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/default/pwhash_scrypt",
+        "test/default/pwhash_scrypt_ll"
+      ],
+      "id": "84678986",
+      "kind": "swap_call_arguments",
+      "path": "src/libsodium/crypto_pwhash/scryptsalsa208sha256/crypto_scrypt-common.c",
+      "func": "crypto_pwhash_scryptsalsa208sha256_ll",
+      "line": 262,
+      "before": "escrypt_kdf(&local, passwd, passwdlen, salt, saltlen, N, r, p, buf,\n                         buflen)",
+      "after": "escrypt_kdf(&local, passwd, saltlen, salt, passwdlen, N, r, p, buf,\n                         buflen)",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    }
+  ],
+  "baseline_failing_names": [],
+  "causes": [
+    {
+      "file": "src/libsodium/crypto_pwhash/scryptsalsa208sha256/crypto_scrypt-common.c",
+      "function": "escrypt_parse_setting",
+      "qualname": "escrypt_parse_setting",
+      "id": "c1cde7d7",
+      "kind": "drop_null_check",
+      "breaks": [
+        "test/default/pwhash_scrypt"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_sign/ed25519/ref10/open.c",
+      "function": "crypto_sign_ed25519_open",
+      "qualname": "crypto_sign_ed25519_open",
+      "id": "b84ae3dd",
+      "kind": "toggle_negation",
+      "breaks": [
+        "test/default/sign"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_ipcrypt/ipcrypt_aesni.c",
+      "function": "pfx_encrypt",
+      "qualname": "pfx_encrypt",
+      "id": "317ddd02",
+      "kind": "drop_if_block",
+      "breaks": [
+        "test/default/ipcrypt"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_pwhash/scryptsalsa208sha256/pwhash_scryptsalsa208sha256.c",
+      "function": "crypto_pwhash_scryptsalsa208sha256",
+      "qualname": "crypto_pwhash_scryptsalsa208sha256",
+      "id": "3731f1de",
+      "kind": "swap_call_arguments",
+      "breaks": [
+        "test/default/pwhash_scrypt"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_aead/xchacha20poly1305/aead_xchacha20poly1305.c",
+      "function": "_decrypt_detached",
+      "qualname": "_decrypt_detached",
+      "id": "30b7f209",
+      "kind": "drop_null_check",
+      "breaks": [
+        "test/default/aead_xchacha20poly1305"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_aead/aes256gcm/aesni/aead_aes256gcm_aesni.c",
+      "function": "aes_gcm_encrypt_generic",
+      "qualname": "aes_gcm_encrypt_generic",
+      "id": "814d1eab",
+      "kind": "named_constant_swap",
+      "breaks": [
+        "test/default/aead_aes256gcm",
+        "test/default/aead_aes256gcm2"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_secretstream/xchacha20poly1305/secretstream_xchacha20poly1305.c",
+      "function": "crypto_secretstream_xchacha20poly1305_push",
+      "qualname": "crypto_secretstream_xchacha20poly1305_push",
+      "id": "eb527623",
+      "kind": "tighten_condition",
+      "breaks": [
+        "test/default/secretstream_xchacha20poly1305"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_pwhash/scryptsalsa208sha256/sse/pwhash_scryptsalsa208sha256_sse.c",
+      "function": "smix",
+      "qualname": "smix",
+      "id": "a179657c",
+      "kind": "wrong_variable",
+      "breaks": [
+        "test/default/pwhash_scrypt",
+        "test/default/pwhash_scrypt_ll"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_xof/shake256/ref/shake256_ref.c",
+      "function": "shake256_ref_update",
+      "qualname": "shake256_ref_update",
+      "id": "28f5fdb1",
+      "kind": "drop_clamp",
+      "breaks": [
+        "test/default/xof_shake256"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_kem/mlkem768/ref/kem_mlkem768_ref.c",
+      "function": "mlkem768_ref_dec",
+      "qualname": "mlkem768_ref_dec",
+      "id": "44919dc2",
+      "kind": "break_chain",
+      "breaks": [
+        "test/default/kem_mlkem768"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_generichash/blake2b/ref/blake2b-ref.c",
+      "function": "blake2b_init_salt_personal",
+      "qualname": "blake2b_init_salt_personal",
+      "id": "6f334a51",
+      "kind": "toggle_negation",
+      "breaks": [
+        "test/default/generichash3"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_aead/aegis256/aead_aegis256.c",
+      "function": "crypto_aead_aegis256_encrypt_detached",
+      "qualname": "crypto_aead_aegis256_encrypt_detached",
+      "id": "74891d33",
+      "kind": "toggle_negation",
+      "breaks": [
+        "test/default/aead_aegis256"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_core/ed25519/ref10/ed25519_ref10.c",
+      "function": "sc25519_muladd",
+      "qualname": "sc25519_muladd",
+      "id": "617172ba",
+      "kind": "break_chain",
+      "breaks": [
+        "test/default/sign"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_generichash/blake2b/ref/generichash_blake2b.c",
+      "function": "crypto_generichash_blake2b_init_salt_personal",
+      "qualname": "crypto_generichash_blake2b_init_salt_personal",
+      "id": "64fb6b16",
+      "kind": "tighten_condition",
+      "breaks": [
+        "test/default/generichash3"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_core/ed25519/core_h2c.c",
+      "function": "core_h2c_string_to_hash_sha512",
+      "qualname": "core_h2c_string_to_hash_sha512",
+      "id": "cde9de3e",
+      "kind": "named_constant_swap",
+      "breaks": [
+        "test/default/core_ed25519_h2c",
+        "test/default/core_ristretto255_h2c"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_pwhash/argon2/argon2-encoding.c",
+      "function": "argon2_decode_string",
+      "qualname": "argon2_decode_string",
+      "id": "724264a5",
+      "kind": "drop_error_check",
+      "breaks": [
+        "test/default/pwhash_argon2i"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_pwhash/argon2/pwhash_argon2i.c",
+      "function": "_needs_rehash",
+      "qualname": "_needs_rehash",
+      "id": "bfce9fce",
+      "kind": "tighten_condition",
+      "breaks": [
+        "test/default/pwhash_argon2i",
+        "test/default/pwhash_argon2id"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_aead/chacha20poly1305/aead_chacha20poly1305.c",
+      "function": "crypto_aead_chacha20poly1305_decrypt_detached",
+      "qualname": "crypto_aead_chacha20poly1305_decrypt_detached",
+      "id": "0388df9c",
+      "kind": "drop_null_check",
+      "breaks": [
+        "test/default/aead_chacha20poly1305"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_scalarmult/ed25519/ref10/scalarmult_ed25519_ref10.c",
+      "function": "_crypto_scalarmult_ed25519",
+      "qualname": "_crypto_scalarmult_ed25519",
+      "id": "f5d528c4",
+      "kind": "tighten_condition",
+      "breaks": [
+        "test/default/scalarmult_ed25519"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_core/ed25519/core_ed25519.c",
+      "function": "crypto_core_ed25519_is_valid_point",
+      "qualname": "crypto_core_ed25519_is_valid_point",
+      "id": "3218f741",
+      "kind": "tighten_condition",
+      "breaks": [
+        "test/default/core_ed25519"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_shorthash/siphash24/ref/shorthash_siphashx24_ref.c",
+      "function": "crypto_shorthash_siphashx24",
+      "qualname": "crypto_shorthash_siphashx24",
+      "id": "ea24dff6",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/default/siphashx24"
+      ]
+    },
+    {
+      "file": "src/libsodium/sodium/core.c",
+      "function": "sodium_misuse",
+      "qualname": "sodium_misuse",
+      "id": "a9f78ce8",
+      "kind": "toggle_negation",
+      "breaks": [
+        "test/default/sodium_core"
+      ]
+    },
+    {
+      "file": "src/libsodium/sodium/codecs.c",
+      "function": "sodium_bin2ip",
+      "qualname": "sodium_bin2ip",
+      "id": "f117dc42",
+      "kind": "drop_if_block",
+      "breaks": [
+        "test/default/codecs"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_xof/turboshake128/ref/turboshake128_ref.c",
+      "function": "turboshake128_ref_update",
+      "qualname": "turboshake128_ref_update",
+      "id": "13165a63",
+      "kind": "drop_clamp",
+      "breaks": [
+        "test/default/xof_turboshake128"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_xof/shake128/ref/shake128_ref.c",
+      "function": "shake128_ref_update",
+      "qualname": "shake128_ref_update",
+      "id": "10387c0f",
+      "kind": "drop_clamp",
+      "breaks": [
+        "test/default/xof_shake128"
+      ]
+    },
+    {
+      "file": "src/libsodium/crypto_pwhash/scryptsalsa208sha256/crypto_scrypt-common.c",
+      "function": "crypto_pwhash_scryptsalsa208sha256_ll",
+      "qualname": "crypto_pwhash_scryptsalsa208sha256_ll",
+      "id": "84678986",
+      "kind": "swap_call_arguments",
+      "breaks": [
+        "test/default/pwhash_scrypt",
+        "test/default/pwhash_scrypt_ll"
+      ]
+    }
+  ],
+  "formatter_pass": {
+    "tool": null,
+    "formatted": [],
+    "raw": [
+      "src/libsodium/crypto_aead/aegis256/aead_aegis256.c",
+      "src/libsodium/crypto_aead/aes256gcm/aesni/aead_aes256gcm_aesni.c",
+      "src/libsodium/crypto_aead/chacha20poly1305/aead_chacha20poly1305.c",
+      "src/libsodium/crypto_aead/xchacha20poly1305/aead_xchacha20poly1305.c",
+      "src/libsodium/crypto_core/ed25519/core_ed25519.c",
+      "src/libsodium/crypto_core/ed25519/core_h2c.c",
+      "src/libsodium/crypto_core/ed25519/ref10/ed25519_ref10.c",
+      "src/libsodium/crypto_generichash/blake2b/ref/blake2b-ref.c",
+      "src/libsodium/crypto_generichash/blake2b/ref/generichash_blake2b.c",
+      "src/libsodium/crypto_ipcrypt/ipcrypt_aesni.c",
+      "src/libsodium/crypto_kem/mlkem768/ref/kem_mlkem768_ref.c",
+      "src/libsodium/crypto_pwhash/argon2/argon2-encoding.c",
+      "src/libsodium/crypto_pwhash/argon2/pwhash_argon2i.c",
+      "src/libsodium/crypto_pwhash/scryptsalsa208sha256/crypto_scrypt-common.c",
+      "src/libsodium/crypto_pwhash/scryptsalsa208sha256/pwhash_scryptsalsa208sha256.c",
+      "src/libsodium/crypto_pwhash/scryptsalsa208sha256/sse/pwhash_scryptsalsa208sha256_sse.c",
+      "src/libsodium/crypto_scalarmult/ed25519/ref10/scalarmult_ed25519_ref10.c",
+      "src/libsodium/crypto_secretstream/xchacha20poly1305/secretstream_xchacha20poly1305.c",
+      "src/libsodium/crypto_shorthash/siphash24/ref/shorthash_siphashx24_ref.c",
+      "src/libsodium/crypto_sign/ed25519/ref10/open.c",
+      "src/libsodium/crypto_xof/shake128/ref/shake128_ref.c",
+      "src/libsodium/crypto_xof/shake256/ref/shake256_ref.c",
+      "src/libsodium/crypto_xof/turboshake128/ref/turboshake128_ref.c",
+      "src/libsodium/sodium/codecs.c",
+      "src/libsodium/sodium/core.c"
+    ]
+  },
+  "rebuild": "python3 build_task.py --faults-file <this file> --ids <args.ids> and the rest of args above; --base-dockerfile can be written out of base_dockerfile_text"
+}

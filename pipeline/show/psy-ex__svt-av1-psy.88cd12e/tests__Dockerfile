@@ -1,0 +1,115 @@
+# syntax=docker/dockerfile:1.7
+
+# Shared offline toolchains for candidate and verifier images.
+# Keep these stages pinned so every task sees the same compiler versions.
+ARG GO_IMAGE=golang:1.25-bookworm@sha256:e401dae1bf814e29204a8cb7915682e1780951e609ca0dd8865ee1937f510c48
+ARG RUST_IMAGE=rust:1.92-bookworm@sha256:e90e846de4124376164ddfbaab4b0774c7bdeef5e738866295e5a90a34a307a2
+ARG DEBIAN_IMAGE=debian:bookworm-slim@sha256:abd67ffcfa541b485a3dff59865ab629aa048a6c613e639d36e7456b0b229241
+
+FROM --platform=linux/amd64 ${GO_IMAGE} AS go_toolchain
+FROM --platform=linux/amd64 ${RUST_IMAGE} AS rust_toolchain
+
+FROM --platform=linux/amd64 ${DEBIAN_IMAGE} AS cleanroom_runtime
+
+LABEL org.opencontainers.image.title="Cleanroom build environment" \
+      org.opencontainers.image.description="Pinned offline candidate toolchains" \
+      org.opencontainers.image.version="1"
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PATH=/usr/local/go/bin:/usr/local/cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    RUSTUP_HOME=/usr/local/rustup \
+    CARGO_HOME=/opt/build-cache/cargo \
+    CARGO_NET_OFFLINE=true \
+    GOPATH=/opt/build-cache/go \
+    GOMODCACHE=/opt/build-cache/go-mod \
+    GOCACHE=/opt/build-cache/go-build \
+    GOPROXY=off \
+    GOTOOLCHAIN=local \
+    PIP_NO_INDEX=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+COPY --from=go_toolchain /usr/local/go /usr/local/go
+COPY --from=rust_toolchain /usr/local/cargo /usr/local/cargo
+COPY --from=rust_toolchain /usr/local/rustup /usr/local/rustup
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        bash \
+        build-essential \
+        bzip2 \
+        ca-certificates \
+        cmake \
+        curl \
+        diffutils \
+        file \
+        git \
+        gzip \
+        jq \
+        libbz2-dev \
+        libcurl4-openssl-dev \
+        libfmt-dev \
+        libgit2-dev \
+        liblzma-dev \
+        libncurses-dev \
+        libonig-dev \
+        libpcre2-dev \
+        libreadline-dev \
+        libsqlite3-dev \
+        libssl-dev \
+        libzstd-dev \
+        pkg-config \
+        python3 \
+        python3-pil \
+        python3-pip \
+        python3-yaml \
+        tar \
+        wget \
+        xz-utils \
+        zlib1g-dev \
+        zstd \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd --create-home --uid 1000 --shell /bin/bash agent \
+    && install -d -o agent -g agent -m 0755 \
+        /workspace \
+        /opt/build-cache/cargo \
+        /opt/build-cache/go \
+        /opt/build-cache/go-mod \
+        /opt/build-cache/go-build \
+    && chmod -R a+rX /usr/local/go /usr/local/cargo /usr/local/rustup
+
+# Debian login shells replace PATH. Stable links keep every promised compiler
+# available to both interactive agents and non-interactive compile scripts.
+RUN ln -sf /usr/local/go/bin/go /usr/local/bin/go \
+    && ln -sf /usr/local/go/bin/gofmt /usr/local/bin/gofmt \
+    && for tool in /usr/local/cargo/bin/*; do \
+        ln -sf "$tool" "/usr/local/bin/$(basename "$tool")"; \
+    done
+
+# Fail the image build immediately if a promised toolchain is unavailable.
+RUN python3 --version \
+    && cc --version \
+    && c++ --version \
+    && cmake --version \
+    && go version \
+    && rustc --version \
+    && cargo --version
+
+USER agent
+WORKDIR /workspace
+
+CMD ["/bin/bash"]
+
+# Harbor extends this named stage to install its agent harness. Runtime
+# execution still uses the agent user declared by the exported task.
+USER root
+
+FROM cleanroom_runtime
+USER root
+RUN true && rm -f -- /usr/bin/SvtAv1EncApp /usr/local/bin/SvtAv1EncApp && find /lib /usr/lib -xdev \( -type f -o -type l \) -iname 'libSvtAv1EncApp.so*' -delete && if command -v SvtAv1EncApp >/dev/null 2>&1; then echo 'runtime still provides task executable '"'"'SvtAv1EncApp'"'"'' >&2; exit 1; fi; if find /lib /usr/lib -xdev \( -type f -o -type l \) -iname 'libSvtAv1EncApp.so*' -print -quit | grep -q .; then echo 'runtime still provides same-tool library '"'"'libSvtAv1EncApp.so*'"'"'' >&2; exit 1; fi && rm -f -- /usr/bin/svt-av1-psy /usr/local/bin/svt-av1-psy && find /lib /usr/lib -xdev \( -type f -o -type l \) -iname 'libsvt-av1-psy.so*' -delete && if command -v svt-av1-psy >/dev/null 2>&1; then echo 'runtime still provides task executable '"'"'svt-av1-psy'"'"'' >&2; exit 1; fi; if find /lib /usr/lib -xdev \( -type f -o -type l \) -iname 'libsvt-av1-psy.so*' -print -quit | grep -q .; then echo 'runtime still provides same-tool library '"'"'libsvt-av1-psy.so*'"'"'' >&2; exit 1; fi && rm -f -- /usr/bin/svtav1encapp /usr/local/bin/svtav1encapp && find /lib /usr/lib -xdev \( -type f -o -type l \) -iname 'libsvtav1encapp.so*' -delete && if command -v svtav1encapp >/dev/null 2>&1; then echo 'runtime still provides task executable '"'"'svtav1encapp'"'"'' >&2; exit 1; fi; if find /lib /usr/lib -xdev \( -type f -o -type l \) -iname 'libsvtav1encapp.so*' -print -quit | grep -q .; then echo 'runtime still provides same-tool library '"'"'libsvtav1encapp.so*'"'"'' >&2; exit 1; fi
+RUN install -d -o agent -g agent -m 0755 /workspace
+COPY reference-executable /tmp/reference-binary
+RUN install -d -m 0700 /opt/task-reference && install -o root -g root -m 0500 /tmp/reference-binary /opt/task-reference/executable && rm /tmp/reference-binary
+RUN printf 'task-verifier\n' > /etc/task-verifier
+COPY . /tests
+RUN rm -f /tests/reference-executable && chmod 0755 /tests/test.sh
+WORKDIR /workspace

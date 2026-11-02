@@ -1,0 +1,11 @@
+FROM golang:1.21-bookworm
+RUN apt-get update && apt-get install -y --no-install-recommends git python3 ca-certificates tmux asciinema && rm -rf /var/lib/apt/lists/*
+RUN ln -sf /usr/local/go/bin/go /usr/local/bin/go && ln -sf /usr/local/go/bin/gofmt /usr/local/bin/gofmt
+COPY port_skeleton/ /app/port/
+COPY java_reference/ /app/java_reference/
+WORKDIR /app
+ENV GIT_AUTHOR_NAME=mig GIT_AUTHOR_EMAIL=mig@local GIT_COMMITTER_NAME=mig GIT_COMMITTER_EMAIL=mig@local GIT_AUTHOR_DATE=2020-01-01T00:00:00Z GIT_COMMITTER_DATE=2020-01-01T00:00:00Z
+RUN cd /app && git init -q && git add -A && git -c commit.gpgsign=false commit -qm base && git tag mig-base
+COPY spec/ /tests/spec/
+COPY grader_tests.py langs.py test.sh /tests/
+CMD ["bash"]

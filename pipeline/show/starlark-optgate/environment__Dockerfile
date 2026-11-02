@@ -1,0 +1,63 @@
+# syntax=docker/dockerfile:1
+# Agent image (environment/Dockerfile), format 1, Go. docs/task-format.md "The agent image".
+# Same four sections as environment-dockerfile.txt; section 1 and rca:source are VERBATIM in
+# tests/Dockerfile.
+
+# --- Toolchain (verbatim in tests/Dockerfile) ---
+FROM --platform=linux/amd64 golang@sha256:e401dae1bf814e29204a8cb7915682e1780951e609ca0dd8865ee1937f510c48
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 \
+    GOTOOLCHAIN=local GOFLAGS=-buildvcs=false GOMODCACHE=/go/pkg/mod CGO_ENABLED=0
+# --- Agent harness prerequisites ---
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
+        asciinema ca-certificates git tmux \
+    && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man
+RUN command -v git && command -v tmux && tmux -V \
+    && tmux -L harbor-build-smoke new-session -d -s smoke 'sleep 30' \
+    && tmux -L harbor-build-smoke has-session -t smoke \
+    && tmux -L harbor-build-smoke kill-server
+RUN printf 'export PATH=/usr/local/go/bin:/go/bin:$PATH GOTOOLCHAIN=local GOFLAGS=-buildvcs=false\n' \
+    > /etc/profile.d/00-go.sh && chmod 0644 /etc/profile.d/00-go.sh
+RUN useradd -m -u 1000 -s /bin/bash agent
+
+# --- rca:source begin (rendered by `rca regen` from rca-task.json; verbatim in tests/Dockerfile) ---
+ARG RCA_REPOSITORY=https://github.com/google/starlark-go.git
+ARG RCA_COMMIT=5395d018f003e2a08bfbca6dcb2562acee700f62
+RUN git init -q /workdir && cd /workdir \
+    && git fetch -q --depth 1 "$RCA_REPOSITORY" "$RCA_COMMIT" \
+    && git checkout -q FETCH_HEAD \
+    && test "$(git rev-parse HEAD)" = "$RCA_COMMIT" \
+    && rm -rf .git .github CNAME
+COPY faults/ /workdir/
+# --- rca:source end ---
+
+# --- Dependencies (agent image) ---
+# Module cache root-owned and read-only, filled from the pristine tree (C6: check it holds no
+# copy of the repo's own module). Offline afterwards. The same ENV line is in tests/Dockerfile: the
+# grader's GO_ENV hook equals it, so a probe's environment is the one the agent's processes saw.
+RUN cd /workdir && go mod download && mkdir -p /go/pkg/mod && chmod -R a-w /go/pkg/mod
+ENV GOPROXY=off GOSUMDB=off GOFLAGS="-buildvcs=false -mod=readonly" GOMEMLIMIT=1GiB GOMAXPROCS=4
+
+# --- rca:omit-tests begin (rendered by `rca regen` from rca-task.json omit_tests; agent image only) ---
+RUN cd /workdir && find . \( -path ./.git -o -path ./evidence \) -prune -o \
+        \( \( -name '*_test.go' \) -prune -exec rm -rf {} + \)
+# --- rca:omit-tests end ---
+
+# The agent's build cache, warmed from the solver view only (no test code).
+RUN su agent -s /bin/sh -c 'cd /workdir && PATH=/usr/local/go/bin:$PATH go build ./...'
+
+# --- Workspace and normalization ---
+COPY evidence/ /workdir/evidence/
+# Caches go at any depth; build/ and target/ only at the top (exactly the build outputs trees.solver
+# excludes: rca_grading.is_fingerprint_build_output): a deeper directory with that name is project content.
+RUN cd /workdir \
+    && find . \( -name __pycache__ -o -name .pytest_cache -o -name .mypy_cache -o -name .ruff_cache \
+         -o -name .coverage -o -name htmlcov \) -prune -exec rm -rf {} + \
+    && rm -rf ./build ./target \
+    && chmod -R u+rwX,go+rX,go-w /workdir \
+    && find /workdir -exec touch -h -d @1767225600 {} + \
+    && git init -q -b main && git add -A \
+    && git -c user.name=dev -c user.email=dev@example.invalid commit -qm "initial import" \
+    && touch -h -d @1767225600 /workdir \
+    && chown -R agent:agent /workdir \
+    && git config --system --add safe.directory /workdir
+WORKDIR /workdir

@@ -1,0 +1,148 @@
+# syntax=docker/dockerfile:1
+# datatrove-canonical-ots. /workdir carries huggingface/datatrove at a649de79c14a550dc90f48a15c025f2dd3fd3b57 with its
+# documentation curation and the selected implementation drift already applied; the tree is shipped in this
+# build context so the image needs no repository fetch.
+# Runtime has no network: everything solve-time and grade-time is installed here with exact versions.
+# Base image: python:3.12-bookworm, pinned by digest.
+FROM --platform=linux/amd64 python@sha256:e91fec3d1ac69f04e4eddcd29c327e630ce34658cf31075bfa7e8b0e052bafea
+
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_INPUT=1 PIP_NO_CACHE_DIR=1 UV_NO_CACHE=1
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONHASHSEED=42
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH=/opt/venv/bin:$PATH
+ENV PYTHONPATH=/workdir/src
+ENV HF_HUB_OFFLINE=1 HF_HUB_DISABLE_TELEMETRY=1
+ENV SOURCE_DATE_EPOCH=0
+
+# --- Agent harness prerequisites (driftflow/harness.py, ISSUE-103) ---
+# Harbor's TerminusV2 agent opens a tmux session in this container, records it, and drives the
+# solver through it. Without tmux every rollout dies at agent setup with "Failed to start tmux
+# session" before the agent takes a turn, and the whole cohort is lost.
+#
+# This layer needs build-time network for the package manager. Build with network enabled; that is
+# independent of the task's run-time isolation, which task.toml still declares as no-network. The
+# base image stays digest-pinned.
+#
+# Debian ships *.patch files under /usr/share/doc, which isolation probes that walk the filesystem
+# for private assets will flag. Drop the docs here rather than loosening a probe.
+RUN if command -v apt-get >/dev/null; then \
+        apt-get update && apt-get install -y --no-install-recommends \
+            asciinema ca-certificates git tmux \
+        && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man; \
+    elif command -v apk >/dev/null; then \
+        apk add --no-cache asciinema ca-certificates git tmux; \
+    fi
+# Fail the BUILD, not a paid cohort. Starting and tearing down a real session proves tmux works,
+# which `command -v` does not.
+RUN command -v git && command -v tmux \
+    && tmux -V \
+    && tmux -L harbor-build-smoke new-session -d -s smoke 'sleep 30' \
+    && tmux -L harbor-build-smoke has-session -t smoke \
+    && tmux -L harbor-build-smoke kill-server
+
+# Keep the toolchain visible to login shells (`bash -lc`), not just `ENV`: /etc/profile rebuilds
+# PATH and would otherwise discard the ENV entry.
+RUN printf 'export VIRTUAL_ENV="/opt/venv"\nexport PATH="/opt/venv/bin:$PATH"\nexport PYTHONPATH="/workdir/src"\nexport HF_HUB_OFFLINE="1"\nexport HF_HUB_DISABLE_TELEMETRY="1"\nexport PYTHONDONTWRITEBYTECODE="1"\nexport PYTHONHASHSEED="42"\nexport TZ="UTC"\n' \
+      > /etc/profile.d/00-datatrove.sh && chmod 0644 /etc/profile.d/00-datatrove.sh
+
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/python -m pip install --no-cache-dir 'pip==25.2' 'setuptools==75.8.2' 'wheel==0.45.1' 'uv==0.12.3'
+
+# --- Solve-time dependencies. datatrove's own requirements (pyproject: dill, fsspec, huggingface-hub, humanize,
+# loguru, multiprocess, numpy, tqdm) plus the optional libraries its in-scope modules import: pyarrow and orjson
+# (io extra), regex, xxhash, ftfy, spaCy (blank pipelines for the word tokenizers, no trained model), tldextract,
+# fasteners, pyahocorasick and tokenizers (processing extra), and pytest. Compiled hash-pinned with
+# `uv pip compile --python-version 3.12 --python-platform x86_64-manylinux_2_28 --exclude-newer 2026-08-14
+# --generate-hashes` and installed without resolution. datatrove itself is not installed: it is imported from
+# /workdir/src through PYTHONPATH (pure Python). The model-backed blocks (fastText language ID, KenLM perplexity,
+# Hugging Face tokenizers and datasets, trafilatura, warcio) have no model or library here and are out of scope.
+COPY requirements.txt /opt/requirements/requirements.txt
+RUN uv pip install --python /opt/venv/bin/python --no-deps --require-hashes --compile-bytecode \
+        -r /opt/requirements/requirements.txt \
+    && rm -rf /opt/requirements \
+    && /opt/venv/bin/python -m pip check
+
+# datatrove's dependency check (utils/_import_utils.py) calls importlib.metadata without importing it, so it
+# works or raises AttributeError depending on whether some other library already imported that module.
+# Import it at interpreter start-up (a root-owned .pth in the venv) so every process behaves the same way.
+RUN printf 'import importlib.metadata\n' > /opt/venv/lib/python3.12/site-packages/00-importlib-metadata.pth \
+    && /opt/venv/bin/python -c "import sys; assert 'importlib.metadata' in sys.modules"
+
+RUN useradd -m -u 1000 -s /bin/bash agent 2>/dev/null || true \
+    && git config --system --add safe.directory /workdir
+
+# The solver starting state. Only this directory is copied into the image: the reusable baseline
+# declaration and its documentation-curation patch stay in the build context.
+COPY solver /workdir
+
+WORKDIR /workdir
+RUN find /workdir -depth \( -name __pycache__ -o -name '*.pyc' -o -name .pytest_cache \) -exec rm -rf -- {} + \
+    && find /workdir -exec touch -h -d "2001-01-01T00:00:00Z" {} + 2>/dev/null || true
+RUN chmod -R g-w,o-w /workdir
+# A sanitized repository initialised from the solver starting state only: one commit, no remotes,
+# no tags, no reflog, nothing that could expose the clean baseline or the answer.
+RUN set -eu; \
+    cd /workdir; \
+    git init -q -b main --object-format=sha1; \
+    git config core.logAllRefUpdates false; \
+    git config core.pager cat; \
+    git config gc.auto 0; \
+    git add -A -f; \
+    GIT_AUTHOR_NAME=task GIT_AUTHOR_EMAIL=task@example.invalid \
+    GIT_COMMITTER_NAME=task GIT_COMMITTER_EMAIL=task@example.invalid \
+    GIT_AUTHOR_DATE=2001-01-01T00:00:00Z GIT_COMMITTER_DATE=2001-01-01T00:00:00Z \
+        git -c commit.gpgsign=false commit -qm "Initial state"; \
+    test "$(git rev-list --all --count)" = 1; \
+    test "$(git for-each-ref --format='%(refname)')" = refs/heads/main; \
+    test -z "$(git remote)"; \
+    test -z "$(git tag --list)"; \
+    test -z "$(git stash list)"; \
+    test -z "$(git reflog --all)"; \
+    git diff --quiet; \
+    git diff --cached --quiet; \
+    test -z "$(git status --porcelain --untracked-files=all)"; \
+    test -z "$(git fsck --strict --no-progress --no-reflogs --unreachable 2>&1)"; \
+    git read-tree --reset HEAD; \
+    chown -R agent:agent /workdir
+
+# Smoke-check the solver's view the way the documentation QC does: every in-scope datatrove module imports from
+# /workdir/src with the image's environment, as an unprivileged user.
+RUN cd /tmp && su agent -s /bin/sh -c 'HOME=/tmp /opt/venv/bin/python -W ignore -' <<'PY'
+import importlib
+names = """datatrove.data datatrove.io datatrove.pipeline.base datatrove.executor datatrove.executor.base
+datatrove.executor.local datatrove.tools.merge_stats datatrove.pipeline.filters datatrove.pipeline.readers
+datatrove.pipeline.writers datatrove.pipeline.dedup datatrove.pipeline.formatters datatrove.pipeline.stats
+datatrove.pipeline.filters.base_filter datatrove.pipeline.filters.c4_filters
+datatrove.pipeline.filters.fineweb_quality_filter datatrove.pipeline.filters.gopher_quality_filter
+datatrove.pipeline.filters.gopher_repetition_filter datatrove.pipeline.filters.lambda_filter
+datatrove.pipeline.filters.regex_filter datatrove.pipeline.filters.sampler_filter datatrove.pipeline.filters.url_filter
+datatrove.pipeline.readers.base datatrove.pipeline.readers.csv datatrove.pipeline.readers.ipc
+datatrove.pipeline.readers.jsonl datatrove.pipeline.readers.parquet datatrove.pipeline.writers.disk_base
+datatrove.pipeline.writers.jsonl datatrove.pipeline.writers.parquet datatrove.pipeline.dedup.bloom_filter
+datatrove.pipeline.dedup.exact_dedup datatrove.pipeline.dedup.minhash datatrove.pipeline.dedup.sentence_dedup
+datatrove.pipeline.formatters.base datatrove.pipeline.formatters.ftfy datatrove.pipeline.formatters.pii
+datatrove.pipeline.formatters.symbol_lines_remover datatrove.pipeline.stats.base datatrove.pipeline.stats.config
+datatrove.pipeline.stats.contamination_stats datatrove.pipeline.stats.doc_stats datatrove.pipeline.stats.line_stats
+datatrove.pipeline.stats.merger datatrove.pipeline.stats.paragraph_stats datatrove.pipeline.stats.sentence_stats
+datatrove.pipeline.stats.word_stats datatrove.utils._import_utils datatrove.utils.batching datatrove.utils.binaryio
+datatrove.utils.hashing datatrove.utils.hashes.sha1 datatrove.utils.hashes.xxhash datatrove.utils.logging
+datatrove.utils.stats datatrove.utils.text datatrove.utils.word_tokenizers""".split()
+for name in names:
+    module = importlib.import_module(name)
+    assert module.__file__.startswith('/workdir/src/datatrove/'), (name, module.__file__)
+print(len(names), 'datatrove modules import from /workdir/src')
+PY
+
+# --- Verifier dependencies -------------------------------------------------------------------
+# The grader runs in its own image (tests/Dockerfile). Seal this interpreter as well: drop any .pth
+# that would put /workdir on sys.path and keep the venv root-owned and unwritable by the agent, so a
+# candidate can neither add such entries nor rewrite a library.
+RUN find /opt/venv -name '*.pth' -print0 | xargs -0 -r grep -l /workdir | xargs -r rm -f \
+    && chown -R root:root /opt/venv \
+    && chmod -R go-w /opt/venv \
+    && /opt/venv/bin/python -c "import pytest; print('interpreter sealed')"
+
+USER agent
+WORKDIR /workdir
+CMD ["bash", "-lc", "sleep infinity"]

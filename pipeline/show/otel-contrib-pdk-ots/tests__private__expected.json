@@ -1,0 +1,2201 @@
+{
+ "observations": {
+  "OBS-0001": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0002": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0003": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "http.response.header.x_trace": [
+       "a,b"
+      ]
+     }
+    ]
+   }
+  },
+  "OBS-0004": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "http.request.header.x_req": [
+       "r"
+      ],
+      "http.response.header.x_resp": [
+       "s"
+      ]
+     }
+    ]
+   }
+  },
+  "OBS-0005": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "http.request.header.x_secret": [
+       "[REDACTED]"
+      ],
+      "http.response.header.x_secret": [
+       "[REDACTED]"
+      ]
+     }
+    ]
+   }
+  },
+  "OBS-0006": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "http.response.header.public": [
+       "ok"
+      ],
+      "http.response.header.set_cookie": [
+       "[REDACTED]"
+      ]
+     }
+    ]
+   }
+  },
+  "OBS-0007": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0008": {
+   "value": {
+    "events": [
+     [
+      "request",
+      true,
+      true
+     ],
+     [
+      "send",
+      "changed"
+     ],
+     [
+      "response",
+      true,
+      true,
+      200
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "hook.request": "yes",
+      "hook.response": "yes"
+     }
+    ]
+   }
+  },
+  "OBS-0009": {
+   "value": {
+    "events": [
+     [
+      "request",
+      true,
+      true
+     ],
+     [
+      "send",
+      "changed"
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "hook.request": "yes"
+     }
+    ]
+   }
+  },
+  "OBS-0010": {
+   "value": {
+    "events": [
+     [
+      "request",
+      true,
+      true
+     ],
+     [
+      "send",
+      "changed"
+     ],
+     [
+      "response",
+      true,
+      true,
+      200
+     ],
+     [
+      "request",
+      true,
+      true
+     ],
+     [
+      "send",
+      "changed"
+     ],
+     [
+      "response",
+      true,
+      true,
+      200
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ],
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "hook.request": "yes",
+      "hook.response": "yes"
+     },
+     {
+      "hook.request": "yes",
+      "hook.response": "yes"
+     }
+    ]
+   }
+  },
+  "OBS-0011": {
+   "value": {
+    "events": [
+     [
+      "request",
+      true,
+      true
+     ],
+     [
+      "send",
+      "changed"
+     ],
+     [
+      "response",
+      true,
+      true,
+      200
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "hook.request": "yes",
+      "hook.response": "yes",
+      "http.request.header.x_test": [
+       "r"
+      ],
+      "http.response.header.x_test": [
+       "s"
+      ]
+     }
+    ]
+   }
+  },
+  "OBS-0012": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ],
+     [
+      "send",
+      null
+     ],
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ],
+     [
+      200,
+      "offline"
+     ],
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {},
+     {}
+    ]
+   }
+  },
+  "OBS-0013": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ],
+     [
+      "send",
+      null
+     ],
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ],
+     [
+      200,
+      "offline"
+     ],
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {},
+     {}
+    ]
+   }
+  },
+  "OBS-0014": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0015": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0016": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0017": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": []
+   }
+  },
+  "OBS-0018": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0019": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": []
+   }
+  },
+  "OBS-0020": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0021": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0022": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": []
+   }
+  },
+  "OBS-0023": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": []
+   }
+  },
+  "OBS-0024": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": []
+   }
+  },
+  "OBS-0025": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0026": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": []
+   }
+  },
+  "OBS-0027": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0028": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": []
+   }
+  },
+  "OBS-0029": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "http.request.header.x_test": [
+       "one"
+      ],
+      "http.response.header.x_test": [
+       "one"
+      ]
+     }
+    ]
+   }
+  },
+  "OBS-0030": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "http.request.header.x_test": [
+       "a,b"
+      ],
+      "http.response.header.x_test": [
+       "a,b"
+      ]
+     }
+    ]
+   }
+  },
+  "OBS-0031": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "http.request.header.x_one": [
+       "1"
+      ],
+      "http.request.header.x_two": [
+       "2"
+      ],
+      "http.response.header.x_one": [
+       "1"
+      ],
+      "http.response.header.x_two": [
+       "2"
+      ]
+     }
+    ]
+   }
+  },
+  "OBS-0032": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0033": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0034": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "http.request.header.other": [
+       "also"
+      ],
+      "http.request.header.x_test": [
+       "yes"
+      ],
+      "http.response.header.other": [
+       "also"
+      ],
+      "http.response.header.x_test": [
+       "yes"
+      ]
+     }
+    ]
+   }
+  },
+  "OBS-0035": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0036": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0037": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "http.request.header.x_test": [
+       "plain"
+      ],
+      "http.response.header.x_test": [
+       "plain"
+      ]
+     }
+    ]
+   }
+  },
+  "OBS-0038": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "http.request.header.x_secret": [
+       "[REDACTED]"
+      ]
+     }
+    ]
+   }
+  },
+  "OBS-0039": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "http.request.header.x_secret": [
+       "[REDACTED]"
+      ]
+     }
+    ]
+   }
+  },
+  "OBS-0040": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ],
+     [
+      "send",
+      null
+     ],
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ],
+     [
+      200,
+      "offline"
+     ],
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "http.request.header.x_test": [
+       "stable"
+      ],
+      "http.response.header.x_test": [
+       "stable"
+      ]
+     },
+     {
+      "http.request.header.x_test": [
+       "stable"
+      ],
+      "http.response.header.x_test": [
+       "stable"
+      ]
+     },
+     {}
+    ]
+   }
+  },
+  "OBS-0041": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ],
+     [
+      "response",
+      true,
+      true,
+      200
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "hook.response": "yes"
+     }
+    ]
+   }
+  },
+  "OBS-0042": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ],
+     [
+      "response",
+      true,
+      true,
+      200
+     ],
+     [
+      "send",
+      null
+     ],
+     [
+      "response",
+      true,
+      true,
+      200
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ],
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {
+      "hook.response": "yes"
+     },
+     {
+      "hook.response": "yes"
+     }
+    ]
+   }
+  },
+  "OBS-0043": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": []
+   }
+  },
+  "OBS-0044": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {}
+    ]
+   }
+  },
+  "OBS-0045": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ],
+     [
+      "send",
+      null
+     ],
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ],
+     [
+      200,
+      "offline"
+     ],
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {},
+     {}
+    ]
+   }
+  },
+  "OBS-0046": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ],
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ],
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": []
+   }
+  },
+  "OBS-0047": {
+   "value": {
+    "events": [
+     [
+      "send",
+      null
+     ],
+     [
+      "send",
+      null
+     ],
+     [
+      "send",
+      null
+     ]
+    ],
+    "responses": [
+     [
+      200,
+      "offline"
+     ],
+     [
+      200,
+      "offline"
+     ],
+     [
+      200,
+      "offline"
+     ]
+    ],
+    "spans": [
+     {},
+     {},
+     {}
+    ]
+   }
+  },
+  "OBS-0048": {
+   "value": {
+    "body": {
+     "path": "/hello"
+    },
+    "spans": [
+     {
+      "attributes": {},
+      "kind": "CLIENT",
+      "name": "GET",
+      "status": "UNSET"
+     }
+    ],
+    "status": 200
+   }
+  },
+  "OBS-0049": {
+   "value": [
+    "GET",
+    "POST",
+    "HTTP"
+   ]
+  },
+  "OBS-0050": {
+   "value": {
+    "paths": [
+     "/a",
+     "/b",
+     "/c"
+    ],
+    "plain": 200,
+    "span_count": 2
+   }
+  },
+  "OBS-0051": {
+   "value": {
+    "http.client.duration": {
+     "bounds": [
+      0.0,
+      5.0,
+      10.0,
+      25.0,
+      50.0,
+      100.0
+     ],
+     "count": 1,
+     "points": 1,
+     "unit": "ms"
+    }
+   }
+  },
+  "OBS-0052": {
+   "value": {
+    "http.client.request.duration": {
+     "bounds": [
+      0.5,
+      1.0,
+      2.5
+     ],
+     "count": 1,
+     "points": 1,
+     "unit": "s"
+    }
+   }
+  },
+  "OBS-0053": {
+   "value": {
+    "http.client.duration": [
+     1.0,
+     2.0
+    ],
+    "http.client.request.duration": [
+     1.0,
+     2.0
+    ]
+   }
+  },
+  "OBS-0054": {
+   "value": {
+    "http.request.header.custom_header": [
+     "v1, v2"
+    ],
+    "http.request.header.x_trace_me": [
+     "yes"
+    ]
+   }
+  },
+  "OBS-0055": {
+   "value": {
+    "http.request.header.session_id": [
+     "[REDACTED]"
+    ],
+    "http.request.header.x_keep": [
+     "kept"
+    ]
+   }
+  },
+  "OBS-0056": {
+   "value": {
+    "body": {
+     "path": "/post"
+    },
+    "server": [
+     [
+      "POST",
+      "abc"
+     ]
+    ],
+    "spans": [
+     {
+      "attributes": {},
+      "kind": "CLIENT",
+      "name": "POST",
+      "status": "UNSET"
+     }
+    ],
+    "status": 200
+   }
+  },
+  "OBS-0057": {
+   "value": {
+    "outcome": 404,
+    "spans": [
+     [
+      "GET",
+      "CLIENT",
+      "ERROR"
+     ]
+    ]
+   }
+  },
+  "OBS-0058": {
+   "value": {
+    "after_opener": 1,
+    "after_uninstrument": 1,
+    "served": [
+     "/one",
+     "/two",
+     "/three"
+    ]
+   }
+  },
+  "OBS-0059": {
+   "value": {
+    "attributes": {
+     "hook.request": "yes",
+     "hook.response": "yes"
+    },
+    "calls": [
+     [
+      "request",
+      true,
+      true
+     ],
+     [
+      "response",
+      true,
+      true,
+      true
+     ]
+    ]
+   }
+  },
+  "OBS-0060": {
+   "value": [
+    200,
+    201
+   ]
+  },
+  "OBS-0061": {
+   "value": {
+    "served": [
+     "/client/123/info",
+     "/xyz/healthcheck",
+     "/kept"
+    ],
+    "span_count": 1
+   }
+  },
+  "OBS-0062": {
+   "value": 1
+  },
+  "OBS-0063": {
+   "value": 1
+  },
+  "OBS-0064": {
+   "value": {
+    "http.request.header.custom_header": [
+     "c1"
+    ],
+    "http.response.header.x_response_id": [
+     "r1"
+    ]
+   }
+  },
+  "OBS-0065": {
+   "value": {
+    "http.request.header.session_id": [
+     "[REDACTED]"
+    ],
+    "http.request.header.x_keep": [
+     "k"
+    ],
+    "http.response.header.set_cookie": [
+     "[REDACTED]"
+    ]
+   }
+  },
+  "OBS-0066": {
+   "value": {
+    "served": [
+     "/page"
+    ],
+    "spans": [
+     {
+      "attributes": {
+       "http.url": "BASE/page"
+      },
+      "kind": "CLIENT",
+      "name": "GET",
+      "status": "UNSET"
+     }
+    ],
+    "status": 200
+   }
+  },
+  "OBS-0067": {
+   "value": [
+    {
+     "attributes": {
+      "http.method": "GET",
+      "http.url": "BASE/page?token=abc"
+     },
+     "kind": "CLIENT",
+     "name": "GET",
+     "status": "UNSET"
+    },
+    {
+     "attributes": {
+      "http.method": "POST",
+      "http.url": "BASE/submit"
+     },
+     "kind": "CLIENT",
+     "name": "POST",
+     "status": "UNSET"
+    }
+   ]
+  },
+  "OBS-0068": {
+   "value": {
+    "span_count": 1,
+    "status": 200
+   }
+  },
+  "OBS-0069": {
+   "value": {
+    "attributes": {
+     "hook.request": "yes",
+     "hook.response": "yes"
+    },
+    "calls": [
+     [
+      "request",
+      true,
+      true,
+      true,
+      "POST",
+      "BASE/hook",
+      {
+       "bytes": "payload"
+      }
+     ],
+     [
+      "response",
+      true,
+      true,
+      true,
+      200
+     ]
+    ]
+   }
+  },
+  "OBS-0070": {
+   "value": [
+    [
+     "GET",
+     "BASE/direct",
+     "1"
+    ]
+   ]
+  },
+  "OBS-0071": {
+   "value": {
+    "served": [
+     "/client/9/info",
+     "/a/healthcheck",
+     "/kept"
+    ],
+    "span_count": 1
+   }
+  },
+  "OBS-0072": {
+   "value": 1
+  },
+  "OBS-0073": {
+   "value": {
+    "http.request.header.custom_header": [
+     "c1"
+    ],
+    "http.response.header.x_response_id": [
+     "r1"
+    ]
+   }
+  },
+  "OBS-0074": {
+   "value": {
+    "http.request.header.session_id": [
+     "[REDACTED]"
+    ],
+    "http.request.header.x_keep": [
+     "k"
+    ],
+    "http.response.header.set_cookie": [
+     "[REDACTED]"
+    ]
+   }
+  },
+  "OBS-0075": {
+   "value": {
+    "served": [
+     "/sync",
+     "/async"
+    ],
+    "spans": [
+     [
+      "GET",
+      "CLIENT",
+      "UNSET"
+     ],
+     [
+      "GET",
+      "CLIENT",
+      "UNSET"
+     ]
+    ],
+    "statuses": [
+     200,
+     200
+    ]
+   }
+  },
+  "OBS-0076": {
+   "value": {
+    "spans": [
+     [
+      "GET",
+      "CLIENT",
+      "ERROR"
+     ]
+    ],
+    "status": 503
+   }
+  },
+  "OBS-0077": {
+   "value": {
+    "counts": [
+     1,
+     1
+    ],
+    "served": [
+     "/uninstrumented",
+     "/instrumented",
+     "/after"
+    ]
+   }
+  },
+  "OBS-0078": {
+   "value": {
+    "served": [
+     "/one",
+     "/two"
+    ],
+    "span_count": 1
+   }
+  },
+  "OBS-0079": {
+   "value": {
+    "calls": [
+     [
+      "request",
+      true
+     ],
+     [
+      "response",
+      true,
+      200
+     ]
+    ],
+    "span_count": 1,
+    "status": 200
+   }
+  },
+  "OBS-0080": {
+   "value": {
+    "spans": [
+     [
+      "GET",
+      "CLIENT"
+     ]
+    ],
+    "status": 200
+   }
+  },
+  "OBS-0081": {
+   "value": {
+    "attributes": {
+     "hook.response": "yes"
+    },
+    "calls": [
+     [
+      "request",
+      {
+       "bytes": "GET"
+      },
+      "BASE/at"
+     ],
+     [
+      "response",
+      200
+     ]
+    ],
+    "status": 200
+   }
+  },
+  "OBS-0082": {
+   "value": {
+    "spans": [
+     [
+      "GET",
+      "CLIENT"
+     ]
+    ],
+    "status": 200
+   }
+  },
+  "OBS-0083": {
+   "value": [
+    [
+     "sync-request",
+     {
+      "bytes": "POST"
+     }
+    ],
+    [
+     "sync-response",
+     200
+    ],
+    [
+     "async-request",
+     {
+      "bytes": "GET"
+     }
+    ],
+    [
+     "async-response",
+     202
+    ]
+   ]
+  },
+  "OBS-0084": {
+   "value": {
+    "hook.request": "yes",
+    "hook.response": 200
+   }
+  },
+  "OBS-0085": {
+   "value": {
+    "served": [
+     "/client/1/info",
+     "/b/healthcheck",
+     "/kept"
+    ],
+    "span_count": 1
+   }
+  },
+  "OBS-0086": {
+   "value": 1
+  },
+  "OBS-0087": {
+   "value": {
+    "http.request.header.custom_header": [
+     "c1"
+    ],
+    "http.response.header.x_response_id": [
+     "r1"
+    ]
+   }
+  },
+  "OBS-0088": {
+   "value": {
+    "http.request.header.session_id": [
+     "[REDACTED]"
+    ],
+    "http.request.header.x_keep": [
+     "k"
+    ],
+    "http.response.header.set_cookie": [
+     "[REDACTED]"
+    ]
+   }
+  },
+  "OBS-0089": {
+   "value": {
+    "spans": [
+     [
+      "GET",
+      "CLIENT"
+     ]
+    ],
+    "status": 200
+   }
+  },
+  "OBS-0090": {
+   "value": 1
+  },
+  "OBS-0091": {
+   "value": {
+    "spans": [
+     {
+      "attributes": {
+       "http.url": "BASE/page"
+      },
+      "kind": "CLIENT",
+      "name": "GET",
+      "status": "UNSET"
+     }
+    ],
+    "status": 200,
+    "text": "{\"path\": \"/page\"}"
+   }
+  },
+  "OBS-0092": {
+   "value": {
+    "served": [
+     "/p",
+     "/q"
+    ],
+    "spans": [
+     [
+      "POST",
+      "CLIENT",
+      "UNSET"
+     ]
+    ]
+   }
+  },
+  "OBS-0093": {
+   "value": {
+    "spans": [
+     [
+      "GET",
+      "CLIENT",
+      "ERROR"
+     ]
+    ],
+    "status": 404,
+    "text": "{\"path\": \"/x\"}"
+   }
+  },
+  "OBS-0094": {
+   "value": {
+    "counts": [
+     1,
+     1
+    ],
+    "served": [
+     "/off",
+     "/on",
+     "/new"
+    ]
+   }
+  },
+  "OBS-0095": {
+   "value": {
+    "attributes": {
+     "custom_user_attribute_from_request_hook": "some-value",
+     "custom_user_attribute_from_response_hook": "some-value"
+    },
+    "calls": [
+     [
+      "request",
+      "TraceRequestStartParams",
+      "GET"
+     ],
+     [
+      "response",
+      "TraceRequestEndParams",
+      200
+     ]
+    ]
+   }
+  },
+  "OBS-0096": {
+   "value": {
+    "calls": [
+     "TraceRequestExceptionParams"
+    ],
+    "outcome": "connection-error",
+    "spans": [
+     [
+      "CLIENT",
+      "ERROR"
+     ]
+    ]
+   }
+  },
+  "OBS-0097": {
+   "value": {
+    "served": [
+     "/client/1/info",
+     "/c/healthcheck",
+     "/kept"
+    ],
+    "span_count": 1
+   }
+  },
+  "OBS-0098": {
+   "value": 1
+  },
+  "OBS-0099": {
+   "value": {
+    "http.request.header.custom_header": [
+     "c1"
+    ],
+    "http.response.header.x_response_id": [
+     "r1"
+    ]
+   }
+  },
+  "OBS-0100": {
+   "value": {
+    "http.request.header.session_id": [
+     "[REDACTED]"
+    ],
+    "http.request.header.x_keep": [
+     "k"
+    ],
+    "http.response.header.set_cookie": [
+     "[REDACTED]"
+    ]
+   }
+  },
+  "OBS-0101": {
+   "value": {
+    "http.request.header.x_req_a": [
+     "qa"
+    ],
+    "http.request.header.x_req_secret": [
+     "[REDACTED]"
+    ],
+    "http.response.header.x_resp_a": [
+     "ra"
+    ]
+   }
+  },
+  "OBS-0102": {
+   "value": {
+    "disabled": [
+     true,
+     true,
+     false,
+     false
+    ],
+    "type": true
+   }
+  },
+  "OBS-0103": {
+   "value": [
+    [
+     false,
+     true
+    ],
+    [
+     true,
+     false
+    ]
+   ]
+  },
+  "OBS-0104": {
+   "value": [
+    "http://REDACTED:REDACTED@example.com:8080/path?q=1",
+    "https://example.com/path",
+    "not a url"
+   ]
+  },
+  "OBS-0105": {
+   "value": [
+    "https://s3.example.com/o?AWSAccessKeyId=REDACTED&Signature=REDACTED&x=1",
+    "https://example.com/o?sig=REDACTED&X-Goog-Signature=REDACTED",
+    "https://example.com/o?keep=1",
+    "https://REDACTED:REDACTED@example.com/o?sig=REDACTED&keep=1"
+   ]
+  },
+  "OBS-0106": {
+   "value": [
+    "GET",
+    "GET",
+    "PATCH",
+    "_OTHER",
+    null
+   ]
+  },
+  "OBS-0107": {
+   "value": [
+    {
+     "http.request.header.content_type": [
+      "text/plain"
+     ],
+     "http.request.header.x_other": [
+      "o"
+     ],
+     "http.request.header.x_session_id": [
+      "[REDACTED]"
+     ]
+    },
+    {
+     "http.response.header.content_type": [
+      "text/plain"
+     ]
+    },
+    {},
+    {},
+    {}
+   ]
+  },
+  "OBS-0108": {
+   "value": {
+    "absent": [],
+    "headers": [
+     "content-type",
+     "x-.*"
+    ],
+    "sanitized": [
+     "[REDACTED]",
+     "[REDACTED]",
+     "x"
+    ]
+   }
+  },
+  "OBS-0109": {
+   "value": {
+    "detected": [
+     null,
+     null,
+     "test",
+     "bot",
+     "test"
+    ],
+    "normalized": [
+     "agent/1.0",
+     "agent/2.0",
+     null
+    ]
+   }
+  },
+  "OBS-0110": {
+   "value": [
+    {
+     "attributes": {
+      "net.peer.ip": "127.0.0.1"
+     },
+     "kind": "CLIENT",
+     "name": "GET",
+     "status": "UNSET"
+    }
+   ]
+  },
+  "OBS-0111": {
+   "value": {
+    "span_count": 0,
+    "status": 200
+   }
+  },
+  "OBS-0112": {
+   "value": {
+    "sent": [
+     "http.response.start",
+     "http.response.body"
+    ],
+    "server_spans": [
+     [
+      "GET /",
+      "SERVER"
+     ]
+    ]
+   }
+  },
+  "OBS-0113": {
+   "value": {
+    "calls": [
+     [
+      "instrument",
+      [
+       "flag"
+      ]
+     ],
+     [
+      "uninstrument",
+      []
+     ]
+    ],
+    "instrumented_after_first": true,
+    "instrumented_after_uninstrument": false,
+    "singleton": true
+   }
+  },
+  "OBS-0114": {
+   "value": {
+    "after_skip": [
+     "instrumented"
+    ],
+    "blocked": [],
+    "instrumented": true
+   }
+  },
+  "OBS-0115": {
+   "value": [
+    [
+     "requests ~= 2.0"
+    ],
+    [
+     "urllib3 >= 1.0.0, < 3.0.0"
+    ],
+    [
+     "aiohttp ~= 3.0"
+    ]
+   ]
+  },
+  "OBS-0116": {
+   "value": {
+    "missing_found": null,
+    "missing_required": "surely-not-installed-package >= 1",
+    "ok": null,
+    "old_found_startswith": "requests 2.33.1",
+    "old_required": "requests ~= 1.0",
+    "old_type": true
+   }
+  },
+  "OBS-0117": {
+   "value": {
+    "allow_redirect_false": "ERROR",
+    "client": [
+     "UNSET",
+     "UNSET",
+     "UNSET",
+     "ERROR",
+     "ERROR"
+    ],
+    "server": [
+     "UNSET",
+     "UNSET",
+     "ERROR"
+    ]
+   }
+  },
+  "OBS-0118": {
+   "value": [
+    "wrapped",
+    "original",
+    "wrapped",
+    "original"
+   ]
+  },
+  "OBS-0119": {
+   "value": {
+    "enabled_inside": false,
+    "enabled_outside": true,
+    "served": [
+     "/s1",
+     "/s2",
+     "/s3"
+    ],
+    "span_count": 1
+   }
+  },
+  "OBS-0120": {
+   "value": {
+    "expose": "traceresponse",
+    "global": "TraceResponsePropagator",
+    "keys": [
+     "Access-Control-Expose-Headers",
+     "traceresponse"
+    ],
+    "value_matches": true
+   }
+  },
+  "OBS-0121": {
+   "value": [
+    "Access-Control-Expose-Headers",
+    "traceresponse"
+   ]
+  },
+  "OBS-0122": {
+   "value": {}
+  },
+  "OBS-0123": {
+   "value": [
+    5,
+    9,
+    13,
+    17,
+    21,
+    0
+   ]
+  },
+  "OBS-0124": {
+   "value": {
+    "attributes": {
+     "experiment_group": "control",
+     "has_premium": true,
+     "http.request.method": "POST",
+     "user_id": "123"
+    },
+    "enriched": {
+     "experiment_group": "control",
+     "has_premium": true,
+     "http.request.method": "GET",
+     "http.response.status_code": 200,
+     "user_id": "123"
+    },
+    "same_labeler": true
+   }
+  },
+  "OBS-0125": {
+   "value": {
+    "provider": "TracerProvider",
+    "scopes": [
+     "opentelemetry.instrumentation.requests",
+     "opentelemetry.instrumentation.urllib"
+    ]
+   }
+  },
+  "OBS-0126": {
+   "value": [
+    "opentelemetry.instrumentation.httpx"
+   ]
+  },
+  "OBS-0127": {
+   "value": 0
+  },
+  "OBS-0128": {
+   "value": {
+    "opentelemetry-instrumentation-aiohttp-client": true,
+    "opentelemetry-instrumentation-asyncio": true,
+    "opentelemetry-instrumentation-httpx": true,
+    "opentelemetry-instrumentation-requests": true,
+    "opentelemetry-instrumentation-urllib": true,
+    "opentelemetry-instrumentation-urllib3": true
+   }
+  },
+  "OBS-0129": {
+   "value": {
+    "code": 0,
+    "env": {
+     "OTEL_METRICS_EXPORTER": "none",
+     "OTEL_PYTHON_CONFIGURATOR": "my_configurator",
+     "OTEL_PYTHON_DISTRO": "my_distro",
+     "OTEL_PYTHON_ID_GENERATOR": "random",
+     "OTEL_TRACES_EXPORTER": "console"
+    }
+   }
+  },
+  "OBS-0130": {
+   "value": {
+    "code": 0,
+    "env": {
+     "OTEL_PYTHON_DISABLED_INSTRUMENTATIONS": "requests,django",
+     "OTEL_TRACES_EXPORTER": "console"
+    },
+    "pythonpath_first": [
+     "instrumentation",
+     "auto_instrumentation"
+    ]
+   }
+  },
+  "OBS-0131": {
+   "value": {
+    "code": 0,
+    "stdout": "--port=3000 run\n"
+   }
+  },
+  "OBS-0132": {
+   "value": {
+    "configure_calls": [
+     [
+      "option"
+     ]
+    ],
+    "instrumented": true,
+    "span_count": 1
+   }
+  },
+  "OBS-0133": {
+   "value": {
+    "client_instrumentors": [
+     "aiohttp-client",
+     "httpx",
+     "requests",
+     "urllib",
+     "urllib3"
+    ],
+    "configurators": [
+     "configurator"
+    ],
+    "distros": [
+     "distro"
+    ]
+   }
+  },
+  "OBS-DOCS": {
+   "ok": "intact"
+  }
+ }
+}

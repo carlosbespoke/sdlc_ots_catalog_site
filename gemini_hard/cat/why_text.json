@@ -1,0 +1,38 @@
+{
+ "programbench": {
+  "problems": "Engineers often have to make software behave exactly like a version they cannot reuse: rebuilding a tool whose source is unavailable, bringing an old codebase up to a newer release, or replacing a Java or Rust dependency with a port in Go or C++. In each case the specification is observable behaviour. The hard part is inferring the rules from outputs and documentation, then matching exit codes, output, file effects, numeric precision and result ordering without seeing the tests.",
+  "how": "Reimplementation and upgrade tasks give the agent a reference program it can run but not read. For a reimplementation, the agent writes a source project and a `compile.sh` from the reference and its documentation. For an upgrade, the agent changes an existing repository in `/app/repo`, which is built with a fixed `/opt/task/build.sh`. Migration tasks provide the original source and a skeleton with final signatures, and most add a `mig-check` tool. Every task runs offline, and hidden tests compare the result with the reference.",
+  "prompts": [
+   "Reproduce the documented behaviour of an execute-only program, delivered as source code plus `compile.sh`.",
+   "Update an existing repository to match a reference program, after first writing a research and plan file.",
+   "Port a named Java or Rust library to Go or C++ from a reference folder, keeping the given signatures, within per-test time and memory limits."
+  ]
+ },
+ "system-design": {
+  "problems": "Engineers here change production systems that must keep running. In services where several processes share state and any of them can stop, the failures are duplicate effects after retries, lost notifications, stale writers returning after a takeover, limits that hold in one process but not across instances, and partial state after a crash. In infrastructure code, a flat Terraform stack has to become modules with stable keys, or move to Pulumi, while every deployed resource stays exactly as it is.",
+  "how": "Service tasks pin an open-source repository at a base commit and give a short specification, often with time limits. The agent runs the databases, caches or brokers it needs locally and delivers a patch. Hidden tests then kill or pause processes and confirm that existing behaviour still works. Infrastructure tasks ship the stack with its recorded production state and an offline toolchain. A separate verifier plans the result with refresh disabled and expects moves only, then plans hidden changes such as an added key.",
+  "prompts": [
+   "A capability gap stated as \"X cannot do Y\", followed by measurable requirements, many with time limits.",
+   "A closing paragraph with the repository path, how to start each service and the build command.",
+   "A first-person request to modularize a named production Terraform stack, followed by rules for modules, `for_each` keys, variables, outputs and banned constructs."
+  ]
+ },
+ "debugging": {
+  "problems": "Maintainers are handed code that is wrong in several places and must find the causes without a test suite to lean on. In the diagnosis tasks, many undocumented edits break unrelated features at once. In the documentation-drift tasks, the code still runs but contradicts its own documentation. One task starts from a single production symptom with a hidden root cause. In all of them the engineer reproduces the symptom, finds the faulty function and repairs it without breaking neighbouring behaviour.",
+  "how": "Each task ships a pinned checkout of an open-source project, with the tests withheld and no network. The prompt describes the symptoms or names the documentation in scope, never the location of the faults. Most diagnosis tasks also ask for `/app/rca.json`, which lists the file and function of each edit and is compared with an answer key. Drift tasks treat the documentation as the authority and forbid editing it. Hidden tests check the repairs and the behaviour that was already correct.",
+  "prompts": [
+   "A first-person list of symptoms grouped by feature, with no file or function named, ending in a request to fix and report.",
+   "A stated number of undocumented edits and a JSON schema for the root-cause report.",
+   "A library description with the source paths and documentation pages in scope, and the rule that documentation outranks code."
+  ]
+ },
+ "feature-implementation": {
+  "problems": "Maintainers add a capability that runs through many code paths of an unfamiliar library or service, while existing callers must see no change. Typical requests add an opt-in mode or policy, keep information the library currently drops, or make a subsystem safe under concurrency and failure. Data engineers face a related problem: after an upstream format or schema change, a pipeline keeps running but produces wrong results, and the library has to handle the new data while old inputs still work.",
+  "how": "Each task pins an open-source repository, mostly Go or Python, in an offline container and gives a written specification of the new behaviour, with the public types and functions to deliver. The agent's edits are collected as a diff against the base commit. After the session, hidden acceptance tests check the new behaviour and the project's existing tests check that nothing else changed. The data pipeline tasks also provide sample inputs in `/data`.",
+  "prompts": [
+   "A capability gap stated as \"X cannot Y\", then dense paragraphs on the behaviour to add and the behaviour to preserve.",
+   "A bullet list of required exported names, constants and signatures, with a research and plan file due before any code change.",
+   "A first-person data problem after an upstream change, with sample files in `/data` and a request to keep existing results unchanged."
+  ]
+ }
+}

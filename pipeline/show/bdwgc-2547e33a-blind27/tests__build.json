@@ -1,0 +1,812 @@
+{
+  "schema": 1,
+  "generator": {
+    "file": "build_task.py",
+    "git_revision": "921e23b0f21162eb624a6ef2f7ebff17e0c7be68",
+    "uncommitted": false,
+    "sha256": "0e98d8f8282857cd4fbccdd1162d9c51fe0e033d1966c70768ca358c232df701",
+    "written_by_build": true
+  },
+  "grader_sha256": "f48408f72d245b629249a6ba42039279a5cf23556b11836bdbbd8424fa571a96",
+  "grader_template": "0313c24f3e6e5ca19a6175517d4937a87c865b8d000551ac9824ccf6e8e5ef10",
+  "grader_template_commit": "921e23b0f21162eb624a6ef2f7ebff17e0c7be68",
+  "args": {
+    "ids": "3ff2b22b,595cbdff,20c257de,a5acf563,e93ab741,ebbb8c5a,0bee7103,e463fecc,72d54478,a425debb,b89915b3,1f724e74,6b2bfd37,561c19d7,b9ce6e22,9bdc61cb,0fc99d85,42a67daf,4f80f134,62e9d579,da372712,4d41b9b1,e992eae8,32d075f5,785514ee,9b6cbf59,d3d053b2",
+    "test": "",
+    "repo": "bdwgc",
+    "repo_url": "https://github.com/bdwgc/bdwgc.git",
+    "commit": "2547e33aa8123320dd8021ca3cea998075ede415",
+    "base_image": "diagvgen-base-bdwgc__bdwgc-2547e33a",
+    "workdir": "/workspace/repo",
+    "test_cmd": "cmake --build build -j 8 && ctest --test-dir build --output-junit /workspace/repo/results.xml --output-on-failure -j 4",
+    "language": "c",
+    "baseline_failures": 0,
+    "source_roots": [
+      ".",
+      "cord"
+    ],
+    "hide_tests": true,
+    "symptom": "The repository has received 27 separate undocumented edits.\n\nThis project is a library that hands out storage to a running program and later takes back whatever that program can no longer reach, along with a facility for building up long pieces of text out of smaller fragments. Both sides of it now misbehave. Simple programs abort before they do any work, longer-running ones crash or quietly hand the same storage to two owners at once, and several ordinary calls refuse requests they used to serve.\n\nThe trouble starts with the simplest thing a program can ask for. Requesting one small block and doing nothing else aborts inside that call, with the library reporting that one of its own internal consistency checks failed. Building it in the mode that keeps extra bookkeeping beside every object, and allocating through the entry points that go with that mode, aborts too, on a different internal check, this one raised for ordinary small requests. Asking for a block of zero bytes aborts rather than coming back with memory. Handing an object back explicitly and then asking for a fresh block of the same size yields storage that still holds the bytes written into the object just given up, rather than zeros. Passing a null pointer to the call that gives an object back crashes instead of returning without doing anything. Growing an object that was allocated with a description of where its pointer fields lie, by asking for a bigger block through the call that resizes, yields storage whose description no longer spans the new size, so pointers written beyond the old end are dropped and their targets handed out again. Asking for an array of typed elements by giving a count and an element size yields storage whose pointer fields go untraced, so objects reachable only from that array are taken away while still in use. Composing a description for an array out of the description of its element type and allocating with the result loses referenced objects in the same way. The query that reports both which flavour of allocation an object came from and how large it is either crashes or leaves the size it was asked to fill untouched.\n\nPrograms that use more than one thread run into failures of their own. They abort the moment the first collection runs, complaining that an internal lock could not be given up. When threads are let go again at the end of a collection, the library complains that the number it started again differs from the number it halted, and the run hangs or dies there. A thread created through the library's own creation wrapper is handed the wrong argument: the pointer its start routine receives is not the one supplied at creation. A program that pauses one of its threads through the public call for that, and then asks whether that thread is currently paused, is told it is not.\n\nLetting a program run long enough for storage to be taken back brings more failures. Programs that allocate enough to trigger a collection die with a segmentation fault partway through it. Workloads that keep a large number of objects reachable across repeated collections either die inside a collection or come back holding references to storage that has already been handed out to a later request. Switching on the mode that collects in small steps and then building a large linked structure crashes soon after the structure grows. Programs that attach a cleanup callback to their objects crash once collections begin. Pointers held only in the global variables of libraries loaded at run time are not treated as roots, so the objects they refer to are taken away and their storage reissued while those globals still point at them.\n\nThe calls a program makes to check itself behave wrongly too. The checked operation that confirms two pointers lie within one object prints a complaint and refuses pairs that do lie within one object. The check applied to a pointer that is being moved along by an offset crashes when the pointer does not refer to storage this library handed out at all. Objects allocated with a cleanup callback attached come back with the first word of the caller's own data overwritten, so values stored in them read back as something else, and when such an object is finally swept the callback is given the wrong field to work from, so the tally of cleanups does not match the number of objects allocated. The setup call for the allocation scheme that takes a caller-supplied tracing routine aborts the program, rejecting the routine it was handed.\n\nText assembled from joined fragments is mishandled as well. Searching such a value for a single character returns the position of the last occurrence rather than the first. Searching it for a run of several characters reports no match for runs that are present. Stepping through a deeply joined value one position at a time yields characters taken from the wrong places. Formatted printing into one of these values mishandles a field width written with more than one digit, padding the output to a width unrelated to the number given.",
+    "drop_paths": "",
+    "title": "bdwgc: repairing a garbage collector without a test suite",
+    "description": "The bdwgc conservative garbage collector has been modified at a pinned commit so that 27 single-line faults are spread across the sources, and the test suite has been removed from the tree. Working only from a prose report of misbehaviour observed by programs linking against the library \u2014 aborts during ordinary allocation, crashes during collection, threads that resume wrongly, type descriptors that lose referents, pointer checks that complain about healthy pointers, and string operations that return the wrong positions and widths \u2014 the agent must locate each edit, restore the intended behaviour, and name every function it repaired.",
+    "allow": ""
+  },
+  "base_dockerfile_sha256": "7611eeb4ea8cc15f48534ac781869a13d2c3996ced60d47b22042c64624b6328",
+  "base_dockerfile_text": "FROM --platform=linux/amd64 ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3\nENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 SOURCE_DATE_EPOCH=0\nRUN apt-get update && apt-get install -y --no-install-recommends build-essential cmake ninja-build git ca-certificates pkg-config \\\n    && rm -rf /var/lib/apt/lists/*\nRUN git config --system --add safe.directory '*'\nRUN mkdir -p /workspace/repo && cd /workspace/repo \\\n    && git init -q && git remote add origin https://github.com/bdwgc/bdwgc.git \\\n    && git fetch --depth 1 -q origin 2547e33aa8123320dd8021ca3cea998075ede415 \\\n    && git checkout -q FETCH_HEAD \\\n    && git submodule update --init --recursive --depth 1\nWORKDIR /workspace/repo\nRUN cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release -Denable_cplusplus=on -Denable_gc_assertions=on -Denable_threads=on\nRUN cmake --build build --config Release --parallel 4\nLABEL repo=\"bdwgc/bdwgc\" revision=\"2547e33aa8123320dd8021ca3cea998075ede415\" language=\"c\"",
+  "faults": [
+    {
+      "drop": null,
+      "breaks": [
+        "cordtest"
+      ],
+      "id": "3ff2b22b",
+      "kind": "sibling_api_swap",
+      "path": "cord/cordxtra.c",
+      "func": "CORD_batched_chr_proc",
+      "line": 331,
+      "before": "strchr(s, d->target)",
+      "after": "strrchr(s, d->target)",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "disclaim_bench",
+        "disclaimtest"
+      ],
+      "id": "595cbdff",
+      "kind": "off_by_one",
+      "path": "fnlz_mlc.c",
+      "func": "GC_finalized_disclaim",
+      "line": 55,
+      "before": "(ptr_t *)obj + 1",
+      "after": "(ptr_t *)obj",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "treetest"
+      ],
+      "id": "20c257de",
+      "kind": "flip_comparison",
+      "path": "os_dep.c",
+      "func": "GC_protect_heap",
+      "line": 4834,
+      "before": "i < GC_n_heap_sects",
+      "after": "i <= GC_n_heap_sects",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "dbgfunctest"
+      ],
+      "id": "a5acf563",
+      "kind": "flip_comparison",
+      "path": "gcj_mlc.c",
+      "func": "GC_init_gcj_malloc_mp",
+      "line": 76,
+      "before": "0 == mp",
+      "after": "0 != mp",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "gctest"
+      ],
+      "id": "e93ab741",
+      "kind": "wrong_variable",
+      "path": "pthread_start.c",
+      "func": "GC_pthread_start_inner",
+      "line": 62,
+      "before": "start_arg",
+      "after": "arg",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "disclaimtest"
+      ],
+      "id": "ebbb8c5a",
+      "kind": "named_constant_swap",
+      "path": "mark.c",
+      "func": "GC_push_unconditionally",
+      "line": 2193,
+      "before": "GC_mark_stack_top",
+      "after": "GC_mark_stack_limit",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "cordtest"
+      ],
+      "id": "0bee7103",
+      "kind": "drop_state_update",
+      "path": "cord/cordprnt.c",
+      "func": "extract_conv_spec",
+      "line": 114,
+      "before": "      current_number *= 10;\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "gctest"
+      ],
+      "id": "e463fecc",
+      "kind": "wrong_variable",
+      "path": "typd_mlc.c",
+      "func": "GC_calloc_do_explicitly_typed",
+      "line": 587,
+      "before": "ld_size",
+      "after": "ld_nelements",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "gctest"
+      ],
+      "id": "72d54478",
+      "kind": "flip_comparison",
+      "path": "mallocx.c",
+      "func": "GC_get_kind_and_size",
+      "line": 51,
+      "before": "psize != NULL",
+      "after": "psize == NULL",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "cordtest"
+      ],
+      "id": "a425debb",
+      "kind": "wrong_variable",
+      "path": "cord/cordbscs.c",
+      "func": "CORD_extend_path",
+      "line": 851,
+      "before": "left_len",
+      "after": "top_len",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "gctest"
+      ],
+      "id": "b89915b3",
+      "kind": "toggle_negation",
+      "path": "ptr_chck.c",
+      "func": "GC_same_obj",
+      "line": 73,
+      "before": "if (HBLKPTR(p) != HBLKPTR(q)) {\n      /*\n       * Without this check, we might miss an error if `q` points to\n       * the first object on a page, and points just before the page.\n       */\n      GC_same_obj_print_proc((ptr_t)p, (ptr_t)q);\n      return p;\n    }",
+      "after": "if (!(HBLKPTR(p) != HBLKPTR(q))) {\n      /*\n       * Without this check, we might miss an error if `q` points to\n       * the first object on a page, and points just before the page.\n       */\n      GC_same_obj_print_proc((ptr_t)p, (ptr_t)q);\n      return p;\n    }",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "gctest",
+        "middletest"
+      ],
+      "id": "1f724e74",
+      "kind": "change_constant",
+      "path": "misc.c",
+      "func": "GC_init_size_map",
+      "line": 242,
+      "before": "0",
+      "after": "1",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "dbgfunctest"
+      ],
+      "id": "6b2bfd37",
+      "kind": "drop_null_check",
+      "path": "dbg_mlc.c",
+      "func": "debug_free_zero",
+      "line": 759,
+      "before": "  if (NULL == p)\n    return;\n\n",
+      "after": "",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "gctest"
+      ],
+      "id": "561c19d7",
+      "kind": "drop_if_block",
+      "path": "pthread_stop_world.c",
+      "func": "GC_is_thread_suspended",
+      "line": 822,
+      "before": "  if (t != NULL && (t->ext_suspend_cnt & 1) != 0)\n    is_suspended = (int)TRUE;\n",
+      "after": "",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "cordtest"
+      ],
+      "id": "b9ce6e22",
+      "kind": "swap_adjacent_statements",
+      "path": "cord/cordxtra.c",
+      "func": "CORD_str",
+      "line": 429,
+      "before": "x_buf <<= 8;\n    x_buf |= (unsigned char)CORD_pos_fetch(xpos);",
+      "after": "x_buf |= (unsigned char)CORD_pos_fetch(xpos);\n    x_buf <<= 8;",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "disclaim_bench",
+        "disclaimtest"
+      ],
+      "id": "9bdc61cb",
+      "kind": "off_by_one",
+      "path": "fnlz_mlc.c",
+      "func": "GC_finalized_malloc",
+      "line": 148,
+      "before": "(ptr_t *)op + 1",
+      "after": "(ptr_t *)op",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "gctest"
+      ],
+      "id": "0fc99d85",
+      "kind": "named_constant_swap",
+      "path": "typd_mlc.c",
+      "func": "GC_make_array_descriptor",
+      "line": 453,
+      "before": "SIMPLE",
+      "after": "LEAF",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "gctest"
+      ],
+      "id": "42a67daf",
+      "kind": "drop_if_block",
+      "path": "mallocx.c",
+      "func": "GC_realloc",
+      "line": 124,
+      "before": "    if (ok->ok_relocate_descr) {\n      descr += sz;\n    }\n",
+      "after": "",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "gctest"
+      ],
+      "id": "4f80f134",
+      "kind": "drop_null_check",
+      "path": "ptr_chck.c",
+      "func": "GC_is_valid_displacement",
+      "line": 120,
+      "before": "  if (NULL == hhdr)\n    return p;\n",
+      "after": "",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "disclaimtest",
+        "gctest",
+        "middletest",
+        "subthreadcreatetest",
+        "threadkeytest",
+        "threadleaktest",
+        "weakmaptest"
+      ],
+      "id": "62e9d579",
+      "kind": "flip_comparison",
+      "path": "pthread_support.c",
+      "func": "GC_release_mark_lock",
+      "line": 3250,
+      "before": "pthread_mutex_unlock(&mark_mutex) != 0",
+      "after": "pthread_mutex_unlock(&mark_mutex) == 0",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "cordtest",
+        "cpptest",
+        "dbgfunctest",
+        "disclaim_bench",
+        "disclaimtest",
+        "gctest",
+        "leaktest",
+        "middletest",
+        "subthreadcreatetest",
+        "threadkeytest",
+        "threadleaktest",
+        "typedtest",
+        "weakmaptest"
+      ],
+      "id": "da372712",
+      "kind": "swap_adjacent_statements",
+      "path": "malloc.c",
+      "func": "GC_generic_malloc_inner_small",
+      "line": 209,
+      "before": "lg = GC_size_map[lb];\n        GC_ASSERT(lg != 0);",
+      "after": "GC_ASSERT(lg != 0);\n        lg = GC_size_map[lb];",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "gctest",
+        "staticrootstest",
+        "threadleaktest"
+      ],
+      "id": "4d41b9b1",
+      "kind": "flip_comparison",
+      "path": "dyn_load.c",
+      "func": "GC_register_dynlib_callback",
+      "line": 578,
+      "before": "(p->p_flags & PF_W) == 0",
+      "after": "(p->p_flags & PF_W) != 0",
+      "crashes": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "cordtest",
+        "cpptest",
+        "disclaimtest",
+        "gctest",
+        "leaktest",
+        "staticrootstest",
+        "threadleaktest",
+        "treetest",
+        "typedtest",
+        "weakmaptest"
+      ],
+      "id": "e992eae8",
+      "kind": "drop_null_check",
+      "path": "reclaim.c",
+      "func": "GC_reclaim_all",
+      "line": 966,
+      "before": "    if (NULL == rlp)\n      continue;\n",
+      "after": "",
+      "crashes": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "dbgfunctest",
+        "leaktest",
+        "smashtest",
+        "staticrootstest",
+        "threadleaktest"
+      ],
+      "id": "32d075f5",
+      "kind": "swap_boolean_operator",
+      "path": "dbg_mlc.c",
+      "func": "GC_store_debug_info_inner",
+      "line": 245,
+      "before": "SMALL_OBJ(sz) && CROSSES_HBLK((ptr_t)base, sz)",
+      "after": "SMALL_OBJ(sz) || CROSSES_HBLK((ptr_t)base, sz)",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "cpptest",
+        "disclaimtest",
+        "gctest",
+        "typedtest"
+      ],
+      "id": "785514ee",
+      "kind": "wrong_variable",
+      "path": "mark.c",
+      "func": "GC_push_marked",
+      "line": 2160,
+      "before": "GC_mark_stack_top = mark_stack_top",
+      "after": "GC_mark_stack_top = mark_stack_limit",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "disclaimtest",
+        "gctest",
+        "threadleaktest",
+        "weakmaptest"
+      ],
+      "id": "9b6cbf59",
+      "kind": "drop_state_update",
+      "path": "pthread_stop_world.c",
+      "func": "GC_restart_all",
+      "line": 1398,
+      "before": "        n_live_threads++;\n",
+      "after": "",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "cpptest",
+        "gctest",
+        "subthreadcreatetest",
+        "threadkeytest",
+        "treetest"
+      ],
+      "id": "d3d053b2",
+      "kind": "drop_if_block",
+      "path": "malloc.c",
+      "func": "GC_free_internal",
+      "line": 803,
+      "before": "    if (ok->ok_init && LIKELY(lb > sizeof(ptr_t))) {\n      clear_ofs = sizeof(ptr_t);\n      clear_lb = lb - sizeof(ptr_t);\n    }\n",
+      "after": "",
+      "crashes": false
+    }
+  ],
+  "baseline_failing_names": [],
+  "causes": [
+    {
+      "file": "cord/cordxtra.c",
+      "function": "CORD_batched_chr_proc",
+      "qualname": "CORD_batched_chr_proc",
+      "id": "3ff2b22b",
+      "kind": "sibling_api_swap",
+      "breaks": [
+        "cordtest"
+      ]
+    },
+    {
+      "file": "fnlz_mlc.c",
+      "function": "GC_finalized_disclaim",
+      "qualname": "GC_finalized_disclaim",
+      "id": "595cbdff",
+      "kind": "off_by_one",
+      "breaks": [
+        "disclaim_bench",
+        "disclaimtest"
+      ]
+    },
+    {
+      "file": "os_dep.c",
+      "function": "GC_protect_heap",
+      "qualname": "GC_protect_heap",
+      "id": "20c257de",
+      "kind": "flip_comparison",
+      "breaks": [
+        "treetest"
+      ]
+    },
+    {
+      "file": "gcj_mlc.c",
+      "function": "GC_init_gcj_malloc_mp",
+      "qualname": "GC_init_gcj_malloc_mp",
+      "id": "a5acf563",
+      "kind": "flip_comparison",
+      "breaks": [
+        "dbgfunctest"
+      ]
+    },
+    {
+      "file": "pthread_start.c",
+      "function": "GC_pthread_start_inner",
+      "qualname": "GC_pthread_start_inner",
+      "id": "e93ab741",
+      "kind": "wrong_variable",
+      "breaks": [
+        "gctest"
+      ]
+    },
+    {
+      "file": "mark.c",
+      "function": "GC_push_unconditionally",
+      "qualname": "GC_push_unconditionally",
+      "id": "ebbb8c5a",
+      "kind": "named_constant_swap",
+      "breaks": [
+        "disclaimtest"
+      ]
+    },
+    {
+      "file": "cord/cordprnt.c",
+      "function": "extract_conv_spec",
+      "qualname": "extract_conv_spec",
+      "id": "0bee7103",
+      "kind": "drop_state_update",
+      "breaks": [
+        "cordtest"
+      ]
+    },
+    {
+      "file": "typd_mlc.c",
+      "function": "GC_calloc_do_explicitly_typed",
+      "qualname": "GC_calloc_do_explicitly_typed",
+      "id": "e463fecc",
+      "kind": "wrong_variable",
+      "breaks": [
+        "gctest"
+      ]
+    },
+    {
+      "file": "mallocx.c",
+      "function": "GC_get_kind_and_size",
+      "qualname": "GC_get_kind_and_size",
+      "id": "72d54478",
+      "kind": "flip_comparison",
+      "breaks": [
+        "gctest"
+      ]
+    },
+    {
+      "file": "cord/cordbscs.c",
+      "function": "CORD_extend_path",
+      "qualname": "CORD_extend_path",
+      "id": "a425debb",
+      "kind": "wrong_variable",
+      "breaks": [
+        "cordtest"
+      ]
+    },
+    {
+      "file": "ptr_chck.c",
+      "function": "GC_same_obj",
+      "qualname": "GC_same_obj",
+      "id": "b89915b3",
+      "kind": "toggle_negation",
+      "breaks": [
+        "gctest"
+      ]
+    },
+    {
+      "file": "misc.c",
+      "function": "GC_init_size_map",
+      "qualname": "GC_init_size_map",
+      "id": "1f724e74",
+      "kind": "change_constant",
+      "breaks": [
+        "gctest",
+        "middletest"
+      ]
+    },
+    {
+      "file": "dbg_mlc.c",
+      "function": "debug_free_zero",
+      "qualname": "debug_free_zero",
+      "id": "6b2bfd37",
+      "kind": "drop_null_check",
+      "breaks": [
+        "dbgfunctest"
+      ]
+    },
+    {
+      "file": "pthread_stop_world.c",
+      "function": "GC_is_thread_suspended",
+      "qualname": "GC_is_thread_suspended",
+      "id": "561c19d7",
+      "kind": "drop_if_block",
+      "breaks": [
+        "gctest"
+      ]
+    },
+    {
+      "file": "cord/cordxtra.c",
+      "function": "CORD_str",
+      "qualname": "CORD_str",
+      "id": "b9ce6e22",
+      "kind": "swap_adjacent_statements",
+      "breaks": [
+        "cordtest"
+      ]
+    },
+    {
+      "file": "fnlz_mlc.c",
+      "function": "GC_finalized_malloc",
+      "qualname": "GC_finalized_malloc",
+      "id": "9bdc61cb",
+      "kind": "off_by_one",
+      "breaks": [
+        "disclaim_bench",
+        "disclaimtest"
+      ]
+    },
+    {
+      "file": "typd_mlc.c",
+      "function": "GC_make_array_descriptor",
+      "qualname": "GC_make_array_descriptor",
+      "id": "0fc99d85",
+      "kind": "named_constant_swap",
+      "breaks": [
+        "gctest"
+      ]
+    },
+    {
+      "file": "mallocx.c",
+      "function": "GC_realloc",
+      "qualname": "GC_realloc",
+      "id": "42a67daf",
+      "kind": "drop_if_block",
+      "breaks": [
+        "gctest"
+      ]
+    },
+    {
+      "file": "ptr_chck.c",
+      "function": "GC_is_valid_displacement",
+      "qualname": "GC_is_valid_displacement",
+      "id": "4f80f134",
+      "kind": "drop_null_check",
+      "breaks": [
+        "gctest"
+      ]
+    },
+    {
+      "file": "pthread_support.c",
+      "function": "GC_release_mark_lock",
+      "qualname": "GC_release_mark_lock",
+      "id": "62e9d579",
+      "kind": "flip_comparison",
+      "breaks": [
+        "disclaimtest",
+        "gctest",
+        "middletest",
+        "subthreadcreatetest",
+        "threadkeytest",
+        "threadleaktest",
+        "weakmaptest"
+      ]
+    },
+    {
+      "file": "malloc.c",
+      "function": "GC_generic_malloc_inner_small",
+      "qualname": "GC_generic_malloc_inner_small",
+      "id": "da372712",
+      "kind": "swap_adjacent_statements",
+      "breaks": [
+        "cordtest",
+        "cpptest",
+        "dbgfunctest",
+        "disclaim_bench",
+        "disclaimtest",
+        "gctest",
+        "leaktest",
+        "middletest",
+        "subthreadcreatetest",
+        "threadkeytest",
+        "threadleaktest",
+        "typedtest",
+        "weakmaptest"
+      ]
+    },
+    {
+      "file": "dyn_load.c",
+      "function": "GC_register_dynlib_callback",
+      "qualname": "GC_register_dynlib_callback",
+      "id": "4d41b9b1",
+      "kind": "flip_comparison",
+      "breaks": [
+        "gctest",
+        "staticrootstest",
+        "threadleaktest"
+      ]
+    },
+    {
+      "file": "reclaim.c",
+      "function": "GC_reclaim_all",
+      "qualname": "GC_reclaim_all",
+      "id": "e992eae8",
+      "kind": "drop_null_check",
+      "breaks": [
+        "cordtest",
+        "cpptest",
+        "disclaimtest",
+        "gctest",
+        "leaktest",
+        "staticrootstest",
+        "threadleaktest",
+        "treetest",
+        "typedtest",
+        "weakmaptest"
+      ]
+    },
+    {
+      "file": "dbg_mlc.c",
+      "function": "GC_store_debug_info_inner",
+      "qualname": "GC_store_debug_info_inner",
+      "id": "32d075f5",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "dbgfunctest",
+        "leaktest",
+        "smashtest",
+        "staticrootstest",
+        "threadleaktest"
+      ]
+    },
+    {
+      "file": "mark.c",
+      "function": "GC_push_marked",
+      "qualname": "GC_push_marked",
+      "id": "785514ee",
+      "kind": "wrong_variable",
+      "breaks": [
+        "cpptest",
+        "disclaimtest",
+        "gctest",
+        "typedtest"
+      ]
+    },
+    {
+      "file": "pthread_stop_world.c",
+      "function": "GC_restart_all",
+      "qualname": "GC_restart_all",
+      "id": "9b6cbf59",
+      "kind": "drop_state_update",
+      "breaks": [
+        "disclaimtest",
+        "gctest",
+        "threadleaktest",
+        "weakmaptest"
+      ]
+    },
+    {
+      "file": "malloc.c",
+      "function": "GC_free_internal",
+      "qualname": "GC_free_internal",
+      "id": "d3d053b2",
+      "kind": "drop_if_block",
+      "breaks": [
+        "cpptest",
+        "gctest",
+        "subthreadcreatetest",
+        "threadkeytest",
+        "treetest"
+      ]
+    }
+  ],
+  "formatter_pass": {
+    "tool": null,
+    "formatted": [],
+    "raw": [
+      "cord/cordbscs.c",
+      "cord/cordprnt.c",
+      "cord/cordxtra.c",
+      "dbg_mlc.c",
+      "dyn_load.c",
+      "fnlz_mlc.c",
+      "gcj_mlc.c",
+      "malloc.c",
+      "mallocx.c",
+      "mark.c",
+      "misc.c",
+      "os_dep.c",
+      "pthread_start.c",
+      "pthread_stop_world.c",
+      "pthread_support.c",
+      "ptr_chck.c",
+      "reclaim.c",
+      "typd_mlc.c"
+    ]
+  },
+  "rebuild": "python3 build_task.py --faults-file <this file> --ids <args.ids> and the rest of args above; --base-dockerfile can be written out of base_dockerfile_text",
+  "baseline_failures": 0
+}

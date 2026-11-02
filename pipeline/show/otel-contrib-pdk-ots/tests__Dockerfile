@@ -1,0 +1,102 @@
+# syntax=docker/dockerfile:1
+# Verifier image (Harbor separate-verifier mode). Built from tests/ after the agent finishes.
+# Harbor starts it as a fresh container, copies the agent's final /workdir in (task.toml
+# `artifacts`), bind-mounts /logs/verifier and runs /tests/test.sh as root. The agent's container
+# is stopped by then and never receives anything from tests/.
+#
+# The toolchain section repeats environment/Dockerfile's interpreter and dependency layers
+# verbatim, so the candidate is observed with the interpreter and libraries it was written
+# against. Keep the two in step: `separate-verifier.py parity` compares the built images.
+# Change environment/Dockerfile only when the solver really needs it; its bytes key the QC cache.
+
+# --- Toolchain (from environment/Dockerfile) ---
+# otel-contrib-pdk-ots. /workdir carries open-telemetry/opentelemetry-python-contrib at
+# 1192425cdc7be548a1f50e59cef0c13424fdfbad with its documentation curation and the selected implementation
+# drift already applied; the tree is shipped in this build context (environment/solver).
+# Runtime has no network: everything solve-time and grade-time is installed here with exact versions.
+# Base image and dependency set are the colleague original's (pdk-drift-repository-0fc024cbd7cb v1): the
+# same Python 3.11 image digest, `uv sync --frozen --all-extras --all-groups` of the pinned uv.lock (every
+# workspace member installed editable from /workdir/<member>/src, with its console scripts and entry
+# points), then the versions the original image's `pip install -r dev-requirements.txt` resolved to.
+FROM python@sha256:2e32f7d302adc1c37428355c1e646897c0c53f4fd60b6a551245fb90ee129f91
+
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_INPUT=1 PIP_NO_CACHE_DIR=1
+ENV UV_NO_CACHE=1 UV_PYTHON=/opt/venv/bin/python UV_PYTHON_DOWNLOADS=never
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONHASHSEED=0
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH=/opt/venv/bin:$PATH
+ENV SOURCE_DATE_EPOCH=0
+
+# --- Agent harness prerequisites (driftflow/harness.py, ISSUE-103) ---
+# Harbor's agent opens a tmux session in this container and drives the solver through it.
+# Without tmux every rollout dies at agent setup. Debian ships *.patch files under
+# /usr/share/doc, which isolation probes that walk the filesystem flag; drop the docs here.
+# The build and client libraries are the original's (mysqlclient and psycopg2 build from source).
+RUN apt-get update -qq \
+    && apt-get install -y -qq --no-install-recommends \
+        asciinema build-essential ca-certificates curl default-libmysqlclient-dev git libpq-dev pkg-config tmux \
+    && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man
+# Fail the BUILD, not a paid cohort.
+RUN command -v git && command -v tmux \
+    && tmux -V \
+    && tmux -L harbor-build-smoke new-session -d -s smoke 'sleep 30' \
+    && tmux -L harbor-build-smoke has-session -t smoke \
+    && tmux -L harbor-build-smoke kill-server
+
+# Keep the toolchain visible to login shells (`bash -lc`), not just `ENV`.
+RUN printf 'export VIRTUAL_ENV="/opt/venv"\nexport PATH="/opt/venv/bin:$PATH"\nexport PYTHONDONTWRITEBYTECODE="1"\nexport PYTHONHASHSEED="0"\nexport TZ="UTC"\nexport UV_PYTHON="/opt/venv/bin/python"\nexport UV_PYTHON_DOWNLOADS="never"\nexport UV_NO_CACHE="1"\n' \
+      > /etc/profile.d/00-otel-contrib.sh && chmod 0644 /etc/profile.d/00-otel-contrib.sh
+
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/python -m pip install --no-cache-dir 'pip==25.2' 'setuptools==75.8.2' 'wheel==0.45.1' 'uv==0.12.3'
+
+# --- Dependencies. The pinned checkout is fetched only to resolve the workspace and is removed again:
+# the editable installs point at /workdir/<member>/src, which the solver tree (below) or, in the verifier
+# image, the graded artifact provides. The second step pins the extra tools the original image's
+# `pip install -r dev-requirements.txt` resolved to (pytest 7.4.4, requests 2.33.1, pylint, sphinx, ruff, ...).
+RUN set -eu; \
+    git init -q /workdir; \
+    cd /workdir; \
+    git remote add origin https://github.com/open-telemetry/opentelemetry-python-contrib.git; \
+    git fetch -q --depth 1 origin 1192425cdc7be548a1f50e59cef0c13424fdfbad; \
+    git checkout -q FETCH_HEAD; \
+    UV_PROJECT_ENVIRONMENT=/opt/venv uv sync --frozen --all-extras --all-groups; \
+    /opt/venv/bin/python -m pip install --no-cache-dir --no-deps \
+        'alabaster==0.7.16' 'astroid==4.0.4' 'babel==2.18.0' 'bleach==4.1.0' 'codespell==2.1.0' \
+        'coverage==7.16.2' 'dill==0.4.1' 'docutils==0.20.1' 'flaky==3.7.0' 'imagesize==2.0.1' \
+        'iniconfig==2.3.0' 'isort==8.0.1' 'mccabe==0.7.0' 'nh3==0.3.7' 'pre-commit==3.7.0' \
+        'pylint==4.0.5' 'pyright==1.1.404' 'pytest==7.4.4' 'pytest-cov==4.1.0' 'readme-renderer==42.0' \
+        'requests==2.33.1' 'ruamel.yaml==0.17.21' 'ruff==0.16.0' 'snowballstemmer==3.1.1' 'sphinx==7.1.2' \
+        'sphinx-autodoc-typehints==1.25.2' 'sphinx-rtd-theme==2.0.0rc4' 'sphinxcontrib-applehelp==2.0.0' \
+        'sphinxcontrib-devhelp==2.0.0' 'sphinxcontrib-htmlhelp==2.1.0' 'sphinxcontrib-jquery==4.1' \
+        'sphinxcontrib-jsmath==1.0.1' 'sphinxcontrib-qthelp==2.0.0' 'sphinxcontrib-serializinghtml==2.0.0' \
+        'tomlkit==0.15.1' 'webencodings==0.6.1'; \
+    cd /; \
+    rm -rf /workdir /root/.cache /tmp/* /var/tmp/*; \
+    find /opt/venv -depth \( -name __pycache__ -o -name '*.pyc' \) -exec rm -rf -- {} +
+
+RUN useradd -m -u 1000 -s /bin/bash agent 2>/dev/null || true \
+    && git config --system --add safe.directory /workdir
+
+# --- Verifier ---
+# No extra packages: the grader's observation children import the candidate's instrumentation packages
+# (the editable-install .pth entries for /workdir/<member>/src are swapped for the same directories of a
+# staged copy of /workdir, appended after the standard library and site-packages) with the same
+# interpreter and libraries as the solver image. Seal that interpreter as the solver image does: keep the
+# venv root-owned and not group/other-writable.
+RUN chown -R root:root /opt/venv \
+    && chmod -R go-w /opt/venv \
+    && /opt/venv/bin/python -c "import requests, urllib3, httpx, aiohttp, wrapt, opentelemetry.sdk.trace; print('verifier interpreter sealed')"
+
+# The grader, its private material and the reward writer, root-only: candidate code that the
+# grader runs as an unprivileged user must not read them. /workdir stays empty in the image;
+# it arrives as the agent's artifact.
+COPY . /tests
+RUN rm -f /tests/Dockerfile \
+    && chown -R root:root /tests \
+    && chmod -R go-rwx /tests \
+    && mkdir -p /workdir /logs/verifier
+
+WORKDIR /workdir
+CMD ["sh", "-c", "sleep infinity"]

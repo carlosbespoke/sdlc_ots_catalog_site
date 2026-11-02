@@ -1,0 +1,49 @@
+# Verifier image (separate verifier container): the same pinned terraform, provider mirror and conftest as the
+# agent image, hcl2json, the family grader and this task's spec, the pristine state, the probe states and var files,
+# the verifier's own copy of the policy pack and trusted copies of the protected files. The agent's /workspace/infra is
+# copied in as an artifact before /tests/test.sh runs.
+FROM debian:bookworm-slim@sha256:3783cc01769c7b2b1b83a5c5ad96c815348e28ed7da68e2e3687004faa906251
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends ca-certificates curl python3 unzip \
+ && rm -rf /var/lib/apt/lists/*
+
+# Shared tooling layer, identical in the agent image (environment/Dockerfile) and the verifier image
+# (tests/Dockerfile): pinned terraform, the providers of the lock file in an unpacked filesystem mirror, conftest.
+ARG TERRAFORM_VERSION=1.16.4
+ARG TERRAFORM_SHA256=dc94af0eef1147718ad7c8daea792ed199e3e0492eec180d0adafa2a65a879df
+ARG CONFTEST_VERSION=0.70.1
+ARG CONFTEST_SHA256=613d124b8f6c1f3cee890491f7ab19114cca5a2102ca47cb2e6c35b4c23f9c8a
+RUN set -eux; \
+    curl -fsSLo /tmp/terraform.zip "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip"; \
+    echo "${TERRAFORM_SHA256}  /tmp/terraform.zip" | sha256sum -c -; \
+    unzip -q /tmp/terraform.zip -d /usr/local/bin; \
+    rm -f /tmp/terraform.zip; \
+    mkdir -p /opt/terraform/mirror/registry.terraform.io/hashicorp/archive/2.8.1/linux_amd64; curl -fsSLo /tmp/p.zip https://releases.hashicorp.com/terraform-provider-archive/2.8.1/terraform-provider-archive_2.8.1_linux_amd64.zip; echo "50f0e72ba53bfe6e11b03b7fc899e1f72536354381d302a743a274ae2a3f45f4  /tmp/p.zip" | sha256sum -c -; unzip -q /tmp/p.zip -d /opt/terraform/mirror/registry.terraform.io/hashicorp/archive/2.8.1/linux_amd64; rm -f /tmp/p.zip; \
+    mkdir -p /opt/terraform/mirror/registry.terraform.io/hashicorp/aws/5.100.0/linux_amd64; curl -fsSLo /tmp/p.zip https://releases.hashicorp.com/terraform-provider-aws/5.100.0/terraform-provider-aws_5.100.0_linux_amd64.zip; echo "1589a2266af699cbd5d80737a0fe02e54ec9cf2ca54e7e00ac51c7359056f274  /tmp/p.zip" | sha256sum -c -; unzip -q /tmp/p.zip -d /opt/terraform/mirror/registry.terraform.io/hashicorp/aws/5.100.0/linux_amd64; rm -f /tmp/p.zip; \
+    chmod -R a+rX /opt/terraform; \
+    curl -fsSLo /tmp/conftest.tgz "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz"; \
+    echo "${CONFTEST_SHA256}  /tmp/conftest.tgz" | sha256sum -c -; \
+    tar -xzf /tmp/conftest.tgz -C /usr/local/bin conftest; \
+    rm -f /tmp/conftest.tgz; \
+    terraform version; conftest --version
+COPY terraformrc /etc/terraformrc
+ENV TF_CLI_CONFIG_FILE=/etc/terraformrc \
+    CHECKPOINT_DISABLE=1 \
+    AWS_EC2_METADATA_DISABLED=true
+
+ARG HCL2JSON_VERSION=0.6.9
+ARG HCL2JSON_SHA256=b609e37094948c0b77cd8c6c0baaf8af2bd168c685c6e3334d671cc9692c34a5
+RUN set -eux; \
+    curl -fsSLo /usr/local/bin/hcl2json "https://github.com/tmccombs/hcl2json/releases/download/v${HCL2JSON_VERSION}/hcl2json_linux_amd64"; \
+    echo "${HCL2JSON_SHA256}  /usr/local/bin/hcl2json" | sha256sum -c -; \
+    chmod 0755 /usr/local/bin/hcl2json
+
+COPY . /tests/
+RUN chmod 0700 /tests \
+ && chmod 0755 /tests/test.sh \
+ && mkdir -p /workspace /logs/verifier \
+ && python3 -m py_compile /tests/grade.py \
+ && python3 -c 'import json; json.load(open("/tests/spec.json"))' \
+ && rm -rf /tests/__pycache__

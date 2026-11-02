@@ -1,0 +1,371 @@
+[
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from '@tanstack/form-core';\nimport type { AnyDeepKeyAndValue, ArrayDeepKeyAndValue } from '@tanstack/form-core';\nexport async function run() {\nconst form=new FormApi({defaultValues:{settings:{color:'blue'}}});form.mount();const entry: AnyDeepKeyAndValue<'settings.color',string>={key:'settings.color',value:form.getFieldValue('settings.color')};return obs(entry.value);\n}\n",
+  "id": "OBS-0001"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from '@tanstack/form-core';\nimport type { AnyDeepKeyAndValue, ArrayDeepKeyAndValue } from '@tanstack/form-core';\nexport async function run() {\nconst form=new FormApi({defaultValues:{rows:[{score:12},{score:27}]}});form.mount();const entry: ArrayDeepKeyAndValue<AnyDeepKeyAndValue<'rows',any>,any>={key:'rows[1]',value:form.getFieldValue('rows[1]')};return obs(entry.value);\n}\n",
+  "id": "OBS-0002"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { deepCopy } from '@tanstack/form-core';\nexport async function run() {\nconst original={items:[{count:3}],nested:{label:'initial'}};const copy=deepCopy(original);original.items[0].count=9;original.nested.label='changed';return obs(copy);\n}\n",
+  "id": "OBS-0003"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { deepCopy } from '@tanstack/form-core';\nexport async function run() {\nconst original=[{inner:[4,5]}];const copy=deepCopy(original);copy[0].inner.push(6);return obs(original);\n}\n",
+  "id": "OBS-0004"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { evaluate } from '@tanstack/form-core';\nexport async function run() {\nreturn obs([evaluate({nested:{a:1},list:[2,3]},{nested:{a:1},list:[2,3]}),evaluate({nested:{a:1}},{nested:{a:2}})]);\n}\n",
+  "id": "OBS-0005"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { createFieldMap } from '@tanstack/form-core';\nexport async function run() {\nconst values=Object.assign(Object.create({inherited:12}),{first:0,second:false});Object.defineProperty(values,'hidden',{value:8,enumerable:false});return obs(createFieldMap(values));\n}\n",
+  "id": "OBS-0006"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FieldApi } from '@tanstack/form-core';\nimport type { FieldInfo, FieldLikeAPI, FieldLikeMetaBase, FieldLikeState } from '@tanstack/form-core';\nexport async function run() {\nconst form=new FormApi({defaultValues:{score:6}});form.mount();const field: FieldLikeAPI<any>=new FieldApi({form,name:'score'});const cleanup=field.mount();field.setMeta(m=>({...m,isTouched:true}));const meta: FieldLikeMetaBase<any>=field.getMeta();const state: FieldLikeState<any>=field.state;const info: FieldInfo<any>=field.getInfo();const registeredValue=info.instance?.state.value;const before=[field.name,state.value,meta.isTouched,registeredValue];cleanup();return obs(before);\n}\n",
+  "id": "OBS-0007"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FieldApi, FieldGroupApi } from '@tanstack/form-core';\nexport async function run() {\nconst form=new FormApi({defaultValues:{x:'old'}});form.mount();const field=new FieldApi({form,name:'x'});field.mount();field.setValue('new',{dontValidate:true});const value=field.getValue();field.setErrorMap({onBlur:'blur issue'});return obs([value,field.getMeta().errorMap.onBlur]);\n}\n",
+  "id": "OBS-0008"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { formOptions } from '@tanstack/form-core';\nexport async function run() {\nconst options=formOptions({defaultValues:{name:'Ada',active:false},onSubmitMeta:{source:'manual'}});return obs([options.defaultValues,options.onSubmitMeta]);\n}\n",
+  "id": "OBS-0009"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { isGlobalFormValidationError } from '@tanstack/form-core';\nimport type { GlobalFormValidationError } from '@tanstack/form-core';\nexport async function run() {\nconst error: GlobalFormValidationError<any>={form:'invalid',fields:{name:'required'}};return obs([isGlobalFormValidationError(error),isGlobalFormValidationError({}),isGlobalFormValidationError(null)]);\n}\n",
+  "id": "OBS-0010"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FieldApi, FieldGroupApi } from '@tanstack/form-core';\nimport type { FormLikeAPI, UpdateMetaOptions, ValidationCause } from '@tanstack/form-core';\nexport async function run() {\nconst form=new FormApi({defaultValues:{profile:{x:4},other:9}});form.mount();const field=new FieldApi({form,name:'profile.x'});field.mount();const group: FormLikeAPI<any>=new FieldGroupApi({form,fields:{alias:'profile.x'}});group.setFieldMeta('alias',m=>({...m,isTouched:true}));const meta=group.getFieldMeta('alias');return obs([group.getFieldValue('alias'),meta?.isTouched,form.getFieldValue('other')]);\n}\n",
+  "id": "OBS-0011"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FieldApi, FieldGroupApi } from '@tanstack/form-core';\nexport async function run() {\nconst form=new FormApi({defaultValues:{profile:{x:2}}});form.mount();const group=new FieldGroupApi({form,fields:'profile'});const cleanup=group.mount();cleanup();form.setFieldValue('profile.x',7,{dontValidate:true});return obs(group.state.values);\n}\n",
+  "id": "OBS-0012"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, mergeForm } from '@tanstack/form-core';\nexport async function run() {\nconst form=new FormApi({defaultValues:{x:1,y:2}});form.mount();const merged=mergeForm(form,{values:{x:8},isSubmitted:true});return obs([merged.state.values.x,merged.state.isSubmitted]);\n}\n",
+  "id": "OBS-0013"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { isStandardSchemaValidator } from '@tanstack/form-core';\nimport type { StandardSchemaV1 } from '@tanstack/form-core';\nexport async function run() {\nconst schema: StandardSchemaV1={'~standard':{version:1,vendor:'case',validate:value=>({value})}};return obs([isStandardSchemaValidator(schema),isStandardSchemaValidator({validate:()=>({value:3})}),isStandardSchemaValidator(null)]);\n}\n",
+  "id": "OBS-0014"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { uuid, FormApi, FieldApi } from '@tanstack/form-core';\nexport async function run() {\nconst random = Math.random;\nlet key: string;\ntry {\n  Math.random = () => 0.5;\n  key = uuid();\n} finally {\n  Math.random = random;\n}\nconst form = new FormApi({defaultValues: {[key]: 'stored under generated name'}});\nform.mount();\nconst field = new FieldApi({form, name: key});\nfield.mount();\nreturn obs(field.state.value);\n}\n",
+  "id": "OBS-0015"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nimport type {FormOptions} from \"@tanstack/form-core\";\nexport async function run() {\nconst options: FormOptions<any> = {defaultValues:{name:\"Ada\",items:[2,7]}}; const form=new FormApi(options); return obs(form.state.values);\n}\n",
+  "id": "OBS-0016"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst seen=[]; const form=new FormApi({defaultValues:{x:1},onSubmitMeta:\"fallback\",onSubmit:({meta})=>{seen.push(meta)}});form.mount(); await form.handleSubmit(); await form.handleSubmit(null as any); await form.handleSubmit(false as any); return obs(seen);\n}\n",
+  "id": "OBS-0017"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nimport type {FieldLikeApiOptions} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{}});form.mount();const options: FieldLikeApiOptions<any,any,any>={form,name:\"x\",defaultValue:0,defaultMeta:{isBlurred:true}};const field=new FieldApi(options);field.mount();return obs([field.state.value,field.state.meta.isBlurred]);\n}\n",
+  "id": "OBS-0018"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{x:\"ok\"}});form.mount();const field=new FieldApi({form,name:\"x\",disableErrorFlat:true});field.mount();field.setMeta(m=>({...m,errorMap:{onBlur:[\"first\",\"second\"]}}));return obs(field.state.meta.errors);\n}\n",
+  "id": "OBS-0019"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst seen=[];const form=new FormApi({defaultValues:{a:4,b:{c:9}},onSubmitMeta:\"parent\",onSubmit:({meta})=>{seen.push(meta)}});form.mount();const group=new FieldGroupApi({form,fields:{first:\"a\",second:\"b.c\"},defaultValues:{first:100,second:200},onSubmitMeta:\"ignored\"});await group.handleSubmit();return obs([group.state.values,seen]);\n}\n",
+  "id": "OBS-0020"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{nested:{x:1},other:2}}});form.mount();const group=new FieldGroupApi({form,fields:\"g\"});const child=new FieldGroupApi({form:group,fields:\"nested\"});form.setFieldValue(\"g.nested.x\",8,{dontValidate:true});return obs([group.state.values,child.state.values]);\n}\n",
+  "id": "OBS-0021"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nimport type {FieldListenerFn} from \"@tanstack/form-core\";\nexport async function run() {\nconst seen={mount:[],change:[],blur:[],submit:[],unmount:[]};const form=new FormApi({defaultValues:{x:\"start\"}});form.mount();const listener=(key)=>(({value,fieldApi})=>{seen[key].push([value,fieldApi.state.value])});const onMount: FieldListenerFn<any,any,any>=listener(\"mount\");const field=new FieldApi({form,name:\"x\",listeners:{onMount,onChange:listener(\"change\"),onBlur:listener(\"blur\"),onSubmit:listener(\"submit\"),onUnmount:listener(\"unmount\")}});const cleanup=field.mount();field.setValue(\"next\",{dontValidate:true});field.handleBlur();await form.handleSubmit();cleanup();return obs(seen);\n}\n",
+  "id": "OBS-0022"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst seen=[];const form=new FormApi({defaultValues:{g:{x:3}}});form.mount();const group=new FormGroupApi({form,name:\"g\"});group.mount();const field=new FieldApi({form,name:\"g.x\",listeners:{onGroupSubmit:({value})=>{seen.push(value)}}});field.mount();await group.handleSubmit();return obs(seen);\n}\n",
+  "id": "OBS-0023"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nimport type {FieldLikeOptions,FieldLikeMeta} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{x:\"bad\"}});form.mount();const seen=[];const options:FieldLikeOptions<any,any,any>={name:\"x\",asyncAlways:true};const field=new FieldApi({...options,form,validators:{onBlur:()=>\"sync\",onBlurAsync:async ({value})=>{seen.push(value);return \"async\"}}});field.mount();field.setMeta(m=>({...m,isTouched:true}));await field.validate(\"blur\");const meta:FieldLikeMeta<any,any,any>=field.state.meta;return obs([seen,meta.errorMap.onBlur]);\n}\n",
+  "id": "OBS-0024"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{}});form.mount();const field=new FieldApi({form,name:\"n\",defaultValue:false,defaultMeta:{isBlurred:true}});field.mount();return obs([field.state.value,field.state.meta.isBlurred]);\n}\n",
+  "id": "OBS-0025"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi,FieldApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{x:\"short\"}});form.mount();const seen=[];const schema={\"~standard\":{version:1,vendor:\"fixture\",validate:(value)=>{seen.push(value);return {issues:[{message:\"schema-error\"}]}}}};const api=new FieldApi({form,name:\"x\",validators:{onBlur:schema}});api.mount();api.setMeta(m=>({...m,isTouched:true}));await api.validate(\"blur\");return obs([seen,api.state.meta.errors]);\n}\n",
+  "id": "OBS-0026"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi,FieldApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{x:\"short\"}});form.mount();const seen=[];const schema={\"~standard\":{version:1,vendor:\"fixture\",validate:async (value)=>{seen.push(value);return {issues:[{message:\"schema-error\"}]}}}};const api=new FieldApi({form,name:\"x\",validators:{onBlurAsync:schema}});api.mount();api.setMeta(m=>({...m,isTouched:true}));await api.validate(\"blur\");return obs([seen,api.state.meta.errors]);\n}\n",
+  "id": "OBS-0027"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nimport type {FieldValidateOrFn,FieldAsyncValidateOrFn} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{x:\"input\"}});form.mount();const field=new FieldApi({form,name:\"x\",validators:{onMount:({value})=>\"mount:\"+value}});field.mount();return obs(field.state.meta.errorMap.onMount);\n}\n",
+  "id": "OBS-0028"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nimport type {FieldValidateOrFn,FieldAsyncValidateOrFn} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{x:\"input\"}});form.mount();const seen=[];const field=new FieldApi({form,name:\"x\",validators:{onChange:({value})=>{seen.push(\"sync:\"+value);return undefined},onChangeAsync:async ({value})=>{seen.push(\"async:\"+value);return \"change-error\"}}});field.mount();field.setMeta(m=>({...m,isTouched:true}));await field.validate(\"change\");return obs([seen,field.state.meta.errorMap.onChange]);\n}\n",
+  "id": "OBS-0029"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nimport type {FieldValidateOrFn,FieldAsyncValidateOrFn} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{x:\"input\"}});form.mount();const seen=[];const field=new FieldApi({form,name:\"x\",validators:{onBlur:({value})=>{seen.push(\"sync:\"+value);return undefined},onBlurAsync:async ({value})=>{seen.push(\"async:\"+value);return \"blur-error\"}}});field.mount();field.setMeta(m=>({...m,isTouched:true}));await field.validate(\"blur\");return obs([seen,field.state.meta.errorMap.onBlur]);\n}\n",
+  "id": "OBS-0030"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nimport type {FieldValidateOrFn,FieldAsyncValidateOrFn} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{x:\"input\"}});form.mount();const seen=[];const field=new FieldApi({form,name:\"x\",validators:{onSubmit:({value})=>{seen.push(\"sync:\"+value);return undefined},onSubmitAsync:async ({value})=>{seen.push(\"async:\"+value);return \"submit-error\"}}});field.mount();field.setMeta(m=>({...m,isTouched:true}));await field.validate(\"submit\");return obs([seen,field.state.meta.errorMap.onSubmit]);\n}\n",
+  "id": "OBS-0031"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{x:1}}});form.mount();const seen=[];const group=new FormGroupApi({form,name:\"g\",asyncAlways:true,validators:{onSubmit:()=>\"sync\",onSubmitAsync:async ({value})=>{seen.push(value);return \"async\"}}});group.mount();await group.validate(\"submit\");return obs([seen,group.state.meta.errorMap.onSubmit]);\n}\n",
+  "id": "OBS-0032"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{x:1}}});form.mount();const group=new FormGroupApi({form,name:\"g\",disableErrorFlat:false,validators:{onMount:()=>[\"a\",\"b\"]}});group.mount();return obs(group.state.meta.errors);\n}\n",
+  "id": "OBS-0033"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi,FieldApi,FormGroupApi,revalidateLogic} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{x:1}}});form.mount();const group=new FormGroupApi({form,name:\"g\",disableErrorFlat:true,validators:{onMount:()=>[\"one\",\"two\"]}});group.mount();return obs(group.state.meta.errors);\n}\n",
+  "id": "OBS-0034"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi,FieldApi,FormGroupApi,revalidateLogic} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{x:1}}});form.mount();const group=new FormGroupApi({form,name:\"g\"});group.mount();const field=new FieldApi({form,name:\"g.x\"});field.mount();group.setMeta(m=>({...m,errorMap:{onBlur:{fields:{x:\"child\"}}}}));return obs(group.state.meta.errors);\n}\n",
+  "id": "OBS-0035"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nimport type {FormGroupListenerFn} from \"@tanstack/form-core\";\nexport async function run() {\nconst seen={mount:[],change:[],blur:[],submit:[],groupSubmit:[],unmount:[]};const form=new FormApi({defaultValues:{g:{x:1}}});form.mount();const listener=(key)=>(({value,groupApi})=>{seen[key].push([value,groupApi.state.value])});const onMount:FormGroupListenerFn<any,any,any>=listener(\"mount\");const group=new FormGroupApi({form,name:\"g\",listeners:{onMount,onChange:listener(\"change\"),onBlur:listener(\"blur\"),onSubmit:listener(\"submit\"),onGroupSubmit:listener(\"groupSubmit\"),onUnmount:listener(\"unmount\")}});const cleanup=group.mount();group.setValue({x:2},{dontValidate:true});await group.validate(\"blur\");await group.handleSubmit();cleanup();return obs(seen);\n}\n",
+  "id": "OBS-0036"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{x:1,y:2},outside:3}});form.mount();const group=new FormGroupApi({form,name:\"g\"});group.mount();const a=new FieldApi({form,name:\"g.x\"});a.mount();const b=new FieldApi({form,name:\"g.y\"});b.mount();const o=new FieldApi({form,name:\"outside\"});o.mount();o.setValue(4,{dontValidate:true});group.setMeta(m=>({...m,isTouched:true,isBlurred:true,isDirty:true}));const pick=()=>{const m=group.state.meta;return [m.isTouched,m.isBlurred,m.isDirty,m.isPristine,m.isDefaultValue]};const before=pick();a.setValue(8,{dontValidate:true});a.handleBlur();return obs([before,pick()]);\n}\n",
+  "id": "OBS-0037"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{x:1}}});form.mount();const group=new FormGroupApi({form,name:\"g\",validators:{onSubmit:()=>({group:[\"one\",\"two\"],fields:{x:\"child-error\"}})}});group.mount();const field=new FieldApi({form,name:\"g.x\"});field.mount();await group.validate(\"submit\");const m=group.state.meta;return obs([m.errors,field.state.meta.errors,m.isFieldsValid,m.isGroupValid,m.isValid]);\n}\n",
+  "id": "OBS-0038"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst seen=[];const form=new FormApi({defaultValues:{g:{x:5}}});form.mount();const group=new FormGroupApi({form,name:\"g\",onSubmitMeta:\"default\",onGroupSubmit:({value,meta})=>{seen.push([value,meta])}});group.mount();await group.handleSubmit();await group.handleSubmit(0 as any);return obs(seen);\n}\n",
+  "id": "OBS-0039"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst seen={valid:[],invalid:[]};const form=new FormApi({defaultValues:{g:{x:5}}});form.mount();const group=new FormGroupApi({form,name:\"g\",canSubmitWhenInvalid:true,onSubmitMeta:\"fallback\",validators:{onSubmit:()=>\"no\"},onGroupSubmit:({meta})=>{seen.valid.push(meta)},onGroupSubmitInvalid:({value,meta})=>{seen.invalid.push([value,meta])}});group.mount();await group.handleSubmit(null as any);return obs([group.state.meta.canSubmit,seen]);\n}\n",
+  "id": "OBS-0040"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi,FormGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:\"short\"}});form.mount();const seen=[];const schema={\"~standard\":{version:1,vendor:\"fixture\",validate:(value)=>{seen.push(value);return {issues:[{message:\"schema-error\"}]}}}};const api=new FormGroupApi({form,name:\"g\",validators:{onBlur:schema}});api.mount();await api.validate(\"blur\");return obs([seen,api.state.meta.errors]);\n}\n",
+  "id": "OBS-0041"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi,FormGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:\"short\"}});form.mount();const seen=[];const schema={\"~standard\":{version:1,vendor:\"fixture\",validate:async (value)=>{seen.push(value);return {issues:[{message:\"schema-error\"}]}}}};const api=new FormGroupApi({form,name:\"g\",validators:{onBlurAsync:schema}});api.mount();await api.validate(\"blur\");return obs([seen,api.state.meta.errors]);\n}\n",
+  "id": "OBS-0042"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nimport type {FormGroupMeta} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{x:1}}});form.mount();const group=new FormGroupApi({form,name:\"g\"});group.mount();await group.handleSubmit();const pick=()=>{const meta:FormGroupMeta<any,any,any>=group.state.meta;return [meta.isSubmitted,meta.isSubmitting,meta.isSubmitSuccessful,meta.submissionAttempts]};const first=pick();await group.handleSubmit();return obs([first,pick()]);\n}\n",
+  "id": "OBS-0043"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{x:1}}});form.mount();let release;let entered;const ready=new Promise(r=>{entered=r});const gate=new Promise(r=>{release=r});const group=new FormGroupApi({form,name:\"g\",onGroupSubmit:async ()=>{entered();await gate}});group.mount();const pending=group.handleSubmit();await ready;const during=[group.state.meta.isSubmitting,group.state.meta.isSubmitted];release();await pending;return obs([during,group.state.meta.isSubmitting,group.state.meta.isSubmitted]);\n}\n",
+  "id": "OBS-0044"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{x:1},other:7}});form.mount();const group=new FormGroupApi({form,name:\"g\"});group.mount();const field=new FieldApi({form,name:\"g.x\",validators:{onSubmit:()=>\"child\"}});field.mount();form.setFieldValue(\"g.x\",9,{dontValidate:true});await group.handleSubmit();const m=group.state.meta;return obs([group.state.value,m.isGroupValid,m.isFieldsValid,m.isValid,m.isSubmitted,m.isSubmitting]);\n}\n",
+  "id": "OBS-0045"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi,FieldApi,FormGroupApi,revalidateLogic} from \"@tanstack/form-core\";\nexport async function run() {\nlet invalid=false;const form=new FormApi({defaultValues:{g:{x:1}}});form.mount();const group=new FormGroupApi({form,name:\"g\",validators:{onSubmit:()=>invalid ? \"bad\" : undefined}});group.mount();await group.handleSubmit();invalid=true;await group.handleSubmit();const m=group.state.meta;return obs([m.isSubmitted,m.isSubmitting,m.isSubmitSuccessful,m.submissionAttempts]);\n}\n",
+  "id": "OBS-0046"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi,FieldApi,FormGroupApi,revalidateLogic} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{x:1}}});form.mount();const group=new FormGroupApi({form,name:\"g\",onGroupSubmit:async ()=>{throw new Error(\"fixture failure\")}});group.mount();const result=await outcomeAsync(()=>group.handleSubmit());const m=group.state.meta;return obs([result.err !== undefined,m.isSubmitted,m.isSubmitting,m.isSubmitSuccessful,m.submissionAttempts]);\n}\n",
+  "id": "OBS-0047"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi,FieldApi,FormGroupApi,revalidateLogic} from \"@tanstack/form-core\";\nexport async function run() {\nconst seen=[];const form=new FormApi({defaultValues:{g:{x:1}},validationLogic:revalidateLogic({mode:\"blur\"})});form.mount();const group=new FormGroupApi({form,name:\"g\",validators:{onDynamic:({value})=>{seen.push(value);return \"dynamic\"}}});group.mount();await group.validate(\"change\");const before=seen.slice();await group.validate(\"blur\");return obs([before,seen,group.state.meta.errorMap.onDynamic]);\n}\n",
+  "id": "OBS-0048"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi,FieldApi,FormGroupApi,revalidateLogic} from \"@tanstack/form-core\";\nexport async function run() {\nconst seen=[];const form=new FormApi({defaultValues:{g:{x:1}},validationLogic:revalidateLogic({mode:\"blur\"})});form.mount();const group=new FormGroupApi({form,name:\"g\",validationLogic:revalidateLogic({mode:\"change\"}),validators:{onDynamicAsync:async ({value})=>{seen.push(value);return \"async-dynamic\"}}});group.mount();await group.validate(\"change\");return obs([seen,group.state.meta.errorMap.onDynamic]);\n}\n",
+  "id": "OBS-0049"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nimport type {FormGroupValidateOrFn,FormGroupAsyncValidateOrFn} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{x:\"input\"}}});form.mount();const group=new FormGroupApi({form,name:\"g\",validators:{onMount:({value})=>\"mount:\"+value.x}});group.mount();return obs(group.state.meta.errorMap.onMount);\n}\n",
+  "id": "OBS-0050"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nimport type {FormGroupValidateOrFn,FormGroupAsyncValidateOrFn} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{x:\"input\"}}});form.mount();const seen=[];const group=new FormGroupApi({form,name:\"g\",validators:{onChange:({value})=>{seen.push(\"sync:\"+value.x);return undefined},onChangeAsync:async ({value})=>{seen.push(\"async:\"+value.x);return \"change-error\"}}});group.mount();await group.validate(\"change\");return obs([seen,group.state.meta.errorMap.onChange]);\n}\n",
+  "id": "OBS-0051"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nimport type {FormGroupValidateOrFn,FormGroupAsyncValidateOrFn} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{x:\"input\"}}});form.mount();const seen=[];const group=new FormGroupApi({form,name:\"g\",validators:{onBlur:({value})=>{seen.push(\"sync:\"+value.x);return undefined},onBlurAsync:async ({value})=>{seen.push(\"async:\"+value.x);return \"blur-error\"}}});group.mount();await group.validate(\"blur\");return obs([seen,group.state.meta.errorMap.onBlur]);\n}\n",
+  "id": "OBS-0052"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi, FieldApi, FormGroupApi, FieldGroupApi} from \"@tanstack/form-core\";\nimport type {FormGroupValidateOrFn,FormGroupAsyncValidateOrFn} from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{g:{x:\"input\"}}});form.mount();const seen=[];const group=new FormGroupApi({form,name:\"g\",validators:{onSubmit:({value})=>{seen.push(\"sync:\"+value.x);return undefined},onSubmitAsync:async ({value})=>{seen.push(\"async:\"+value.x);return \"submit-error\"}}});group.mount();await group.validate(\"submit\");return obs([seen,group.state.meta.errorMap.onSubmit]);\n}\n",
+  "id": "OBS-0053"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport {FormApi,FieldApi,FormGroupApi,revalidateLogic} from \"@tanstack/form-core\";\nexport async function run() {\nconst seen={change:[],blur:[]};const form=new FormApi({defaultValues:{source:\"a\",dependent:\"b\"}});form.mount();const source=new FieldApi({form,name:\"source\"});source.mount();const dependent=new FieldApi({form,name:\"dependent\",validators:{onChangeListenTo:[\"source\"],onBlurListenTo:[\"source\"],onChange:({fieldApi})=>{seen.change.push(fieldApi.form.state.values.source);return \"linked-change\"},onBlur:({fieldApi})=>{seen.blur.push(fieldApi.form.state.values.source);return \"linked-blur\"}}});dependent.mount();source.setMeta(m=>({...m,isTouched:true}));dependent.setMeta(m=>({...m,isTouched:true}));form.setFieldValue(\"source\",\"c\",{dontValidate:true});await source.validate(\"change\");await source.validate(\"blur\");return obs([seen,dependent.state.meta.errorMap.onChange,dependent.state.meta.errorMap.onBlur]);\n}\n",
+  "id": "OBS-0054"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FieldGroupApi } from \"@tanstack/form-core\";\nimport type { AnyFieldGroupApi } from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{account:{name:\"old\"},contact:{email:\"a@example.test\"}}});form.mount();\nconst group:AnyFieldGroupApi=new FieldGroupApi({form,fields:{name:\"account.name\",email:\"contact.email\"}});group.mount();\nform.setFieldValue(\"contact.email\",\"b@example.test\",{dontValidate:true});\nreturn obs(group.state.values);\n}\n",
+  "id": "OBS-0055"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FieldApi } from \"@tanstack/form-core\";\nimport type { AnyFieldMeta, AnyFieldLikeMeta } from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{name:\"metadata\"}});form.mount();const field=new FieldApi({form,name:\"name\"});field.mount();\nfield.setMeta(prev=>({...prev,isTouched:true,isBlurred:true,isDirty:true}));\nconst meta:AnyFieldMeta=field.state.meta;\nreturn obs({isTouched:meta.isTouched,isBlurred:meta.isBlurred,isDirty:meta.isDirty,isPristine:meta.isPristine});\n}\n",
+  "id": "OBS-0056"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FieldApi } from \"@tanstack/form-core\";\nimport type { AnyFieldApi } from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{counter:8}});form.mount();\nconst field:AnyFieldApi=new FieldApi({form,name:\"counter\"});field.mount();\nfield.setValue((n:number)=>n+5,{dontValidate:true});return obs({value:field.state.value,formValue:form.getFieldValue(\"counter\")});\n}\n",
+  "id": "OBS-0057"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FormGroupApi } from \"@tanstack/form-core\";\nimport type { AnyFormGroupApi } from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{section:{count:1},other:{count:99}}});form.mount();\nconst group:AnyFormGroupApi=new FormGroupApi({form,name:\"section\"});group.mount();\ngroup.setValue({count:7},{dontValidate:true});return obs({value:group.state.value,values:form.state.values});\n}\n",
+  "id": "OBS-0058"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from \"@tanstack/form-core\";\nimport type { AnyFormApi } from \"@tanstack/form-core\";\nexport async function run() {\nconst form:AnyFormApi=new FormApi({defaultValues:{profile:{name:\"initial\",count:2},untouched:\"keep\"}});form.mount();\nform.setFieldValue(\"profile.count\",(n:number)=>n*3,{dontValidate:true});\nreturn obs(form.state.values);\n}\n",
+  "id": "OBS-0059"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from \"@tanstack/form-core\";\nimport type { AnyBaseFormState, BaseFormState } from \"@tanstack/form-core\";\nexport async function run() {\nconst initial:Partial<AnyBaseFormState>={values:{initial:\"state values\"},submissionAttempts:6,isSubmitted:true};\nconst form=new FormApi({defaultState:initial});form.mount();\nconst state:AnyBaseFormState=form.state;\nreturn obs({values:state.values,submissionAttempts:state.submissionAttempts,isSubmitted:state.isSubmitted});\n}\n",
+  "id": "OBS-0060"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FieldApi } from \"@tanstack/form-core\";\nimport type { FormListenersPropsField } from \"@tanstack/form-core\";\nexport async function run() {\nlet seen:any;\nconst form=new FormApi({defaultValues:{name:\"old\",other:\"untouched\"},listeners:{onChange:(props:FormListenersPropsField<any,any,any,any,any,any,any,any,any,any,any,any>)=>{seen={name:props.fieldApi.name,value:props.fieldApi.state.value,values:props.formApi.state.values}}}});\nform.mount();const field=new FieldApi({form,name:\"name\"});field.mount();field.setValue(\"new\",{dontValidate:true});\nreturn obs(seen);\n}\n",
+  "id": "OBS-0061"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FormGroupApi } from \"@tanstack/form-core\";\nimport type { FormListenersPropsGroup } from \"@tanstack/form-core\";\nexport async function run() {\nlet seen:any;\nconst form=new FormApi({defaultValues:{section:{name:\"old\"},other:{name:\"untouched\"}},listeners:{onChangeGroup:(props:FormListenersPropsGroup<any,any,any,any,any,any,any,any,any,any,any,any>)=>{seen={name:props.groupApi.name,value:props.groupApi.state.value,values:props.formApi.state.values}}}});\nform.mount();const group=new FormGroupApi({form,name:\"section\"});group.mount();group.setValue({name:\"new\"},{dontValidate:true});\nreturn obs(seen);\n}\n",
+  "id": "OBS-0062"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FieldApi, FormGroupApi } from \"@tanstack/form-core\";\nexport async function run() {\nconst seen:any = {};\nconst form = new FormApi({defaultValues:{section:{name:\"initial\"}}, onSubmitMeta:{source:\"default\"}, listeners:{\n onMount:({formApi})=>{seen.mount=formApi.state.values},\n onBlur:({fieldApi,formApi})=>{seen.blur={name:fieldApi.name,value:fieldApi.state.value,values:formApi.state.values}},\n onFieldUnmount:({fieldApi,formApi})=>{seen.fieldUnmount={name:fieldApi.name,values:formApi.state.values}},\n onGroupUnmount:()=>{seen.groupUnmount=\"dispatched\"},\n onSubmit:({formApi,meta})=>{seen.submit={values:formApi.state.values,meta}}\n}});\nform.mount();const group=new FormGroupApi({form,name:\"section\"});const ungroup=group.mount();\nconst field=new FieldApi({form,name:\"section.name\"});const unfield=field.mount();\nfield.setValue(\"edited\",{dontValidate:true});field.handleBlur();\nawait form.handleSubmit({source:\"explicit\"});unfield();ungroup();\nreturn obs(seen);\n}\n",
+  "id": "OBS-0063"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from \"@tanstack/form-core\";\nimport type { ObjectDeepKeyAndValue } from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{person:{address:{city:\"Oslo\"},active:false}}});form.mount();\nconst paths=[\"person.address.city\", \"person.active\"];\nreturn obs(paths.map(path=>form.getFieldValue(path as any)));\n}\n",
+  "id": "OBS-0064"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from \"@tanstack/form-core\";\nimport type { AllObjectKeys } from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{record:{\"7\":{text:\"numeric key\"},label:{text:\"string key\"}}}});form.mount();\nconst paths=[\"record.7.text\", \"record.label.text\"];\nreturn obs(paths.map(path=>form.getFieldValue(path as any)));\n}\n",
+  "id": "OBS-0065"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from \"@tanstack/form-core\";\nimport type { BaseFormOptions } from \"@tanstack/form-core\";\nexport async function run() {\nconst options:BaseFormOptions<any,any>={defaultValues:{count:0,label:\"\"},onSubmitMeta:{source:\"fallback\"}};\nconst received:any[]=[];\nconst form=new FormApi({...options,defaultState:{submissionAttempts:4},onSubmit:async({value,formApi,meta})=>{received.push({value,values:formApi.state.values,meta})}});\nform.mount();const initial={values:form.state.values,submissionAttempts:form.state.submissionAttempts};\nawait form.handleSubmit();await form.handleSubmit(null as any);await form.handleSubmit(false as any);\nreturn obs({initial,received});\n}\n",
+  "id": "OBS-0066"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from \"@tanstack/form-core\";\nexport async function run() {\nconst received:any[]=[];\nconst form=new FormApi({defaultValues:{name:\"invalid\"},canSubmitWhenInvalid:true,validators:{onSubmit:()=>\"rejected\"},onSubmit:({value})=>received.push({valid:value}),onSubmitInvalid:({value,meta,formApi})=>received.push({invalid:value,meta,values:formApi.state.values})});\nform.mount();await form.handleSubmit({reason:\"user\"});return obs(received);\n}\n",
+  "id": "OBS-0067"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from \"@tanstack/form-core\";\nexport async function run() {\nconst results:any[]=[];\nfor(const asyncAlways of [false,true]){\n const calls:any[]=[];\n const form=new FormApi({defaultValues:{name:\"bad\"},asyncAlways,validators:{onBlur:()=>\"sync failure\",onBlurAsync:async({value})=>{calls.push(value);return \"async failure\"}}});\n form.mount();await form.validate(\"blur\");results.push(calls);\n}\nreturn obs(results);\n}\n",
+  "id": "OBS-0068"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FieldApi } from \"@tanstack/form-core\";\nimport type { StandardSchemaV1Issue } from \"@tanstack/form-core\";\nexport async function run() {\nconst issues:StandardSchemaV1Issue[]=[{message:\"Name required\",path:[\"name\"]},{message:\"General failure\"},{message:\"Nested failure\",path:[{key:\"nested\"},{key:0},\"name\"]}];\nconst schema={\"~standard\":{version:1 as const,vendor:\"coverage\",validate:()=>({issues})}};\nconst form=new FormApi({defaultValues:{name:\"\",nested:[{name:\"\"}]}});form.mount();\nconst field=new FieldApi({form,name:\"name\"});field.mount();\nreturn obs(field.parseValueWithSchema(schema));\n}\n",
+  "id": "OBS-0069"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from \"@tanstack/form-core\";\nimport type { TupleDeepKeyAndValue } from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{pair:[{label:\"first\"},0]}});form.mount();\nconst paths=[\"pair[0].label\", \"pair[1]\"];\nreturn obs(paths.map(path=>form.getFieldValue(path as any)));\n}\n",
+  "id": "OBS-0070"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from \"@tanstack/form-core\";\nimport type { AllTupleKeys } from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{tuple:[\"zero\",{enabled:true},\"two\"]}});form.mount();\nconst paths=[\"tuple[0]\", \"tuple[1].enabled\", \"tuple[2]\"];\nreturn obs(paths.map(path=>form.getFieldValue(path as any)));\n}\n",
+  "id": "OBS-0071"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from \"@tanstack/form-core\";\nimport type { UnknownDeepKeyAndValue } from \"@tanstack/form-core\";\nexport async function run() {\nconst form=new FormApi({defaultValues:{opaque:{payload:{answer:42}}}});form.mount();\nconst paths=[\"opaque.payload.answer\"];\nreturn obs(paths.map(path=>form.getFieldValue(path as any)));\n}\n",
+  "id": "OBS-0072"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from \"@tanstack/form-core\";\nimport type { ValidationLogicValidatorsFn } from \"@tanstack/form-core\";\nexport async function run() {\nconst selected:ValidationLogicValidatorsFn={cause:\"dynamic\",fn:({value}:any)=>`selected:${value.name}`};\nconst form=new FormApi({defaultValues:{name:\"custom\"},validationLogic:(props)=>props.runValidation({form:props.form,validators:[selected]})});\nform.mount();await form.validate(\"blur\");return obs(form.state.errorMap.onDynamic);\n}\n",
+  "id": "OBS-0073"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FormGroupApi } from \"@tanstack/form-core\";\nimport type { ValidationLogicProps } from \"@tanstack/form-core\";\nexport async function run() {\nconst seen:any[]=[];\nconst form=new FormApi({defaultValues:{section:{name:\"sample\"}}});form.mount();\nconst logic=(props:ValidationLogicProps)=>{\n seen.push({values:props.form.state.values,group:props.group?.name,event:{type:props.event.type,async:props.event.async}});\n return props.runValidation({form:props.form,validators:[{cause:\"blur\",fn:props.validators?.onBlur}]});\n};\nconst group=new FormGroupApi({form,name:\"section\",validators:{onBlur:({value})=>value.name},validationLogic:logic});\ngroup.mount();seen.length=0;await group.validate(\"blur\");\nreturn obs({seen,error:group.state.meta.errorMap.onBlur});\n}\n",
+  "id": "OBS-0074"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from \"@tanstack/form-core\";\nimport type { RejectPromiseValidator } from \"@tanstack/form-core\";\nexport async function run() {\nconst results:any={};\nfor(const [cause,key] of [[\"mount\",\"onMount\"],[\"change\",\"onChange\"],[\"blur\",\"onBlur\"],[\"submit\",\"onSubmit\"]]){\n const validator:RejectPromiseValidator<any>=({value}:any)=>`${cause}:${value.name}`;\n const form=new FormApi({defaultValues:{name:\"Ada\"},validators:{[key]:validator}});\n form.mount();await form.validate(cause as any);results[cause]=form.state.errorMap[key];\n}\nreturn obs(results);\n}\n",
+  "id": "OBS-0075"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from \"@tanstack/form-core\";\nexport async function run() {\nconst results:any={};\nfor(const [cause,key] of [[\"change\",\"onChangeAsync\"],[\"blur\",\"onBlurAsync\"],[\"submit\",\"onSubmitAsync\"]]){\n const form=new FormApi({defaultValues:{name:\"Lin\"},validators:{[key]:async({value}:any)=>`${cause}:${value.name}`}});\n form.mount();await form.validate(cause as any);results[cause]=form.state.errorMap[`on${cause[0].toUpperCase()}${cause.slice(1)}`];\n}\nreturn obs(results);\n}\n",
+  "id": "OBS-0076"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, revalidateLogic } from \"@tanstack/form-core\";\nexport async function run() {\nconst results:any[]=[];\nfor(const asynchronous of [false,true]){\n const form=new FormApi({defaultValues:{name:\"dynamic\"},validationLogic:revalidateLogic({mode:\"blur\"}),validators:asynchronous?{onDynamicAsync:async({value})=>value.name}:{onDynamic:({value})=>value.name}});\n form.mount();await form.validate(\"blur\");results.push(form.state.errorMap.onDynamic);\n}\nreturn obs(results);\n}\n",
+  "id": "OBS-0077"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FormGroupApi, FieldApi } from '@tanstack/form-core';\nimport type { AnyFormGroupMeta } from '@tanstack/form-core';\nexport async function run() {\nconst f = new FormApi({formId:'group-meta',defaultValues:{person:{name:'Ada'},outside:'x'}}); f.mount();\nconst g = new FormGroupApi({form:f,name:'person'});g.mount();\nconst child = new FieldApi({form:f,name:'person.name'});child.mount();\nchild.setValue('Grace');\nconst meta: AnyFormGroupMeta = g.state.meta;\nreturn obs({isTouched:meta.isTouched,isDirty:meta.isDirty,isPristine:meta.isPristine,isDefaultValue:meta.isDefaultValue,isValid:meta.isValid});\n}\n",
+  "id": "OBS-0078"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from '@tanstack/form-core';\nimport type { AnyFormOptions } from '@tanstack/form-core';\nexport async function run() {\nconst submitted:any[]=[];\nconst options:AnyFormOptions={formId:'options',defaultValues:{amount:0,enabled:false},onSubmit:({value})=>submitted.push(value)};\nconst f = new FormApi(options); f.mount();await f.handleSubmit();\nreturn obs(submitted);\n}\n",
+  "id": "OBS-0079"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from '@tanstack/form-core';\nimport type { AnyFormState } from '@tanstack/form-core';\nexport async function run() {\nconst f=new FormApi({formId:'state',defaultValues:{profile:{active:true},count:3}});f.mount();\nf.setFieldValue('profile.active',false);\nconst state:AnyFormState=f.state;\nreturn obs(state.values);\n}\n",
+  "id": "OBS-0080"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from '@tanstack/form-core';\nimport type { ArrayAccessor } from '@tanstack/form-core';\nexport async function run() {\nconst data={rows:[{code:'first'},{code:'second'}]};\nconst key:ArrayAccessor<{key:'rows',value:typeof data.rows}>='rows[1]';\nconst f=new FormApi({formId:'array-accessor',defaultValues:data});\nreturn obs(f.getFieldValue(key));\n}\n",
+  "id": "OBS-0081"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FieldApi, FormGroupApi } from '@tanstack/form-core';\nimport type { AnyFieldLikeMetaBase, ValidationErrorMap, ValidationErrorMapKeys } from '@tanstack/form-core';\nexport async function run() {\nconst f=new FormApi({formId:'base-errors',defaultValues:{person:{name:'Ada'}},validators:{onSubmit:()=> 'form blocked'}});f.mount();\nconst g=new FormGroupApi({form:f,name:'person'});g.mount();\nconst child=new FieldApi({form:f,name:'person.name'});child.mount();\nchild.setMeta(prev=>({...prev,isTouched:true}));\nawait f.handleSubmit();\nconst errors:ValidationErrorMap=f.state.errorMap;\nconst key:ValidationErrorMapKeys='onSubmit';\nconst meta:AnyFieldLikeMetaBase=f.state.fieldMetaBase['person.name']!;\nreturn obs({values:f.state.values,error:errors[key],touched:meta.isTouched,group:f.state.formGroupStateBase.person,attempts:f.state.submissionAttempts,submitting:f.state.isSubmitting,submitted:f.state.isSubmitted,successful:f.state.isSubmitSuccessful});\n}\n",
+  "id": "OBS-0082"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from '@tanstack/form-core';\nexport async function run() {\nconst f=new FormApi({formId:'base-no-callback',defaultValues:{x:2}});f.mount();\nawait f.handleSubmit();await f.handleSubmit();\nreturn obs({attempts:f.state.submissionAttempts,submitted:f.state.isSubmitted,successful:f.state.isSubmitSuccessful,submitting:f.state.isSubmitting});\n}\n",
+  "id": "OBS-0083"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from '@tanstack/form-core';\nexport async function run() {\nlet finish!:()=>void;\nconst f=new FormApi({formId:'base-await',defaultValues:{x:4},onSubmit:()=>new Promise<void>(resolve=>{finish=resolve})});f.mount();\nconst pending=f.handleSubmit();\nfor(let i=0;i<100 && !finish;i++) await Promise.resolve();\nconst during={submitting:f.state.isSubmitting,submitted:f.state.isSubmitted};\nfinish();await pending;\nreturn obs({during,after:{submitting:f.state.isSubmitting,submitted:f.state.isSubmitted}});\n}\n",
+  "id": "OBS-0084"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from '@tanstack/form-core';\nexport async function run() {\nconst states:any[]=[];\nfor(const options of [\n  {onSubmit:()=>{throw 'callback failure'}},\n  {validators:{onSubmit:()=>{throw 'validator failure'}}},\n  {listeners:{onSubmit:()=>{throw 'listener failure'}}}\n]) {\n  const f=new FormApi({formId:'base-exception',defaultValues:{x:1},...options});f.mount();\n  await outcomeAsync(()=>f.handleSubmit());\n  states.push({submitting:f.state.isSubmitting,submitted:f.state.isSubmitted,successful:f.state.isSubmitSuccessful,attempts:f.state.submissionAttempts});\n}\nreturn obs(states);\n}\n",
+  "id": "OBS-0085"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, formEventClient } from '@tanstack/form-core';\nimport type { BroadcastFormApi } from '@tanstack/form-core';\nexport async function run() {\nconst payloads:BroadcastFormApi[]=[];\nconst original=formEventClient.emit;\nformEventClient.emit=((name,payload)=>{if(name==='form-api')payloads.push(payload as BroadcastFormApi)}) as typeof original;\nconst f=new FormApi({formId:'api-payload',defaultValues:{label:'draft'},canSubmitWhenInvalid:true});f.mount();\nformEventClient.emit=original;\nconst p=payloads[payloads.length-1];\nreturn obs({id:p.id,values:p.state.values,defaultValues:p.options.defaultValues,canSubmitWhenInvalid:p.options.canSubmitWhenInvalid});\n}\n",
+  "id": "OBS-0086"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, formEventClient } from '@tanstack/form-core';\nimport type { BroadcastFormId } from '@tanstack/form-core';\nexport async function run() {\nconst payloads:BroadcastFormId[]=[];\nconst original=formEventClient.emit;\nformEventClient.emit=((name,payload)=>{if(name==='form-unmounted')payloads.push(payload as BroadcastFormId)}) as typeof original;\nconst f=new FormApi({formId:'id-payload',defaultValues:{}});const cleanup=f.mount();cleanup();\nformEventClient.emit=original;\nreturn obs(payloads);\n}\n",
+  "id": "OBS-0087"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, formEventClient, throttleFormState } from '@tanstack/form-core';\nimport type { BroadcastFormState } from '@tanstack/form-core';\nexport async function run() {\nconst payloads:BroadcastFormState[]=[];\nconst original=formEventClient.emit;\nformEventClient.emit=((name,payload)=>{if(name==='form-state')payloads.push(payload as BroadcastFormState)}) as typeof original;\nconst f=new FormApi({formId:'state-payload',defaultValues:{ready:false}});\nthrottleFormState(f);\nformEventClient.emit=original;\nreturn obs(payloads.map(p=>({id:p.id,values:p.state.values})));\n}\n",
+  "id": "OBS-0088"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, formEventClient } from '@tanstack/form-core';\nimport type { BroadcastFormSubmissionState } from '@tanstack/form-core';\nexport async function run() {\nconst payloads:BroadcastFormSubmissionState[]=[];\nconst original=formEventClient.emit;\nformEventClient.emit=((name,payload)=>{if(name==='form-submission')payloads.push(payload as BroadcastFormSubmissionState)}) as typeof original;\nconst f=new FormApi({formId:'submission-payload',defaultValues:{name:'Ada'}});f.mount();\nawait f.handleSubmit();await f.handleSubmit();formEventClient.emit=original;\nreturn obs(payloads);\n}\n",
+  "id": "OBS-0089"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, formEventClient } from '@tanstack/form-core';\nimport type { BroadcastFormSubmissionState } from '@tanstack/form-core';\nexport async function run() {\nconst payloads:BroadcastFormSubmissionState[]=[];\nconst original=formEventClient.emit;\nformEventClient.emit=((name,payload)=>{if(name==='form-submission')payloads.push(payload as BroadcastFormSubmissionState)}) as typeof original;\nconst f=new FormApi({formId:'invalid-payload',defaultValues:{name:''},validators:{onSubmit:()=> 'required'}});f.mount();\nawait f.handleSubmit();formEventClient.emit=original;\nreturn obs(payloads);\n}\n",
+  "id": "OBS-0090"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, formEventClient } from '@tanstack/form-core';\nimport type { BroadcastFormSubmissionState } from '@tanstack/form-core';\nexport async function run() {\nconst payloads:BroadcastFormSubmissionState[]=[];\nconst original=formEventClient.emit;\nformEventClient.emit=((name,payload)=>{if(name==='form-submission')payloads.push(payload as BroadcastFormSubmissionState)}) as typeof original;\nconst f=new FormApi({formId:'inflight-payload',defaultValues:{name:'Ada'},onSubmit:()=>{throw 'submit refused'}});f.mount();\nawait outcomeAsync(()=>f.handleSubmit());formEventClient.emit=original;\nreturn obs(payloads);\n}\n",
+  "id": "OBS-0091"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi, FieldApi, formEventClient } from '@tanstack/form-core';\nimport type { BroadcastFormSubmissionState } from '@tanstack/form-core';\nexport async function run() {\nconst payloads:BroadcastFormSubmissionState[]=[];\nconst original=formEventClient.emit;\nformEventClient.emit=((name,payload)=>{if(name==='form-submission')payloads.push(payload as BroadcastFormSubmissionState)}) as typeof original;\nconst f=new FormApi({formId:'field-invalid-payload',defaultValues:{name:''}});f.mount();\nconst field=new FieldApi({form:f,name:'name',validators:{onSubmit:()=> 'field required'}});field.mount();\nawait f.handleSubmit();formEventClient.emit=original;\nreturn obs(payloads);\n}\n",
+  "id": "OBS-0092"
+ },
+ {
+  "code": "import { errorMessage, isNegZero, obs, ordered, outcome, outcomeAsync } from \"spec-drift:obs\";\nimport { FormApi } from '@tanstack/form-core';\nimport type { DeepKeyAndValueArray } from '@tanstack/form-core';\nexport async function run() {\nconst data={batches:[{scores:[7,11]}]};\nconst pair:DeepKeyAndValueArray<{key:'batches',value:typeof data.batches},typeof data.batches,never>={key:'batches[0].scores[1]',value:11};\nconst f=new FormApi({formId:'deep-array',defaultValues:data});\nre

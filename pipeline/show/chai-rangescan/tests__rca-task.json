@@ -1,0 +1,39 @@
+{
+  "format": "rca-task",
+  "version": 1,
+  "source": {
+    "repository": "https://github.com/chaisql/chai.git",
+    "commit": "e53516f8185cac23ea7437592022c5852adc01fd",
+    "voyager": "chaisql__chai.e53516f8"
+  },
+  "language": "go",
+  "test_command": "go test ./...",
+  "strip": [
+    ".github",
+    "AGENTS.md",
+    "CLAUDE.md"
+  ],
+  "omit_tests": {
+    "globs": [
+      "**/*_test.go",
+      "**/testdata/"
+    ],
+    "keep": []
+  },
+  "overlay": {
+    "path": "faults",
+    "files": {
+      "internal/types/types.go": "b1f4c842d16f483f3ac96919116167dec909848c1eed2b09b72d0c61c10772f9"
+    },
+    "removed": [],
+    "executable": []
+  },
+  "trees": {
+    "algorithm": "spec-drift-tree-v1",
+    "pristine": "03469479ad0e7e75e270cb3c0e63f9b3c4fc75924676d1abd7e92aed61910b88",
+    "solver": "754d7783c220f36fc458013d5ab5aa66abb636a8fa895aaee2223ba27ee81e99"
+  },
+  "workspace": {
+    "root": "/workdir"
+  }
+}

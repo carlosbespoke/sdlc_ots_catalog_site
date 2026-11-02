@@ -1,0 +1,859 @@
+{
+ "observations": {
+  "OBS-0001": {
+   "value": "guard"
+  },
+  "OBS-0002": {
+   "__equal_pair__": true
+  },
+  "OBS-0003": {
+   "__equal_pair__": true
+  },
+  "OBS-0004": {
+   "__equal_pair__": true
+  },
+  "OBS-0005": {
+   "value": "def scale(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n    for i in seq(n, n):\n        y[i] = x[i] * 2.0"
+  },
+  "OBS-0006": {
+   "value": [
+    "def eight(x: f32[8] @ DRAM):\n    for i in seq(0, 8):\n        x[i] = 1.0\n    for i in seq(8, 8):\n        x[i] = 1.0",
+    "def eight(x: f32[8] @ DRAM):\n    for i in seq(0, 0):\n        x[i] = 1.0\n    for i in seq(0, 8):\n        x[i] = 1.0",
+    "raises SchedulingError"
+   ]
+  },
+  "OBS-0007": {
+   "value": "def window(n: size, x: f32[n + 10] @ DRAM):\n    for i in seq(2, n + 10):\n        x[i] = 1.0\n    for i in seq(n + 10, n + 10):\n        x[i] = 1.0"
+  },
+  "OBS-0008": {
+   "value": "def zero(n: size, x: f32[n] @ DRAM):\n    if n < 8:\n        for i in seq(0, n):\n            x[i] = 0.0\n    else:\n        if n < 16:\n            for i in seq(0, n):\n                x[i] = 0.0\n        else:\n            for i in seq(0, n):\n                x[i] = 0.0"
+  },
+  "OBS-0009": {
+   "value": "def pair(n: size, m: size, x: f32[n] @ DRAM, y: f32[m] @ DRAM):\n    if n == 4:\n        for i in seq(0, n):\n            x[i] = 0.0\n        for j in seq(0, m):\n            y[j] = 1.0\n    else:\n        if m == 4:\n            for i in seq(0, n):\n                x[i] = 0.0\n            for j in seq(0, m):\n                y[j] = 1.0\n        else:\n            if n + m < 32:\n                for i in seq(0, n):\n                    x[i] = 0.0\n                for j in seq(0, m):\n                    y[j] = 1.0\n            else:\n                for i in seq(0, n):\n                    x[i] = 0.0\n                for j in seq(0, m):\n                    y[j] = 1.0"
+  },
+  "OBS-0010": {
+   "value": "def copy3(N: size, M: size, K: size, y: f32[N, M, K] @ DRAM):\n    x: f32[K, N, M] @ DRAM\n    for i in seq(0, N):\n        for j in seq(0, M):\n            for k in seq(0, K):\n                x[k, i, j] = 1.0\n                y[i, j, k] = x[k, i, j]"
+  },
+  "OBS-0011": {
+   "value": [
+    "def fill(y: i32[4, 6, 8] @ DRAM):\n    x: i32[6, 8, 4] @ DRAM\n    for i in seq(0, 4):\n        for j in seq(0, 6):\n            for k in seq(0, 8):\n                x[j, k, i] = 3.0\n                y[i, j, k] = x[j, k, i]",
+    "// fill(\n//     y : i32[4, 6, 8] @DRAM\n// )\nvoid fill( void *ctxt, int32_t* y ) {\nint32_t *x = (int32_t*) malloc(6 * 8 * 4 * sizeof(*x));\nfor (int_fast32_t i = 0; i < 4; i++) {\n  for (int_fast32_t j = 0; j < 6; j++) {\n    for (int_fast32_t k = 0; k < 8; k++) {\n      x[j * 32 + k * 4 + i] = ((int32_t) 3.0);\n      y[i * 48 + j * 8 + k] = x[j * 32 + k * 4 + i];\n    }\n  }\n}\nfree(x);\n}\n"
+   ]
+  },
+  "OBS-0012": {
+   "value": "def four(a: f32[2, 3, 4, 5] @ DRAM):\n    t: f32[5, 3, 2, 4] @ DRAM\n    for i in seq(0, 2):\n        for j in seq(0, 3):\n            for k in seq(0, 4):\n                for l in seq(0, 5):\n                    t[l, j, i, k] = a[i, j, k, l]"
+  },
+  "OBS-0013": {
+   "value": "def load(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        b: f32 @ DRAM\n        b = x[i]\n        y[i] = b + b"
+  },
+  "OBS-0014": {
+   "value": [
+    "def mul8(n: size, x: i8[n] @ DRAM, y: i8[n] @ DRAM, z: i8[n] @ DRAM):\n    for i in seq(0, n):\n        t: i8 @ DRAM\n        t = x[i] * y[i]\n        z[i] = t",
+    "// mul8(\n//     n : size,\n//     x : i8[n] @DRAM,\n//     y : i8[n] @DRAM,\n//     z : i8[n] @DRAM\n// )\nvoid mul8( void *ctxt, int_fast32_t n, const int8_t* x, const int8_t* y, int8_t* z ) {\nfor (int_fast32_t i = 0; i < n; i++) {\n  int8_t t;\n  t = x[i] * y[i];\n  z[i] = t;\n}\n}\n"
+   ]
+  },
+  "OBS-0015": {
+   "value": [
+    "def acc(n: size, x: f64[n] @ DRAM, s: f64 @ DRAM):\n    for i in seq(0, n):\n        v: f64 @ DRAM\n        v = x[i]\n        s += v",
+    "F64"
+   ]
+  },
+  "OBS-0016": {
+   "value": "def add(a: f32 @ DRAM, b: f32 @ DRAM, c: f32 @ DRAM):\n    a = b\n    a += c"
+  },
+  "OBS-0017": {
+   "value": "def red(a: f32 @ DRAM, b: f32 @ DRAM, c: f32 @ DRAM):\n    a += b\n    a += c"
+  },
+  "OBS-0018": {
+   "value": "def axpy(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM, z: f32[n] @ DRAM):\n    for i in seq(0, n):\n        z[i] = y[i]\n        z[i] += 2.0 * x[i]"
+  },
+  "OBS-0019": {
+   "value": [
+    "// copy16(\n//     n : size,\n//     x : ui16[n] @DRAM,\n//     y : ui16[n] @DRAM\n// )\nvoid copy16( void *ctxt, int_fast32_t n, const uint16_t* x, uint16_t* y ) {\nfor (int_fast32_t i = 0; i < n; i++) {\n  y[i] = x[i];\n}\n}\n",
+    "\n#pragma once\n#ifndef OUT_H\n#define OUT_H\n\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n\n#include <stdint.h>\n#include <stdbool.h>\n\n// Compiler feature macros adapted from Hedley (public domain)\n// https://github.com/nemequ/hedley\n\n#if defined(__has_builtin)\n#  define EXO_HAS_BUILTIN(builtin) __has_builtin(builtin)\n#else\n#  define EXO_HAS_BUILTIN(builtin) (0)\n#endif\n\n#if EXO_HAS_BUILTIN(__builtin_assume)\n#  define EXO_ASSUME(expr) __builtin_assume(expr)\n#elif EXO_HAS_BUILTIN(__builtin_unreachable)\n#  define EXO_ASSUME(expr) \\\n      ((void)((expr) ? 1 : (__builtin_unreachable(), 1)))\n#else\n#  define EXO_ASSUME(expr) ((void)(expr))\n#endif\n\n\n\n// copy16(\n//     n : size,\n//     x : ui16[n] @DRAM,\n//     y : ui16[n] @DRAM\n// )\nvoid copy16( void *ctxt, int_fast32_t n, const uint16_t* x, uint16_t* y );\n\n\n\n#ifdef __cplusplus\n}\n#endif\n#endif  // OUT_H\n"
+   ]
+  },
+  "OBS-0020": {
+   "value": "// tmp16(\n//     x : ui16[4] @DRAM,\n//     y : ui16[4] @DRAM\n// )\nvoid tmp16( void *ctxt, const uint16_t* x, uint16_t* y ) {\nuint16_t *t = (uint16_t*) malloc(4 * sizeof(*t));\nfor (int_fast32_t i = 0; i < 4; i++) {\n  t[i] = x[i];\n}\nfor (int_fast32_t i = 0; i < 4; i++) {\n  y[i] = t[i];\n}\nfree(t);\n}\n"
+  },
+  "OBS-0021": {
+   "value": [
+    [
+     "uint16_t",
+     "int8_t"
+    ],
+    "// rec(\n//     x : ui16[4] @DRAM,\n//     y : i8[4] @DRAM\n// )\nvoid rec( void *ctxt, const uint16_t* x, const int8_t* y ) {\nuint16_t t[4];\nint8_t u[4];\nfor (int_fast32_t i = 0; i < 4; i++) {\n  t[i] = x[i];\n  u[i] = y[i];\n}\n}\n"
+   ]
+  },
+  "OBS-0022": {
+   "value": [
+    true,
+    [
+     "Index",
+     "Size",
+     "Int",
+     "Stride"
+    ]
+   ]
+  },
+  "OBS-0023": {
+   "value": [
+    [
+     "n",
+     "Size",
+     true,
+     false
+    ],
+    [
+     "s",
+     "Stride",
+     true,
+     false
+    ],
+    [
+     "x",
+     "F32",
+     false,
+     true
+    ]
+   ]
+  },
+  "OBS-0024": {
+   "value": [
+    "exo_file.c",
+    "exo_file.d",
+    "exo_file.h"
+   ]
+  },
+  "OBS-0025": {
+   "value": [
+    [
+     "gen/lib_src.c",
+     "gen/lib_src.d",
+     "gen/lib_src.h"
+    ],
+    [
+     "\n#pragma once\n#ifndef LIB_SRC_H\n#define LIB_SRC_H\n\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n\n#include <stdint.h>\n#include <stdbool.h>\n\n// Compiler feature macros adapted from Hedley (public domain)\n// https://github.com/nemequ/hedley\n\n#if defined(__has_builtin)\n#  define EXO_HAS_BUILTIN(builtin) __has_builtin(builtin)\n#else\n#  define EXO_HAS_BUILTIN(builtin) (0)\n#endif\n\n#if EXO_HAS_BUILTIN(__builtin_assume)\n#  define EXO_ASSUME(expr) __builtin_assume(expr)\n#elif EXO_HAS_BUILTIN(__builtin_unreachable)\n#  define EXO_ASSUME(expr) \\\n      ((void)((expr) ? 1 : (__builtin_unreachable(), 1)))\n#else\n#  define EXO_ASSUME(expr) ((void)(expr))\n#endif\n\n\n\n// kernel2(\n//     x : f32[4] @DRAM\n// )\nvoid kernel2( void *ctxt, float* x );\n\n\n\n#ifdef __cplusplus\n}\n#endif\n#endif  // LIB_SRC_H\n"
+    ]
+   ]
+  },
+  "OBS-0026": {
+   "value": [
+    [
+     "k",
+     "j",
+     "i"
+    ],
+    [
+     "k"
+    ],
+    [
+     "k",
+     "j",
+     "i"
+    ]
+   ]
+  },
+  "OBS-0027": {
+   "value": [
+    "IfCursor"
+   ]
+  },
+  "OBS-0028": {
+   "value": [
+    "(io * 8, 0, 7)",
+    "(io * 8 + ii, 0, 0)"
+   ]
+  },
+  "OBS-0029": {
+   "value": [
+    "b",
+    "a",
+    "InvalidCursor",
+    "c"
+   ]
+  },
+  "OBS-0030": {
+   "value": [
+    "def loop2(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM, z: f32[n] @ DRAM):\n    for i in seq(0, n):\n        x[i] = 0.0  # <-- NODE\n        y[i] = 1.0\n        z[i] = 2.0",
+    "InvalidCursor"
+   ]
+  },
+  "OBS-0031": {
+   "value": [
+    "def scale(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for io in seq(0, n / 4):\n        for ii in seq(0, 4):\n            y[4 * io + ii] = x[4 * io + ii] * 2.0\n    for ii in seq(0, n % 4):\n        y[ii + n / 4 * 4] = x[ii + n / 4 * 4] * 2.0",
+    "def scale(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for io in seq(0, n / 4):\n        for ii in seq(0, 4):\n            y[4 * io + ii] = x[4 * io + ii] * 2.0\n    if n % 4 > 0:\n        for ii in seq(0, n % 4):\n            y[ii + n / 4 * 4] = x[ii + n / 4 * 4] * 2.0",
+    "def scale(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for io in seq(0, (n + 3) / 4):\n        for ii in seq(0, 4):\n            if 4 * io + ii < n:\n                y[4 * io + ii] = x[4 * io + ii] * 2.0"
+   ]
+  },
+  "OBS-0032": {
+   "value": [
+    "def sixteen(x: f32[16] @ DRAM):\n    for io in seq(0, 4):\n        for ii in seq(0, 4):\n            x[4 * io + ii] = 2.0",
+    "raises SchedulingError",
+    "def sixteen(x: f32[16] @ DRAM):\n    for io in seq(0, (16 + 0) / 1):\n        for ii in seq(0, 1):\n            if 1 * io + ii < 16:\n                x[1 * io + ii] = 2.0"
+   ]
+  },
+  "OBS-0033": {
+   "value": "def rec(x: f32[10] @ DRAM):\n    for io in seq(0, 2):\n        for ii in seq(0, 4 + (10 - 2 * 4)):\n            x[io * 4 + ii] = 1.0"
+  },
+  "OBS-0034": {
+   "value": "def mult(n: size, x: f32[n, 4] @ DRAM):\n    for k in seq(0, n * 4):\n        x[k / 4, k % 4] = 0.0"
+  },
+  "OBS-0035": {
+   "value": "def join(n: size, x: f32[n] @ DRAM):\n    assert n > 4\n    for i in seq(0, n):\n        x[i] = 0.0"
+  },
+  "OBS-0036": {
+   "value": [
+    "def big(n: size, x: f32[n] @ DRAM):\n    assert n > 4\n    for i in seq(0, 3):\n        x[i] = 1.0\n    for i in seq(3, n):\n        x[i] = 1.0",
+    "raises SchedulingError",
+    "raises SchedulingError"
+   ]
+  },
+  "OBS-0037": {
+   "value": [
+    "def shift(n: size, x: f32[n + 8] @ DRAM):\n    for i in seq(5, 5 + (n + 2 - 2)):\n        x[i + (2 - 5)] = 1.0",
+    "def shift(n: size, x: f32[n + 8] @ DRAM):\n    for i in seq(0, 0 + (n + 2 - 2)):\n        x[i + (2 - 0)] = 1.0",
+    "raises SchedulingError"
+   ]
+  },
+  "OBS-0038": {
+   "value": [
+    "def nest(n: size, m: size, x: f32[n, m] @ DRAM):\n    for j in seq(0, m):\n        for i in seq(0, n):\n            x[i, j] = 0.0",
+    "def nest(n: size, m: size, x: f32[n, m] @ DRAM):\n    for j in seq(0, m):\n        for i in seq(0, n):\n            x[i, j] = 0.0"
+   ]
+  },
+  "OBS-0039": {
+   "value": "def two(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        x[i] = 1.0\n    for i in seq(0, n):\n        y[i] = 2.0"
+  },
+  "OBS-0040": {
+   "value": [
+    "def deep(n: size, m: size, x: f32[n, m] @ DRAM, y: f32[n, m] @ DRAM):\n    for i in seq(0, n):\n        for j in seq(0, m):\n            x[i, j] = 1.0\n    for i in seq(0, n):\n        for j in seq(0, m):\n            y[i, j] = 2.0",
+    "def deep(n: size, m: size, x: f32[n, m] @ DRAM, y: f32[n, m] @ DRAM):\n    for i in seq(0, n):\n        for j in seq(0, m):\n            x[i, j] = 1.0\n        for j in seq(0, m):\n            y[i, j] = 2.0"
+   ]
+  },
+  "OBS-0041": {
+   "value": [
+    "def idem(x: f32 @ DRAM):\n    for i in seq(0, 4):\n        x = 1.0",
+    "def idem(x: f32 @ DRAM):\n    for j in seq(0, 4):\n        if j == 0:\n            x = 1.0"
+   ]
+  },
+  "OBS-0042": {
+   "value": "def rem(n: size, x: f32 @ DRAM):\n    x = 3.0"
+  },
+  "OBS-0043": {
+   "value": [
+    "def unr(x: f32[3] @ DRAM):\n    x[0] = 1.0\n    x[1] = 1.0\n    x[2] = 1.0",
+    "raises SchedulingError"
+   ]
+  },
+  "OBS-0044": {
+   "value": "def lift(n: size, x: f32[n] @ DRAM):\n    if n > 4:\n        for i in seq(0, n):\n            x[i] = 1.0\n    else:\n        for i in seq(0, n):\n            x[i] = 2.0"
+  },
+  "OBS-0045": {
+   "value": "def fz(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        x[i] = 1.0\n        y[i] = 2.0"
+  },
+  "OBS-0046": {
+   "value": "def fi(n: size, x: f32 @ DRAM, y: f32 @ DRAM):\n    if n > 2:\n        x = 1.0\n        y = 2.0"
+  },
+  "OBS-0047": {
+   "value": [
+    "def scale(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    if n == 8:\n        for i in seq(0, n):\n            y[i] = x[i] * 2.0\n    else:\n        for i in seq(0, n):\n            y[i] = x[i] * 2.0",
+    "def scale(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    if n > 3:\n        for i in seq(0, n):\n            y[i] = x[i] * 2.0\n    else:\n        for i in seq(0, n):\n            y[i] = x[i] * 2.0"
+   ]
+  },
+  "OBS-0048": {
+   "value": "def ex(n: size, x: R[n] @ DRAM, a: R[n] @ DRAM):\n    for i in seq(0, n):\n        b: R @ DRAM\n        b = 32.0 * x[i]\n        a[i] = b + 4.0"
+  },
+  "OBS-0049": {
+   "value": "def cse(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        c: R @ DRAM\n        c = 3.0 * x[i]\n        y[i] = c\n        y[i] += c"
+  },
+  "OBS-0050": {
+   "value": [
+    "def rs(x: f32[8] @ DRAM):\n    t: f32[8] @ DRAM\n    for i in seq(0, 8):\n        t[i + 4 - 4] = x[i]\n    for i in seq(0, 8):\n        x[i] = t[i + 4 - 4]",
+    "raises SchedulingError"
+   ]
+  },
+  "OBS-0051": {
+   "value": [
+    "def tmp(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        t: f32[n] @ DRAM\n        t[i] = x[i]\n        y[i] = t[i]",
+    "raises SchedulingError"
+   ]
+  },
+  "OBS-0052": {
+   "value": [
+    "def sw(n: size, m: size, y: f32[n, m] @ DRAM):\n    x: f32[m, n] @ DRAM\n    for i in seq(0, n):\n        for j in seq(0, m):\n            x[j, i] = 1.0\n            y[i, j] = x[j, i]",
+    "raises ValueError"
+   ]
+  },
+  "OBS-0053": {
+   "value": [
+    "def dd(n: size, m: size):\n    x: R[n, 3, 4, m] @ DRAM\n    for i in seq(0, n):\n        for j in seq(0, 12):\n            for k in seq(0, m):\n                x[i, j / 4, j % 4, k] = 1.0",
+    "raises SchedulingError"
+   ]
+  },
+  "OBS-0054": {
+   "value": "def md(n: size, m: size):\n    x: R[4 * n, m] @ DRAM\n    for i in seq(0, n):\n        for j in seq(0, m):\n            for k in seq(0, 4):\n                x[4 * i + k, j] = 1.0"
+  },
+  "OBS-0055": {
+   "value": "def ub(x: f32[2] @ DRAM):\n    buf_0: f32 @ DRAM\n    buf_1: f32 @ DRAM\n    buf_0 = 1.0\n    buf_1 = 2.0\n    x[0] = buf_0\n    x[1] = buf_1"
+  },
+  "OBS-0056": {
+   "value": [
+    "def tmp(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    t: f32 @ DRAM\n    for i in seq(0, n):\n        t = x[i]\n        y[i] = t",
+    "def tmp(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        t: f32 @ DRAM\n        t = x[i]\n        y[i] = t"
+   ]
+  },
+  "OBS-0057": {
+   "value": "def ru(x: f32 @ DRAM, y: f32 @ DRAM):\n    a: f32 @ DRAM\n    a = x\n    y = a\n    a = y\n    x = a"
+  },
+  "OBS-0058": {
+   "value": "def dl(x: f32 @ DRAM):\n    x = 1.0"
+  },
+  "OBS-0059": {
+   "value": "def iw(x: f32[8, 8] @ DRAM):\n    for i in seq(0, 8):\n        x[2, i + 0] = 1.0"
+  },
+  "OBS-0060": {
+   "value": "def sm(n: size, x: f32[n, 4] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        xt: f32[4 - 0] @ DRAM\n        for i0 in seq(0, 4 - 0):\n            xt[i0] = x[i, i0 + 0]\n        for j in seq(0, 4):\n            y[i] += xt[j - 0]"
+  },
+  "OBS-0061": {
+   "value": "def acc(n: size, x: f32[n, 4] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        yt: f32 @ DRAM\n        yt = 0.0\n        for j in seq(0, 4):\n            yt += x[i, j]\n        y[i] += yt"
+  },
+  "OBS-0062": {
+   "value": [
+    "def renamed(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0",
+    "scale2",
+    true,
+    "do_scale({x_data}, {y_data});"
+   ]
+  },
+  "OBS-0063": {
+   "value": [
+    "def scale(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n        pass",
+    "def scale(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0"
+   ]
+  },
+  "OBS-0064": {
+   "value": "def simp(n: size, x: f32[n + 0] @ DRAM):\n    for i in seq(0, n):\n        x[i] = 2.0"
+  },
+  "OBS-0065": {
+   "value": "def dc(n: size, x: f32 @ DRAM):\n    assert n > 4\n    x = 1.0"
+  },
+  "OBS-0066": {
+   "value": "def ro(x: f32 @ DRAM, y: f32 @ DRAM):\n    y = 2.0\n    x = 1.0"
+  },
+  "OBS-0067": {
+   "value": [
+    "def ce(a: f32 @ DRAM, b: f32 @ DRAM, c: f32 @ DRAM, d: f32 @ DRAM):\n    d = b * a + c",
+    "def ce(a: f32 @ DRAM, b: f32 @ DRAM, c: f32 @ DRAM, d: f32 @ DRAM):\n    d = c + a * b"
+   ]
+  },
+  "OBS-0068": {
+   "value": "def la(a: f32 @ DRAM, b: f32 @ DRAM, c: f32 @ DRAM, d: f32 @ DRAM):\n    d = a + b + c"
+  },
+  "OBS-0069": {
+   "value": [
+    "def rw(n: size, x: f32[n] @ DRAM):\n    assert n == 8\n    for i in seq(0, 8):\n        x[i] = 1.0",
+    "raises SchedulingError"
+   ]
+  },
+  "OBS-0070": {
+   "value": [
+    "def mw(a: f32 @ DRAM, b: f32 @ DRAM, c: f32 @ DRAM):\n    a = c",
+    "def mw(a: f32 @ DRAM, b: f32 @ DRAM, c: f32 @ DRAM):\n    a = c",
+    "def mw(a: f32 @ DRAM, b: f32 @ DRAM, c: f32 @ DRAM):\n    a = b + c",
+    "def mw(a: f32 @ DRAM, b: f32 @ DRAM, c: f32 @ DRAM):\n    a += b + c"
+   ]
+  },
+  "OBS-0071": {
+   "value": "def fr(a: f32 @ DRAM, b: f32 @ DRAM):\n    a += b * 2.0"
+  },
+  "OBS-0072": {
+   "value": "def ia(x: f32 @ DRAM, y: f32 @ DRAM):\n    t: f32 @ DRAM\n    y = x * 2.0"
+  },
+  "OBS-0073": {
+   "value": "def lr(n: size, x: f32 @ DRAM, y: f32[n] @ DRAM):\n    x = 0.0\n    for i in seq(0, n):\n        x += y[i]\n    x = 3.0 * x"
+  },
+  "OBS-0074": {
+   "value": [
+    "def tmp(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        t: f64 @ DRAM\n        t = x[i]\n        y[i] = t",
+    "def tmp(n: size, x: i32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        t: f32 @ DRAM\n        t = x[i]\n        y[i] = t",
+    "def tmp(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        t: f32 @ DRAM_STATIC\n        t = x[i]\n        y[i] = t",
+    "def tmp(n: size, x: [f32][n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        t: f32 @ DRAM\n        t = x[i]\n        y[i] = t"
+   ]
+  },
+  "OBS-0075": {
+   "value": [
+    "def scale(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in par(0, n):\n        y[i] = x[i] * 2.0",
+    "// scale(\n//     n : size,\n//     x : f32[n] @DRAM,\n//     y : f32[n] @DRAM\n// )\nvoid scale( void *ctxt, int_fast32_t n, const float* x, float* y ) {\n#pragma omp parallel for\nfor (int_fast32_t i = 0; i < n; i++) {\n  y[i] = x[i] * 2.0f;\n}\n}\n"
+   ]
+  },
+  "OBS-0076": {
+   "value": [
+    "def bc(x: f32[4] @ DRAM, y: f32 @ DRAM):\n    for i in seq(0, 4):\n        CFG.scale = y\n        x[i] = CFG.scale",
+    "// bc(\n//     x : f32[4] @DRAM,\n//     y : f32 @DRAM\n// )\nvoid bc( out_Context *ctxt, float* x, const float* y ) {\nfor (int_fast32_t i = 0; i < 4; i++) {\n  ctxt->CFG.scale = *y;\n  x[i] = ctxt->CFG.scale;\n}\n}\n"
+   ]
+  },
+  "OBS-0077": {
+   "value": [
+    "def wc(x: f32 @ DRAM):\n    CFG.n = 4\n    x = 1.0",
+    "def wc(x: f32 @ DRAM):\n    x = 1.0"
+   ]
+  },
+  "OBS-0078": {
+   "value": [
+    "def rc(x: f32 @ DRAM):\n    CFG.scale = 3.0\n    x = CFG.scale",
+    "// rc(\n//     x : f32 @DRAM\n// )\nvoid rc( out_Context *ctxt, float* x ) {\nctxt->CFG.scale = 3.0f;\n*x = ctxt->CFG.scale;\n}\n"
+   ]
+  },
+  "OBS-0079": {
+   "value": [
+    "def foo(N: size, M: size, K: size, x: R[N, K + M] @ DRAM):\n    assert N >= 8\n    sub_foo(N, M, K, x)",
+    "def sub_foo(N: size, M: size, K: size, x: R[N, K + M] @ DRAM):\n    assert N >= 8\n    for i in seq(0, 8):\n        x[i, 0] += 2.0",
+    "def sub_bar(N: size, M: size, K: size, x: R[N, K + M] @ DRAM):\n    for i in seq(0, 8):\n        x[i, 0] += 2.0"
+   ]
+  },
+  "OBS-0080": {
+   "value": [
+    "def caller(y: f32[16] @ DRAM):\n    callee(16, y)",
+    "def caller(y: f32[16] @ DRAM):\n    for i in seq(0, 16):\n        y[i] = 4.0"
+   ]
+  },
+  "OBS-0081": {
+   "value": [
+    "def cp(n: size, a: f32[n, 4] @ DRAM, b: f32[n, 4] @ DRAM):\n    for i in seq(0, n):\n        load4(b[i + 0, 0:4], a[i + 0, 0:4])",
+    "// cp(\n//     n : size,\n//     a : f32[n, 4] @DRAM,\n//     b : f32[n, 4] @DRAM\n// )\nvoid cp( void *ctxt, int_fast32_t n, const float* a, float* b ) {\nfor (int_fast32_t i = 0; i < n; i++) {\n  b[(i) * 4] = load4(&a[(i) * 4]);\n}\n}\n\n\n/* relying on the following instruction...\"\nload4(dst,src)\n{dst_data} = load4(&{src_data});\n*/"
+   ]
+  },
+  "OBS-0082": {
+   "value": "def top(x: f32[8] @ DRAM, y: f32[8] @ DRAM):\n    scale(8, x, y)"
+  },
+  "OBS-0083": {
+   "value": [
+    "def bar(y: f32[10] @ DRAM, z: f32[20, 20] @ DRAM):\n    foo(y[2:5])\n    foo(z[1, 10:13])",
+    "// foo(\n//     x : [f32][3] @DRAM\n// )\nstatic void foo( void *ctxt, struct exo_win_1f32 x );\n\n// bar(\n//     y : f32[10] @DRAM,\n//     z : f32[20, 20] @DRAM\n// )\nvoid bar( void *ctxt, float* y, float* z ) {\nfoo(ctxt,(struct exo_win_1f32){ &y[2], { 1 } });\nfoo(ctxt,(struct exo_win_1f32){ &z[20 + 10], { 1 } });\n}\n\n// foo(\n//     x : [f32][3] @DRAM\n// )\nstatic void foo( void *ctxt, struct exo_win_1f32 x ) {\nfor (int_fast32_t i = 0; i < 3; i++) {\n  x.data[i * x.strides[0]] = 0.0f;\n}\n}\n"
+   ]
+  },
+  "OBS-0084": {
+   "value": "TypeError"
+  },
+  "OBS-0085": {
+   "value": [
+    [
+     "caller"
+    ],
+    "SchedulingError",
+    "TypeError",
+    "TypeError",
+    [
+     "quasi"
+    ]
+   ]
+  },
+  "OBS-0086": {
+   "value": [
+    "def conv1d(IC: size, OC: size, N: size, W: size, data: i32[IC, N] @ DRAM,\n           kernels: i32[OC, IC, W] @ DRAM, out: i32[OC, N] @ DRAM):\n    for i in seq(0, OC):\n        for j in seq(0, N):\n            out[i, j] = 0.0\n            for c in seq(0, IC):\n                for r in seq(0, W):\n                    y: i32 @ DRAM\n                    if j + r < N:\n                        y = data[c, j + r]\n                    else:\n                        y = 0\n                    out[i, j] += kernels[i, c, r] * y",
+    "// conv1d(\n//     IC : size,\n//     OC : size,\n//     N : size,\n//     W : size,\n//     data : i32[IC, N] @DRAM,\n//     kernels : i32[OC, IC, W] @DRAM,\n//     out : i32[OC, N] @DRAM\n// )\nvoid conv1d( void *ctxt, int_fast32_t IC, int_fast32_t OC, int_fast32_t N, int_fast32_t W, const int32_t* data, const int32_t* kernels, int32_t* out ) {\nfor (int_fast32_t i = 0; i < OC; i++) {\n  for (int_fast32_t j = 0; j < N; j++) {\n    out[i * N + j] = ((int32_t) 0.0);\n    for (int_fast32_t c = 0; c < IC; c++) {\n      for (int_fast32_t r = 0; r < W; r++) {\n        int32_t y;\n        if (j + r < N) {\n          y = data[c * N + (j + r)];\n        } else {\n          y = ((int32_t) 0);\n        }\n        out[i * N + j] += kernels[i * (IC * W) + c * W + r] * y;\n      }\n    }\n  }\n}\n}\n"
+   ]
+  },
+  "OBS-0087": {
+   "value": [
+    "def types(a: f16 @ DRAM, b: f32 @ DRAM, c: f64 @ DRAM, d: i8 @ DRAM,\n          e: i32 @ DRAM, f: ui8 @ DRAM):\n    t: f64 @ DRAM\n    t = c\n    c = t",
+    "// types(\n//     a : f16 @DRAM,\n//     b : f32 @DRAM,\n//     c : f64 @DRAM,\n//     d : i8 @DRAM,\n//     e : i32 @DRAM,\n//     f : ui8 @DRAM\n// )\nvoid types( void *ctxt, const _Float16* a, const float* b, double* c, const int8_t* d, const int32_t* e, const uint8_t* f ) {\ndouble t;\nt = *c;\n*c = t;\n}\n"
+   ]
+  },
+  "OBS-0088": {
+   "value": [
+    "scale",
+    false,
+    "def scale(x: f32[8] @ DRAM, y: f32[8] @ DRAM):\n    for i in seq(0, 8):\n        y[i] = x[i] * 2.0",
+    "def scale(x: f32[4] @ DRAM, y: f32[4] @ DRAM):\n    for i in seq(0, 4):\n        y[i] = x[i] * 2.0",
+    "def scale(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    assert n > 2\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0"
+   ]
+  },
+  "OBS-0089": {
+   "value": "def tr(n: size, m: size, x: f32[m, n] @ DRAM):\n    for i in seq(0, n):\n        for j in seq(0, m):\n            x[j, i] = 1.0"
+  },
+  "OBS-0090": {
+   "value": [
+    "other",
+    "raises TypeError",
+    "def scale(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for io in seq(0, n / 2):\n        for ii in seq(0, 2):\n            y[2 * io + ii] = x[2 * io + ii] * 2.0\n    for ii in seq(0, n % 2):\n        y[ii + n / 2 * 2] = x[ii + n / 2 * 2] * 2.0"
+   ]
+  },
+  "OBS-0091": {
+   "value": [
+    [
+     "scaled.c",
+     "scaled.h"
+    ],
+    "// scale(\n//     n : size,\n//     x : f32[n] @DRAM,\n//     y : f32[n] @DRAM\n// )\nvoid scale( void *ctxt, int_fast32_t n, const float* x, float* y );\n\n\n#include <stdio.h>\n#include <stdlib.h>\n\n// scale(\n//     n : size,\n//     x : f32[n] @DRAM,\n//     y : f32[n] @DRAM\n// )\nvoid scale( void *ctxt, int_fast32_t n, const float* x, float* y ) {\nfor (int_fast32_t i = 0; i < n; i++) {\n  y[i] = x[i] * 2.0f;\n}\n}\n\n"
+   ]
+  },
+  "OBS-0092": {
+   "value": [
+    "// leaf(\n//     x : f32[4] @DRAM\n// )\nstatic void leaf( void *ctxt, float* x );\n\n// leaf(\n//     x : f32[4] @DRAM\n// )\nstatic void leaf( void *ctxt, float* x ) {\nfor (int_fast32_t i = 0; i < 4; i++) {\n  x[i] = 1.0f;\n}\n}\n\n// root(\n//     y : f32[4] @DRAM\n// )\nvoid root( void *ctxt, float* y ) {\nleaf(ctxt,y);\n}\n\n",
+    "// root(\n//     y : f32[4] @DRAM\n// )\nvoid root( void *ctxt, float* y );\n\n\n\n#ifdef __cplusplus\n}\n#endif\n#endif  // LIB_H\n"
+   ]
+  },
+  "OBS-0093": {
+   "value": [
+    [
+     "lib.c",
+     "lib.h"
+    ],
+    "// leaf(\n//     x : f32[4] @DRAM\n// )\nvoid leaf( void *ctxt, float* x ) {\nfor (int_fast32_t i = 0; i < 4; i++) {\n  x[i] = 1.0f;\n}\n}\n\n"
+   ]
+  },
+  "OBS-0094": {
+   "value": [
+    [
+     "n",
+     "x",
+     "a",
+     "b",
+     "c"
+    ],
+    4,
+    "AssignCursor",
+    "BlockCursor",
+    3,
+    3,
+    "def blk(n: size, x: f32[n] @ DRAM, a: f32 @ DRAM, b: f32 @ DRAM,\n        c: f32 @ DRAM):\n    a = 1.0\n    b = 2.0\n    for i in seq(0, n):\n        x[i] = a\n        if i == 0:\n            x[i] = b\n        else:\n            x[i] = c  # <-- NODE\n    c = 3.0",
+    "i",
+    "ArgCursor",
+    "raises SchedulingError"
+   ]
+  },
+  "OBS-0095": {
+   "value": [
+    "ForCursor",
+    "j",
+    "i",
+    "def nest(n: size, m: size, x: f32[n, m] @ DRAM):\n    for i in seq(0, n):\n        for j in seq(0, m):\n            x[i, j] = 0.0  # <-- NODE"
+   ]
+  },
+  "OBS-0096": {
+   "value": [
+    "b",
+    "InvalidCursor",
+    "i",
+    "a",
+    "a",
+    2,
+    4,
+    1,
+    "ForCursor"
+   ]
+  },
+  "OBS-0097": {
+   "value": [
+    2,
+    "AssignCursor",
+    2,
+    "BlockCursor",
+    "BlockCursor",
+    "def blk(n: size, x: f32[n] @ DRAM, a: f32 @ DRAM, b: f32 @ DRAM,\n        c: f32 @ DRAM):\n    a = 1.0\n    b = 2.0\n    for i in seq(0, n):\n        x[i] = a\n        if i == 0:\n            x[i] = b  # <-- NODE\n        else:\n            x[i] = c\n    c = 3.0",
+    "InvalidCursor",
+    false,
+    true
+   ]
+  },
+  "OBS-0098": {
+   "value": [
+    "x",
+    "DRAM",
+    true,
+    2,
+    "F32",
+    "t",
+    "DRAM",
+    true,
+    "I32",
+    "x",
+    2,
+    "ReadCursor",
+    "F32",
+    "y",
+    "ReadCursor",
+    "i",
+    2,
+    "ReadCursor",
+    3,
+    "BinaryOpCursor",
+    "InvalidCursor",
+    "w",
+    "WindowExprCursor",
+    "sub",
+    1
+   ]
+  },
+  "OBS-0099": {
+   "value": [
+    "UnaryMinusCursor",
+    "BinaryOpCursor",
+    "+",
+    "BinaryOpCursor",
+    2.0,
+    1.0,
+    "x"
+   ]
+  },
+  "OBS-0100": {
+   "value": [
+    "AllocCursor",
+    "t",
+    "def tmp(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    t: f32[n] @ DRAM\n    for i in seq(0, n):\n        t[i] = x[i]\n        y[i] = t[i]",
+    "def tmp(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    t: f32[n] @ DRAM  # <-- NODE\n    for i in seq(0, n):\n        t[i] = x[i]\n        y[i] = t[i]"
+   ]
+  },
+  "OBS-0101": {
+   "value": [
+    "ForCursor",
+    "def scale(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for io in seq(0, n / 4):\n        for ii in seq(0, 4):\n            y[4 * io + ii] = x[4 * io + ii] * 2.0  # <-- NODE\n    for ii in seq(0, n % 4):\n        y[ii + n / 4 * 4] = x[ii + n / 4 * 4] * 2.0",
+    "io"
+   ]
+  },
+  "OBS-0102": {
+   "value": [
+    true,
+    false,
+    "def blk(n: size, x: f32[n] @ DRAM, a: f32 @ DRAM, b: f32 @ DRAM,\n        c: f32 @ DRAM):\n    a = 1.0\n    b = 2.0\n    for i in seq(0, n):  # <-- NODE\n        x[i] = a\n        if i == 0:\n            x[i] = b\n        else:\n            x[i] = c\n    c = 3.0",
+    [
+     "F16",
+     "F32",
+     "F64",
+     "UI8",
+     "I8",
+     "UI16",
+     "I32",
+     "R",
+     "Index",
+     "Bool",
+     "Size",
+     "Int",
+     "Stride"
+    ],
+    [
+     "F16",
+     "F32",
+     "F64",
+     "UI8",
+     "I8",
+     "UI16",
+     "I32",
+     "R"
+    ],
+    [
+     "Bool"
+    ]
+   ]
+  },
+  "OBS-0103": {
+   "value": {
+    "exo": [
+     "function",
+     "function",
+     "function",
+     "ABCMeta",
+     "type",
+     "ABCMeta",
+     "type"
+    ],
+    "exo.API_cursors": [
+     "ABCMeta",
+     "ABCMeta",
+     "ABCMeta"
+    ],
+    "exo.core.extern": [
+     "type",
+     "type"
+    ],
+    "exo.frontend.syntax": [
+     "type",
+     "type",
+     "function",
+     "function"
+    ],
+    "exo.libs.externs": [
+     "_Sin",
+     "_Relu"
+    ],
+    "exo.libs.memories": [
+     "ABCMeta",
+     "ABCMeta",
+     "ABCMeta"
+    ],
+    "exo.stdlib.scheduling": [
+     "function",
+     "function"
+    ],
+    "exo.stdlib.stdlib": [
+     "function",
+     "function"
+    ]
+   }
+  },
+  "OBS-0104": {
+   "value": [
+    "IfCursor",
+    4,
+    2,
+    [
+     "IfCursor",
+     "AssignCursor"
+    ],
+    "i",
+    "i",
+    3,
+    true,
+    [
+     "AssignCursor",
+     "AssignCursor",
+     "ForCursor",
+     "AssignCursor",
+     "IfCursor",
+     "AssignCursor"
+    ],
+    2
+   ]
+  },
+  "OBS-0105": {
+   "value": [
+    "def use(inp: f32[32] @ DRAM):\n    v: f32[2, 16] @ AVX512Like\n    for i in seq(0, 2):\n        ld16(v[i, 0:16], inp[16 * i:16 * i + 16])",
+    "// use(\n//     inp : f32[32] @DRAM\n// )\nvoid use( void *ctxt, const float* inp ) {\n__m512 v[2];\nfor (int_fast32_t i = 0; i < 2; i++) {\n  v[i] = _mm512_loadu_ps(&inp[16 * i]);\n}\n}\n\n",
+    "\n#pragma once\n#ifndef M_H\n#define M_H\n\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n\n#include <stdint.h>\n#include <stdbool.h>\n\n// Compiler feature macros adapted from Hedley (public domain)\n// https://github.com/nemequ/hedley\n\n#if defined(__has_builtin)\n#  define EXO_HAS_BUILTIN(builtin) __has_builtin(builtin)\n#else\n#  define EXO_HAS_BUILTIN(builtin) (0)\n#endif\n\n#if EXO_HAS_BUILTIN(__builtin_assume)\n#  define EXO_ASSUME(expr) __builtin_assume(expr)\n#elif EXO_HAS_BUILTIN(__builtin_unreachable)\n#  define EXO_ASSUME(expr) \\\n      ((void)((expr) ? 1 : (__builtin_unreachable(), 1)))\n#else\n#  define EXO_ASSUME(expr) ((void)(expr))\n#endif\n\n\n#ifndef EXO_WIN_1F32\n#define EXO_WIN_1F32\nstruct exo_win_1f32{\n    float * const data;\n    const int_fast32_t strides[1];\n};\n#endif\n#ifndef EXO_WIN_1F32C\n#define EXO_WIN_1F32C\nstruct exo_win_1f32c{\n    const float * const data;\n    const int_fast32_t strides[1];\n};\n#endif\n// use(\n//     inp : f32[32] @DRAM\n// )\nvoid use( void *ctxt, const float* inp );\n\n\n\n#ifdef __cplusplus\n}\n#endif\n#endif  // M_H\n"
+   ]
+  },
+  "OBS-0106": {
+   "value": "MemGenError"
+  },
+  "OBS-0107": {
+   "value": [
+    "def tmp(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        t: f32 @ DRAM_STATIC\n        t = x[i]\n        y[i] = t",
+    "// tmp(\n//     n : size,\n//     x : f32[n] @DRAM,\n//     y : f32[n] @DRAM\n// )\nvoid tmp( void *ctxt, int_fast32_t n, const float* x, float* y ) {\nfor (int_fast32_t i = 0; i < n; i++) {\n  static float t[];\n  t = x[i];\n  y[i] = t;\n}\n}\n",
+    "def v8(x: f32[8] @ DRAM, y: f32[8] @ DRAM):\n    t: f32[8] @ AVX2\n    for i in seq(0, 8):\n        t[i] = x[i]\n    for i in seq(0, 8):\n        y[i] = t[i]"
+   ]
+  },
+  "OBS-0108": {
+   "value": [
+    "def foo(x: f32 @ DRAM):\n    x = sin(x) * 3.0",
+    "#include \"e.h\"\n\n#include <stdio.h>\n#include <stdlib.h>\n\n#include <math.h>\n// foo(\n//     x : f32 @DRAM\n// )\nvoid foo( void *ctxt, float* x ) {\n*x = sin((float)*x) * 3.0f;\n}\n\n",
+    "\n#pragma once\n#ifndef E_H\n#define E_H\n\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n\n#include <stdint.h>\n#include <stdbool.h>\n\n// Compiler feature macros adapted from Hedley (public domain)\n// https://github.com/nemequ/hedley\n\n#if defined(__has_builtin)\n#  define EXO_HAS_BUILTIN(builtin) __has_builtin(builtin)\n#else\n#  define EXO_HAS_BUILTIN(builtin) (0)\n#endif\n\n#if EXO_HAS_BUILTIN(__builtin_assume)\n#  define EXO_ASSUME(expr) __builtin_assume(expr)\n#elif EXO_HAS_BUILTIN(__builtin_unreachable)\n#  define EXO_ASSUME(expr) \\\n      ((void)((expr) ? 1 : (__builtin_unreachable(), 1)))\n#else\n#  define EXO_ASSUME(expr) ((void)(expr))\n#endif\n\n\n\n// foo(\n//     x : f32 @DRAM\n// )\nvoid foo( void *ctxt, float* x );\n\n\n\n#ifdef __cplusplus\n}\n#endif\n#endif  // E_H\n",
+    "TypeError"
+   ]
+  },
+  "OBS-0109": {
+   "value": [
+    "def lib(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        y[i] = relu(x[i]) + select(x[i], x[i], x[i], x[i]) + fmaxf(\n            x[i], y[i]) + sqrt(x[i])",
+    "float _relu_float(float x) {\n    if (x > 0.0) return x;\n    else return 0.0;\n}\n\nfloat _select_float(float x,float v,float y,float z) {\n    if (x < v) return y;\n    else return z;\n}\n\n#include <math.h>\n// lib(\n//     n : size,\n//     x : f32[n] @DRAM,\n//     y : f32[n] @DRAM\n// )\nvoid lib( void *ctxt, int_fast32_t n, const float* x, float* y ) {\nfor (int_fast32_t i = 0; i < n; i++) {\n  y[i] = _relu_float((float)x[i]) + _select_float((float)x[i], (float)x[i], (float)x[i], (float)x[i]) + fmaxf((float)(x[i]), (float)(y[i])) + sqrt((float)(x[i]));\n}\n}\n"
+   ]
+  },
+  "OBS-0110": {
+   "value": [
+    true,
+    "{dst_data} = vld1q_f32(&{src_data});",
+    "def foo(M: size, src: f32[M, 4] @ DRAM, dst: f32[M, 4] @ DRAM):\n    for i in seq(0, M):\n        neon_vld_4xf32(dst[i + 0, 0:4], src[i + 0, 0:4])",
+    "// foo(\n//     M : size,\n//     src : f32[M, 4] @DRAM,\n//     dst : f32[M, 4] @DRAM\n// )\nvoid foo( void *ctxt, int_fast32_t M, const float* src, float* dst ) {\nfor (int_fast32_t i = 0; i < M; i++) {\n  dst[(i) * 4] = vld1q_f32(&src[(i) * 4]);\n}\n}\n\n\n/* relying on the following instruction...\"\nneon_vld_4xf32(dst,src)\n{dst_data} = vld1q_f32(&{src_data});\n*/"
+   ]
+  },
+  "OBS-0111": {
+   "value": "raises UnificationError"
+  },
+  "OBS-0112": {
+   "value": [
+    "def foo(a: i32 @ DRAM):\n    pass",
+    "def foo(a: i32 @ DRAM):\n    a += 0\n    a += 1\n    a += 0",
+    "def foo(a: i32 @ DRAM, b: i32 @ DRAM):\n    a += a\n    a += b * 2",
+    "def foo(a: i32 @ DRAM, b: i32 @ DRAM):\n    a += 1\n    b += 1"
+   ]
+  },
+  "OBS-0113": {
+   "value": [
+    "def foo(a: i32[5] @ DRAM, b: i32 @ DRAM):\n    a[0] += b",
+    "def foo(a: i32 @ DRAM_STATIC, b: i32 @ DRAM_STATIC):\n    a += b",
+    "def foo(a: i32 @ DRAM, b: i32 @ DRAM):\n    a += b\n    a += b",
+    "def bar(n: size, a: R[n] @ DRAM):\n    assert n > 2\n    inner(3 - 1, a[1:3])\n    inner(1 - 0, a[0:1])"
+   ]
+  },
+  "OBS-0114": {
+   "value": "TypeError"
+  },
+  "OBS-0115": {
+   "value": [
+    "def mixed(n: size, a: f64[n] @ DRAM, b: R[n] @ DRAM):\n    t: R @ DRAM\n    for i in seq(0, n):\n        t = a[i]\n        b[i] = t",
+    "// mixed(\n//     n : size,\n//     a : f64[n] @DRAM,\n//     b : f32[n] @DRAM\n// )\nvoid mixed( void *ctxt, int_fast32_t n, const double* a, float* b ) {\nfloat t;\nfor (int_fast32_t i = 0; i < n; i++) {\n  t = (float)(a[i]);\n  b[i] = t;\n}\n}\n"
+   ]
+  },
+  "OBS-0116": {
+   "value": "// wcallee(\n//     x : [f32][4] @DRAM\n// )\nstatic void wcallee( void *ctxt, struct exo_win_1f32 x );\n\n// wcallee(\n//     x : [f32][4] @DRAM\n// )\nstatic void wcallee( void *ctxt, struct exo_win_1f32 x ) {\nx.data[0] = 1.0f;\n}\n\n// wcaller(\n//     y : f32[4, 4] @DRAM\n// )\nvoid wcaller( void *ctxt, float* y ) {\nfor (int_fast32_t i = 0; i < 4; i++) {\n  wcallee(ctxt,(struct exo_win_1f32){ &y[(i) * 4], { 1 } });\n}\n}\n"
+  },
+  "OBS-0117": {
+   "value": [
+    "TypeError",
+    "ParseError",
+    "TypeError",
+    [
+     "ok"
+    ]
+   ]
+  },
+  "OBS-0118": {
+   "value": [
+    "def scale(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0",
+    "def scale(n: size, x: f32[n] @ DRAM, y: f32[n] @ DRAM):\n    for io in seq(0, n / 4):\n        for ii in seq(0, 4):\n            y[4 * io + ii] = x[4 * io + ii] * 2.0\n    for ii in seq(0, n % 4):\n        y[ii + n / 4 * 4] = x[ii + n / 4 * 4] * 2.0",
+    "raises SchedulingError",
+    [
+     "SchedulingError",
+     "Exception",
+     "BaseException",
+     "object"
+    ]
+   ]
+  },
+  "OBS-0119": {
+   "value": [
+    [
+     "exo_file.c",
+     "exo_file.d",
+     "exo_file.h",
+     "named.c",
+     "named.d",
+     "named.h"
+    ],
+    [
+     "custom.c",
+     "custom.d",
+     "custom.h"
+    ],
+    "// kernel(\n//     n : size,\n//     x : f32[n] @DRAM\n// )\nvoid kernel( void *ctxt, int_fast32_t n, float* x ) {\nfor (int_fast32_t i = 0; i < n; i++) {\n  x[i] = 0.0f;\n}\n}\n\n"
+   ]
+  },
+  "OBS-0120": {
+   "value": [
+    "def two(a: f32[8] @ DRAM, b: f32[8] @ DRAM):\n    cp4(b[0:4], a[0:4])\n    cp4(b[4:8], a[4:8])",
+    "def two(a: f32[8] @ DRAM, b: f32[8] @ DRAM):\n    b[0] = a[0]\n    b[1] = a[1]\n    b[2] = a[2]\n    b[3] = a[3]\n    b[0 + 4] = a[0 + 4]\n    b[1 + 4] = a[1 + 4]\n    b[2 + 4] = a[2 + 4]\n    b[3 + 4] = a[3 + 4]"
+   ]
+  },
+  "OBS-0121": {
+   "value": [
+    "def li(n: size, m: size, x: f32[n, m] @ DRAM):\n    if n > 4:\n        for i in seq(0, n):\n            for j in seq(0, m):\n                x[i, j] = 1.0",
+    "raises SchedulingError"
+   ]
+  },
+  "OBS-0122": {
+   "value": [
+    "def tl(x: f32[16, 16] @ DRAM):\n    for io in seq(0, 4):\n        for jo in seq(0, 2):\n            for ii in seq(0, 4):\n                for ji in seq(0, 8):\n                    x[ii + 4 * io, ji + 8 * jo] = 0.0",
+    [
+     "ii",
+     "ji"
+    ]
+   ]
+  },
+  "OBS-0123": {
+   "value": "def ht(x: f32[16, 16] @ DRAM):\n    for io in seq(0, 4):\n        for jo in seq(0, 2):\n            for ii in seq(0, 4):\n                for ji in seq(0, 8):\n                    x[4 * io + ii, 8 * jo + ji] = 0.0"
+  },
+  "OBS-DOCS": {
+   "ok": "intact"
+  }
+ }
+}

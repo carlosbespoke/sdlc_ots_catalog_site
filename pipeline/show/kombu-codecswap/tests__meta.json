@@ -1,0 +1,13 @@
+{
+  "root_causes": [
+    {"accept": [{"file": "kombu/messaging.py", "function": "Producer._prepare"}]},
+    {"accept": [{"file": "kombu/serialization.py", "function": "SerializerRegistry.loads"},
+                {"file": "kombu/serialization.py", "function": "loads"}]}
+  ],
+  "default_reproducer": "tests/test_legacy_charset.py",
+  "fix_tests": ["fix/probe_1.py", "fix/probe_2.py", "fix/probe_3.py"],
+  "alt_fixes": ["alt_fix_1.patch", "alt_fix_2.patch"],
+  "runtime_fix": {"kind": "pythonpath", "path": "runtime_fix"},
+  "p2p": {"command": "python -m pytest -p no:cacheprovider --color=no -q t/unit",
+          "selection": "every test passing on buggy and on buggy + gold (recorded at verifier build)"}
+}

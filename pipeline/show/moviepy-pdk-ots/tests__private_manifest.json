@@ -1,0 +1,934 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 2400,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "d6e7a225bb5b5565b78c12f7962a03605ae75c01f83eb4b969ce278f613e8d9f",
+  "documentation.json": "c5d201d69a55bf9a7caa4b09eb95cbecbea2c916cf62ee45e6997bdb41b9cc7d",
+  "driver.py": "8a4d5efa8ed28d4c858d85216e8297843a577f52712c4a6a121cdc4b433ef678",
+  "expected.json": "e8ebb068d91d8a887db8139a4a682a59205669f90daaef004f60aa6abb828abc"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "GROUP-0001",
+    "kind": "f2p",
+    "requirement": "with_section_cut_out skips the interval from start_time until end_time, including the frame at the start boundary, in video, mask and audio. Result duration is original duration minus removed length. It returns copied media and leaves the original unchanged.",
+    "tests": [
+     "OBS-0001",
+     "OBS-0002",
+     "OBS-0003"
+    ]
+   },
+   {
+    "id": "GROUP-0002",
+    "kind": "f2p",
+    "requirement": "General time_transform evaluates original media at time_func(t), leaves originals unchanged, defaults to no attachment transformation and clears duration/end. Explicit apply_to selects mask/audio by string or list, and keep_duration=True preserves timing; selected attachments receive the same policy. ImageClip overrides leave their image and own timing unchanged regardless of keep_duration, default to both attachments, and accept list selection; transformed general attachments default to cleared duration/end.",
+    "tests": [
+     "OBS-0004",
+     "OBS-0005",
+     "OBS-0006",
+     "OBS-0007",
+     "OBS-0008"
+    ]
+   },
+   {
+    "id": "GROUP-0003",
+    "kind": "f2p",
+    "requirement": "Zero-padding concatenation plays clips consecutively in supplied order, including correctly placed available soundtracks when other clips are silent. Chain returns source frames; compose centers inputs in the maximum-width/maximum-height canvas filled by bg_color. Duration is the sum of input durations and FPS is the highest input FPS. Media time within each input is relative to that input's sequence start.",
+    "tests": [
+     "OBS-0009",
+     "OBS-0010",
+     "OBS-0011",
+     "OBS-0012"
+    ]
+   },
+   {
+    "id": "GROUP-0004",
+    "kind": "f2p",
+    "requirement": "with_start returns a copy, converts supported seconds/tuple/string times, and propagates to audio and mask. With default change_end=True end becomes start+duration; with False a known end is retained and duration becomes end-start. with_duration copies and propagates duration, updating end by default or start with change_end=False. Neither operation trims source media; originals retain metadata and samples.",
+    "tests": [
+     "OBS-0013",
+     "OBS-0014",
+     "OBS-0015",
+     "OBS-0016",
+     "OBS-0017"
+    ]
+   },
+   {
+    "id": "GROUP-0005",
+    "kind": "f2p",
+    "requirement": "subclipped returns copied media playing the original from start_time to end_time, with matching subclips of audio and mask. Supported time representations convert to seconds. Negative endpoints are relative to original duration; omitted end uses original duration. The resulting duration is end-start and its end is its start plus duration. Original media and metadata are unchanged.",
+    "tests": [
+     "OBS-0018",
+     "OBS-0019",
+     "OBS-0020"
+    ]
+   },
+   {
+    "id": "GROUP-0006",
+    "kind": "p2p",
+    "requirement": "with_section_cut_out skips the interval from start_time until end_time, including the frame at the start boundary, in video, mask and audio. Result duration is original duration minus removed length. It returns copied media and leaves the original unchanged.",
+    "tests": [
+     "OBS-0021",
+     "OBS-0022",
+     "OBS-0023"
+    ]
+   },
+   {
+    "id": "GROUP-0007",
+    "kind": "p2p",
+    "requirement": "General time_transform evaluates original media at time_func(t), leaves originals unchanged, defaults to no attachment transformation and clears duration/end. Explicit apply_to selects mask/audio by string or list, and keep_duration=True preserves timing; selected attachments receive the same policy. ImageClip overrides leave their image and own timing unchanged regardless of keep_duration, default to both attachments, and accept list selection; transformed general attachments default to cleared duration/end.",
+    "tests": [
+     "OBS-0024",
+     "OBS-0025",
+     "OBS-0026",
+     "OBS-0027",
+     "OBS-0028",
+     "OBS-0029",
+     "OBS-0030",
+     "OBS-0031",
+     "OBS-0032",
+     "OBS-0033",
+     "OBS-0034",
+     "OBS-0035",
+     "OBS-0036",
+     "OBS-0037"
+    ]
+   },
+   {
+    "id": "GROUP-0008",
+    "kind": "p2p",
+    "requirement": "Zero-padding concatenation plays clips consecutively in supplied order, including correctly placed available soundtracks when other clips are silent. Chain returns source frames; compose centers inputs in the maximum-width/maximum-height canvas filled by bg_color. Duration is the sum of input durations and FPS is the highest input FPS. Media time within each input is relative to that input's sequence start.",
+    "tests": [
+     "OBS-0038",
+     "OBS-0039",
+     "OBS-0040",
+     "OBS-0041",
+     "OBS-0042",
+     "OBS-0043",
+     "OBS-0044",
+     "OBS-0045"
+    ]
+   },
+   {
+    "id": "GROUP-0009",
+    "kind": "p2p",
+    "requirement": "with_speed_scaled multiplies playback speed by factor, or derives the factor from final_duration. It remaps video, audio and mask consistently, sets the scaled duration, and returns copied media without changing the original.",
+    "tests": [
+     "OBS-0046",
+     "OBS-0047",
+     "OBS-0048",
+     "OBS-0049",
+     "OBS-0050"
+    ]
+   },
+   {
+    "id": "GROUP-0010",
+    "kind": "p2p",
+    "requirement": "with_start returns a copy, converts supported seconds/tuple/string times, and propagates to audio and mask. With default change_end=True end becomes start+duration; with False a known end is retained and duration becomes end-start. with_duration copies and propagates duration, updating end by default or start with change_end=False. Neither operation trims source media; originals retain metadata and samples.",
+    "tests": [
+     "OBS-0051",
+     "OBS-0052",
+     "OBS-0053",
+     "OBS-0054",
+     "OBS-0055",
+     "OBS-0056",
+     "OBS-0057",
+     "OBS-0058"
+    ]
+   },
+   {
+    "id": "GROUP-0011",
+    "kind": "p2p",
+    "requirement": "subclipped returns copied media playing the original from start_time to end_time, with matching subclips of audio and mask. Supported time representations convert to seconds. Negative endpoints are relative to original duration; omitted end uses original duration. The resulting duration is end-start and its end is its start plus duration. Original media and metadata are unchanged.",
+    "tests": [
+     "OBS-0059",
+     "OBS-0060",
+     "OBS-0061",
+     "OBS-0062",
+     "OBS-0063",
+     "OBS-0064",
+     "OBS-0065"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CLIP-WITH-END",
+    "kind": "p2p",
+    "requirement": "Clip.with_end returns a copy with end set (seconds, tuple or string), keeps start and sets duration to end - start; the audio and mask get the same timing; the original is unchanged.",
+    "tests": [
+     "OBS-0066",
+     "OBS-0067",
+     "OBS-0068"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CLIP-WITH-DURATION",
+    "kind": "p2p",
+    "requirement": "Clip.with_duration returns a copy whose duration is set (any time format) and, with the default change_end=True, whose end becomes start + duration; the audio and mask get the same duration.",
+    "tests": [
+     "OBS-0069",
+     "OBS-0070"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CLIP-WITH-FPS",
+    "kind": "p2p",
+    "requirement": "Clip.with_fps returns a copy with the new fps; with change_duration=True the speed changes so every frame is kept (halving the fps doubles the duration).",
+    "tests": [
+     "OBS-0071",
+     "OBS-0072"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CLIP-FLAGS",
+    "kind": "p2p",
+    "requirement": "with_is_mask and with_memoize return copies with the is_mask / memoize attributes set; with_updated_frame_function returns a copy whose frames come from the new function.",
+    "tests": [
+     "OBS-0073",
+     "OBS-0074"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CLIP-ITER-FRAMES",
+    "kind": "p2p",
+    "requirement": "Clip.iter_frames yields int(duration*fps) frames at times frame_index/fps, using the clip's fps by default; with_times=True yields (t, frame) pairs; dtype casts the frames; a clip without duration cannot be iterated.",
+    "tests": [
+     "OBS-0075",
+     "OBS-0076",
+     "OBS-0077"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CLIP-IS-PLAYING",
+    "kind": "p2p",
+    "requirement": "Clip.is_playing(t) tells whether t lies between the clip's start and end (any time format); for a numpy array of times it returns False when none is in the clip, else a vector of per-time booleans.",
+    "tests": [
+     "OBS-0078",
+     "OBS-0079"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CLIP-SLICING",
+    "kind": "p2p",
+    "requirement": "clip[a:b] equals clip.subclipped(a, b); a third slice value is a speed coefficient (clip[:2:2] lasts half as long); a negative step plays the clip backwards; a tuple of slices concatenates the segments; a non-slice key returns the frame at that time.",
+    "tests": [
+     "OBS-0080",
+     "OBS-0081",
+     "OBS-0082"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CLIP-EQUALITY-CONTEXT",
+    "kind": "p2p",
+    "requirement": "Two clips are equal when they have the same number of frames and identical frames; clips are context managers whose exit calls close().",
+    "tests": [
+     "OBS-0083",
+     "OBS-0084"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CLIP-WITH-EFFECTS",
+    "kind": "p2p",
+    "requirement": "with_effects returns a copy of the clip with the effects applied in list order, each effect being copied before it is applied, and leaves the original clip unchanged.",
+    "tests": [
+     "OBS-0085",
+     "OBS-0086"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CLIP-VOLUME-SCALED",
+    "kind": "p2p",
+    "requirement": "with_volume_scaled(factor) multiplies the audio volume by factor (see afx.MultiplyVolume), optionally only between start_time and end_time.",
+    "tests": [
+     "OBS-0087",
+     "OBS-0088"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CLIP-TRANSFORM-MAIN",
+    "kind": "p2p",
+    "requirement": "transform(func) returns a clip whose frame at t is func(get_frame, t); time_transform(time_func) returns a clip whose frame at t is the original frame at time_func(t); by default neither changes the mask or the audio.",
+    "tests": [
+     "OBS-0089",
+     "OBS-0090",
+     "OBS-0091"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CLIP-SUBCLIP-ERRORS",
+    "kind": "p2p",
+    "requirement": "subclipped refuses a start_time at or after the clip's duration and an end_time beyond it with ValueError; a negative start_time counts from the end; times may be strings or tuples.",
+    "tests": [
+     "OBS-0092",
+     "OBS-0093"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TOOLS-CONVERT-TO-SECONDS",
+    "kind": "p2p",
+    "requirement": "convert_to_seconds converts seconds, (min, sec), (hour, min, sec) tuples and 'HH:MM:SS.ss' strings (a comma also works as decimal separator) into seconds, as in its documented examples.",
+    "tests": [
+     "OBS-0094"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TOOLS-HELPERS",
+    "kind": "p2p",
+    "requirement": "find_extension maps documented codecs to file extensions and returns an extension unchanged; deprecated_version_of returns a function that warns and delegates; ffmpeg_escape_filename prefixes names starting with '-'; no_display_available reports whether a display is available.",
+    "tests": [
+     "OBS-0095",
+     "OBS-0096",
+     "OBS-0097"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TOOLS-PROCESS",
+    "kind": "p2p",
+    "requirement": "cross_platform_popen_params returns the given Popen parameters (with Windows-only additions on Windows); subprocess_call runs a command and raises IOError when it fails.",
+    "tests": [
+     "OBS-0098",
+     "OBS-0099"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TOOLS-CLOSE-ALL",
+    "kind": "p2p",
+    "requirement": "close_all_clips closes every clip found in the given objects (a dict of names to objects) whose kind is in types.",
+    "tests": [
+     "OBS-0100"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DECORATORS",
+    "kind": "p2p",
+    "requirement": "requires_duration raises ValueError for a clip without duration; requires_fps raises ValueError without fps; convert_parameter_to_seconds converts the named arguments with convert_to_seconds; outplace applies the method to a copy; use_clip_fps_by_default fills fps from the clip; add_mask_if_none adds a mask; apply_to_mask / apply_to_audio also apply the method to the mask / audio.",
+    "tests": [
+     "OBS-0101",
+     "OBS-0102",
+     "OBS-0103"
+    ]
+   },
+   {
+    "id": "GROUP-COV-EFFECT-CUSTOM",
+    "kind": "p2p",
+    "requirement": "An Effect subclass implements apply(clip) returning the new clip; with_effects copies the effect before applying it; Effect.copy returns an independent shallow copy; Effect is abstract.",
+    "tests": [
+     "OBS-0104",
+     "OBS-0105"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-ACCELDECEL",
+    "kind": "p2p",
+    "requirement": "AccelDecel(new_duration, abruptness, soonness) remaps time so the result lasts new_duration (default the clip's duration), starts at the first frame and ends at the last; abruptness 0 has no effect; a negative soonness raises ValueError.",
+    "tests": [
+     "OBS-0106",
+     "OBS-0107",
+     "OBS-0108"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-BLACKANDWHITE",
+    "kind": "p2p",
+    "requirement": "BlackAndWhite desaturates the frames: every channel becomes the RGB-weighted mean (weights [1,1,1] by default, 'CRT_phosphor' preset), normalised to sum 1 with preserve_luminosity.",
+    "tests": [
+     "OBS-0109",
+     "OBS-0110"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-BLINK",
+    "kind": "p2p",
+    "requirement": "Blink(duration_on, duration_off) makes the clip's mask visible for duration_on seconds then invisible for duration_off seconds, repeatedly (a mask is added when missing).",
+    "tests": [
+     "OBS-0111"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-CROP",
+    "kind": "p2p",
+    "requirement": "Crop keeps the rectangular region x1,y1 (top-left) to x2,y2 (bottom-right), in pixels; width/height and x_center/y_center can replace corners; omitted bounds default to the clip's edges; the mask is cropped too.",
+    "tests": [
+     "OBS-0112",
+     "OBS-0113",
+     "OBS-0114"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-CROSSFADE",
+    "kind": "p2p",
+    "requirement": "CrossFadeIn/CrossFadeOut(duration) make the clip appear/disappear progressively over duration seconds by fading its mask from/to 0 (a mask is added when missing); a clip without duration raises ValueError.",
+    "tests": [
+     "OBS-0115",
+     "OBS-0116",
+     "OBS-0117"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-EVENSIZE",
+    "kind": "p2p",
+    "requirement": "EvenSize crops the clip so its width and height are even (an even clip is unchanged).",
+    "tests": [
+     "OBS-0118"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-FADE",
+    "kind": "p2p",
+    "requirement": "FadeIn(duration, initial_color) fades the clip from initial_color (black by default, 0 for masks) over the first duration seconds; FadeOut(duration, final_color) fades to final_color over the last duration seconds; FadeOut needs a duration.",
+    "tests": [
+     "OBS-0119",
+     "OBS-0120",
+     "OBS-0121"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-FREEZE",
+    "kind": "p2p",
+    "requirement": "Freeze(t, freeze_duration | total_duration) inserts a still of the frame at t lasting freeze_duration (or total_duration - clip.duration); t='end' freezes the last frame; without either duration it raises ValueError.",
+    "tests": [
+     "OBS-0122",
+     "OBS-0123",
+     "OBS-0124"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-FREEZEREGION",
+    "kind": "p2p",
+    "requirement": "FreezeRegion(t, region | outside_region | mask) freezes one region of the frame at time t while the rest stays animated.",
+    "tests": [
+     "OBS-0125",
+     "OBS-0126"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-GAMMA-LUM",
+    "kind": "p2p",
+    "requirement": "GammaCorrection(gamma) maps each value v to 255*(v/255)**gamma; LumContrast(lum, contrast, contrast_threshold) maps v to v + lum + contrast*(v - threshold), clipped to [0, 255].",
+    "tests": [
+     "OBS-0127",
+     "OBS-0128"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-HEADBLUR",
+    "kind": "p2p",
+    "requirement": "HeadBlur(fx, fy, radius, intensity) blurs a disc of the given radius around (fx(t), fy(t)) and leaves the rest of the frame unchanged.",
+    "tests": [
+     "OBS-0129"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-INVERT-MULTIPLYCOLOR",
+    "kind": "p2p",
+    "requirement": "InvertColors replaces each value v by 255 - v (1 - v for masks); MultiplyColor(factor) multiplies the colours by factor, capped at 255.",
+    "tests": [
+     "OBS-0130",
+     "OBS-0131"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-LOOP",
+    "kind": "p2p",
+    "requirement": "Loop(n | duration) plays the clip repeatedly: n times (duration n*clip.duration) or for duration seconds; a clip without duration raises ValueError.",
+    "tests": [
+     "OBS-0132",
+     "OBS-0133",
+     "OBS-0134"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-MAKELOOPABLE",
+    "kind": "p2p",
+    "requirement": "MakeLoopable(overlap_duration) makes the clip fade in at its own end; the result lasts clip.duration - overlap_duration.",
+    "tests": [
+     "OBS-0135"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-MARGIN",
+    "kind": "p2p",
+    "requirement": "Margin draws a margin of margin_size pixels (or left/right/top/bottom) around the frame in the given colour; opacity below 1 makes the margin partly transparent through a mask.",
+    "tests": [
+     "OBS-0136",
+     "OBS-0137",
+     "OBS-0138"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-MASKCOLOR",
+    "kind": "p2p",
+    "requirement": "MaskColor(color, threshold, stiffness) adds a mask that is transparent (0) where the frame has the given colour and opaque (1) elsewhere; with a threshold the mask is d**s/(threshold**s + d**s).",
+    "tests": [
+     "OBS-0139"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-MASKS-AND-OR",
+    "kind": "p2p",
+    "requirement": "MasksAnd/MasksOr combine a clip with another clip or array by the minimum/maximum of pixel values, as in their documented red/green examples.",
+    "tests": [
+     "OBS-0140",
+     "OBS-0141"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-MIRROR",
+    "kind": "p2p",
+    "requirement": "MirrorX flips the frames horizontally and MirrorY vertically, the mask too by default.",
+    "tests": [
+     "OBS-0142",
+     "OBS-0143"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-MULTIPLYSPEED",
+    "kind": "p2p",
+    "requirement": "MultiplySpeed(factor | final_duration) plays the clip factor times faster (or so it lasts final_duration) and divides its duration accordingly.",
+    "tests": [
+     "OBS-0144"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-PAINTING",
+    "kind": "p2p",
+    "requirement": "Painting(saturation, black) transforms each frame into a painting-like image of the same size.",
+    "tests": [
+     "OBS-0145"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-RESIZE",
+    "kind": "p2p",
+    "requirement": "Resize(new_size | height | width) resizes the clip to (width, height) pixels, by a scale factor, or to a given height or width keeping the aspect ratio; new_size may be a function of time; the mask is resized too; a uniform colour stays the same.",
+    "tests": [
+     "OBS-0146",
+     "OBS-0147",
+     "OBS-0148"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-ROTATE",
+    "kind": "p2p",
+    "requirement": "Rotate(angle, unit) rotates the frames anticlockwise by angle degrees (or radians); multiples of 90 with expand keep every pixel; expand=False keeps the input size; an unknown resample raises ValueError.",
+    "tests": [
+     "OBS-0149",
+     "OBS-0150",
+     "OBS-0151"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-SCROLL",
+    "kind": "p2p",
+    "requirement": "Scroll(w, h, x_speed, y_speed, x_start, y_start) shows a w x h window moving over the frame at the given speeds from the given start.",
+    "tests": [
+     "OBS-0152"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-SLIDE",
+    "kind": "p2p",
+    "requirement": "SlideIn/SlideOut(duration, side) set a time-dependent position so the clip enters from / leaves through the given side of a CompositeVideoClip over duration seconds.",
+    "tests": [
+     "OBS-0153",
+     "OBS-0154"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-SUPERSAMPLE",
+    "kind": "p2p",
+    "requirement": "SuperSample(d, n_frames) replaces the frame at t by the mean of n_frames equally spaced frames in [t-d, t+d].",
+    "tests": [
+     "OBS-0155"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-TIMEMIRROR-SYMMETRIZE",
+    "kind": "p2p",
+    "requirement": "TimeMirror plays the clip backwards; TimeSymmetrize plays it forwards then backwards (twice the duration); both need a duration.",
+    "tests": [
+     "OBS-0156",
+     "OBS-0157",
+     "OBS-0158"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VFX-PACKAGE",
+    "kind": "p2p",
+    "requirement": "moviepy.video.fx exposes every documented video effect class and moviepy.audio.fx every audio effect class, both available as vfx and afx from moviepy.",
+    "tests": [
+     "OBS-0159"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AFX-DELAY",
+    "kind": "p2p",
+    "requirement": "AudioDelay(offset, n_repeats, decay) repeats the sound n_repeats times every offset seconds with volumes linearly spaced from 1 to decay.",
+    "tests": [
+     "OBS-0160"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AFX-FADES",
+    "kind": "p2p",
+    "requirement": "AudioFadeIn(duration) starts mute and reaches the normal level after duration seconds; AudioFadeOut fades to zero over the last duration seconds; durations accept time strings; both apply to a video's audio too.",
+    "tests": [
+     "OBS-0161",
+     "OBS-0162"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AFX-LOOP",
+    "kind": "p2p",
+    "requirement": "AudioLoop(n_loops | duration) plays the sound n_loops times or for duration seconds.",
+    "tests": [
+     "OBS-0163"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AFX-NORMALIZE",
+    "kind": "p2p",
+    "requirement": "AudioNormalize scales the sound so its maximum volume becomes 1 (0 dB); a silent clip is unchanged.",
+    "tests": [
+     "OBS-0164"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AFX-VOLUME",
+    "kind": "p2p",
+    "requirement": "MultiplyVolume(factor, start_time, end_time) multiplies the volume by factor, by default over the whole clip; MultiplyStereoVolume(left, right) multiplies the left and right channels separately.",
+    "tests": [
+     "OBS-0165",
+     "OBS-0166"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-BASICS",
+    "kind": "p2p",
+    "requirement": "A VideoClip built from frame_function(t) -> HxWx3 array has size (width, height), w, h, aspect_ratio w/h, n_frames duration*fps; a mask clip (is_mask=True) has greyscale frames.",
+    "tests": [
+     "OBS-0167",
+     "OBS-0168"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-COPY",
+    "kind": "p2p",
+    "requirement": "Copying a VideoClip (with_* methods work on copies) leaves the original's attributes, mask and audio unchanged.",
+    "tests": [
+     "OBS-0169"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-SAVE-FRAME",
+    "kind": "p2p",
+    "requirement": "save_frame(filename, t) writes the frame at time t (any time format) to an image file; with_mask stores the mask as alpha in PNGs.",
+    "tests": [
+     "OBS-0170",
+     "OBS-0171"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-WRITE-VIDEOFILE",
+    "kind": "p2p",
+    "requirement": "write_videofile writes the clip to a video file with the given (or the clip's) fps, choosing the codec from the extension; the clip's audio is written as the soundtrack; reading the file back gives the same size, fps and duration.",
+    "tests": [
+     "OBS-0172",
+     "OBS-0173"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-WRITE-IMAGES",
+    "kind": "p2p",
+    "requirement": "write_images_sequence writes one image per frame at the given fps using the name_format pattern and returns the list of file names.",
+    "tests": [
+     "OBS-0174"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-WRITE-GIF",
+    "kind": "p2p",
+    "requirement": "write_gif writes the clip as an animated GIF with the given (or the clip's) fps.",
+    "tests": [
+     "OBS-0175"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-EFFECTS-ON-SUBCLIP",
+    "kind": "p2p",
+    "requirement": "with_effects_on_subclip(effects, start_time, end_time) applies the effects to the part of the clip between start_time and end_time and keeps the rest.",
+    "tests": [
+     "OBS-0176"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-IMAGE-TRANSFORM",
+    "kind": "p2p",
+    "requirement": "image_transform(image_func) replaces each frame by image_func(frame); apply_to=['mask'] also transforms the mask.",
+    "tests": [
+     "OBS-0177",
+     "OBS-0178"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-FILL-ARRAY",
+    "kind": "p2p",
+    "requirement": "fill_array pads a smaller array with ones at the bottom/right, or crops a larger one from the bottom/right, to the requested shape.",
+    "tests": [
+     "OBS-0179"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-BACKGROUND",
+    "kind": "p2p",
+    "requirement": "with_background_color(size, color, pos, opacity) places the clip on a coloured background of the given size (default the clip's size), centred by default.",
+    "tests": [
+     "OBS-0180",
+     "OBS-0181"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-AUDIO-MASK",
+    "kind": "p2p",
+    "requirement": "with_audio returns a copy with the audio attached and without_audio a copy without it; with_mask() adds a solid mask of 1.0 (or the given mask) and without_mask removes it; with_opacity multiplies the mask by the opacity.",
+    "tests": [
+     "OBS-0182",
+     "OBS-0183"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-POSITION-LAYER",
+    "kind": "p2p",
+    "requirement": "with_position sets the clip's position in compositions: pixel coordinates, keywords such as 'center' and 'top', fractions with relative=True, or a function of t; with_layer_index sets the layer.",
+    "tests": [
+     "OBS-0184",
+     "OBS-0185"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-SHORTCUTS",
+    "kind": "p2p",
+    "requirement": "resized, rotated and cropped are shortcuts for vfx.Resize, vfx.Rotate and vfx.Crop.",
+    "tests": [
+     "OBS-0186"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-CONVERSIONS",
+    "kind": "p2p",
+    "requirement": "to_ImageClip(t) returns an ImageClip of the frame at t (any time format, with the mask by default); to_mask(canal) returns a mask clip from one colour channel scaled to 0-1; to_RGB turns a mask into an RGB clip.",
+    "tests": [
+     "OBS-0187",
+     "OBS-0188"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-OPERATORS",
+    "kind": "p2p",
+    "requirement": "clip1 + clip2 concatenates, clip1 | clip2 places them side by side, clip1 / clip2 stacks them, clip @ angle rotates and clip & mask uses mask as the clip's mask; clip * n loops.",
+    "tests": [
+     "OBS-0189",
+     "OBS-0190"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DATAVIDEOCLIP",
+    "kind": "p2p",
+    "requirement": "DataVideoClip(data, data_to_frame, fps) shows data_to_frame(data[i]) as frame i; its duration is len(data)/fps.",
+    "tests": [
+     "OBS-0191"
+    ]
+   },
+   {
+    "id": "GROUP-COV-UPDATEDVIDEOCLIP",
+    "kind": "p2p",
+    "requirement": "UpdatedVideoClip(world) calls world.update() until world.clip_t reaches t and shows world.to_frame().",
+    "tests": [
+     "OBS-0192"
+    ]
+   },
+   {
+    "id": "GROUP-COV-IMAGECLIP",
+    "kind": "p2p",
+    "requirement": "ImageClip shows a picture (an RGB array or an image file) at all times; an RGBA image with transparent=True gives the clip a mask from the alpha channel; is_mask makes a mask clip; image_transform on an ImageClip returns an ImageClip.",
+    "tests": [
+     "OBS-0193",
+     "OBS-0194",
+     "OBS-0195"
+    ]
+   },
+   {
+    "id": "GROUP-COV-COLORCLIP",
+    "kind": "p2p",
+    "requirement": "ColorClip(size, color) shows one colour (black by default); with is_mask=True the colour is a float between 0 and 1.",
+    "tests": [
+     "OBS-0196"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TEXTCLIP",
+    "kind": "p2p",
+    "requirement": "TextClip renders text with the given (or Pillow's default) font: method='label' sizes the clip to the text, method='caption' wraps the text in the given size; color, bg_color, margin and duration are applied; transparent text clips get a mask.",
+    "tests": [
+     "OBS-0197",
+     "OBS-0198",
+     "OBS-0199"
+    ]
+   },
+   {
+    "id": "GROUP-COV-BITMAPCLIP",
+    "kind": "p2p",
+    "requirement": "BitmapClip(bitmap_frames, fps) builds frames from rows of colour letters (R, G, B, ...) and to_bitmap returns the same representation.",
+    "tests": [
+     "OBS-0200"
+    ]
+   },
+   {
+    "id": "GROUP-COV-COMPOSITE",
+    "kind": "p2p",
+    "requirement": "CompositeVideoClip layers clips in increasing layer_index order (later clips on top for equal layers) on a bg_color background of the given size (default the first clip's size); masks make parts transparent; its duration is the maximum end of the clips; its fps is the highest fps; the clips' audio is mixed.",
+    "tests": [
+     "OBS-0201",
+     "OBS-0202",
+     "OBS-0203"
+    ]
+   },
+   {
+    "id": "GROUP-COV-COMPOSITE-BGCLIP",
+    "kind": "p2p",
+    "requirement": "With use_bgclip=True the first clip is the background on which the others are drawn; it is excluded from the automatic duration.",
+    "tests": [
+     "OBS-0204"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CLIPS-ARRAY",
+    "kind": "p2p",
+    "requirement": "clips_array arranges a matrix of clips in rows and columns; smaller clips are centred in their cell on bg_color; row heights and column widths default to the largest clip in each row and column.",
+    "tests": [
+     "OBS-0205"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CONCATENATE-MORE",
+    "kind": "p2p",
+    "requirement": "concatenate_videoclips plays the clips one after another; padding adds a gap (or with method='compose' a negative overlap) between consecutive clips; a transition clip is played between each two clips.",
+    "tests": [
+     "OBS-0206",
+     "OBS-0207"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AUDIOCLIP",
+    "kind": "p2p",
+    "requirement": "An AudioClip built from frame_function(t) has nchannels 1 for mono and 2 for stereo and returns one sample (or one row per channel pair) per time; iter_chunks, to_soundarray and max_volume read the sound at the given fps.",
+    "tests": [
+     "OBS-0208",
+     "OBS-0209",
+     "OBS-0210"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AUDIO-WRITE",
+    "kind": "p2p",
+    "requirement": "write_audiofile writes the sound to a file (codec from the extension, fps default the clip's fps); reading it back gives the same duration and channel count.",
+    "tests": [
+     "OBS-0211"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AUDIOARRAYCLIP",
+    "kind": "p2p",
+    "requirement": "AudioArrayClip(array, fps) plays an Nx1 or Nx2 array at fps samples per second; its duration is N/fps.",
+    "tests": [
+     "OBS-0212"
+    ]
+   },
+   {
+    "id": "GROUP-COV-COMPOSITEAUDIO",
+    "kind": "p2p",
+    "requirement": "CompositeAudioClip mixes clips that start at their own start times (starts/ends); its duration is the latest end; concatenate_audioclips plays clips one after another; audio + audio concatenates.",
+    "tests": [
+     "OBS-0213",
+     "OBS-0214"
+    ]
+   },
+   {
+    "id": "GROUP-COV-PACKAGE",
+    "kind": "p2p",
+    "requirement": "from moviepy import * exposes the clip classes, compositing functions, effect packages vfx/afx, Effect, convert_to_seconds, video tools and file clips.",
+    "tests": [
+     "OBS-0215"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TOOLS-COMPUTE-POSITION",
+    "kind": "p2p",
+    "requirement": "compute_position(clip1_size, clip2_size, pos, relative) returns the top-left corner of clip 1 on clip 2 for pixel positions, keywords ('center', 'left', 'right', 'top', 'bottom') and relative fractions; None means (0, 0).",
+    "tests": [
+     "OBS-0216"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DECORATORS-MORE",
+    "kind": "p2p",
+    "requirement": "convert_masks_to_RGB converts a mask clip to RGB before the call; audio_video_effect applies an audio effect to a video clip's audio and returns the video clip; preprocess_args applies a function to the named arguments; convert_path_to_string turns path-like arguments into strings.",
+    "tests": [
+     "OBS-0217",
+     "OBS-0218"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VIDEO-COMPOSE-ON",
+    "kind": "p2p",
+    "requirement": "compose_on(background, t) returns the clip's frame at t drawn on the background picture at the clip's position, accounting for the clip's mask.",
+    "tests": [
+     "OBS-0219"
+    ]
+   },
+   {
+    "id": "GROUP-COV-IMAGECLIP-TRANSFORM",
+    "kind": "p2p",
+    "requirement": "ImageClip.transform returns an animated VideoClip (no longer an ImageClip) whose frame at t is func(get_frame, t).",
+    "tests": [
+     "OBS-0220"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TEXTCLIP-MORE",
+    "kind": "p2p",
+    "requirement": "TextClip can read its text from a file (filename), and with transparent=False it has no mask.",
+    "tests": [
+     "OBS-0221"
+    ]
+   },
+   {
+    "id": "GROUP-COV-COMPOSITE-MORE",
+    "kind": "p2p",
+    "requirement": "CompositeVideoClip.playing_clips(t) lists the clips playing at t; with is_mask=True the composite is a mask clip; with bg_color=None the unfilled regions are transparent through the composite mask.",
+    "tests": [
+     "OBS-0222",
+     "OBS-0223",
+     "OBS-0224"
+    ]
+   },
+   {
+    "id": "GROUP-COV-IMAGESEQUENCE",
+    "kind": "p2p",
+    "requirement": "A sequence of images written by write_images_sequence can be loaded back as a clip of the given fps (ImageSequenceClip, documented in the loading guide).",
+    "tests": [
+     "OBS-0225"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   }
+  ]
+ }
+}

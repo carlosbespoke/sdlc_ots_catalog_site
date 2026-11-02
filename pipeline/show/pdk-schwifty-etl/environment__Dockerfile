@@ -1,0 +1,35 @@
+FROM mirror.gcr.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+
+ARG REPO_URL=https://github.com/mdomke/schwifty.git
+ARG BASE_COMMIT=e40e32fdc99e42d222deb55a1dd350f18fb1cf1d
+ENV CI=1 PIP_DISABLE_PIP_VERSION_CHECK=1 PYTHONDONTWRITEBYTECODE=1
+
+# tmux and asciinema are required by Harbor's solver agent.
+RUN set -eu; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+      tmux asciinema bash build-essential ca-certificates curl file git jq less procps vim-tiny; \
+    rm -rf /var/lib/apt/lists/*
+
+# The repository at the base commit only: one commit, no remote, no reflog.
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" \
+    && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD \
+    && test "$(git -C /app rev-parse HEAD)" = "$BASE_COMMIT" \
+    && git -C /app remote remove origin && rm -f /app/.git/FETCH_HEAD \
+    && git -C /app reflog expire --expire=now --all && git -C /app gc -q --prune=now
+
+# The project's own environment from its uv.lock (every extra and dependency group), outside /app,
+# with the package installed editable. uv is pointed at it and kept offline, so `uv run poe ...`
+# works without a network.
+ENV UV_PROJECT_ENVIRONMENT=/opt/venv UV_PYTHON_DOWNLOADS=never UV_LINK_MODE=copy
+RUN set -eu; pip install -q uv==0.12.23; \
+    cd /app && uv sync -q --frozen --all-extras --all-groups --python /usr/local/bin/python3.12; \
+    rm -rf /root/.cache/uv; \
+    git -C /app status --porcelain | grep . && exit 1 || true
+ENV PATH=/opt/venv/bin:$PATH UV_NO_SYNC=1 UV_OFFLINE=1 UV_FROZEN=1
+
+# Sample data, outside /app.
+COPY data/ /data/
+
+CMD ["/bin/bash"]

@@ -1,0 +1,15 @@
+FROM golang:1.26.4-bookworm@sha256:b305420a68d0f229d91eb3b3ed9e519fcf2cf5461da4bef997bf927e8c0bfd2b
+ARG REPO_URL=https://github.com/goharbor/harbor.git
+ARG BASE_COMMIT=b323c0c8ec897038a6090255cf9415e747e4730a
+ENV CI=1 GOMODCACHE=/opt/gomod GOFLAGS=-mod=readonly GOTOOLCHAIN=local GOWORK=off
+RUN set -eu; apt-get update; DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -o Acquire::Retries=5 tmux asciinema bash sudo ca-certificates curl git jq less lsof netcat-openbsd procps python3 vim-tiny postgresql redis-server docker-registry; rm -rf /var/lib/apt/lists/*
+RUN set -eu; service postgresql start; su postgres -c "psql -v ON_ERROR_STOP=1 -c \"ALTER USER postgres PASSWORD 'postgres'\""; service postgresql stop
+RUN set -eu; useradd -m -s /bin/bash agent; install -d -o agent -g agent /app /logs /logs/artifacts /opt/gomod; git config --system --add safe.directory /app; printf 'agent ALL=(root) NOPASSWD: /usr/sbin/service\n' > /etc/sudoers.d/agent-services; chmod 440 /etc/sudoers.d/agent-services
+USER agent
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD && test "$(git -C /app rev-parse HEAD)" = "$BASE_COMMIT"
+COPY --chown=agent:agent generated/ /app/src/server/v2.0/
+COPY registry-root.crt /opt/harbor-registry-root.crt
+RUN set -eu; cd /app/src; go mod download; go build ./core ./jobservice ./registryctl; chmod -R a+rX /opt/gomod
+USER root
+CMD ["/bin/bash"]

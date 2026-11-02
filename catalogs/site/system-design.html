@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light"><title>System design | Bespoke Labs</title>
+<link rel="icon" href="data:,"><link rel="stylesheet" href="site.css"><script src="site.js" defer></script></head>
+<body id="top"><a class="skip" href="#content">Skip to content</a>
+<header class="band"><div class="band-in"><a class="brand" href="index.html"><img src="assets/bespoke-labs-logo.svg" alt="Bespoke Labs" width="162"></a>
+<span class="div" aria-hidden="true">/</span><div class="crumb"><a href="index.html">OTS catalogs</a> / System design</div></div></header>
+<main id="content" tabindex="-1"><article id="catalog-content">
+<header class="hero"><h1 id="system-design">System design</h1><div class="hero-meta" aria-hidden="true"></div></header>
+<div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,342 tasks">1,342</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="435 tasks">435</span></a><a href="system-design.html" aria-current="page"><span>System design</span><span class="count" aria-label="56 tasks">56</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="378 tasks">378</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="120 tasks">120</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="300 tasks">300</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="36 tasks">36</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#example-tasks-from-the-shortlist">Example tasks from the shortlist</a><a class="level-3" href="#example-1-collaborative-documents-typescript">Example 1: Collaborative documents (TypeScript)</a><a class="level-3" href="#example-2-filesystems-go">Example 2: Filesystems (Go)</a><a class="level-3" href="#example-3-media-processing-typescript">Example 3: Media processing (TypeScript)</a></nav></aside>
+<div class="reading">
+<h2 id="why-this-catalog">Why this catalog</h2>
+<h3 id="problems-engineers-face">Problems engineers face</h3>
+<p>Engineers in this catalog work on services where several processes share state and any of them can stop at any moment. The tasks show five recurring problems. First, duplicate effects after retries or worker restarts. Second, lost notifications when a broker or cache is down after the database commit. Third, stale writers that return after takeover. Fourth, limits and counters that hold in one process but not across instances. Fifth, partial state after a crash. The cluster tasks are system design; the single-component tasks are fault tolerance. Most specs also require that existing behaviour keeps working during the change, so a fix that blocks all writes does not pass. Time bounds such as 45 seconds after recovery turn vague reliability goals into testable ones.</p>
+<h3 id="how-the-tasks-reproduce-them">How the tasks reproduce them</h3>
+<p>Each task pins a real open source repository at a base commit and gives the agent a short written spec with time bounds, such as recovery within 45 seconds. Cluster tasks supply databases, caches or brokers locally or through a compose file, and the instruction says the agent runs separate processes for each role. Docker is unavailable inside the agent container, so the agent starts local services itself. The agent produces a patch to the repository. The verifier runs in a separate environment, applies the patch and hidden tests, and kills or pauses processes and services to check the stated behaviour. The tests also check that existing behaviour listed in a keep-working section still passes.</p>
+<h3 id="typical-prompts">Typical prompts</h3>
+<ul>
+<li>A production symptom with its mechanism, then a bulleted list of measurable requirements with time limits.</li>
+<li>A missing capability stated in the form 'X cannot do Y', followed by dense behavioural paragraphs.</li>
+<li>A story-style problem report from a team, then 'To close this out' requirements.</li>
+<li>A requirements list plus an explicit list of exported names and signatures to implement.</li>
+<li>A closing environment paragraph giving the repo path, service start commands, build command and the note that Docker is unavailable.</li>
+</ul>
+<h2 id="domain-breakdown">Domain breakdown</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Share of tasks by domain</h4></div><div class="fig-box"><img src="assets/system-design_domain.svg" alt="Share of tasks by domain" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Domain</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Sub-domain</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr class="group-header">
+<td><strong>Applications &amp; business domains</strong></td>
+<td></td>
+<td class="numeric"><strong>46.4%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Web applications</td>
+<td class="numeric">30.4%</td>
+</tr>
+<tr>
+<td></td>
+<td>Payments &amp; banking, Collaborative documents, Media processing</td>
+<td class="numeric">16.1%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Distributed systems &amp; coordination</strong></td>
+<td></td>
+<td class="numeric"><strong>12.5%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Workflow automation, Messaging &amp; event streaming, Job scheduling</td>
+<td class="numeric">12.5%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Observability &amp; reliability</strong></td>
+<td></td>
+<td class="numeric"><strong>8.9%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Monitoring &amp; observability</td>
+<td class="numeric">8.9%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Scientific &amp; ML software</strong></td>
+<td></td>
+<td class="numeric"><strong>7.1%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>AI agents &amp; retrieval, Graph algorithms, Medical imaging &amp; healthcare</td>
+<td class="numeric">7.1%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Build, release &amp; supply chain</strong></td>
+<td></td>
+<td class="numeric"><strong>7.1%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>CI/CD, Software supply chain</td>
+<td class="numeric">7.1%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Security</strong></td>
+<td></td>
+<td class="numeric"><strong>5.4%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Secrets &amp; access control</td>
+<td class="numeric">5.4%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Systems, hardware &amp; accelerators</strong></td>
+<td></td>
+<td class="numeric"><strong>3.6%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>IoT &amp; smart home, Filesystems</td>
+<td class="numeric">3.6%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Cloud infrastructure &amp; IaC</strong></td>
+<td></td>
+<td class="numeric"><strong>3.6%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Cloud infra: containers &amp; self-hosted platforms</td>
+<td class="numeric">3.6%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Data engineering &amp; databases</strong></td>
+<td></td>
+<td class="numeric"><strong>3.6%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Data pipelines &amp; ETL</td>
+<td class="numeric">3.6%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Languages &amp; developer tooling</strong></td>
+<td></td>
+<td class="numeric"><strong>1.8%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>API tooling</td>
+<td class="numeric">1.8%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="language-and-seniority">Language and seniority</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Primary language and seniority</h4></div><div class="fig-box"><img src="assets/system-design_metadata.svg" alt="Primary language and seniority" /></div></figure><h3 id="primary-language">Primary language</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Primary language</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Go</td>
+<td class="numeric">30.4%</td>
+</tr>
+<tr>
+<td>Python</td>
+<td class="numeric">28.6%</td>
+</tr>
+<tr>
+<td>C#</td>
+<td class="numeric">21.4%</td>
+</tr>
+<tr>
+<td>TypeScript</td>
+<td class="numeric">19.6%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="seniority">Seniority</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Seniority</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Staff+</td>
+<td class="numeric">100.0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="model-pass-rates-across-the-catalog">Model pass rates across the catalog</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 0%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 20-80%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 100%</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">35%</td>
+<td class="numeric">15%</td>
+<td class="numeric">72%</td>
+<td class="numeric">2%</td>
+</tr>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">1%</td>
+<td class="numeric">91%</td>
+<td class="numeric">0%</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">44%</td>
+<td class="numeric">33%</td>
+<td class="numeric">47%</td>
+<td class="numeric">20%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/system-design_per_task.svg" alt="Per-task pass rate by model" /></div></figure><h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
+<p>A task's turn count is the average over its runs. A task is long horizon when that average is 200 or more turns.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Measure</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Average turn count</td>
+<td class="numeric">475.9</td>
+</tr>
+<tr>
+<td>Median turn count</td>
+<td class="numeric">464.3</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>107 to 948</td>
+</tr>
+<tr>
+<td>Long-horizon tasks (200+ turns)</td>
+<td>91% of tasks</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Turns per task</h4></div><div class="fig-box"><img src="assets/system-design_turns.svg" alt="Turns per task" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of tasks</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean turns</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% with 200+ turns</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">84%</td>
+<td class="numeric">559.1</td>
+<td class="numeric">93%</td>
+</tr>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">20%</td>
+<td class="numeric">281.3</td>
+<td class="numeric">58%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">27%</td>
+<td class="numeric">349.9</td>
+<td class="numeric">88%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="example-tasks-from-the-shortlist">Example tasks from the shortlist</h2>
+<nav class="task-chips" data-ui aria-label="Example tasks"><a href="#example-1-collaborative-documents-typescript">Example 1: Collaborative documents (TypeScript)</a><a href="#example-2-filesystems-go">Example 2: Filesystems (Go)</a><a href="#example-3-media-processing-typescript">Example 3: Media processing (TypeScript)</a></nav>
+<h3 id="example-1-collaborative-documents-typescript">Example 1: Collaborative documents (TypeScript)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>System design</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Applications &amp; business domains</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Collaborative documents</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>TypeScript</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Staff+</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>556 (z-ai/glm-5.3-flash)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A failure scenario described as current behaviour, then outcome requirements with a configured lease value, followed by a keep-working paragraph and a setup paragraph.</p>
+<h4 id="prompt">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<h5 id="fenced-failover-for-document-workers">Fenced failover for document workers</h5>
+<p>We need documents served by a stopped or partitioned document worker to move to another worker, without the old worker overwriting edits if it comes back. Today such a worker keeps its Redis assignments after its liveness report expires, so requests to those documents hang, and simply reassigning them would let the old worker overwrite edits when it resumes.</p>
+<h6 id="what-we-need">What we need</h6>
+<ul>
+<li>With <code>GRIST_DOC_WORKER_LEASE_SECONDS=3</code>, a worker that no longer renews its lease relinquishes its documents on the next home-server lookup. Another available worker serves the last flushed document and accepts edits. Concurrent lookups from two home servers agree on one owner and do not duplicate the document.</li>
+<li>A worker reporting within its lease retains its assignments.</li>
+<li>An old worker resuming after takeover refuses actions from its existing websocket clients and cannot publish another document state or overwrite its checksum. An upload started before takeover but completed afterward cannot become the current document, even if the new owner has already saved edits.</li>
+</ul>
+<h6 id="keep-working">Keep working</h6>
+<p>Normal document reads and edits on multiple workers, the existing worker lookup and <code>GET /status</code>, and coordinated moves through <code>POST /api/docs/:docId/assign</code> that retain flushed edits. Healthy assignments stay stable across home servers and distribute documents across available workers.</p>
+<h6 id="setup">Setup</h6>
+<p>The checkout is at <code>/app</code>. Redis, PostgreSQL and a versioned S3-compatible object store are available through <code>REDIS_URL</code>, <code>TYPEORM_*</code> and <code>GRIST_DOCS_S3_*</code>. Home and doc workers are separate processes from this build (<code>GRIST_SERVERS=home</code> or <code>GRIST_SERVERS=docs</code>). The solver container has no Docker daemon or internet; dependencies are installed. Run TypeScript builds from <code>/app</code> with <code>yarn run build</code>.</p>
+</div>
+</details>
+<h4 id="pass-rates">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">20%</td>
+<td class="numeric">0.20</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-system-design-ex1.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work">How it maps to the work</h4>
+<p>An engineer operating a multi-worker document service has a stopped worker that keeps its Redis assignments, so requests hang, and a naive reassignment would let the old worker overwrite edits on resume. The engineer must add lease-based takeover and fence the stale worker at the websocket, state publication and upload paths.</p>
+<h3 id="example-2-filesystems-go">Example 2: Filesystems (Go)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Fault tolerance</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Systems, hardware &amp; accelerators</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Filesystems</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Go</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Staff+</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>295 (z-ai/glm-5.3-flash)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A capability gap stated in one sentence, dense behavioural requirements, then an explicit list of exported names and signatures the solution must provide.</p>
+<h4 id="prompt-2">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>go-diskfs cannot make crash-recoverable FAT metadata changes on whole disks or numbered partitions. Implement transactions for FAT12, FAT16, and FAT32 so committed mutations survive reopening completely, while rollback or interruption restores the prior coherent filesystem state. Make filesystem tree copying publish one recoverable destination outcome without changing established successful-copy behavior.</p>
+<p>Rollback or interruption restores every touched allocation entry exactly, and overlapping transactions on one filesystem cannot publish conflicting outcomes or displace the active transaction. Reject unrepresentable clusters and values without writing bytes, and make durable state authoritative before reporting success. Include file, directory, allocation-chain, mirrored-table, and FAT32 free-space metadata in one outcome. Keep FAT12 and FAT16 fixed-root behavior without FSInformationSector writes.</p>
+<p>Make recovery idempotent. Validate records against the selected filesystem geometry, never touch neighboring bytes, and return a coherent view before disk opening completes. Preserve existing probing errors, rename matching and replacement behavior, copy exclusions, contents, structure, timestamp handling, and label handling: an ordinary SetLabel made outside any transaction stays durable after the image is reopened. Keep existing exported signatures and concrete return types unchanged; in particular FileSystem.OpenFile continues to return a concrete *fat12.File.</p>
+<p>Atomic copying must expose the complete reachable destination tree after reopening through Disk.GetFilesystem, or restore exactly the preceding tree after any source or destination failure. Nested directories and files must commit as one reachable tree.</p>
+<p>Package github.com/diskfs/go-diskfs/filesystem/fat12 exports TransactionState, FATTransaction, ErrTransactionActive, RecoveryDisposition, and RecoveryReport; ErrTransactionActive reports exactly &quot;FAT transaction already active&quot;. Package github.com/diskfs/go-diskfs/disk exposes Disk.RecoverFAT, and github.com/diskfs/go-diskfs/sync exposes CopyTransactionResult and CopyFileSystemAtomic. Disk.RecoverFAT returns an error, and writes no bytes, when the selected whole disk or partition holds no recognized FAT filesystem.</p>
+<p>A FAT12 transaction spanning adjacent packed entries must reopen with byte-exact rollback or identical committed mirrored tables after durable synchronization. Interrupted file growth must restore the prior contents, length, allocation chain, and mirror agreement. Reject a malformed FAT32 transaction for incompatible partition geometry before changing reserved entries or neighboring partition bytes. Interrupted FAT32 commit recovery must leave allocation entries and FSInformationSector free-space hints describing the same durable outcome.</p>
+<p>These are required in what you deliver:</p>
+<ul>
+<li>TransactionState: TransactionActive = iota, TransactionCommitted, TransactionRolledBack</li>
+<li>FATTransaction: SetCluster(cluster uint32, value uint32) error; Commit() error; Rollback() error; State() TransactionState</li>
+<li>(fs *FileSystem) BeginFATTransaction() (FATTransaction, error)</li>
+<li>(fs *FileSystem) RecoverFATTransaction() (RecoveryReport, error)</li>
+<li>ErrTransactionActive = errors.New(&quot;FAT transaction already active&quot;)</li>
+<li>RecoveryDisposition: RecoveryNone = iota, RecoveryRolledBack, RecoveryCompleted</li>
+<li>RecoveryReport{Disposition RecoveryDisposition}</li>
+<li>(d *Disk) RecoverFAT(partition int) (fat12.RecoveryReport, error)</li>
+<li>CopyTransactionResult{State fat12.TransactionState}</li>
+<li>CopyFileSystemAtomic(src fs.FS, dst *fat12.FileSystem) (CopyTransactionResult, error)</li>
+</ul>
+</div>
+</details>
+<h4 id="pass-rates-2">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">75%</td>
+<td class="numeric">0.75</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-2">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-system-design-ex2.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work-2">How it maps to the work</h4>
+<p>An engineer maintaining a filesystem library needs FAT12, FAT16 and FAT32 metadata changes to survive a crash. They must add transactions with rollback and idempotent recovery, validate records against partition geometry, and make tree copying publish one recoverable result.</p>
+<h3 id="example-3-media-processing-typescript">Example 3: Media processing (TypeScript)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>System design</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Applications &amp; business domains</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Media processing</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>TypeScript</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Staff+</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>252 (google/gemini-4-argon), 383 (z-ai/glm-5.3-flash)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A race condition described from the mechanism, then a bulleted list of behavioural requirements with time limits, and a closing environment paragraph with build command.</p>
+<h4 id="prompt-3">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>Concurrent asset uploads can each pass the quota check using the same old usage value, after their files have already been written. A terminated API leaves an unfinished original on disk. The quota needs to remain a hard limit even while requests are still streaming.</p>
+<p>To close this out:</p>
+<ul>
+<li>Make the per-user quota a hard limit across separate API processes, including uploads through shared links. Count bytes while multipart <code>POST /api/assets</code> bodies are arriving, including bodies without a declared file size. Refuse an upload that would exceed committed usage plus in-flight bytes with a quota error (HTTP 400 or 413), leaving no asset or rejected file. An active slow stream retains its space.</li>
+<li>Return space and remove unfinished originals on client abort within 5 seconds, and after an API process dies within 45 seconds, without requiring another request. Completing an upload charges its original once. <code>GET /api/users/me</code> reports committed usage, not in-flight bytes.</li>
+<li>Permanent deletion, whether requested repeatedly by emptying trash or through duplicate <code>AssetDelete</code> jobs on the <code>backgroundTask</code> queue, releases the original's usage exactly once; trash and restore leave it charged. Uploads whose checksum matches an existing asset return the existing id without charging twice. Users with no quota remain unrestricted.</li>
+<li>Admin quota updates and <code>UserSyncUsage</code> jobs cannot erase in-flight space; finishing concurrent uploads charges their accepted bytes exactly.</li>
+</ul>
+<p>Work in <code>/app</code> (Immich at the pinned revision). PostgreSQL with VectorChord, Valkey/Redis and the shared <code>/data</code> upload directory are available through <code>DB_HOSTNAME=postgres</code>, <code>DB_USERNAME=postgres</code>, <code>DB_PASSWORD=postgres</code>, <code>DB_DATABASE_NAME=immich</code>, and <code>REDIS_HOSTNAME=redis</code>. Build with <code>pnpm --filter immich build</code> from <code>/app</code>. <code>api</code> and <code>microservices</code> run as separate workers via <code>IMMICH_WORKERS_INCLUDE</code>; Docker is unavailable inside the agent container.</p>
+</div>
+</details>
+<h4 id="pass-rates-3">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">25%</td>
+<td class="numeric">0.25</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">80%</td>
+<td class="numeric">0.80</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-3">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-system-design-ex3.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work-3">How it maps to the work</h4>
+<p>An engineer on a media platform finds that concurrent uploads each pass a quota check against stale usage and that a killed API leaves partial files. The task is to turn the quota into a hard limit that counts streaming bytes across processes, reclaims space after aborts and process death, and releases usage once on deletion.</p>
+
+<footer class="page-footer" data-ui><a class="back-top" href="#top">Back to top ↑</a><nav class="page-nav" aria-label="Previous and next catalogs"><a rel="prev" href="programbench.html"><small>Previous</small>ProgramBench</a><a rel="next" href="debugging.html"><small>Next</small>Diagnosis, Debugging, and Bug Fixing</a></nav>
+<p class="footer-word">Bespoke Labs · Task catalogs</p></footer></div></div></article></main>
+</body></html>

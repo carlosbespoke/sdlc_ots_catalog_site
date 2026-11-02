@@ -1,0 +1,1977 @@
+{
+ "comments": "on",
+ "format": "spec-drift-doc-sequence-v3",
+ "modules": {
+  "scrapy/core/scheduler.py": {
+   "comments": {
+    "<module>": [
+     "0e1e89678b6b5e5c76a87938a1b0e4f05677927ce8bb4bf4bf8686206e766b7c",
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761",
+     "b5f145dc6e5e20e82121b4c6275b2a4625cfcc0ca005def83005d517135baf28"
+    ],
+    "Scheduler._dqpush": [
+     "560a0ec755d81adb00c7633c50889b0e985e0efd58c8a2cc8c446d047dea2a10"
+    ]
+   },
+   "entries": [
+    [
+     "class",
+     1,
+     "ce236b34ea7842def1b2333387f5c08a185385c5fcaa98d42b685b8f8b210f24",
+     [
+      "BaseSchedulerMeta"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "3032128f669dc22d30a24447297f0ee449a8b7dffc1785527b050cc8b920b20e",
+     [
+      "BaseScheduler"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "3d5a91004c2480d5769c138993ae8d6f83cda1ee6408617cf6245d2b96b229bc",
+     [
+      "BaseScheduler.from_crawler"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "18982d61792b77e6322a7b09d24e996d8959a7195c1742023a9d60bd29ba294f",
+     [
+      "BaseScheduler.open"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "97c10b541a3d9ccc2a441767b348901ba45049a5a6a3030973a29f31a40e8687",
+     [
+      "BaseScheduler.close"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "312a080417b98fc3ee16a2261cbec69fc66ca30035249acfb4ece0c26c5fd73d",
+     [
+      "BaseScheduler.has_pending_requests"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "3fa33f28d0c7242f49af807ad6145e1094079ea329409c1b356e5c16dc773982",
+     [
+      "BaseScheduler.enqueue_request"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "bace43116d7e8b2fa27117345ed41b4738d9ed73369a06c86a3d2d221389815c",
+     [
+      "BaseScheduler.next_request"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "cd90f8add2b038ec76b7e0375308f7b78484b4f6256e88c02842ee85b664becd",
+     [
+      "Scheduler"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "07dc818c9cfe8a8748c9fa005df42290665a3812a7728bde58f9c85b3ceb3bac",
+     [
+      "Scheduler.__init__"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "d9f6e27f12929021da76f903a27f3758da1108f8274049f458a76093c3a12369",
+     [
+      "Scheduler.open"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "29935441dead36bafab2a8eeeed18c0d70c6c9273dc8e511ffcc284fb60c97f8",
+     [
+      "Scheduler.close"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "39f26f690093858252a5efbc28d79ae8d9aa6c4fe47590543253c6cc1d283efd",
+     [
+      "Scheduler.enqueue_request"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "50a4d381d75cfacabbf01b8ae1835a1c1c371fdb37a1a10f02a1af2ff9811042",
+     [
+      "Scheduler.next_request"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "e5ff6ba20129458673ab165ab778919866daed64a0b6beb76fc85e09f7ea3234",
+     [
+      "Scheduler.__len__"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "f865a56d5c739387dee504ab81061b4083e45490cc4ae5eec923b0a90dd944d0",
+     [
+      "Scheduler._mq"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "3e2e23597d513f4933f0b7f06017e59e02620671b468afcde28d50c892d0ad26",
+     [
+      "Scheduler._dq"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "7c6fbaaddf852da1a1427a1dcc11b7a032fa337ef80be876a1c9a1b351947ca3",
+     [
+      "Scheduler._dqdir"
+     ]
+    ]
+   ]
+  },
+  "scrapy/downloadermiddlewares/__init__.py": {
+   "comments": {},
+   "entries": []
+  },
+  "scrapy/downloadermiddlewares/cookies.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "CookiesMiddleware._format_cookie": [
+     "2440d91c0835c556dd930f3ad9934223469189804183b688d78753a4f2705b99",
+     "6a934b45144e3758911efa29ed68fb2d420fa7bd568739cdcda9251fa9609b1e"
+    ],
+    "CookiesMiddleware.process_request": [
+     "62c5567662b8355290ec82ef2a6cb4e442f7a0a90aca19ee5ad69145ea2ce296"
+    ],
+    "CookiesMiddleware.process_response": [
+     "e3e5e44958acec697d3435649283629d3b1d7bfc669c96cffb3a422026d65702"
+    ]
+   },
+   "entries": [
+    [
+     "class",
+     1,
+     "0e55344f6a914ff6b6f2491d2856013647d2b164b707e3460b3eec7ff6bc1174",
+     [
+      "CookiesMiddleware"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "1cd8b043b21112e4ea4624b4418913adb06e0a091bd4c82d00158e29661a75ae",
+     [
+      "CookiesMiddleware._format_cookie"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "e978d2ed22e730cb5732692f30a18ffbf3c3b2895ad7ff03f390094c4daa08ca",
+     [
+      "CookiesMiddleware._get_request_cookies"
+     ]
+    ]
+   ]
+  },
+  "scrapy/downloadermiddlewares/defaultheaders.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "b3a02eefe26033b1ec03373feb80b63fae7d1c768daf7162101285e24633b684",
+     [
+      "<module>"
+     ]
+    ]
+   ]
+  },
+  "scrapy/downloadermiddlewares/downloadtimeout.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "e9c1cba30636ac283d5cba0cf117b50038a536cc2b427c2bc6cb1e01cfb750ea",
+     [
+      "<module>"
+     ]
+    ]
+   ]
+  },
+  "scrapy/downloadermiddlewares/httpauth.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "HttpAuthMiddleware.process_request": [
+     "9ed21d1db24b1c746e88257bca0ca7e668dcca0d62175787834e7d125d5c14be",
+     "f328724365aeca5c7292e0b717ad056641c21916d09e703d20db460c20f61cc2"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "fd952b4f8a025083bd80b9d24de558c364d8aca7c6d9576f27f967e8cd0c7d7f",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "c29c5396b8ac21e0dde99a726b784649fc0ace071e6cde924551409c281377ad",
+     [
+      "HttpAuthMiddleware"
+     ]
+    ]
+   ]
+  },
+  "scrapy/downloadermiddlewares/httpcache.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "HttpCacheMiddleware.process_request": [
+     "41af7ea7c82a02743d325619e72de52123078ef1d344343b1f71994e6125d608",
+     "6b0a1647410cf35dd15d4379c8f927dfd1d11adddb92b385c5adfefa0884ab6e",
+     "788715c12817c057e86a0ecd9d50c9f25476ee794666ab97ec678f87a2373ca5",
+     "7fd4912201ca414b27fe29d78114c9b2a646e07e9be4bdbffbe99d9cb9d90c67",
+     "a7339ca310a58e6fbdfbb57670e497ef4d5424af9b32aeee0a4bd25b3a7b7e38",
+     "deabe98a10978b8acea7b725d4478f72789ba15bc249afadb05bbdff966090a5",
+     "fd9a7cd81e528d2a7243579942a3bcca4923d8caf12ac644fbba279d6760e819"
+    ],
+    "HttpCacheMiddleware.process_response": [
+     "178e66accc36a5810d7fbfb14921bed9e83eec6b8bbfca92dbe40f8b713a3f59",
+     "3b5e4a9c6ea9433d98706ba74b160f9642fa65e7f7a383aa06e05697e6acd050",
+     "98e348db6c8dfc483fa47b550180e8dcf73e990476c862940e4cf165732caa44",
+     "bc1dc21b3b698e089ce41b5a92ece94ef2299626b41a514b44c5cd3c41ac1474"
+    ]
+   },
+   "entries": []
+  },
+  "scrapy/downloadermiddlewares/httpcompression.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "HttpCompressionMiddleware._decode": [
+     "f8c589f88594d7d0127651d038cce8f33428f00c946db5a7ae9dfce95cb8743f"
+    ],
+    "HttpCompressionMiddleware.process_response": [
+     "bd6c5f8aecdf79c867668347dd8527127980bb1066b6467aaffb0062b965c5f0",
+     "c821ce7ecc27a259840e63721c0e10fd8b558381a0742b0a620759d4989f1f37"
+    ]
+   },
+   "entries": [
+    [
+     "class",
+     1,
+     "17ff8b447d20b2b457e322a2247d59e16ac6f0f8b4df426fb650d2d60f854404",
+     [
+      "HttpCompressionMiddleware"
+     ]
+    ]
+   ]
+  },
+  "scrapy/downloadermiddlewares/httpproxy.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "HttpProxyMiddleware.__init__": [
+     "08a8576257d907b994ee4e674e06c0ad21738cbfb322003d3cabfd489a872ebe",
+     "17a4702353fd43be851a88885d0683fc906c89849acedc49a1df4a976cfffd7c"
+    ],
+    "HttpProxyMiddleware.process_request": [
+     "89b21002201033960445a5dc58e27b8b04e8c45d486e189e45e03fc8919dba25"
+    ]
+   },
+   "entries": []
+  },
+  "scrapy/downloadermiddlewares/offsite.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "OffsiteMiddleware.get_host_regex": [
+     "d8603dafcbaa45791d0a4d82d60a8673d7a950844dc7cb0024df5357b8a38019"
+    ],
+    "OffsiteMiddleware.should_follow": [
+     "8e6fc2005ca7ecbf7cf0b39bc09e9648b4cd028c4ae83421bf1cbcdafa2b7e09"
+    ]
+   },
+   "entries": [
+    [
+     "class",
+     1,
+     "86ce535390009f1473511ad3a210689b540c2292b46ca518fa092e24c405e3df",
+     [
+      "OffsiteMiddleware"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "68f6b3fa7207bb68274ad7a58aab9e83f82304a008b4e2aaefb0461b9b6a2e35",
+     [
+      "OffsiteMiddleware.should_follow"
+     ]
+    ]
+   ]
+  },
+  "scrapy/downloadermiddlewares/redirect.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "BaseRedirectMiddleware._build_redirect_request": [
+     "7f45e93695dc09fcdc5790f8783254e13510fdbe8caecf976bffd6b65232fcf7"
+    ]
+   },
+   "entries": [
+    [
+     "method",
+     2,
+     "9399e7b7d85fb42e6fc04c5287b70c844ab0854d07b30f0bc2dcf9216476ac62",
+     [
+      "BaseRedirectMiddleware.handle_referer"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "172a7c95c9c7434db933a4c838a974c32fd03a708b80589147e34981521a011f",
+     [
+      "RedirectMiddleware"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "e95d969168fefc2200bae73844e8992675ab1c1fcb1e58518fcf745f87c9c35b",
+     [
+      "MetaRefreshMiddleware"
+     ]
+    ]
+   ]
+  },
+  "scrapy/downloadermiddlewares/retry.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "89440cfe6a48d727b958eadf763938ca444e52b95a8b2578c7caef4f6a3950d0",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "7d63d355d6ba27add6a95f4c664f59085086bf48101ab44d28e51923f24cf19b",
+     [
+      "get_retry_request"
+     ]
+    ]
+   ]
+  },
+  "scrapy/downloadermiddlewares/robotstxt.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "RobotsTxtMiddleware.__init__": [
+     "fbf3d4165122523fc629ae0f91aaf0a2658be4e0c35694f2e6c7620333b41219"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "774a1866942fbdfbfc88f353e9da1a77ed6633a23d9a819b5c727b5c9f9aad63",
+     [
+      "<module>"
+     ]
+    ]
+   ]
+  },
+  "scrapy/downloadermiddlewares/stats.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761",
+     "c966c94e0918f476d8c969a884f03964a03471405f6686b9658658f36223d1cd"
+    ],
+    "DownloaderStats.process_response": [
+     "c254a9cd4bcc56ff24c6a65110d4cdf83959681d6320c1468f40270b47cdb9fb"
+    ]
+   },
+   "entries": []
+  },
+  "scrapy/downloadermiddlewares/useragent.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "5c0c12dfde915f42fd1325fac23d819b2a81bdb404b2a544ed1c02df2e130678",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "96d82b11354dda7fdb53c8d14f1a8d04f2516fcfed1b6bae1f4946c1ccaf1c6b",
+     [
+      "UserAgentMiddleware"
+     ]
+    ]
+   ]
+  },
+  "scrapy/dupefilters.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "RFPDupeFilter.__init__": [
+     "527149fae2c56a49539d60baa195d946872f67beb0e43bcce3b85be12c4b3708"
+    ]
+   },
+   "entries": [
+    [
+     "class",
+     1,
+     "d0e3c565b03811b35b78ff6d56672195876426c05132a786855d23601962d228",
+     [
+      "BaseDupeFilter"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "bac46ba055ac63c8ed263f6b1e77a79971b673763d1bf11559a988f7331f2f0f",
+     [
+      "BaseDupeFilter.log"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "9b51b72d1a59f7418a92b130307ddbaeaeda25a2255abd68ec4fa06807ecd59b",
+     [
+      "RFPDupeFilter"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "4ea2c2c72b1a613cf36d06d2b96aee2404225e768bada2d6d90662a81e3feea6",
+     [
+      "RFPDupeFilter.request_fingerprint"
+     ]
+    ]
+   ]
+  },
+  "scrapy/exceptions.py": {
+   "comments": {
+    "<module>": [
+     "2ea1842b445b0c813cc619b6d4740a41c2127a66b306a363d761ed4258862cc0",
+     "b269dc4e81a528a4d42e9e74101923514a626f55f8dd76b1461e0690e72d041a",
+     "f8ea4bc25cdefba18815389627829ffed53c034ddafa095261fa6a709f264aad",
+     "fb8e7a1a3cb7b25d262793159145759e97eb540a2b61dbbdf8f58841a81cf1a8"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "c2f44e92686c08816be38d2e63eda80b439f9c9eeafda4e5570b2cb9811ff366",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "1357c9c8d4cb15af3b29badacf3d0f050716c80e51a6ae68077a8f18d278d808",
+     [
+      "NotConfigured"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "e7c0613d08f6921aa74ed51b98c94f060c1c9200e96da33309e452bdce12b85e",
+     [
+      "_InvalidOutput"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "46e443da79f281ce50260f8930dff31c12903fec5f872c6be271e39c31f8c4a8",
+     [
+      "IgnoreRequest"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "1360b0496dd865daf07073a0add8a30354d7649ea0a1f49dfe9fb2e383974298",
+     [
+      "DontCloseSpider"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "d2a875cfb61f764082986ae33bdeb96d00241e98078c902ded87a8b72469b518",
+     [
+      "CloseSpider"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "0b1d3de3884ea238f75ad12235cccc5c7ea8935c89922b0340c9afc3f71e2f48",
+     [
+      "StopDownload"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "fd1efcec1dd6d6272b7ad12e37cd9e2695bdae53e76c9e3195a0efab7870a85f",
+     [
+      "DownloadConnectionRefusedError"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "66cb6166075099bfc35d9a057662a5c74bd7b84510321b6d8ff1d1ed20db5e4a",
+     [
+      "CannotResolveHostError"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "e870d7e624eabb070ded03dee2313ddbe811c58a05c8e92dd593337e588d3b82",
+     [
+      "DownloadTimeoutError"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "eb2de80622a2b71d634162fc51fa91fde6227ab11a2a49bf651e339ad8961804",
+     [
+      "DownloadCancelledError"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "50cfa706506e6d02c768fb046de4cd7b58afa4f52ff23be03b64c5332c673a43",
+     [
+      "DownloadFailedError"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "212b03e4f3ff1c991df97d9f33a0abfec562761849e01d8d0f3aa665d99b6ccf",
+     [
+      "ResponseDataLossError"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "98f230eeca547342e2b3cab3269e5d9495b07db1cf06d8c76bd1d5e515a2eb12",
+     [
+      "UnsupportedURLSchemeError"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "26ab5c9d5c73622cd364edc570e1a8733730c7bed948b4f871c0898e9da1e648",
+     [
+      "DropItem"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "1b5e5209e4fb1a6b7d4fd01507d0e32b596e4f5488ec9e9cfb41fca10b643db8",
+     [
+      "NotSupported"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "663db6fc5f2ca3538de1ee9511de738f65a55cae7e0bc8fd6f599b6703dcbabd",
+     [
+      "UsageError"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "4fdd5ad3524b59183884239fe42fc3a6287f1b49da7ade96cd5cc9863a0224a2",
+     [
+      "ScrapyDeprecationWarning"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "c8fdc1761e8eb41846134c4ad459cff27d30a0a7e56a8b60b8ba0a87c793f76a",
+     [
+      "ContractFail"
+     ]
+    ]
+   ]
+  },
+  "scrapy/extensions/spiderstate.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "SpiderState.spider_closed": [
+     "558bf2be539cd0d1e98ad790df9a9800121302f52afc9b71dad96c7638d5b123"
+    ]
+   },
+   "entries": [
+    [
+     "class",
+     1,
+     "2a312d5f692dc2b9aa05074ce7c850395d5e597d50528669757690dcdcafca15",
+     [
+      "SpiderState"
+     ]
+    ]
+   ]
+  },
+  "scrapy/extensions/throttle.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "AutoThrottle._adjust_delay": [
+     "01aea456e9b1b622d3996df218e684d019133424424a5b432b134e62218304a5",
+     "18b20e302c4d4082ee6410847d65dcd80b8ba2c247b365ca9b1f8b5f40da9a10",
+     "2d35c53b63f2cc51b521e688d2024a20c620b52280a49821c4edc91e6936884d",
+     "5a209cd0a39759483237dbe58d30c842f49fa6a5ba201cd9cc55f76dc34d4145",
+     "61c0d1477febf5a06ae2e1ac232b8331058a50b68ee67d4a17d799b74b986c3a",
+     "63b68155b67bb8412b3123b9950872f196accbd5412ea9ddba23c3e5bcd9b3ee",
+     "6b0979650434e9739ccde3c1bb737adfc07f2b02791e5d3a2c958b82c5fc08d3",
+     "6bc01b6ed171e3de47147f236055eff80d1e0e2ede3e1a0f854915c53aaa816d",
+     "bbfab01be075561e8f5f4c5cbba9c8760fe712d0eaf2a71f0ab30b61fdb90470",
+     "dfd329d71df5e8092e4181f453ac9b682de17861476bd0cc88c2c1cf5d815f86",
+     "f2385264152f1a373a0a79d12488b23590bb98c8e05a140776f08bd6ca70be45"
+    ]
+   },
+   "entries": [
+    [
+     "method",
+     2,
+     "2b60c4c627cd2377e96a9be6c3d0cf976b1cbc1237e616af8c85867a93175575",
+     [
+      "AutoThrottle._adjust_delay"
+     ]
+    ]
+   ]
+  },
+  "scrapy/http/__init__.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "480a55ea57ed02a30ad29f5488f014081b74ef3c8d864e7dee89b982ab63ae82",
+     [
+      "<module>"
+     ]
+    ]
+   ]
+  },
+  "scrapy/http/cookies.py": {
+   "comments": {
+    "<module>": [
+     "2166c483f15a4bfa2cd1ae7260f1eed45bb7dd9effca0a6ffcd4ca4ac364e677",
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761",
+     "f28f94e5d53f1996280a6f1c1fb75b34f069829ed56ded97dba7a061409a50bc"
+    ],
+    "CookieJar.add_cookie_header": [
+     "8da4da218074c5f0917b08dea55f32f4f4556df62e9835355764d37260b11291",
+     "a8c9c9a9fc06aaca0e64d71c378b84c0e0902ef5f5a5537a7923863837959006",
+     "d94db60580656d74708664f75a1b7e2e1912934e5bce0e2ed4ca30be5a16c3a3"
+    ]
+   },
+   "entries": [
+    [
+     "function",
+     1,
+     "ea6cc08209f9bb4e1b0a9637c2482df81db3f428c3498b588035cb4fe7e5bc44",
+     [
+      "potential_domain_matches"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "087bb8e38b77c37a0202b7a39a07752bf38d9c80d423bac05afdee874f579c89",
+     [
+      "WrappedRequest"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "a7a4f0f20da10318dc42c317be7a7030d88f4e291e2cf49e65dc2c28377c5b32",
+     [
+      "WrappedRequest.is_unverifiable"
+     ]
+    ]
+   ]
+  },
+  "scrapy/http/headers.py": {
+   "comments": {
+    "<module>": [
+     "42eaba5c754a689a2df7c7182ed374d51918d424023431ae492bdfd6ee76219a",
+     "8a7f4004c335aa752c5e80c83b21119719392ab2dc9a907b331fe371179486c5",
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ]
+   },
+   "entries": [
+    [
+     "class",
+     1,
+     "ecdfaef8bc3acfc415721826a7cbfd56d73979ca4c340187f035038077e33c81",
+     [
+      "Headers"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "49a9102c97857e6f8d2a5f7d7a347f96bbd048c221b83b1317da25f14f99107a",
+     [
+      "Headers.normkey"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "66a25d43bdd4a96b4a09c459f27bb179352037d23f5fa08f5440c9b0f9a7fbe6",
+     [
+      "Headers.normvalue"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "555f5c7175bf598fef7088118f0156f957cd786d2fa4ef52fc6eaba33680254a",
+     [
+      "Headers.to_unicode_dict"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "d1a7fc56bcdeed5dfa2e926cfe2eeea283195adedb8b983b0628f6291f56cb7d",
+     [
+      "Headers.to_tuple_list"
+     ]
+    ]
+   ]
+  },
+  "scrapy/http/request/__init__.py": {
+   "comments": {
+    "<module>": [
+     "64649c99d4f7f8bc87fdcbed4af7e78f90a0802af757cabd0c28a8d2145a0fb5",
+     "6e5fe0691fbc707e9c195b7b5fdb1b85c39693664c288cab303efd2ae700eddb",
+     "eab5d38eca76ed8d0cd21d783d95d85d168c7629e57aeed82d0f66e50c9ee1a4"
+    ],
+    "Request.__init__": [
+     "046501e9ee5da830f63473c259fa6c0024a6dc31f3695244142722d2b4bc47a6",
+     "0556d0fbab574e7615b6d861ea87bf5126de6430a22da5c6df09c4041ce01938",
+     "0e938ba6d267ad3e4aaed4a8e98f10d066b06aec047d09f0339c6e8ac8883db4",
+     "0f5080c63b37bf00ca758f45d51444e1198a16757219bbb75e95ecc854b37b2c",
+     "11cd791a281a3ed1070e9cbeca1e129c0f3431885aa4badd2f4aab0d6e5a9966",
+     "14b5a3b8bebbcbb3c47685179aa4c63fc7c7b462fed3b0a673c6fefacc434ffe",
+     "16e20d492c2f4adb716eeeb24e29565863419c7166d9a967f9295e3b9f24f3bf",
+     "20314756e23c5303425b46a1a2f54207ea72a122e41bbb5896e34ad3ad96cae8",
+     "241ac888d246b9ac44bf1652b9bb876a523fa84100ac349fdbd66651b6c7e2e8",
+     "24a03cafa8153ed7599695686be31145449fc175e54551b1ebcfb7ec94cac575",
+     "2534109e1d2bd5579a8740a323dbcec1c03c8708586faa9b742e29f5f8e0c1e1",
+     "39902b6a8db33f84f192bb4221ebb381b2dac8425c38b131086acaee63a67ec9",
+     "3caa96b7cb81762b186c4efa520c253320e860f161c1d2102d87f44f9d368b72",
+     "3feac73dbe2a20f129c7230d82715d95d08b8d5fe978beed2c3b78e3c45cd50e",
+     "400ebc8f09ab11d36e13fb4137776b306c819bba081276032c2851f79344e93f",
+     "41789559b3b0c9d118423475cab091a68e37331c4ddeef2c3bb1e8812a92c4e9",
+     "48e81a3f67b476b8005011526296861fe6ee98cc3b13118622036426be040211",
+     "4ba45684afd578f4fffb09601f5c6dbc06c72ca30e08b1e7e0d0d38a4dc3632f",
+     "4ecbd31e28a09e190d7341fbf188c43d851975a6ce3e2dfba2100147e4d307f5",
+     "51da912c9ef8a03971d826e7ac8e2addf9ebf55d9eba043d3a468b5815865c56",
+     "540314058df6cf4624c5253c8ea07b2162aa8e0f6ca6ff4bc260935d44661758",
+     "55630d24e90648875b737a3c4509a60b2648020d918f38418933959586e5cfb5",
+     "58848d6882fc89f730fe45f6191118b0542c3a0c0c78174220c0fce627a27806",
+     "59b9f455150e1361d5aa32fc3c5cbaf6355641f28f2444e7242a7dab95d620a2",
+     "5e5ac7d6084e6e35c9ef2f215e5846032c6b429b53c9f9294996e3104422ef3a",
+     "6150e4d6df09d162a3d972da7be3bd8f2af8ef51e9372e642072c87837b5fc9d",
+     "649722327944c2ba4ebd63067216544f92bb538354c197185757081c85d5839d",
+     "6b175d7c488ce78dd90e44c546b1e84fcc9a256a0079bada73ae6789f2aa263e",
+     "7c05f593185023776fdbdf8e7067b4456e5cc7333d158d6367df28b294a28f85",
+     "865dcc96a9797cbfd39999eb26bd083443e20f30f6389c55c94cda5ef4f70c6f",
+     "91d567b3741e62ffa21396e49897f53d032f7e640e4b8101fd0d4cce6a5cb014",
+     "9639e2c182e032957ff76f9538968a768bc5cf1b1e2f40a4049173782c1e7f94",
+     "9839cfe8729130b1291d43c6661f455497ca2df8fb6ee60ef4b49387c70c7e31",
+     "a4e39023c8e3b80f5644738db53cbbf89226b964b10672d309d2faa739ef2e42",
+     "a87a861d53b69de4c04398f4765591e1df152014c9cf8d1d624bd03f5299d39c",
+     "a8c7385264aebe6836a67738bc68417f0a1eba7dfe0a53bbf0d4c86cd53130ec",
+     "a9421bcfe62b1b13c18991ce9fa2d309c0c3236a67dd4fdb30c2641e039ff9cd",
+     "b8ffdc3ab7c7c219da3d8405b7b3b6577dfc0da32d496b64d9fc863c7f7a5df4",
+     "be7681201dccc5c41cef16a54b6248ed260d03c6bda6e7d0e180a337ce8d206e",
+     "c736664c649eb0c984e17e6d8c0bfbc2903ed1ca9d629f7728918e6a196def30",
+     "ca70f5836790e6c6fe9f66c390a5222ac844a1b539a48411bded38c948e68a8e",
+     "cad484b39253e717ba96ae6e3bf653368c648316beaa3d65d4192fdeed847140",
+     "d3cd73905e3bdec651815e29239d843b918549b08412c31508abbf4e3a504cbd",
+     "d5079c1c13bb168ad6177bb8328b160d1e581363601334e91072b9bb1435f4f3",
+     "d85c7eea37d549001fdab576b3a1ebc545e2b0eccd5478482be77a0b80f06d79",
+     "db0d39bf518573e43ab20307e37416357bf7bc0175461123c995534b8135d849",
+     "db6e3165e430a11c47282383605126328be897b5a74c78a3e9ede7b81c2980fe",
+     "dbc2adfb795d61aa9b8f373ff009b0417cae3fad8831e9101d364836a2035601",
+     "e40c617aadc4e18140cc700eece299d75c8e1f5277ba639e7b6dedefc2419603",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67",
+     "eac8f43f59e2e0d62e6a2d5006b9b27376c5ecb67aa3424a44c90689b4b96eef",
+     "efc075dd7e3e2c4576948164847ad41ae4dca2b67c1aa0bc106eacf9091c8cce",
+     "efd92627c513c1cfef3120242eeca131c1b3829ca4c69c473ee497e8c8ec8683",
+     "f0e17f858a47da2debebc244f97c372e6faf7d95ed55da2f5ae8796b2325250b",
+     "f1537f32ad64913bcbf667d0d603f4e3a77cc6c48f91e44df77c898f7a13d9c7",
+     "fa877192c5ae355fb1d8ea123ee11b95e371a18765157ca7403d2a1e9deb36a5",
+     "fd1482beb0414d3d5cc446172943e8e9ef4f5e937d5126239116c47fab564eed"
+    ],
+    "Request.to_curl": [
+     "8ae7497c96cb70e2f440e8b1a27faa9af8fc0080051083599fbf1a895166dac5"
+    ],
+    "Request.to_dict": [
+     "a0f87adc5f67daa2b7ff5fe7e42652ce5754c3badb46ca4e4968f8a3da384871"
+    ],
+    "_find_method": [
+     "0e8ce19f0581715204cf41c1215cb9ec40968ed10b89040725a0eaeb13f821fd",
+     "1c609f8756b662f710b9265add6b0bd43ed3452b0bbbefc6f06aca3d12ed91c3",
+     "82740ae64654f04e641fc4904565be87dbda94104d24d46302219735eccd972d",
+     "d61373830e2337254bcd38b986bdf6ba74c2e5d1d84dddc947230a09961e5703",
+     "ed37170de1e0b523ad487975bbaf9522d431d6f733e4a8ddaa6196eb2e75d40f"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "b7ad0ee70ebf346a7b4fb274d3fc0b095b32fc0d8030b4c43457b9d41697024b",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "3c66d009fa3b86a2643eeed9b693abb64b4bc6825feb94608982b414ee948ec5",
+     [
+      "NO_CALLBACK"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "2da91307e8187374df4c510d4c7fdcb8a97f4b3954f4e7537230702fe36ca99d",
+     [
+      "Request"
+     ]
+    ],
+    [
+     "string",
+     1,
+     "fcf4fff39f5ea95d4595cf6402a321935a9c46e1f52b9d5b1c136e424b9dcd5c",
+     [
+      "Request"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "99af2dfa08fa4a397820a09323a6a7f31def2cb8cc36116543210073e3d7d6e4",
+     [
+      "Request.replace"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "cb85bdb10b52f0fb61c7e36f38fa6ad6163daa35f713c3e3b61e25d0522a9c58",
+     [
+      "Request.from_curl"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "d3fd1dbb7ddd584da44d8c5b6aead1b00b387b20b19fc6dd902333cd2a9c03a0",
+     [
+      "Request.to_curl"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "c94fd837975830a5a2ef4ab0f4556725f620a2df928f74e75986598934b34e27",
+     [
+      "Request.to_dict"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "41113ddab4e7c9240aadb8320ad0a7c6d3c682e76f8a7461727be897ad62895a",
+     [
+      "_find_method"
+     ]
+    ]
+   ]
+  },
+  "scrapy/http/request/form.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "_get_clickable": [
+     "27eb88bdab6e3243dffd0e256565c7d1b7424face437dad35a605e31eb4e817f",
+     "2cd70052904cb112dffe4888ef39b27153487070c0f0c6771a38ab4a3d57b524",
+     "8e9e621fcf9ef66d31fd18cf7222c964b57be02b74cf93ce675c07c1176b224d",
+     "99324dbf1eeb587debe53ef9983175e8400d0cab815de2d9d9f3991200d7094c",
+     "ce3b68f4793d8c5baf88946de99b8db20bb135fffa4c9b264615ee2373d627c1",
+     "d3c2e01fc2d4fcbc0d184b2884600cb8625584022d59ced526f606b902bd669d"
+    ],
+    "_get_form": [
+     "64e8a977a2efebdcd190389653a783571583c851b345faa8991960ad79682676",
+     "ccc7187cac9280392826c019a9bdf50e56b2e0095ad6bb035f3fa300239dabb5"
+    ],
+    "_get_form_url": [
+     "f8fd8e84e5d029290a7de562095cd9d86a6e7fdfec86d76e007ceefb676c5b0a"
+    ],
+    "_select_value": [
+     "d8e1a1c2fd92ef624aaa07bdb692543b562de6a88a2dfd4920a3809362790118",
+     "ddedca6671e6c2898b845a6a877318f1b27b3868829f73db235a75930b320118"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "6475203c9836bcbbc64c9aa85fd7606e701a4d8ece6f0fd7a1fc7ea4182b2537",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "679aecb87c4909fe773da4fff725d245644c7da963799bcb79d4fd8739e4bffe",
+     [
+      "FormRequest"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "0a9b88411d945b324b5723fd10bcfd6ba2982a96cc514e38dff37ee2c136541c",
+     [
+      "_get_form"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "95e7240236fd963312bed8ad9fcd9133253d3a4a9d570e199114dde5b161e299",
+     [
+      "_get_inputs"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "829af6bdaa3903f46770683ffc34697b36c368703c802fde321a4b99d76798c1",
+     [
+      "_get_clickable"
+     ]
+    ]
+   ]
+  },
+  "scrapy/http/request/json_request.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "301a657006c3889d00df940e43d7d25987fdd4ecbc518b6e82e6347c702dd93b",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "afe140446a89f7b4b40652a8dd6fc7dced5cb62af5be9acf67e5075816aee1b9",
+     [
+      "JsonRequest._dumps"
+     ]
+    ]
+   ]
+  },
+  "scrapy/http/request/rpc.py": {
+   "comments": {
+    "XmlRpcRequest.__init__": [
+     "c6ca0e803aa354275647f354970ccde2560dc76a7879e7bffc461ceef3eac358",
+     "efb413ae0d6766ad6d6a9fbfe11d8077ac165380e903b6d45f3032cdd6051437",
+     "fc27991e3e1adda40616f7656d91b067710f8339c7378b85a8d28d53c58eddd9"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "c0d1393628228d6bc603ea3091c49e7f0b6a5a1e882ea96f714528ee64a85593",
+     [
+      "<module>"
+     ]
+    ]
+   ]
+  },
+  "scrapy/http/response/__init__.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "106dc3d29754eefdf03708e4203e2ba2453255c8ab7f6e069275f7329cfcd41c",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "1f39c4e45779b842bf2861ff8191ace36c9d3d0aeeb3c20548fb23748a378260",
+     [
+      "Response"
+     ]
+    ],
+    [
+     "string",
+     1,
+     "7e519814811319f50c548f07decb23e42737df84d5d3babf32b1a458079e86e9",
+     [
+      "Response"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "145a6b848bd04c8afc1ec0fe4262edf582f20aefe49a87da0f4a69fb9a44b348",
+     [
+      "Response.copy"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "d2d2814ade5264f6ab4c94d34e2d7dae70115a294e684c86443fce94646e61e8",
+     [
+      "Response.replace"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "4700980aaa0fc314929956330f38464e5cda56e183ccec8681626de40c2fe4db",
+     [
+      "Response.urljoin"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "fc4d53527dfc4e55afe369b8bb1e98cd325ff5e7a7c20238c1501842bc11c3d8",
+     [
+      "Response.text"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "cff36367f708b9fa6552adc8dc2f5634f30c24ef13beb5efd506168953d912f0",
+     [
+      "Response.css"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "cff36367f708b9fa6552adc8dc2f5634f30c24ef13beb5efd506168953d912f0",
+     [
+      "Response.jmespath"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "cff36367f708b9fa6552adc8dc2f5634f30c24ef13beb5efd506168953d912f0",
+     [
+      "Response.xpath"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "bdb06b9132153149279f1c4509950be07677ebfc85f674b608e3ced007ab2e5f",
+     [
+      "Response.follow"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "be9c87398b2425508a9fa03dcd9f3afbde20ea240932d79dc2917ec14599c9ce",
+     [
+      "Response.follow_all"
+     ]
+    ]
+   ]
+  },
+  "scrapy/http/response/html.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "3921b9343334901cf349d720a5b3ff154f2500a6e7063251033a0ce06582db82",
+     [
+      "<module>"
+     ]
+    ]
+   ]
+  },
+  "scrapy/http/response/json.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "c0d20978a3479926efdd8be6e5926ee120fc89a981390b1ec5a86c3174844bcf",
+     [
+      "<module>"
+     ]
+    ]
+   ]
+  },
+  "scrapy/http/response/text.py": {
+   "comments": {
+    "TextResponse._set_body": [
+     "fd478189c1cbc7df18a02d4eb2656a3a2925c5902416858cf9b1f2aae8e92035"
+    ],
+    "TextResponse.selector": [
+     "64649c99d4f7f8bc87fdcbed4af7e78f90a0802af757cabd0c28a8d2145a0fb5"
+    ],
+    "TextResponse.text": [
+     "4d4dbc4c66f218bc4deb400566128737c40b92e7d9815ffa758a086cd36568d9",
+     "c1f837219171e7bb8bd209587859393aabbc5fcaf1ef33e0a478359be9748aba"
+    ],
+    "_url_from_selector": [
+     "8fbc51f8726ed8f4d57836262eca83b353b6702cff4b4f0c690609f025ebde66"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "d841372ccf22e32d12c6387f9d46873ec70e01ec72f54bc35c53e12f783d9fd9",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "6dfe71ee0de6f141c9dc754a4786b477c87ec94edfa82426294ebdc64b8bba25",
+     [
+      "TextResponse.json"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "bc3b2183b8ff1a6a9ed98cb3af5ade7e5454ecd968188bed23c4e68db6aeeca3",
+     [
+      "TextResponse.text"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "e459e44227585aa90c1924343acb2853b818078a82c629931a0194007977b91f",
+     [
+      "TextResponse.urljoin"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "6d507bdc0e68edbf16404c758d8298b40363e09c99e21ad300c7ebe86b882a76",
+     [
+      "TextResponse.follow"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "c45bd6647c1fc78687dca284f5fbaa93b48c440eecb5d83b08e301f2183b9946",
+     [
+      "TextResponse.follow_all"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "a579072b317e8c9b6f465e4340a7b465a8c0ca8a93508788c5828150023813c6",
+     [
+      "_InvalidSelector"
+     ]
+    ]
+   ]
+  },
+  "scrapy/http/response/xml.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "40b6177050da7745d4c9344a872ca12db82f49438ec0780f6d266309431fadb3",
+     [
+      "<module>"
+     ]
+    ]
+   ]
+  },
+  "scrapy/pqueues.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "DownloaderAwarePriorityQueue.__init__": [
+     "e5e2e99a3f89b94c8262fdf10a133744700c5e9712da9acb3c5e1dd977e70d07"
+    ],
+    "DownloaderAwarePriorityQueue.pop": [
+     "2033374290bd77a5a74bc359886860c170bea86a12356903a775411df3489c94",
+     "7cebb784dcadb08f07275d6f763b51f3d939da85eed74cd6cd9c7fcd88d53c6b"
+    ],
+    "ScrapyPriorityQueue.peek": [
+     "1cf4619be048ef6e3143a09f7d150907c760d1da702e58e4ee9b470ada5dbd7b"
+    ],
+    "ScrapyPriorityQueue.push": [
+     "be85a59b4e0b678552b74afcdc4c0c79ef5e54e016aa3e9c2a388ba2af50421f"
+    ],
+    "_path_safe": [
+     "486e8e1b4b611bdec8e446a4111bf9d7057338ece90b42f9280d6faf7b8049b6",
+     "fc7abcf069dc3ad6bca246d3dedad0a664a08f5ba85dfc1967764181a8119aa4"
+    ]
+   },
+   "entries": [
+    [
+     "function",
+     1,
+     "34c1806a082f14c10d86138cb8760c78f08ac969a23eb195f1b2c395adec6b36",
+     [
+      "_path_safe"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "94411309183901dca021b98a80267549370cae4b6b4e63f3388b5d1368ba293e",
+     [
+      "QueueProtocol"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "fecb70c15410a42fbd6eba770e4e0afb5dfba1ef0a0817f161be476a7260323f",
+     [
+      "ScrapyPriorityQueue"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "7fe3c3772541263e9cc8e031adbe2259c19ab2aae61de36d916e0a3e90081ceb",
+     [
+      "ScrapyPriorityQueue.peek"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "5c77d1cc6912bcf4c19e0a4170f1834c6a4bca583c0c5b77e6176ae0e57893be",
+     [
+      "DownloaderInterface._active_downloads"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "0fb02b92b974998e6961a7b0ddba612fec0ab622c15e81fbd627ff5827acf888",
+     [
+      "DownloaderAwarePriorityQueue"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "7fe3c3772541263e9cc8e031adbe2259c19ab2aae61de36d916e0a3e90081ceb",
+     [
+      "DownloaderAwarePriorityQueue.peek"
+     ]
+    ]
+   ]
+  },
+  "scrapy/spidermiddlewares/__init__.py": {
+   "comments": {},
+   "entries": []
+  },
+  "scrapy/spidermiddlewares/base.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ]
+   },
+   "entries": [
+    [
+     "class",
+     1,
+     "3d8e6f812316e6e719557555d6815df2bf34292cc61cfc5ca8e2facd24dd1eac",
+     [
+      "BaseSpiderMiddleware"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "ab329e52cf34d515dc65efffa888c0390d4625e21d3089b19375114fc116382f",
+     [
+      "BaseSpiderMiddleware.get_processed_request"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "d2fff9331cdc9f1b30f5718937f109477d2fc85da4f3237463fe2f6d2d9905ce",
+     [
+      "BaseSpiderMiddleware.get_processed_item"
+     ]
+    ]
+   ]
+  },
+  "scrapy/spidermiddlewares/depth.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "DepthMiddleware._init_depth": [
+     "3c5490d25395015f98d0d849f672a686a91ad6373293f763765878c88d042c5d"
+    ],
+    "DepthMiddleware.get_processed_request": [
+     "7870538ed2514b604dbb174a6204880660aa060399038226b915b3aea3248f12",
+     "d43acd68f596294c0c0d7ab526300727a3b5946d89c979f81b339dfdd1a153a4",
+     "d67b068833f823baed24f741598d4834534d0f358dd356039b26e70902afc15f"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "15ed73c6ff4b3c3d66b5faf759a7f0f014914ecdc7d17788029727c8b5e83523",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "36a348c9ca279e485cbed6ee41845aad8f454c8059d69df4fd9a833e8f12c69f",
+     [
+      "DepthMiddleware"
+     ]
+    ]
+   ]
+  },
+  "scrapy/spidermiddlewares/httperror.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "HttpErrorMiddleware.process_spider_input": [
+     "a08c4a74db60bdd7f88fe76efdcd46667b0af09fad1f54177a1e2fc830195b48"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "fbc6f26641a154ef07a779eb68532c57af8cfa13f50071a6d4a20c8029011baf",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "cb4882598254623b19a84ba6324baa3da2e48302e5b09d0e13dbe63569f37138",
+     [
+      "HttpError"
+     ]
+    ]
+   ]
+  },
+  "scrapy/spidermiddlewares/metacopy.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "e366bddb0433dcd13babe01cf374b37617033700d0c5cd6b29ebd3aba0e96b12",
+     [
+      "MetaCopyDetectionMiddleware"
+     ]
+    ]
+   ]
+  },
+  "scrapy/spidermiddlewares/referer.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "RefererMiddleware.__init__": [
+     "f6ce0de61559873d94310b2508c18c4ac4dfacca3ca80251018ae1eb608638e1"
+    ],
+    "RefererMiddleware._load_policy_class": [
+     "0cee588c17c0f1fdee5d3991234e53d53310f62f80d81da0cb69c3af0a84d08b"
+    ],
+    "RefererMiddleware.get_processed_request": [
+     "d67b068833f823baed24f741598d4834534d0f358dd356039b26e70902afc15f"
+    ],
+    "ReferrerPolicy.potentially_trustworthy": [
+     "169da7e652271372d0e763a9023393522e394924c859de13de3ee97f9e54b138"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "d9ce4b7a2b2cf78cdf8e21875326d12bbc171a2b7487360f4000e82a2234bcb0",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "9b90e57a7b3e12208f745f490430ad5dbfb515cfd345003bf883d680a93db64d",
+     [
+      "ReferrerPolicy"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "9f347631176c5d5d6caf3912d94ff5f31e2b745b1c5f40b7b04fd41b6037a308",
+     [
+      "ReferrerPolicy.strip_url"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "6df27cbbad18a84d007d376e386dd6c659c5812432b9aef5a98f615e11906b26",
+     [
+      "ReferrerPolicy.origin"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "6d1b17de160a1a2d5961b29d106de2f31d38beb55694902ebafce1b0ca371e0c",
+     [
+      "NoReferrerPolicy"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "fba07583abc1d5fc91f8a3781d6afe5ca3c283ec5d5d8de7d7e4b1265bab8340",
+     [
+      "NoReferrerWhenDowngradePolicy"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "508d6b0eab02e174b6d2d8fa7c919fb76685a5e77b214eb0d1759c19cbdbee34",
+     [
+      "SameOriginPolicy"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "94c00a20f7f02e6dd5cfd1f2948bcff3625652cd84bdf730790df255ac5247da",
+     [
+      "OriginPolicy"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "1bd6041b9d1d32a08b0e2cae389589f3204e868ea848f6c1e253ecb913bd98f7",
+     [
+      "StrictOriginPolicy"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "dde186e6e65ba1fcf9808001687a2e18e3e001758d654304ef7f72f333856a88",
+     [
+      "OriginWhenCrossOriginPolicy"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "338ae76fc051853bdc75398cad8c875cd5be115b23e55d36632bffcd9dbc40be",
+     [
+      "StrictOriginWhenCrossOriginPolicy"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "7c177fc821dcda906009862e2e6ef0440585324d4d7e2911f5b5e8e28a16575c",
+     [
+      "UnsafeUrlPolicy"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "0b6db64a0895e148ef953bf8a1e46dbac27f0ef01bb2486506db27dfc8d87db6",
+     [
+      "DefaultReferrerPolicy"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "ef4c2f05f3bc4966ea0763b3fbdfa0625cd00b142771c452be75a43c8abe067a",
+     [
+      "RefererMiddleware.policy"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "6d89c9c1fcf611278e0a2da4947712085301796f29fa36e9e6ded492b0244dc0",
+     [
+      "RefererMiddleware._load_policy_class"
+     ]
+    ]
+   ]
+  },
+  "scrapy/spidermiddlewares/start.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "94f54b223650f1dbeda8e8dd764f3b5e7fc9c1a41a7ed60d35ff0deea5594f58",
+     [
+      "StartSpiderMiddleware"
+     ]
+    ]
+   ]
+  },
+  "scrapy/spidermiddlewares/urllength.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "179227163d84a8e427709769a3f6409396df007f0b363b463ce61ff57525c58f",
+     [
+      "<module>"
+     ]
+    ]
+   ]
+  },
+  "scrapy/squeues.py": {
+   "comments": {
+    "<module>": [
+     "2e001979b7a31c0e9b92a57676078ccd9e06d449a9e6bc955e6547189703a68b",
+     "606a96eae4e035260be10106b6fa6518ebdc08edba0af08e7ea62e5c6737d650",
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "_pickle_serialize": [
+     "1001698ddf6f665917671ffcc4ee9943d5dd2a70b77b8b8e345c2d0bb681c065",
+     "b8bd3516b5f5ca26a696564d40003a82012926a96e1c5515a0bdec063c74d653"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "d816959111f3971fe52bcbb4b5618200697830d1694f23c73be10029c78ebb70",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "method",
+     3,
+     "cce9ff4a522b4718b0aef069cc1ae18fe88cc1c6a06460e16fa44f8d726d3575",
+     [
+      "_serializable_queue.SerializableQueue.peek"
+     ]
+    ],
+    [
+     "method",
+     3,
+     "cce9ff4a522b4718b0aef069cc1ae18fe88cc1c6a06460e16fa44f8d726d3575",
+     [
+      "_scrapy_serialization_queue.ScrapyRequestQueue.peek"
+     ]
+    ],
+    [
+     "method",
+     3,
+     "cce9ff4a522b4718b0aef069cc1ae18fe88cc1c6a06460e16fa44f8d726d3575",
+     [
+      "_scrapy_non_serialization_queue.ScrapyRequestQueue.peek"
+     ]
+    ]
+   ]
+  },
+  "scrapy/utils/job.py": {
+   "comments": {},
+   "entries": []
+  },
+  "scrapy/utils/request.py": {
+   "comments": {
+    "<module>": [
+     "aa427e7b1f9d6e3722a4f43d2cf5a2d2f40dae957644b979c7ca73da81fd4761"
+    ],
+    "fingerprint": [
+     "33d92980de8ee2a8653de1fbf63092271d9462594897d0cf588f658d9e1fd1e6",
+     "9e3fd75731e14acc336f9dbb0639bcfea2c82ce83d15a875fd9ff157b50859b8"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "a952535990e6c985c514519095536a50cb0b9b423fa56ac83bec74a8adff8686",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "745f4cd66d79a56f4ea3283c0ce069ecfa54e267bf8f63d584e9ff997a43d9de",
+     [
+      "fingerprint"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "25320d299656745e03dc47c2458378b9b18c9ca06d3fea141d50ffba4c0c3f67",
+     [
+      "RequestFingerprinter"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "d7abcb50de80d9da5d62803dfcc1e8cd4723a344bcb6cf0c80f4e55b0e6d5775",
+     [
+      "request_httprepr"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "1bc76179818cd12ab001639f67f55b932226467a793147ece4aa6576562f14e4",
+     [
+      "referer_str"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "6c460edd0790f8a2d1b6c4941d65a1ac7dd29918875d923e8d7d0e0c9d60eacc",
+     [
+      "request_from_dict"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "73d885619f3de2731b6baf8e076416e54564d944151fbda9feeb218fd69c9845",
+     [
+      "_get_method"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "1b6401fe98ccf2ffae2ac00def93f90d3cacf1b391424e42e650ca030261662b",
+     [
+      "_to_verbose_cookies"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "7f02fe08f791ee4bf4b75e6f6ebb0dec968b9377495cc02c3291f6a02b485ffa",
+     [
+      "_decode_cookie"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "ffc935875126308f706fcdd46d6676d93c4063c891bdbc4079d5bcd53f418d49",
+     [
+      "request_to_curl"
+     ]
+    ]
+   ]
+  },
+  "scrapy/utils/response.py": {
+   "comments": {
+    "open_in_browser": [
+     "1c4e18b078d20143bbff1c611d82798cd82c47a2766b3d14686c50f2e211dbe7",
+     "460f8d7cbd9fdc3fa59205033c38fed9925d57fe68c3dfd89e64d10d6b99dff5"
+    ]
+   },
+   "entries": [
+    [
+     "module",
+     0,
+     "3370b7f7bbeeec812ecc11bcb01b6fc5f36327ceb2e3a3867cbc48e24e9f08fe",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "6ea83c4ce8d6d61e9e649503127e3134f977f3c23416b8510e4976079a7e5b30",
+     [
+      "get_base_url"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "ce0f335234b05536a4aea646bba048cf8c99f6ce2cbcaa95433d82370c690601",
+     [
+      "get_meta_refresh"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "1b8d33350bb0cd2b033d722461d329894674dfa475b6c55eac84cc5225c1bf83",
+     [
+      "response_status_message"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "7d98e32022e2ae673aa0e67f2f41ded5230aa3238e0638169f96172764b34f7a",
+     [
+      "open_in_browser"
+     ]
+    ]
+   ]
+  },
+  "scrapy/utils/url.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "fd609f41c466326b8ee7138c5e1ba3a4a5a23e4d2891ec3af94aba6fd7af5149",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "03f0e00b65a851e3ef676be390624351f0381a8f77f852fba526dc307fef46cf",
+     [
+      "url_is_from_any_domain"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "893f5f271b95417124b80ba98b8357357f978d6e81f30ad02ac2a04a87842ebb",
+     [
+      "url_is_from_spider"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "453c8293d2b4ec47b3b163cf79f11678e225074ef52c6a6451a729520eddc768",
+     [
+      "url_has_any_extension"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "b869c2620cbbe12a982de5709639ec3c74862059d06f4e90ccb22bba1f83968a",
+     [
+      "add_http_if_no_scheme"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "2c902b0b23b41cf0c71f984382af087abd64a274e0b51eddcd604b9bd28611b4",
+     [
+      "guess_scheme"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "97492afd76a60bac8028517d3f1136485549e776cf6d0d98ba476a8e1542994d",
+     [
+      "strip_url"
+     ]
+    ]
+   ]
+  }
+ },
+ "pages": {
+  "docs/topics/autothrottle.rst": "19b5882729528ab66cf867a2a80c2d21fcaa220d536399345e61560a53225f16",
+  "docs/topics/cookies.rst": "67f4acbd8147a7880489517bc4a8fc83d6cd768ff3d2d3c5ea96dcdd27eee671",
+  "docs/topics/downloader-middleware.rst": "dd53e79ff526e94d4b08903ce8ac60d2a75de31eb9931bb618fa9b824821b358",
+  "docs/topics/exceptions.rst": "8ce6fffcb7f09e1d62c88a02ad693a78d51abdcc0c17431b42230453944f4515",
+  "docs/topics/jobs.rst": "d229efcdc41ec8c51764cf00b61de1a91e99d726d5cd7255db541ede1116c14e",
+  "docs/topics/request-response.rst": "2b2526073c499b78055af8a0f67e8b800cea81742562d7a9f00d3b51e70d8a1a",
+  "docs/topics/scheduler.rst": "4273bb41e2309968f8331b0293f4cd64fee2dac452ddcb114112cfb56c6a1aa8",
+  "docs/topics/spider-middleware.rst": "9c3a7512d424897b7b67aacea77c9aa2fda2329790bfc666e03fa54bf39b1d06"
+ }
+}

@@ -1,0 +1,60 @@
+schema_version = "1.3"
+artifacts = ["/logs/artifacts"]
+
+[task]
+name = "bespokelabsai/libexpat-realbug-a"
+description = "A pinned checkout of libexpat misbehaves in four independent ways observable through the public C API. A parser created to handle external entity content never reports an amplification limit breach, no matter how low the activation threshold and maximum factor are set before it is fed a parameter entity declaration. A comment handler that suspends parsing from inside nested entity content causes the remainder of the outer entities' content to be silently dropped once parsing is resumed. Preparing to feed a next chunk whose length is near the upper limit of a signed integer, after an earlier non-final chunk, is accepted instead of being refused as out of memory. And a document whose declaration carries a version pseudo-attribute with nothing between the quotes is accepted rather than rejected. The task is to locate and repair each of these behaviours and name the function responsible for each."
+authors = []
+keywords = ["diagnosis", "root-cause", "real-bug", "c", "ctest"]
+
+[metadata]
+task_id = "libexpat-realbug-a"
+display_title = "libexpat: diagnosing four real defects without a test suite"
+display_description = "A pinned checkout of libexpat misbehaves in four independent ways observable through the public C API. A parser created to handle external entity content never reports an amplification limit breach, no matter how low the activation threshold and maximum factor are set before it is fed a parameter entity declaration. A comment handler that suspends parsing from inside nested entity content causes the remainder of the outer entities' content to be silently dropped once parsing is resumed. Preparing to feed a next chunk whose length is near the upper limit of a signed integer, after an earlier non-final chunk, is accepted instead of being refused as out of memory. And a document whose declaration carries a version pseudo-attribute with nothing between the quotes is accepted rather than rejected. The task is to locate and repair each of these behaviours and name the function responsible for each."
+category = "bugfix"
+difficulty = "hard"
+language = "c"
+repository_url = "https://github.com/libexpat/libexpat.git"
+base_commit_hash = "57c7da69b78e3698e112a6b5da19d5109b8232d1"
+target_test = ""
+fault_count = 4
+fault_files = "expat/lib/xmlparse.c;expat/lib/xmltok.c"
+fault_ids = "libexpat-0c5dbd0bb0a5,libexpat-30d93b149d3d,libexpat-8e5c789e8d3b,libexpat-e567e550f1be"
+why_hard = "4 real upstream bugs, each graded by its own hidden upstream regression test, in a checkout with no test suite"
+generated_by = "voyager-diagnosis-pipeline/realbug"
+
+# Dual-container (separate) verifier, which the Voyager OTS spec requires of every task
+# (2026-09-29). Grading runs in its OWN container, built from tests/Dockerfile: the same
+# environment/Dockerfile the agent's image comes from, plus root-owned /tests layers the
+# agent image never holds. Nothing the agent did at run time reaches that container except
+# what the collect command below hands over - /logs/artifacts/worktree.tgz (the working
+# tree without .git) and /logs/artifacts/rca.json - and tests/grade.py adopts only source
+# files out of the archive. So the agent's .git, its venv, its home directory, its
+# processes and anything it planted outside the source roots never meet the grader. The
+# grader still runs as root (user below) and drops to the agent account for every suite run
+# (answer_key run_tests_as = "agent"). No [verifier.environment] block: Harbor then gives
+# the verifier a fresh copy of [environment] below, so one declaration governs both
+# containers' network, cpus, memory and storage.
+[verifier]
+environment_mode = "separate"
+user = "root"
+timeout_sec = 4740.0
+[[verifier.collect]]
+command = "bash -c 'mkdir -p /logs/artifacts && cd /workspace/repo && tar czf /logs/artifacts/worktree.tgz --exclude=./.git . ; cp -f /app/rca.json /logs/artifacts/rca.json 2>/dev/null || true'"
+service = "main"
+timeout_sec = 300
+
+# The solving agent's own budget, per language. Horizon applies it as written, with no
+# multiplier. AGENT_TIMEOUT_SEC holds the numbers and the reason.
+[agent]
+timeout_sec = 21600.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+os = "linux"
+workdir = "/workspace/repo"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

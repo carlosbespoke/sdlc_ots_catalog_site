@@ -1,0 +1,2704 @@
+{
+ "observations": {
+  "OBS-0001": {
+   "value": "a, b"
+  },
+  "OBS-0002": {
+   "value": "a, c"
+  },
+  "OBS-0003": {
+   "value": false
+  },
+  "OBS-0004": {
+   "value": false
+  },
+  "OBS-0005": {
+   "value": false
+  },
+  "OBS-0006": {
+   "value": "x_2"
+  },
+  "OBS-0007": {
+   "value": "x_3"
+  },
+  "OBS-0008": {
+   "value": "alias_2"
+  },
+  "OBS-0009": {
+   "value": "alias_3"
+  },
+  "OBS-0010": {
+   "value": "col_4"
+  },
+  "OBS-0011": {
+   "value": "node_2"
+  },
+  "OBS-0012": {
+   "value": "part_2_3"
+  },
+  "OBS-0013": {
+   "value": "A-B.C"
+  },
+  "OBS-0014": {
+   "value": {
+    "expressions": [
+     {
+      "column": "renamed"
+     },
+     {
+      "column": "c"
+     }
+    ],
+    "original": [
+     {
+      "add": [
+       {
+        "column": "a"
+       },
+       {
+        "column": "b"
+       }
+      ]
+     },
+     {
+      "column": "c"
+     }
+    ],
+    "same_tree": false,
+    "seen": [
+     "c"
+    ]
+   }
+  },
+  "OBS-0015": {
+   "value": {
+    "expressions": [
+     {
+      "column": "replacement"
+     },
+     {
+      "column": "c"
+     }
+    ],
+    "original": [
+     {
+      "column": "replacement"
+     },
+     {
+      "column": "c"
+     }
+    ],
+    "same_tree": true,
+    "seen": [
+     "c"
+    ]
+   }
+  },
+  "OBS-0016": {
+   "value": {
+    "expressions": [
+     {
+      "column": "renamed"
+     },
+     {
+      "column": "d"
+     }
+    ],
+    "original": [
+     {
+      "add": [
+       {
+        "column": "a"
+       },
+       {
+        "mul": [
+         {
+          "column": "b"
+         },
+         {
+          "column": "c"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "column": "d"
+     }
+    ],
+    "same_tree": false,
+    "seen": [
+     "d"
+    ]
+   }
+  },
+  "OBS-0017": {
+   "value": {
+    "expressions": [
+     {
+      "column": "replacement"
+     },
+     {
+      "column": "d"
+     }
+    ],
+    "original": [
+     {
+      "column": "replacement"
+     },
+     {
+      "column": "d"
+     }
+    ],
+    "same_tree": true,
+    "seen": [
+     "d"
+    ]
+   }
+  },
+  "OBS-0018": {
+   "value": {
+    "expressions": [
+     {
+      "column": "renamed"
+     },
+     {
+      "column": "renamed"
+     },
+     {
+      "column": "e"
+     }
+    ],
+    "original": [
+     {
+      "add": [
+       {
+        "column": "a"
+       },
+       {
+        "column": "b"
+       }
+      ]
+     },
+     {
+      "add": [
+       {
+        "column": "c"
+       },
+       {
+        "column": "d"
+       }
+      ]
+     },
+     {
+      "column": "e"
+     }
+    ],
+    "same_tree": false,
+    "seen": [
+     "e"
+    ]
+   }
+  },
+  "OBS-0019": {
+   "value": {
+    "expressions": [
+     {
+      "column": "replacement"
+     },
+     {
+      "column": "replacement"
+     },
+     {
+      "column": "e"
+     }
+    ],
+    "original": [
+     {
+      "column": "replacement"
+     },
+     {
+      "column": "replacement"
+     },
+     {
+      "column": "e"
+     }
+    ],
+    "same_tree": true,
+    "seen": [
+     "e"
+    ]
+   }
+  },
+  "OBS-0020": {
+   "value": {
+    "expressions": [
+     {
+      "mul": [
+       {
+        "column": "renamed"
+       },
+       {
+        "column": "c"
+       }
+      ]
+     },
+     {
+      "column": "d"
+     }
+    ],
+    "original": [
+     {
+      "mul": [
+       {
+        "add": [
+         {
+          "column": "a"
+         },
+         {
+          "column": "b"
+         }
+        ]
+       },
+       {
+        "column": "c"
+       }
+      ]
+     },
+     {
+      "column": "d"
+     }
+    ],
+    "same_tree": false,
+    "seen": [
+     "c",
+     "d"
+    ]
+   }
+  },
+  "OBS-0021": {
+   "value": {
+    "expressions": [
+     {
+      "mul": [
+       {
+        "column": "replacement"
+       },
+       {
+        "column": "c"
+       }
+      ]
+     },
+     {
+      "column": "d"
+     }
+    ],
+    "original": [
+     {
+      "mul": [
+       {
+        "column": "replacement"
+       },
+       {
+        "column": "c"
+       }
+      ]
+     },
+     {
+      "column": "d"
+     }
+    ],
+    "same_tree": true,
+    "seen": [
+     "c",
+     "d"
+    ]
+   }
+  },
+  "OBS-0022": {
+   "value": {
+    "expressions": [
+     {
+      "sub": [
+       {
+        "column": "a"
+       },
+       {
+        "column": "renamed"
+       }
+      ]
+     },
+     {
+      "column": "d"
+     }
+    ],
+    "original": [
+     {
+      "sub": [
+       {
+        "column": "a"
+       },
+       {
+        "add": [
+         {
+          "column": "b"
+         },
+         {
+          "column": "c"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "column": "d"
+     }
+    ],
+    "same_tree": false,
+    "seen": [
+     "a",
+     "d"
+    ]
+   }
+  },
+  "OBS-0023": {
+   "value": {
+    "expressions": [
+     {
+      "sub": [
+       {
+        "column": "a"
+       },
+       {
+        "column": "replacement"
+       }
+      ]
+     },
+     {
+      "column": "d"
+     }
+    ],
+    "original": [
+     {
+      "sub": [
+       {
+        "column": "a"
+       },
+       {
+        "column": "replacement"
+       }
+      ]
+     },
+     {
+      "column": "d"
+     }
+    ],
+    "same_tree": true,
+    "seen": [
+     "a",
+     "d"
+    ]
+   }
+  },
+  "OBS-0024": {
+   "value": {
+    "expressions": [
+     {
+      "column": "renamed"
+     },
+     {
+      "column": "e"
+     }
+    ],
+    "original": [
+     {
+      "add": [
+       {
+        "add": [
+         {
+          "column": "a"
+         },
+         {
+          "column": "b"
+         }
+        ]
+       },
+       {
+        "mul": [
+         {
+          "column": "c"
+         },
+         {
+          "column": "d"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "column": "e"
+     }
+    ],
+    "same_tree": false,
+    "seen": [
+     "e"
+    ]
+   }
+  },
+  "OBS-0025": {
+   "value": {
+    "expressions": [
+     {
+      "column": "replacement"
+     },
+     {
+      "column": "e"
+     }
+    ],
+    "original": [
+     {
+      "column": "replacement"
+     },
+     {
+      "column": "e"
+     }
+    ],
+    "same_tree": true,
+    "seen": [
+     "e"
+    ]
+   }
+  },
+  "OBS-0026": {
+   "value": {
+    "remaining": [
+     "c"
+    ],
+    "returns_original_nodes": [
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0027": {
+   "value": {
+    "remaining": [
+     "a"
+    ],
+    "returns_original_nodes": [
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0028": {
+   "value": {
+    "remaining": [],
+    "returns_original_nodes": [
+     true,
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0029": {
+   "value": {
+    "remaining": [],
+    "returns_original_nodes": [
+     true,
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0030": {
+   "value": {
+    "remaining": [],
+    "returns_original_nodes": [
+     true,
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0031": {
+   "value": {
+    "remaining": [],
+    "returns_original_nodes": [
+     true,
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0032": {
+   "value": {
+    "remaining": [],
+    "returns_original_nodes": [
+     true,
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0033": {
+   "value": {
+    "remaining": [
+     "a",
+     "d"
+    ],
+    "returns_original_nodes": [
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0034": {
+   "value": {
+    "remaining": [
+     "d"
+    ],
+    "returns_original_nodes": [
+     true,
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0035": {
+   "value": {
+    "remaining": [
+     "a",
+     "e"
+    ],
+    "returns_original_nodes": [
+     true,
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0036": {
+   "value": {
+    "remaining": [
+     "b"
+    ],
+    "returns_original_nodes": [
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0037": {
+   "value": {
+    "remaining": [
+     "a",
+     "b"
+    ],
+    "returns_original_nodes": [
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0038": {
+   "value": null
+  },
+  "OBS-0039": {
+   "value": 1
+  },
+  "OBS-0040": {
+   "value": null
+  },
+  "OBS-0041": {
+   "value": 3
+  },
+  "OBS-0042": {
+   "value": {
+    "collection": [],
+    "flat": [
+     null
+    ],
+    "list": [],
+    "list_type": "list"
+   }
+  },
+  "OBS-0043": {
+   "value": {
+    "collection": [
+     1,
+     2
+    ],
+    "flat": [
+     1,
+     2
+    ],
+    "list": [
+     1,
+     2
+    ],
+    "list_type": "list"
+   }
+  },
+  "OBS-0044": {
+   "value": {
+    "collection": [
+     1,
+     [
+      2,
+      [
+       3
+      ]
+     ]
+    ],
+    "flat": [
+     1,
+     2,
+     3
+    ],
+    "list": [
+     1,
+     [
+      2,
+      [
+       3
+      ]
+     ]
+    ],
+    "list_type": "list"
+   }
+  },
+  "OBS-0045": {
+   "value": {
+    "collection": [
+     1,
+     [
+      2,
+      [
+       3
+      ]
+     ]
+    ],
+    "flat": [
+     1,
+     2,
+     3
+    ],
+    "list": [
+     1,
+     [
+      2,
+      [
+       3
+      ]
+     ]
+    ],
+    "list_type": "list"
+   }
+  },
+  "OBS-0046": {
+   "value": {
+    "collection": [
+     "abc"
+    ],
+    "flat": [
+     "abc"
+    ],
+    "list": [
+     "abc"
+    ],
+    "list_type": "list"
+   }
+  },
+  "OBS-0047": {
+   "value": {
+    "collection": [
+     "ab",
+     [
+      "cd"
+     ]
+    ],
+    "flat": [
+     "ab",
+     "cd"
+    ],
+    "list": [
+     "ab",
+     [
+      "cd"
+     ]
+    ],
+    "list_type": "list"
+   }
+  },
+  "OBS-0048": {
+   "value": {
+    "type": "list",
+    "value": [
+     1,
+     2
+    ]
+   }
+  },
+  "OBS-0049": {
+   "value": ""
+  },
+  "OBS-0050": {
+   "value": "a"
+  },
+  "OBS-0051": {
+   "value": "x"
+  },
+  "OBS-0052": {
+   "value": [
+    "a0",
+    "a1",
+    "a2",
+    "a3"
+   ]
+  },
+  "OBS-0053": {
+   "value": "free"
+  },
+  "OBS-0054": {
+   "value": [
+    null,
+    "db",
+    "table"
+   ]
+  },
+  "OBS-0055": {
+   "value": [
+    "db",
+    "table",
+    null
+   ]
+  },
+  "OBS-0056": {
+   "value": [
+    "a",
+    "b",
+    "c",
+    "d"
+   ]
+  },
+  "OBS-0057": {
+   "value": [
+    "a",
+    "b",
+    "c",
+    "d"
+   ]
+  },
+  "OBS-0058": {
+   "value": [
+    null,
+    null,
+    "one"
+   ]
+  },
+  "OBS-0059": {
+   "value": [
+    "one",
+    null,
+    null
+   ]
+  },
+  "OBS-0060": {
+   "value": false
+  },
+  "OBS-0061": {
+   "value": true
+  },
+  "OBS-0062": {
+   "value": true
+  },
+  "OBS-0063": {
+   "value": false
+  },
+  "OBS-0064": {
+   "value": true
+  },
+  "OBS-0065": {
+   "value": true
+  },
+  "OBS-0066": {
+   "value": 0
+  },
+  "OBS-0067": {
+   "value": 1
+  },
+  "OBS-0068": {
+   "value": 1
+  },
+  "OBS-0069": {
+   "value": 2
+  },
+  "OBS-0070": {
+   "value": 3
+  },
+  "OBS-0071": {
+   "value": true
+  },
+  "OBS-0072": {
+   "value": false
+  },
+  "OBS-0073": {
+   "value": null
+  },
+  "OBS-0074": {
+   "value": true
+  },
+  "OBS-0075": {
+   "value": true
+  },
+  "OBS-0076": {
+   "value": true
+  },
+  "OBS-0077": {
+   "value": false
+  },
+  "OBS-0078": {
+   "value": false
+  },
+  "OBS-0079": {
+   "value": false
+  },
+  "OBS-0080": {
+   "value": "other"
+  },
+  "OBS-0081": {
+   "value": []
+  },
+  "OBS-0082": {
+   "value": [
+    [
+     1,
+     3
+    ]
+   ]
+  },
+  "OBS-0083": {
+   "value": [
+    [
+     1,
+     6
+    ]
+   ]
+  },
+  "OBS-0084": {
+   "value": [
+    [
+     1,
+     5
+    ]
+   ]
+  },
+  "OBS-0085": {
+   "value": [
+    [
+     1,
+     7
+    ]
+   ]
+  },
+  "OBS-0086": {
+   "value": [
+    [
+     1,
+     2
+    ],
+    [
+     8,
+     9
+    ]
+   ]
+  },
+  "OBS-0087": {
+   "value": {
+    "quoted": false,
+    "sql": "abc"
+   }
+  },
+  "OBS-0088": {
+   "value": {
+    "quoted": true,
+    "sql": "\"a-b\""
+   }
+  },
+  "OBS-0089": {
+   "value": {
+    "quoted": true,
+    "sql": "\"A B\""
+   }
+  },
+  "OBS-0090": {
+   "value": {
+    "quoted": false,
+    "same": false
+   }
+  },
+  "OBS-0091": {
+   "value": "a.b"
+  },
+  "OBS-0092": {
+   "value": "a.b"
+  },
+  "OBS-0093": {
+   "value": "ERR:ParseError"
+  },
+  "OBS-0094": {
+   "value": "a-b.c"
+  },
+  "OBS-0095": {
+   "value": "`A-B`.C"
+  },
+  "OBS-0096": {
+   "value": {
+    "sql": "'x'",
+    "type": "Literal"
+   }
+  },
+  "OBS-0097": {
+   "value": {
+    "sql": "TRUE",
+    "type": "Boolean"
+   }
+  },
+  "OBS-0098": {
+   "value": {
+    "sql": "FALSE",
+    "type": "Boolean"
+   }
+  },
+  "OBS-0099": {
+   "value": {
+    "sql": "NULL",
+    "type": "Null"
+   }
+  },
+  "OBS-0100": {
+   "value": {
+    "sql": "3",
+    "type": "Literal"
+   }
+  },
+  "OBS-0101": {
+   "value": {
+    "sql": "ARRAY(1, 'x')",
+    "type": "Array"
+   }
+  },
+  "OBS-0102": {
+   "value": "SELECT aaaaaa, aaaaaa, 11, 'ac' FROM aad"
+  },
+  "OBS-0103": {
+   "value": "SELECT a(b), 3 FROM d"
+  },
+  "OBS-0104": {
+   "value": "SELECT /* ...... */ aaa"
+  },
+  "OBS-0105": {
+   "value": "SELECT 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "OBS-0106": {
+   "value": "SELECT 1, 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+  },
+  "OBS-0107": {
+   "value": "SELECT # aaaaaa comment\n aaaaab"
+  },
+  "OBS-0108": {
+   "value": [
+    "Remove",
+    "Remove",
+    "Insert",
+    "Insert"
+   ]
+  },
+  "OBS-0109": {
+   "value": [
+    "Remove",
+    "Insert",
+    "Keep",
+    "Keep",
+    "Keep"
+   ]
+  },
+  "OBS-0110": {
+   "value": [
+    "Remove",
+    "Insert",
+    "Keep",
+    "Keep",
+    "Keep",
+    "Keep"
+   ]
+  },
+  "OBS-0111": {
+   "value": [
+    "Remove",
+    "Insert",
+    "Keep",
+    "Keep",
+    "Keep"
+   ]
+  },
+  "OBS-0112": {
+   "value": [
+    "Remove",
+    "Insert",
+    "Keep",
+    "Keep",
+    "Keep",
+    "Keep",
+    "Keep",
+    "Keep",
+    "Keep"
+   ]
+  },
+  "OBS-0113": {
+   "value": [
+    "Remove",
+    "Insert",
+    "Keep",
+    "Keep",
+    "Keep",
+    "Keep",
+    "Keep"
+   ]
+  },
+  "OBS-0114": {
+   "value": {
+    "nodes": 2,
+    "pretty": "SELECT\n  1",
+    "sql": "SELECT 1"
+   }
+  },
+  "OBS-0115": {
+   "value": {
+    "nodes": 12,
+    "pretty": "SELECT\n  a,\n  b + 1 AS c\nFROM d",
+    "sql": "SELECT a, b + 1 AS c FROM d"
+   }
+  },
+  "OBS-0116": {
+   "value": {
+    "nodes": 15,
+    "pretty": "SELECT\n  *\nFROM x\nWHERE\n  a = 1 AND b = 2",
+    "sql": "SELECT * FROM x WHERE a = 1 AND b = 2"
+   }
+  },
+  "OBS-0117": {
+   "value": {
+    "nodes": 14,
+    "pretty": "WITH x AS (\n  SELECT\n    1 AS a\n)\nSELECT\n  a\nFROM x",
+    "sql": "WITH x AS (SELECT 1 AS a) SELECT a FROM x"
+   }
+  },
+  "OBS-0118": {
+   "value": {
+    "expressions": [
+     {
+      "column": "a"
+     },
+     {
+      "column": "b"
+     }
+    ],
+    "original": [
+     {
+      "column": "a"
+     },
+     {
+      "column": "b"
+     }
+    ],
+    "same_tree": false,
+    "seen": [
+     "a",
+     "b"
+    ]
+   }
+  },
+  "OBS-0119": {
+   "value": {
+    "expressions": [
+     {
+      "column": "a"
+     },
+     {
+      "column": "b"
+     }
+    ],
+    "original": [
+     {
+      "column": "a"
+     },
+     {
+      "column": "b"
+     }
+    ],
+    "same_tree": true,
+    "seen": [
+     "a",
+     "b"
+    ]
+   }
+  },
+  "OBS-0120": {
+   "value": {
+    "expressions": [
+     {
+      "mul": [
+       {
+        "column": "a"
+       },
+       {
+        "column": "b"
+       }
+      ]
+     },
+     {
+      "column": "a"
+     }
+    ],
+    "original": [
+     {
+      "mul": [
+       {
+        "column": "a"
+       },
+       {
+        "column": "b"
+       }
+      ]
+     },
+     {
+      "column": "a"
+     }
+    ],
+    "same_tree": false,
+    "seen": [
+     "a",
+     "a",
+     "b"
+    ]
+   }
+  },
+  "OBS-0121": {
+   "value": {
+    "expressions": [
+     {
+      "mul": [
+       {
+        "column": "a"
+       },
+       {
+        "column": "b"
+       }
+      ]
+     },
+     {
+      "column": "a"
+     }
+    ],
+    "original": [
+     {
+      "mul": [
+       {
+        "column": "a"
+       },
+       {
+        "column": "b"
+       }
+      ]
+     },
+     {
+      "column": "a"
+     }
+    ],
+    "same_tree": true,
+    "seen": [
+     "a",
+     "a",
+     "b"
+    ]
+   }
+  },
+  "OBS-0122": {
+   "value": {
+    "remaining": [
+     "a",
+     "b",
+     "c"
+    ],
+    "returns_original_nodes": []
+   }
+  },
+  "OBS-0123": {
+   "value": {
+    "remaining": [
+     "b",
+     "c"
+    ],
+    "returns_original_nodes": [
+     true
+    ]
+   }
+  },
+  "OBS-0124": {
+   "value": {
+    "remaining": [
+     "a",
+     "c"
+    ],
+    "returns_original_nodes": [
+     true
+    ]
+   }
+  },
+  "OBS-0125": {
+   "value": {
+    "remaining": [
+     "a",
+     "b"
+    ],
+    "returns_original_nodes": [
+     true
+    ]
+   }
+  },
+  "OBS-0126": {
+   "value": {
+    "remaining": [
+     "b"
+    ],
+    "returns_original_nodes": [
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0127": {
+   "value": {
+    "remaining": [
+     "c"
+    ],
+    "returns_original_nodes": [
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0128": {
+   "value": {
+    "remaining": [
+     "b"
+    ],
+    "returns_original_nodes": [
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0129": {
+   "value": {
+    "remaining": [
+     "a"
+    ],
+    "returns_original_nodes": [
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0130": {
+   "value": {
+    "remaining": [],
+    "returns_original_nodes": [
+     true,
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0131": {
+   "value": {
+    "remaining": [
+     "b",
+     "d"
+    ],
+    "returns_original_nodes": [
+     true,
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0132": {
+   "value": {
+    "remaining": [
+     "b"
+    ],
+    "returns_original_nodes": [
+     true,
+     true
+    ]
+   }
+  },
+  "OBS-0133": {
+   "value": [
+    [
+     "'ARRAY(1, x)'\n"
+    ],
+    [
+     "'CAST(x + 1 AS INT)'\n"
+    ],
+    [
+     "",
+     "['a', 'c']\n"
+    ],
+    [
+     "'DELETE FROM my_table WHERE id > 1'\n"
+    ],
+    [
+     "",
+     "'SELECT * FROM (SELECT * FROM y) AS z /* source: x */'\n",
+     "'SELECT * FROM (SELECT * FROM (SELECT * FROM z) AS y /* source: y */) AS z /* source: x */'\n"
+    ],
+    [
+     "'SELECT col1, col2 FROM tbl'\n"
+    ],
+    [
+     "'ABS(5)'\n",
+     "'CAST(5 AS DOUBLE)'\n"
+    ],
+    [
+     "'INSERT INTO tbl VALUES (1, 2, 3)'\n"
+    ],
+    [
+     "'MERGE INTO my_table USING source_table ON my_table.id = source_table.id WHEN MATCHED THEN UPDATE SET col1 = source_table.col1 WHEN NOT MATCHED THEN INSERT (col1) VALUES (source_table.col1)'\n"
+    ],
+    [
+     "",
+     "\"SELECT * FROM foo WHERE str_col = 'b'\"\n"
+    ],
+    [
+     "",
+     "'SELECT * FROM c /* a.b */'\n"
+    ],
+    [
+     "'SELECT col1, col2 FROM tbl'\n"
+    ],
+    [
+     "'SELECT x FROM (SELECT x FROM tbl) AS bar'\n"
+    ],
+    [
+     "",
+     "'a.b.c'\n"
+    ],
+    [
+     "'(1, x)'\n"
+    ],
+    [
+     "\"WITH baz_cte AS (SELECT id FROM foo) UPDATE my_table SET x = 1, y = '2', z = NULL FROM baz_cte WHERE baz_cte.id > 1 AND my_table.id = baz_cte.id\"\n"
+    ],
+    [
+     "\"VALUES (1, '2')\"\n"
+    ],
+    [
+     "'Var(this=x)'\n",
+     "'Var(this=x)'\n"
+    ]
+   ]
+  },
+  "OBS-0134": {
+   "value": [
+    [
+     ""
+    ],
+    [
+     "'x = 1 AND y = 1'\n"
+    ],
+    [
+     "",
+     "'SELECT x, z FROM y'\n"
+    ],
+    [
+     "'NOT x = 1'\n"
+    ],
+    [
+     "'x = 1 OR y = 1'\n"
+    ],
+    [
+     "",
+     "'a'\n",
+     "'c'\n",
+     "''\n"
+    ],
+    [
+     "",
+     "",
+     "Column(\n  this=Identifier(this=y, quoted=False))\n",
+     "'SELECT y FROM tbl'\n"
+    ],
+    [
+     "'foo AS bar'\n",
+     "'(SELECT 1, 2) AS bar(a, b)'\n"
+    ],
+    [
+     "'x = 1 AND (y = 1 AND z = 1)'\n"
+    ],
+    [
+     "'x = 1'\n",
+     "",
+     "",
+     "'x = 1 AND y = 1'\n"
+    ],
+    [
+     "Literal(this=1, is_string=False)\n",
+     "Identifier(this=x, quoted=False)\n"
+    ],
+    [
+     "\"NOT this_suit = 'black'\"\n"
+    ],
+    [
+     "'x = 1 OR (y = 1 OR z = 1)'\n"
+    ],
+    [
+     "'(5 + 3)'\n"
+    ],
+    [
+     "'x = 1 XOR (y = 1 XOR z = 1)'\n"
+    ]
+   ]
+  },
+  "OBS-0135": {
+   "value": [
+    [
+     "'DELETE FROM tbl RETURNING *'\n"
+    ],
+    [
+     "'DELETE FROM tbl'\n"
+    ],
+    [
+     "\"DELETE FROM tbl WHERE x = 'a' OR x < 'b'\"\n"
+    ],
+    [
+     "",
+     "'WITH cte AS (SELECT * FROM tbl) INSERT INTO t SELECT x FROM cte'\n"
+    ],
+    [
+     "'UPDATE my_table SET x = 1 FROM baz'\n"
+    ],
+    [
+     "'UPDATE my_table SET x = 1'\n"
+    ],
+    [
+     "'UPDATE my_table SET x = 1'\n"
+    ],
+    [
+     "\"UPDATE tbl SET x = 1 WHERE x = 'a' OR x < 'b'\"\n"
+    ],
+    [
+     "'WITH baz AS (SELECT id FROM foo) UPDATE my_table SET x = 1 FROM baz'\n"
+    ]
+   ]
+  },
+  "OBS-0136": {
+   "value": [
+    [
+     "",
+     "'JOIN x ON y = 1'\n"
+    ],
+    [
+     "",
+     "",
+     "['c', 'name', 'val']\n"
+    ],
+    [
+     "",
+     "'SELECT * FROM foo EXCEPT SELECT * FROM bla'\n"
+    ],
+    [
+     "",
+     "'SELECT * FROM foo INTERSECT SELECT * FROM bla'\n"
+    ],
+    [
+     "'SELECT 1 UNION SELECT 1 LIMIT 1'\n"
+    ],
+    [
+     "'SELECT x FROM tbl OFFSET 10'\n"
+    ],
+    [
+     "'SELECT x FROM tbl ORDER BY x DESC'\n"
+    ],
+    [
+     "",
+     "'SELECT x FROM (SELECT x FROM tbl)'\n"
+    ],
+    [
+     "",
+     "'SELECT * FROM foo UNION SELECT * FROM bla'\n"
+    ],
+    [
+     "\"SELECT x FROM tbl WHERE x = 'a' OR x < 'b'\"\n"
+    ],
+    [
+     "'WITH tbl2 AS (SELECT * FROM tbl) SELECT x FROM tbl2'\n"
+    ],
+    [
+     "'SELECT x FROM tbl CLUSTER BY x'\n"
+    ],
+    [
+     "'CREATE TABLE x AS SELECT * FROM tbl'\n"
+    ],
+    [
+     "'SELECT DISTINCT x FROM tbl'\n"
+    ],
+    [
+     "'SELECT x FROM tbl'\n"
+    ],
+    [
+     "'SELECT x, COUNT(1) FROM tbl GROUP BY x'\n"
+    ],
+    [
+     "'SELECT x, COUNT(y) FROM tbl GROUP BY x HAVING COUNT(y) > 3'\n"
+    ],
+    [
+     "'SELECT /*+ BROADCAST(y) */ x FROM tbl'\n"
+    ],
+    [
+     "'SELECT x FROM tbl LATERAL VIEW OUTER EXPLODE(y) tbl2 AS z'\n"
+    ],
+    [
+     "\"SELECT x FROM tbl WHERE x = 'a' FOR UPDATE\"\n",
+     "\"SELECT x FROM tbl WHERE x = 'a' FOR SHARE\"\n"
+    ],
+    [
+     "'SELECT x FROM tbl SORT BY x DESC'\n"
+    ],
+    [
+     "'SELECT * FROM foo EXCEPT SELECT * FROM bla'\n"
+    ],
+    [
+     "'SELECT * FROM foo INTERSECT SELECT * FROM bla'\n"
+    ],
+    [
+     "'SELECT * FROM foo UNION SELECT * FROM bla'\n"
+    ]
+   ]
+  },
+  "OBS-0137": {
+   "value": [
+    [
+     "0\n",
+     "1\n",
+     "1\n",
+     "2\n",
+     "3\n"
+    ],
+    [
+     "[1, 2, 3, 4, 5, 'bla']\n",
+     "[1, 2, 3]\n"
+    ],
+    [
+     "True\n",
+     "False\n"
+    ],
+    [
+     "[(1, 6)]\n",
+     "[(2, 9)]\n"
+    ],
+    [
+     "[None, 'db', 'table']\n",
+     "['db', 'table', None]\n",
+     "['db', 'table']\n"
+    ]
+   ]
+  },
+  "OBS-0138": {
+   "value": [
+    [
+     "",
+     "",
+     "",
+     "",
+     "<DType.DOUBLE: 'DOUBLE'>\n"
+    ]
+   ]
+  },
+  "OBS-0139": {
+   "value": [
+    [
+     "",
+     "",
+     "",
+     "'WITH \"_t1\" AS (SELECT \"_t0\".\"c1\" AS \"_c0\", \"_t0\".\"c2\" AS \"_c1\" FROM \"c\".\"db\".\"src\" AS \"_t0\") SELECT \"_t1\".\"_c0\" AS \"c1\", \"_t1\".\"_c1\" AS \"c2\" FROM \"_t1\" AS \"_t1\"'\n"
+    ]
+   ]
+  },
+  "OBS-0140": {
+   "value": [
+    [
+     "",
+     "",
+     "",
+     "'SELECT a FROM z'\n"
+    ]
+   ]
+  },
+  "OBS-0141": {
+   "value": [
+    [
+     "",
+     "",
+     "",
+     "'SELECT x.a FROM x'\n"
+    ]
+   ]
+  },
+  "OBS-0142": {
+   "value": [
+    [
+     "",
+     "",
+     "'WITH y AS (SELECT * FROM x) SELECT a FROM y AS y'\n",
+     "",
+     "'WITH y AS (SELECT * FROM x) SELECT a FROM y AS y CROSS JOIN y AS z'\n"
+    ]
+   ]
+  },
+  "OBS-0143": {
+   "value": [
+    [
+     "",
+     "",
+     "'SELECT x.a FROM x CROSS JOIN y'\n",
+     "",
+     "'SELECT a FROM (SELECT x.a FROM x) CROSS JOIN y'\n"
+    ]
+   ]
+  },
+  "OBS-0144": {
+   "value": [
+    [
+     "",
+     "",
+     "4\n"
+    ],
+    [
+     "",
+     "",
+     "'(x OR z) AND (y OR z)'\n"
+    ],
+    [
+     "",
+     "True\n",
+     "True\n",
+     "False\n"
+    ]
+   ]
+  },
+  "OBS-0145": {
+   "value": [
+    [
+     "",
+     "",
+     "'SELECT bar.a AS a FROM \"Foo\".bar'\n",
+     "'FOO'\n"
+    ]
+   ]
+  },
+  "OBS-0146": {
+   "value": [
+    [
+     "",
+     "",
+     "",
+     "True\n",
+     "",
+     "False\n"
+    ],
+    [
+     "",
+     "'SELECT * FROM x JOIN z ON x.a = z.a AND TRUE JOIN y ON y.a = z.a'\n"
+    ]
+   ]
+  },
+  "OBS-0147": {
+   "value": [
+    [
+     "",
+     "",
+     "",
+     "'SELECT y.a AS a FROM (SELECT x.a AS a FROM x AS x WHERE x.a = 1) AS y WHERE TRUE'\n"
+    ]
+   ]
+  },
+  "OBS-0148": {
+   "value": [
+    [
+     "",
+     "",
+     "",
+     "'SELECT y.a AS a FROM (SELECT x.a AS a FROM x) AS y'\n"
+    ]
+   ]
+  },
+  "OBS-0149": {
+   "value": [
+    [
+     "",
+     "",
+     "",
+     "'SELECT \"tbl\".\"col\" AS \"col\" FROM \"tbl\" AS \"tbl\"'\n"
+    ]
+   ]
+  },
+  "OBS-0150": {
+   "value": [
+    [
+     "",
+     "",
+     "",
+     "'SELECT tbl.col AS col FROM tbl'\n"
+    ]
+   ]
+  },
+  "OBS-0151": {
+   "value": [
+    [
+     "",
+     "",
+     "'SELECT 1 FROM db.tbl AS tbl'\n",
+     "",
+     "'SELECT 1 FROM (SELECT * FROM t1 AS t1, t2 AS t2) AS t'\n"
+    ]
+   ]
+  },
+  "OBS-0152": {
+   "value": [
+    [
+     "",
+     "",
+     "",
+     "('SELECT a FROM x', ['x'])\n",
+     "('SELECT a FROM (SELECT a FROM x) AS y', ['y'])\n"
+    ]
+   ]
+  },
+  "OBS-0153": {
+   "value": [
+    [
+     "",
+     "'TRUE'\n"
+    ],
+    [
+     "",
+     "",
+     "'TRUE'\n"
+    ]
+   ]
+  },
+  "OBS-0154": {
+   "value": [
+    [
+     "",
+     "",
+     "'SELECT * FROM x AS x LEFT JOIN (SELECT y.a AS a FROM y AS y WHERE TRUE GROUP BY y.a) AS _u_0 ON x.a = _u_0.a WHERE _u_0.a = 1'\n"
+    ]
+   ]
+  },
+  "OBS-0155": {
+   "value": [
+    [
+     "{'top_key': {'second_key': 'value'}}\n",
+     "{'top_key': {'third_key': 'third_value', 'second_key': 'value'}}\n"
+    ]
+   ]
+  },
+  "OBS-0156": {
+   "value": [
+    [
+     "'YYYY'\n"
+    ]
+   ]
+  },
+  "OBS-0157": {
+   "value": [
+    [
+     "",
+     "",
+     "SELECT * FROM tbl PIVOT(SUM(tbl.sales) FOR quarter IN ('Q1', 'Q2'))\n"
+    ]
+   ]
+  },
+  "OBS-0158": {
+   "value": [
+    [
+     "(<TrieResult.FAILED: 1>, {'c': {'a': {'t': {0: True}}}})\n",
+     "(<TrieResult.PREFIX: 2>, {'t': {0: True}})\n",
+     "(<TrieResult.EXISTS: 3>, {0: True})\n"
+    ],
+    [
+     "{'b': {'l': {'a': {0: True, 'b': {0: True}}}}, 'f': {'o': {'o': {0: True}}}}\n"
+    ]
+   ]
+  },
+  "OBS-0159": {
+   "value": [
+    {
+     "printed": "",
+     "shown": "'SELECT FROM_UNIXTIME(1618088028295 / POW(10, 3))'"
+    },
+    {
+     "printed": "",
+     "shown": "\"SELECT DATE_FORMAT(x, 'yy-M-ss')\""
+    },
+    {
+     "printed": "WITH `baz` AS (\n  SELECT\n    `a`,\n    `c`\n  FROM `foo`\n  WHERE\n    `a` = 1\n)\nSELECT\n  `f`.`a`,\n  `b`.`b`,\n  `baz`.`c`,\n  CAST(`b`.`a` AS FLOAT) AS `d`\nFROM `foo` AS `f`\nJOIN `bar` AS `b`\n  ON `f`.`a` = `b`.`a`\nLEFT JOIN `baz`\n  ON `f`.`a` = `baz`.`a`\n",
+     "shown": "None"
+    },
+    {
+     "printed": "/* multi\n   line\n   comment\n*/\nSELECT\n  tbl.cola /* comment 1 */ + tbl.colb /* comment 2 */,\n  CAST(x AS SIGNED), /* comment 3 */\n  y /* comment 4 */\nFROM bar /* comment 5 */, tbl /*          comment 6 */\n",
+     "shown": "None"
+    },
+    {
+     "printed": "a\nb\na\nc\nx\ny\nz\n",
+     "shown": null
+    },
+    {
+     "printed": "[{'description': 'Expecting )', 'line': 1, 'col': 34, 'start_context': 'SELECT foo FROM (SELECT baz FROM ', 'highlight': 't', 'end_context': '', 'into_expression': None}]\n",
+     "shown": null
+    },
+    {
+     "printed": "",
+     "shown": "[{'description': 'Expecting )', 'line': 1, 'col': 34, 'start_context': 'SELECT foo FROM (SELECT baz FROM ', 'highlight': 't', 'end_context': '', 'into_expression': None}]"
+    },
+    {
+     "printed": "",
+     "shown": "['SELECT APPROX_COUNT_DISTINCT(a) FROM foo']"
+    },
+    {
+     "printed": "",
+     "shown": "'SELECT * FROM y WHERE x = 1 AND y = 1'"
+    },
+    {
+     "printed": "",
+     "shown": "'SELECT x FROM z'"
+    },
+    {
+     "printed": "",
+     "shown": "'SELECT FUN(a) FROM x'"
+    },
+    {
+     "printed": "SELECT\n  (\n    \"x\".\"a\" <> 0 OR \"x\".\"b\" <> 0 OR \"x\".\"c\" <> 0\n  )\n  AND (\n    \"x\".\"a\" <> 0 OR \"x\".\"b\" <> 0 OR \"x\".\"d\" <> 0\n  ) AS \"_col_0\"\nFROM \"x\" AS \"x\"\nWHERE\n  CAST(\"x\".\"z\" AS DATE) = CAST('2021-01-01' AS DATE) + INTERVAL '1' MONTH\n",
+     "shown": "None"
+    },
+    {
+     "printed": "Select(\n  expressions=[\n    Alias(\n      this=Add(\n        this=Column(\n          this=Identifier(this=a, quoted=False)),\n        expression=Literal(this=1, is_string=False)),\n      alias=Identifier(this=z, quoted=False))])\n",
+     "shown": "None"
+    },
+    {
+     "printed": "<class '__main__.Custom'>\n",
+     "shown": "None"
+    },
+    {
+     "printed": "",
+     "shown": "user_id price\n      1   4.0\n      2   3.0"
+    }
+   ]
+  },
+  "OBS-0160": {
+   "value": [
+    {
+     "printed": "",
+     "shown": null
+    },
+    {
+     "printed": "",
+     "shown": "'Select(\\n  expressions=[\\n    Column(\\n      this=Identifier(this=a, quoted=False))],\\n  from_=From(\\n    this=Subquery(\\n      this=Select(\\n        expressions=[\\n          Column(\\n            this=Identifier(this=a, quoted=False))],\\n        from_=From(\\n          this=Table(\\n            this=Identifier(this=x, quoted=False)))),\\n      alias=TableAlias(\\n        this=Identifier(this=x, quoted=False)))))'"
+    },
+    {
+     "printed": "",
+     "shown": null
+    },
+    {
+     "printed": "",
+     "shown": "[Select(\n  expressions=[\n    Column(\n      this=Identifier(this=a, quoted=False))],\n  from_=From(\n    this=Subquery(\n      this=Select(\n        expressions=[\n          Column(\n            this=Identifier(this=a, quoted=False))],\n        from_=From(\n          this=Table(\n            this=Identifier(this=x, quoted=False)))),\n      alias=TableAlias(\n        this=Identifier(this=x, quoted=False))))), Select(\n  expressions=[\n    Column(\n      this=Identifier(this=a, quoted=False))],\n  from_=From(\n    this=Table(\n      this=Identifier(this=x, quoted=False))))]"
+    },
+    {
+     "printed": "",
+     "shown": null
+    },
+    {
+     "printed": "Scope<SELECT a FROM y>\nScope<WITH x AS (SELECT a FROM y) SELECT a FROM x>\n",
+     "shown": null
+    },
+    {
+     "printed": "y\n",
+     "shown": null
+    },
+    {
+     "printed": "",
+     "shown": null
+    },
+    {
+     "printed": "",
+     "shown": "Select(\n  expressions=[\n    Alias(\n      this=Column(\n        this=Identifier(this='a', quoted=True),\n        table=Identifier(this='x', quoted=True)),\n      alias=Identifier(this='a', quoted=True)),\n    Alias(\n      this=Column(\n        this=Identifier(this='c', quoted=True),\n        table=Identifier(this='y', quoted=True)),\n      alias=Identifier(this='c', quoted=True))],\n  from_=From(\n    this=Subquery(\n      this=Select(\n        expressions=[\n          Alias(\n            this=Column(\n              this=Identifier(this='a', quoted=True),\n              table=Identifier(this='x', quoted=True)),\n            alias=Identifier(this='a', quoted=True)),\n          Alias(\n            this=Column(\n              this=Identifier(this='b', quoted=True),\n              table=Identifier(this='x', quoted=True)),\n            alias=Identifier(this='b', quoted=True))],\n        from_=From(\n          this=Table(\n            this=Identifier(this='x', quoted=True),\n            alias=TableAlias(\n              this=Identifier(this='x', quoted=True))))),\n      alias=TableAlias(\n        this=Identifier(this='x', quoted=True)))),\n  joins=[\n    Join(\n      this=Subquery(\n        this=Select(\n          expressions=[\n            Alias(\n              this=Column(\n                this=Identifier(this='b', quoted=True),\n                table=Identifier(this='y', quoted=True)),\n              alias=Identifier(this='b', quoted=True)),\n            Alias(\n              this=Column(\n                this=Identifier(this='c', quoted=True),\n                table=Identifier(this='y', quoted=True)),\n              alias=Identifier(this='c', quoted=True))],\n          from_=From(\n            this=Table(\n              this=Identifier(this='y', quoted=True),\n              alias=TableAlias(\n                this=Identifier(this='y', quoted=True))))),\n        alias=TableAlias(\n          this=Identifier(this='y', quoted=True))),\n      on=EQ(\n        this=Column(\n          this=Identifier(this='b', quoted=True),\n      "
+    },
+    {
+     "printed": "\"x\".\"a\" => Scope<SELECT \"x\".\"a\" AS \"a\", \"x\".\"b\" AS \"b\" FROM \"x\" AS \"x\">\n\"y\".\"c\" => Scope<SELECT \"y\".\"b\" AS \"b\", \"y\".\"c\" AS \"c\" FROM \"y\" AS \"y\">\n\"x\".\"b\" => Scope<SELECT \"x\".\"a\" AS \"a\", \"x\".\"b\" AS \"b\" FROM \"x\" AS \"x\">\n\"y\".\"b\" => Scope<SELECT \"y\".\"b\" AS \"b\", \"y\".\"c\" AS \"c\" FROM \"y\" AS \"y\">\n",
+     "shown": null
+    },
+    {
+     "printed": "",
+     "shown": null
+    },
+    {
+     "printed": "SELECT * FROM (SELECT a, b, c FROM x)\n",
+     "shown": "None"
+    },
+    {
+     "printed": "",
+     "shown": "Select(\n  expressions=[\n    Column(\n      this=Identifier(this=a, quoted=False)),\n    Column(\n      this=Identifier(this=b, quoted=False)),\n    Column(\n      this=Identifier(this=c, quoted=False)),\n    Column(\n      this=Identifier(this=c, quoted=False)),\n    Column(\n      this=Identifier(this=c, quoted=False)),\n    Column(\n      this=Identifier(this=c, quoted=False)),\n    Column(\n      this=Identifier(this=c, quoted=False))],\n  from_=From(\n    this=Table(\n      this=Identifier(this=x, quoted=False))))"
+    },
+    {
+     "printed": "",
+     "shown": "None"
+    },
+    {
+     "printed": "SELECT FUN(a), b FROM x\n",
+     "shown": "None"
+    }
+   ]
+  },
+  "OBS-0161": {
+   "value": [
+    {
+     "printed": "<Token token_type: TokenType.SELECT, text: SELECT, line: 1, col: 6, start: 0, end: 5, comments: []>\n<Token token_type: TokenType.VAR, text: b, line: 1, col: 8, start: 7, end: 7, comments: []>\n<Token token_type: TokenType.FROM, text: FROM, line: 1, col: 13, start: 9, end: 12, comments: []>\n<Token token_type: TokenType.TABLE, text: table, line: 1, col: 19, start: 14, end: 18, comments: []>\n<Token token_type: TokenType.WHERE, text: WHERE, line: 1, col: 25, start: 20, end: 24, comments: []>\n<Token token_type: TokenType.VAR, text: c, line: 1, col: 27, start: 26, end: 26, comments: []>\n<Token token_type: TokenType.EQ, text: =, line: 1, col: 29, start: 28, end: 28, comments: []>\n<Token token_type: TokenType.NUMBER, text: 1, line: 1, col: 31, start: 30, end: 30, comments: []>\n",
+     "shown": null
+    },
+    {
+     "printed": "",
+     "shown": null
+    },
+    {
+     "printed": "",
+     "shown": null
+    },
+    {
+     "printed": "",
+     "shown": "'FOO'"
+    },
+    {
+     "printed": "",
+     "shown": "'SELECT \"tbl\".\"col\" AS \"col\" FROM \"tbl\" AS \"tbl\"'"
+    },
+    {
+     "printed": "",
+     "shown": "'SELECT \"tbl\".\"col\" AS \"col\" FROM \"tbl\" AS \"tbl\"'"
+    },
+    {
+     "printed": "",
+     "shown": null
+    }
+   ]
+  },
+  "OBS-0162": {
+   "value": [
+    "SELECT 1",
+    "SELECT a FROM b"
+   ]
+  },
+  "OBS-0163": {
+   "value": [
+    "Select",
+    "SELECT a FROM b WHERE c > 1",
+    [
+     "a",
+     "c"
+    ]
+   ]
+  },
+  "OBS-0164": {
+   "value": [
+    "SELECT\n  a,\n  b\nFROM t",
+    "SELECT\n  2"
+   ]
+  },
+  "OBS-0165": {
+   "value": [
+    "SELECT CAST(\"x\" AS BIGINT)"
+   ]
+  },
+  "OBS-0166": {
+   "value": [
+    "And",
+    "x = 1 AND y > 2"
+   ]
+  },
+  "OBS-0167": {
+   "value": [
+    [
+     "SELECT",
+     "SELECT",
+     1,
+     6
+    ],
+    [
+     "VAR",
+     "a",
+     1,
+     8
+    ],
+    [
+     "FROM",
+     "FROM",
+     2,
+     4
+    ],
+    [
+     "VAR",
+     "b",
+     2,
+     6
+    ]
+   ]
+  },
+  "OBS-0168": {
+   "value": [
+    {
+     "col": 34,
+     "description": "Expecting )",
+     "end_context": "",
+     "into_expression": null,
+     "line": 1,
+     "start_context": "SELECT foo FROM (SELECT baz FROM "
+    },
+    "SqlglotError"
+   ]
+  },
+  "OBS-0169": {
+   "value": [
+    "SELECT 1 +"
+   ]
+  },
+  "OBS-0170": {
+   "value": "Argument 'accuracy' is not supported for expression 'ApproxDistinct' when targeting Hive."
+  },
+  "OBS-0171": {
+   "value": [
+    [
+     "IGNORE",
+     "IMMEDIATE",
+     "RAISE",
+     "WARN"
+    ],
+    "a\n\nb\n\n... and 1 more"
+   ]
+  },
+  "OBS-0172": {
+   "value": [
+    [
+     {
+      "col": 2,
+      "description": "d1",
+      "end_context": null,
+      "highlight": null,
+      "into_expression": null,
+      "line": 1,
+      "start_context": null
+     }
+    ],
+    "bad"
+   ]
+  },
+  "OBS-0173": {
+   "value": [
+    [
+     "SELECT",
+     "SELECT",
+     []
+    ],
+    [
+     "STRING",
+     "a'b",
+     []
+    ],
+    [
+     "COMMA",
+     ",",
+     []
+    ],
+    [
+     "NUMBER",
+     "1.5e3",
+     []
+    ],
+    [
+     "COMMA",
+     ",",
+     []
+    ],
+    [
+     "VAR",
+     "x",
+     [
+      " note "
+     ]
+    ],
+    [
+     "FROM",
+     "FROM",
+     []
+    ],
+    [
+     "VAR",
+     "t",
+     [
+      " end"
+     ]
+    ]
+   ]
+  },
+  "OBS-0174": {
+   "value": [
+    [
+     "SELECT",
+     1,
+     6,
+     0,
+     5
+    ],
+    [
+     "a",
+     2,
+     3,
+     9,
+     9
+    ],
+    [
+     ",",
+     2,
+     4,
+     10,
+     10
+    ],
+    [
+     "b",
+     3,
+     3,
+     14,
+     14
+    ]
+   ]
+  },
+  "OBS-0175": {
+   "value": [
+    [
+     "SELECT",
+     "SELECT"
+    ],
+    [
+     "IDENTIFIER",
+     "a b"
+    ],
+    [
+     "COMMA",
+     ","
+    ],
+    [
+     "HEX_STRING",
+     "1F"
+    ]
+   ]
+  },
+  "OBS-0176": {
+   "value": "TokenError"
+  },
+  "OBS-0177": {
+   "value": [
+    "SELECT\n  a,\n  b AS c\nFROM x\nWHERE\n  a > 1 AND b < 2\nORDER BY\n  a",
+    "SELECT\n    a,\n    b AS c\nFROM x\nWHERE\n    a > 1 AND b < 2\nORDER BY\n    a",
+    "SELECT\n  a\n  , b AS c\nFROM x\nWHERE\n  a > 1 AND b < 2\nORDER BY\n  a"
+   ]
+  },
+  "OBS-0178": {
+   "value": [
+    "SELECT \"Foo\" FROM \"Bar\" /* hi */",
+    "SELECT foo FROM bar /* hi */",
+    "SELECT Foo FROM Bar",
+    "SELECT Foo FROM Bar /* hi */"
+   ]
+  },
+  "OBS-0179": {
+   "value": [
+    "SELECT\n  a /* comment 1 */ + b /* comment 2 */\nFROM t"
+   ]
+  },
+  "OBS-0180": {
+   "value": "SELECT\n  \"abc\",\n  \"Def\"\nFROM \"t\""
+  },
+  "OBS-0181": {
+   "value": [
+    "Select",
+    "Insert"
+   ]
+  },
+  "OBS-0182": {
+   "value": [
+    "a.b.c"
+   ]
+  },
+  "OBS-0183": {
+   "value": [
+    2,
+    [
+     "Expecting )",
+     "Expected table name but got <Token token_type: TokenType.SENTINEL, text: SENTINEL, line: 1, col: 1, start: 0, end: 0, comments: []>"
+    ]
+   ]
+  },
+  "OBS-0184": {
+   "value": [
+    "SELECT CASE WHEN a THEN 1 ELSE 2 END, COUNT(DISTINCT b), CAST(x AS INT) FROM t LEFT JOIN u USING (id)",
+    [
+     "Case",
+     "Cast",
+     "Column",
+     "Count",
+     "DataType",
+     "Distinct",
+     "From",
+     "Identifier",
+     "If",
+     "Join",
+     "Literal",
+     "Select",
+     "Table"
+    ]
+   ]
+  },
+  "OBS-0185": {
+   "value": [
+    [
+     "a",
+     "b"
+    ],
+    "INT",
+    true,
+    false,
+    2
+   ]
+  },
+  "OBS-0186": {
+   "value": [
+    [
+     "col",
+     "n"
+    ],
+    "INT64",
+    false,
+    [
+     "this",
+     "db",
+     "catalog"
+    ]
+   ]
+  },
+  "OBS-0187": {
+   "value": [
+    "MappingSchema",
+    [
+     [
+      "a",
+      "b"
+     ]
+    ],
+    1,
+    {
+     "x": {
+      "y": 2
+     }
+    }
+   ]
+  },
+  "OBS-0188": {
+   "value": "SchemaError"
+  },
+  "OBS-0189": {
+   "value": [
+    "SELECT a + 1 AS b FROM c WHERE d IN (1, 2)",
+    "Select(\n  expressions=[\n    Alias(\n      this=Add(\n        this=Column(\n          this=Identifier(this=a, quoted=False)),\n        expression=Literal(this=1, is_string=False)),\n      alias=Identifier(this=b, quoted=False))],\n  from_=From(\n    this=Table(\n      this=Identifier(this=c, quoted=False))),\n  where=Where(\n    this=In(\n      this=Column(\n        this=Identifier(this=d, quoted=False)),\n      expressions=[\n        Literal(this=1, is_string=False),\n        Literal(this=2, is_string=False)])))",
+    "list",
+    {
+     "c": "sqlglot.expressions.query.Select"
+    }
+   ]
+  },
+  "OBS-0190": {
+   "value": [
+    "JSONPath",
+    [
+     "JSONPathRoot",
+     "JSONPathKey",
+     "JSONPathSubscript",
+     "JSONPathKey",
+     "JSONPathKey",
+     "JSONPathSubscript"
+    ],
+    "'$.a[0].b[\"c d\"][*]'"
+   ]
+  },
+  "OBS-0191": {
+   "value": [
+    "SELECT JSON_EXTRACT_PATH(x, 'a', 'b', '1')"
+   ]
+  },
+  "OBS-0192": {
+   "value": [
+    "yyyy-MM-dd HH",
+    null,
+    "xyyyy"
+   ]
+  },
+  "OBS-0193": {
+   "value": [
+    [
+     "t.a",
+     "t AS t"
+    ],
+    [
+     "t.b",
+     "t AS t"
+    ],
+    [
+     "total",
+     "SELECT x.a + x.b AS total FROM (SELECT t.a AS a, t.b AS b FROM t AS t) AS x"
+    ],
+    [
+     "x.a",
+     "SELECT t.a AS a FROM t AS t"
+    ],
+    [
+     "x.b",
+     "SELECT t.b AS b FROM t AS t"
+    ]
+   ]
+  },
+  "OBS-0194": {
+   "value": [
+    [
+     "a",
+     "c.a",
+     "z.y"
+    ],
+    [
+     "c.a"
+    ]
+   ]
+  },
+  "OBS-0195": {
+   "value": [
+    [
+     "Aggregate",
+     "Join",
+     "Scan",
+     "Scan",
+     "Sort"
+    ],
+    [
+     "t",
+     "u"
+    ]
+   ]
+  },
+  "OBS-0196": {
+   "value": [
+    [
+     "b",
+     "s",
+     "n"
+    ],
+    [
+     [
+      "x",
+      4,
+      2
+     ],
+     [
+      "y",
+      2,
+      1
+     ]
+    ]
+   ]
+  },
+  "OBS-0197": {
+   "value": [
+    [
+     "d"
+    ],
+    [
+     [
+      10
+     ]
+    ],
+    1
+   ]
+  },
+  "OBS-0198": {
+   "value": [
+    [
+     {
+      "x": 1,
+      "y": 2
+     },
+     {
+      "x": 3,
+      "y": 4
+     }
+    ],
+    2,
+    "Tables",
+    [
+     [
+      2
+     ]
+    ]
+   ]
+  },
+  "OBS-0199": {
+   "value": "SELECT\n  \"x\".\"a\" AS \"a\"\nFROM \"x\" AS \"x\"\nWHERE\n  \"x\".\"b\" > 1"
+  },
+  "OBS-0200": {
+   "value": "SELECT x.a AS a FROM x AS x"
+  },
+  "OBS-0201": {
+   "value": "SELECT 'a' + 1, x ORDER BY y"
+  },
+  "OBS-0202": {
+   "value": "SELECT * FROM (SELECT * FROM x AS x) AS x JOIN (SELECT * FROM y AS y) AS y ON x.a = y.a"
+  },
+  "OBS-0203": {
+   "value": [
+    "x",
+    "y",
+    [
+     "a",
+     "b",
+     "id"
+    ]
+   ]
+  },
+  "OBS-0204": {
+   "value": [
+    [
+     "Select",
+     "Column",
+     "Alias",
+     "From",
+     "Identifier",
+     "Add",
+     "Identifier",
+     "Subquery"
+    ],
+    [
+     "Select",
+     "Column",
+     "Identifier",
+     "Alias",
+     "Add",
+     "Column",
+     "Identifier",
+     "Literal"
+    ],
+    [
+     "a",
+     "c"
+    ],
+    "x"
+   ]
+  },
+  "OBS-0205": {
+   "value": [
+    "SELECT x.a AS y, b FROM x",
+    [
+     "y",
+     "b"
+    ],
+    "",
+    "b",
+    "y",
+    0
+   ]
+  },
+  "OBS-0206": {
+   "value": [
+    "SELECT z FROM x WHERE a = 1",
+    "SELECT a FROM x WHERE a = 1",
+    "Select(\n  expressions=[\n    Column(\n      this=Identifier(this=a, quoted=False))],\n  from_=From(\n    this=Table(\n      this=Identifier(this=x, quoted=False))),\n  where=Where(\n    this=EQ(\n      this=Column(\n        this=Identifier(this=a, quoted=False)),\n      expression=Literal(this=1, is_string=False))))",
+    "Select(\n  expressions=[\n    Column(\n      this=Identifier(this=z, quoted=False))],\n  from_=From(\n    this=Table(\n      this=Identifier(this=x, quoted=False))),\n  where=Where(\n    this=EQ(\n      this=Column(\n        this=Identifier(this=a, quoted=False)),\n      expression=Literal(this=1, is_string=False))))"
+   ]
+  },
+  "OBS-0207": {
+   "value": [
+    [
+     " c1 "
+    ],
+    false,
+    true,
+    false,
+    true,
+    true,
+    "select",
+    "Column(\n  this=Identifier(this=q, quoted=False))"
+   ]
+  },
+  "OBS-0208": {
+   "value": [
+    {
+     "source": "test"
+    },
+    5,
+    "x",
+    true,
+    null
+   ]
+  },
+  "OBS-0209": {
+   "value": [
+    "ARRAY<STRUCT<a INT, b VARCHAR(10)>>",
+    true,
+    true,
+    "DECIMAL(10, 2)",
+    "TEXT"
+   ]
+  },
+  "OBS-0210": {
+   "value": [
+    [
+     "Coalesce",
+     "Upper",
+     "Round",
+     "DateTrunc",
+     "ArrayAgg",
+     "JSONExtract",
+     "Max",
+     "Abs"
+    ],
+    "SELECT COALESCE(a, 0), UPPER(b), ROUND(c, 2), DATE_TRUNC('MONTH', d), ARRAY_AGG(e), JSON_EXTRACT(f, '$.g'), MAX(h), ABS(-1) FROM t",
+    "SELECT COALESCE(a, 0), UPPER(b), ROUND(c, 2), DATE_TRUNC(d, MONTH), ARRAY_AGG(e), JSON_EXTRACT(f, '$.g'), MAX(h), ABS(-1) FROM t"
+   ]
+  },
+  "OBS-0211": {
+   "value": [
+    "Create",
+    "TABLE",
+    "CREATE TABLE IF NOT EXISTS db.t (id INT PRIMARY KEY, name TEXT NOT NULL DEFAULT 'x', UNIQUE (name))",
+    "CREATE TABLE IF NOT EXISTS db.t (\n  id INT PRIMARY KEY,\n  name TEXT NOT NULL DEFAULT 'x',\n  UNIQUE (\n    name\n  )\n)"
+   ]
+  },
+  "OBS-0212": {
+   "value": [
+    [
+     "Insert",
+     "INSERT INTO t (a, b) VALUES (1, 2)"
+    ],
+    [
+     "Update",
+     "UPDATE t SET a = 1 WHERE b = 2"
+    ],
+    [
+     "Delete",
+     "DELETE FROM t WHERE a = 1"
+    ],
+    [
+     "Merge",
+     "MERGE INTO t USING s ON t.id = s.id WHEN MATCHED THEN UPDATE SET t.a = s.a"
+    ]
+   ]
+  },
+  "OBS-0213": {
+   "value": [
+    "COALESCE(a, 1)",
+    "MY_UDF(x)",
+    "Anonymous",
+    "CAST(x AS INT)",
+    "a = 1 AND b = 2",
+    "a OR NOT b",
+    "x + 1 AS y",
+    "SELECT a FROM t WHERE a > 1"
+   ]
+  },
+  "OBS-0214": {
+   "value": [
+    "CREATE TABLE t (a INT) PARTITIONED BY (a) TBLPROPERTIES ('k'='v')",
+    [
+     "PartitionedByProperty",
+     "Property"
+    ]
+   ]
+  },
+  "OBS-0215": {
+   "value": "SELECT a, b FROM (SELECT a AS a, b AS b, ROW_NUMBER() OVER (PARTITION BY a ORDER BY c DESC NULLS FIRST) AS _row_number FROM x) AS _t WHERE _row_number = 1"
+  },
+  "OBS-0216": {
+   "value": "SELECT a, r FROM (SELECT a, ROW_NUMBER() OVER (PARTITION BY b ORDER BY c NULLS LAST) AS r FROM t) AS _t WHERE r = 1"
+  },
+  "OBS-0217": {
+   "value": [
+    "SELECT DISTINCT ON (a) a, b FROM x ORDER BY c"
+   ]
+  },
+  "OBS-0218": {
+   "value": [
+    [
+     "c",
+     "b",
+     "a"
+    ],
+    3,
+    "CAMEL_CASE_NAME",
+    true,
+    false,
+    true,
+    false
+   ]
+  },
+  "OBS-0219": {
+   "value": [
+    1,
+    true,
+    false,
+    true,
+    false,
+    "Unknown dialect 'postgress'. Did you mean postgres?"
+   ]
+  },
+  "OBS-0220": {
+   "value": [
+    [
+     null,
+     "a",
+     "b"
+    ],
+    [
+     1,
+     2
+    ],
+    {
+     "1": 2
+    },
+    1,
+    "yes",
+    3
+   ]
+  },
+  "OBS-DOCS": {
+   "ok": "intact"
+  }
+ }
+}

@@ -1,0 +1,117 @@
+{
+ "id": "D",
+ "type": "doc",
+ "title": "Coding OTS RL Envs",
+ "children": [
+  {
+   "id": "D.B1",
+   "type": "block",
+   "text": "| KPI cards: 605 Tasks |<div class=\"kpi\"><div class=\"kpi-value\">23%</div><div class=\"kpi-label\">Gemini 4 Argon pass rate</div></div><div class=\"kpi\"><div class=\"kpi-value\">2%</div><div class=\"kpi-labe"
+  },
+  {
+   "id": "D.P1",
+   "type": "paragraph",
+   "children": [
+    {
+     "id": "D.P1.s1",
+     "type": "sentence",
+     "text": "These are coding environments for reinforcement learning, grouped into 4 catalogs."
+    },
+    {
+     "id": "D.P1.s2",
+     "type": "sentence",
+     "text": "Each task puts the agent in a real open-source codebase or program, gives it a written request of the kind an engineer would receive, and grades the result with hidden tests."
+    },
+    {
+     "id": "D.P1.s3",
+     "type": "sentence",
+     "text": "Gemini 4 Argon passes 23% of its runs on these tasks and Gemini 3.8 Flash passes 2%."
+    },
+    {
+     "id": "D.P1.s4",
+     "type": "sentence",
+     "text": "Every pass rate and plot on these pages covers Gemini models only: Gemini 4 Argon (`google/gemini-4-argon`) and Gemini 3.8 Flash (`google/gemini-3.8-flash`)."
+    },
+    {
+     "id": "D.P1.B1",
+     "type": "block",
+     "text": "| Catalog | Tasks | What the tasks do | % of all tasks | Average turn count |\n|---|---:|---|---:|---:|\n| [ProgramBench and Migration](programbench.md) | 283 | Rebuild or upgrade programs to match a re"
+    }
+   ]
+  },
+  {
+   "id": "D.S1",
+   "type": "section",
+   "title": "Gemini pass rates",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S1.B1",
+     "type": "block",
+     "text": "![Gemini pass rates by catalog](assets/overview_gemini.svg)"
+    },
+    {
+     "id": "D.S1.B2",
+     "type": "block",
+     "text": "| Model | Pass rate |\n|---|---:|\n| google/gemini-4-argon | 23% |\n| google/gemini-3.8-flash | 2% |\n| google/gemini-3.7-flash | 0% |"
+    }
+   ]
+  },
+  {
+   "id": "D.S2",
+   "type": "section",
+   "title": "Samples",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S2.P1",
+     "type": "paragraph",
+     "children": [
+      {
+       "id": "D.S2.P1.s1",
+       "type": "sentence",
+       "text": "3 main samples go into the catalog and 12 are attached."
+      },
+      {
+       "id": "D.S2.P1.s2",
+       "type": "sentence",
+       "text": "All come from the shortlist."
+      },
+      {
+       "id": "D.S2.P1.s3",
+       "type": "sentence",
+       "text": "Main samples pass at most 25% of their Gemini runs."
+      },
+      {
+       "id": "D.S2.P1.s4",
+       "type": "sentence",
+       "text": "Attached samples pass at most half their Gemini runs."
+      },
+      {
+       "id": "D.S2.P1.s5",
+       "type": "sentence",
+       "text": "Each example is written up on its catalog page."
+      },
+      {
+       "id": "D.S2.P1.B1",
+       "type": "block",
+       "text": "| Sample | Catalog | Example | Gemini 4 Argon | Gemini 3.8 Flash |\n|---|---|---|---:|---:|\n| Main | ProgramBench and Migration | [Example 1: Statistics & numerical methods (Go)](programbench.md) | 33%"
+      },
+      {
+       "id": "D.S2.P1.B2",
+       "type": "block",
+       "text": "![Turns per task, all catalogs](assets/all_turns.svg)"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "counts": {
+  "doc": 1,
+  "block": 6,
+  "paragraph": 2,
+  "sentence": 9,
+  "section": 2
+ }
+}

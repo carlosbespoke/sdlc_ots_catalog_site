@@ -1,0 +1,194 @@
+{
+  "task": "dtls-f26320b2-blind29",
+  "rubrics": [
+    {
+      "id": "R1",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about effectiveProtocolVersionRange in config.go never narrows the version range?",
+      "pass_condition": "The research names effectiveProtocolVersionRange in config.go as an edited site: it adopts the cipher-derived version list only when len(cipherVersions) == 0, so the range never narrows. Restored, MaxVersion DTLS 1.3 with only DTLS 1.2 suites settles on DTLS 1.2, only DTLS 1.3 suites settles on DTLS 1.3, and DTLS 1.2 suites with a DTLS 1.3-only elliptic curve is rejected."
+    },
+    {
+      "id": "R2",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about reconstructSequenceNumber in conn.go uses a doubled window?",
+      "pass_condition": "The research names reconstructSequenceNumber in conn.go as an edited site: the window is uint64(2) << bits instead of uint64(1) << bits, doubling window, half-window and mask, so a received protected record reports a sequence number differing from the sealed one once it sits far ahead of the highest seen, and a client fed an unsupported-version ServerHello sends no alert record."
+    },
+    {
+      "id": "R3",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about invalidCipherSuiteError.Is inverted equality in errors.go?",
+      "pass_condition": "The research identifies invalidCipherSuiteError.Is in errors.go as an edited site: it returns e.id != other.id, so an invalid-cipher-suite error does not compare equal (errors.Is) to an error built for the same cipher-suite identifier while it does match errors built for different identifiers; the comparison must be e.id == other.id."
+    },
+    {
+      "id": "R4",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about alertError.IsFatalOrCloseNotify misclassifies close_notify in errors.go?",
+      "pass_condition": "The research identifies alertError.IsFatalOrCloseNotify in errors.go as an edited site: it returns e.Level == alert.Fatal || e.Description != alert.CloseNotify, so a peer's close_notify is not recognised while unrelated alert descriptions are treated as if they were close_notify, which breaks bulk transfers and request/reply traffic over an open connection; the description comparison must be e.Description == alert.CloseNotify."
+    },
+    {
+      "id": "R5",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Two independent edits in internal/ciphersuite/tls_psk_with_aes_128_cbc_sha256.go?",
+      "pass_condition": "The research identifies two independent edited sites in internal/ciphersuite/tls_psk_with_aes_128_cbc_sha256.go: TLSPskWithAes128CbcSha256.Init derives keys with prfKeyLen = 17 where it must be 16, and TLSPskWithAes128CbcSha256.IsInitialized returns c.cbc.Load() == nil so it reports not-ready after Init and ready before it, where it must return c.cbc.Load() != nil. Both must be restored for a PSK connection using TLS_PSK_WITH_AES_128_CBC_SHA256 to work."
+    },
+    {
+      "id": "R6",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about handleResumption aborts DTLS 1.2 resumption in internal/flight/flight12/flight3handler.go?",
+      "pass_condition": "The research identifies handleResumption in internal/flight/flight12/flight3handler.go as an edited site: after calling prf.VerifyDataServer it checks `if err == nil` and returns a fatal InternalError alert on the success path, so DTLS 1.2 resumption of a session both sides already hold in their store aborts on the server side instead of adopting the stored session ID and master secret; the guard must fire on err != nil."
+    },
+    {
+      "id": "R7",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Connection-ID state handling: flight3Generate duplication and processClientHelloExtensions loss?",
+      "pass_condition": "The research names two connection-ID edits: flight3Generate in internal/flight/flight12/flight3handler.go uses || so a downgraded second ClientHello carries the ConnectionID extension twice (empty and one-byte CID) where && is needed; and processClientHelloExtensions in internal/flight/flight13/extensions.go has swapped branches, clearing state.RemoteConnectionID for a non-empty offer while still setting RemoteCIDOffered, instead of storing remoteCID."
+    },
+    {
+      "id": "R8",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about MessageNewConnectionID usage validation inverted on Marshal and Unmarshal?",
+      "pass_condition": "The research names two edits in pkg/protocol/handshake/message_new_connection_id.go: MessageNewConnectionID.Marshal and MessageNewConnectionID.Unmarshal both reject with ErrInvalidConnectionIDUsage when usage == ConnectionIDImmediate && usage != ConnectionIDSpare, so ConnectionIDImmediate is refused (the three-byte form with an empty CID list cannot be produced) while a usage byte of 2 is accepted; both first comparisons must be !=."
+    },
+    {
+      "id": "R9",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about flight1Generate rejects a single allowed elliptic curve?",
+      "pass_condition": "The research identifies flight1Generate in internal/flight/flight13/flight1handler.go as an edited site: it returns dtlserrors.ErrEmptyEllipticCurves when `len(cfg.EllipticCurves) == 1`, so a client configured with exactly one allowed key-agreement group builds a ClientHello with no key share and stores no private key for the group, while a client free to offer several groups still emits a share; the guard must fire only on an empty list (len(cfg.EllipticCurves) == 0)."
+    },
+    {
+      "id": "R10",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about flight1Parse rejects a valid ServerHello and cascades through DTLS 1.3?",
+      "pass_condition": "The research names flight1Parse in internal/flight/flight13/flight1handler.go as an edited site: it returns the alert and error from selectServerHelloCipherSuite when err == nil, so a DTLS 1.3 client refuses the server's first reply; the check must be err != nil. This one defect cascades into the failing full 1.3 handshake, retransmitted client final flight, server final ACK, HelloRetryRequest parsing and transcript content."
+    },
+    {
+      "id": "R11",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about handleRetransmitTimeout collapses the backoff ceiling?",
+      "pass_condition": "The research identifies handleRetransmitTimeout in internal/handshake/fsm.go as an edited site: an over-long interval is clamped to time.Second / 60 instead of time.Second * 60, so a retransmit delay that has already grown to 45 seconds yields a fraction of a second at the next backoff step instead of the one-minute ceiling; growth from one second to two and the backoff-disabled case are unaffected."
+    },
+    {
+      "id": "R12",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about handshake_context epoch comparisons for Flight4 reader pause and queue drain?",
+      "pass_condition": "The research names two edits in internal/handshake/handshake_context.go, both comparing the remote epoch with <= instead of strict < against dtlsflight13.EpochHandshake: handshakeContext.afterSend, so re-sending server Flight4 repeats the one-time epoch advance and queued-packet drain, and handshakeContext.transitionRequiresReaderPause, so entering Flight4 still answers that arriving traffic must be held back once the peer epoch is already protected."
+    },
+    {
+      "id": "R13",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about protectedHandshakeFlight.verifyConnection ignores a rejecting VerifyConnection callback?",
+      "pass_condition": "The research identifies protectedHandshakeFlight.verifyConnection in internal/handshake/protected_flight.go as an edited site: the result of cfg.VerifyConnection is wrapped in `if err == nil`, so a caller-supplied VerifyConnection callback that rejects the negotiated state no longer stops the handshake and setup completes anyway, both when the peer presented a certificate and when it did not; the check must be err != nil, returning certificateVerificationError(err)."
+    },
+    {
+      "id": "R14",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about reliable_flight ACK bookkeeping: Empty flag and pendingForMessage filter?",
+      "pass_condition": "The research identifies two edited sites in internal/handshake/reliable_flight.go: reliableFlight.acknowledge computes `result.Empty = result.Empty && len(ack.Records) == 0`, so an ACK naming no records is never reported as carrying nothing new (it must be ||), and reliableFlight.pendingForMessage collects fragments whose `fragment.MessageSequence != sequence`, so asking which byte ranges of a message sequence are still outstanding returns the already-acknowledged range instead of the missing one (it must be ==)."
+    },
+    {
+      "id": "R15",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about generateX25519MLKEM768ServerKeypair prefixes a stray byte into the private key?",
+      "pass_condition": "The research identifies generateX25519MLKEM768ServerKeypair in pkg/crypto/elliptic/elliptic.go as an edited site: the private key is built with `make([]byte, 1, X25519MLKEM768ServerPrivateKeySize)`, prefixing a stray zero byte, so the returned server public and private parts have lengths other than the documented sizes and the shared secret each side derives from the other's share no longer agrees; the slice must start at length 0 with the same capacity."
+    },
+    {
+      "id": "R16",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Algorithm.Marshal loses the high byte of a PSS signature scheme?",
+      "pass_condition": "The research identifies Algorithm.Marshal in pkg/crypto/signaturehash/signaturehash.go as an edited site: for a PSS signature scheme the high byte is written to out[1] and then overwritten by the low byte, so the high byte is lost and a peer's advertised signature-scheme list is remembered as a different list than the one sent; the high byte must go to out[0]. The supported-groups list carried in the same hello is unaffected."
+    },
+    {
+      "id": "R17",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about DTLS 1.3 extension_data length guards in pkg/protocol/extension/dtls13?",
+      "pass_condition": "The research names three edited decode guards under pkg/protocol/extension/dtls13: EarlyData.UnmarshalData and PostHandshakeAuth.UnmarshalData reject unless len(data) != 1, so these empty markers cannot decode the empty extension_data they marshal, and each must accept exactly the empty payload; PSKKeyExchangeModes.UnmarshalData rejects when int(data[0]) == len(data)-1, exactly when the declared mode count matches the following bytes, so that comparison must be !=."
+    },
+    {
+      "id": "R18",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about ChangeCipherSpec.Unmarshal and InnerPlaintext.Unmarshal body validation?",
+      "pass_condition": "The research names two edited body guards: ChangeCipherSpec.Unmarshal in pkg/protocol/change_cipher_spec.go accepts when len(data) == 1 || data[0] == 0x01, so a one-byte body holding 0x00 passes, where a conjunction is required; and InnerPlaintext.Unmarshal in pkg/protocol/recordlayer/inner_plaintext.go returns ErrBufferTooSmall when i <= 0, refusing a decrypted body holding only its content-type byte, which must yield empty content and no padding."
+    },
+    {
+      "id": "R19",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about extensionValueForContext mis-dispatches NewSessionTicket extensions?",
+      "pass_condition": "The research identifies extensionValueForContext in pkg/protocol/handshake/extensions.go as an edited site: in the NewSessionTicket context it returns the MaxEarlyData extension value when `typ != extension.TypeEarlyData`, so a NewSessionTicket carrying a max-early-data option decodes as a different extension kind and does not round trip equal; the comparison must be typ == extension.TypeEarlyData. KeyUpdate and connection-ID-bearing post-handshake messages still round trip."
+    },
+    {
+      "id": "R20",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about MessageClientHello.Marshal session ID length bound?",
+      "pass_condition": "The research identifies MessageClientHello.Marshal in pkg/protocol/handshake/message_client_hello.go as an edited site: it rejects with ErrSessionIDTooLong only when `len(m.SessionID) > 256`, so a ClientHello built with a 256-byte session ID encodes without complaint; the limit must be > 255."
+    },
+    {
+      "id": "R21",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about State.ExportKeyingMaterial readiness check inverted in state.go?",
+      "pass_condition": "The research identifies State.ExportKeyingMaterial in state.go as an edited site: it returns ErrHandshakeInProgress when `s.localEpoch == 1`, inverting readiness so that before the local epoch advances the call hands back key bytes and once it has advanced it reports the handshake in progress instead of returning the requested (ten-byte) material; the guard must be s.localEpoch == 0. The len(context) != 0 branch returning ErrContextUnsupported is unchanged."
+    },
+    {
+      "id": "P1",
+      "phase": "planning",
+      "dimension": "minimality",
+      "description": "Does the plan describe its approach for Repair boundary: restore prior behavior at the edited sites only?",
+      "pass_condition": "The plan states that each defect is an undocumented localized edit inside one function and that the repair restores the previous behavior of those edited sites, explicitly ruling out changes to the wire format and to callers/public call signatures (no protocol redesign, no new public API), so files and functions with no identified edit are left untouched."
+    },
+    {
+      "id": "P2",
+      "phase": "planning",
+      "dimension": "data_api",
+      "description": "Does the plan describe its approach for /app/rca.json report artifact and its schema?",
+      "pass_condition": "The plan describes producing the report file /app/rca.json as a top-level JSON object containing a \"causes\" array, each element an object with a \"file\" key holding the repository-relative source path (for example \"config.go\" or \"pkg/protocol/change_cipher_spec.go\") and a \"function\" key holding the enclosing function name, and states that it will emit one entry for each fault its own investigation confirmed, derived from its fault-to-function mapping."
+    },
+    {
+      "id": "P3",
+      "phase": "planning",
+      "dimension": "scope",
+      "description": "Does the plan describe its approach for Naming rules governing which functions are reported as causes?",
+      "pass_condition": "The plan commits to naming every function containing an undocumented edit and only those: a class or receiver prefix may be included or omitted, for an edit inside a nested function either the inner or outer name is accepted, the function named is the one the edit sits in rather than a caller or helper where the repair was written, and suspected but unconfirmed functions are left out."
+    },
+    {
+      "id": "P4",
+      "phase": "planning",
+      "dimension": "compatibility",
+      "description": "Does the plan describe its approach for Still-working neighbours must stay unchanged and stay out of the report?",
+      "pass_condition": "The plan lists the neighbours still working \u2014 counter-mode PSK and PSK-with-ECDHE suites, fresh DTLS 1.2 session creation with store write, a multi-curve client's key share, absent and empty connection-ID offers, supported-groups retention, key-update and connection-ID post-handshake round trips, backoff one second to two, backoff disabled \u2014 leaves them unedited and unreported as causes, and records each one's named input plus observed value before the change, reused afterwards."
+    },
+    {
+      "id": "P5",
+      "phase": "planning",
+      "dimension": "verification",
+      "description": "Does the plan describe its approach for Isolated in-process probes written by the agent for pure-function and state-level defects?",
+      "pass_condition": "The plan states that the delivered tree ships no *_test.go files or testdata, so functional evidence comes from probes the agent writes itself, and defines an isolated in-process probe protocol: unit-level checks driving single functions and state objects with inputs \u2014 version-range narrowing, sequence-number reconstruction, extension and message marshal/unmarshal round trips, epoch and ACK bookkeeping \u2014 each with its expected observation and failure signal, excluding paired client/server handshake runs."
+    },
+    {
+      "id": "P6",
+      "phase": "planning",
+      "dimension": "verification",
+      "description": "Does the plan describe its approach for Self-written end-to-end connection probes over a paired transport?",
+      "pass_condition": "The plan defines an end-to-end probe protocol: client and server paired over net.Pipe or a local UDP pair inside module github.com/pion/dtls/v3, run with go test -count=1, covering a completed DTLS 1.3 handshake carrying application data, a single-curve key share, a PSK link, DTLS 1.2 resumption, a rejecting VerifyConnection aborting the handshake, and ExportKeyingMaterial before and after the epoch advance, naming each expected observation and failure signal."
+    }
+  ]
+}

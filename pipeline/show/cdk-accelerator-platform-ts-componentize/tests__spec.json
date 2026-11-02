@@ -1,0 +1,1526 @@
+{
+ "schema": 2,
+ "language": "typescript",
+ "project": "/workspace/accelerator-platform",
+ "code_dir": "lib",
+ "entry": {
+  "module": "bin/accelerator.ts",
+  "function": "buildApp"
+ },
+ "config_module": "lib/config.ts",
+ "owned": [
+  "cdk.json",
+  "cdk.context.json",
+  "package.json",
+  "tsconfig.json",
+  "jest.config.js",
+  "bin/accelerator.ts",
+  "lib/config.ts",
+  "config",
+  "lambda",
+  "deployed",
+  "tools",
+  "scripts"
+ ],
+ "tag": "component",
+ "task_type": "componentize",
+ "node_flags": "--disallow-code-generation-from-strings",
+ "grade_files": {
+  "harness.ts": "harness.ts"
+ },
+ "type_aliases": {},
+ "allowed_imports": [],
+ "normalize_api_deployments": false,
+ "components": [
+  {
+   "class": "CoreNetwork",
+   "module": "lib/components/core-network.ts",
+   "props": {
+    "cidr": "string",
+    "maxAzs": "number",
+    "natGateways": "number"
+   },
+   "properties": {
+    "vpc": "ec2.Vpc"
+   },
+   "exports": []
+  },
+  {
+   "class": "GatewayAccess",
+   "module": "lib/components/gateway-access.ts",
+   "props": {
+    "vpc": "ec2.IVpc"
+   },
+   "properties": {
+    "endpoint": "ec2.GatewayVpcEndpoint"
+   },
+   "exports": []
+  },
+  {
+   "class": "FlowLogging",
+   "module": "lib/components/flow-logging.ts",
+   "props": {
+    "vpc": "ec2.IVpc",
+    "project": "string",
+    "stage": "string",
+    "logRetentionDays": "number"
+   },
+   "properties": {
+    "logGroup": "logs.LogGroup",
+    "flowLog": "ec2.FlowLog"
+   },
+   "exports": []
+  },
+  {
+   "class": "NetworkSecurity",
+   "module": "lib/components/network-security.ts",
+   "props": {
+    "vpc": "ec2.IVpc",
+    "prefix": "string",
+    "cidr": "string",
+    "containerPort": "number"
+   },
+   "properties": {
+    "deliverySecurityGroup": "ec2.SecurityGroup",
+    "runtimeSecurityGroup": "ec2.SecurityGroup",
+    "notificationSecurityGroup": "ec2.SecurityGroup"
+   },
+   "exports": []
+  },
+  {
+   "class": "ArtifactEncryption",
+   "module": "lib/components/artifact-encryption.ts",
+   "props": {
+    "prefix": "string"
+   },
+   "properties": {
+    "key": "kms.Key"
+   },
+   "exports": []
+  },
+  {
+   "class": "ArtifactBucket",
+   "module": "lib/components/artifact-bucket.ts",
+   "props": {
+    "name": "string",
+    "settings": "ArtifactBucketConfig",
+    "prefix": "string",
+    "account": "string",
+    "isProd": "boolean",
+    "encryptionKey": "kms.IKey"
+   },
+   "properties": {
+    "bucket": "s3.Bucket"
+   },
+   "exports": []
+  },
+  {
+   "class": "ReleaseCatalog",
+   "module": "lib/components/release-catalog.ts",
+   "props": {
+    "prefix": "string",
+    "encryptionKey": "kms.IKey"
+   },
+   "properties": {
+    "table": "dynamodb.Table"
+   },
+   "exports": []
+  },
+  {
+   "class": "RuntimePlatform",
+   "module": "lib/components/runtime-platform.ts",
+   "props": {
+    "prefix": "string",
+    "vpc": "ec2.IVpc",
+    "isProd": "boolean"
+   },
+   "properties": {
+    "repository": "ecr.Repository",
+    "cluster": "ecs.Cluster"
+   },
+   "exports": []
+  },
+  {
+   "class": "DeliveryGateway",
+   "module": "lib/components/delivery-gateway.ts",
+   "props": {
+    "vpc": "ec2.IVpc",
+    "securityGroup": "ec2.ISecurityGroup",
+    "prefix": "string"
+   },
+   "properties": {
+    "loadBalancer": "elbv2.ApplicationLoadBalancer",
+    "listener": "elbv2.ApplicationListener",
+    "zone": "route53.PublicHostedZone"
+   },
+   "exports": []
+  },
+  {
+   "class": "StageRuntime",
+   "module": "lib/components/stage-runtime.ts",
+   "props": {
+    "project": "string",
+    "environment": "string",
+    "name": "string",
+    "settings": "AcceleratorStageConfig",
+    "prefix": "string",
+    "image": "string",
+    "containerPort": "number",
+    "logRetentionDays": "number",
+    "queueRetentionDays": "number",
+    "encryptionKey": "kms.IKey",
+    "storageBucket": "s3.IBucket",
+    "releaseTable": "dynamodb.ITable"
+   },
+   "properties": {
+    "queue": "sqs.Queue",
+    "topic": "sns.Topic",
+    "taskDefinition": "ecs.FargateTaskDefinition"
+   },
+   "exports": []
+  },
+  {
+   "class": "StageRouting",
+   "module": "lib/components/stage-routing.ts",
+   "props": {
+    "name": "string",
+    "settings": "AcceleratorStageConfig",
+    "prefix": "string",
+    "vpc": "ec2.IVpc",
+    "listener": "elbv2.IApplicationListener",
+    "loadBalancer": "elbv2.IApplicationLoadBalancer",
+    "zone": "route53.IHostedZone",
+    "containerPort": "number",
+    "healthCheckPath": "string",
+    "deregistrationSeconds": "number"
+   },
+   "properties": {
+    "blueTarget": "elbv2.ApplicationTargetGroup",
+    "greenTarget": "elbv2.ApplicationTargetGroup",
+    "record": "route53.ARecord"
+   },
+   "exports": []
+  },
+  {
+   "class": "DiscoveryParameters",
+   "module": "lib/components/discovery-parameters.ts",
+   "props": {
+    "project": "string",
+    "stage": "string",
+    "repository": "ecr.IRepository",
+    "loadBalancer": "elbv2.IApplicationLoadBalancer"
+   },
+   "properties": {},
+   "exports": []
+  },
+  {
+   "class": "NotificationChannel",
+   "module": "lib/components/notification-channel.ts",
+   "props": {
+    "prefix": "string",
+    "encryptionKey": "kms.IKey",
+    "emails": "string[]"
+   },
+   "properties": {
+    "topic": "sns.Topic"
+   },
+   "exports": []
+  },
+  {
+   "class": "NotificationProcessor",
+   "module": "lib/components/notification-processor.ts",
+   "props": {
+    "project": "string",
+    "stage": "string",
+    "prefix": "string",
+    "stageNames": "string[]",
+    "memoryMiB": "number",
+    "timeoutSeconds": "number",
+    "logRetentionDays": "number",
+    "vpc": "ec2.IVpc",
+    "securityGroup": "ec2.ISecurityGroup",
+    "encryptionKey": "kms.IKey",
+    "channel": "sns.ITopic",
+    "stageTopics": "{ readonly [name: string]: sns.ITopic }",
+    "stageQueues": "{ readonly [name: string]: sqs.IQueue }"
+   },
+   "properties": {
+    "fn": "lambda.Function"
+   },
+   "exports": []
+  },
+  {
+   "class": "PipelineEventRule",
+   "module": "lib/components/pipeline-event-rule.ts",
+   "props": {
+    "name": "string",
+    "prefix": "string",
+    "settings": "EventRuleConfig",
+    "topic": "sns.ITopic"
+   },
+   "properties": {
+    "rule": "events.Rule"
+   },
+   "exports": []
+  },
+  {
+   "class": "OperationsMonitoring",
+   "module": "lib/components/operations-monitoring.ts",
+   "props": {
+    "project": "string",
+    "stage": "string",
+    "prefix": "string",
+    "fn": "lambda.Function",
+    "topic": "sns.ITopic",
+    "stageQueues": "{ readonly [name: string]: sqs.IQueue }"
+   },
+   "properties": {
+    "healthAlarm": "cloudwatch.CompositeAlarm",
+    "dashboard": "cloudwatch.Dashboard"
+   },
+   "exports": []
+  }
+ ],
+ "stacks": [
+  {
+   "class": "NetworkStack",
+   "module": "lib/network-stack.ts",
+   "properties": {
+    "vpc": "ec2.Vpc",
+    "deliverySecurityGroup": "ec2.SecurityGroup",
+    "runtimeSecurityGroup": "ec2.SecurityGroup",
+    "notificationSecurityGroup": "ec2.SecurityGroup"
+   }
+  },
+  {
+   "class": "DeliveryStack",
+   "module": "lib/delivery-stack.ts",
+   "properties": {
+    "artifactKey": "kms.Key",
+    "buckets": "{ readonly [name: string]: s3.Bucket }",
+    "releaseTable": "dynamodb.Table",
+    "repository": "ecr.Repository",
+    "cluster": "ecs.Cluster",
+    "loadBalancer": "elbv2.ApplicationLoadBalancer",
+    "listener": "elbv2.ApplicationListener",
+    "stageQueues": "{ readonly [name: string]: sqs.Queue }",
+    "stageTopics": "{ readonly [name: string]: sns.Topic }"
+   }
+  },
+  {
+   "class": "OperationsStack",
+   "module": "lib/operations-stack.ts",
+   "properties": {
+    "notificationTopic": "sns.Topic",
+    "notificationFunction": "lambda.Function"
+   }
+  }
+ ],
+ "configs": {
+  "prod": {
+   "file": "configs/prod.json",
+   "visible": true
+  },
+  "staging": {
+   "file": "configs/staging.json",
+   "visible": true
+  },
+  "p1-expand": {
+   "file": "configs/p1-expand.json",
+   "visible": false
+  },
+  "p2-minimal": {
+   "file": "configs/p2-minimal.json",
+   "visible": false
+  },
+  "p3-release": {
+   "file": "configs/p3-release.json",
+   "visible": false
+  },
+  "p4-reorder": {
+   "file": "configs/p4-reorder.json",
+   "visible": false
+  },
+  "p1-expand-fresh": {
+   "file": "configs/p1-expand-fresh.json",
+   "visible": false,
+   "variant_of": "p1-expand"
+  },
+  "p2-minimal-fresh": {
+   "file": "configs/p2-minimal-fresh.json",
+   "visible": false,
+   "variant_of": "p2-minimal"
+  },
+  "p3-release-fresh": {
+   "file": "configs/p3-release-fresh.json",
+   "visible": false,
+   "variant_of": "p3-release"
+  },
+  "p4-reorder-fresh": {
+   "file": "configs/p4-reorder-fresh.json",
+   "visible": false,
+   "variant_of": "p4-reorder"
+  }
+ },
+ "fresh_salt": "dc94095e81214955",
+ "expect": {
+  "prod": {
+   "elements": {
+    "AcceleratorProdNetwork/CoreVpcB2509D56": [
+     "AWS::EC2::VPC",
+     "aws-cdk-lib.aws_ec2.CfnVPC",
+     "aws-cdk-lib.aws_ec2.Vpc",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet1Subnet57C122A2": [
+     "AWS::EC2::Subnet",
+     "aws-cdk-lib.aws_ec2.CfnSubnet",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet1RouteTable012CBAD7": [
+     "AWS::EC2::RouteTable",
+     "aws-cdk-lib.aws_ec2.CfnRouteTable",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet1RouteTableAssociationA624437D": [
+     "AWS::EC2::SubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet1DefaultRoute93425BAB": [
+     "AWS::EC2::Route",
+     "aws-cdk-lib.aws_ec2.CfnRoute",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet1EIPC8580B93": [
+     "AWS::EC2::EIP",
+     "aws-cdk-lib.aws_ec2.CfnEIP",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet1NATGateway1183ECF2": [
+     "AWS::EC2::NatGateway",
+     "aws-cdk-lib.aws_ec2.CfnNatGateway",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet2SubnetB989FD57": [
+     "AWS::EC2::Subnet",
+     "aws-cdk-lib.aws_ec2.CfnSubnet",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet2RouteTable63BCEF50": [
+     "AWS::EC2::RouteTable",
+     "aws-cdk-lib.aws_ec2.CfnRouteTable",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet2RouteTableAssociationDB350D57": [
+     "AWS::EC2::SubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet2DefaultRoute25DE20E2": [
+     "AWS::EC2::Route",
+     "aws-cdk-lib.aws_ec2.CfnRoute",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet2EIP7C6DA8F5": [
+     "AWS::EC2::EIP",
+     "aws-cdk-lib.aws_ec2.CfnEIP",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet2NATGateway28DAC06C": [
+     "AWS::EC2::NatGateway",
+     "aws-cdk-lib.aws_ec2.CfnNatGateway",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet3Subnet4C24FB39": [
+     "AWS::EC2::Subnet",
+     "aws-cdk-lib.aws_ec2.CfnSubnet",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet3RouteTableE97CF22F": [
+     "AWS::EC2::RouteTable",
+     "aws-cdk-lib.aws_ec2.CfnRouteTable",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet3RouteTableAssociationA881AE6A": [
+     "AWS::EC2::SubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet3DefaultRoute57F9CA6E": [
+     "AWS::EC2::Route",
+     "aws-cdk-lib.aws_ec2.CfnRoute",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet3EIPBB2D2857": [
+     "AWS::EC2::EIP",
+     "aws-cdk-lib.aws_ec2.CfnEIP",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet3NATGateway36DFD93D": [
+     "AWS::EC2::NatGateway",
+     "aws-cdk-lib.aws_ec2.CfnNatGateway",
+     "aws-cdk-lib.aws_ec2.PublicSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet1SubnetC785D5B6": [
+     "AWS::EC2::Subnet",
+     "aws-cdk-lib.aws_ec2.CfnSubnet",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet1RouteTable5A682E68": [
+     "AWS::EC2::RouteTable",
+     "aws-cdk-lib.aws_ec2.CfnRouteTable",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet1RouteTableAssociationFA8898D0": [
+     "AWS::EC2::SubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet1DefaultRoute47032B0C": [
+     "AWS::EC2::Route",
+     "aws-cdk-lib.aws_ec2.CfnRoute",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet2SubnetDD498F54": [
+     "AWS::EC2::Subnet",
+     "aws-cdk-lib.aws_ec2.CfnSubnet",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet2RouteTable6F82B326": [
+     "AWS::EC2::RouteTable",
+     "aws-cdk-lib.aws_ec2.CfnRouteTable",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet2RouteTableAssociationA0516A93": [
+     "AWS::EC2::SubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet2DefaultRoute784C9991": [
+     "AWS::EC2::Route",
+     "aws-cdk-lib.aws_ec2.CfnRoute",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet3SubnetEF48DB93": [
+     "AWS::EC2::Subnet",
+     "aws-cdk-lib.aws_ec2.CfnSubnet",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet3RouteTable754218F7": [
+     "AWS::EC2::RouteTable",
+     "aws-cdk-lib.aws_ec2.CfnRouteTable",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet3RouteTableAssociation406DE5BD": [
+     "AWS::EC2::SubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet3DefaultRouteEA10FA86": [
+     "AWS::EC2::Route",
+     "aws-cdk-lib.aws_ec2.CfnRoute",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet1Subnet7D238AD9": [
+     "AWS::EC2::Subnet",
+     "aws-cdk-lib.aws_ec2.CfnSubnet",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet1RouteTableA50FEF12": [
+     "AWS::EC2::RouteTable",
+     "aws-cdk-lib.aws_ec2.CfnRouteTable",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet1RouteTableAssociationADFAA511": [
+     "AWS::EC2::SubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet1DefaultRouteDBA8E330": [
+     "AWS::EC2::Route",
+     "aws-cdk-lib.aws_ec2.CfnRoute",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet2Subnet56862F40": [
+     "AWS::EC2::Subnet",
+     "aws-cdk-lib.aws_ec2.CfnSubnet",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet2RouteTableCB0610DD": [
+     "AWS::EC2::RouteTable",
+     "aws-cdk-lib.aws_ec2.CfnRouteTable",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet2RouteTableAssociation6545EE5B": [
+     "AWS::EC2::SubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet2DefaultRoute60A46753": [
+     "AWS::EC2::Route",
+     "aws-cdk-lib.aws_ec2.CfnRoute",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet3SubnetA47D8C1C": [
+     "AWS::EC2::Subnet",
+     "aws-cdk-lib.aws_ec2.CfnSubnet",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet3RouteTable0A5D078C": [
+     "AWS::EC2::RouteTable",
+     "aws-cdk-lib.aws_ec2.CfnRouteTable",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet3RouteTableAssociation37AC6CA1": [
+     "AWS::EC2::SubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet3DefaultRoute6BEECD52": [
+     "AWS::EC2::Route",
+     "aws-cdk-lib.aws_ec2.CfnRoute",
+     "aws-cdk-lib.aws_ec2.PrivateSubnet",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcIGWC3C68BEA": [
+     "AWS::EC2::InternetGateway",
+     "aws-cdk-lib.aws_ec2.CfnInternetGateway",
+     "aws-cdk-lib.aws_ec2.Vpc",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcVPCGWD1DFE535": [
+     "AWS::EC2::VPCGatewayAttachment",
+     "aws-cdk-lib.aws_ec2.CfnVPCGatewayAttachment",
+     "aws-cdk-lib.aws_ec2.Vpc",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcRestrictDefaultSecurityGroupCustomResource460C7CAD": [
+     "Custom::VpcRestrictDefaultSG",
+     "aws-cdk-lib.CfnResource",
+     "aws-cdk-lib.CustomResource",
+     0
+    ],
+    "AcceleratorProdNetwork/CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0": [
+     "AWS::IAM::Role",
+     "aws-cdk-lib.CfnResource",
+     "aws-cdk-lib.CustomResourceProviderBase",
+     0
+    ],
+    "AcceleratorProdNetwork/CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E": [
+     "AWS::Lambda::Function",
+     "aws-cdk-lib.CfnResource",
+     "aws-cdk-lib.CustomResourceProviderBase",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcS3EndpointFEE080E6": [
+     "AWS::EC2::VPCEndpoint",
+     "aws-cdk-lib.aws_ec2.CfnVPCEndpoint",
+     "aws-cdk-lib.aws_ec2.GatewayVpcEndpoint",
+     0
+    ],
+    "AcceleratorProdNetwork/VpcFlowLogsE6FFDEF9": [
+     "AWS::Logs::LogGroup",
+     "aws-cdk-lib.aws_logs.CfnLogGroup",
+     "aws-cdk-lib.aws_logs.LogGroup",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcFlowLogIAMRole8457AD74": [
+     "AWS::IAM::Role",
+     "aws-cdk-lib.aws_iam.CfnRole",
+     "aws-cdk-lib.aws_iam.Role",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcFlowLogIAMRoleDefaultPolicy65423BED": [
+     "AWS::IAM::Policy",
+     "aws-cdk-lib.aws_iam.CfnPolicy",
+     "aws-cdk-lib.aws_iam.Policy",
+     0
+    ],
+    "AcceleratorProdNetwork/CoreVpcFlowLogDDA9CAC8": [
+     "AWS::EC2::FlowLog",
+     "aws-cdk-lib.aws_ec2.CfnFlowLog",
+     "aws-cdk-lib.aws_ec2.FlowLog",
+     0
+    ],
+    "AcceleratorProdNetwork/DeliverySecurityGroup6A9ACBBE": [
+     "AWS::EC2::SecurityGroup",
+     "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+     "aws-cdk-lib.aws_ec2.SecurityGroup",
+     0
+    ],
+    "AcceleratorProdNetwork/RuntimeSecurityGroup228FFEFC": [
+     "AWS::EC2::SecurityGroup",
+     "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+     "aws-cdk-lib.aws_ec2.SecurityGroup",
+     0
+    ],
+    "AcceleratorProdNetwork/RuntimeSecurityGroupfromAcceleratorProdNetworkDeliverySecurityGroupB359E1E880806DCE0BA4": [
+     "AWS::EC2::SecurityGroupIngress",
+     "aws-cdk-lib.aws_ec2.CfnSecurityGroupIngress",
+     "aws-cdk-lib.aws_ec2.SecurityGroup",
+     0
+    ],
+    "AcceleratorProdNetwork/NotificationSecurityGroupC966E957": [
+     "AWS::EC2::SecurityGroup",
+     "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+     "aws-cdk-lib.aws_ec2.SecurityGroup",
+     0
+    ],
+    "AcceleratorProdDelivery/ArtifactKey8D84C5F0": [
+     "AWS::KMS::Key",
+     "aws-cdk-lib.aws_kms.CfnKey",
+     "aws-cdk-lib.aws_kms.Key",
+     0
+    ],
+    "AcceleratorProdDelivery/ArtifactKeyAliasB27DA94F": [
+     "AWS::KMS::Alias",
+     "aws-cdk-lib.aws_kms.CfnAlias",
+     "aws-cdk-lib.aws_kms.Alias",
+     0
+    ],
+    "AcceleratorProdDelivery/StorageBucket19DB2FF8": [
+     "AWS::S3::Bucket",
+     "aws-cdk-lib.aws_s3.CfnBucket",
+     "aws-cdk-lib.aws_s3.Bucket",
+     0
+    ],
+    "AcceleratorProdDelivery/StorageBucketPolicy41A048DB": [
+     "AWS::S3::BucketPolicy",
+     "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+     "aws-cdk-lib.aws_s3.BucketPolicy",
+     0
+    ],
+    "AcceleratorProdDelivery/ArtifactsBucket2AAC5544": [
+     "AWS::S3::Bucket",
+     "aws-cdk-lib.aws_s3.CfnBucket",
+     "aws-cdk-lib.aws_s3.Bucket",
+     0
+    ],
+    "AcceleratorProdDelivery/ArtifactsBucketPolicy852CB646": [
+     "AWS::S3::BucketPolicy",
+     "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+     "aws-cdk-lib.aws_s3.BucketPolicy",
+     0
+    ],
+    "AcceleratorProdDelivery/ReportsBucket4E7C5994": [
+     "AWS::S3::Bucket",
+     "aws-cdk-lib.aws_s3.CfnBucket",
+     "aws-cdk-lib.aws_s3.Bucket",
+     0
+    ],
+    "AcceleratorProdDelivery/ReportsBucketPolicy11C4A507": [
+     "AWS::S3::BucketPolicy",
+     "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+     "aws-cdk-lib.aws_s3.BucketPolicy",
+     0
+    ],
+    "AcceleratorProdDelivery/ReleaseTableB9556E5C": [
+     "AWS::DynamoDB::Table",
+     "aws-cdk-lib.aws_dynamodb.CfnTable",
+     "aws-cdk-lib.aws_dynamodb.Table",
+     0
+    ],
+    "AcceleratorProdDelivery/ApplicationRepository13E54097": [
+     "AWS::ECR::Repository",
+     "aws-cdk-lib.aws_ecr.CfnRepository",
+     "aws-cdk-lib.aws_ecr.Repository",
+     0
+    ],
+    "AcceleratorProdDelivery/ApplicationClusterC783CD56": [
+     "AWS::ECS::Cluster",
+     "aws-cdk-lib.aws_ecs.CfnCluster",
+     "aws-cdk-lib.aws_ecs.Cluster",
+     0
+    ],
+    "AcceleratorProdDelivery/DeliveryAlbDA9F3384": [
+     "AWS::ElasticLoadBalancingV2::LoadBalancer",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.CfnLoadBalancer",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationLoadBalancer",
+     0
+    ],
+    "AcceleratorProdDelivery/DeliveryAlbHttpListenerBFB14444": [
+     "AWS::ElasticLoadBalancingV2::Listener",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListener",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
+     0
+    ],
+    "AcceleratorProdDelivery/InternalZoneD0BA15A8": [
+     "AWS::Route53::HostedZone",
+     "aws-cdk-lib.aws_route53.CfnHostedZone",
+     "aws-cdk-lib.aws_route53.PublicHostedZone",
+     0
+    ],
+    "AcceleratorProdDelivery/UatServiceLogs9A487373": [
+     "AWS::Logs::LogGroup",
+     "aws-cdk-lib.aws_logs.CfnLogGroup",
+     "aws-cdk-lib.aws_logs.LogGroup",
+     0
+    ],
+    "AcceleratorProdDelivery/UatDeployQueue5CA78959": [
+     "AWS::SQS::Queue",
+     "aws-cdk-lib.aws_sqs.CfnQueue",
+     "aws-cdk-lib.aws_sqs.Queue",
+     0
+    ],
+    "AcceleratorProdDelivery/UatDeployQueuePolicy3BCA13CF": [
+     "AWS::SQS::QueuePolicy",
+     "aws-cdk-lib.aws_sqs.CfnQueuePolicy",
+     "aws-cdk-lib.aws_sqs.QueuePolicy",
+     0
+    ],
+    "AcceleratorProdDelivery/UatEventsTopicF5CC4FC5": [
+     "AWS::SNS::Topic",
+     "aws-cdk-lib.aws_sns.CfnTopic",
+     "aws-cdk-lib.aws_sns.Topic",
+     0
+    ],
+    "AcceleratorProdDelivery/UatTaskDefinitionTaskRole629E2F3F": [
+     "AWS::IAM::Role",
+     "aws-cdk-lib.aws_iam.CfnRole",
+     "aws-cdk-lib.aws_iam.Role",
+     0
+    ],
+    "AcceleratorProdDelivery/UatTaskDefinitionTaskRoleDefaultPolicy6A4AD497": [
+     "AWS::IAM::Policy",
+     "aws-cdk-lib.aws_iam.CfnPolicy",
+     "aws-cdk-lib.aws_iam.Policy",
+     0
+    ],
+    "AcceleratorProdDelivery/UatTaskDefinition5A051791": [
+     "AWS::ECS::TaskDefinition",
+     "aws-cdk-lib.aws_ecs.CfnTaskDefinition",
+     "aws-cdk-lib.aws_ecs.FargateTaskDefinition",
+     0
+    ],
+    "AcceleratorProdDelivery/UatTaskDefinitionExecutionRoleEE641F76": [
+     "AWS::IAM::Role",
+     "aws-cdk-lib.aws_iam.CfnRole",
+     "aws-cdk-lib.aws_iam.Role",
+     0
+    ],
+    "AcceleratorProdDelivery/UatTaskDefinitionExecutionRoleDefaultPolicyDC6912BD": [
+     "AWS::IAM::Policy",
+     "aws-cdk-lib.aws_iam.CfnPolicy",
+     "aws-cdk-lib.aws_iam.Policy",
+     0
+    ],
+    "AcceleratorProdDelivery/UatTaskDocumentAwsCliLayer1440F5A0": [
+     "AWS::Lambda::LayerVersion",
+     "aws-cdk-lib.aws_lambda.CfnLayerVersion",
+     "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
+     0
+    ],
+    "AcceleratorProdDelivery/UatTaskDocumentCustomResourceE7EF4C60": [
+     "Custom::CDKBucketDeployment",
+     "aws-cdk-lib.CfnResource",
+     "aws-cdk-lib.CustomResource",
+     0
+    ],
+    "AcceleratorProdDelivery/UatQueueAgeAlarmD9CCAE78": [
+     "AWS::CloudWatch::Alarm",
+     "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+     "aws-cdk-lib.aws_cloudwatch.Alarm",
+     0
+    ],
+    "AcceleratorProdDelivery/UatQueueDepthAlarm7D102BC2": [
+     "AWS::CloudWatch::Alarm",
+     "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+     "aws-cdk-lib.aws_cloudwatch.Alarm",
+     0
+    ],
+    "AcceleratorProdDelivery/UatTopicFailureAlarm0E66F960": [
+     "AWS::CloudWatch::Alarm",
+     "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+     "aws-cdk-lib.aws_cloudwatch.Alarm",
+     0
+    ],
+    "AcceleratorProdDelivery/DevServiceLogsEC1EBADB": [
+     "AWS::Logs::LogGroup",
+     "aws-cdk-lib.aws_logs.CfnLogGroup",
+     "aws-cdk-lib.aws_logs.LogGroup",
+     0
+    ],
+    "AcceleratorProdDelivery/DevDeployQueueFC93034F": [
+     "AWS::SQS::Queue",
+     "aws-cdk-lib.aws_sqs.CfnQueue",
+     "aws-cdk-lib.aws_sqs.Queue",
+     0
+    ],
+    "AcceleratorProdDelivery/DevDeployQueuePolicy149B104B": [
+     "AWS::SQS::QueuePolicy",
+     "aws-cdk-lib.aws_sqs.CfnQueuePolicy",
+     "aws-cdk-lib.aws_sqs.QueuePolicy",
+     0
+    ],
+    "AcceleratorProdDelivery/DevEventsTopicF2A6F55A": [
+     "AWS::SNS::Topic",
+     "aws-cdk-lib.aws_sns.CfnTopic",
+     "aws-cdk-lib.aws_sns.Topic",
+     0
+    ],
+    "AcceleratorProdDelivery/DevTaskDefinitionTaskRole67A7AF99": [
+     "AWS::IAM::Role",
+     "aws-cdk-lib.aws_iam.CfnRole",
+     "aws-cdk-lib.aws_iam.Role",
+     0
+    ],
+    "AcceleratorProdDelivery/DevTaskDefinitionTaskRoleDefaultPolicyF9E9F7A4": [
+     "AWS::IAM::Policy",
+     "aws-cdk-lib.aws_iam.CfnPolicy",
+     "aws-cdk-lib.aws_iam.Policy",
+     0
+    ],
+    "AcceleratorProdDelivery/DevTaskDefinition9034F39D": [
+     "AWS::ECS::TaskDefinition",
+     "aws-cdk-lib.aws_ecs.CfnTaskDefinition",
+     "aws-cdk-lib.aws_ecs.FargateTaskDefinition",
+     0
+    ],
+    "AcceleratorProdDelivery/DevTaskDefinitionExecutionRole6B891438": [
+     "AWS::IAM::Role",
+     "aws-cdk-lib.aws_iam.CfnRole",
+     "aws-cdk-lib.aws_iam.Role",
+     0
+    ],
+    "AcceleratorProdDelivery/DevTaskDefinitionExecutionRoleDefaultPolicyF233B579": [
+     "AWS::IAM::Policy",
+     "aws-cdk-lib.aws_iam.CfnPolicy",
+     "aws-cdk-lib.aws_iam.Policy",
+     0
+    ],
+    "AcceleratorProdDelivery/DevTaskDocumentAwsCliLayer9873682D": [
+     "AWS::Lambda::LayerVersion",
+     "aws-cdk-lib.aws_lambda.CfnLayerVersion",
+     "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
+     0
+    ],
+    "AcceleratorProdDelivery/DevTaskDocumentCustomResource4994B21F": [
+     "Custom::CDKBucketDeployment",
+     "aws-cdk-lib.CfnResource",
+     "aws-cdk-lib.CustomResource",
+     0
+    ],
+    "AcceleratorProdDelivery/DevQueueAgeAlarmBDB50320": [
+     "AWS::CloudWatch::Alarm",
+     "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+     "aws-cdk-lib.aws_cloudwatch.Alarm",
+     0
+    ],
+    "AcceleratorProdDelivery/DevQueueDepthAlarmE2BAAF55": [
+     "AWS::CloudWatch::Alarm",
+     "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+     "aws-cdk-lib.aws_cloudwatch.Alarm",
+     0
+    ],
+    "AcceleratorProdDelivery/DevTopicFailureAlarm492014F7": [
+     "AWS::CloudWatch::Alarm",
+     "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+     "aws-cdk-lib.aws_cloudwatch.Alarm",
+     0
+    ],
+    "AcceleratorProdDelivery/QaServiceLogs44AAE7DA": [
+     "AWS::Logs::LogGroup",
+     "aws-cdk-lib.aws_logs.CfnLogGroup",
+     "aws-cdk-lib.aws_logs.LogGroup",
+     0
+    ],
+    "AcceleratorProdDelivery/QaDeployQueue9B4EE0AC": [
+     "AWS::SQS::Queue",
+     "aws-cdk-lib.aws_sqs.CfnQueue",
+     "aws-cdk-lib.aws_sqs.Queue",
+     0
+    ],
+    "AcceleratorProdDelivery/QaDeployQueuePolicy3C40F693": [
+     "AWS::SQS::QueuePolicy",
+     "aws-cdk-lib.aws_sqs.CfnQueuePolicy",
+     "aws-cdk-lib.aws_sqs.QueuePolicy",
+     0
+    ],
+    "AcceleratorProdDelivery/QaEventsTopic81AE31F5": [
+     "AWS::SNS::Topic",
+     "aws-cdk-lib.aws_sns.CfnTopic",
+     "aws-cdk-lib.aws_sns.Topic",
+     0
+    ],
+    "AcceleratorProdDelivery/QaTaskDefinitionTaskRole73B17DB6": [
+     "AWS::IAM::Role",
+     "aws-cdk-lib.aws_iam.CfnRole",
+     "aws-cdk-lib.aws_iam.Role",
+     0
+    ],
+    "AcceleratorProdDelivery/QaTaskDefinitionTaskRoleDefaultPolicy884C5398": [
+     "AWS::IAM::Policy",
+     "aws-cdk-lib.aws_iam.CfnPolicy",
+     "aws-cdk-lib.aws_iam.Policy",
+     0
+    ],
+    "AcceleratorProdDelivery/QaTaskDefinition6E6B45E1": [
+     "AWS::ECS::TaskDefinition",
+     "aws-cdk-lib.aws_ecs.CfnTaskDefinition",
+     "aws-cdk-lib.aws_ecs.FargateTaskDefinition",
+     0
+    ],
+    "AcceleratorProdDelivery/QaTaskDefinitionExecutionRoleED018CC0": [
+     "AWS::IAM::Role",
+     "aws-cdk-lib.aws_iam.CfnRole",
+     "aws-cdk-lib.aws_iam.Role",
+     0
+    ],
+    "AcceleratorProdDelivery/QaTaskDefinitionExecutionRoleDefaultPolicy87D5A176": [
+     "AWS::IAM::Policy",
+     "aws-cdk-lib.aws_iam.CfnPolicy",
+     "aws-cdk-lib.aws_iam.Policy",
+     0
+    ],
+    "AcceleratorProdDelivery/QaTaskDocumentAwsCliLayer864FD5D5": [
+     "AWS::Lambda::LayerVersion",
+     "aws-cdk-lib.aws_lambda.CfnLayerVersion",
+     "aws-cdk-lib.lambda_layer_awscli.AwsCliLayer",
+     0
+    ],
+    "AcceleratorProdDelivery/QaTaskDocumentCustomResource041D111F": [
+     "Custom::CDKBucketDeployment",
+     "aws-cdk-lib.CfnResource",
+     "aws-cdk-lib.CustomResource",
+     0
+    ],
+    "AcceleratorProdDelivery/QaQueueAgeAlarm01FA7E8D": [
+     "AWS::CloudWatch::Alarm",
+     "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+     "aws-cdk-lib.aws_cloudwatch.Alarm",
+     0
+    ],
+    "AcceleratorProdDelivery/QaQueueDepthAlarm1628DFD0": [
+     "AWS::CloudWatch::Alarm",
+     "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+     "aws-cdk-lib.aws_cloudwatch.Alarm",
+     0
+    ],
+    "AcceleratorProdDelivery/QaTopicFailureAlarm9A895179": [
+     "AWS::CloudWatch::Alarm",
+     "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+     "aws-cdk-lib.aws_cloudwatch.Alarm",
+     0
+    ],
+    "AcceleratorProdDelivery/CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265": [
+     "AWS::IAM::Role",
+     "aws-cdk-lib.aws_iam.CfnRole",
+     "aws-cdk-lib.aws_iam.Role",
+     0
+    ],
+    "AcceleratorProdDelivery/CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF": [
+     "AWS::IAM::Policy",
+     "aws-cdk-lib.aws_iam.CfnPolicy",
+     "aws-cdk-lib.aws_iam.Policy",
+     0
+    ],
+    "AcceleratorProdDelivery/CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536": [
+     "AWS::Lambda::Function",
+     "aws-cdk-lib.aws_lambda.CfnFunction",
+     "aws-cdk-lib.aws_lambda.Function",
+     0
+    ],
+    "AcceleratorProdDelivery/CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CLogGroup817B64E9": [
+     "AWS::Logs::LogGroup",
+     "aws-cdk-lib.aws_logs.CfnLogGroup",
+     "aws-cdk-lib.aws_logs.LogGroup",
+     0
+    ],
+    "AcceleratorProdDelivery/UatBlueTargetB3E99BAA": [
+     "AWS::ElasticLoadBalancingV2::TargetGroup",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.CfnTargetGroup",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+     0
+    ],
+    "AcceleratorProdDelivery/UatGreenTargetA1985BD4": [
+     "AWS::ElasticLoadBalancingV2::TargetGroup",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.CfnTargetGroup",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+     0
+    ],
+    "AcceleratorProdDelivery/UatListenerRule0359B107": [
+     "AWS::ElasticLoadBalancingV2::ListenerRule",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListenerRule",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListenerRule",
+     0
+    ],
+    "AcceleratorProdDelivery/UatAliasRecordDADB87D8": [
+     "AWS::Route53::RecordSet",
+     "aws-cdk-lib.aws_route53.CfnRecordSet",
+     "aws-cdk-lib.aws_route53.ARecord",
+     0
+    ],
+    "AcceleratorProdDelivery/DevBlueTarget5F0668ED": [
+     "AWS::ElasticLoadBalancingV2::TargetGroup",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.CfnTargetGroup",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+     0
+    ],
+    "AcceleratorProdDelivery/DevGreenTarget317891A1": [
+     "AWS::ElasticLoadBalancingV2::TargetGroup",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.CfnTargetGroup",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+     0
+    ],
+    "AcceleratorProdDelivery/DevListenerRule12CFD56B": [
+     "AWS::ElasticLoadBalancingV2::ListenerRule",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListenerRule",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListenerRule",
+     0
+    ],
+    "AcceleratorProdDelivery/DevAliasRecordFF37646A": [
+     "AWS::Route53::RecordSet",
+     "aws-cdk-lib.aws_route53.CfnRecordSet",
+     "aws-cdk-lib.aws_route53.ARecord",
+     0
+    ],
+    "AcceleratorProdDelivery/QaBlueTargetAE56D98E": [
+     "AWS::ElasticLoadBalancingV2::TargetGroup",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.CfnTargetGroup",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+     0
+    ],
+    "AcceleratorProdDelivery/QaGreenTarget57943032": [
+     "AWS::ElasticLoadBalancingV2::TargetGroup",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.CfnTargetGroup",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationTargetGroup",
+     0
+    ],
+    "AcceleratorProdDelivery/QaListenerRuleD74A6B26": [
+     "AWS::ElasticLoadBalancingV2::ListenerRule",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.CfnListenerRule",
+     "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListenerRule",
+     0
+    ],
+    "AcceleratorProdDelivery/QaAliasRecord45726632": [
+     "AWS::Route53::RecordSet",
+     "aws-cdk-lib.aws_route53.CfnRecordSet",
+     "aws-cdk-lib.aws_route53.ARecord",
+     0
+    ],
+    "AcceleratorProdDelivery/RepositoryArnParameterA574FA8F": [
+     "AWS::SSM::Parameter",
+     "aws-cdk-lib.aws_ssm.CfnParameter",
+     "aws-cdk-lib.aws_ssm.StringParameter",
+     0
+    ],
+    "AcceleratorProdDelivery/LoadBalancerDnsParameter299A57A9": [
+     "AWS::SSM::Parameter",
+     "aws-cdk-lib.aws_ssm.CfnParameter",
+     "aws-cdk-lib.aws_ssm.StringParameter",
+     0
+    ],
+    "AcceleratorProdOperations/PipelineNotifications84B145AD": [
+     "AWS::SNS::Topic",
+     "aws-cdk-lib.aws_sns.CfnTopic",
+     "aws-cdk-lib.aws_sns.Topic",
+     0
+    ],
+    "AcceleratorProdOperations/PipelineNotificationsplatformprimaryacceleratorexample1DAB0360": [
+     "AWS::SNS::Subscription",
+     "aws-cdk-lib.aws_sns.CfnSubscription",
+     "aws-cdk-lib.aws_sns.Subscription",
+     0
+    ],
+    "AcceleratorProdOperations/PipelineNotificationsplatformsecondaryacceleratorexample193F3ED0": [
+     "AWS::SNS::Subscription",
+     "aws-cdk-lib.aws_sns.CfnSubscription",
+     "aws-cdk-lib.aws_sns.Subscription",
+     0
+    ],
+    "AcceleratorProdOperations/PipelineNotificationssecurityoperationsacceleratorexample6756F25C": [
+     "AWS::SNS::Subscription",
+     "aws-cdk-lib.aws_sns.CfnSubscription",
+     "aws-cdk-lib.aws_sns.Subscription",
+     0
+    ],
+    "AcceleratorProdOperations/PipelineNotificationsdeliverymanagersacceleratorexample41C60A8F": [
+     "AWS::SNS::Subscription",
+     "aws-cdk-lib.aws_sns.CfnSubscription",
+     "aws-cdk-lib.aws_sns.Subscription",
+     0
+    ],
+    "AcceleratorProdOperations/PipelineNotificationsPolicy8ACE917C": [
+     "AWS::SNS::TopicPolicy",
+     "aws-cdk-lib.aws_sns.CfnTopicPolicy",
+     "aws-cdk-lib.aws_sns.TopicPolicy",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationLogs7DD8E52F": [
+     "AWS::Logs::LogGroup",
+     "aws-cdk-lib.aws_logs.CfnLogGroup",
+     "aws-cdk-lib.aws_logs.LogGroup",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationFunctionServiceRole66D0974B": [
+     "AWS::IAM::Role",
+     "aws-cdk-lib.aws_iam.CfnRole",
+     "aws-cdk-lib.aws_iam.Role",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationFunctionServiceRoleDefaultPolicy49A8A750": [
+     "AWS::IAM::Policy",
+     "aws-cdk-lib.aws_iam.CfnPolicy",
+     "aws-cdk-lib.aws_iam.Policy",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationFunction0492F7EA": [
+     "AWS::Lambda::Function",
+     "aws-cdk-lib.aws_lambda.CfnFunction",
+     "aws-cdk-lib.aws_lambda.Function",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationFunctionAllowInvokeAcceleratorProdOperationsPipelineNotifications87B86F10BEBC1603": [
+     "AWS::Lambda::Permission",
+     "aws-cdk-lib.aws_lambda.CfnPermission",
+     "aws-cdk-lib.aws_lambda.Function",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationFunctionPipelineNotificationsBA44707D": [
+     "AWS::SNS::Subscription",
+     "aws-cdk-lib.aws_sns.CfnSubscription",
+     "aws-cdk-lib.aws_sns.Subscription",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationFunctionAllowInvokeAcceleratorProdDeliveryUatEventsTopic2C0420AC01237C79": [
+     "AWS::Lambda::Permission",
+     "aws-cdk-lib.aws_lambda.CfnPermission",
+     "aws-cdk-lib.aws_lambda.Function",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationFunctionUatEventsTopicAFCC9B91": [
+     "AWS::SNS::Subscription",
+     "aws-cdk-lib.aws_sns.CfnSubscription",
+     "aws-cdk-lib.aws_sns.Subscription",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationFunctionAllowInvokeAcceleratorProdDeliveryDevEventsTopicBDF0FA3DCD612943": [
+     "AWS::Lambda::Permission",
+     "aws-cdk-lib.aws_lambda.CfnPermission",
+     "aws-cdk-lib.aws_lambda.Function",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationFunctionDevEventsTopic5075D7FF": [
+     "AWS::SNS::Subscription",
+     "aws-cdk-lib.aws_sns.CfnSubscription",
+     "aws-cdk-lib.aws_sns.Subscription",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationFunctionAllowInvokeAcceleratorProdDeliveryQaEventsTopicC380C59DD71F213E": [
+     "AWS::Lambda::Permission",
+     "aws-cdk-lib.aws_lambda.CfnPermission",
+     "aws-cdk-lib.aws_lambda.Function",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationFunctionQaEventsTopic654F3E07": [
+     "AWS::SNS::Subscription",
+     "aws-cdk-lib.aws_sns.CfnSubscription",
+     "aws-cdk-lib.aws_sns.Subscription",
+     0
+    ],
+    "AcceleratorProdOperations/BuildFailedRule6FB50303": [
+     "AWS::Events::Rule",
+     "aws-cdk-lib.aws_events.CfnRule",
+     "aws-cdk-lib.aws_events.Rule",
+     0
+    ],
+    "AcceleratorProdOperations/BuildSucceededRuleD068A516": [
+     "AWS::Events::Rule",
+     "aws-cdk-lib.aws_events.CfnRule",
+     "aws-cdk-lib.aws_events.Rule",
+     0
+    ],
+    "AcceleratorProdOperations/DeploymentStateRule34C8AC42": [
+     "AWS::Events::Rule",
+     "aws-cdk-lib.aws_events.CfnRule",
+     "aws-cdk-lib.aws_events.Rule",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationErrorsAlarm27D38F9D": [
+     "AWS::CloudWatch::Alarm",
+     "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+     "aws-cdk-lib.aws_cloudwatch.Alarm",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationThrottlesAlarm09D71E92": [
+     "AWS::CloudWatch::Alarm",
+     "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+     "aws-cdk-lib.aws_cloudwatch.Alarm",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationHealth54F76FEC": [
+     "AWS::CloudWatch::CompositeAlarm",
+     "aws-cdk-lib.aws_cloudwatch.CfnCompositeAlarm",
+     "aws-cdk-lib.aws_cloudwatch.CompositeAlarm",
+     0
+    ],
+    "AcceleratorProdOperations/OperationsDashboard06307C07": [
+     "AWS::CloudWatch::Dashboard",
+     "aws-cdk-lib.aws_cloudwatch.CfnDashboard",
+     "aws-cdk-lib.aws_cloudwatch.Dashboard",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationTopicParameter89F36868": [
+     "AWS::SSM::Parameter",
+     "aws-cdk-lib.aws_ssm.CfnParameter",
+     "aws-cdk-lib.aws_ssm.StringParameter",
+     0
+    ],
+    "AcceleratorProdOperations/NotificationFunctionParameter16989281": [
+     "AWS::SSM::Parameter",
+     "aws-cdk-lib.aws_ssm.CfnParameter",
+     "aws-cdk-lib.aws_ssm.StringParameter",
+     0
+    ]
+   },
+   "owners": {
+    "AcceleratorProdNetwork/CoreVpcB2509D56": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet1Subnet57C122A2": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet1RouteTable012CBAD7": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet1RouteTableAssociationA624437D": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet1DefaultRoute93425BAB": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet1EIPC8580B93": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet1NATGateway1183ECF2": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet2SubnetB989FD57": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet2RouteTable63BCEF50": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet2RouteTableAssociationDB350D57": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet2DefaultRoute25DE20E2": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet2EIP7C6DA8F5": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet2NATGateway28DAC06C": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet3Subnet4C24FB39": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet3RouteTableE97CF22F": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet3RouteTableAssociationA881AE6A": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet3DefaultRoute57F9CA6E": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet3EIPBB2D2857": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcpublicSubnet3NATGateway36DFD93D": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet1SubnetC785D5B6": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet1RouteTable5A682E68": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet1RouteTableAssociationFA8898D0": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet1DefaultRoute47032B0C": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet2SubnetDD498F54": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet2RouteTable6F82B326": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet2RouteTableAssociationA0516A93": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet2DefaultRoute784C9991": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet3SubnetEF48DB93": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet3RouteTable754218F7": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet3RouteTableAssociation406DE5BD": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcprivateSubnet3DefaultRouteEA10FA86": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet1Subnet7D238AD9": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet1RouteTableA50FEF12": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet1RouteTableAssociationADFAA511": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet1DefaultRouteDBA8E330": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet2Subnet56862F40": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet2RouteTableCB0610DD": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet2RouteTableAssociation6545EE5B": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet2DefaultRoute60A46753": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet3SubnetA47D8C1C": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet3RouteTable0A5D078C": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet3RouteTableAssociation37AC6CA1": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcworkersSubnet3DefaultRoute6BEECD52": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcIGWC3C68BEA": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcVPCGWD1DFE535": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CoreVpcRestrictDefaultSecurityGroupCustomResource460C7CAD": "AcceleratorProdNetwork/Network",
+    "AcceleratorProdNetwork/CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0": null,
+    "AcceleratorProdNetwork/CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E": null,
+    "AcceleratorProdNetwork/CoreVpcS3EndpointFEE080E6": "AcceleratorProdNetwork/Gateway",
+    "AcceleratorProdNetwork/VpcFlowLogsE6FFDEF9": "AcceleratorProdNetwork/FlowLogs",
+    "AcceleratorProdNetwork/CoreVpcFlowLogIAMRole8457AD74": "AcceleratorProdNetwork/FlowLogs",
+    "AcceleratorProdNetwork/CoreVpcFlowLogIAMRoleDefaultPolicy65423BED": "AcceleratorProdNetwork/FlowLogs",
+    "AcceleratorProdNetwork/CoreVpcFlowLogDDA9CAC8": "AcceleratorProdNetwork/FlowLogs",
+    "AcceleratorProdNetwork/DeliverySecurityGroup6A9ACBBE": "AcceleratorProdNetwork/Security",
+    "AcceleratorProdNetwork/RuntimeSecurityGroup228FFEFC": "AcceleratorProdNetwork/Security",
+    "AcceleratorProdNetwork/RuntimeSecurityGroupfromAcceleratorProdNetworkDeliverySecurityGroupB359E1E880806DCE0BA4": "AcceleratorProdNetwork/Security",
+    "AcceleratorProdNetwork/NotificationSecurityGroupC966E957": "AcceleratorProdNetwork/Security",
+    "AcceleratorProdDelivery/ArtifactKey8D84C5F0": "AcceleratorProdDelivery/Encryption",
+    "AcceleratorProdDelivery/ArtifactKeyAliasB27DA94F": "AcceleratorProdDelivery/Encryption",
+    "AcceleratorProdDelivery/StorageBucket19DB2FF8": "AcceleratorProdDelivery/Buckets/storage",
+    "AcceleratorProdDelivery/StorageBucketPolicy41A048DB": "AcceleratorProdDelivery/Buckets/storage",
+    "AcceleratorProdDelivery/ArtifactsBucket2AAC5544": "AcceleratorProdDelivery/Buckets/artifacts",
+    "AcceleratorProdDelivery/ArtifactsBucketPolicy852CB646": "AcceleratorProdDelivery/Buckets/artifacts",
+    "AcceleratorProdDelivery/ReportsBucket4E7C5994": "AcceleratorProdDelivery/Buckets/reports",
+    "AcceleratorProdDelivery/ReportsBucketPolicy11C4A507": "AcceleratorProdDelivery/Buckets/reports",
+    "AcceleratorProdDelivery/ReleaseTableB9556E5C": "AcceleratorProdDelivery/Releases",
+    "AcceleratorProdDelivery/ApplicationRepository13E54097": "AcceleratorProdDelivery/Platform",
+    "AcceleratorProdDelivery/ApplicationClusterC783CD56": "AcceleratorProdDelivery/Platform",
+    "AcceleratorProdDelivery/DeliveryAlbDA9F3384": "AcceleratorProdDelivery/Gateway",
+    "AcceleratorProdDelivery/DeliveryAlbHttpListenerBFB14444": "AcceleratorProdDelivery/Gateway",
+    "AcceleratorProdDelivery/InternalZoneD0BA15A8": "AcceleratorProdDelivery/Gateway",
+    "AcceleratorProdDelivery/UatServiceLogs9A487373": "AcceleratorProdDelivery/Stages/uat",
+    "AcceleratorProdDelivery/UatDeployQueue5CA78959": "AcceleratorProdDelivery/Stages/uat",
+    "AcceleratorProdDelivery/UatDeployQueuePolicy3BCA13CF": "AcceleratorProdDelivery/Stages/uat",
+    "AcceleratorProdDelivery/UatEventsTopicF5CC4FC5": "AcceleratorProdDelivery/Stages/uat",
+    "AcceleratorProdDelivery/UatTaskDefinitionTaskRole629E2F3F": "AcceleratorProdDelivery/Stages/uat",
+    "AcceleratorProdDelivery/UatTaskDefinitionTaskRoleDefaultPolicy6A4AD497": "AcceleratorProdDelivery/Stages/uat",
+    "AcceleratorProdDelivery/UatTaskDefinition5A051791": "AcceleratorProdDelivery/Stages/uat",
+    "AcceleratorProdDelivery/UatTaskDefinitionExecutionRoleEE641F76": "AcceleratorProdDelivery/Stages/uat",
+    "AcceleratorProdDelivery/UatTaskDefinitionExecutionRoleDefaultPolicyDC6912BD": "AcceleratorProdDelivery/Stages/uat",
+    "AcceleratorProdDelivery/UatTaskDocumentAwsCliLayer1440F5A0": "AcceleratorProdDelivery/Stages/uat",
+    "AcceleratorProdDelivery/UatTaskDocumentCustomResourceE7EF4C60": "AcceleratorProdDelivery/Stages/uat",
+    "AcceleratorProdDelivery/UatQueueAgeAlarmD9CCAE78": "AcceleratorProdDelivery/Stages/uat",
+    "AcceleratorProdDelivery/UatQueueDepthAlarm7D102BC2": "AcceleratorProdDelivery/Stages/uat",
+    "AcceleratorProdDelivery/UatTopicFailureAlarm0E66F960": "AcceleratorProdDelivery/Stages/uat",
+    "AcceleratorProdDelivery/DevServiceLogsEC1EBADB": "AcceleratorProdDelivery/Stages/dev",
+    "AcceleratorProdDelivery/DevDeployQueueFC93034F": "AcceleratorProdDelivery/Stages/dev",
+    "AcceleratorProdDelivery/DevDeployQueuePolicy149B104B": "AcceleratorProdDelivery/Stages/dev",
+    "AcceleratorProdDelivery/DevEventsTopicF2A6F55A": "AcceleratorProdDelivery/Stages/dev",
+    "AcceleratorProdDelivery/DevTaskDefinitionTaskRole67A7AF99": "AcceleratorProdDelivery/Stages/dev",
+    "AcceleratorProdDelivery/DevTaskDefinitionTaskRoleDefaultPolicyF9E9F7A4": "AcceleratorProdDelivery/Stages/dev",
+    "AcceleratorProdDelivery/DevTaskDefinition9034F39D": "AcceleratorProdDelivery/Stages/dev",
+    "AcceleratorProdDelivery/DevTaskDefinitionExecutionRole6B891438": "AcceleratorProdDelivery/Stages/dev",
+    "AcceleratorProdDelivery/DevTaskDefinitionExecutionRoleDefaultPolicyF233B579": "AcceleratorProdDelivery/Stages/dev",
+    "AcceleratorProdDelivery/DevTaskDocumentAwsCliLayer9873682D": "AcceleratorProdDelivery/Stages/dev",
+    "AcceleratorProdDelivery/DevTaskDocumentCustomResource4994B21F": "AcceleratorProdDelivery/Stages/dev",
+    "AcceleratorProdDelivery/DevQueueAgeAlarmBDB50320": "AcceleratorProdDelivery/Stages/dev",
+    "AcceleratorProdDelivery/DevQueueDepthAlarmE2BAAF55": "AcceleratorProdDelivery/Stages/dev",
+    "AcceleratorProdDelivery/DevTopicFailureAlarm492014F7": "AcceleratorProdDelivery/Stages/dev",
+    "AcceleratorProdDelivery/QaServiceLogs44AAE7DA": "AcceleratorProdDelivery/Stages/qa",
+    "AcceleratorProdDelivery/QaDeployQueue9B4EE0AC": "AcceleratorProdDelivery/Stages/qa",
+    "AcceleratorProdDelivery/QaDeployQueuePolicy3C40F693": "AcceleratorProdDelivery/Stages/qa",
+    "AcceleratorProdDelivery/QaEventsTopic81AE31F5": "AcceleratorProdDelivery/Stages/qa",
+    "AcceleratorProdDelivery/QaTaskDefinitionTaskRole73B17DB6": "AcceleratorProdDelivery/Stages/qa",
+    "AcceleratorProdDelivery/QaTaskDefinitionTaskRoleDefaultPolicy884C5398": "AcceleratorProdDelivery/Stages/qa",
+    "AcceleratorProdDelivery/QaTaskDefinition6E6B45E1": "AcceleratorProdDelivery/Stages/qa",
+    "AcceleratorProdDelivery/QaTaskDefinitionExecutionRoleED018CC0": "AcceleratorProdDelivery/Stages/qa",
+    "AcceleratorProdDelivery/QaTaskDefinitionExecutionRoleDefaultPolicy87D5A176": "AcceleratorProdDelivery/Stages/qa",
+    "AcceleratorProdDelivery/QaTaskDocumentAwsCliLayer864FD5D5": "AcceleratorProdDelivery/Stages/qa",
+    "AcceleratorProdDelivery/QaTaskDocumentCustomResource041D111F": "AcceleratorProdDelivery/Stages/qa",
+    "AcceleratorProdDelivery/QaQueueAgeAlarm01FA7E8D": "AcceleratorProdDelivery/Stages/qa",
+    "AcceleratorProdDelivery/QaQueueDepthAlarm1628DFD0": "AcceleratorProdDelivery/Stages/qa",
+    "AcceleratorProdDelivery/QaTopicFailureAlarm9A895179": "AcceleratorProdDelivery/Stages/qa",
+    "AcceleratorProdDelivery/CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265": null,
+    "AcceleratorProdDelivery/CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF": null,
+    "AcceleratorProdDelivery/CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536": null,
+    "AcceleratorProdDelivery/CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CLogGroup817B64E9": null,
+    "AcceleratorProdDelivery/UatBlueTargetB3E99BAA": "AcceleratorProdDelivery/Routes/uat",
+    "AcceleratorProdDelivery/UatGreenTargetA1985BD4": "AcceleratorProdDelivery/Routes/uat",
+    "AcceleratorProdDelivery/UatListenerRule0359B107": "AcceleratorProdDelivery/Routes/uat",
+    "AcceleratorProdDelivery/UatAliasRecordDADB87D8": "AcceleratorProdDelivery/Routes/uat",
+    "AcceleratorProdDelivery/DevBlueTarget5F0668ED": "AcceleratorProdDelivery/Routes/dev",
+    "AcceleratorProdDelivery/DevGreenTarget317891A1": "AcceleratorProdDelivery/Routes/dev",
+    "AcceleratorProdDelivery/DevListenerRule12CFD56B": "AcceleratorProdDelivery/Routes/dev",
+    "AcceleratorProdDelivery/DevAliasRecordFF37646A": "AcceleratorProdDelivery/Routes/dev",
+    "AcceleratorProdDelivery/QaBlueTargetAE56D98E": "AcceleratorProdDelivery/Routes/qa",
+    "AcceleratorProdDelivery/QaGreenTarget57943032": "AcceleratorProdDelivery/Routes/qa",
+    "AcceleratorProdDelivery/QaListenerRuleD74A6B26": "AcceleratorProdDelivery/Routes/qa",
+    "AcceleratorProdDelivery/QaAliasRecord45726632": "AcceleratorProdDelivery/Routes/qa",
+    "AcceleratorProdDelivery/RepositoryArnParameterA574FA8F": "AcceleratorProdDelivery/Parameters",
+    "AcceleratorProdDelivery/LoadBalancerDnsParameter299A57A9": "AcceleratorProdDelivery/Parameters",
+    "AcceleratorProdOperations/PipelineNotifications84B145AD": "AcceleratorProdOperations/Channel",
+    "AcceleratorProdOperations/PipelineNotificationsplatformprimaryacceleratorexample1DAB0360": "AcceleratorProdOperations/Channel",
+    "AcceleratorProdOperations/PipelineNotificationsplatformsecondaryacceleratorexample193F3ED0": "AcceleratorProdOperations/Channel",
+    "AcceleratorProdOperations/PipelineNotificationssecurityoperationsacceleratorexample6756F25C": "AcceleratorProdOperations/Channel",
+    "AcceleratorProdOperations/PipelineNotificationsdeliverymanagersacceleratorexample41C60A8F": "AcceleratorProdOperations/Channel",
+    "AcceleratorProdOperations/PipelineNotificationsPolicy8ACE917C": "AcceleratorProdOperations/Channel",
+    "AcceleratorProdOperations/NotificationLogs7DD8E52F": "AcceleratorProdOperations/Processor",
+    "AcceleratorProdOperations/NotificationFunctionServiceRole66D0974B": "AcceleratorProdOperations/Processor",
+    "AcceleratorProdOperations/NotificationFunctionServiceRoleDefaultPolicy49A8A750": "AcceleratorProdOperations/Processor",
+    "AcceleratorProdOperations/NotificationFunction0492F7EA": "AcceleratorProdOperations/Processor",
+    "AcceleratorProdOperations/NotificationFunctionAllowInvokeAcceleratorProdOperationsPipelineNotifications87B86F10BEBC1603": "AcceleratorProdOperations/Processor",
+    "AcceleratorProdOperations/NotificationFunctionPipelineNotificationsBA44707D": "AcceleratorProdOperations/Processor",
+    "AcceleratorProdOperations/NotificationFunctionAllowInvokeAcceleratorProdDeliveryUatEventsTopic2C0420AC01237C79": "AcceleratorProdOperations/Processor",
+    "AcceleratorProdOperations/NotificationFunctionUatEventsTopicAFCC9B91": "AcceleratorProdOperations/Processor",
+    "AcceleratorProdOperations/NotificationFunctionAllowInvokeAcceleratorProdDeliveryDevEventsTopicBDF0FA3DCD612943": "AcceleratorProdOperations/Processor",
+    "AcceleratorProdOperations/NotificationFunctionDevEventsTopic5075D7FF": "AcceleratorProdOperations/Processor",
+    "AcceleratorProdOperations/NotificationFunctionAllowInvokeAcceleratorProdDeliveryQaEventsTopicC380C59DD71F213E": "AcceleratorProdOperations/Processor",
+    "AcceleratorProdOperations/NotificationFunctionQaEventsTopic654F3E07": "AcceleratorProdOperations/Processor",
+    "AcceleratorProdOperations/BuildFailedRule6FB50303": "AcceleratorProdOperations/Rules/build-failed",
+    "AcceleratorProdOperations/BuildSucceededRuleD068A516": "AcceleratorProdOperations/Rules/build-succeeded",
+    "AcceleratorProdOperations/DeploymentStateRule34C8AC42": "AcceleratorProdOperations/Rules/deployment-state",
+    "AcceleratorProdOperations/NotificationErrorsAlarm27D38F9D": "AcceleratorProdOperations/Monitoring",
+    "AcceleratorProdOperations/NotificationThrottlesAlarm09D71E92": "AcceleratorProdOperations/Monitoring",
+    "AcceleratorProdOperations/NotificationHealth54F76FEC": "AcceleratorProdOperations/Monitoring",
+    "AcceleratorProdOperations/OperationsDashboard06307C07": "AcceleratorProdOperations/Monitoring",
+    "AcceleratorProdOperations/NotificationTopicParameter89F36868": "AcceleratorProdOperations/Monitoring",
+    "AcceleratorProdOperations/NotificationFunctionParameter16989281": "AcceleratorProdOperations/Monitoring"
+   },
+   "instances": {
+    "AcceleratorProdNetwork/Network": "CoreNetwork",
+    "AcceleratorProdNetwork/Gateway": "GatewayAccess",
+    "AcceleratorProdNetwork/FlowLogs": "FlowLogging",
+    "AcceleratorProdNetwork/Security": "NetworkSecurity",
+    "AcceleratorProdDelivery/Encryption": "ArtifactEncryption",
+    "AcceleratorProdDelivery/Buckets/storage": "ArtifactBucket",
+    "AcceleratorProdDelivery/Buckets/artifacts": "ArtifactBucket",
+    "AcceleratorProdDelivery/Buckets/reports": "ArtifactBucket",
+    "AcceleratorProdDelivery/Releases": "ReleaseCatalog",
+    "AcceleratorProdDelivery/Platform": "RuntimePlatform",
+    "AcceleratorProdDelivery/Gateway": "DeliveryGateway",
+    "AcceleratorProdDelivery/Stages/uat": "StageRuntime",
+    "AcceleratorProdDelivery/Stages/dev": "StageRuntime",
+    "AcceleratorProdDelivery/Stages/qa": "StageRuntime",
+    "AcceleratorProdDelivery/Routes/uat": "StageRouting",
+    "AcceleratorProdDelivery/Routes/dev": "StageRouting",
+    "AcceleratorProdDelivery/Routes/qa": "StageRouting",
+    "AcceleratorProdDelivery/Parameters": "DiscoveryParameters",
+    "AcceleratorProdOperations/Channel": "NotificationChannel",
+    "AcceleratorProdOperations/Processor": "NotificationProcessor",
+    "AcceleratorProdOperations/Rules/build-failed": "PipelineEventRule",
+    "AcceleratorProdOperations/Rules/build-succeeded": "PipelineEventRule",
+    "AcceleratorProdOperations/Rules/deployment-state": "PipelineEventRule",
+    "AcceleratorProdOperations/Monitoring": "OperationsMonitoring"
+   },
+   "paths": {
+    "AcceleratorProdNetwork/Network/Vpc": "aws-cdk-lib.aws_ec2.Vpc",
+    "AcceleratorProdNetwork/Gateway/Endpoint": "aws-cdk-lib.aws_ec2.GatewayVpcEndpoint",
+    "AcceleratorProdNetwork/FlowLogs/LogGroup": "aws-cdk-lib.aws_logs.LogGroup",
+    "AcceleratorProdNetwork/FlowLogs/FlowLog": "aws-cdk-lib.aws_ec2.FlowLog",
+    "AcceleratorProdNetwork/Security/Delivery": "aws-cdk-lib.aws_ec2.SecurityGroup",
+    "AcceleratorProdNetwork/Security/Runtime": "aws-cdk-lib.aws_ec2.SecurityGroup",
+    "AcceleratorProdNetwork/Security/Notifications": "aws-cdk-lib.aws_ec2.SecurityGroup",
+    "AcceleratorProdDelivery/Encryption/Key": "aws-cdk-lib.aws_kms.Key",
+    "AcceleratorProdDelivery/Buckets/storage/Bucket": "aws-cdk-lib.aws_s3.Bucket",
+    "AcceleratorProdDelivery/Buckets/artifacts/Bucket": "aws-cdk-lib.aws_s3.Bucket",
+    "AcceleratorProdDelivery/Buckets/reports/Bucket": "aws-cdk-lib.aws_s3.Bucket",
+    "AcceleratorProdDelivery/Releases/Table": "aws-cdk-lib.aws_dynamodb.Table",
+    "AcceleratorProdDelivery/Platform/Repository": "aws-cdk-lib.aws_ecr.Repository",
+    "AcceleratorProdDelivery/Platform/Cluster": "aws-cdk-lib.aws_ecs.Cluster",
+    "AcceleratorProdDelivery/Gateway/LoadBalancer": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationLoadBalancer",
+    "AcceleratorProdDelivery/Gateway/LoadBalancer/HttpListener": "aws-cdk-lib.aws_elasticloadbalancingv2.ApplicationListener",
+    "AcceleratorProdDelivery/Gateway/HostedZone": "aws-cdk-lib.aws_route53.PublicHostedZone",
+    "AcceleratorProdDelivery/Stages/uat/ServiceLogs": "aws-cdk-lib.aws_logs.LogGroup",
+    "AcceleratorProdDelivery/Stages/uat/DeployQueue": "aws-cdk-lib.aws_sqs.Queue",
+    "AcceleratorProdDelivery/Stages/uat/EventsTopic": "aws-cdk-lib.aws_sns.Topic",
+    "AcceleratorProdDelivery/Stages/uat/TaskDefinition": "aws-cdk-lib.aws_ecs.FargateTaskDefinition",
+    "AcceleratorProdDelivery/Stages/uat/TaskDocument": "aws-

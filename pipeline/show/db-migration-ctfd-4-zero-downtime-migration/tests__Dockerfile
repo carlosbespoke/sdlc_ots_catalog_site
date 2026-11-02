@@ -1,0 +1,36 @@
+# Verifier image (separate container, no network): the same server binaries and toolchain as the agent image, the
+# grader, its spec and reference results, the snapshot inputs including the hidden salt, and a trusted copy of the
+# starting repository. The submission arrives as an artifact at /workspace/ctfd before /tests/test.sh runs.
+# Shared base of the agent and verifier images: pinned PostgreSQL 16 server binaries (the official image, its
+# entrypoint disabled: no server starts at build time), Python 3.11 with the pinned migration toolchain (Alembic)
+# and golang-migrate 4.20.1.
+FROM postgres:16.15-bookworm@sha256:0ea6700a3b4f0ae6ce746519073558aed4d88a79d8d07622a9a644946c7319c4
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends python3 python3-venv ca-certificates git jq less procps tmux vim-tiny \
+      asciinema curl util-linux \
+ && rm -rf /var/lib/apt/lists/*
+RUN set -eux; \
+    curl -fsSLo /tmp/migrate.tgz "https://github.com/golang-migrate/migrate/releases/download/v4.20.1/migrate.linux-amd64.tar.gz"; \
+    echo "b1e13121d4178b7804a9fb29dca62d57b732390f7e5ae33f2cd65e9b192e1bd4  /tmp/migrate.tgz" | sha256sum -c -; \
+    tar -xzf /tmp/migrate.tgz -C /usr/local/bin migrate; rm -f /tmp/migrate.tgz; chmod 0755 /usr/local/bin/migrate; \
+    /usr/local/bin/migrate -version
+COPY requirements.lock /opt/dbm/requirements.lock
+RUN python3 -m venv /opt/dbm/venv \
+ && /opt/dbm/venv/bin/pip install --no-cache-dir --require-hashes -r /opt/dbm/requirements.lock \
+ && rm -rf /root/.cache \
+ && /opt/dbm/venv/bin/alembic --version && /opt/dbm/venv/bin/python -c "import psycopg, pglast, sqlalchemy"
+ENTRYPOINT []
+CMD ["sleep", "infinity"]
+ENV PATH=/opt/dbm/venv/bin:/usr/lib/postgresql/16/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    PYTHONDONTWRITEBYTECODE=1 LANG=C.UTF-8
+
+RUN useradd --uid 1500 --create-home --shell /bin/bash solver
+COPY . /tests/
+RUN if [ -f /tests/repo-dotfiles.tar ]; then tar -xf /tests/repo-dotfiles.tar -C /tests/repo && rm /tests/repo-dotfiles.tar; fi \
+ && chmod 0700 /tests \
+ && chmod 0755 /tests/test.sh \
+ && mkdir -p /workspace /logs/verifier \
+ && /opt/dbm/venv/bin/python -m py_compile /tests/grade.py \
+ && /opt/dbm/venv/bin/python -c 'import json; json.load(open("/tests/scenario.json")); json.load(open("/tests/expected.json"))' \
+ && rm -rf /tests/__pycache__

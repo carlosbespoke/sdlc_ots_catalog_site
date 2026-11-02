@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light"><title>Migration | Bespoke Labs</title>
+<link rel="icon" href="data:,"><link rel="stylesheet" href="site.css"><script src="site.js" defer></script></head>
+<body id="top"><a class="skip" href="#content">Skip to content</a>
+<header class="band"><div class="band-in"><a class="brand" href="index.html"><img src="assets/bespoke-labs-logo.svg" alt="Bespoke Labs" width="162"></a>
+<span class="div" aria-hidden="true">/</span><div class="crumb"><a href="index.html">OTS catalogs</a> / Migration</div></div></header>
+<main id="content" tabindex="-1"><article id="catalog-content">
+<header class="hero"><h1 id="migration">Migration</h1><div class="hero-meta" aria-hidden="true"></div></header>
+<div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,342 tasks">1,342</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="435 tasks">435</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="56 tasks">56</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="378 tasks">378</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="120 tasks">120</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="300 tasks">300</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html" aria-current="page"><span>Migration</span><span class="count" aria-label="36 tasks">36</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#example-tasks-from-the-shortlist">Example tasks from the shortlist</a><a class="level-3" href="#example-1-graph-algorithms-go">Example 1: Graph algorithms (Go)</a><a class="level-3" href="#example-2-software-supply-chain-go">Example 2: Software supply chain (Go)</a><a class="level-3" href="#example-3-cli-tooling-go">Example 3: CLI tooling (Go)</a></nav></aside>
+<div class="reading">
+<h2 id="why-this-catalog">Why this catalog</h2>
+<h3 id="problems-engineers-face">Problems engineers face</h3>
+<p>Engineers in the catalog's main roles remove a dependency in one language by replacing it with a port in another. In these tasks the source is Java or Rust and the target is Go, with a few C++ targets such as <code>mamrhein/fpdec.rs</code>, cydhra/vers, toeverything/y-octo and houseme/qrcode-rs. The recurring difficulty is exact behavioral equivalence without seeing the tests: numeric precision in dynatrace-oss/dynahist and <code>fpdec.rs</code>, bit-exact random sequences in commons-rng-core, parser and error-case fidelity in rust-php-parser and htmlunit-xpath, and ordering of results in rust-rrule and dagre-rs. A second difficulty is the target language's runtime rules, such as Go's RE2 regular expressions panicking at start-up, or C++ header conventions in the <code>PORTING.md</code> for <code>fpdec.rs</code>. A third is working inside house constraints on imports and naming for code that ends up in a sandboxed service. The engineer reads the original source as the specification.</p>
+<h3 id="how-the-tasks-reproduce-them">How the tasks reproduce them</h3>
+<p>Each task provides the source library under <code>/app</code>, a skeleton in the target language with final signatures and stub bodies, and a mig-check tool that compares the skeleton, builds and vets the port. The tests of the original project, translated to the target language, are withheld and run in a separate container after the session. The agent's edits are collected as a <code>git diff</code> against a tagged base commit. The instruction states per-test time and memory limits and bans some standard packages. In the provided tasks a manifest lists the required tests, and the grader module records a reward from the passing results.</p>
+<h3 id="typical-prompts">Typical prompts</h3>
+<ul>
+<li>A first-person request to port a named library or crate to Go from a reference folder, with a stub skeleton and withheld tests. Example.</li>
+<li>A request framed by a business reason for the move, such as retiring a JVM dependency, with emphasis on exact reproduction of seeded output. Example.</li>
+<li>A request for a C++ port because a tool cannot link Rust, with a pointer to a <code>PORTING.md</code> that lists house rules for headers. Example.</li>
+<li>A structured prompt with a title, a list of provided inputs, a how-to-work section and a statement that hidden tests grade the port. Example.</li>
+<li>A bullet list of language-specific pitfalls, such as RE2 regular expression syntax and reserved name prefixes. Example.</li>
+</ul>
+<h2 id="domain-breakdown">Domain breakdown</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Share of tasks by domain</h4></div><div class="fig-box"><img src="assets/migration_domain.svg" alt="Share of tasks by domain" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Domain</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Sub-domain</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr class="group-header">
+<td><strong>Languages &amp; developer tooling</strong></td>
+<td></td>
+<td class="numeric"><strong>36.1%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Compilers &amp; language runtimes</td>
+<td class="numeric">19.4%</td>
+</tr>
+<tr>
+<td></td>
+<td>CLI tooling</td>
+<td class="numeric">11.1%</td>
+</tr>
+<tr>
+<td></td>
+<td>Text &amp; NLP processing, Data structures</td>
+<td class="numeric">5.6%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Applications &amp; business domains</strong></td>
+<td></td>
+<td class="numeric"><strong>27.8%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Media processing</td>
+<td class="numeric">19.4%</td>
+</tr>
+<tr>
+<td></td>
+<td>Collaborative documents, Games &amp; game engines</td>
+<td class="numeric">8.3%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Scientific &amp; ML software</strong></td>
+<td></td>
+<td class="numeric"><strong>22.2%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Statistics &amp; numerical methods</td>
+<td class="numeric">11.1%</td>
+</tr>
+<tr>
+<td></td>
+<td>Graph algorithms, Scientific computing, Probabilistic data structures</td>
+<td class="numeric">11.1%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Data engineering &amp; databases</strong></td>
+<td></td>
+<td class="numeric"><strong>8.3%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Data formats &amp; serialization</td>
+<td class="numeric">8.3%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Distributed systems &amp; coordination</strong></td>
+<td></td>
+<td class="numeric"><strong>2.8%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Calendaring &amp; recurrence</td>
+<td class="numeric">2.8%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Build, release &amp; supply chain</strong></td>
+<td></td>
+<td class="numeric"><strong>2.8%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Software supply chain</td>
+<td class="numeric">2.8%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="language-and-seniority">Language and seniority</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Primary language and seniority</h4></div><div class="fig-box"><img src="assets/migration_metadata.svg" alt="Primary language and seniority" /></div></figure><h3 id="primary-language">Primary language</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Primary language</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Go</td>
+<td class="numeric">88.9%</td>
+</tr>
+<tr>
+<td>C++</td>
+<td class="numeric">11.1%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="seniority">Seniority</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Seniority</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Senior</td>
+<td class="numeric">100.0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="model-pass-rates-across-the-catalog">Model pass rates across the catalog</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 0%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 20-80%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 100%</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">40%</td>
+<td class="numeric">9%</td>
+<td class="numeric">66%</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">50%</td>
+<td class="numeric">33%</td>
+<td class="numeric">33%</td>
+<td class="numeric">33%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/migration_per_task.svg" alt="Per-task pass rate by model" /></div></figure><h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
+<p>A task's turn count is the average over its runs. A task is long horizon when that average is 200 or more turns.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Measure</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Average turn count</td>
+<td class="numeric">320.7</td>
+</tr>
+<tr>
+<td>Median turn count</td>
+<td class="numeric">335.4</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>99 to 600</td>
+</tr>
+<tr>
+<td>Long-horizon tasks (200+ turns)</td>
+<td>72% of tasks</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Turns per task</h4></div><div class="fig-box"><img src="assets/migration_turns.svg" alt="Turns per task" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of tasks</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean turns</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% with 200+ turns</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">89%</td>
+<td class="numeric">287.5</td>
+<td class="numeric">52%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">33%</td>
+<td class="numeric">293.9</td>
+<td class="numeric">79%</td>
+</tr>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">11%</td>
+<td class="numeric">600.0</td>
+<td class="numeric">100%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="example-tasks-from-the-shortlist">Example tasks from the shortlist</h2>
+<nav class="task-chips" data-ui aria-label="Example tasks"><a href="#example-1-graph-algorithms-go">Example 1: Graph algorithms (Go)</a><a href="#example-2-software-supply-chain-go">Example 2: Software supply chain (Go)</a><a href="#example-3-cli-tooling-go">Example 3: CLI tooling (Go)</a></nav>
+<h3 id="example-1-graph-algorithms-go">Example 1: Graph algorithms (Go)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Migration</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Scientific &amp; ML software</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Graph algorithms</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Go</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>306 (google/gemini-4-argon), 441 (x-ai/grok-4.7)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A first-person request to port a named library to Go from a source directory, with stubbed signatures given and the tests withheld, followed by a bullet list of build, naming and import rules.</p>
+<h4 id="prompt">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>We're moving a dependency from Rust to Go, and I need a Go port of the <code>kookyleo/dagre-rs</code> crate. The Rust source is in <code>/app/rust_reference/</code>. I've already laid out the Go package in <code>/app/port/</code>: every type and function our code calls is there with its final signature, but the bodies are just stubs. Could you fill in the implementation so it behaves exactly like the Rust crate?</p>
+<p>When you're done, I'll run the crate's own test suite, ported to Go, against <code>/app/port</code>. I'm not including those tests here, so please work from the Rust source itself and match it closely: error cases, edge cases, numeric precision and the order things come back in.</p>
+<p>A few things that will save you some pain:</p>
+<ul>
+<li>Keep the signatures and the package name in <code>/app/port</code> as they are; our callers use them as-is. Edit the existing files in place and declare each type and function once.</li>
+<li>Run <code>mig-check</code> (on the PATH) often. It compares <code>/app/port</code> with the original stubs, runs <code>go build</code> and <code>go vet</code>, and flags package-level names that clash with our test helpers (they start with <code>mig</code> or <code>Mig</code>).</li>
+<li>Go's <code>regexp</code> is RE2, so Rust-only syntax such as the <code>(?u)</code> flag, <code>\u{...}</code> escapes, back-references and look-around makes a package-level <code>regexp.MustCompile</code> panic at start-up.</li>
+<li>This package ends up inside a sandboxed service, so every non-test <code>.go</code> file under <code>/app/port</code> must stay off <code>os</code>, <code>os/exec</code>, <code>syscall</code>, <code>runtime</code>, <code>plugin</code>, <code>net</code>, <code>net/http</code>, <code>net/rpc</code>, <code>io/ioutil</code>, <code>embed</code>, <code>unsafe</code>, <code>flag</code> or <code>testing</code> (and anything under <code>testing/</code>), cgo, and the <code>//go:linkname</code> and <code>//go:embed</code> directives. Write the logic yourself rather than calling out to another program; the rest of the standard library is fine.</li>
+<li>Our test machine has 2 vCPUs, and each test gets 60 seconds and a 2 GB address-space limit, so keep things reasonably efficient.</li>
+</ul>
+</div>
+</details>
+<h4 id="pass-rates">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">38%</td>
+<td class="numeric">0.38</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">50%</td>
+<td class="numeric">0.50</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-migration-ex1.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work">How it maps to the work</h4>
+<p>A library engineer is replacing a Rust graph-layout dependency with a Go package. The engineer has the crate source and a Go skeleton with final signatures. The work is to read the layout stages in the Rust source and reproduce their output, including coordinates and edge points, in Go.</p>
+<h3 id="example-2-software-supply-chain-go">Example 2: Software supply chain (Go)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Migration</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Build, release &amp; supply chain</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Software supply chain</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Go</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>352 (x-ai/grok-4.7)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A first-person request to port a named library to Go from a source directory, with stubbed signatures given and the tests withheld, followed by a bullet list of build, naming and import rules.</p>
+<h4 id="prompt-2">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>We're moving a dependency from Java to Go, and I need a Go port of the <code>nscuro/versatile</code> library. The Java source is in <code>/app/java_reference/</code>. I've already laid out the Go package in <code>/app/port/</code>: every type and function our code calls is there with its final signature, but the bodies are just stubs. Could you fill in the implementation so it behaves exactly like the Java library?</p>
+<p>When you're done, I'll run the library's own test suite, ported to Go, against <code>/app/port</code>. I'm not including those tests here, so please work from the Java source itself and match it closely: error cases, edge cases, numeric precision and the order things come back in.</p>
+<p>A few things that will save you some pain:</p>
+<ul>
+<li>Keep the signatures and the package name in <code>/app/port</code> as they are; our callers use them as-is. Edit the existing files in place and declare each type and function once.</li>
+<li>Run <code>mig-check</code> (on the PATH) often. It compares <code>/app/port</code> with the original stubs, runs <code>go build</code> and <code>go vet</code>, and flags package-level names that clash with our test helpers (they start with <code>mig</code> or <code>Mig</code>).</li>
+<li>Go's <code>regexp</code> is RE2, so Java-only syntax such as the <code>(?u)</code> flag, back-references, look-around and <code>\u{...}</code> escapes makes a package-level <code>regexp.MustCompile</code> panic at start-up.</li>
+<li>This package ends up inside a sandboxed service, so every non-test <code>.go</code> file under <code>/app/port</code> must stay off <code>os</code>, <code>os/exec</code>, <code>syscall</code>, <code>runtime</code>, <code>plugin</code>, <code>net</code>, <code>net/http</code>, <code>net/rpc</code>, <code>io/ioutil</code>, <code>embed</code>, <code>unsafe</code>, <code>flag</code> or <code>testing</code> (and anything under <code>testing/</code>), cgo, and the <code>//go:linkname</code> and <code>//go:embed</code> directives. Write the logic yourself rather than calling out to another program; the rest of the standard library is fine.</li>
+<li>Our test machine has 2 vCPUs, and each test gets 60 seconds and a 2 GB address-space limit, so keep things reasonably efficient.</li>
+</ul>
+</div>
+</details>
+<h4 id="pass-rates-2">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">50%</td>
+<td class="numeric">0.50</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-2">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-migration-ex2.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work-2">How it maps to the work</h4>
+<p>A build and release engineer who works on software supply-chain tooling needs a Go version of a Java version and version-range library (the skeleton files cover versions, ranges and overlap). The engineer reads the Java code and reproduces its handling of edge-case inputs and ordering.</p>
+<h3 id="example-3-cli-tooling-go">Example 3: CLI tooling (Go)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Migration</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Languages &amp; developer tooling</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>CLI tooling</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Go</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>214 (google/gemini-4-argon), 140 (x-ai/grok-4.7)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A first-person request to port a named library to Go from a source directory, with stubbed signatures given and the tests withheld, followed by a bullet list of build, naming and import rules.</p>
+<h4 id="prompt-3">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>We're moving a dependency from Java to Go, and I need a Go port of the <code>argparse4j/argparse4j</code> library. The Java source is in <code>/app/java_reference/</code>. I've already laid out the Go package in <code>/app/port/</code>: every type and function our code calls is there with its final signature, but the bodies are just stubs. Could you fill in the implementation so it behaves exactly like the Java library?</p>
+<p>When you're done, I'll run the library's own test suite, ported to Go, against <code>/app/port</code>. I'm not including those tests here, so please work from the Java source itself and match it closely: error cases, edge cases, numeric precision and the order things come back in.</p>
+<p>A few things that will save you some pain:</p>
+<ul>
+<li>Keep the signatures and the package name in <code>/app/port</code> as they are; our callers use them as-is. Edit the existing files in place and declare each type and function once.</li>
+<li>Run <code>mig-check</code> (on the PATH) often. It compares <code>/app/port</code> with the original stubs, runs <code>go build</code> and <code>go vet</code>, and flags package-level names that clash with our test helpers (they start with <code>mig</code> or <code>Mig</code>).</li>
+<li>Go's <code>regexp</code> is RE2, so Java-only syntax such as the <code>(?u)</code> flag, back-references, look-around and <code>\u{...}</code> escapes makes a package-level <code>regexp.MustCompile</code> panic at start-up.</li>
+<li>This package ends up inside a sandboxed service, so every non-test <code>.go</code> file under <code>/app/port</code> must stay off <code>os</code>, <code>os/exec</code>, <code>syscall</code>, <code>runtime</code>, <code>plugin</code>, <code>net</code>, <code>net/http</code>, <code>net/rpc</code>, <code>io/ioutil</code>, <code>embed</code>, <code>unsafe</code>, <code>flag</code> or <code>testing</code> (and anything under <code>testing/</code>), cgo, and the <code>//go:linkname</code> and <code>//go:embed</code> directives. Write the logic yourself rather than calling out to another program; the rest of the standard library is fine.</li>
+<li>Our test machine has 2 vCPUs, and each test gets 60 seconds and a 2 GB address-space limit, so keep things reasonably efficient.</li>
+</ul>
+</div>
+</details>
+<h4 id="pass-rates-3">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">62%</td>
+<td class="numeric">0.62</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">100%</td>
+<td class="numeric">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-3">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-migration-ex3.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work-3">How it maps to the work</h4>
+<p>A developer-tools engineer moving a command-line tool from Java to Go needs the argument-parsing library in Go. The engineer reads the Java parsing and help-formatting code and reproduces parsing, formatting, error cases and result ordering as the instruction requires.</p>
+
+<footer class="page-footer" data-ui><a class="back-top" href="#top">Back to top ↑</a><nav class="page-nav" aria-label="Previous and next catalogs"><a rel="prev" href="data-engineering.html"><small>Previous</small>Data engineering</a></nav>
+<p class="footer-word">Bespoke Labs · Task catalogs</p></footer></div></div></article></main>
+</body></html>

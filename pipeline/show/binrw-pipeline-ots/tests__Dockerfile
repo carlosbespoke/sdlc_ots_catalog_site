@@ -1,0 +1,26 @@
+# spec-drift-ots Rust verifier image for jam1garner/binrw@585d48134e7b71be74d8b81b54cdbd07f6f1a1c4 (Harbor separate-verifier
+# mode): built from tests/, started fresh after the agent's container stops; the agent's /workdir
+# is copied in and /tests/test.sh runs as root.
+FROM rust:1.97-bookworm@sha256:0e2bcaef56d041a486784e54104a81aebe0da44bd03019bd70bc0401e42e4a97 AS toolchain
+# The official image ships CARGO_HOME and RUSTUP_HOME world-writable (chmod -R a+w): seal them in
+# a throwaway stage and copy them once, instead of a chmod layer that duplicates ~860 MB.
+RUN chmod -R go-w /usr/local/cargo /usr/local/rustup
+
+FROM buildpack-deps:bookworm@sha256:b22578185ebfdbd9a4050f697638b9c9696b70616d9b01bddfa79145db2b6dfd
+COPY --from=toolchain /usr/local/rustup /usr/local/rustup
+COPY --from=toolchain /usr/local/cargo /usr/local/cargo
+ENV RUSTUP_HOME=/usr/local/rustup CARGO_HOME=/usr/local/cargo PATH=/usr/local/cargo/bin:$PATH \
+    LANG=C.UTF-8 LC_ALL=C.UTF-8 CARGO_TERM_COLOR=never CARGO_TERM_PROGRESS_WHEN=never
+# The solver's starting tree, only to vendor and pre-build exactly as the solver image does.
+COPY workspace /workdir
+COPY spec-drift.lock /opt/spec-drift/Cargo.lock
+RUN set -eu; cd /workdir; cp /opt/spec-drift/Cargo.lock Cargo.lock; cargo vendor --locked --versioned-dirs /opt/spec-drift/vendor > /tmp/vendor.toml; rm Cargo.lock; { cat /tmp/vendor.toml; printf '\n[net]\noffline = true\n'; } > /usr/local/cargo/config.toml; chmod 0644 /usr/local/cargo/config.toml; mkdir -p /opt/spec-drift/vendor; cp -a /workdir /tmp/pin-check; (cd /tmp/pin-check && cargo generate-lockfile --offline -q); for f in /opt/spec-drift/Cargo.lock /tmp/pin-check/Cargo.lock; do awk '/^name = /{n=$3} /^version = /{print n" "$3}' $f | sort > $f.pv; done; diff /opt/spec-drift/Cargo.lock.pv /tmp/pin-check/Cargo.lock.pv; rm -f /opt/spec-drift/Cargo.lock.pv; rm -rf /usr/local/cargo/registry /usr/local/cargo/git /root/.cargo; rm -rf /tmp/* /var/tmp/*; chown -R root:root /opt/spec-drift; chmod -R go-w /opt/spec-drift
+RUN set -eu; mkdir -p /opt/spec-drift/prebuild/src /opt/spec-drift/cargo-home; printf '%s\n' '# Written by the root grader. The harness is the top-level package, so only its own profile and' '# workspace settings apply: the candidate'"'"'s [profile] sections and /workdir/.cargo/config.toml are' '# never read (docs/plans/rust.md section 4.2).' '[package]' 'name = "sdh"' 'version = "0.0.0"' 'edition = "2021"' 'publish = false' '' '[workspace]' '' '[dependencies]' '"binrw" = { path = "/workdir/binrw" }' '"binrw_derive" = { path = "/workdir/binrw_derive" }' > /opt/spec-drift/prebuild/Cargo.toml; echo 'fn main() {}' > /opt/spec-drift/prebuild/src/main.rs; printf '%s\n' '[source.crates-io]' 'replace-with = "vendored-sources"' '[source.vendored-sources]' 'directory = "/opt/spec-drift/vendor"' '[net]' 'offline = true' > /opt/spec-drift/cargo-home/config.toml; cd /opt/spec-drift/prebuild; env -i PATH=/usr/local/rustup/toolchains/1.97.1-x86_64-unknown-linux-gnu/bin:/usr/bin:/bin HOME=/root CARGO_HOME=/opt/spec-drift/cargo-home CARGO_TARGET_DIR=/opt/spec-drift/target RUSTC=/usr/local/rustup/toolchains/1.97.1-x86_64-unknown-linux-gnu/bin/rustc RUSTDOC=/usr/local/rustup/toolchains/1.97.1-x86_64-unknown-linux-gnu/bin/rustdoc CARGO_TERM_COLOR=never LC_ALL=C.UTF-8 LANG=C.UTF-8 TZ=UTC /usr/local/rustup/toolchains/1.97.1-x86_64-unknown-linux-gnu/bin/cargo build --offline; cp Cargo.lock /opt/spec-drift/harness.lock; rm -rf /opt/spec-drift/prebuild /opt/spec-drift/cargo-home /workdir; mkdir -p /workdir /logs/verifier; chown -R root:root /opt/spec-drift; chmod -R go-w /opt/spec-drift
+WORKDIR /workdir
+# --- the grader (everything above is the measurement base, built without tests/private) ---
+# The grader, its sealed private material and the reward writer, root-only: candidate code the
+# grader builds and runs as `nobody` must not read them.
+COPY test.sh grade_rs.py rs_doc_digest.py grade.py reward_writer.py doc_digest.py private_manifest.json /tests/
+COPY private /tests/private
+RUN chown -R root:root /tests && chmod -R go-rwx /tests && chmod 0700 /tests/private/rslex
+CMD ["sh", "-c", "sleep infinity"]

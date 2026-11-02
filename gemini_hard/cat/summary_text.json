@@ -1,0 +1,56 @@
+{
+ "programbench": {
+  "work": "Each task asks the agent to make software behave exactly like a reference version that it can run but not read. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from the reference and its documentation. In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code. In the migration tasks the agent ports a Java or Rust library to Go or C++ behind fixed signatures. Hidden tests compare the result with the reference, output for output.",
+  "domains": {
+   "Languages & developer tooling": "Rebuild or upgrade compilers, interpreters, API tools and command-line tools so they behave exactly like the reference.",
+   "Cross-language migration": "Port a library to another language, keeping its numeric precision, error cases and result ordering.",
+   "Applications & business domains": "Rebuild or upgrade media encoders, decoders and converters with identical output.",
+   "Scientific & ML software": "Rebuild or upgrade scientific and numerical programs whose results must match the reference.",
+   "Data engineering & databases": "Rebuild or upgrade parsers, serializers and storage tools for structured data.",
+   "Systems, hardware & accelerators": "Rebuild or upgrade compression, data-integrity and system tools with byte-identical output.",
+   "Security": "Rebuild or upgrade cryptography, secret-scanning and compliance tools.",
+   "Build, release & supply chain": "Rebuild or upgrade build and dependency tooling.",
+   "Cloud infrastructure & IaC": "Rebuild or upgrade configuration-management and cloud tooling."
+  }
+ },
+ "system-design": {
+  "work": "Each task changes a production system that must keep running. In the system design tasks the agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and hidden tests kill or pause processes to check them. In the infrastructure tasks the agent restructures live Terraform or Pulumi code so that the plan against production state changes nothing that is deployed.",
+  "domains": {
+   "State-preserving infrastructure changes": "Split flat Terraform stacks into modules, or port them to Pulumi, without replacing any deployed resource.",
+   "Applications & business domains": "Keep bookings, payments, uploads and documents consistent in web and payment services when instances fail.",
+   "Scientific & ML software": "Keep agent and graph services correct when workers stop or restart.",
+   "Distributed systems & coordination": "Deliver messages and run scheduled jobs correctly across instances and restarts.",
+   "Not yet classified": "Newly added services: short-lived scanner credentials, deletion of in-flight user data and safe package writes.",
+   "Build, release & supply chain": "Keep build pipelines and package supply chains correct when steps fail or race.",
+   "Cloud infrastructure & IaC": "Keep self-hosted platform services correct when nodes fail or restart.",
+   "Data engineering & databases": "Keep data pipelines from losing or duplicating records across failures.",
+   "Security": "Keep secrets and access grants correct across failures.",
+   "Languages & developer tooling": "Keep API tooling state consistent across instances."
+  }
+ },
+ "debugging": {
+  "work": "Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. Hidden tests check both the fixes and the code that was already correct.",
+  "domains": {
+   "Languages & developer tooling": "Find and fix faults in command-line tools, a compiler, a logic-programming engine and a utility library.",
+   "Scientific & ML software": "Bring ML tracking, medical imaging and agent libraries back in line with their documentation.",
+   "Data engineering & databases": "Fix SQL tooling and data validation libraries.",
+   "Applications & business domains": "Fix a web crawler and a collaborative documents application.",
+   "Distributed systems & coordination": "Fix a calendaring and recurrence library."
+  }
+ },
+ "feature-implementation": {
+  "work": "Each task asks the agent to add a capability to an existing open-source library or service, specified the way a series of pull requests would be, while every existing behaviour keeps working. The data pipeline tasks extend data libraries so pipelines keep producing correct results after an upstream format or schema change. Hidden tests check the new behaviour and the old behaviour together.",
+  "domains": {
+   "Languages & developer tooling": "Add features to command-line tools, compilers and API tooling.",
+   "Systems, hardware & accelerators": "Add features to networking and HTTP libraries and to smart-home device integrations.",
+   "Data engineering & databases": "Add features to serialization formats and storage engines.",
+   "Applications & business domains": "Add features to web applications and media processing libraries.",
+   "Scientific & ML software": "Add features to ML, agent and geospatial libraries.",
+   "Cloud infrastructure & IaC": "Add features to container platforms and configuration-management tools.",
+   "Security": "Add features to cryptography and secrets libraries.",
+   "Data pipelines": "Extend data libraries so pipelines keep correct results when upstream data changes.",
+   "Observability & reliability": "Add features to monitoring and observability tooling.",
+   "Distributed systems & coordination": "Add features to messaging and calendaring libraries."
+  }
+ }
+}

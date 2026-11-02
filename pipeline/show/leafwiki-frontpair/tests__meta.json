@@ -1,0 +1,42 @@
+{
+  "root_causes": [
+    {
+      "accept": [
+        {
+          "file": "internal/core/tree/node_store.go",
+          "function": "formatMetadataTime"
+        },
+        {
+          "file": "internal/core/tree/node_store.go",
+          "function": "NodeStore.syncManagedFrontmatter"
+        }
+      ]
+    },
+    {
+      "accept": [
+        {
+          "file": "internal/core/tree/node_store.go",
+          "function": "NodeStore.parseMetadataTime"
+        }
+      ]
+    }
+  ],
+  "default_reproducer": "internal/core/tree/repro_test.go",
+  "fix_tests": [
+    "fix/internal/core/tree/probe_1_test.go",
+    "fix/internal/core/tree/probe_2_test.go",
+    "fix/internal/core/tree/probe_3_test.go"
+  ],
+  "alt_fixes": [
+    "alt_fix_1.patch",
+    "alt_fix_2.patch"
+  ],
+  "runtime_fix": {
+    "kind": "go-overlay",
+    "path": "runtime_fix"
+  },
+  "p2p": {
+    "command": "go test -json -count=1 ./...",
+    "selection": "every test passing on buggy and on buggy + gold (recorded at verifier build)"
+  }
+}

@@ -1,0 +1,316 @@
+{
+  "repo": "gocron",
+  "workdir": "/workspace/repo",
+  "target_test": "",
+  "language": "go",
+  "module": "github.com/go-co-op/gocron/v2",
+  "test_cmd": "go test -count=1 ./...",
+  "baseline_failures": 0,
+  "weights": {
+    "repair": 0.5,
+    "report": 0.5
+  },
+  "run_tests_as": "agent",
+  "baseline_tests": 120,
+  "baseline_skipped": 0,
+  "sabotage_passes": 0,
+  "suite_seconds": 76,
+  "probe_sites": 0,
+  "probe_calls": 0,
+  "source_roots": [
+    "."
+  ],
+  "restored_paths": [
+    "example_test.go",
+    "job_test.go",
+    "logger_test.go",
+    "scheduler_monitor_test.go",
+    "scheduler_test.go",
+    "util_test.go"
+  ],
+  "shipped_files": [
+    ".github/FUNDING.yml",
+    ".github/copilot-instructions.md",
+    ".github/dependabot.yml",
+    ".github/workflows/codeql-analysis.yml",
+    ".github/workflows/file_formatting.yml",
+    ".github/workflows/go_test.yml",
+    ".github/workflows/pre_commit.yml",
+    ".gitignore",
+    ".golangci.yaml",
+    ".pre-commit-config.yaml",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
+    "Makefile",
+    "README.md",
+    "SECURITY.md",
+    "assets/jetbrains-mono-white.png",
+    "assets/sentry-wordmark-light-280x84.png",
+    "distributed.go",
+    "errors.go",
+    "example_test.go",
+    "examples/elector/main.go",
+    "executor.go",
+    "go.mod",
+    "go.sum",
+    "job.go",
+    "job_test.go",
+    "logger.go",
+    "logger_test.go",
+    "migration_v1_to_v2.md",
+    "mocks/README.md",
+    "mocks/distributed.go",
+    "mocks/go.mod",
+    "mocks/go.sum",
+    "mocks/job.go",
+    "mocks/logger.go",
+    "mocks/scheduler.go",
+    "monitor.go",
+    "scheduler.go",
+    "scheduler_monitor.go",
+    "scheduler_monitor_test.go",
+    "scheduler_test.go",
+    "util.go",
+    "util_test.go"
+  ],
+  "tracked_files": [
+    ".github/FUNDING.yml",
+    ".github/copilot-instructions.md",
+    ".github/dependabot.yml",
+    ".github/workflows/codeql-analysis.yml",
+    ".github/workflows/file_formatting.yml",
+    ".github/workflows/go_test.yml",
+    ".github/workflows/pre_commit.yml",
+    ".gitignore",
+    ".golangci.yaml",
+    ".pre-commit-config.yaml",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
+    "Makefile",
+    "README.md",
+    "SECURITY.md",
+    "assets/jetbrains-mono-white.png",
+    "assets/sentry-wordmark-light-280x84.png",
+    "distributed.go",
+    "errors.go",
+    "example_test.go",
+    "examples/elector/main.go",
+    "executor.go",
+    "go.mod",
+    "go.sum",
+    "job.go",
+    "job_test.go",
+    "logger.go",
+    "logger_test.go",
+    "migration_v1_to_v2.md",
+    "mocks/README.md",
+    "mocks/distributed.go",
+    "mocks/go.mod",
+    "mocks/go.sum",
+    "mocks/job.go",
+    "mocks/logger.go",
+    "mocks/scheduler.go",
+    "monitor.go",
+    "scheduler.go",
+    "scheduler_monitor.go",
+    "scheduler_monitor_test.go",
+    "scheduler_test.go",
+    "util.go",
+    "util_test.go"
+  ],
+  "causes": [
+    {
+      "file": "job.go",
+      "function": "weeklyJob.next",
+      "qualname": "weeklyJob.next",
+      "id": "7732b611",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestDaylightSavingsTimePolicy_WeeklyJob/skip_-_spring_forward_skips_to_next_week"
+      ]
+    },
+    {
+      "file": "logger.go",
+      "function": "logger.Error",
+      "qualname": "logger.Error",
+      "id": "d317fc6e",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestNewLogger/error",
+        "github.com/go-co-op/gocron/v2::TestWithIntervalFromCompletion_ComparedToDefault/with_intervalFromCompletion_-_interval_from_completion_time"
+      ]
+    },
+    {
+      "file": "util.go",
+      "function": "convertAtTimesToDateTime",
+      "qualname": "convertAtTimesToDateTime",
+      "id": "21a437c9",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestConvertAtTimesToDateTime/atTimes_hours_is_invalid",
+        "github.com/go-co-op/gocron/v2::TestScheduler_ManyJobs"
+      ]
+    },
+    {
+      "file": "scheduler.go",
+      "function": "scheduler.selectExecJobsOutForRescheduling",
+      "qualname": "scheduler.selectExecJobsOutForRescheduling",
+      "id": "093793a8",
+      "kind": "drop_mutating_call",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestScheduler_ManyJobs"
+      ]
+    },
+    {
+      "file": "logger.go",
+      "function": "logger.Debug",
+      "qualname": "logger.Debug",
+      "id": "9c99c49a",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestNewLogger/debug",
+        "github.com/go-co-op/gocron/v2::TestScheduler_JobsWaitingInQueue/with_mode_wait_limit_1"
+      ]
+    },
+    {
+      "file": "util.go",
+      "function": "scheduledTimeForRun",
+      "qualname": "scheduledTimeForRun",
+      "id": "30ef40b8",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestScheduledTimeForRun/start_before_all_ticks_falls_back_to_earliest",
+        "github.com/go-co-op/gocron/v2::TestScheduler_JobsWaitingInQueue/with_mode_wait_limit_1"
+      ]
+    },
+    {
+      "file": "job.go",
+      "function": "dailyJob.nextDay",
+      "qualname": "dailyJob.nextDay",
+      "id": "c3352592",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestDailyJob_next/daily_at_midnight",
+        "github.com/go-co-op/gocron/v2::TestDailyJob_next/daily_at_time_with_daylight_savings_time",
+        "github.com/go-co-op/gocron/v2::TestDailyJob_next/daily_multiple_at_times",
+        "github.com/go-co-op/gocron/v2::TestDailyJob_next/every_2_days_multiple_at_times",
+        "github.com/go-co-op/gocron/v2::TestDaylightSavingsTimePolicy_DailyJob/default_-_spring_forward_runs_at_normalized_time",
+        "github.com/go-co-op/gocron/v2::TestDaylightSavingsTimePolicy_DailyJob/run_after_transition_-_spring_forward_runs_at_adjusted_time",
+        "github.com/go-co-op/gocron/v2::TestDaylightSavingsTimePolicy_DailyJob/skip_-_normal_day_unchanged",
+        "github.com/go-co-op/gocron/v2::TestDaylightSavingsTimePolicy_DailyJob/skip_-_spring_forward_skips_to_next_day",
+        "github.com/go-co-op/gocron/v2::TestDaylightSavingsTimePolicy_DailyJob/skip_with_interval_2_-_spring_forward_advances_to_next_interval"
+      ]
+    },
+    {
+      "file": "executor.go",
+      "function": "executor.start",
+      "qualname": "executor.start",
+      "id": "5a9fa338",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestScheduler_LastRunSingleton/simple",
+        "github.com/go-co-op/gocron/v2::TestScheduler_LimitMode/limit_mode_wait",
+        "github.com/go-co-op/gocron/v2::TestScheduler_LimitModeAndSingleton/limit_mode_wait",
+        "github.com/go-co-op/gocron/v2::TestScheduler_ManyJobs",
+        "github.com/go-co-op/gocron/v2::TestScheduler_RunJobNow/duration_job_-_singleton"
+      ]
+    },
+    {
+      "file": "scheduler.go",
+      "function": "scheduler.stopScheduler",
+      "qualname": "scheduler.stopScheduler",
+      "id": "b2936b7b",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestScheduler_ManyJobs"
+      ]
+    },
+    {
+      "file": "logger.go",
+      "function": "logger.Info",
+      "qualname": "logger.Info",
+      "id": "8e338807",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestNewLogger/info",
+        "github.com/go-co-op/gocron/v2::TestScheduler_ManyJobs"
+      ]
+    },
+    {
+      "file": "util.go",
+      "function": "requestJobCtx",
+      "qualname": "requestJobCtx",
+      "id": "3de3b42d",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestScheduler_JobsWaitingInQueue/with_mode_wait_limit_10",
+        "github.com/go-co-op/gocron/v2::TestScheduler_ManyJobs"
+      ]
+    },
+    {
+      "file": "scheduler.go",
+      "function": "NewScheduler",
+      "qualname": "NewScheduler",
+      "id": "b6d9aaa0",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestScheduler_ManyJobs",
+        "github.com/go-co-op/gocron/v2::TestScheduler_WithLimitedRuns/simple"
+      ]
+    },
+    {
+      "file": "logger.go",
+      "function": "logFormatArgs",
+      "qualname": "logFormatArgs",
+      "id": "30b722ed",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestNewLogger/debug",
+        "github.com/go-co-op/gocron/v2::TestNewLogger/error",
+        "github.com/go-co-op/gocron/v2::TestNewLogger/info",
+        "github.com/go-co-op/gocron/v2::TestNewLogger/warn"
+      ]
+    },
+    {
+      "file": "job.go",
+      "function": "weeklyJob.nextWeekDayAtTime",
+      "qualname": "weeklyJob.nextWeekDayAtTime",
+      "id": "cb896f05",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestDaylightSavingsTimePolicy_WeeklyJob/default_-_spring_forward_runs_at_normalized_time",
+        "github.com/go-co-op/gocron/v2::TestDaylightSavingsTimePolicy_WeeklyJob/run_after_transition_-_spring_forward_runs_at_adjusted_time",
+        "github.com/go-co-op/gocron/v2::TestDaylightSavingsTimePolicy_WeeklyJob/skip_-_normal_week_unchanged",
+        "github.com/go-co-op/gocron/v2::TestDaylightSavingsTimePolicy_WeeklyJob/skip_-_spring_forward_skips_to_next_week",
+        "github.com/go-co-op/gocron/v2::TestScheduler_WithStartAtDateTimePast",
+        "github.com/go-co-op/gocron/v2::TestWeeklyJob_next/last_run_Monday,_next_run_is_Thursday",
+        "github.com/go-co-op/gocron/v2::TestWeeklyJob_next/last_run_Thursday,_next_run_is_Monday",
+        "github.com/go-co-op/gocron/v2::TestWeeklyJob_next/last_run_before_daylight_savings_time,_next_run_after"
+      ]
+    },
+    {
+      "file": "executor.go",
+      "function": "executor.runJob",
+      "qualname": "executor.runJob",
+      "id": "55755eb5",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestScheduler_ManyJobs"
+      ]
+    },
+    {
+      "file": "scheduler.go",
+      "function": "scheduler.RemoveJob",
+      "qualname": "scheduler.RemoveJob",
+      "id": "14fcefc9",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "github.com/go-co-op/gocron/v2::TestScheduler_ManyJobs",
+        "github.com/go-co-op/gocron/v2::TestScheduler_RemoveJob/job_not_found",
+        "github.com/go-co-op/gocron/v2::TestScheduler_WithStopDateTime_JobRemovedAfterStopTime/RemoveJob_on_already_auto-removed_job_returns_ErrJobNotFound"
+      ]
+    }
+  ]
+}

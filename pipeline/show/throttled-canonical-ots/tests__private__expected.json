@@ -1,0 +1,3662 @@
+{
+ "observations": {
+  "OBS-0001": {
+   "value": [
+    [
+     false,
+     5,
+     4,
+     60.0
+    ],
+    [
+     false,
+     5,
+     3,
+     120.0
+    ],
+    [
+     false,
+     5,
+     2,
+     180.0
+    ],
+    [
+     false,
+     5,
+     1,
+     240.0
+    ],
+    [
+     false,
+     5,
+     0,
+     300.0
+    ],
+    [
+     true,
+     5,
+     0,
+     300.0
+    ]
+   ]
+  },
+  "OBS-0002": {
+   "value": [
+    [
+     false,
+     20,
+     5,
+     90.0
+    ],
+    [
+     true,
+     20,
+     5,
+     90.0
+    ],
+    [
+     20,
+     5,
+     90.0,
+     0.0
+    ]
+   ]
+  },
+  "OBS-0003": {
+   "value": [
+    [
+     false,
+     4,
+     3,
+     1.0
+    ],
+    [
+     false,
+     4,
+     2,
+     1.0
+    ],
+    [
+     false,
+     4,
+     1,
+     2.0
+    ],
+    [
+     false,
+     4,
+     0,
+     2.0
+    ],
+    [
+     true,
+     4,
+     0,
+     2.0
+    ],
+    [
+     4,
+     2,
+     1.0,
+     0.0
+    ]
+   ]
+  },
+  "OBS-0004": {
+   "value": [
+    [
+     false,
+     3,
+     2,
+     1.0
+    ],
+    [
+     false,
+     3,
+     1,
+     1.0
+    ],
+    [
+     false,
+     3,
+     0,
+     2.0
+    ],
+    [
+     true,
+     3,
+     0,
+     2.0
+    ]
+   ]
+  },
+  "OBS-0005": {
+   "value": [
+    [
+     false,
+     3,
+     2,
+     1.0
+    ],
+    [
+     false,
+     3,
+     1,
+     2.0
+    ],
+    [
+     false,
+     3,
+     0,
+     3.0
+    ],
+    [
+     true,
+     3,
+     0,
+     3.0
+    ]
+   ]
+  },
+  "OBS-0006": {
+   "value": [
+    [
+     200,
+     {
+      "items": [
+       "apple",
+       "banana"
+      ]
+     },
+     {
+      "ratelimit-limit": "3",
+      "ratelimit-remaining": "2",
+      "ratelimit-reset": "60"
+     }
+    ],
+    [
+     200,
+     {
+      "items": [
+       "apple",
+       "banana"
+      ]
+     },
+     {
+      "ratelimit-limit": "3",
+      "ratelimit-remaining": "1",
+      "ratelimit-reset": "120"
+     }
+    ],
+    [
+     200,
+     {
+      "items": [
+       "apple",
+       "banana"
+      ]
+     },
+     {
+      "ratelimit-limit": "3",
+      "ratelimit-remaining": "0",
+      "ratelimit-reset": "180"
+     }
+    ],
+    [
+     429,
+     {
+      "detail": "Rate limit exceeded"
+     }
+    ]
+   ]
+  },
+  "OBS-0007": {
+   "value": [
+    [
+     200,
+     {
+      "items": [
+       "apple",
+       "banana"
+      ]
+     },
+     {
+      "ratelimit-limit": "2",
+      "ratelimit-remaining": "1",
+      "ratelimit-reset": "30"
+     }
+    ],
+    [
+     200,
+     {
+      "items": [
+       "apple",
+       "banana"
+      ]
+     },
+     {
+      "ratelimit-limit": "2",
+      "ratelimit-remaining": "0",
+      "ratelimit-reset": "60"
+     }
+    ],
+    [
+     429,
+     {
+      "detail": "Rate limit exceeded"
+     },
+     {
+      "ratelimit-limit": "2",
+      "ratelimit-remaining": "0",
+      "ratelimit-reset": "60",
+      "retry-after": "30"
+     }
+    ]
+   ]
+  },
+  "OBS-0008": {
+   "value": [
+    [
+     false,
+     [
+      10,
+      0,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      10,
+      0,
+      60.0,
+      12.0
+     ]
+    ],
+    [
+     true,
+     [
+      10,
+      0,
+      60.0,
+      42.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0009": {
+   "value": [
+    [
+     false,
+     [
+      6,
+      0,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      6,
+      0,
+      60.0,
+      10.0
+     ]
+    ],
+    [
+     false,
+     [
+      6,
+      0,
+      60.0,
+      0.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0010": {
+   "value": [
+    [
+     "pong",
+     "pong"
+    ],
+    [
+     "Rate limit exceeded: remaining=0, reset_after=60, retry_after=30.",
+     [
+      true,
+      [
+       2,
+       0,
+       60.0,
+       30.0
+      ]
+     ]
+    ]
+   ]
+  },
+  "OBS-0011": {
+   "value": [
+    [
+     false,
+     [
+      4,
+      0,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      4,
+      0,
+      60.0,
+      15.0
+     ]
+    ],
+    [
+     true,
+     [
+      4,
+      0,
+      60.0,
+      45.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0012": {
+   "value": [
+    0.0,
+    0.0,
+    0.5,
+    1.0,
+    1.5
+   ]
+  },
+  "OBS-0013": {
+   "value": [
+    0.0,
+    0.0,
+    0.5,
+    1.0,
+    1.5
+   ]
+  },
+  "OBS-0014": {
+   "value": [
+    [
+     [
+      false,
+      [
+       2,
+       1,
+       0.5,
+       0.0
+      ]
+     ],
+     [
+      false,
+      [
+       2,
+       0,
+       1.0,
+       0.0
+      ]
+     ]
+    ],
+    [
+     false,
+     [
+      2,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    0.5
+   ]
+  },
+  "OBS-0015": {
+   "value": [
+    [
+     false,
+     [
+      1,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      1,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    1.0
+   ]
+  },
+  "OBS-0016": {
+   "value": [
+    [
+     false,
+     [
+      1,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      1,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    1.0
+   ]
+  },
+  "OBS-0017": {
+   "value": [
+    [
+     [
+      false,
+      [
+       1,
+       0,
+       1.0,
+       0.0
+      ]
+     ],
+     0.0
+    ],
+    [
+     [
+      false,
+      [
+       1,
+       0,
+       1.0,
+       0.0
+      ]
+     ],
+     1.0
+    ],
+    [
+     [
+      false,
+      [
+       1,
+       0,
+       1.0,
+       0.0
+      ]
+     ],
+     2.0
+    ]
+   ]
+  },
+  "OBS-0018": {
+   "value": [
+    [
+     "A:before",
+     "B:before",
+     "B:after",
+     "A:after"
+    ],
+    [
+     false,
+     [
+      5,
+      4,
+      12.0,
+      0.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0019": {
+   "value": [
+    [
+     "A:before",
+     "B:before",
+     "C:before",
+     "C:after",
+     "B:after",
+     "A:after"
+    ],
+    [
+     false,
+     [
+      5,
+      4,
+      12.0,
+      0.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0020": {
+   "value": [
+    "outer-start",
+    "inner-start",
+    "inner-end",
+    "outer-end",
+    "outer-start",
+    "inner-start",
+    "inner-end",
+    "outer-end"
+   ]
+  },
+  "OBS-0021": {
+   "value": [
+    200,
+    [
+     "first:before",
+     "second:before",
+     "second:after",
+     "first:after"
+    ]
+   ]
+  },
+  "OBS-0022": {
+   "value": [
+    1,
+    1,
+    null,
+    3,
+    false
+   ]
+  },
+  "OBS-0023": {
+   "value": [
+    [
+     1,
+     2
+    ],
+    1,
+    2,
+    null,
+    4
+   ]
+  },
+  "OBS-0024": {
+   "value": [
+    [
+     false,
+     2,
+     1,
+     60.0
+    ],
+    [
+     false,
+     2,
+     1,
+     60.0
+    ],
+    [
+     2,
+     1,
+     60.0,
+     0.0
+    ],
+    [
+     false,
+     2,
+     1,
+     60.0
+    ],
+    [
+     2,
+     1,
+     60.0,
+     0.0
+    ],
+    [
+     2,
+     2,
+     60.0,
+     0.0
+    ],
+    [
+     2,
+     1,
+     60.0,
+     0.0
+    ]
+   ]
+  },
+  "OBS-0025": {
+   "value": [
+    [
+     false,
+     [
+      1,
+      0,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      1,
+      0,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     1,
+     0,
+     60.0,
+     0.0
+    ],
+    [
+     false,
+     [
+      1,
+      0,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      1,
+      0,
+      60.0,
+      60.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0026": {
+   "value": [
+    [
+     false,
+     [
+      3,
+      2,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      3,
+      1,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      3,
+      0,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      3,
+      0,
+      60.0,
+      60.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0027": {
+   "value": [
+    [
+     false,
+     [
+      2,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      2,
+      0,
+      1.0,
+      1.0
+     ]
+    ],
+    [
+     false,
+     [
+      2,
+      0,
+      1.0,
+      0.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0028": {
+   "value": [
+    [
+     false,
+     [
+      2,
+      1,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      2,
+      0,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      2,
+      0,
+      60.0,
+      60.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0029": {
+   "value": [
+    [
+     false,
+     [
+      5,
+      2,
+      3600.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      5,
+      0,
+      3600.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      5,
+      0,
+      3600.0,
+      3600.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0030": {
+   "value": [
+    "ping",
+    "Rate limit exceeded: remaining=0, reset_after=60, retry_after=60."
+   ]
+  },
+  "OBS-0031": {
+   "value": [
+    [
+     200,
+     {
+      "items": []
+     }
+    ],
+    [
+     200,
+     {
+      "created": true
+     }
+    ],
+    [
+     429,
+     {
+      "detail": "Rate limit exceeded"
+     }
+    ],
+    [
+     429,
+     {
+      "detail": "Rate limit exceeded"
+     }
+    ]
+   ]
+  },
+  "OBS-0032": {
+   "value": [
+    [
+     200,
+     {
+      "put": 1
+     }
+    ],
+    [
+     200,
+     {
+      "put": 2
+     }
+    ],
+    [
+     200,
+     {
+      "deleted": 1
+     }
+    ],
+    [
+     429,
+     {
+      "detail": "Rate limit exceeded"
+     }
+    ]
+   ]
+  },
+  "OBS-0033": {
+   "value": [
+    [
+     200,
+     {
+      "method": "GET"
+     }
+    ],
+    [
+     200,
+     {
+      "method": "PATCH"
+     }
+    ],
+    [
+     429,
+     {
+      "detail": "Rate limit exceeded"
+     }
+    ]
+   ]
+  },
+  "OBS-0034": {
+   "value": [
+    [
+     400,
+     {
+      "error": "bad input"
+     },
+     {
+      "ratelimit-limit": "5",
+      "ratelimit-remaining": "4",
+      "ratelimit-reset": "12"
+     }
+    ],
+    [
+     400,
+     {
+      "error": "bad input"
+     },
+     {
+      "ratelimit-limit": "5",
+      "ratelimit-remaining": "3",
+      "ratelimit-reset": "24"
+     }
+    ]
+   ]
+  },
+  "OBS-0035": {
+   "value": [
+    [
+     404,
+     {
+      "detail": "not found: a"
+     },
+     {
+      "ratelimit-limit": "3",
+      "ratelimit-remaining": "2",
+      "ratelimit-reset": "20"
+     }
+    ],
+    [
+     404,
+     {
+      "detail": "not found: b"
+     },
+     {
+      "ratelimit-limit": "3",
+      "ratelimit-remaining": "1",
+      "ratelimit-reset": "40"
+     }
+    ]
+   ]
+  },
+  "OBS-0036": {
+   "value": [
+    [
+     503,
+     "boom",
+     {
+      "ratelimit-limit": "10",
+      "ratelimit-remaining": "9",
+      "ratelimit-reset": "360"
+     }
+    ],
+    [
+     201,
+     "fine",
+     {
+      "ratelimit-limit": "10",
+      "ratelimit-remaining": "9",
+      "ratelimit-reset": "360"
+     }
+    ]
+   ]
+  },
+  "OBS-0037": {
+   "value": [
+    3,
+    1000,
+    [
+     1000,
+     0,
+     1.0,
+     0.0
+    ]
+   ]
+  },
+  "OBS-0038": {
+   "value": [
+    2,
+    [
+     1000,
+     1000,
+     0.0,
+     0.0
+    ]
+   ]
+  },
+  "OBS-0039": {
+   "value": [
+    [
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     false,
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    [
+     "Total: 15"
+    ]
+   ]
+  },
+  "OBS-0040": {
+   "value": [
+    [
+     false,
+     [
+      60,
+      59,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     [
+      60,
+      59,
+      1.0,
+      0.0
+     ],
+     [
+      60,
+      59,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      60,
+      59,
+      1.0,
+      1.0
+     ]
+    ],
+    [
+     60,
+     59,
+     1.0,
+     0.0
+    ]
+   ]
+  },
+  "OBS-0041": {
+   "value": [
+    [
+     false,
+     [
+      60,
+      59,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     60,
+     59,
+     1.0,
+     0.0
+    ],
+    [
+     60,
+     60,
+     0.0,
+     0.0
+    ]
+   ]
+  },
+  "OBS-0042": {
+   "value": [
+    [
+     false,
+     [
+      5,
+      4,
+      12.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      5,
+      3,
+      24.0,
+      0.0
+     ]
+    ],
+    [
+     5,
+     4,
+     12.0,
+     0.0
+    ],
+    [
+     5,
+     3,
+     24.0,
+     0.0
+    ]
+   ]
+  },
+  "OBS-0043": {
+   "value": [
+    "Invalid key: None, must be a non-empty key.",
+    "Invalid key: None, must be a non-empty key.",
+    "DataError",
+    "DataError",
+    "DataError",
+    "DataError",
+    [
+     false,
+     [
+      5,
+      5,
+      0.0,
+      0.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0044": {
+   "value": [
+    "ping",
+    [
+     "Rate limit exceeded: remaining=0, reset_after=60, retry_after=60.",
+     [
+      true,
+      [
+       1,
+       0,
+       60.0,
+       60.0
+      ]
+     ],
+     [
+      "LimitedError",
+      "BaseThrottledError",
+      "Exception",
+      "BaseException",
+      "object"
+     ]
+    ],
+    [
+     "ping"
+    ],
+    "ping",
+    "Ping."
+   ]
+  },
+  "OBS-0045": {
+   "value": [
+    "pong",
+    "Rate limit exceeded: remaining=1, reset_after=30, retry_after=30.",
+    "heavy_pong"
+   ]
+  },
+  "OBS-0046": {
+   "value": [
+    "DataError",
+    "Invalid key: None, must be a non-empty key."
+   ]
+  },
+  "OBS-0047": {
+   "value": [
+    4,
+    "Rate limit exceeded: remaining=0, reset_after=60, retry_after=60."
+   ]
+  },
+  "OBS-0048": {
+   "value": [
+    [
+     false,
+     [
+      1,
+      0,
+      60.0,
+      0.0
+     ]
+    ],
+    "Rate limit exceeded: remaining=0, reset_after=60, retry_after=60.",
+    [
+     "first"
+    ]
+   ]
+  },
+  "OBS-0049": {
+   "value": [
+    [
+     false,
+     [
+      1,
+      0,
+      60.0,
+      0.0
+     ]
+    ],
+    "Rate limit exceeded: remaining=0, reset_after=60, retry_after=60."
+   ]
+  },
+  "OBS-0050": {
+   "value": [
+    [
+     false,
+     [
+      1,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      1,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    1.0,
+    [
+     true,
+     [
+      1,
+      0,
+      1.0,
+      1.0
+     ]
+    ],
+    0.0
+   ]
+  },
+  "OBS-0051": {
+   "value": [
+    0,
+    0
+   ]
+  },
+  "OBS-0052": {
+   "value": [
+    [
+     false,
+     [
+      1,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      1,
+      0,
+      1.0,
+      1.0
+     ]
+    ],
+    [
+     false,
+     [
+      1,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    1.0
+   ]
+  },
+  "OBS-0053": {
+   "value": [
+    "DataError",
+    "DataError",
+    "DataError",
+    "ok",
+    "ok",
+    "DataError"
+   ]
+  },
+  "OBS-0054": {
+   "value": [
+    [
+     false,
+     [
+      1,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      1,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    1.0,
+    [
+     true,
+     [
+      1,
+      0,
+      1.0,
+      1.0
+     ]
+    ],
+    1.0
+   ]
+  },
+  "OBS-0055": {
+   "value": {
+    "7 / d": [
+     false,
+     [
+      7,
+      6,
+      86400.0,
+      0.0
+     ]
+    ],
+    "7 / day": [
+     false,
+     [
+      7,
+      6,
+      86400.0,
+      0.0
+     ]
+    ],
+    "7 / days": [
+     false,
+     [
+      7,
+      6,
+      86400.0,
+      0.0
+     ]
+    ],
+    "7 / h": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7 / hour": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7 / hours": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7 / hr": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7 / hrs": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7 / m": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7 / min": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7 / mins": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7 / minute": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7 / minutes": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7 / s": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7 / sec": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7 / second": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7 / seconds": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7 / secs": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7 / w": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ],
+    "7 / week": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ],
+    "7 / weeks": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ],
+    "7 / wk": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ],
+    "7 / wks": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ],
+    "7 per d": [
+     false,
+     [
+      7,
+      6,
+      86400.0,
+      0.0
+     ]
+    ],
+    "7 per day": [
+     false,
+     [
+      7,
+      6,
+      86400.0,
+      0.0
+     ]
+    ],
+    "7 per days": [
+     false,
+     [
+      7,
+      6,
+      86400.0,
+      0.0
+     ]
+    ],
+    "7 per h": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7 per hour": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7 per hours": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7 per hr": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7 per hrs": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7 per m": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7 per min": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7 per mins": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7 per minute": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7 per minutes": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7 per s": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7 per sec": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7 per second": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7 per seconds": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7 per secs": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7 per w": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ],
+    "7 per week": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ],
+    "7 per weeks": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ],
+    "7 per wk": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ],
+    "7 per wks": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ],
+    "7/d": [
+     false,
+     [
+      7,
+      6,
+      86400.0,
+      0.0
+     ]
+    ],
+    "7/day": [
+     false,
+     [
+      7,
+      6,
+      86400.0,
+      0.0
+     ]
+    ],
+    "7/days": [
+     false,
+     [
+      7,
+      6,
+      86400.0,
+      0.0
+     ]
+    ],
+    "7/h": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7/hour": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7/hours": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7/hr": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7/hrs": [
+     false,
+     [
+      7,
+      6,
+      3600.0,
+      0.0
+     ]
+    ],
+    "7/m": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7/min": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7/mins": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7/minute": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7/minutes": [
+     false,
+     [
+      7,
+      6,
+      60.0,
+      0.0
+     ]
+    ],
+    "7/s": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7/sec": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7/second": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7/seconds": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7/secs": [
+     false,
+     [
+      7,
+      6,
+      1.0,
+      0.0
+     ]
+    ],
+    "7/w": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ],
+    "7/week": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ],
+    "7/weeks": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ],
+    "7/wk": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ],
+    "7/wks": [
+     false,
+     [
+      7,
+      6,
+      604800.0,
+      0.0
+     ]
+    ]
+   }
+  },
+  "OBS-0056": {
+   "value": [
+    [
+     "2/s",
+     [
+      false,
+      [
+       2,
+       1,
+       1.0,
+       0.0
+      ]
+     ]
+    ],
+    [
+     "2/s burst 5",
+     [
+      false,
+      [
+       5,
+       4,
+       1.0,
+       0.0
+      ]
+     ]
+    ],
+    [
+     "2 per second burst 5",
+     [
+      false,
+      [
+       5,
+       4,
+       1.0,
+       0.0
+      ]
+     ]
+    ],
+    [
+     "3 per minute",
+     [
+      false,
+      [
+       3,
+       2,
+       20.0,
+       0.0
+      ]
+     ]
+    ],
+    [
+     "4/m burst 2",
+     [
+      false,
+      [
+       2,
+       1,
+       15.0,
+       0.0
+      ]
+     ]
+    ],
+    [
+     "4/m",
+     [
+      false,
+      [
+       4,
+       3,
+       15.0,
+       0.0
+      ]
+     ]
+    ]
+   ]
+  },
+  "OBS-0057": {
+   "value": [
+    "DataError",
+    "DataError",
+    "DataError",
+    "DataError",
+    "DataError",
+    "DataError",
+    "DataError",
+    "DataError",
+    "DataError",
+    "DataError",
+    "DataError"
+   ]
+  },
+  "OBS-0058": {
+   "value": [
+    [
+     false,
+     [
+      1,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      1,
+      0,
+      1.0,
+      1.0
+     ]
+    ],
+    [
+     false,
+     [
+      1,
+      0,
+      1.0,
+      0.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0059": {
+   "value": [
+    [
+     60,
+     1.0,
+     60
+    ],
+    [
+     60,
+     60.0,
+     60
+    ],
+    [
+     60,
+     3600.0,
+     60
+    ],
+    [
+     60,
+     86400.0,
+     60
+    ],
+    [
+     60,
+     604800.0,
+     60
+    ],
+    [
+     60,
+     60.0,
+     120
+    ],
+    [
+     120,
+     120.0,
+     150
+    ]
+   ]
+  },
+  "OBS-0060": {
+   "value": [
+    [
+     false,
+     [
+      5,
+      4,
+      2.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      120,
+      119,
+      1.0,
+      0.0
+     ]
+    ],
+    0
+   ]
+  },
+  "OBS-0061": {
+   "value": [
+    [
+     false,
+     3600,
+     3599,
+     1.0
+    ],
+    [
+     false,
+     3,
+     0,
+     30.0
+    ],
+    [
+     true,
+     3,
+     0,
+     30.0
+    ]
+   ]
+  },
+  "OBS-0062": {
+   "value": [
+    [
+     "fixed_window",
+     "sliding_window",
+     "leaking_bucket",
+     "token_bucket",
+     "gcra"
+    ],
+    true,
+    "gcra",
+    "leaking_bucket"
+   ]
+  },
+  "OBS-0063": {
+   "value": [
+    [
+     false,
+     [
+      4,
+      3,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      4,
+      1,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      4,
+      0,
+      60.0,
+      60.0
+     ]
+    ],
+    [
+     4,
+     1,
+     60.0,
+     0.0
+    ],
+    [
+     false,
+     [
+      4,
+      1,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      4,
+      0,
+      60.0,
+      30.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0064": {
+   "value": [
+    [
+     false,
+     [
+      4,
+      1,
+      2.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      4,
+      1,
+      2.0,
+      1.0
+     ]
+    ],
+    [
+     4,
+     1,
+     2.0,
+     0.0
+    ],
+    [
+     false,
+     [
+      4,
+      1,
+      2.0,
+      0.0
+     ]
+    ],
+    [
+     4,
+     1,
+     2.0,
+     0.0
+    ]
+   ]
+  },
+  "OBS-0065": {
+   "value": [
+    [
+     false,
+     [
+      3,
+      2,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      3,
+      0,
+      3.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      3,
+      0,
+      3.0,
+      1.0
+     ]
+    ],
+    [
+     3,
+     0,
+     3.0,
+     0.0
+    ],
+    [
+     false,
+     [
+      3,
+      0,
+      2.5,
+      0.0
+     ]
+    ],
+    [
+     3,
+     0,
+     2.5,
+     0.5
+    ]
+   ]
+  },
+  "OBS-0066": {
+   "value": [
+    [
+     "fixed_window",
+     [
+      false,
+      3,
+      2,
+      60.0
+     ],
+     [
+      true,
+      3,
+      0,
+      60.0
+     ]
+    ],
+    [
+     "sliding_window",
+     [
+      false,
+      3,
+      2,
+      60.0
+     ],
+     [
+      true,
+      3,
+      0,
+      60.0
+     ]
+    ],
+    [
+     "leaking_bucket",
+     [
+      false,
+      3,
+      2,
+      20.0
+     ],
+     [
+      true,
+      3,
+      2,
+      20.0
+     ]
+    ],
+    [
+     "token_bucket",
+     [
+      false,
+      3,
+      2,
+      20.0
+     ],
+     [
+      true,
+      3,
+      2,
+      20.0
+     ]
+    ],
+    [
+     "gcra",
+     [
+      false,
+      3,
+      2,
+      20.0
+     ],
+     [
+      true,
+      3,
+      2,
+      20.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0067": {
+   "value": [
+    [
+     false,
+     [
+      2,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     2,
+     0,
+     1.0,
+     0.0
+    ],
+    [
+     false,
+     [
+      2,
+      1,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     2,
+     1,
+     1.0,
+     0.0
+    ]
+   ]
+  },
+  "OBS-0068": {
+   "value": [
+    "ping",
+    "LimitedError",
+    false
+   ]
+  },
+  "OBS-0069": {
+   "value": [
+    [
+     {
+      "name": "iPhone"
+     },
+     {
+      "name": "MacBook"
+     }
+    ],
+    "LimitedError",
+    true,
+    false
+   ]
+  },
+  "OBS-0070": {
+   "value": [
+    [
+     5,
+     true,
+     10,
+     {
+      "last_refreshed": 7,
+      "tokens": 2
+     },
+     null,
+     -2
+    ],
+    [
+     null,
+     false,
+     -2
+    ],
+    [
+     5,
+     {
+      "last_refreshed": 7,
+      "tokens": 2
+     }
+    ],
+    {},
+    "DataError",
+    null
+   ]
+  },
+  "OBS-0071": {
+   "value": [
+    null,
+    1,
+    1024,
+    null
+   ]
+  },
+  "OBS-0072": {
+   "value": [
+    [
+     {
+      "name": "iPhone"
+     },
+     {
+      "name": "MacBook"
+     }
+    ],
+    "Rate limit exceeded: remaining=0, reset_after=60, retry_after=60."
+   ]
+  },
+  "OBS-0073": {
+   "value": [
+    [
+     "fixed_window",
+     [
+      false,
+      3,
+      2,
+      60.0
+     ],
+     [
+      3,
+      2,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     "sliding_window",
+     [
+      false,
+      3,
+      2,
+      60.0
+     ],
+     [
+      3,
+      2,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     "leaking_bucket",
+     [
+      false,
+      3,
+      2,
+      20.0
+     ],
+     [
+      3,
+      2,
+      20.0,
+      0.0
+     ]
+    ],
+    [
+     "token_bucket",
+     [
+      false,
+      3,
+      2,
+      20.0
+     ],
+     [
+      3,
+      2,
+      20.0,
+      0.0
+     ]
+    ],
+    [
+     "gcra",
+     [
+      false,
+      3,
+      2,
+      20.0
+     ],
+     [
+      3,
+      2,
+      20.0,
+      0.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0074": {
+   "value": [
+    [
+     false,
+     [
+      4,
+      1,
+      2.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      4,
+      1,
+      2.0,
+      1.0
+     ]
+    ],
+    [
+     false,
+     [
+      3,
+      0,
+      3.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      3,
+      0,
+      3.0,
+      1.0
+     ]
+    ],
+    [
+     false,
+     [
+      4,
+      1,
+      60.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      4,
+      0,
+      60.0,
+      60.0
+     ]
+    ],
+    [
+     false,
+     [
+      4,
+      1,
+      2.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      3,
+      0,
+      3.0,
+      0.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0075": {
+   "value": [
+    [
+     "fixed_window",
+     [
+      false,
+      2,
+      1,
+      1.0
+     ],
+     [
+      true,
+      2,
+      0,
+      1.0
+     ],
+     [
+      2,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     "sliding_window",
+     [
+      false,
+      2,
+      1,
+      1.0
+     ],
+     [
+      true,
+      2,
+      0,
+      1.0
+     ],
+     [
+      2,
+      1,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     "leaking_bucket",
+     [
+      false,
+      2,
+      1,
+      1.0
+     ],
+     [
+      true,
+      2,
+      1,
+      1.0
+     ],
+     [
+      2,
+      1,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     "token_bucket",
+     [
+      false,
+      2,
+      1,
+      1.0
+     ],
+     [
+      true,
+      2,
+      1,
+      1.0
+     ],
+     [
+      2,
+      1,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     "gcra",
+     [
+      false,
+      2,
+      1,
+      0.5
+     ],
+     [
+      true,
+      2,
+      1,
+      0.5
+     ],
+     [
+      2,
+      1,
+      0.5,
+      0.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0076": {
+   "value": [
+    [
+     5,
+     true,
+     10,
+     {
+      "last_refreshed": 7,
+      "tokens": 3
+     },
+     null
+    ],
+    null,
+    false
+   ]
+  },
+  "OBS-0077": {
+   "value": [
+    [
+     null,
+     {
+      "client_kwargs": [
+       "decode_responses"
+      ],
+      "pool": {
+       "db": 0,
+       "host": "localhost",
+       "password": null,
+       "port": 6379,
+       "username": null
+      }
+     }
+    ],
+    [
+     null,
+     {
+      "client_kwargs": [
+       "decode_responses"
+      ],
+      "pool": {
+       "db": 3,
+       "host": "cache.local",
+       "password": "secret",
+       "port": 6390,
+       "username": null
+      }
+     }
+    ]
+   ]
+  },
+  "OBS-0078": {
+   "value": [
+    {
+     "sentinel_kwargs": {
+      "password": "pw"
+     },
+     "sentinels": [
+      [
+       "host1",
+       26380
+      ],
+      [
+       "host2",
+       26379
+      ]
+     ],
+     "service_name": "primary"
+    },
+    {
+     "sentinel_kwargs": {},
+     "sentinels": [
+      [
+       "sentinel-a",
+       26379
+      ]
+     ],
+     "service_name": "mymaster"
+    }
+   ]
+  },
+  "OBS-0079": {
+   "value": [
+    {
+     "kwargs": [
+      "password"
+     ],
+     "nodes": [
+      [
+       "node1",
+       7000
+      ],
+      [
+       "node2",
+       6379
+      ]
+     ]
+    },
+    {
+     "kwargs": [],
+     "nodes": [
+      [
+       "solo",
+       6379
+      ]
+     ]
+    }
+   ]
+  },
+  "OBS-0080": {
+   "value": [
+    [
+     [
+      "before",
+      "/api/users",
+      1,
+      "token_bucket",
+      "memory"
+     ],
+     [
+      "after",
+      "allowed",
+      9
+     ],
+     [
+      "before",
+      "/other",
+      10,
+      "token_bucket",
+      "memory"
+     ],
+     [
+      "after",
+      "allowed",
+      0
+     ],
+     [
+      "before",
+      "/other",
+      1,
+      "token_bucket",
+      "memory"
+     ],
+     [
+      "after",
+      "denied",
+      0
+     ],
+     [
+      "before",
+      "r",
+      1,
+      "gcra",
+      "redis"
+     ],
+     [
+      "after",
+      "allowed",
+      0
+     ]
+    ],
+    [
+     false,
+     [
+      10,
+      9,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     false,
+     [
+      10,
+      0,
+      1.0,
+      0.0
+     ]
+    ],
+    [
+     true,
+     [
+      10,
+      0,
+      1.0,
+      1.0
+     ]
+    ]
+   ]
+  },
+  "OBS-0081": {
+   "value": [
+    "FrozenInstanceError",
+    "TypeError",
+    "TypeError",
+    "TypeError",
+    null,
+    null,
+    null
+   ]
+  },
+  "OBS-0082": {
+   "value": [
+    [
+     [
+      false,
+      [
+       5,
+       4,
+       12.0,
+       0.0
+      ]
+     ],
+     [
+      [
+       "ERROR",
+       "throttled.hooks",
+       "RuntimeError"
+      ]
+     ]
+    ],
+    [
+     5,
+     4,
+     12.0,
+     0.0
+    ],
+    [
+     [
+      false,
+      [
+       5,
+       4,
+       12.0,
+       0.0
+      ]
+     ],
+     [
+      [
+       "ERROR",
+       "throttled.hooks",
+       "RuntimeError"
+      ]
+     ]
+    ],
+    [
+     5,
+     4,
+     12.0,
+     0.0
+    ]
+   ]
+  },
+  "OBS-0083": {
+   "value": [
+    [
+     [
+      false,
+      [
+       5,
+       4,
+       12.0,
+       0.0
+      ]
+     ],
+     [
+      5,
+      5,
+      0.0,
+      0.0
+     ],
+     [
+      false,
+      [
+       5,
+       0,
+       60.0,
+       0.0
+      ]
+     ],
+     2,
+     12.0
+    ],
+    [
+     [
+      "ERROR",
+      "throttled.asyncio.hooks",
+      "ValueError"
+     ]
+    ]
+   ]
+  },
+  "OBS-0084": {
+   "value": [
+    [
+     "allowed",
+     "allowed",
+     "allowed",
+     "allowed",
+     "allowed",
+     "denied"
+    ],
+    {
+     "throttled.duration": [
+      "Histogram",
+      "s",
+      [
+       [
+        {
+         "algorithm": "token_bucket",
+         "key": "/api/ping",
+         "result": "allowed",
+         "store_type": "memory"
+        },
+        5
+       ],
+       [
+        {
+         "algorithm": "token_bucket",
+         "key": "/api/ping",
+         "result": "denied",
+         "store_type": "memory"
+        },
+        1
+       ]
+      ]
+     ],
+     "throttled.requests": [
+      "Sum",
+      "1",
+      [
+       [
+        {
+         "algorithm": "token_bucket",
+         "key": "/api/ping",
+         "result": "allowed",
+         "store_type": "memory"
+        },
+        5
+       ],
+       [
+        {
+         "algorithm": "token_bucket",
+         "key": "/api/ping",
+         "result": "denied",
+         "store_type": "memory"
+        },
+        1
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  "OBS-0085": {
+   "value": [
+    [
+     false,
+     false,
+     true
+    ],
+    {
+     "throttled.duration": [
+      3,
+      [
+       [
+        [
+         "algorithm",
+         "fixed_window"
+        ],
+        [
+         "key",
+         "/api/ping"
+        ],
+        [
+         "result",
+         "allowed"
+        ],
+        [
+         "store_type",
+         "memory"
+        ]
+       ],
+       [
+        [
+         "algorithm",
+         "fixed_window"
+        ],
+        [
+         "key",
+         "/api/ping"
+        ],
+        [
+         "result",
+         "denied"
+        ],
+        [
+         "store_type",
+         "memory"
+        ]
+       ]
+      ]
+     ],
+     "throttled.requests": [
+      8,
+      [
+       [
+        [
+         "algorithm",
+         "fixed_window"
+        ],
+        [
+         "key",
+         "/api/ping"
+        ],
+        [
+         "result",
+         "allowed"
+        ],
+        [
+         "store_type",
+         "memory"
+        ]
+       ],
+       [
+        [
+         "algorithm",
+         "fixed_window"
+        ],
+        [
+         "key",
+         "/api/ping"
+        ],
+        [
+         "result",
+         "denied"
+        ],
+        [
+         "store_type",
+         "memory"
+        ]
+       ]
+      ]
+     ]
+    }
+   ]
+  },
+  "OBS-0086": {
+   "value": [
+    [
+     200,
+     {
+      "items": [
+       "apple",
+       "banana"
+      ]
+     },
+     {
+      "ratelimit-limit": "2",
+      "ratelimit-remaining": "1",
+      "ratelimit-reset": "30"
+     }
+    ],
+    [
+     200,
+     {
+      "items": [
+       "apple",
+       "banana"
+      ]
+     },
+     {
+      "ratelimit-limit": "2",
+      "ratelimit-remaining": "0",
+      "ratelimit-reset": "60"
+     }
+    ],
+    [
+     429,
+     {
+      "detail": "Rate limit exceeded"
+     }
+    ],
+    [
+     200,
+     {
+      "items": [
+       "apple",
+       "banana"
+      ]
+     },
+     {
+      "ratelimit-limit": "2",
+      "ratelimit-remaining": "0",
+      "ratelimit-reset": "60"
+     }
+    ]
+   ]
+  },
+  "OBS-0087": {
+   "value": [
+    [
+     [
+      200,
+      {
+       "items": [
+        "apple",
+        "banana"
+       ]
+      }
+     ],
+     [
+      200,
+      {
+       "items": [
+        "apple",
+        "banana"
+       ]
+      }
+     ],
+     [
+      429,
+      {
+       "detail": "Rate limit exceeded"
+      }
+     ]
+    ],
+    [
+     200,
+     {
+      "items": [
+       "apple",
+       "banana"
+      ]
+     },
+     {
+      "ratelimit-limit": "2",
+      "ratelimit-remaining": "1",
+      "ratelimit-reset": "30"
+     }
+    ],
+    [
+     200,
+     {
+      "items": [
+       "apple",
+       "banana"
+      ]
+     },
+     {
+      "ratelimit-limit": "2",
+      "ratelimit-remaining": "1",
+      "ratelimit-reset": "30"
+     }
+    ]
+   ]
+  },
+  "OBS-0088": {
+   "value": [
+    [
+     200,
+     {
+      "items": [
+       "apple",
+       "banana"
+      ]
+     },
+     {
+      "ratelimit-limit": "10",
+      "ratelimit-remaining": "9",
+      "ratelimit-reset": "6"
+     }
+    ],
+    [
+     200,
+     {
+      "status": "ok"
+     },
+     {
+      "ratelimit-limit": "1",
+      "ratelimit-remaining": "0",
+      "ratelimit-reset": "60"
+     }
+    ],
+    [
+     429,
+     {
+      "detail": "Rate limit exceeded"
+     },
+     {
+      "ratelimit-limit": "1",
+      "ratelimit-remaining": "0",
+      "ratelimit-reset": "60",
+      "retry-after": "60"
+     }
+    ],
+    [
+     200,
+     {
+      "items": [
+       "apple",
+       "banana"
+      ]
+     },
+     {
+      "ratelimit-limit": "10",
+      "ratelimit-remaining": "8",
+      "ratelimit-reset": "12"
+     }
+    ]
+   ]
+  },
+  "OBS-0089": {
+   "value": [
+    [
+     200,
+     {
+      "items": [
+       "apple",
+       "banana"
+      ]
+     }
+    ],
+    [
+     429,
+     {
+      "detail": "Rate limit exceeded"
+     }
+    ],
+    [
+     200,
+     {
+      "items": [
+       "apple",
+       "banana"
+      ]
+     }
+    ]
+   ]
+  },
+  "OBS-0090": {
+   "value": [
+    "TypeError",
+    "TypeError",
+    "TypeError",
+    [
+     200,
+     {
+      "extra": 5
+     },
+     {
+      "ratelimit-limit": "1",
+      "ratelimit-remaining": "0",
+      "ratelimit-reset": "60"
+     }
+    ]
+   ]
+  },
+  "OBS-0091": {
+   "value": [
+    [
+     200,
+     {
+      "me": true
+     },
+     {}
+    ],
+    [
+     429,
+     {
+      "detail": "Rate limit exceeded"
+     }
+    ],
+    [
+     200,
+     {
+      "me": true
+     },
+     {}
+    ],
+    [
+     [
+      200,
+      {
+       "wrong": true
+      },
+      {}
+     ],
+     [
+      200,
+      {
+       "wrong": true
+      },
+      {}
+     ],
+     [
+      200,
+      {
+       "wrong": true
+      },
+      {}
+     ]
+    ]
+   ]
+  },
+  "OBS-0092": {
+   "value": [
+    [
+     200,
+     {
+      "pong": true
+     }
+    ],
+    [
+     200,
+     {
+      "pong": true
+     }
+    ],
+    [
+     429,
+     {
+      "detail": "Rate limit exceeded"
+     }
+    ]
+   ]
+  },
+  "OBS-0093": {
+   "value": [
+    [
+     200,
+     {
+      "user": "a"
+     },
+     {
+      "ratelimit-limit": "2",
+      "ratelimit-remaining": "1",
+      "ratelimit-reset": "30"
+     }
+    ],
+    [
+     200,
+     {
+      "user": "b"
+     },
+     {
+      "ratelimit-limit": "2",
+      "ratelimit-remaining": "1",
+      "ratelimit-reset": "30"
+     }
+    ],
+    [
+     200,
+     {
+      "user": "a"
+     },
+     {
+      "ratelimit-limit": "2",
+      "ratelimit-remaining": "0",
+      "ratelimit-reset": "60"
+     }
+    ],
+    [
+     429,
+     {
+      "detail": "Rate limit exceeded"
+     }
+    ],
+    [
+     200,
+     {
+      "user": "a"
+     }
+    ],
+    [
+     429,
+     {
+      "detail": "Rate limit exceeded"
+     }
+    ]
+   ]
+  },
+  "OBS-0094": {
+   "value": [
+    [
+     "ABCMeta",
+     "EnumType",
+     "type",
+     "type",
+     "type",
+     "type",
+     "function",
+     "function",
+     "function",
+     "function",
+     "function",
+     "function",
+     "ABCMeta",
+     "ABCMeta",
+     "ABCMeta",
+     "type",
+     "module",
+     "module",
+     "module"
+    ],
+    [
+     "ABCMeta",
+     "EnumType",
+     "type",
+     "type",
+     "type",
+     "type",
+     "function",
+     "function",
+     "function",
+     "function",
+     "function",
+     "function",
+     "ABCMeta",
+     "ABCMeta",
+     "ABCMeta",
+     "type",
+     "module",
+     "module",
+     "module"
+    ],
+    [
+     [
+      "SetUpError",
+      "BaseThrottledError",
+      "Exception",
+      "BaseException",
+      "object"
+     ],
+     [
+      "DataError",
+      "BaseThrottledError",
+      "Exception",
+      "BaseException",
+      "object"
+     ],
+     [
+      "StoreUnavailableError",
+      "BaseThrottledError",
+      "Exception",
+      "BaseException",
+      "object"
+     ],
+     [
+      "LimitedError",
+      "BaseThrottledError",
+      "Exception",
+      "BaseException",
+      "object"
+     ]
+    ],
+    [
+     "throttled.throttled",
+     "throttled.asyncio.throttled"
+    ]
+   ]
+  },
+  "OBS-0095": {
+   "value": [
+    "RateLimitResult",
+    "RateLimitState",
+    false,
+    [
+     1,
+     0,
+     60,
+     0
+    ],
+    "Rate limit exceeded: remaining=0, reset_after=60, retry_after=60.",
+    true,
+    "Rate limit exceeded.",
+    null
+   ]
+  },
+  "OBS-DOCS": {
+   "ok": "intact"
+  }
+ }
+}

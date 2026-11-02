@@ -1,0 +1,44 @@
+{
+  "format": "rca-task",
+  "version": 1,
+  "source": {
+    "repository": "https://github.com/deepnoodle-ai/risor.git",
+    "commit": "a263ecce1b9d58c71e2147d9ed087288588c79de",
+    "voyager": "deepnoodle-ai__risor.a263ecce"
+  },
+  "language": "go",
+  "test_command": "go test ./...",
+  "strip": [
+    ".github",
+    ".coderabbit.yaml",
+    "CLAUDE.md",
+    "llms.txt"
+  ],
+  "omit_tests": {
+    "globs": [
+      "**/*_test.go",
+      "cmd/risor-lsp/testdata/",
+      "cmd/risor/testdata/",
+      "pkg/parser/testdata/"
+    ],
+    "keep": []
+  },
+  "overlay": {
+    "path": "faults",
+    "files": {
+      "pkg/compiler/symbol_table.go": "50dfe9fa69f0dd9717c394d29406c3e05e9c34365069eef5868f4c9e6c2d2b09",
+      "pkg/vm/frame.go": "6e10013a1411e64aa48f7eba3e52047b9895a6f94e4eee386a3bfcd26e65a2ec"
+    },
+    "removed": [],
+    "executable": []
+  },
+  "trees": {
+    "algorithm": "spec-drift-tree-v1",
+    "pristine": "eca65a1978c960af3a8295dbc7b606d885ee8f203764190f56cd63cfeade0de4",
+    "solver": "631ad221cff2edda1a4f28d39d95cecd38558d3cbbabf173fcd13f7660fa3cda"
+  },
+  "workspace": {
+    "root": "/workdir",
+    "evidence": "evidence"
+  }
+}

@@ -1,0 +1,375 @@
+{
+  "repo": "zha-device-handlers",
+  "workdir": "/workspace/repo",
+  "target_test": "",
+  "language": "python",
+  "test_cmd": "python -m pytest -p no:cacheprovider --color=no -p no:randomly",
+  "baseline_failures": 0,
+  "weights": {
+    "repair": 0.5,
+    "report": 0.5
+  },
+  "run_tests_as": "agent",
+  "baseline_tests": 4843,
+  "sabotage_passes": 0,
+  "suite_seconds": 24,
+  "probe_sites": 4,
+  "probe_calls": 8,
+  "source_roots": [
+    "zhaquirks"
+  ],
+  "causes": [
+    {
+      "file": "zhaquirks/sinope/__init__.py",
+      "function": "_update_attribute",
+      "qualname": "CustomDeviceTemperatureCluster._update_attribute",
+      "id": "0cab6148",
+      "kind": "change_constant",
+      "breaks": [
+        "tests/test_sinope.py::test_sinope_device_temp[SinopeTechnologiesCalypso]"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/ts0601_electric_heating.py",
+      "function": "map_attribute",
+      "qualname": "MoesBHTThermostat.map_attribute",
+      "id": "0b4167c8",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_tuya.py::test_eheat_send_attribute[MoesBHT]"
+      ]
+    },
+    {
+      "file": "zhaquirks/schneiderelectric/outlet.py",
+      "function": "_update_attribute",
+      "qualname": "MeteringCluster._update_attribute",
+      "id": "096c9b59",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_schneiderelectric.py::test_schneider_device_temp[SocketOutlet]"
+      ]
+    },
+    {
+      "file": "zhaquirks/candeo/__init__.py",
+      "function": "lux_calibration",
+      "qualname": "CandeoIlluminanceMeasurementCluster.lux_calibration",
+      "id": "c4050a5b",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "tests/test_candeo.py::test_candeo_motion_illuminance[34299-26989]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[34977-36895]"
+      ]
+    },
+    {
+      "file": "zhaquirks/linkind/motion.py",
+      "function": "_update_attribute",
+      "qualname": "IasZoneLinkind._update_attribute",
+      "id": "557b8c24",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_linkind.py::test_linkind_motion_ignore_alarm_2[LinkindD0003]"
+      ]
+    },
+    {
+      "file": "zhaquirks/ubisys/cover_j1.py",
+      "function": "_read_calibration_attributes",
+      "qualname": "UbisysJ1CalibrationCluster._read_calibration_attributes",
+      "id": "867be627",
+      "kind": "change_constant",
+      "breaks": [
+        "tests/test_ubisys.py::test_j1_read_calibration_attributes"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/builder/__init__.py",
+      "function": "tuya_cover",
+      "qualname": "TuyaQuirkBuilder.tuya_cover",
+      "id": "0d4b5b43",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "tests/test_tuya_cover.py::test_zemismart_zm16b_position_report"
+      ]
+    },
+    {
+      "file": "zhaquirks/sonoff/zbm5.py",
+      "function": "write_attributes",
+      "qualname": "SonoffInputConfigCluster.write_attributes",
+      "id": "d88c4b0b",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_sonoff.py::test_sonoff_cluster_write_attributes_logic"
+      ]
+    },
+    {
+      "file": "zhaquirks/konke/__init__.py",
+      "function": "handle_cluster_general_request",
+      "qualname": "KonkeOnOffCluster.handle_cluster_general_request",
+      "id": "e77f4065",
+      "kind": "change_constant",
+      "breaks": [
+        "tests/test_konke.py::test_konke_button[KonkeButtonRemote1]",
+        "tests/test_konke.py::test_konke_button[KonkeButtonRemote2]"
+      ]
+    },
+    {
+      "file": "zhaquirks/xiaomi/aqara/switch_acn047.py",
+      "function": "_update_attribute",
+      "qualname": "MultistateInputCluster._update_attribute",
+      "id": "fc341357",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_xiaomi.py::test_aqara_t2_relay[1]",
+        "tests/test_xiaomi.py::test_aqara_t2_relay[2]"
+      ]
+    },
+    {
+      "file": "zhaquirks/thirdreality/night_light.py",
+      "function": "_update_attribute",
+      "qualname": "ThirdRealitySpecificCluster._update_attribute",
+      "id": "bf1dbfbd",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_thirdreality.py::test_third_reality_nightlight[Nightlight]"
+      ]
+    },
+    {
+      "file": "zhaquirks/builder/builder.py",
+      "function": "__call__",
+      "qualname": "AddCluster.__call__",
+      "id": "8d8e1760",
+      "kind": "llm_dropped_keyword_argument",
+      "breaks": [
+        "tests/test_quirks_v2_builder.py::test_quirks_v2_apply_custom_configuration"
+      ]
+    },
+    {
+      "file": "zhaquirks/device.py",
+      "function": "add_endpoint",
+      "qualname": "BaseCustomDevice.add_endpoint",
+      "id": "2d833aee",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "tests/test_quirks_v2_builder.py::test_quirks_v2_processing_order"
+      ]
+    },
+    {
+      "file": "zhaquirks/bituo/spm01.py",
+      "function": "is_attribute_unsupported",
+      "qualname": "SPM01ElectricalMeasurement.is_attribute_unsupported",
+      "id": "c27e49be",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_bituo.py::test_spm01x_phantom_attrs_unsupported"
+      ]
+    },
+    {
+      "file": "zhaquirks/legrand/cable_outlet.py",
+      "function": "write_attributes",
+      "qualname": "LegrandCableOutletCluster.write_attributes",
+      "id": "25df3a64",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_legrand.py::test_legrand_wire_pilot_cluster_write_attrs"
+      ]
+    },
+    {
+      "file": "zhaquirks/smartwings/wm25lz.py",
+      "function": "command",
+      "qualname": "InvertedWindowCoveringCluster.command",
+      "id": "e84ca6ca",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_smartwings.py::test_smartwings_inverted_commands[WM25LBlinds]"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/tuya_co.py",
+      "function": "_update_attribute",
+      "qualname": "TuyaPM25ConcentrationIgnoreValues._update_attribute",
+      "id": "66c658d0",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_tuya_air.py::test_smart_air_pm25_dropping_high_values"
+      ]
+    },
+    {
+      "file": "zhaquirks/ubisys/cover_j1.py",
+      "function": "_wait_until_stopped",
+      "qualname": "UbisysJ1CalibrationCluster._wait_until_stopped",
+      "id": "6b165a0e",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "tests/test_ubisys.py::test_j1_wait_until_stopped",
+        "tests/test_ubisys.py::test_j1_wait_until_stopped_timeout"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/builder/__init__.py",
+      "function": "tuya_battery",
+      "qualname": "TuyaQuirkBuilder.tuya_battery",
+      "id": "32b0c92c",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.AA-None-None-BatterySize.AA-None-None]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR123A-1-60-BatterySize.CR123A-1-60]"
+      ]
+    },
+    {
+      "file": "zhaquirks/xiaomi/aqara/roller_curtain_e1.py",
+      "function": "command",
+      "qualname": "WindowCoveringRollerE1.command",
+      "id": "fec4a003",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_xiaomi.py::test_xiaomi_e1_roller_commands_1[2-2-True]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_roller_commands_2[5-60-True]"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/ts0601_electric_heating.py",
+      "function": "_update_attribute",
+      "qualname": "MoesBHTManufCluster._update_attribute",
+      "id": "3c6a0283",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_tuya.py::test_eheating_state_report[MoesBHT]"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/__init__.py",
+      "function": "write_attributes",
+      "qualname": "TuyaUserInterfaceCluster.write_attributes",
+      "id": "b792bcd3",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_tuya.py::test_moes[MoesHY368_Type1]"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/tuya_smoke.py",
+      "function": "_update_attribute",
+      "qualname": "TuyaSmokeDetectorCluster._update_attribute",
+      "id": "d76d992b",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_tuya_smoke.py::test_tuya_smoke_sensor_attribute_update"
+      ]
+    },
+    {
+      "file": "zhaquirks/clusters.py",
+      "function": "get",
+      "qualname": "CustomCluster.get",
+      "id": "46343a64",
+      "kind": "llm_wrong_attribute_key",
+      "breaks": [
+        "tests/test_develco.py::test_mfg_cluster_events",
+        "tests/test_innr.py::test_innr_sp240_firmware_version_metering[421213828-MeteringClusterInnrOld-100]",
+        "tests/test_innr.py::test_innr_sp240_firmware_version_metering[421213829-MeteringClusterInnrNew-1000]",
+        "tests/test_innr.py::test_innr_sp240_firmware_version_metering[421213830-MeteringClusterInnrNew-1000]",
+        "tests/test_innr.py::test_innr_sp240_firmware_version_metering[None-MeteringClusterInnrNew-1000]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.AA-None-None-BatterySize.AA-None-None]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR123A-1-60-BatterySize.CR123A-1-60]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR123A-1-None-BatterySize.CR123A-1-30]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR1632-1-None-BatterySize.CR1632-1-30]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR2032-1-None-BatterySize.CR2032-1-30]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR2450-1-None-BatterySize.CR2450-1-30]",
+        "tests/test_tuya_builder.py::test_battery_methods[TuyaPowerConfigurationCluster2AAA-None-None-None-BatterySize.AAA-2-15]"
+      ]
+    },
+    {
+      "file": "zhaquirks/xiaomi/aqara/thermostat_agl001.py",
+      "function": "_write_temp_to_buf",
+      "qualname": "ScheduleEvent._write_temp_to_buf",
+      "id": "f135da0d",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_deserialization[\\x04>\\x01\\xe0\\x00\\x00\\t`\\x048\\x00\\x00\\x06\\xa4\\x05d\\x00\\x00\\x08\\x98\\x81\\xe0\\x00\\x00\\x08\\x98-mon,tue,wed,thu,fri|8:00,24.0|18:00,17.0|23:00,22.0|8:00,22.0]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_serialization[mon,tue,wed,thu,fri|8:00,24.0|18:00,17.0|23:00,22.0|8:00,22.0-\\x1a\\x04>\\x01\\xe0\\x00\\x00\\t`\\x048\\x00\\x00\\x06\\xa4\\x05d\\x00\\x00\\x08\\x98\\x81\\xe0\\x00\\x00\\x08\\x98]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_string_representation[mon,tue,wed,thu,fri,sat,sun|8:00,24.0|18:00,17.0|23:00,22.0|8:00,22.0]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_string_representation[mon,tue,wed,thu,fri|8:00,24.0|18:00,17.0|23:00,22.0|8:00,22.0]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_string_representation[mon|8:00,21.5|18:30,17.5|23:00,22.0|8:00,22.5]"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/tuya_co.py",
+      "function": "tuya_air_quality_temperature_converter",
+      "qualname": "tuya_air_quality_temperature_converter",
+      "id": "898b8029",
+      "kind": "change_constant",
+      "breaks": [
+        "tests/test_tuya_air.py::test_co2_sensor[\\t\\x02\\x01\\x00\\x00\\x12\\x02\\x00\\x04\\x00\\x00\\x01 -temperature-2880]",
+        "tests/test_tuya_air.py::test_co2_sensor[\\t\\x02\\x01\\x00\\x00\\x12\\x02\\x00\\x04\\x00\\x00\\xff\\xef-temperature--170]",
+        "tests/test_tuya_air.py::test_co2_sensor[\\t\\x02\\x01\\x00\\x00\\x12\\x02\\x00\\x04\\x00\\x00\\xff\\xfb-temperature--50]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_7bztmfm1-TS0601-test_plan4]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_8ygsuhe1-TS0601-test_plan5]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_c2fmom5z-TS0601-test_plan8]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_dwcarsat-TS0601-test_plan0]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_mja3fuja-TS0601-test_plan3]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_ryfmq5rl-TS0601-test_plan2]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_yvx5lh6k-TS0601-test_plan6]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE204_c2fmom5z-TS0601-test_plan9]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE204_dwcarsat-TS0601-test_plan1]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE204_yvx5lh6k-TS0601-test_plan7]"
+      ]
+    },
+    {
+      "file": "zhaquirks/candeo/__init__.py",
+      "function": "_update_attribute",
+      "qualname": "CandeoIlluminanceMeasurementCluster._update_attribute",
+      "id": "35ce80d5",
+      "kind": "change_constant",
+      "breaks": [
+        "tests/test_candeo.py::test_candeo_motion_illuminance[0-1]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[24112-1]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[33598-18074]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[34299-26989]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[34977-36895]"
+      ]
+    },
+    {
+      "file": "zhaquirks/xiaomi/__init__.py",
+      "function": "_iter_parse_attr_report",
+      "qualname": "XiaomiCluster._iter_parse_attr_report",
+      "id": "03b112a3",
+      "kind": "llm_boolean_operator_swap",
+      "breaks": [
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100021EC0B21A8012400000000002182002063-attributes1]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C06001001213C0C21A81324010000000021D1052061-attributes20]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100121B30B21A8012400000000002195002056-attributes13]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100121B30B21A8012400000000002195002057-attributes14]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100121BA0B21A813240100000000215D062058-attributes0]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100121D10B21A801240000000000216E002050-attributes26]",
+        "tests/test_xiaomi.py::test_attribute_parsing[050042166C756D692E73656E736F725F6D6F74696F6E2E61713201FF42210121950B0328160421A83105214400062401000000000A217CBE6410000B210900-attributes21]"
+      ]
+    },
+    {
+      "file": "zhaquirks/linxura/button.py",
+      "function": "_handle_attribute_event",
+      "qualname": "LinxuraIASCluster._handle_attribute_event",
+      "id": "9a832d9c",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "tests/test_linxura.py::test_button_ias",
+        "tests/test_linxura.py::test_button_triggers[\\x18\\n\\n\\x02\\x00\\x19\\r\\x00\\xfe\\xff0\\x01-button_3-remote_button_short_press]",
+        "tests/test_linxura.py::test_button_triggers[\\x18\\n\\n\\x02\\x00\\x19\\x0f\\x00\\xfe\\xff0\\x01-button_3-remote_button_double_press]",
+        "tests/test_linxura.py::test_button_triggers[\\x18\\n\\n\\x02\\x00\\x19\\x11\\x00\\xfe\\xff0\\x01-button_3-remote_button_long_press]"
+      ]
+    },
+    {
+      "file": "zhaquirks/philips/__init__.py",
+      "function": "press",
+      "qualname": "ButtonPressQueue.press",
+      "id": "427284ac",
+      "kind": "llm_unit_mismatch",
+      "breaks": [
+        "tests/test_philips.py::test_ButtonPressQueue_presses_with_pause[press_sequence0]",
+        "tests/test_philips.py::test_ButtonPressQueue_presses_with_pause[press_sequence1]",
+        "tests/test_philips.py::test_ButtonPressQueue_presses_without_pause[2]",
+        "tests/test_philips.py::test_ButtonPressQueue_presses_without_pause[4]"
+      ]
+    }
+  ],
+  "restored_paths": [
+    "tests"
+  ]
+}

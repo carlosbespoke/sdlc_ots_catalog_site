@@ -1,0 +1,20 @@
+{
+  "stage": "staging", "account": "111111111111", "region": "us-east-1", "project": "orion",
+  "network": { "cidr": "10.120.0.0/16", "maxAzs": 3, "natGateways": 1 },
+  "artifactBuckets": {
+    "reports": { "transitionDays": 25, "noncurrentDays": 75 },
+    "storage": { "transitionDays": 25, "noncurrentDays": 75 }
+  },
+  "stages": {
+    "qa": { "desiredCount": 1, "cpu": 512, "memoryMiB": 1024, "queueVisibilitySeconds": 55, "listenerPriority": 22 },
+    "wave.3": { "desiredCount": 2, "cpu": 1024, "memoryMiB": 2048, "queueVisibilitySeconds": 85, "listenerPriority": 33 },
+    "dev": { "desiredCount": 1, "cpu": 256, "memoryMiB": 512, "queueVisibilitySeconds": 35, "listenerPriority": 11 }
+  },
+  "container": { "image": "public.ecr.aws/docker/library/nginx:1.27", "port": 8080, "healthCheckPath": "/healthz", "deregistrationSeconds": 25 },
+  "notificationEmails": ["ops-two@example.com", "ops-one@example.com"],
+  "eventRules": {
+    "deployment-state": { "source": "aws.ecs", "detailType": "ECS Deployment State Change" },
+    "build-failed": { "source": "aws.codebuild", "detailType": "CodeBuild Build State Change", "states": ["FAILED", "FAULT"] }
+  },
+  "logRetentionDays": 30, "queueRetentionDays": 5, "notificationMemoryMiB": 384, "notificationTimeoutSeconds": 18
+}

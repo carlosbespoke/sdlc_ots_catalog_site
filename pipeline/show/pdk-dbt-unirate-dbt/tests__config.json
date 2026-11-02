@@ -1,0 +1,64 @@
+{
+ "base_commit": "aa03c2b92f0dc978f60cdbd5b2a32a155f909ae5",
+ "archetype": "dbt",
+ "canary": true,
+ "f2p_node_ids": [
+  "test_fx_conversion.TestDerivedRates.test_cross_and_inverse_rates_latest",
+  "test_fx_conversion.TestDerivedRates.test_cross_and_inverse_rates_on_date",
+  "test_fx_conversion.TestDerivedRates.test_relation_with_another_base_currency",
+  "test_fx_conversion.TestCurrencyColumns.test_currency_columns_on_date",
+  "test_fx_conversion.TestCurrencyColumns.test_currency_columns_latest",
+  "test_fx_conversion.TestEmptyQuotes.test_empty_quotes_on_date",
+  "test_fx_conversion.TestEmptyQuotes.test_empty_latest_quote",
+  "test_fx_conversion.TestEmptyQuotes.test_currency_without_quote_is_null",
+  "test_fx_conversion.TestSameCurrencyRows.test_same_currency_rows_keep_amount_on_date",
+  "test_fx_conversion.TestSameCurrencyRows.test_same_currency_rows_keep_amount_latest",
+  "test_fx_conversion.TestTreasuryFile.test_orders_in_reporting_currency_on_order_date",
+  "test_fx_conversion.TestTreasuryFile.test_orders_in_reporting_currency_latest",
+  "test_fx_conversion.TestTreasuryFile.test_cross_rates_use_each_currency_last_quote",
+  "test_fx_conversion.TestTreasuryFile.test_payout_currency_per_row",
+  "test_fx_conversion.TestTreasuryFile.test_unquoted_currencies_per_row_are_null",
+  "test_fx_conversion.TestNextDelivery.test_rebuild_after_next_delivery",
+  "test_fx_conversion.TestChainedQuotes.test_chained_quotes_latest",
+  "test_fx_conversion.TestChainedQuotes.test_chained_quotes_on_date",
+  "test_fx_conversion.TestChainedQuotes.test_chain_with_missing_link_is_null",
+  "test_fx_conversion.TestQuoteDirection.test_pairs_written_either_way_round_latest",
+  "test_fx_conversion.TestQuoteDirection.test_pairs_written_either_way_round_on_date",
+  "test_fx_conversion.TestQuoteDirection.test_empty_quote_after_turn_keeps_last_quote",
+  "test_fx_conversion.TestDefaultRelation.test_dated_lookups_on_seeded_rates",
+  "test_fx_conversion.TestDefaultRelation.test_seeded_file_with_empty_rates_builds",
+  "test_fx_conversion.TestDefaultRelation.test_dated_after_last_delivery_equals_latest",
+  "test_fx_conversion.TestDefaultRelation.test_orders_on_seeded_treasury_file",
+  "test_fx_conversion.TestTreasuryLinks.test_treasury_file_orders_on_order_date",
+  "test_fx_conversion.TestTreasuryLinks.test_treasury_file_orders_latest",
+  "test_fx_conversion.TestNextDeliveryLinks.test_rebuild_after_delivery_that_turns_and_adds_quotes"
+ ],
+ "p2p_node_ids": [
+  "dbt.model.integration_tests.test_convert_currency_historical",
+  "dbt.model.integration_tests.test_convert_currency_latest",
+  "dbt.model.integration_tests.test_convert_currency_passthrough",
+  "dbt.model.integration_tests.test_get_rate",
+  "dbt.seed.integration_tests.mock_historical_rates",
+  "dbt.seed.integration_tests.mock_latest_rates",
+  "dbt.seed.integration_tests.orders",
+  "dbt.test.integration_tests.dbt_utils_equal_value_test_get_rate_rate__0_92__0_0001.9f8ee8196d",
+  "dbt.test.integration_tests.historical_amount_eur_matches_test_convert_currency_historical_.bc7cab4292",
+  "dbt.test.integration_tests.not_null_test_convert_currency_historical_amount_eur.687db10309",
+  "dbt.test.integration_tests.not_null_test_convert_currency_latest_amount_eur.71261deb5b",
+  "dbt.test.integration_tests.not_null_test_convert_currency_passthrough_amount_usd.bd8da899d7",
+  "dbt.test.integration_tests.passthrough_amount_unchanged_test_convert_currency_passthrough_.7924a2c29f",
+  "dbt.test.integration_tests.row_amount_eur_matches_test_convert_currency_latest_0_92.ccac5c9680",
+  "test_fx_conversion.TestExistingLookups.test_direct_pairs_and_literal_passthrough"
+ ],
+ "restore_paths": [
+  "integration_tests/seeds"
+ ],
+ "grade": {
+  "format": "junit",
+  "tool_label": "dbt-build+pytest",
+  "reports": [
+   "/logs/verifier/base.xml",
+   "/logs/verifier/new.xml"
+  ]
+ }
+}

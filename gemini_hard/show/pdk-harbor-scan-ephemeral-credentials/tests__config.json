@@ -1,0 +1,41 @@
+{
+  "base_commit": "b323c0c8ec897038a6090255cf9415e747e4730a",
+  "f2p_node_ids": [
+    "sdhidden.TestFinalCredentialRevoked",
+    "sdhidden.TestCredentialAbsentFromQueue",
+    "sdhidden.TestRepositoryPullOnly",
+    "sdhidden.TestSlowScanLease",
+    "sdhidden.TestKilledJobReleasesCredential",
+    "sdhidden.TestScanOnPushCredential",
+    "sdhidden.TestConcurrentCoreIsolation"
+  ],
+  "p2p_node_ids": [
+    "sdhidden.TestRegistryChallengeGuard",
+    "sdhidden.TestScanCredentialLifecycle",
+    "sdhidden.TestBearerAdapterGuard",
+    "sdhidden.TestSubmissionFailureLeavesNoCredential",
+    "github.com/goharbor/harbor/src/pkg/scan/rest/auth.Test_apiKeyAuthorizer_Authorize",
+    "github.com/goharbor/harbor/src/pkg/scan/rest/auth.Test_basicAuthorizer_Authorize",
+    "github.com/goharbor/harbor/src/pkg/scan/rest/auth.Test_bearerAuthorizer_Authorize",
+    "github.com/goharbor/harbor/src/pkg/scan/rest/v1.TestClient",
+    "github.com/goharbor/harbor/src/pkg/scan/rest/v1.TestClientPool",
+    "github.com/goharbor/harbor/src/pkg/scan/rest/v1.TestConvertCapability",
+    "github.com/goharbor/harbor/src/pkg/scan/rest/v1.TestConvertCapabilityOldScaner",
+    "github.com/goharbor/harbor/src/pkg/scan/rest/v1.TestIsSupportedMimeType"
+  ],
+  "gated_p2p_node_ids": [
+    "sdhidden.TestRegistryChallengeGuard",
+    "sdhidden.TestScanCredentialLifecycle",
+    "sdhidden.TestBearerAdapterGuard",
+    "sdhidden.TestSubmissionFailureLeavesNoCredential"
+  ],
+  "p2p_gating": "guards",
+  "grade": {
+    "format": "junit",
+    "tool_label": "go-test",
+    "reports": [
+      "/logs/verifier/base.xml",
+      "/logs/verifier/new.xml"
+    ]
+  }
+}

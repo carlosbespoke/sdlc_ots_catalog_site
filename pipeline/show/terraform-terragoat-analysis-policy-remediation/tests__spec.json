@@ -1,0 +1,1436 @@
+{
+ "family": "terraform-policy-remediation",
+ "task": "terragoat-analysis",
+ "artifact_dir": "/workspace/infra",
+ "pristine_state": "pristine.tfstate",
+ "lock_file": "terraform.lock.hcl",
+ "policies": "policies",
+ "conftest": {
+  "namespaces": "all"
+ },
+ "protected": {
+  "trusted_dir": "trusted",
+  "files": [
+   "providers.tf",
+   "versions.tf",
+   "scripts/ci-plan.sh"
+  ],
+  "trees": [
+   "policies"
+  ]
+ },
+ "banned_files": [
+  "conftest.toml"
+ ],
+ "frozen_variables": {
+  "admin_cidr_blocks": [
+   "203.0.113.0/24"
+  ],
+  "app_ami_id": "ami-09a5b0b7edf08843d",
+  "availability_zones": {
+   "us-east-1a": {
+    "database_cidr": "172.16.210.0/24",
+    "eni_ip": "172.16.10.100",
+    "private_cidr": "172.16.110.0/24",
+    "public_cidr": "172.16.10.0/24"
+   },
+   "us-east-1b": {
+    "database_cidr": "172.16.220.0/24",
+    "eni_ip": "172.16.20.100",
+    "private_cidr": "172.16.120.0/24",
+    "public_cidr": "172.16.20.0/24"
+   },
+   "us-east-1c": {
+    "database_cidr": "172.16.230.0/24",
+    "eni_ip": "172.16.30.100",
+    "private_cidr": "172.16.130.0/24",
+    "public_cidr": "172.16.30.0/24"
+   }
+  },
+  "bucket_expiration_days": 120,
+  "db_allocated_storage": 20,
+  "db_backup_retention_days": 7,
+  "db_instance_class": "db.t3.micro",
+  "ebs_volume_size": 8,
+  "environment": "prod",
+  "lambda_timeout": 20,
+  "log_retention_days": 30,
+  "noncurrent_expiration_days": 30,
+  "project": "terragoat",
+  "queue_alarm_threshold": 100,
+  "queue_message_retention_seconds": 345600,
+  "services": {
+   "ingest": {
+    "catalog_order": 3,
+    "desired_capacity": 2,
+    "instance_type": "t3.small",
+    "lambda_memory": 256,
+    "listener_priority": 120,
+    "queue_visibility": 60
+   },
+   "policy": {
+    "catalog_order": 4,
+    "desired_capacity": 1,
+    "instance_type": "t3.micro",
+    "lambda_memory": 320,
+    "listener_priority": 140,
+    "queue_visibility": 45
+   },
+   "reporting": {
+    "catalog_order": 2,
+    "desired_capacity": 3,
+    "instance_type": "t3.medium",
+    "lambda_memory": 512,
+    "listener_priority": 130,
+    "queue_visibility": 90
+   },
+   "scanner": {
+    "catalog_order": 1,
+    "desired_capacity": 2,
+    "instance_type": "t3.small",
+    "lambda_memory": 384,
+    "listener_priority": 110,
+    "queue_visibility": 75
+   }
+  },
+  "tags": {
+   "CostCenter": "cc-7314",
+   "ManagedBy": "terraform",
+   "Owner": "security-platform"
+  },
+  "vpc_cidr": "172.16.0.0/16",
+  "worker_max_size": 6,
+  "worker_min_size": 1
+ },
+ "protected_variables": {
+  "admin_cidr_blocks": {
+   "default": [
+    "203.0.113.0/24"
+   ],
+   "type": "${list(string)}"
+  },
+  "app_ami_id": {
+   "default": "ami-09a5b0b7edf08843d",
+   "type": "${string}"
+  },
+  "availability_zones": {
+   "default": {
+    "us-east-1a": {
+     "database_cidr": "172.16.210.0/24",
+     "eni_ip": "172.16.10.100",
+     "private_cidr": "172.16.110.0/24",
+     "public_cidr": "172.16.10.0/24"
+    },
+    "us-east-1b": {
+     "database_cidr": "172.16.220.0/24",
+     "eni_ip": "172.16.20.100",
+     "private_cidr": "172.16.120.0/24",
+     "public_cidr": "172.16.20.0/24"
+    },
+    "us-east-1c": {
+     "database_cidr": "172.16.230.0/24",
+     "eni_ip": "172.16.30.100",
+     "private_cidr": "172.16.130.0/24",
+     "public_cidr": "172.16.30.0/24"
+    }
+   },
+   "type": "${map(object({\n    public_cidr   = string\n    private_cidr  = string\n    database_cidr = string\n    eni_ip        = string\n  }))}"
+  },
+  "bucket_expiration_days": {
+   "default": 120,
+   "type": "${number}"
+  },
+  "db_allocated_storage": {
+   "default": 20,
+   "type": "${number}"
+  },
+  "db_backup_retention_days": {
+   "default": 7,
+   "type": "${number}"
+  },
+  "db_instance_class": {
+   "default": "db.t3.micro",
+   "type": "${string}"
+  },
+  "ebs_volume_size": {
+   "default": 8,
+   "type": "${number}"
+  },
+  "environment": {
+   "default": "prod",
+   "type": "${string}"
+  },
+  "lambda_timeout": {
+   "default": 20,
+   "type": "${number}"
+  },
+  "log_retention_days": {
+   "default": 30,
+   "type": "${number}"
+  },
+  "noncurrent_expiration_days": {
+   "default": 30,
+   "type": "${number}"
+  },
+  "project": {
+   "default": "terragoat",
+   "type": "${string}"
+  },
+  "queue_alarm_threshold": {
+   "default": 100,
+   "type": "${number}"
+  },
+  "queue_message_retention_seconds": {
+   "default": 345600,
+   "type": "${number}"
+  },
+  "services": {
+   "default": {
+    "ingest": {
+     "catalog_order": 3,
+     "desired_capacity": 2,
+     "instance_type": "t3.small",
+     "lambda_memory": 256,
+     "listener_priority": 120,
+     "queue_visibility": 60
+    },
+    "policy": {
+     "catalog_order": 4,
+     "desired_capacity": 1,
+     "instance_type": "t3.micro",
+     "lambda_memory": 320,
+     "listener_priority": 140,
+     "queue_visibility": 45
+    },
+    "reporting": {
+     "catalog_order": 2,
+     "desired_capacity": 3,
+     "instance_type": "t3.medium",
+     "lambda_memory": 512,
+     "listener_priority": 130,
+     "queue_visibility": 90
+    },
+    "scanner": {
+     "catalog_order": 1,
+     "desired_capacity": 2,
+     "instance_type": "t3.small",
+     "lambda_memory": 384,
+     "listener_priority": 110,
+     "queue_visibility": 75
+    }
+   },
+   "type": "${map(object({\n    instance_type     = string\n    desired_capacity  = number\n    lambda_memory     = number\n    queue_visibility  = number\n    listener_priority = number\n    catalog_order     = number\n  }))}"
+  },
+  "tags": {
+   "default": {
+    "CostCenter": "cc-7314",
+    "ManagedBy": "terraform",
+    "Owner": "security-platform"
+   },
+   "type": "${map(string)}"
+  },
+  "vpc_cidr": {
+   "default": "172.16.0.0/16",
+   "type": "${string}"
+  },
+  "worker_max_size": {
+   "default": 6,
+   "type": "${number}"
+  },
+  "worker_min_size": {
+   "default": 1,
+   "type": "${number}"
+  }
+ },
+ "allowed_creates": [
+  "aws_cloudwatch_log_group",
+  "aws_cloudwatch_metric_alarm",
+  "aws_default_security_group",
+  "aws_ecr_lifecycle_policy",
+  "aws_flow_log",
+  "aws_iam_role_policy_attachment",
+  "aws_kms_alias",
+  "aws_s3_bucket_lifecycle_configuration",
+  "aws_s3_bucket_logging",
+  "aws_s3_bucket_policy",
+  "aws_s3_bucket_public_access_block",
+  "aws_s3_bucket_server_side_encryption_configuration"
+ ],
+ "allowed_updates": {
+  "aws_autoscaling_group": [
+   "launch_template",
+   "tag"
+  ],
+  "aws_cloudwatch_log_group": [
+   "kms_key_id",
+   "retention_in_days"
+  ],
+  "aws_cloudwatch_metric_alarm": [
+   "actions_enabled",
+   "alarm_actions",
+   "insufficient_data_actions",
+   "ok_actions"
+  ],
+  "aws_db_instance": [
+   "apply_immediately",
+   "copy_tags_to_snapshot",
+   "enabled_cloudwatch_logs_exports",
+   "iops",
+   "publicly_accessible",
+   "storage_throughput",
+   "storage_type"
+  ],
+  "aws_dynamodb_table": [
+   "billing_mode",
+   "read_capacity",
+   "write_capacity"
+  ],
+  "aws_flow_log": [
+   "max_aggregation_interval",
+   "traffic_type"
+  ],
+  "aws_iam_role": [
+   "assume_role_policy",
+   "inline_policy",
+   "managed_policy_arns"
+  ],
+  "aws_iam_role_policy": [
+   "policy"
+  ],
+  "aws_iam_user_policy": [
+   "policy"
+  ],
+  "aws_instance": [
+   "instance_type",
+   "monitoring",
+   "root_block_device"
+  ],
+  "aws_kms_alias": [
+   "target_key_id"
+  ],
+  "aws_kms_key": [
+   "bypass_policy_lockout_safety_check",
+   "policy"
+  ],
+  "aws_lambda_function": [
+   "logging_config",
+   "tracing_config"
+  ],
+  "aws_launch_template": [
+   "block_device_mappings",
+   "default_version",
+   "instance_type",
+   "monitoring",
+   "update_default_version"
+  ],
+  "aws_lb": [
+   "access_logs"
+  ],
+  "aws_rds_cluster": [
+   "apply_immediately",
+   "copy_tags_to_snapshot",
+   "enabled_cloudwatch_logs_exports"
+  ],
+  "aws_s3_bucket_lifecycle_configuration": [
+   "rule"
+  ],
+  "aws_s3_bucket_logging": [
+   "target_bucket",
+   "target_object_key_format",
+   "target_prefix"
+  ],
+  "aws_s3_bucket_public_access_block": [
+   "block_public_acls",
+   "block_public_policy",
+   "ignore_public_acls",
+   "restrict_public_buckets"
+  ],
+  "aws_s3_bucket_server_side_encryption_configuration": [
+   "rule"
+  ],
+  "aws_security_group": [
+   "ingress"
+  ],
+  "aws_sns_topic": [
+   "kms_master_key_id",
+   "policy"
+  ],
+  "aws_sqs_queue": [
+   "kms_data_key_reuse_period_seconds",
+   "kms_master_key_id",
+   "sqs_managed_sse_enabled"
+  ],
+  "aws_subnet": [
+   "map_public_ip_on_launch"
+  ],
+  "aws_vpc_security_group_ingress_rule": [
+   "cidr_ipv4",
+   "cidr_ipv6",
+   "description",
+   "from_port",
+   "ip_protocol",
+   "to_port"
+  ]
+ },
+ "allowed_tag_keys": [
+  "CostCenter",
+  "Environment",
+  "Owner"
+ ],
+ "update_fallout": {
+  "aws_instance": [
+   "public_dns",
+   "public_ip"
+  ],
+  "aws_launch_template": [
+   "latest_version"
+  ]
+ },
+ "probes": [
+  {
+   "name": "new_analysis_service",
+   "kind": "collection_add",
+   "var_file": "probes/new_analysis_service.tfvars.json",
+   "state": "probes/new_analysis_service.tfstate"
+  },
+  {
+   "name": "new_availability_zone",
+   "kind": "collection_add",
+   "var_file": "probes/new_availability_zone.tfvars.json",
+   "state": "probes/new_availability_zone.tfstate"
+  },
+  {
+   "name": "rebalance_analysis_catalog",
+   "kind": "collection_change",
+   "var_file": "probes/rebalance_analysis_catalog.tfvars.json",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_lambda_function",
+      "address": "^module\\.automation\\.aws_lambda_function\\.analysis\\[\\\"scanner\\\"\\]$"
+     },
+     "path": "memory_size",
+     "equals": 704,
+     "prose": "the scanner entry's `lambda_memory`"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_sqs_queue",
+      "address": "^module\\.automation\\.aws_sqs_queue\\.service\\[\\\"scanner\\\"\\]$"
+     },
+     "path": "visibility_timeout_seconds",
+     "equals": 111,
+     "prose": "the scanner entry's `queue_visibility`"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_launch_template",
+      "address": "^module\\.compute\\.aws_launch_template\\.service\\[\\\"scanner\\\"\\]$"
+     },
+     "path": "instance_type",
+     "equals": "m6i.large",
+     "prose": "the scanner entry's `instance_type`"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_autoscaling_group",
+      "address": "^module\\.compute\\.aws_autoscaling_group\\.service\\[\\\"scanner\\\"\\]$"
+     },
+     "path": "desired_capacity",
+     "equals": 5,
+     "prose": "the scanner entry's `desired_capacity`"
+    }
+   ],
+   "allowed_destroys": [
+    "module.automation.aws_cloudwatch_log_group.lambda[\"policy\"]",
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"policy\"]",
+    "module.automation.aws_lambda_event_source_mapping.service[\"policy\"]",
+    "module.automation.aws_lambda_function.analysis[\"policy\"]",
+    "module.automation.aws_sns_topic.service[\"policy\"]",
+    "module.automation.aws_sqs_queue.dead_letter[\"policy\"]",
+    "module.automation.aws_sqs_queue.service[\"policy\"]",
+    "module.automation.aws_sqs_queue_redrive_policy.service[\"policy\"]",
+    "module.compute.aws_autoscaling_group.service[\"policy\"]",
+    "module.compute.aws_cloudwatch_log_group.service[\"policy\"]",
+    "module.compute.aws_ecr_repository.service[\"policy\"]",
+    "module.compute.aws_iam_instance_profile.service[\"policy\"]",
+    "module.compute.aws_iam_role.service[\"policy\"]",
+    "module.compute.aws_iam_role_policy.service[\"policy\"]",
+    "module.compute.aws_launch_template.service[\"policy\"]",
+    "module.compute.aws_lb_listener_rule.service[\"policy\"]",
+    "module.compute.aws_lb_target_group.service[\"policy\"]",
+    "module.data.aws_dynamodb_table.service[\"policy\"]",
+    "module.data.aws_s3_bucket.service[\"policy\"]",
+    "module.data.aws_s3_bucket_lifecycle_configuration.service[\"policy\"]",
+    "module.data.aws_s3_bucket_logging.service[\"policy\"]",
+    "module.data.aws_s3_bucket_public_access_block.service[\"policy\"]",
+    "module.data.aws_s3_bucket_server_side_encryption_configuration.service[\"policy\"]",
+    "module.data.aws_s3_bucket_versioning.service[\"policy\"]",
+    "module.data.aws_s3_object.customer_master[\"policy\"]"
+   ],
+   "allowed_changes": {
+    "module.automation.aws_iam_role_policy.automation_access": [
+     "policy"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"scanner\"]": [
+     "memory_size"
+    ],
+    "module.automation.aws_sqs_queue.service[\"scanner\"]": [
+     "tags",
+     "tags_all",
+     "visibility_timeout_seconds"
+    ],
+    "module.automation.aws_ssm_parameter.service_catalog": [
+     "insecure_value",
+     "value",
+     "version"
+    ],
+    "module.compute.aws_autoscaling_group.service[\"scanner\"]": [
+     "desired_capacity"
+    ],
+    "module.compute.aws_launch_template.service[\"scanner\"]": [
+     "instance_type",
+     "latest_version"
+    ],
+    "module.compute.aws_lb_listener_rule.service[\"scanner\"]": [
+     "priority"
+    ]
+   }
+  },
+  {
+   "name": "evidence_export_floor",
+   "kind": "variable",
+   "var_file": "probes/evidence_export_floor.tfvars.json",
+   "expect": [
+    {
+     "kind": "ingress_port_sources",
+     "port": 22,
+     "cidrs": [
+      "198.51.100.32/27"
+     ],
+     "require": [
+      "module.compute.aws_security_group.legacy_host"
+     ]
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group"
+     },
+     "path": "retention_in_days",
+     "equals": 180,
+     "min_count": 9,
+     "prose": "the input raised to the pack's minimum"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_lambda_function",
+      "address": "^module\\.automation\\.aws_lambda_function\\.analysis"
+     },
+     "path": "timeout",
+     "equals": 37,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_sqs_queue",
+      "address": "^module\\.automation\\.aws_sqs_queue\\.service"
+     },
+     "path": "message_retention_seconds",
+     "equals": 432000,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_metric_alarm",
+      "address": "^module\\.automation\\.aws_cloudwatch_metric_alarm\\.queue_depth"
+     },
+     "path": "threshold",
+     "equals": 143,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_db_instance",
+      "address": "^module\\.data\\.aws_db_instance\\.default$"
+     },
+     "path": "backup_retention_period",
+     "equals": 11
+    }
+   ],
+   "allowed_changes": {
+    "module.automation.aws_cloudwatch_log_group.lambda[\"ingest\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"policy\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"reporting\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"scanner\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"ingest\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"policy\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"reporting\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"scanner\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"ingest\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"policy\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"reporting\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"scanner\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_sqs_queue.service[\"ingest\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"policy\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"reporting\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"scanner\"]": [
+     "message_retention_seconds"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"ingest\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"policy\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"reporting\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"scanner\"]": [
+     "retention_in_days"
+    ],
+    "module.data.aws_db_instance.default": [
+     "backup_retention_period"
+    ],
+    "module.network.aws_cloudwatch_log_group.vpc_flow_logs": [
+     "retention_in_days"
+    ]
+   }
+  },
+  {
+   "name": "queue_pressure_profile",
+   "kind": "variable",
+   "var_file": "probes/queue_pressure_profile.tfvars.json",
+   "expect": [
+    {
+     "kind": "ingress_port_sources",
+     "port": 22,
+     "cidrs": [
+      "192.0.2.96/27",
+      "198.51.100.160/28"
+     ],
+     "require": [
+      "module.compute.aws_security_group.legacy_host"
+     ]
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group"
+     },
+     "path": "retention_in_days",
+     "equals": 400,
+     "min_count": 9
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_lambda_function",
+      "address": "^module\\.automation\\.aws_lambda_function\\.analysis"
+     },
+     "path": "timeout",
+     "equals": 41,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_sqs_queue",
+      "address": "^module\\.automation\\.aws_sqs_queue\\.service"
+     },
+     "path": "message_retention_seconds",
+     "equals": 518400,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_metric_alarm",
+      "address": "^module\\.automation\\.aws_cloudwatch_metric_alarm\\.queue_depth"
+     },
+     "path": "threshold",
+     "equals": 211,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_db_instance",
+      "address": "^module\\.data\\.aws_db_instance\\.default$"
+     },
+     "path": "backup_retention_period",
+     "equals": 13
+    }
+   ],
+   "allowed_changes": {
+    "module.automation.aws_cloudwatch_log_group.lambda[\"ingest\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"policy\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"reporting\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"scanner\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"ingest\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"policy\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"reporting\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"scanner\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"ingest\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"policy\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"reporting\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"scanner\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_sqs_queue.service[\"ingest\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"policy\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"reporting\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"scanner\"]": [
+     "message_retention_seconds"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"ingest\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"policy\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"reporting\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"scanner\"]": [
+     "retention_in_days"
+    ],
+    "module.data.aws_db_instance.default": [
+     "backup_retention_period"
+    ],
+    "module.network.aws_cloudwatch_log_group.vpc_flow_logs": [
+     "retention_in_days"
+    ]
+   }
+  },
+  {
+   "name": "extended_case_window",
+   "kind": "variable",
+   "var_file": "probes/extended_case_window.tfvars.json",
+   "expect": [
+    {
+     "kind": "ingress_port_sources",
+     "port": 22,
+     "cidrs": [
+      "203.0.113.160/28",
+      "192.0.2.224/28",
+      "198.51.100.208/28"
+     ],
+     "require": [
+      "module.compute.aws_security_group.legacy_host"
+     ]
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group"
+     },
+     "path": "retention_in_days",
+     "equals": 545,
+     "min_count": 9,
+     "prose": "the input lowered to the pack's maximum"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_lambda_function",
+      "address": "^module\\.automation\\.aws_lambda_function\\.analysis"
+     },
+     "path": "timeout",
+     "equals": 43,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_sqs_queue",
+      "address": "^module\\.automation\\.aws_sqs_queue\\.service"
+     },
+     "path": "message_retention_seconds",
+     "equals": 691200,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_metric_alarm",
+      "address": "^module\\.automation\\.aws_cloudwatch_metric_alarm\\.queue_depth"
+     },
+     "path": "threshold",
+     "equals": 257,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_db_instance",
+      "address": "^module\\.data\\.aws_db_instance\\.default$"
+     },
+     "path": "backup_retention_period",
+     "equals": 17
+    }
+   ],
+   "allowed_changes": {
+    "module.automation.aws_cloudwatch_log_group.lambda[\"ingest\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"policy\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"reporting\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"scanner\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"ingest\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"policy\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"reporting\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"scanner\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"ingest\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"policy\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"reporting\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"scanner\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_sqs_queue.service[\"ingest\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"policy\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"reporting\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"scanner\"]": [
+     "message_retention_seconds"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"ingest\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"policy\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"reporting\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"scanner\"]": [
+     "retention_in_days"
+    ],
+    "module.data.aws_db_instance.default": [
+     "backup_retention_period"
+    ],
+    "module.network.aws_cloudwatch_log_group.vpc_flow_logs": [
+     "retention_in_days"
+    ]
+   }
+  },
+  {
+   "name": "new_analysis_service_fresh",
+   "kind": "collection_change",
+   "var_file": "probes/new_analysis_service_fresh.tfvars.json",
+   "variant_of": "new_analysis_service",
+   "state": "probes/new_analysis_service_fresh.tfstate"
+  },
+  {
+   "name": "new_availability_zone_fresh",
+   "kind": "collection_change",
+   "var_file": "probes/new_availability_zone_fresh.tfvars.json",
+   "variant_of": "new_availability_zone",
+   "state": "probes/new_availability_zone_fresh.tfstate"
+  },
+  {
+   "name": "rebalance_analysis_catalog_fresh",
+   "kind": "collection_change",
+   "var_file": "probes/rebalance_analysis_catalog_fresh.tfvars.json",
+   "variant_of": "rebalance_analysis_catalog",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_lambda_function",
+      "address": "^module\\.automation\\.aws_lambda_function\\.analysis\\[\\\"scanner\\\"\\]$"
+     },
+     "path": "memory_size",
+     "equals": 703,
+     "prose": "the scanner entry's `lambda_memory`"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_sqs_queue",
+      "address": "^module\\.automation\\.aws_sqs_queue\\.service\\[\\\"scanner\\\"\\]$"
+     },
+     "path": "visibility_timeout_seconds",
+     "equals": 110,
+     "prose": "the scanner entry's `queue_visibility`"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_launch_template",
+      "address": "^module\\.compute\\.aws_launch_template\\.service\\[\\\"scanner\\\"\\]$"
+     },
+     "path": "instance_type",
+     "equals": "m6i.large",
+     "prose": "the scanner entry's `instance_type`"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_autoscaling_group",
+      "address": "^module\\.compute\\.aws_autoscaling_group\\.service\\[\\\"scanner\\\"\\]$"
+     },
+     "path": "desired_capacity",
+     "equals": 3,
+     "prose": "the scanner entry's `desired_capacity`"
+    }
+   ],
+   "allowed_destroys": [
+    "module.automation.aws_cloudwatch_log_group.lambda[\"reporting\"]",
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"reporting\"]",
+    "module.automation.aws_lambda_event_source_mapping.service[\"reporting\"]",
+    "module.automation.aws_lambda_function.analysis[\"reporting\"]",
+    "module.automation.aws_sns_topic.service[\"reporting\"]",
+    "module.automation.aws_sqs_queue.dead_letter[\"reporting\"]",
+    "module.automation.aws_sqs_queue.service[\"reporting\"]",
+    "module.automation.aws_sqs_queue_redrive_policy.service[\"reporting\"]",
+    "module.compute.aws_autoscaling_group.service[\"reporting\"]",
+    "module.compute.aws_cloudwatch_log_group.service[\"reporting\"]",
+    "module.compute.aws_ecr_repository.service[\"reporting\"]",
+    "module.compute.aws_iam_instance_profile.service[\"reporting\"]",
+    "module.compute.aws_iam_role.service[\"reporting\"]",
+    "module.compute.aws_iam_role_policy.service[\"reporting\"]",
+    "module.compute.aws_launch_template.service[\"reporting\"]",
+    "module.compute.aws_lb_listener_rule.service[\"reporting\"]",
+    "module.compute.aws_lb_target_group.service[\"reporting\"]",
+    "module.data.aws_dynamodb_table.service[\"reporting\"]",
+    "module.data.aws_s3_bucket.service[\"reporting\"]",
+    "module.data.aws_s3_bucket_lifecycle_configuration.service[\"reporting\"]",
+    "module.data.aws_s3_bucket_logging.service[\"reporting\"]",
+    "module.data.aws_s3_bucket_public_access_block.service[\"reporting\"]",
+    "module.data.aws_s3_bucket_server_side_encryption_configuration.service[\"reporting\"]",
+    "module.data.aws_s3_bucket_versioning.service[\"reporting\"]",
+    "module.data.aws_s3_object.customer_master[\"reporting\"]"
+   ],
+   "allowed_changes": {
+    "module.automation.aws_iam_role_policy.automation_access": [
+     "policy"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"scanner\"]": [
+     "memory_size"
+    ],
+    "module.automation.aws_sqs_queue.service[\"scanner\"]": [
+     "tags",
+     "tags_all",
+     "visibility_timeout_seconds"
+    ],
+    "module.automation.aws_ssm_parameter.service_catalog": [
+     "insecure_value",
+     "value",
+     "version"
+    ],
+    "module.compute.aws_autoscaling_group.service[\"scanner\"]": [
+     "desired_capacity"
+    ],
+    "module.compute.aws_launch_template.service[\"scanner\"]": [
+     "instance_type",
+     "latest_version"
+    ],
+    "module.compute.aws_lb_listener_rule.service[\"scanner\"]": [
+     "priority"
+    ]
+   }
+  },
+  {
+   "name": "evidence_export_floor_alt",
+   "kind": "variable",
+   "var_file": "probes/evidence_export_floor_alt.tfvars.json",
+   "variant_of": "evidence_export_floor",
+   "expect": [
+    {
+     "kind": "ingress_port_sources",
+     "port": 22,
+     "cidrs": [
+      "198.19.184.96/27"
+     ],
+     "require": [
+      "module.compute.aws_security_group.legacy_host"
+     ]
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group"
+     },
+     "path": "retention_in_days",
+     "equals": 180,
+     "min_count": 9,
+     "prose": "the input raised to the pack's minimum"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_lambda_function",
+      "address": "^module\\.automation\\.aws_lambda_function\\.analysis"
+     },
+     "path": "timeout",
+     "equals": 36,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_sqs_queue",
+      "address": "^module\\.automation\\.aws_sqs_queue\\.service"
+     },
+     "path": "message_retention_seconds",
+     "equals": 518400,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_metric_alarm",
+      "address": "^module\\.automation\\.aws_cloudwatch_metric_alarm\\.queue_depth"
+     },
+     "path": "threshold",
+     "equals": 142,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_db_instance",
+      "address": "^module\\.data\\.aws_db_instance\\.default$"
+     },
+     "path": "backup_retention_period",
+     "equals": 10
+    }
+   ],
+   "allowed_changes": {
+    "module.automation.aws_cloudwatch_log_group.lambda[\"ingest\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"policy\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"reporting\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"scanner\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"ingest\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"policy\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"reporting\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"scanner\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"ingest\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"policy\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"reporting\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"scanner\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_sqs_queue.service[\"ingest\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"policy\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"reporting\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"scanner\"]": [
+     "message_retention_seconds"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"ingest\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"policy\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"reporting\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"scanner\"]": [
+     "retention_in_days"
+    ],
+    "module.data.aws_db_instance.default": [
+     "backup_retention_period"
+    ],
+    "module.network.aws_cloudwatch_log_group.vpc_flow_logs": [
+     "retention_in_days"
+    ]
+   }
+  },
+  {
+   "name": "queue_pressure_profile_alt",
+   "kind": "variable",
+   "var_file": "probes/queue_pressure_profile_alt.tfvars.json",
+   "variant_of": "queue_pressure_profile",
+   "expect": [
+    {
+     "kind": "ingress_port_sources",
+     "port": 22,
+     "cidrs": [
+      "198.19.129.192/27",
+      "198.18.118.64/28"
+     ],
+     "require": [
+      "module.compute.aws_security_group.legacy_host"
+     ]
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group"
+     },
+     "path": "retention_in_days",
+     "equals": 365,
+     "min_count": 9
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_lambda_function",
+      "address": "^module\\.automation\\.aws_lambda_function\\.analysis"
+     },
+     "path": "timeout",
+     "equals": 40,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_sqs_queue",
+      "address": "^module\\.automation\\.aws_sqs_queue\\.service"
+     },
+     "path": "message_retention_seconds",
+     "equals": 432000,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_metric_alarm",
+      "address": "^module\\.automation\\.aws_cloudwatch_metric_alarm\\.queue_depth"
+     },
+     "path": "threshold",
+     "equals": 210,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_db_instance",
+      "address": "^module\\.data\\.aws_db_instance\\.default$"
+     },
+     "path": "backup_retention_period",
+     "equals": 12
+    }
+   ],
+   "allowed_changes": {
+    "module.automation.aws_cloudwatch_log_group.lambda[\"ingest\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"policy\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"reporting\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"scanner\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"ingest\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"policy\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"reporting\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"scanner\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"ingest\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"policy\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"reporting\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"scanner\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_sqs_queue.service[\"ingest\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"policy\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"reporting\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"scanner\"]": [
+     "message_retention_seconds"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"ingest\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"policy\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"reporting\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"scanner\"]": [
+     "retention_in_days"
+    ],
+    "module.data.aws_db_instance.default": [
+     "backup_retention_period"
+    ],
+    "module.network.aws_cloudwatch_log_group.vpc_flow_logs": [
+     "retention_in_days"
+    ]
+   }
+  },
+  {
+   "name": "extended_case_window_alt",
+   "kind": "variable",
+   "var_file": "probes/extended_case_window_alt.tfvars.json",
+   "variant_of": "extended_case_window",
+   "expect": [
+    {
+     "kind": "ingress_port_sources",
+     "port": 22,
+     "cidrs": [
+      "198.19.95.80/28",
+      "198.19.35.208/28",
+      "198.19.84.144/28"
+     ],
+     "require": [
+      "module.compute.aws_security_group.legacy_host"
+     ]
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group"
+     },
+     "path": "retention_in_days",
+     "equals": 545,
+     "min_count": 9,
+     "prose": "the input lowered to the pack's maximum"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_lambda_function",
+      "address": "^module\\.automation\\.aws_lambda_function\\.analysis"
+     },
+     "path": "timeout",
+     "equals": 42,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_sqs_queue",
+      "address": "^module\\.automation\\.aws_sqs_queue\\.service"
+     },
+     "path": "message_retention_seconds",
+     "equals": 604800,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_metric_alarm",
+      "address": "^module\\.automation\\.aws_cloudwatch_metric_alarm\\.queue_depth"
+     },
+     "path": "threshold",
+     "equals": 256,
+     "min_count": 4
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_db_instance",
+      "address": "^module\\.data\\.aws_db_instance\\.default$"
+     },
+     "path": "backup_retention_period",
+     "equals": 16
+    }
+   ],
+   "allowed_changes": {
+    "module.automation.aws_cloudwatch_log_group.lambda[\"ingest\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"policy\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"reporting\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_log_group.lambda[\"scanner\"]": [
+     "retention_in_days"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"ingest\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"policy\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"reporting\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_cloudwatch_metric_alarm.queue_depth[\"scanner\"]": [
+     "threshold"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"ingest\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"policy\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"reporting\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_lambda_function.analysis[\"scanner\"]": [
+     "timeout"
+    ],
+    "module.automation.aws_sqs_queue.service[\"ingest\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"policy\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"reporting\"]": [
+     "message_retention_seconds"
+    ],
+    "module.automation.aws_sqs_queue.service[\"scanner\"]": [
+     "message_retention_seconds"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"ingest\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"policy\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"reporting\"]": [
+     "retention_in_days"
+    ],
+    "module.compute.aws_cloudwatch_log_group.service[\"scanner\"]": [
+     "retention_in_days"
+    ],
+    "module.data.aws_db_instance.default": [
+     "backup_retention_period"
+    ],
+    "module.network.aws_cloudwatch_log_group.vpc_flow_logs": [
+     "retention_in_days"
+    ]
+   }
+  }
+ ],
+ "scoring": {
+  "partial_credit": false
+ }
+}

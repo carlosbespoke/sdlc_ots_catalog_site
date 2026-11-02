@@ -1,0 +1,478 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 2400,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "188454b68836ddbc6a8ad02dc1254adb955745b146f7ec10444e51eafab29f83",
+  "documentation.json": "6f8bf5d00d63d10ad78d93d8bf42df8d33bfe28504c6e750018a574cb9b4ce7d",
+  "driver.py": "778b5380d7c091d1d0a7439d13acfcb2a4ad10fc74b52d83e20d78e7a9a1f111",
+  "expected.json": "4c7e4023934be510bfc0090d85a03237467208529e119b44d944e372e72c9853"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "GROUP-0001",
+    "kind": "f2p",
+    "requirement": "Requests sends return the transport response. Exclusion regexes search URLs, with whitespace stripped around comma-delimited expressions. The Requests-specific environment variable overrides the global fallback even when empty, and is snapshotted at module import. An explicit non-None excluded_urls overrides that snapshot, including empty. Excluded sends create no spans and call neither hook; non-excluded sends create a span.",
+    "tests": [
+     "OBS-0001",
+     "OBS-0002"
+    ]
+   },
+   {
+    "id": "GROUP-0002",
+    "kind": "f2p",
+    "requirement": "Request and response header capture settings are independent, read at instrument time, and refreshed after uninstrument/instrument. Absent or empty capture settings capture nothing. Comma-delimited patterns are whitespace-trimmed and match whole header names case-insensitively; attributes use the respective http.request.header or http.response.header prefix, lowercase names with hyphens replaced by underscores, and a one-item sequence containing the intact string value. Sanitization searches header names case-insensitively and replaces captured sensitive values with [REDACTED], without capturing unselected headers. Transport responses are preserved.",
+    "tests": [
+     "OBS-0003",
+     "OBS-0004",
+     "OBS-0005",
+     "OBS-0006",
+     "OBS-0007"
+    ]
+   },
+   {
+    "id": "GROUP-0003",
+    "kind": "f2p",
+    "requirement": "Configured request hooks run with the live span and PreparedRequest before sending, so mutations reach the transport; response hooks run with the live span, same request, and returned Response after sending. Hook span attributes are exported. Hooks are optional and excluded requests call neither. Each ordinary send returns its original response and produces one span.",
+    "tests": [
+     "OBS-0008",
+     "OBS-0009",
+     "OBS-0010",
+     "OBS-0011"
+    ]
+   },
+   {
+    "id": "GROUP-0004",
+    "kind": "f2p",
+    "requirement": "Session opt-out disables only that session; other sessions remain instrumented. Global uninstrument restores ordinary sending without spans and later instrument restarts tracing. Instrumented sends produce a span; transport results remain unchanged in all states.",
+    "tests": [
+     "OBS-0012",
+     "OBS-0013"
+    ]
+   },
+   {
+    "id": "GROUP-0005",
+    "kind": "p2p",
+    "requirement": "Requests sends return the transport response. Exclusion regexes search URLs, with whitespace stripped around comma-delimited expressions. The Requests-specific environment variable overrides the global fallback even when empty, and is snapshotted at module import. An explicit non-None excluded_urls overrides that snapshot, including empty. Excluded sends create no spans and call neither hook; non-excluded sends create a span.",
+    "tests": [
+     "OBS-0014",
+     "OBS-0015",
+     "OBS-0016",
+     "OBS-0017",
+     "OBS-0018",
+     "OBS-0019",
+     "OBS-0020",
+     "OBS-0021",
+     "OBS-0022",
+     "OBS-0023",
+     "OBS-0024",
+     "OBS-0025",
+     "OBS-0026",
+     "OBS-0027",
+     "OBS-0028"
+    ]
+   },
+   {
+    "id": "GROUP-0006",
+    "kind": "p2p",
+    "requirement": "Request and response header capture settings are independent, read at instrument time, and refreshed after uninstrument/instrument. Absent or empty capture settings capture nothing. Comma-delimited patterns are whitespace-trimmed and match whole header names case-insensitively; attributes use the respective http.request.header or http.response.header prefix, lowercase names with hyphens replaced by underscores, and a one-item sequence containing the intact string value. Sanitization searches header names case-insensitively and replaces captured sensitive values with [REDACTED], without capturing unselected headers. Transport responses are preserved.",
+    "tests": [
+     "OBS-0029",
+     "OBS-0030",
+     "OBS-0031",
+     "OBS-0032",
+     "OBS-0033",
+     "OBS-0034",
+     "OBS-0035",
+     "OBS-0036",
+     "OBS-0037",
+     "OBS-0038",
+     "OBS-0039",
+     "OBS-0040"
+    ]
+   },
+   {
+    "id": "GROUP-0007",
+    "kind": "p2p",
+    "requirement": "Configured request hooks run with the live span and PreparedRequest before sending, so mutations reach the transport; response hooks run with the live span, same request, and returned Response after sending. Hook span attributes are exported. Hooks are optional and excluded requests call neither. Each ordinary send returns its original response and produces one span.",
+    "tests": [
+     "OBS-0041",
+     "OBS-0042",
+     "OBS-0043",
+     "OBS-0044"
+    ]
+   },
+   {
+    "id": "GROUP-0008",
+    "kind": "p2p",
+    "requirement": "Session opt-out disables only that session; other sessions remain instrumented. Global uninstrument restores ordinary sending without spans and later instrument restarts tracing. Instrumented sends produce a span; transport results remain unchanged in all states.",
+    "tests": [
+     "OBS-0045",
+     "OBS-0046",
+     "OBS-0047"
+    ]
+   },
+   {
+    "id": "GROUP-COV-REQUESTS-USAGE",
+    "kind": "p2p",
+    "requirement": "requests: instrument() with a tracer provider traces requests calls as CLIENT spans named by get_default_span_name (the method, or HTTP for _OTHER); responses are unchanged; uninstrument() restores plain requests and instrument() restarts tracing.",
+    "tests": [
+     "OBS-0048",
+     "OBS-0049",
+     "OBS-0050"
+    ]
+   },
+   {
+    "id": "GROUP-COV-REQUESTS-HISTOGRAM",
+    "kind": "p2p",
+    "requirement": "requests: duration_histogram_boundaries are the explicit bucket boundaries of the client duration histogram (http.client.duration in ms; http.client.request.duration in s under OTEL_SEMCONV_STABILITY_OPT_IN=http; both, unconverted, in http/dup).",
+    "tests": [
+     "OBS-0051",
+     "OBS-0052",
+     "OBS-0053"
+    ]
+   },
+   {
+    "id": "GROUP-COV-REQUESTS-REQUEST-HEADERS",
+    "kind": "p2p",
+    "requirement": "requests: OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST captures matching request headers (case-insensitive names, regexes) as http.request.header.<normalized> one-item lists; sanitize regexes redact captured values.",
+    "tests": [
+     "OBS-0054",
+     "OBS-0055"
+    ]
+   },
+   {
+    "id": "GROUP-COV-URLLIB-USAGE",
+    "kind": "p2p",
+    "requirement": "urllib: URLLibInstrumentor traces urlopen calls as CLIENT spans (error status for HTTP errors), uninstrument_opener disables one OpenerDirector and uninstrument() restores urllib.",
+    "tests": [
+     "OBS-0056",
+     "OBS-0057",
+     "OBS-0058"
+    ]
+   },
+   {
+    "id": "GROUP-COV-URLLIB-HOOKS",
+    "kind": "p2p",
+    "requirement": "urllib: request_hook(span, Request) and response_hook(span, Request, HTTPResponse) are called for each traced request and can set span attributes.",
+    "tests": [
+     "OBS-0059",
+     "OBS-0060"
+    ]
+   },
+   {
+    "id": "GROUP-COV-URLLIB-EXCLUDE",
+    "kind": "p2p",
+    "requirement": "urllib: OTEL_PYTHON_URLLIB_EXCLUDED_URLS (or OTEL_PYTHON_EXCLUDED_URLS) and excluded_urls exclude matching URLs from tracing.",
+    "tests": [
+     "OBS-0061",
+     "OBS-0062",
+     "OBS-0063"
+    ]
+   },
+   {
+    "id": "GROUP-COV-URLLIB-HEADERS",
+    "kind": "p2p",
+    "requirement": "urllib: request/response header capture and sanitization through the OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_* variables.",
+    "tests": [
+     "OBS-0064",
+     "OBS-0065"
+    ]
+   },
+   {
+    "id": "GROUP-COV-URLLIB3-USAGE",
+    "kind": "p2p",
+    "requirement": "urllib3: URLLib3Instrumentor traces PoolManager requests as CLIENT spans; url_filter processes the URL before it is recorded; uninstrument() stops tracing.",
+    "tests": [
+     "OBS-0066",
+     "OBS-0067",
+     "OBS-0068"
+    ]
+   },
+   {
+    "id": "GROUP-COV-URLLIB3-HOOKS",
+    "kind": "p2p",
+    "requirement": "urllib3: request_hook(span, pool, RequestInfo) receives the urlopen() arguments and response_hook(span, pool, HTTPResponse) the response.",
+    "tests": [
+     "OBS-0069",
+     "OBS-0070"
+    ]
+   },
+   {
+    "id": "GROUP-COV-URLLIB3-EXCLUDE",
+    "kind": "p2p",
+    "requirement": "urllib3: OTEL_PYTHON_URLLIB3_EXCLUDED_URLS (or OTEL_PYTHON_EXCLUDED_URLS) exclude matching URLs from tracing.",
+    "tests": [
+     "OBS-0071",
+     "OBS-0072"
+    ]
+   },
+   {
+    "id": "GROUP-COV-URLLIB3-HEADERS",
+    "kind": "p2p",
+    "requirement": "urllib3: request/response header capture and sanitization through the OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_* variables.",
+    "tests": [
+     "OBS-0073",
+     "OBS-0074"
+    ]
+   },
+   {
+    "id": "GROUP-COV-HTTPX-USAGE",
+    "kind": "p2p",
+    "requirement": "httpx: HTTPXClientInstrumentor traces every Client and AsyncClient; uninstrument_client disables one client and uninstrument() all.",
+    "tests": [
+     "OBS-0075",
+     "OBS-0076",
+     "OBS-0077"
+    ]
+   },
+   {
+    "id": "GROUP-COV-HTTPX-SINGLE-CLIENT",
+    "kind": "p2p",
+    "requirement": "httpx: instrument_client instruments only the given Client or AsyncClient, with optional hooks.",
+    "tests": [
+     "OBS-0078",
+     "OBS-0079"
+    ]
+   },
+   {
+    "id": "GROUP-COV-HTTPX-TRANSPORTS",
+    "kind": "p2p",
+    "requirement": "httpx: SyncOpenTelemetryTransport / AsyncOpenTelemetryTransport (and the httpx2 variants) trace requests without the instrumentor; their hooks receive the raw transport request and response tuples.",
+    "tests": [
+     "OBS-0080",
+     "OBS-0081",
+     "OBS-0082"
+    ]
+   },
+   {
+    "id": "GROUP-COV-HTTPX-HOOKS",
+    "kind": "p2p",
+    "requirement": "httpx: instrumentor request/response hooks (sync for Client, async for AsyncClient) receive the span and the raw request (method, url, headers, stream, extensions) and response (status_code, headers, stream, extensions).",
+    "tests": [
+     "OBS-0083",
+     "OBS-0084"
+    ]
+   },
+   {
+    "id": "GROUP-COV-HTTPX-EXCLUDE",
+    "kind": "p2p",
+    "requirement": "httpx: OTEL_PYTHON_HTTPX_EXCLUDED_URLS (or OTEL_PYTHON_EXCLUDED_URLS) exclude matching URLs from tracing.",
+    "tests": [
+     "OBS-0085",
+     "OBS-0086"
+    ]
+   },
+   {
+    "id": "GROUP-COV-HTTPX-HEADERS",
+    "kind": "p2p",
+    "requirement": "httpx: request/response header capture and sanitization through the OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_* variables.",
+    "tests": [
+     "OBS-0087",
+     "OBS-0088"
+    ]
+   },
+   {
+    "id": "GROUP-COV-HTTPX2",
+    "kind": "p2p",
+    "requirement": "httpx: HTTPX2ClientInstrumentor (instrument and instrument_client) traces httpx2 clients.",
+    "tests": [
+     "OBS-0089",
+     "OBS-0090"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AIOHTTP-TRACE-CONFIG",
+    "kind": "p2p",
+    "requirement": "aiohttp-client: create_trace_config traces one ClientSession with a span per request named by the method; url_filter processes the recorded URL.",
+    "tests": [
+     "OBS-0091",
+     "OBS-0092"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AIOHTTP-INSTRUMENTOR",
+    "kind": "p2p",
+    "requirement": "aiohttp-client: AioHttpClientInstrumentor traces every new ClientSession; uninstrument_session disables one session and uninstrument() new sessions.",
+    "tests": [
+     "OBS-0093",
+     "OBS-0094"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AIOHTTP-HOOKS",
+    "kind": "p2p",
+    "requirement": "aiohttp-client: request_hook(span, TraceRequestStartParams) and response_hook(span, TraceRequestEndParams or TraceRequestExceptionParams).",
+    "tests": [
+     "OBS-0095",
+     "OBS-0096"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AIOHTTP-EXCLUDE",
+    "kind": "p2p",
+    "requirement": "aiohttp-client: OTEL_PYTHON_AIOHTTP_CLIENT_EXCLUDED_URLS (or OTEL_PYTHON_EXCLUDED_URLS) exclude matching URLs from tracing.",
+    "tests": [
+     "OBS-0097",
+     "OBS-0098"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AIOHTTP-HEADERS",
+    "kind": "p2p",
+    "requirement": "aiohttp-client: header capture and sanitization through the environment variables or create_trace_config's captured/sensitive header lists.",
+    "tests": [
+     "OBS-0099",
+     "OBS-0100",
+     "OBS-0101"
+    ]
+   },
+   {
+    "id": "GROUP-COV-UTIL-EXCLUDE",
+    "kind": "p2p",
+    "requirement": "util-http: parse_excluded_urls builds an ExcludeList of comma-delimited regexes searched in URLs; get_excluded_urls reads OTEL_PYTHON_<NAME>_EXCLUDED_URLS with the OTEL_PYTHON_EXCLUDED_URLS fallback.",
+    "tests": [
+     "OBS-0102",
+     "OBS-0103"
+    ]
+   },
+   {
+    "id": "GROUP-COV-UTIL-URLS",
+    "kind": "p2p",
+    "requirement": "util-http: remove_url_credentials, redact_query_parameters, redact_url and sanitize_method.",
+    "tests": [
+     "OBS-0104",
+     "OBS-0105",
+     "OBS-0106"
+    ]
+   },
+   {
+    "id": "GROUP-COV-UTIL-HEADERS",
+    "kind": "p2p",
+    "requirement": "util-http: get_custom_header_attributes, get_custom_headers and SanitizeValue.",
+    "tests": [
+     "OBS-0107",
+     "OBS-0108"
+    ]
+   },
+   {
+    "id": "GROUP-COV-UTIL-USER-AGENT",
+    "kind": "p2p",
+    "requirement": "util-http: detect_synthetic_user_agent (test patterns before bot patterns) and normalize_user_agent.",
+    "tests": [
+     "OBS-0109"
+    ]
+   },
+   {
+    "id": "GROUP-COV-UTIL-HTTPLIB",
+    "kind": "p2p",
+    "requirement": "util-http httplib: once HttpClientInstrumentor is instrumented, client spans of requests and urllib are enriched with the peer IP (it creates no spans of its own).",
+    "tests": [
+     "OBS-0110",
+     "OBS-0111"
+    ]
+   },
+   {
+    "id": "GROUP-COV-UTIL-ASGI",
+    "kind": "p2p",
+    "requirement": "util-http README: an ASGI application wrapped in OpenTelemetryMiddleware is traced.",
+    "tests": [
+     "OBS-0112"
+    ]
+   },
+   {
+    "id": "GROUP-COV-BASE-INSTRUMENTOR",
+    "kind": "p2p",
+    "requirement": "BaseInstrumentor: instrument/uninstrument run once each, the instrumentor is a singleton, unsatisfied instrumentation_dependencies block instrument() unless skip_dep_check.",
+    "tests": [
+     "OBS-0113",
+     "OBS-0114",
+     "OBS-0115"
+    ]
+   },
+   {
+    "id": "GROUP-COV-BASE-DEPENDENCIES",
+    "kind": "p2p",
+    "requirement": "dependencies: get_dependency_conflicts returns None or a DependencyConflict.",
+    "tests": [
+     "OBS-0116"
+    ]
+   },
+   {
+    "id": "GROUP-COV-BASE-UTILS",
+    "kind": "p2p",
+    "requirement": "utils: http_status_to_status_code, unwrap, suppress_instrumentation and suppress_http_instrumentation.",
+    "tests": [
+     "OBS-0117",
+     "OBS-0118",
+     "OBS-0119"
+    ]
+   },
+   {
+    "id": "GROUP-COV-BASE-PROPAGATORS",
+    "kind": "p2p",
+    "requirement": "propagators: TraceResponsePropagator, FuncSetter and the global response propagator.",
+    "tests": [
+     "OBS-0120",
+     "OBS-0121",
+     "OBS-0122"
+    ]
+   },
+   {
+    "id": "GROUP-COV-BASE-LOG-LABELER",
+    "kind": "p2p",
+    "requirement": "log_utils.std_to_otel and the Labeler API (get_labeler, add, add_attributes, enrich_metric_attributes).",
+    "tests": [
+     "OBS-0123",
+     "OBS-0124"
+    ]
+   },
+   {
+    "id": "GROUP-COV-BASE-AUTO",
+    "kind": "p2p",
+    "requirement": "auto_instrumentation.initialize() configures the SDK and instruments the installed libraries; OTEL_PYTHON_DISABLED_INSTRUMENTATIONS disables named ones or all with '*'.",
+    "tests": [
+     "OBS-0125",
+     "OBS-0126",
+     "OBS-0127"
+    ]
+   },
+   {
+    "id": "GROUP-COV-BASE-BOOTSTRAP",
+    "kind": "p2p",
+    "requirement": "opentelemetry-bootstrap -a requirements lists the instrumentation packages for the installed libraries.",
+    "tests": [
+     "OBS-0128"
+    ]
+   },
+   {
+    "id": "GROUP-COV-BASE-CLI",
+    "kind": "p2p",
+    "requirement": "opentelemetry-instrument: --traces_exporter, --metrics_exporter, --distro, --configurator and --id_generator set OTEL_TRACES_EXPORTER, OTEL_METRICS_EXPORTER, OTEL_PYTHON_DISTRO, OTEL_PYTHON_CONFIGURATOR and OTEL_PYTHON_ID_GENERATOR for the program, overriding the environment; the remaining arguments run the program unchanged.",
+    "tests": [
+     "OBS-0129",
+     "OBS-0130",
+     "OBS-0131"
+    ]
+   },
+   {
+    "id": "GROUP-COV-BASE-DISTRO",
+    "kind": "p2p",
+    "requirement": "distro: BaseDistro.configure calls _configure and load_instrumentor instruments an opentelemetry_instrumentor entry point; distros and configurators are entry points.",
+    "tests": [
+     "OBS-0132",
+     "OBS-0133"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   }
+  ]
+ }
+}

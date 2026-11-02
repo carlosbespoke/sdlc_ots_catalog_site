@@ -1,0 +1,39 @@
+{
+  "format": "rca-task",
+  "version": 1,
+  "source": {
+    "repository": "https://github.com/google/starlark-go.git",
+    "commit": "5395d018f003e2a08bfbca6dcb2562acee700f62",
+    "voyager": "google__starlark-go.5395d018"
+  },
+  "language": "go",
+  "test_command": "go test ./...",
+  "strip": [
+    ".github",
+    "CNAME"
+  ],
+  "omit_tests": {
+    "globs": [
+      "**/*_test.go"
+    ],
+    "keep": []
+  },
+  "overlay": {
+    "path": "faults",
+    "files": {
+      "internal/compile/serial.go": "5b5a2d63bcf4d7ebd488afced0fd90d16d38b4e5da8be44f666fe33b31e677da",
+      "starlark/eval.go": "9f40264aaf4f008a41d2d71d64251422a075a693470a82d0dd60d4d388119b58"
+    },
+    "removed": [],
+    "executable": []
+  },
+  "trees": {
+    "algorithm": "spec-drift-tree-v1",
+    "pristine": "b4c9b66fd26100d8587f747919b835bb86c6f09f2c5ea40b62f5ed0e26a32c19",
+    "solver": "789dba3c007745a6724abb9a0a9575f954b78ac011b54d3a4930df1d615df195"
+  },
+  "workspace": {
+    "root": "/workdir",
+    "evidence": "evidence"
+  }
+}

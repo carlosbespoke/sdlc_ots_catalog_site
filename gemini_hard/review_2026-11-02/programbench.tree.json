@@ -1,0 +1,503 @@
+{
+ "id": "D",
+ "type": "doc",
+ "title": "ProgramBench and Migration",
+ "children": [
+  {
+   "id": "D.S1",
+   "type": "section",
+   "title": "Executive summary",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S1.B1",
+     "type": "block",
+     "text": "| KPI cards: 283 Tasks |<div class=\"kpi\"><div class=\"kpi-value\">39%</div><div class=\"kpi-label\">Gemini 4 Argon pass rate</div></div><div class=\"kpi\"><div class=\"kpi-value\">1%</div><div class=\"kpi-labe"
+    },
+    {
+     "id": "D.S1.P1",
+     "type": "paragraph",
+     "children": [
+      {
+       "id": "D.S1.P1.s1",
+       "type": "sentence",
+       "text": "Each task asks the agent to make software behave exactly like a reference version that it can run but not read."
+      },
+      {
+       "id": "D.S1.P1.s2",
+       "type": "sentence",
+       "text": "In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from the reference and its documentation."
+      },
+      {
+       "id": "D.S1.P1.s3",
+       "type": "sentence",
+       "text": "In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code."
+      },
+      {
+       "id": "D.S1.P1.s4",
+       "type": "sentence",
+       "text": "In the migration tasks the agent ports a Java or Rust library to Go or C++ behind fixed signatures."
+      },
+      {
+       "id": "D.S1.P1.s5",
+       "type": "sentence",
+       "text": "Hidden tests compare the result with the reference, output for output."
+      }
+     ]
+    },
+    {
+     "id": "D.S1.P2",
+     "type": "paragraph",
+     "children": [
+      {
+       "id": "D.S1.P2.s1",
+       "type": "sentence",
+       "text": "Gemini 4 Argon passes 39% of its runs on these tasks, and it fails every run on 27% of the tasks."
+      },
+      {
+       "id": "D.S1.P2.s2",
+       "type": "sentence",
+       "text": "Gemini 3.8 Flash passes 1%, and it fails every run on 96% of the tasks."
+      },
+      {
+       "id": "D.S1.P2.s3",
+       "type": "sentence",
+       "text": "The main languages are Agent's choice (42%), Go (23%) and C++ (13%)."
+      },
+      {
+       "id": "D.S1.P2.B1",
+       "type": "block",
+       "text": "| Domain | What the tasks do | % of catalog |\n|---|---|---:|\n| Languages & developer tooling | Rebuild or upgrade compilers, interpreters, API tools and command-line tools so they behave exactly like "
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "D.S2",
+   "type": "section",
+   "title": "Why this catalog",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S2.S1",
+     "type": "section",
+     "title": "Problems engineers face",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S2.S1.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S2.S1.P1.s1",
+         "type": "sentence",
+         "text": "Engineers often have to make software behave exactly like a version they cannot reuse: rebuilding a tool whose source is unavailable, bringing an old codebase up to a newer release, or replacing a Java or Rust dependency with a port in Go or C++."
+        },
+        {
+         "id": "D.S2.S1.P1.s2",
+         "type": "sentence",
+         "text": "In each case the specification is observable behaviour."
+        },
+        {
+         "id": "D.S2.S1.P1.s3",
+         "type": "sentence",
+         "text": "The hard part is inferring the rules from outputs and documentation, then matching exit codes, output, file effects, numeric precision and result ordering without seeing the tests."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "D.S2.S2",
+     "type": "section",
+     "title": "How the tasks reproduce them",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S2.S2.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S2.S2.P1.s1",
+         "type": "sentence",
+         "text": "Reimplementation and upgrade tasks give the agent a reference program it can run but not read."
+        },
+        {
+         "id": "D.S2.S2.P1.s2",
+         "type": "sentence",
+         "text": "For a reimplementation, the agent writes a source project and a `compile.sh` from the reference and its documentation."
+        },
+        {
+         "id": "D.S2.S2.P1.s3",
+         "type": "sentence",
+         "text": "For an upgrade, the agent changes an existing repository in `/app/repo`, which is built with a fixed `/opt/task/build.sh`."
+        },
+        {
+         "id": "D.S2.S2.P1.s4",
+         "type": "sentence",
+         "text": "Migration tasks provide the original source and a skeleton with final signatures, and most add a `mig-check` tool."
+        },
+        {
+         "id": "D.S2.S2.P1.s5",
+         "type": "sentence",
+         "text": "Every task runs offline, and hidden tests compare the result with the reference."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "D.S2.S3",
+     "type": "section",
+     "title": "Typical prompts",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S2.S3.L1",
+       "type": "list",
+       "children": [
+        {
+         "id": "D.S2.S3.L1.i1",
+         "type": "item",
+         "text": "Reproduce the documented behaviour of an execute-only program, delivered as source code plus `compile.sh`."
+        },
+        {
+         "id": "D.S2.S3.L1.i2",
+         "type": "item",
+         "text": "Update an existing repository to match a reference program, after first writing a research and plan file."
+        },
+        {
+         "id": "D.S2.S3.L1.i3",
+         "type": "item",
+         "text": "Port a named Java or Rust library to Go or C++ from a reference folder, keeping the given signatures, within per-test time and memory limits."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "D.S3",
+   "type": "section",
+   "title": "Domain breakdown",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S3.B1",
+     "type": "block",
+     "text": "![Share of tasks by domain](assets/programbench_domain.svg)"
+    }
+   ]
+  },
+  {
+   "id": "D.S4",
+   "type": "section",
+   "title": "Language and seniority",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S4.B1",
+     "type": "block",
+     "text": "![Primary language and seniority](assets/programbench_metadata.svg)"
+    },
+    {
+     "id": "D.S4.S1",
+     "type": "section",
+     "title": "Primary language",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S4.S1.B1",
+       "type": "block",
+       "text": "| Primary language | % of catalog |\n|---|---:|\n| Agent's choice | 42.5% |\n| Go | 23.1% |\n| C++ | 13.1% |\n| C | 11.2% |\n| Rust | 10.0% |"
+      }
+     ]
+    },
+    {
+     "id": "D.S4.S2",
+     "type": "section",
+     "title": "Seniority",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S4.S2.B1",
+       "type": "block",
+       "text": "| Seniority | % of catalog |\n|---|---:|\n| Senior | 57.5% |\n| Staff+ | 42.5% |"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "D.S5",
+   "type": "section",
+   "title": "Gemini pass rates across the catalog",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S5.B1",
+     "type": "block",
+     "text": "| Model | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |\n|---|---:|---:|---:|---:|\n| google/gemini-4-argon | 39% | 27% | 73% | 0% |\n| google/gemini-3.8-flash | 1% | 96% | 0% | 0% |"
+    },
+    {
+     "id": "D.S5.B2",
+     "type": "block",
+     "text": "![Per-task pass rate by Gemini model](assets/programbench_per_task.svg)"
+    }
+   ]
+  },
+  {
+   "id": "D.S6",
+   "type": "section",
+   "title": "Turn counts and long-horizon tasks",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S6.P1",
+     "type": "paragraph",
+     "children": [
+      {
+       "id": "D.S6.P1.s1",
+       "type": "sentence",
+       "text": "A task's turn count is the average over its Gemini runs."
+      },
+      {
+       "id": "D.S6.P1.s2",
+       "type": "sentence",
+       "text": "A task is long horizon when that average is 200 or more turns."
+      },
+      {
+       "id": "D.S6.P1.B1",
+       "type": "block",
+       "text": "| Measure | Value |\n|---|---:|\n| Average turn count | 420.4 |\n| Median turn count | 341.1 |\n| Range | 88 to 1000 |\n| Long-horizon tasks (200+ turns) | 84% of tasks |"
+      },
+      {
+       "id": "D.S6.P1.B2",
+       "type": "block",
+       "text": "![Turns per task](assets/programbench_turns.svg)"
+      },
+      {
+       "id": "D.S6.P1.B3",
+       "type": "block",
+       "text": "| Model | % of tasks | Mean turns | % with 200+ turns |\n|---|---:|---:|---:|\n| google/gemini-3.8-flash | 84% | 471.2 | 84% |\n| google/gemini-4-argon | 19% | 257.1 | 67% |\n| google/gemini-3.7-flash | 2"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "D.S7",
+   "type": "section",
+   "title": "Example tasks from the shortlist",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S7.P1",
+     "type": "paragraph",
+     "children": [
+      {
+       "id": "D.S7.P1.s1",
+       "type": "sentence",
+       "text": "The first example is a main sample for the catalog; the others are attached samples."
+      },
+      {
+       "id": "D.S7.P1.s2",
+       "type": "sentence",
+       "text": "All of them come from the shortlist and have Gemini runs that pass at most half the time."
+      }
+     ]
+    },
+    {
+     "id": "D.S7.S1",
+     "type": "section",
+     "title": "Example 1: Statistics & numerical methods (Go)",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S7.S1.B1",
+       "type": "block",
+       "text": "| Field | Value |\n|---|---|\n| Sample | Main sample for the catalog |\n| Final category | Migration |\n| Domain | Cross-language migration |\n| Sub-domain | Statistics & numerical methods |\n| Language | G"
+      },
+      {
+       "id": "D.S7.S1.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S7.S1.P1.s1",
+         "type": "sentence",
+         "text": "Prompt shape: A first-person request to port a named library to Go from a source directory, with stubbed signatures given and the tests withheld, followed by a bullet list of build, naming and import rules."
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S1.S1",
+       "type": "section",
+       "title": "Prompt",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S1.S1.B1",
+         "type": "block",
+         "text": "| [verbatim task prompt omitted: task content, not authored text] |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S1.S2",
+       "type": "section",
+       "title": "Pass rates",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S1.S2.B1",
+         "type": "block",
+         "text": "| Model | Pass rate | Mean score |\n|---|---:|---:|\n| google/gemini-4-argon | 33% | 0.33 |\n| google/gemini-3.8-flash | 0% | 0.00 |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S1.S3",
+       "type": "section",
+       "title": "Environment",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S1.S3.B1",
+         "type": "block",
+         "text": "![How the task works](assets/env-java--dynatrace-oss--dynahist-xai.svg)"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S1.S4",
+       "type": "section",
+       "title": "How it maps to the work",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S1.S4.P1",
+         "type": "paragraph",
+         "children": [
+          {
+           "id": "D.S7.S1.S4.P1.s1",
+           "type": "sentence",
+           "text": "A research software engineer needs a Go port of a Java histogram library."
+          },
+          {
+           "id": "D.S7.S1.S4.P1.s2",
+           "type": "sentence",
+           "text": "The work is to reproduce histogram layouts and floating point behavior from the Java source, since the instruction asks for matching numeric precision."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "D.S7.S2",
+     "type": "section",
+     "title": "Example 2: Graph algorithms (Go)",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S7.S2.B1",
+       "type": "block",
+       "text": "| Field | Value |\n|---|---|\n| Sample | Attached sample |\n| Final category | Migration |\n| Domain | Cross-language migration |\n| Sub-domain | Graph algorithms |\n| Language | Go |\n| Seniority | Senior |"
+      },
+      {
+       "id": "D.S7.S2.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S7.S2.P1.s1",
+         "type": "sentence",
+         "text": "Prompt shape: A first-person request to port a named library to Go from a source directory, with stubbed signatures given and the tests withheld, followed by a bullet list of build, naming and import rules."
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S2.S1",
+       "type": "section",
+       "title": "Prompt",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S2.S1.B1",
+         "type": "block",
+         "text": "| [verbatim task prompt omitted: task content, not authored text] |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S2.S2",
+       "type": "section",
+       "title": "Pass rates",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S2.S2.B1",
+         "type": "block",
+         "text": "| Model | Pass rate | Mean score |\n|---|---:|---:|\n| google/gemini-4-argon | 50% | 0.50 |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S2.S3",
+       "type": "section",
+       "title": "Environment",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S2.S3.B1",
+         "type": "block",
+         "text": "![How the task works](assets/env-programbench-ex2.svg)"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S2.S4",
+       "type": "section",
+       "title": "How it maps to the work",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S2.S4.P1",
+         "type": "paragraph",
+         "children": [
+          {
+           "id": "D.S7.S2.S4.P1.s1",
+           "type": "sentence",
+           "text": "A library engineer is replacing a Rust graph-layout dependency with a Go package."
+          },
+          {
+           "id": "D.S7.S2.S4.P1.s2",
+           "type": "sentence",
+           "text": "The engineer has the crate source and a Go skeleton with final signatures."
+          },
+          {
+           "id": "D.S7.S2.S4.P1.s3",
+           "type": "sentence",
+           "text": "The work is to read the layout stages in the Rust source and reproduce their output, including coordinates and edge points, in Go."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "counts": {
+  "doc": 1,
+  "section": 22,
+  "block": 19,
+  "paragraph": 10,
+  "sentence": 27,
+  "list": 1,
+  "item": 3
+ }
+}

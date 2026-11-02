@@ -1,0 +1,290 @@
+[
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::Error;\nlet e=Error::Custom{pos:0,err:Box::new(17u32)}; obs(e.custom_err::<u32>().copied())",
+  "id": "OBS-0001"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::Error;\nlet e=Error::Custom{pos:0,err:Box::new(17u32)}; obs(e.custom_err::<u64>().copied())",
+  "id": "OBS-0002"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::Error;\nlet e=Error::NoVariantMatch{pos:0}; obs(e.custom_err::<u32>().copied())",
+  "id": "OBS-0003"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::NullString;\nlet mut c=Cursor::new(b\"\\0x\"); let s=NullString::read_be(&mut c).unwrap(); obs((s.0,c.position()))",
+  "id": "OBS-0004"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::NullString;\nlet mut c=Cursor::new(b\"a\\0\\0z\"); let a=NullString::read_be(&mut c).unwrap(); let s=NullString::read_be(&mut c).unwrap(); obs((a.0,s.0,c.position()))",
+  "id": "OBS-0005"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::Error;\nlet e=Error::EnumErrors{pos:0,variant_errors:vec![]}; obs(e.is_eof())",
+  "id": "OBS-0006"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::Error;\nlet e=Error::EnumErrors{pos:0,variant_errors:vec![(\"A\",std::io::Error::from(std::io::ErrorKind::UnexpectedEof).into()),(\"B\",std::io::Error::from(std::io::ErrorKind::InvalidData).into())]}; obs(e.is_eof())",
+  "id": "OBS-0007"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::helpers::until_eof_with;\nlet mut c=Cursor::new(vec![1]);\nlet r:binrw::BinResult<Vec<u8>>=until_eof_with(|_: &mut Cursor<Vec<u8>>,_,()| -> binrw::BinResult<u8>{Err(std::io::Error::from(std::io::ErrorKind::InvalidData).into())})(&mut c,Endian::Big,()); obs(r.is_err())",
+  "id": "OBS-0008"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::helpers::until_eof_with;\nlet mut c=Cursor::new(vec![1]);\nlet r:binrw::BinResult<Vec<u8>>=until_eof_with(|_: &mut Cursor<Vec<u8>>,_,()| -> binrw::BinResult<u8>{Err(std::io::Error::from(std::io::ErrorKind::PermissionDenied).into())})(&mut c,Endian::Big,()); obs(r.is_err())",
+  "id": "OBS-0009"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::PosValue;\nlet mut c=Cursor::new(vec![1,2,3,4,5,6]); c.set_position(2);\nPosValue{val:0xabcd_u16,pos:0}.write_be(&mut c).unwrap(); bytes(&c.into_inner())",
+  "id": "OBS-0010"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::PosValue;\nlet mut c=Cursor::new(vec![1,2,3,4,5,6]); c.set_position(0);\nPosValue{val:0xabcd_u16,pos:4}.write_be(&mut c).unwrap(); bytes(&c.into_inner())",
+  "id": "OBS-0011"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::io::{TakeSeek,TakeSeekExt}; let mut t:TakeSeek<_>=Cursor::new(b\"abcdef\").take_seek(4); let mut a=[0;2]; t.read_exact(&mut a).unwrap(); t.seek(SeekFrom::Start(1)).unwrap(); obs((t.limit(),t.stream_position().unwrap(),t.get_ref().get_ref().to_vec()))",
+  "id": "OBS-0012"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::io::TakeSeekExt; let mut t=Cursor::new(b\"abcdef\").take_seek(4); t.get_mut().set_position(0); obs(t.into_inner().into_inner().to_vec())",
+  "id": "OBS-0013"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse std::io::Take; let mut t:Take<_>=Cursor::new(b\"abcdef\").take(2); let mut v=Vec::new(); t.read_to_end(&mut v).unwrap(); obs(v)",
+  "id": "OBS-0014"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\n#[derive(BinRead)] #[br(magic=b\"AB\",big)] struct S {x:u16} let s=S::read(&mut Cursor::new(b\"AB\\x12\\x34\")).unwrap(); obs(s.x)",
+  "id": "OBS-0015"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\n#[derive(BinRead)] #[br(big)] struct S {flag:u8,#[br(if(flag!=0))] x:Option<u16>} let s=S::read(&mut Cursor::new(b\"\\x01\\x12\\x34\")).unwrap(); obs(s.x)",
+  "id": "OBS-0016"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\n#[derive(BinRead)] struct S {#[br(map=|x:u8|u16::from(x)*2)] x:u16} obs(S::read_be(&mut Cursor::new(b\"\\x07\")).unwrap().x)",
+  "id": "OBS-0017"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\n#[derive(BinRead)] struct S {#[br(pad_before=2,pad_after=1)] x:u8,y:u8} let s=S::read_be(&mut Cursor::new(b\"ab\\x09z\\x05\")).unwrap(); obs((s.x,s.y))",
+  "id": "OBS-0018"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\n#[derive(BinRead)] struct S {#[br(restore_position)] x:u8,y:u8} let s=S::read_be(&mut Cursor::new(b\"\\x03\\x04\")).unwrap(); obs((s.x,s.y))",
+  "id": "OBS-0019"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\n#[derive(BinRead)] struct S {#[br(assert(x>5))] x:u8} let r=S::read_be(&mut Cursor::new(b\"\\x02\")); obs(r.is_err())",
+  "id": "OBS-0020"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\n#[derive(BinRead)] #[br(import(add:u8))] struct S {#[br(map=|x:u8|x+add)] x:u8} obs(S::read_options(&mut Cursor::new(b\"\\x03\"),Endian::Big,(4,)).unwrap().x)",
+  "id": "OBS-0021"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::io::BufReader; let mut c=BufReader::with_capacity(8,Cursor::new(b\"abcdefgh\")); let mut x=[0;2]; c.read_exact(&mut x).unwrap(); c.seek(SeekFrom::Start(0)).unwrap(); let buffered=c.buffer().to_vec(); c.read_exact(&mut x).unwrap(); obs((buffered,x))",
+  "id": "OBS-0022"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::io::BufReader; let mut c=BufReader::new(Cursor::new(b\"abcdef\")); let mut x=[0;1]; c.read_exact(&mut x).unwrap(); c.stream_position().unwrap(); c.seek_invalidate(SeekFrom::Start(3)).unwrap(); c.read_exact(&mut x).unwrap(); obs((x,c.stream_position().unwrap()))",
+  "id": "OBS-0023"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::error::CustomError; let mut e:Box<dyn CustomError>=Box::new(14u32); *e.downcast_mut::<u32>().unwrap()=21; obs(e.downcast_ref::<u32>().copied())",
+  "id": "OBS-0024"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::{Error,error::{Backtrace,ContextExt}}; let e=Error::Custom{pos:9,err:Box::new(19u32)}.with_context(\"context\"); let x=match e.root_cause(){Error::Custom{pos,..}=>Some(*pos),_=>None}; obs(x)",
+  "id": "OBS-0025"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\noutcome(Endian::from_utf16_bom_bytes([0xff,0xfe]).map(|e|e.into_utf16_bom_bytes()).map_err(|_|\"error\"))",
+  "id": "OBS-0026"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nbytes(&Endian::Big.into_utf16_bom_bytes())",
+  "id": "OBS-0027"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nobs(Endian::from_utf16_bom_bytes([1,2]).is_err())",
+  "id": "OBS-0028"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::Error; let e:Error=std::io::Error::from(std::io::ErrorKind::UnexpectedEof).into(); obs(e.is_eof())",
+  "id": "OBS-0029"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::Error; let e=Error::Custom{pos:0,err:Box::new(42u16)}; obs(e.custom_err::<u16>().copied())",
+  "id": "OBS-0030"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::{Error,error::ContextExt}; let e:Error=std::io::Error::from(std::io::ErrorKind::InvalidData).into(); let e=e.with_message(\"context\"); obs(e.is_eof())",
+  "id": "OBS-0031"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::{FilePtr,FilePtr16,FilePtr32,file_ptr::FilePtrArgs}; let mut c=Cursor::new(b\"\\0\\x04ab\\x07\"); let x=FilePtr16::<u8>::parse(&mut c,Endian::Big,FilePtrArgs::default()).unwrap(); let mut c=Cursor::new(b\"\\0\\0\\0\\x04z\"); let p:FilePtr32<u8>=FilePtr::read_options(&mut c,Endian::Big,FilePtrArgs::default()).unwrap(); obs((x,p.value))",
+  "id": "OBS-0032"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::{FilePtr16,file_ptr::FilePtrArgs}; let mut c=Cursor::new(b\"\\0\\x03az\"); let p=FilePtr16::<u8>::with(u8::read_options)(&mut c,Endian::Big,FilePtrArgs::default()).unwrap(); obs((p.ptr,p.value))",
+  "id": "OBS-0033"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::{FilePtr16,file_ptr::FilePtrArgs}; let mut c=Cursor::new(b\"\\0\\x03az\"); obs(FilePtr16::<u8>::parse_with(u8::read_options)(&mut c,Endian::Big,FilePtrArgs::default()).unwrap())",
+  "id": "OBS-0034"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::helpers::until; let mut c=Cursor::new(b\"\\x01\\x02\\0z\"); let v:Vec<u8>=until(|x:&u8| *x==0)(&mut c,Endian::Big,()).unwrap(); obs(v)",
+  "id": "OBS-0035"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::helpers::until_exclusive; let mut c=Cursor::new(b\"ab\\0z\"); let v:Vec<u8>=until_exclusive(|x:&u8|*x==0)(&mut c,Endian::Little,()).unwrap(); obs(v)",
+  "id": "OBS-0036"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::helpers::until_eof; let mut c=Cursor::new(b\"\\x01\\x02\\x03\"); let v:Vec<u16>=until_eof(&mut c,Endian::Big,()).unwrap(); obs(v)",
+  "id": "OBS-0037"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::{helpers::count,args,VecArgs}; let mut c=Cursor::new(b\"\\x01\\x02\\x03\\x04\"); let v:Vec<u16>=count(2)(&mut c,Endian::Big,()).unwrap(); obs(v)",
+  "id": "OBS-0038"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::helpers::count_with; let mut c=Cursor::new(b\"\\x01\\x02\\x03\"); let v:Vec<u8>=count_with(2,u8::read_options)(&mut c,Endian::Big,()).unwrap(); obs(v)",
+  "id": "OBS-0039"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::helpers::args_iter; let mut c=Cursor::new(b\"\\x01\\x02\\x03\"); let v:Vec<u8>=args_iter([(),()])(&mut c,Endian::Big,()).unwrap(); obs(v)",
+  "id": "OBS-0040"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::helpers::args_iter_with; let mut c=Cursor::new(b\"\\x02\\x03\"); let v:Vec<u8>=args_iter_with([1u8,4],|r,e,a|u8::read_options(r,e,()).map(|x|x+a))(&mut c,Endian::Big,()).unwrap(); obs(v)",
+  "id": "OBS-0041"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::helpers::until_with; let mut c=Cursor::new(b\"\\x01\\x02\\x03\"); let v:Vec<u8>=until_with(|x:&u8|*x==4,|r,e,()|u8::read_options(r,e,()).map(|x|x*2))(&mut c,Endian::Big,()).unwrap(); obs(v)",
+  "id": "OBS-0042"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::helpers::until_exclusive_with; let mut c=Cursor::new(b\"\\x01\\x02\\x03\"); let v:Vec<u8>=until_exclusive_with(|x:&u8|*x==4,|r,e,()|u8::read_options(r,e,()).map(|x|x*2))(&mut c,Endian::Big,()).unwrap(); obs(v)",
+  "id": "OBS-0043"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::binrw; #[binrw] #[brw(little)] struct Point(i16,i16); let p=Point::read(&mut Cursor::new(b\"\\x80\\x02\\xe0\\x01\")).unwrap(); let mut c=Cursor::new(Vec::new()); p.write(&mut c).unwrap(); bytes(&c.into_inner())",
+  "id": "OBS-0044"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::meta::{EndianKind,ReadEndian,ReadMagic,WriteEndian,WriteMagic}; #[derive(BinRead,BinWrite)] #[brw(big,magic=0x1234u16)] struct S(u8); obs((<S as ReadMagic>::MAGIC,<S as WriteMagic>::MAGIC,<S as ReadEndian>::ENDIAN.endian().map(|e|e.into_utf16_bom_bytes()),<S as WriteEndian>::ENDIAN.endian().map(|e|e.into_utf16_bom_bytes()),EndianKind::Mixed.endian().map(|e|e.into_utf16_bom_bytes())))",
+  "id": "OBS-0045"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::{NamedArgs,args,VecArgs}; let a=VecArgs::<()>::builder().count(3).finalize(); let mut c=Cursor::new(b\"abcd\"); obs(Vec::<u8>::read_options(&mut c,Endian::Big,a).unwrap())",
+  "id": "OBS-0046"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::args; #[derive(BinRead)] #[br(big,import{n:u8})] struct S {#[br(calc=n)] x:u8} obs(S::read_args(&mut Cursor::new(b\"\"),args!{n:9}).unwrap().x)",
+  "id": "OBS-0047"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\n#[derive(BinRead)] enum E { A(u8),B(u16) } let e=E::read_be(&mut Cursor::new(b\"\\x07\\x08\")).unwrap(); let v=match e{E::A(x)=>u16::from(x),E::B(x)=>x}; obs(v)",
+  "id": "OBS-0048"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\n#[derive(BinRead)] #[br(return_unexpected_error)] enum E { #[br(magic=1u8)] A,#[br(magic=2u8)] B(u8) } let r=E::read_be(&mut Cursor::new(b\"\\x03\")); outcome(r.map(|_|()).map_err(|e| match e.root_cause(){binrw::Error::NoVariantMatch{..}=>\"NoVariantMatch\",_=>\"other\"}))",
+  "id": "OBS-0049"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::FilePtr8; use binrw::file_ptr::FilePtrArgs; let mut c=Cursor::new(b\"\\x03abz\"); let p=FilePtr8::<u8>::read_options(&mut c,Endian::Big,FilePtrArgs::default()).unwrap(); obs((p.ptr,p.into_inner()))",
+  "id": "OBS-0050"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::file_ptr::parse_from_iter; let mut c=Cursor::new(b\"abcd\"); c.set_position(1); let v:Vec<u8>=parse_from_iter([2u8,0])(&mut c,Endian::Big,()).unwrap(); obs(v)",
+  "id": "OBS-0051"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::file_ptr::parse_from_iter_with; let mut c=Cursor::new(b\"abcdef\"); c.set_position(2); let v:Vec<u8>=parse_from_iter_with([1i8,-1],u8::read_options)(&mut c,Endian::Big,()).unwrap(); obs(v)",
+  "id": "OBS-0052"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::{punctuated::Punctuated,args}; let mut c=Cursor::new(b\"\\x01\\xa1\\x02\\xa2\\x03\"); let p=Punctuated::<u8,u8>::separated(&mut c,Endian::Big,args!{count:3}).unwrap(); obs((p.separators.clone(),p.into_values()))",
+  "id": "OBS-0053"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::BinReaderExt; #[derive(BinRead)] #[br(big)] struct Record { a:u16,b:u8 } let r:Record=Cursor::new(b\"\\x01\\x02\\x03\").read_be().unwrap(); obs((r.a,r.b))",
+  "id": "OBS-0054"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Write,Seek,SeekFrom}};\nuse binrw::BinWriterExt; let mut c=Cursor::new(Vec::new()); c.write_type(&0x1234u16,Endian::Big).unwrap(); c.write_le(&0x5678u16).unwrap(); c.flush().unwrap(); c.write_type_args(&0x9abcu16,Endian::Big,()).unwrap(); bytes(&c.into_inner())",
+  "id": "OBS-0055"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Write,Seek,SeekFrom}};\nlet mut c=Cursor::new(Vec::new()); 0x12u8.write_args(&mut c,()).unwrap(); 0x5678u16.write_options(&mut c,Endian::Little,()).unwrap(); bytes(&c.into_inner())",
+  "id": "OBS-0056"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Write,Seek,SeekFrom}};\nuse binrw::BinReaderExt; let mut c=Cursor::new(b\"\\x01\\x02\\x03\\x04\\x05\\x06\\x07\\x08\"); obs((c.read_type::<u16>(Endian::Big).unwrap(),u16::read_le_args(&mut c,()).unwrap(),u16::read_ne(&mut c).unwrap(),u8::read_args(&mut c,()).unwrap()))",
+  "id": "OBS-0057"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::NullString; let mut c=Cursor::new(b\"hello\\0z\"); let s=NullString::read_be(&mut c).unwrap(); obs((s.0,c.position()))",
+  "id": "OBS-0058"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::NullWideString; let mut c=Cursor::new(b\"\\0h\\0i\\0\\0\"); obs(NullWideString::read_be(&mut c).unwrap().0)",
+  "id": "OBS-0059"
+ },
+ {
+  "code": "use binrw::{BinRead,BinWrite,Endian,io::{Cursor,Read,Seek,SeekFrom}};\nuse binrw::NullWideString; let mut c=Cursor::new(b\"h\\0i\\0\\0\\0\"); obs(NullWideString::read_le(&mut c).unwrap().0)",
+  "id": "OBS-0060"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::io::TakeSeekExt;\nlet mut c=Cursor::new(vec![1,2,3,4,5,6,7,8]); c.set_position(2);\nlet mut t=c.take_seek(3); let mut v=Vec::new(); t.read_to_end(&mut v).unwrap(); obs(v)",
+  "id": "OBS-0061"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::io::TakeSeekExt;\nlet mut c=Cursor::new(vec![1,2,3,4,5,6,7,8]); c.set_position(5);\nlet mut t=c.take_seek(3); let mut v=Vec::new(); t.read_to_end(&mut v).unwrap(); obs(v)",
+  "id": "OBS-0062"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::io::TakeSeekExt;\nlet mut t=Cursor::new(vec![1,2,3,4,5,6,7,8]).take_seek(4);\nlet mut a=[0;2]; t.read_exact(&mut a).unwrap(); t.set_limit(3);\nlet mut v=Vec::new(); t.read_to_end(&mut v).unwrap(); obs(v)",
+  "id": "OBS-0063"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::io::TakeSeekExt;\nlet mut t=Cursor::new(vec![1,2,3,4,5,6,7,8]).take_seek(6);\nlet mut a=[0;2]; t.read_exact(&mut a).unwrap(); t.set_limit(3);\nlet mut v=Vec::new(); t.read_to_end(&mut v).unwrap(); obs(v)",
+  "id": "OBS-0064"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::{punctuated::Punctuated,args};\nlet mut c=Cursor::new(b\"\\x01\\xa1\\x02\\xa2\\x03\\xa3\");\nlet p=Punctuated::<u8,u8>::separated_trailing(&mut c,Endian::Big,args!{count:1}).unwrap();\nobs((p.separators.clone(),p.into_values(),c.position()))",
+  "id": "OBS-0065"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::{punctuated::Punctuated,args};\nlet mut c=Cursor::new(b\"\\x01\\xa1\\x02\\xa2\\x03\\xa3\");\nlet p=Punctuated::<u8,u8>::separated_trailing(&mut c,Endian::Big,args!{count:3}).unwrap();\nobs((p.separators.clone(),p.into_values(),c.position()))",
+  "id": "OBS-0066"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::helpers::write_u24;\nlet mut c=Cursor::new(Vec::new()); write_u24(&0xab123456,&mut c,Endian::Big,()).unwrap(); bytes(&c.into_inner())",
+  "id": "OBS-0067"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::helpers::write_u24;\nlet mut c=Cursor::new(Vec::new()); write_u24(&0xab123456,&mut c,Endian::Little,()).unwrap(); bytes(&c.into_inner())",
+  "id": "OBS-0068"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::helpers::read_u24;\nlet mut c=Cursor::new(b\"\\x80\\x12\\x34\"); obs(read_u24(&mut c,Endian::Big,()).unwrap())",
+  "id": "OBS-0069"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::helpers::read_u24;\nlet mut c=Cursor::new(b\"\\xff\\xff\\xff\"); obs(read_u24(&mut c,Endian::Little,()).unwrap())",
+  "id": "OBS-0070"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::NullWideString;\nlet mut c=Cursor::new(b\"\\0\\x01\\0\\0\"); let s=NullWideString::read_le(&mut c).unwrap(); obs((s.0,c.position()))",
+  "id": "OBS-0071"
+ },
+ {
+  "code": "use binrw::{BinRead, BinWrite, Endian, io::{Cursor, Read, Seek, SeekFrom}};\nuse binrw::NullWideString;\nlet mut c=Cursor::new(b\"\\x02\\0\\0A\\0\\0\"); let s=NullWideString::read_be(&mut c).unwrap(); obs((s.0,c.position()))",
+  "id": "OBS-0072"
+ }
+]

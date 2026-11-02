@@ -1,0 +1,1159 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade_ts.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 900,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "942e3c039c98cadf48f4eb5abaa550b2c64b0a3467e675a38fa9ae645cb1fe22",
+  "documentation.json": "2512156f2ba10b29fae6d110c6c8c04b1af2fdc21b1ce085d6734f490fa89b7e",
+  "expected.json": "002f2839caea6811d40d5c68a0fe4ff8efdb9b1371a1893728a9b2ff889e3924",
+  "harness.json": "48ca96121c628cb5d9ac18fcc71fa6beedf790485cf45d57ff921364e1770e09",
+  "tsparse.cjs": "8a2c6620ce3fb12e63e5d5f87a5718f31bcdeb269b49e3d9f32f0486f6d7e7db"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "GROUP-P2P-COVER-1-ANY-DEEP-KEY-VALUE",
+    "kind": "p2p",
+    "requirement": "The key/value interface pairs a deep path with its corresponding form value; exercise the runtime path lookup, not erased types. (docs/reference/interfaces/AnyDeepKeyAndValue.md: key and value (runtime realization))",
+    "tests": [
+     "OBS-0001"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-ARRAY-DEEP-KEY-VALUE",
+    "kind": "p2p",
+    "requirement": "The key/value interface pairs a deep path with its corresponding form value; exercise the runtime path lookup, not erased types. (docs/reference/interfaces/ArrayDeepKeyAndValue.md: key and value (runtime realization))",
+    "tests": [
+     "OBS-0002"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-DEEP-COPY",
+    "kind": "p2p",
+    "requirement": "deepCopy recursively copies nested values independently of subsequent source changes. (docs/reference/functions/deepCopy.md: Type Parameters)",
+    "tests": [
+     "OBS-0003",
+     "OBS-0004"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-EVALUATE",
+    "kind": "p2p",
+    "requirement": "evaluate compares nested object and array values. (docs/reference/functions/evaluate.md: evaluate)",
+    "tests": [
+     "OBS-0005"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-FIELD-MAP",
+    "kind": "p2p",
+    "requirement": "Each string key visited by for...in maps to itself, including inherited enumerable keys. (docs/reference/functions/createFieldMap.md: Returns)",
+    "tests": [
+     "OBS-0006"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-FIELD-STATE",
+    "kind": "p2p",
+    "requirement": "Field state reflects the form value, metadata can be updated, and mount attaches the field instance. (docs/reference/classes/FieldApi.md: state, getValue, setMeta, getInfo, mount)",
+    "tests": [
+     "OBS-0007",
+     "OBS-0008"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-FORM-OPTIONS",
+    "kind": "p2p",
+    "requirement": "formOptions returns the supplied options. (docs/reference/functions/formOptions.md: defaultOpts and Returns)",
+    "tests": [
+     "OBS-0009"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-GLOBAL-ERROR",
+    "kind": "p2p",
+    "requirement": "The guard recognizes a GlobalFormValidationError containing field errors. (docs/reference/functions/isGlobalFormValidationError.md: Returns)",
+    "tests": [
+     "OBS-0010"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-GROUP-STATE",
+    "kind": "p2p",
+    "requirement": "Mapped values and metadata are read from the resolved parent paths; mount cleanup does not disable constructor value derivation. (docs/reference/classes/FieldGroupApi.md: getFieldValue, setFieldMeta, mount)",
+    "tests": [
+     "OBS-0011",
+     "OBS-0012"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-MERGE-FORM",
+    "kind": "p2p",
+    "requirement": "mergeForm applies supplied partial state to the returned form. (docs/reference/functions/mergeForm.md: baseForm, state and Returns)",
+    "tests": [
+     "OBS-0013"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-STANDARD-SCHEMA",
+    "kind": "p2p",
+    "requirement": "The guard recognizes StandardSchemaV1 validators. (docs/reference/functions/isStandardSchemaValidator.md: Returns)",
+    "tests": [
+     "OBS-0014"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-UUID",
+    "kind": "p2p",
+    "requirement": "uuid returns a string usable as a form field name; observe the stored value without grading undocumented random bytes or UUID formatting. (docs/reference/functions/uuid.md: Returns)",
+    "tests": [
+     "OBS-0015"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-BASE",
+    "kind": "p2p",
+    "requirement": "FormOptions defaultValues initialize values; nullish submission metadata uses onSubmitMeta. (docs/reference/interfaces/BaseFormOptions.md: Properties)",
+    "tests": [
+     "OBS-0016",
+     "OBS-0017"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-FIELD-API-OPTIONS",
+    "kind": "p2p",
+    "requirement": "FieldLikeApiOptions supplies field defaults, metadata and skips flattening of recomputed errors. (docs/reference/interfaces/FieldApiOptions.md: Properties)",
+    "tests": [
+     "OBS-0018",
+     "OBS-0019"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-FIELD-GROUP-OPTIONS",
+    "kind": "p2p",
+    "requirement": "FieldGroupApi resolves mapped paths; its defaultValues and onSubmitMeta are not used. (docs/reference/interfaces/FieldGroupOptions.md: Properties)",
+    "tests": [
+     "OBS-0020"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-FIELD-GROUP-STATE",
+    "kind": "p2p",
+    "requirement": "FieldGroupState values follow parent data for a path and nested group. (docs/reference/interfaces/FieldGroupState.md: Properties)",
+    "tests": [
+     "OBS-0021"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-FIELD-LISTENERS",
+    "kind": "p2p",
+    "requirement": "FieldListenerFn receives current value and field API for mount, change, blur, submit, unmount and group submit. (docs/reference/interfaces/FieldListeners.md: Properties)",
+    "tests": [
+     "OBS-0022",
+     "OBS-0023"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-FIELD-OPTIONS",
+    "kind": "p2p",
+    "requirement": "FieldLikeOptions asyncAlways runs async validation despite sync errors; FieldLikeMeta defaults are honored. (docs/reference/interfaces/FieldOptions.md: Properties)",
+    "tests": [
+     "OBS-0024",
+     "OBS-0025"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-FIELD-SCHEMA",
+    "kind": "p2p",
+    "requirement": "Blur validators accept synchronous and asynchronous Standard Schema validators. (docs/reference/interfaces/FieldValidators.md: onBlur and onBlurAsync)",
+    "tests": [
+     "OBS-0026",
+     "OBS-0027"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-FIELD-VALIDATORS",
+    "kind": "p2p",
+    "requirement": "FieldValidateOrFn and FieldAsyncValidateOrFn run mount, change, blur and submit validators. (docs/reference/interfaces/FieldValidators.md: Properties)",
+    "tests": [
+     "OBS-0028",
+     "OBS-0029",
+     "OBS-0030",
+     "OBS-0031"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-GROUP-API-OPTIONS",
+    "kind": "p2p",
+    "requirement": "Group asyncAlways permits async validation after synchronous errors; disableErrorFlat does not flatten group errors. (docs/reference/interfaces/FormGroupApiOptions.md: Properties)",
+    "tests": [
+     "OBS-0032",
+     "OBS-0033"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-GROUP-ERRORS",
+    "kind": "p2p",
+    "requirement": "Group errors remain nested regardless of disableErrorFlat; global fields-only errors do not become group errors. (docs/reference/interfaces/FormGroupApiOptions.md: Properties)",
+    "tests": [
+     "OBS-0034",
+     "OBS-0035"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-GROUP-LISTENERS",
+    "kind": "p2p",
+    "requirement": "FormGroupListenerFn mount/change/unmount/submit dispatch; declared onBlur and onGroupSubmit do not dispatch. (docs/reference/interfaces/FormGroupListeners.md: Properties)",
+    "tests": [
+     "OBS-0036"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-GROUP-META",
+    "kind": "p2p",
+    "requirement": "Mounted group metadata aggregates descendants, excludes own flags and outside fields; group errors exclude child errors. (docs/reference/interfaces/FormGroupMeta.md: Properties)",
+    "tests": [
+     "OBS-0037",
+     "OBS-0038"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-GROUP-OPTIONS",
+    "kind": "p2p",
+    "requirement": "canSubmitWhenInvalid does not bypass validation; callbacks receive default or explicit metadata. (docs/reference/interfaces/FormGroupOptions.md: Properties)",
+    "tests": [
+     "OBS-0039",
+     "OBS-0040"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-GROUP-SCHEMA",
+    "kind": "p2p",
+    "requirement": "Blur validators accept synchronous and asynchronous Standard Schema validators. (docs/reference/interfaces/FormGroupValidators.md: onBlur and onBlurAsync)",
+    "tests": [
+     "OBS-0041",
+     "OBS-0042"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-GROUP-STATE",
+    "kind": "p2p",
+    "requirement": "FormGroupMeta tracks successful, invalid and pending submission attempts; no callback still succeeds. (docs/reference/interfaces/FormGroupState.md: Properties)",
+    "tests": [
+     "OBS-0043",
+     "OBS-0044"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-GROUP-STORE-STATE",
+    "kind": "p2p",
+    "requirement": "Store value is current group value; metadata separates group and descendant validity and lifecycle. (docs/reference/interfaces/FormGroupStoreState.md: Properties)",
+    "tests": [
+     "OBS-0045"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-GROUP-SUBMIT-ERRORS",
+    "kind": "p2p",
+    "requirement": "Invalid attempts reset submission state; rejected callbacks reset isSubmitting and do not mark success. (docs/reference/interfaces/FormGroupState.md: Properties)",
+    "tests": [
+     "OBS-0046",
+     "OBS-0047"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-GROUP-VALIDATION-STRATEGY",
+    "kind": "p2p",
+    "requirement": "Groups inherit parent validationLogic unless an explicit strategy overrides it. (docs/reference/interfaces/FormGroupOptions.md: Properties)",
+    "tests": [
+     "OBS-0048",
+     "OBS-0049"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-GROUP-VALIDATORS",
+    "kind": "p2p",
+    "requirement": "FormGroupValidateOrFn and FormGroupAsyncValidateOrFn run mount/change/blur/submit validators. (docs/reference/interfaces/FormGroupValidators.md: Properties)",
+    "tests": [
+     "OBS-0050",
+     "OBS-0051",
+     "OBS-0052",
+     "OBS-0053"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-2-LINKED-VALIDATION",
+    "kind": "p2p",
+    "requirement": "onChangeListenTo and onBlurListenTo link mounted field validation to the named field events. (docs/reference/interfaces/FieldValidators.md: Properties)",
+    "tests": [
+     "OBS-0054"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-ANY-FIELD-GROUP",
+    "kind": "p2p",
+    "requirement": "AnyFieldGroupApi refers to the mapped FieldGroupApi; its current values derive from mapped parent fields. (docs/reference/type-aliases/AnyFieldGroupApi.md: FieldGroupApi)",
+    "tests": [
+     "OBS-0055"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-ANY-FIELD-META",
+    "kind": "p2p",
+    "requirement": "AnyFieldMeta aliases field-like metadata; explicit touched, blurred and dirty updates are observable through the field API. (docs/reference/type-aliases/AnyFieldMeta.md: AnyFieldLikeMeta)",
+    "tests": [
+     "OBS-0056"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-ANY-FIELD",
+    "kind": "p2p",
+    "requirement": "AnyFieldApi can refer to an ordinary FieldApi; its value API supports updater functions. (docs/reference/type-aliases/AnyFieldApi.md: FieldApi)",
+    "tests": [
+     "OBS-0057"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-ANY-FORM-GROUP",
+    "kind": "p2p",
+    "requirement": "AnyFormGroupApi represents a FormGroupApi; group setValue updates its scoped value while retaining sibling values. (docs/reference/type-aliases/AnyFormGroupApi.md: FormGroupApi)",
+    "tests": [
+     "OBS-0058"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-ANY-FORM",
+    "kind": "p2p",
+    "requirement": "AnyFormApi represents the form API with unconstrained generics; deep field writes are visible in current form values. (docs/reference/type-aliases/AnyFormApi.md: FormApi)",
+    "tests": [
+     "OBS-0059"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-BASE-STATE",
+    "kind": "p2p",
+    "requirement": "AnyBaseFormState exposes form base state without constraining generic arguments; provided initial base-state values are retained. (docs/reference/type-aliases/AnyBaseFormState.md: BaseFormState)",
+    "tests": [
+     "OBS-0060"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-LISTENER-FIELD-PROPS",
+    "kind": "p2p",
+    "requirement": "Field listener payload exposes the changed field API and owning form API. (docs/reference/interfaces/FormListenersPropsField.md: fieldApi and formApi)",
+    "tests": [
+     "OBS-0061"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-LISTENER-GROUP-PROPS",
+    "kind": "p2p",
+    "requirement": "Group change payload exposes the changed group API and owning form API. (docs/reference/interfaces/FormListenersPropsGroup.md: groupApi and formApi)",
+    "tests": [
+     "OBS-0062"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-LISTENERS",
+    "kind": "p2p",
+    "requirement": "Form listeners receive their form, field or group context and submit metadata; onGroupUnmount is declared but not dispatched. (docs/reference/interfaces/FormListeners.md: callbacks)",
+    "tests": [
+     "OBS-0063"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-OBJECT-DEEP",
+    "kind": "p2p",
+    "requirement": "ObjectDeepKeyAndValue describes keys used at the public form field-value access boundary (type-only constraints are not graded). (docs/reference/interfaces/ObjectDeepKeyAndValue.md: key/value access)",
+    "tests": [
+     "OBS-0064"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-OBJECT-KEYS",
+    "kind": "p2p",
+    "requirement": "AllObjectKeys describes keys used at the public form field-value access boundary (type-only constraints are not graded). (docs/reference/type-aliases/AllObjectKeys.md: key/value access)",
+    "tests": [
+     "OBS-0065"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-OPTIONS",
+    "kind": "p2p",
+    "requirement": "FormOptions applies initial values/default state, dispatches valid and invalid submissions, and uses default metadata only for nullish arguments; asyncAlways permits async validation after sync errors. (docs/reference/interfaces/FormOptions.md: initial values and submission options)",
+    "tests": [
+     "OBS-0066",
+     "OBS-0067",
+     "OBS-0068"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-SCHEMA-ISSUE",
+    "kind": "p2p",
+    "requirement": "Standard schema failure issues expose the supplied message and optional path. (docs/reference/interfaces/StandardSchemaV1Issue.md: failure output)",
+    "tests": [
+     "OBS-0069"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-TUPLE-DEEP",
+    "kind": "p2p",
+    "requirement": "TupleDeepKeyAndValue describes keys used at the public form field-value access boundary (type-only constraints are not graded). (docs/reference/interfaces/TupleDeepKeyAndValue.md: key/value access)",
+    "tests": [
+     "OBS-0070"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-TUPLE-KEYS",
+    "kind": "p2p",
+    "requirement": "AllTupleKeys describes keys used at the public form field-value access boundary (type-only constraints are not graded). (docs/reference/type-aliases/AllTupleKeys.md: key/value access)",
+    "tests": [
+     "OBS-0071"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-UNKNOWN-DEEP",
+    "kind": "p2p",
+    "requirement": "UnknownDeepKeyAndValue describes keys used at the public form field-value access boundary (type-only constraints are not graded). (docs/reference/interfaces/UnknownDeepKeyAndValue.md: key/value access)",
+    "tests": [
+     "OBS-0072"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-VALIDATION-FN",
+    "kind": "p2p",
+    "requirement": "runValidation dispatches a ValidationLogicValidatorsFn function and assigns its error to the supplied cause. (docs/reference/interfaces/ValidationLogicValidatorsFn.md: cause and fn)",
+    "tests": [
+     "OBS-0073"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-VALIDATION-PROPS",
+    "kind": "p2p",
+    "requirement": "Custom validation logic receives the form, group, event and validators and can dispatch validators with runValidation. (docs/reference/interfaces/ValidationLogicProps.md: group event context)",
+    "tests": [
+     "OBS-0074"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-3-VALIDATORS",
+    "kind": "p2p",
+    "requirement": "Synchronous and asynchronous validators run for mount, change, blur and submit, and dynamic validators are enabled by revalidateLogic. (docs/reference/interfaces/FormValidators.md: validation events)",
+    "tests": [
+     "OBS-0075",
+     "OBS-0076",
+     "OBS-0077"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-ANY-FORM-GROUP-META",
+    "kind": "p2p",
+    "requirement": "Widened FormGroupMeta exposes descendant interaction and validity metadata. (docs/reference/type-aliases/AnyFormGroupMeta.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0078"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-ANY-FORM-OPTIONS",
+    "kind": "p2p",
+    "requirement": "Widened FormOptions preserves explicitly supplied default values and submit callback. (docs/reference/type-aliases/AnyFormOptions.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0079"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-ANY-FORM-STATE",
+    "kind": "p2p",
+    "requirement": "Widened FormState exposes the current values after field updates. (docs/reference/type-aliases/AnyFormState.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0080"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-ARRAY-ACCESSOR",
+    "kind": "p2p",
+    "requirement": "Runtime field access using the documented deep key/value shape (type-only inference is not graded). (docs/reference/type-aliases/ArrayAccessor.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0081"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-BASE-FORM-STATE",
+    "kind": "p2p",
+    "requirement": "BaseFormState reports values, form and field errors, mounted group lifecycle, and submission lifecycle. (docs/reference/type-aliases/BaseFormState.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0082",
+     "OBS-0083",
+     "OBS-0084",
+     "OBS-0085"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-BROADCAST-FORM-API",
+    "kind": "p2p",
+    "requirement": "BroadcastFormApi carries id, form state, and options. (docs/reference/type-aliases/BroadcastFormApi.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0086"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-BROADCAST-FORM-ID",
+    "kind": "p2p",
+    "requirement": "BroadcastFormId carries the explicit form identifier on unmount. (docs/reference/type-aliases/BroadcastFormId.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0087"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-BROADCAST-FORM-STATE",
+    "kind": "p2p",
+    "requirement": "BroadcastFormState carries the form identifier and current state. (docs/reference/type-aliases/BroadcastFormState.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0088"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-BROADCAST-FORM-SUBMISSION-STATE",
+    "kind": "p2p",
+    "requirement": "Submission payloads expose success or validation/inflight stage, attempt number, and errors. (docs/reference/type-aliases/BroadcastFormSubmissionState.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0089",
+     "OBS-0090",
+     "OBS-0091",
+     "OBS-0092"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-DEEP-KEY-AND-VALUE-ARRAY",
+    "kind": "p2p",
+    "requirement": "Runtime field access using the documented deep key/value shape (type-only inference is not graded). (docs/reference/type-aliases/DeepKeyAndValueArray.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0093"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-DEEP-KEY-AND-VALUE-OBJECT",
+    "kind": "p2p",
+    "requirement": "Runtime field access using the documented deep key/value shape (type-only inference is not graded). (docs/reference/type-aliases/DeepKeyAndValueObject.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0094"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-DEEP-KEY-AND-VALUE-TUPLE",
+    "kind": "p2p",
+    "requirement": "Runtime field access using the documented deep key/value shape (type-only inference is not graded). (docs/reference/type-aliases/DeepKeyAndValueTuple.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0095"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-DEEP-KEYS",
+    "kind": "p2p",
+    "requirement": "Runtime field access using the documented deep key/value shape (type-only inference is not graded). (docs/reference/type-aliases/DeepKeys.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0096"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-DEEP-KEYS-AND-VALUES",
+    "kind": "p2p",
+    "requirement": "Runtime field access using the documented deep key/value shape (type-only inference is not graded). (docs/reference/type-aliases/DeepKeysAndValues.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0097"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-DEEP-KEYS-AND-VALUES-IMPL",
+    "kind": "p2p",
+    "requirement": "Runtime field access using the documented deep key/value shape (type-only inference is not graded). (docs/reference/type-aliases/DeepKeysAndValuesImpl.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0098"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-DEEP-KEYS-OF-TYPE",
+    "kind": "p2p",
+    "requirement": "Runtime field access using the documented deep key/value shape (type-only inference is not graded). (docs/reference/type-aliases/DeepKeysOfType.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0099"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-DEEP-RECORD",
+    "kind": "p2p",
+    "requirement": "Runtime field access using the documented deep key/value shape (type-only inference is not graded). (docs/reference/type-aliases/DeepRecord.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0100"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-4-DEEP-VALUE",
+    "kind": "p2p",
+    "requirement": "Runtime field access using the documented deep key/value shape (type-only inference is not graded). (docs/reference/type-aliases/DeepValue.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0101"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-DERIVEDFORMSTATE",
+    "kind": "p2p",
+    "requirement": "Derived form state aggregates field metadata, validity, defaults and form errors. (docs/reference/type-aliases/DerivedFormState.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0102",
+     "OBS-0103",
+     "OBS-0104",
+     "OBS-0105"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-EVENTCLIENTEVENTMAP",
+    "kind": "p2p",
+    "requirement": "The event map supplies form request event registrations. (docs/reference/type-aliases/EventClientEventMap.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0106"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-EVENTCLIENTEVENTNAMES",
+    "kind": "p2p",
+    "requirement": "The form event client emits the unmount event with its form identifier. (docs/reference/type-aliases/EventClientEventNames.md: event-client runtime use; see EventClient.ts EventMap and BroadcastFormId)",
+    "tests": [
+     "OBS-0107"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-EXTRACTGLOBALFORMERROR",
+    "kind": "p2p",
+    "requirement": "Form errors accept global objects, extracting form errors and distributing field errors. (docs/reference/type-aliases/ExtractGlobalFormError.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0108"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-FIELDSMAP",
+    "kind": "p2p",
+    "requirement": "FieldsMap maps shallow group keys to compatible deep parent keys. (docs/reference/type-aliases/FieldsMap.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0109"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-FORMVALIDATEFN",
+    "kind": "p2p",
+    "requirement": "FormValidateFn receives the complete value and formApi. (docs/reference/type-aliases/FormValidateFn.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0110"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-FORMVALIDATIONERROR",
+    "kind": "p2p",
+    "requirement": "Form errors accept ordinary ValidationError values. (docs/reference/type-aliases/FormValidationError.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0111"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-FORMVALIDATOR",
+    "kind": "p2p",
+    "requirement": "FormValidator exposes synchronous validate and promised validateAsync results. (docs/reference/type-aliases/FormValidator.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0112"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-NULLABLE",
+    "kind": "p2p",
+    "requirement": "Deep access preserves the nullish parent value. (docs/reference/type-aliases/Nullable.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0113"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-OBJECTACCESSOR",
+    "kind": "p2p",
+    "requirement": "ObjectAccessor path syntax accesses the corresponding form value. (docs/reference/type-aliases/ObjectAccessor.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0114"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-OBJECTVALUE",
+    "kind": "p2p",
+    "requirement": "Deep access preserves the nullish parent value. (docs/reference/type-aliases/ObjectValue.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0115"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-STANDARDSCHEMAV1",
+    "kind": "p2p",
+    "requirement": "StandardSchemaV1 exposes validation via ~standard. (docs/reference/type-aliases/StandardSchemaV1.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0116"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-TSTANDARDSCHEMAVALIDATORISSUE",
+    "kind": "p2p",
+    "requirement": "Field schema failures produce StandardSchemaV1Issue arrays; form failures produce form and fields maps. (docs/reference/type-aliases/TStandardSchemaValidatorIssue.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0117"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-TSTANDARDSCHEMAVALIDATORVALUE",
+    "kind": "p2p",
+    "requirement": "Schema validator value and validationSource select input and field/form result. (docs/reference/type-aliases/TStandardSchemaValidatorValue.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0118"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-TUPLEACCESSOR",
+    "kind": "p2p",
+    "requirement": "TupleAccessor path syntax accesses the corresponding form value. (docs/reference/type-aliases/TupleAccessor.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0119"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-UNKNOWNACCESSOR",
+    "kind": "p2p",
+    "requirement": "UnknownAccessor path syntax accesses the corresponding form value. (docs/reference/type-aliases/UnknownAccessor.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0120"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-UNWRAPFIELDASYNCVALIDATEORFN",
+    "kind": "p2p",
+    "requirement": "Field and group function validation results are awaited. (docs/reference/type-aliases/UnwrapFieldAsyncValidateOrFn.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0121"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-UNWRAPFIELDVALIDATEORFN",
+    "kind": "p2p",
+    "requirement": "Field and group function validation results are exposed as validation errors. (docs/reference/type-aliases/UnwrapFieldValidateOrFn.md: runtime use of documented shape)",
+    "tests": [
+     "OBS-0122"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-DERIVED-ERRORS-DEFAULTS",
+    "kind": "p2p",
+    "requirement": "Derived errors include null and global form properties; non-nullish field defaults take precedence over form defaults. (docs/reference/type-aliases/DerivedFormState.md: errors and isDefaultValue)",
+    "tests": [
+     "OBS-0123",
+     "OBS-0124"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-5-DERIVED-MOUNT-ERROR",
+    "kind": "p2p",
+    "requirement": "Form validity is computed before obsolete onMount errors are cleared when a field is touched. (docs/reference/type-aliases/DerivedFormState.md: isFormValid)",
+    "tests": [
+     "OBS-0125"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-DEFAULT-LOGIC",
+    "kind": "p2p",
+    "requirement": "defaultValidationLogic runs the configured blur validator for blur validation. (docs/reference/variables/defaultValidationLogic.md)",
+    "tests": [
+     "OBS-0126"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-EVENT-CLIENT",
+    "kind": "p2p",
+    "requirement": "Forms using the exported event client still invoke the documented mount listener. (docs/reference/variables/formEventClient.md)",
+    "tests": [
+     "OBS-0127"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-FIELD-GROUP-OPTIONS",
+    "kind": "p2p",
+    "requirement": "FieldGroupOptions fields path selects current group values; defaultValues are not applied. (packages/form-core/src/FieldGroupApi.ts)",
+    "tests": [
+     "OBS-0128"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-FIELD-OPTIONS",
+    "kind": "p2p",
+    "requirement": "FieldOptions onMount validator runs on mount and records its error. (packages/form-core/src/FieldApi.ts)",
+    "tests": [
+     "OBS-0129"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-FORM-API",
+    "kind": "p2p",
+    "requirement": "setFieldValue sets the value of the specified field. (packages/form-core/src/FormApi.ts: setFieldValue)",
+    "tests": [
+     "OBS-0130"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-STANDARD-SCHEMA",
+    "kind": "p2p",
+    "requirement": "validate and validateAsync return field issues on failure and undefined on success. (docs/reference/variables/standardSchemaValidators.md)",
+    "tests": [
+     "OBS-0131",
+     "OBS-0132"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-THROTTLE",
+    "kind": "p2p",
+    "requirement": "throttleFormState accepts AnyFormApi and returns void. (docs/reference/variables/throttleFormState.md)",
+    "tests": [
+     "OBS-0133"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-UNWRAP-ASYNC",
+    "kind": "p2p",
+    "requirement": "Async validator results are awaited and the global form error is extracted. (docs/reference/type-aliases/UnwrapFormAsyncValidateOrFn.md)",
+    "tests": [
+     "OBS-0134"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-UNWRAP-SYNC",
+    "kind": "p2p",
+    "requirement": "Function validator results extract the global form error. (docs/reference/type-aliases/UnwrapFormValidateOrFn.md)",
+    "tests": [
+     "OBS-0135"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-UPDATER-FN",
+    "kind": "p2p",
+    "requirement": "UpdaterFn receives input and returns TOutput, including a different output type. (docs/reference/type-aliases/UpdaterFn.md)",
+    "tests": [
+     "OBS-0136"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-UPDATER",
+    "kind": "p2p",
+    "requirement": "Updater accepts either a replacement value or a function of the input. (docs/reference/type-aliases/Updater.md)",
+    "tests": [
+     "OBS-0137"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-VALIDATION-ERROR",
+    "kind": "p2p",
+    "requirement": "ValidationError is unknown; a validator may return a structured error. (docs/reference/type-aliases/ValidationError.md)",
+    "tests": [
+     "OBS-0138"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-VALIDATION-LOGIC",
+    "kind": "p2p",
+    "requirement": "Custom validation logic processes ValidationLogicProps through runValidation. (docs/reference/type-aliases/ValidationLogicFn.md)",
+    "tests": [
+     "OBS-0139"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-VALIDATION-META",
+    "kind": "p2p",
+    "requirement": "ValidationMeta holds an abort controller to cancel previous async attempts. (docs/reference/type-aliases/ValidationMeta.md)",
+    "tests": [
+     "OBS-0140"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-6-VALIDATION-SOURCE",
+    "kind": "p2p",
+    "requirement": "ValidationSource distinguishes form and field errors. (docs/reference/type-aliases/ValidationSource.md)",
+    "tests": [
+     "OBS-0141"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-7-GROUP",
+    "kind": "p2p",
+    "requirement": "A successful non-submit sync validation clears the group's submit error; async validators are collected; default metadata is available before mounting. (packages/form-core/src/FormGroupApi.ts: submitErrKey, validatesPromises and fallback metadata)",
+    "tests": [
+     "OBS-0142",
+     "OBS-0143",
+     "OBS-0144"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-7-MERGE",
+    "kind": "p2p",
+    "requirement": "The partial state supplied to mergeForm is observable on the returned FormApi. (packages/form-core/src/mergeForm.ts: mergeForm partial state)",
+    "tests": [
+     "OBS-0145"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-7-META",
+    "kind": "p2p",
+    "requirement": "Structural array operations increment the array version and move, swap, remove or insert tracked metadata as documented. (packages/form-core/src/metaHelper.ts: array metadata handlers)",
+    "tests": [
+     "OBS-0146",
+     "OBS-0147",
+     "OBS-0148",
+     "OBS-0149"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-7-TRANSFORM",
+    "kind": "p2p",
+    "requirement": "The FormApi supplied to a transform exposes its current form values through getFieldValue. (packages/form-core/src/transform.ts: FormTransform and mergeAndUpdate; FormApi values)",
+    "tests": [
+     "OBS-0150"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-7-TYPES",
+    "kind": "p2p",
+    "requirement": "Registered field metadata reports errors, validity, inverse dirty/pristine state, and whether its value matches its default. (packages/form-core/src/types.ts: FieldLikeMetaDerived and FormLikeAPI)",
+    "tests": [
+     "OBS-0151"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-7-UTIL-TYPES",
+    "kind": "p2p",
+    "requirement": "Deeply nested object and array field access returns the value at that path. (packages/form-core/src/util-types.ts: DeepValue; FormLikeAPI.getFieldValue)",
+    "tests": [
+     "OBS-0152"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-8-MERGE-OPTIONS",
+    "kind": "p2p",
+    "requirement": "Merge the first parameter with the given overrides. (packages/form-core/src/utils.ts: mergeOpts)",
+    "tests": [
+     "OBS-0153"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-8-PATHS",
+    "kind": "p2p",
+    "requirement": "Get, set, and delete object values using paths, including dot notation. (packages/form-core/src/utils.ts: getBy, setBy, deleteBy)",
+    "tests": [
+     "OBS-0154",
+     "OBS-0155",
+     "OBS-0156"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-DYNAMIC-VALIDATION-PRESERVED",
+    "kind": "p2p",
+    "requirement": "revalidateLogic runs dynamic validation on submit and on the configured mode event, switching after submission attempts. (docs/reference/functions/revalidateLogic.md: dynamic modes)",
+    "tests": [
+     "OBS-0157",
+     "OBS-0158"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-FIELD-ARRAY-PRESERVED",
+    "kind": "p2p",
+    "requirement": "FieldApi array adapters perform their named value operations. (docs/reference/classes/FieldApi.md: array operations)",
+    "tests": [
+     "OBS-0159",
+     "OBS-0160",
+     "OBS-0161",
+     "OBS-0162",
+     "OBS-0163",
+     "OBS-0164"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-FIELD-CHANGE-VALIDATION-CAUSE",
+    "kind": "f2p",
+    "requirement": "Sets the field value and requests change validation unless dontValidate is true. (packages/form-core/src/FieldApi.ts: setValue)",
+    "tests": [
+     "OBS-0165",
+     "OBS-0166"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-FIELD-LISTENERS-PRESERVED",
+    "kind": "p2p",
+    "requirement": "FieldListeners notify on blur, submission and changes unless listener execution is disabled. (docs/reference/interfaces/FieldListeners.md: listener callbacks)",
+    "tests": [
+     "OBS-0167",
+     "OBS-0168"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-FIELD-RESET-PRECEDENCE",
+    "kind": "f2p",
+    "requirement": "Resets base field metadata to the built-in defaults. Selects the non-nullish field default, falling back to the form default. If the selected default is undefined, the value is unchanged; otherwise it is applied as a value or updater function. (packages/form-core/src/FormApi.ts: resetField)",
+    "tests": [
+     "OBS-0169",
+     "OBS-0170"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-FIELD-SCHEMA-VALUE-SOURCE",
+    "kind": "f2p",
+    "requirement": "Parses the field's value with the given schema and returns issues (if any). This method does NOT set any internal errors. (packages/form-core/src/FieldApi.ts: parseValueWithSchema)",
+    "tests": [
+     "OBS-0171",
+     "OBS-0172"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-FORM-ARRAY-PRESERVED",
+    "kind": "p2p",
+    "requirement": "Array push, insertion, removal, clearing, backward moves and ordinary swaps retain their documented semantics. (docs/reference/classes/FormApi.md: array operations)",
+    "tests": [
+     "OBS-0173",
+     "OBS-0174",
+     "OBS-0175",
+     "OBS-0176",
+     "OBS-0177",
+     "OBS-0178"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-FORM-ASYNC-SCHEMA-VALUE-SOURCE",
+    "kind": "f2p",
+    "requirement": "Parses the form's values with a given standard schema and returns issues (if any). This method does NOT set any internal errors. (packages/form-core/src/FormApi.ts: parseValuesWithSchemaAsync)",
+    "tests": [
+     "OBS-0179",
+     "OBS-0180"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-FORM-ERRORS-PRESERVED",
+    "kind": "p2p",
+    "requirement": "FormApi.setErrorMap distributes global field errors and getAllErrors returns form and field errors. (docs/reference/interfaces/FormState.md: errorMap)",
+    "tests": [
+     "OBS-0181",
+     "OBS-0182"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-GROUP-SUBMIT-METADATA",
+    "kind": "f2p",
+    "requirement": "Optional submission metadata; handleSubmit forwards its argument to the parent form without using this option. (packages/form-core/src/FieldGroupApi.ts: handleSubmit)",
+    "tests": [
+     "OBS-0183",
+     "OBS-0184"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-GROUP-VALUE-PRESERVED",
+    "kind": "p2p",
+    "requirement": "FormGroupApi.setValue updates its named value and group change validation. (docs/reference/classes/FormGroupApi.md: setValue)",
+    "tests": [
+     "OBS-0185",
+     "OBS-0186"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-MAPPED-UPDATE-OPTIONS",
+    "kind": "f2p",
+    "requirement": "Sets the value at the resolved parent-form path and forwards metadata-update options. Object-map field names whose first parsed accessor is numeric resolve to the empty parent path rather than the configured mapping. (packages/form-core/src/FieldGroupApi.ts: setFieldValue)",
+    "tests": [
+     "OBS-0187",
+     "OBS-0188"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-MAPPED-VALUES-PRESERVED",
+    "kind": "p2p",
+    "requirement": "FieldGroupApi maps value access, mutation and array operations to parent paths. (docs/reference/classes/FieldGroupApi.md: value operations)",
+    "tests": [
+     "OBS-0189",
+     "OBS-0190",
+     "OBS-0191",
+     "OBS-0192",
+     "OBS-0193",
+     "OBS-0194"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-MOVE-DESTINATION-COORDINATE",
+    "kind": "f2p",
+    "requirement": "Moves the value at the first specified index to the second specified index within an array field. (packages/form-core/src/FormApi.ts: moveFieldValues)",
+    "tests": [
+     "OBS-0195",
+     "OBS-0196"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-REPLACE-RETAINS-NONTARGETS",
+    "kind": "f2p",
+    "requirement": "Replaces a value into an array field at the specified index. (packages/form-core/src/FormApi.ts: replaceFieldValue)",
+    "tests": [
+     "OBS-0197",
+     "OBS-0198"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-RESET-AND-OPTIONS-PRESERVED",
+    "kind": "p2p",
+    "requirement": "Reset applies supplied defaults, field nullish fallback and absent default retention; validation can be explicitly bypassed. (packages/form-core/src/FormApi.ts: reset)",
+    "tests": [
+     "OBS-0199",
+     "OBS-0200",
+     "OBS-0201",
+     "OBS-0202"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-RESET-DEFAULT-RETENTION",
+    "kind": "f2p",
+    "requirement": "Non-nullish values override the form defaults; truthy values also update the defaults unless keepDefaultValues is true. Falsy values also allow mounted field defaults to be applied. (packages/form-core/src/FormApi.ts: reset)",
+    "tests": [
+     "OBS-0203",
+     "OBS-0204"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-RESET-METADATA-DIRTY-RETENTION",
+    "kind": "f2p",
+    "requirement": "Returns built-in default metadata for each key in the supplied map (packages/form-core/src/FormApi.ts: resetFieldMeta)",
+    "tests": [
+     "OBS-0205",
+     "OBS-0206"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-SCHEMA-PARSING-PRESERVED",
+    "kind": "p2p",
+    "requirement": "Schema parsing returns issues without changing internal errors and uses current values. (packages/form-core/src/FieldApi.ts: parseValueWithSchemaAsync)",
+    "tests": [
+     "OBS-0207",
+     "OBS-0208",
+     "OBS-0209"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-SWAP-UPDATER-INPUT",
+    "kind": "f2p",
+    "requirement": "Swaps non-function values at the specified array indices. Function-valued elements are called as updaters with the destination value, and their results are stored. (packages/form-core/src/FormApi.ts: swapFieldValues)",
+    "tests": [
+     "OBS-0210",
+     "OBS-0211"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   }
+  ]
+ }
+}

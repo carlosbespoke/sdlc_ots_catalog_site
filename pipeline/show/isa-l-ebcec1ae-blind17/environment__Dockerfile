@@ -1,0 +1,382 @@
+FROM --platform=linux/amd64 ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 SOURCE_DATE_EPOCH=0
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential cmake git ca-certificates pkg-config nasm zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
+RUN git config --system --add safe.directory '*'
+RUN mkdir -p /workspace/repo && cd /workspace/repo \
+    && git init -q && git remote add origin https://github.com/intel/isa-l.git \
+    && git fetch --depth 1 -q origin ebcec1aea3239108a67cc6309aaaeed6211fed89 \
+    && git checkout -q FETCH_HEAD \
+    && git submodule update --init --recursive --depth 1
+WORKDIR /workspace/repo
+RUN cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+RUN cmake --build build --parallel 4
+LABEL repo="intel/isa-l" revision="ebcec1aea3239108a67cc6309aaaeed6211fed89" language="c"
+
+# ==========================================================================
+# Task layers. Everything above comes from the candidate pool unchanged.
+# ==========================================================================
+USER root
+
+# harbor's terminus_2 rollout agent starts a tmux session INSIDE this image, and since
+# 2026-08-31 the eval fleet no longer provides the binary itself — an image without
+# tmux fails every rollout at setup ("Failed to start tmux session", 15/15 measured).
+# Before {copies} so the apt layer caches across tasks sharing a pool image; apt's
+# file timestamps land outside /workspace/repo, so the flattening below is unaffected.
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends tmux \
+    && rm -rf /var/lib/apt/lists/*
+# THE UNPRIVILEGED ACCOUNT, when the pool image did not make one. Every graded suite run
+# drops to it (`setpriv --reuid agent` in the grader) and this image ends on USER agent,
+# so an image without it cannot start a rollout at all, never mind grade one. Almost every
+# pool Dockerfile creates it; the C sourcing generation does not -- `id agent` in both C
+# pilot images answers "no such user" -- and this is cheaper than a pool regeneration and
+# correct for every language. Conditional, so an image that already has the account keeps
+# the uid and home directory the pool gave it. No fixed uid: ubuntu:24.04 already has a
+# user at 1000, and failing the build over a taken uid would be a worse answer than a
+# different number.
+RUN id -u agent >/dev/null 2>&1 || useradd -m -s /bin/bash agent
+# The grader is Python whatever the repository is, and tests/Dockerfile starts from this
+# Dockerfile, so a pool image that ships none (a Go image is Debian with the toolchain)
+# gets the base image's python3 here, root-owned under /usr/bin, which is the interpreter
+# test.sh resolves on its trusted PATH. Here rather than in the verifier layers because
+# the build's own gates run their scans with python3 inside the agent image too. Before
+# {copies} for the same caching reason as tmux.
+# THE PROBE ASKS THE TRUSTED PATH, NOT THIS BUILD'S PATH. The pool image sets
+# `ENV PATH=/opt/venv/bin:$PATH` and chowns /opt/venv to the agent, so a bare
+# `command -v python3` answers with the AGENT'S interpreter and skips the install - while
+# test.sh runs with PATH=/usr/local/bin:/usr/bin:/bin precisely to keep that venv off the
+# search path, and would then find no python3 at all and grade nothing. Ask the same three
+# directories test.sh will, and re-assert after the install so an image that still has no
+# python3 on that path fails the BUILD rather than every rollout's grading.
+RUN set -eu; \
+    if ! PATH=/usr/local/bin:/usr/bin:/bin command -v python3 >/dev/null 2>&1; then \
+        apt-get update -qq \
+        && apt-get install -y -qq --no-install-recommends python3 \
+        && rm -rf /var/lib/apt/lists/*; \
+    fi; \
+    PATH=/usr/local/bin:/usr/bin:/bin command -v python3 >/dev/null
+COPY faults/fault0_crc64_base.c /workspace/repo/crc/crc64_base.c
+COPY faults/fault1_crc_base.c /workspace/repo/crc/crc_base.c
+COPY faults/fault2_ec_base.c /workspace/repo/erasure_code/ec_base.c
+COPY faults/fault3_ec_highlevel_func.c /workspace/repo/erasure_code/ec_highlevel_func.c
+COPY faults/fault4_flatten_ll.c /workspace/repo/igzip/flatten_ll.c
+COPY faults/fault5_huff_codes.c /workspace/repo/igzip/huff_codes.c
+COPY faults/fault6_igzip.c /workspace/repo/igzip/igzip.c
+COPY faults/fault7_igzip_icf_base.c /workspace/repo/igzip/igzip_icf_base.c
+COPY faults/fault8_igzip_icf_body.c /workspace/repo/igzip/igzip_icf_body.c
+COPY faults/fault9_igzip_inflate.c /workspace/repo/igzip/igzip_inflate.c
+COPY faults/fault10_raid_base.c /workspace/repo/raid/raid_base.c
+
+# The C test suite is hidden by stubbing its sources and taking the test
+# executables out of the default build, rather than removing the suite, so the
+# agent's own `cmake --build build` still builds the library. The grader restores
+# the real sources and removes the marker, so the verifier builds and grades it.
+RUN set -eu; \
+    cd /workspace/repo; \
+    printf '/* hidden: graded separately */\n' > crc/crc16_t10dif_copy_test.c; \
+    printf '/* hidden: graded separately */\n' > crc/crc16_t10dif_test.c; \
+    printf '/* hidden: graded separately */\n' > crc/crc32_funcs_test.c; \
+    printf '/* hidden: graded separately */\n' > crc/crc64_funcs_test.c; \
+    printf '/* hidden: graded separately */\n' > crc/crc_simple_test.c; \
+    printf '/* hidden: graded separately */\n' > erasure_code/erasure_code_base_test.c; \
+    printf '/* hidden: graded separately */\n' > erasure_code/erasure_code_test.c; \
+    printf '/* hidden: graded separately */\n' > erasure_code/erasure_code_update_test.c; \
+    printf '/* hidden: graded separately */\n' > erasure_code/gf_inverse_test.c; \
+    printf '/* hidden: graded separately */\n' > erasure_code/gf_vect_dot_prod_base_test.c; \
+    printf '/* hidden: graded separately */\n' > erasure_code/gf_vect_dot_prod_test.c; \
+    printf '/* hidden: graded separately */\n' > erasure_code/gf_vect_mad_test.c; \
+    printf '/* hidden: graded separately */\n' > erasure_code/gf_vect_mul_base_test.c; \
+    printf '/* hidden: graded separately */\n' > erasure_code/gf_vect_mul_test.c; \
+    printf '/* hidden: graded separately */\n' > igzip/checksum32_funcs_test.c; \
+    printf '/* hidden: graded separately */\n' > igzip/igzip_inflate_test.c; \
+    printf '/* hidden: graded separately */\n' > igzip/igzip_rand_test.c; \
+    printf '/* hidden: graded separately */\n' > igzip/igzip_wrapper_hdr_test.c; \
+    printf '/* hidden: graded separately */\n' > mem/mem_zero_detect_test.c; \
+    printf '/* hidden: graded separately */\n' > misc/version_test.c; \
+    printf '/* hidden: graded separately */\n' > raid/pq_check_test.c; \
+    printf '/* hidden: graded separately */\n' > raid/pq_gen_test.c; \
+    printf '/* hidden: graded separately */\n' > raid/xor_check_test.c; \
+    printf '/* hidden: graded separately */\n' > raid/xor_gen_test.c; \
+    printf '/* hidden: graded separately */\n' > tests/fuzz/crc_fuzz_test.c; \
+    printf '/* hidden: graded separately */\n' > tests/fuzz/ec_fuzz_test.c; \
+    printf '/* hidden: graded separately */\n' > tests/fuzz/igzip_checked_inflate_fuzz_test.c; \
+    printf '/* hidden: graded separately */\n' > tests/fuzz/igzip_dump_inflate_corpus.c; \
+    printf '/* hidden: graded separately */\n' > tests/fuzz/igzip_fuzz_inflate.c; \
+    printf '/* hidden: graded separately */\n' > tests/fuzz/igzip_fuzz_test.c; \
+    printf '/* hidden: graded separately */\n' > tests/fuzz/igzip_simple_inflate_fuzz_test.c; \
+    printf '/* hidden: graded separately */\n' > tests/fuzz/igzip_simple_round_trip_fuzz_test.c; \
+    printf '/* hidden: graded separately */\n' > tests/fuzz/raid_fuzz_test.c; \
+    printf '/* hidden: graded separately */\n' > tests/fuzz/shim_fuzz_test.c; \
+    find /workspace/repo/crc/crc16_t10dif_copy_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/crc/crc16_t10dif_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/crc/crc32_funcs_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/crc/crc64_funcs_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/crc/crc_simple_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/erasure_code/erasure_code_base_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/erasure_code/erasure_code_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/erasure_code/erasure_code_update_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/erasure_code/gf_inverse_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/erasure_code/gf_vect_dot_prod_base_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/erasure_code/gf_vect_dot_prod_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/erasure_code/gf_vect_mad_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/erasure_code/gf_vect_mul_base_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/erasure_code/gf_vect_mul_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/igzip/checksum32_funcs_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/igzip/igzip_inflate_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/igzip/igzip_rand_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/igzip/igzip_wrapper_hdr_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/include/test.h -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/mem/mem_zero_detect_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/misc/version_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/raid/pq_check_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/raid/pq_gen_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/raid/xor_check_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/raid/xor_gen_test.c -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    find /workspace/repo/tests -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -exec truncate -s 0 {} + 2>/dev/null || true; \
+    cmake --build build --target clean >/dev/null 2>&1 || true; \
+    mkdir -p /opt; \
+    printf '%b' '# Written by build_task.py. Hides the repository'"'"'s test executables from the agent'"'"'s\n# default build so `cmake --build build` works with the test sources stubbed. The grader\n# removes the marker once it restores the real suite, so the verifier builds the tests.\nif(EXISTS "${CMAKE_BINARY_DIR}/.hide_tests.on")\n  set(_HIDE_TESTS checksum32_funcs_test;crc16_t10dif_copy_test;crc16_t10dif_test;crc32_funcs_test;crc64_funcs_test;erasure_code_base_test;erasure_code_test;erasure_code_update_test;gf_inverse_test;gf_vect_dot_prod_base_test;gf_vect_dot_prod_test;gf_vect_mad_test;gf_vect_mul_base_test;gf_vect_mul_test;igzip_inflate_test;igzip_rand_test;igzip_wrapper_hdr_test;mem_zero_detect_test;pq_check_test;pq_gen_test;version_test;xor_check_test;xor_gen_test)\n  function(_hide_test_targets)\n    foreach(_t IN LISTS _HIDE_TESTS)\n      if(TARGET ${_t})\n        set_target_properties(${_t} PROPERTIES EXCLUDE_FROM_ALL TRUE)\n      endif()\n    endforeach()\n  endfunction()\n  cmake_language(DEFER CALL _hide_test_targets)\nendif()\n' > /opt/hide_tests.overlay.cmake
+RUN set -eu; \
+    cd /workspace/repo; \
+    touch build/.hide_tests.on; \
+    cmake -S /workspace/repo -B build -DCMAKE_PROJECT_INCLUDE=/opt/hide_tests.overlay.cmake >/dev/null; \
+    cmake --build build -j "$(nproc)" >/dev/null
+
+
+# ==========================================================================
+# C: nothing compiled from the pristine tree may survive into this image.
+# ==========================================================================
+# The pool image built build from the checkout as it came from upstream, and the
+# faults were injected after that, so every object and every test binary in there was
+# compiled from the code the agent is being asked to reconstruct: `objdump -d` on one of
+# them gives the original function back. They also make the fault INVISIBLE, because the
+# flattening below gives the faulted source the same modification time as its own object
+# and every build system reads that as up to date. `--target clean` removes exactly what
+# the build produced and leaves the configuration alone, so the grader can still build.
+# The other spellings are for a generator CMake does not drive; the check below is what
+# decides whether any of them worked.
+#
+# THE CHECK HERE IS NARROWER THAN GATE 9'S ON PURPOSE. This one looks for object files by
+# extension: it is a cheap assertion that `clean` actually ran, it fails the docker build
+# outright, and a build failure is not waivable. Gate 9 asks the real question - is there
+# any ELF or ar archive left under the workdir, whatever it is called - and it is a gate,
+# so a repository that legitimately ships a binary fixture can be waived past it by a
+# person with `--allow go-cache-leak`. Making this one as strict as the gate would move
+# that judgement into a Dockerfile, where nobody can overrule it.
+#
+# CONFIGURE-TIME PRODUCTS ARE DELETED, NOT EXCUSED. `clean` removes what the build
+# makes, and configure makes compiled files of its own that it leaves behind: try_compile
+# projects in CMakeFiles/CMakeScratch and CMakeFiles/CMakeTmp (pcre2's linker-script
+# check), check_ipo_supported's CMakeFiles/_CMakeLTOTest-<lang>/ (libredwg, fastfetch),
+# and `try_compile(... COPY_FILE)` copies a project reads back once with file(STRINGS)
+# (zlib-ng's build/detect-arch.bin). None of them is needed once configure is over, and
+# configure writes each one again if it ever runs again; but proving one free of a fault
+# from its symbols fails in ways that leak (an LTO link keeps no unit names, a copied
+# source can carry a recorded name), so they go. `sweep` below takes a compiled file
+# (ELF, ar, LLVM bitcode, GCC PCH) that is either in one of those three CMakeFiles areas
+# or anywhere else in a CMake build tree (under a directory holding a CMakeCache.txt) but
+# outside CMakeFiles - COPY_FILE can write to build/bin/ as well as to build/ - that git
+# does not track, and that no rule names: no token of any build.ninja, *.make, Makefile,
+# Makefile2, CTestTestfile.cmake, cmake_install.cmake or install_manifest*.txt under the
+# workdir is its path - absolute, or relative to that file's directory or to its build
+# tree. The try_compile projects' own build files are not read, since they name only
+# their probes.
+# COMPILED FILES THE REPOSITORY COMMITS are recorded, not touched. libwebsockets commits
+# minimal-examples/embedded/esp32/esp-heltec-wb32/scan/scan, a host tool its author built
+# from the scan.c beside it; that is part of the checkout, not of this image's build.
+# While the upstream .git is still here, each compiled file in HEAD's tree (the commit the
+# pool checked out, not the index) goes into C_COMMITTED_COMPILED (gates.py) with its
+# blob id, and gate 9 spares one that is still that blob byte for byte and whose symbols
+# show it was built from no faulted file. Only the files git already calls binary are
+# opened: every compiled format holds NUL bytes. Paths come NUL-separated (-z), so a tab
+# or a non-ASCII byte in one is not quoted; a newline in one is turned into , so that
+# path names no file and is not listed.
+#
+# Every path removed is printed into the build log and listed for gate 3 (C_PURGE_REMOVED
+# in gates.py), which refuses a task whose suite then fails a test the pool baseline
+# passed. The name match cannot read every spelling a build file has (a path with a space
+# escaped, a library linked as `-lname`), so when anything outside the three CMakeFiles
+# areas went, the build is run once to see that it needs none of it - a build that breaks
+# fails this step and names what was removed - and is cleaned and swept again after.
+# Without a usable .git nothing is removed: an object left in a try_compile area then
+# fails the check below, and gate 9 refuses any other compiled file left.
+#
+# A separate CMake build tree configured from sources outside the workdir or inside
+# another build directory - never the checkout's own - is not looked in by the check:
+# that is an ExternalProject, such as the libcyaml and cmocka capstone's cstest downloads
+# and builds under build/suite/cstest/extern/src/. `clean` on the main build does not
+# reach into another project's tree, and cleaning it by hand would only make the grader's
+# build fetch it again, offline. "Another build directory" is one whose own cache was
+# configured from sources elsewhere: a directory of the checkout built in place
+# (`cmake -S c -B c`) has a cache too, and does not count. Gate 9 still reads every file
+# in such a tree and spares one only when its symbol table shows it was compiled from no
+# faulted file.
+RUN set -eu; \
+    cd /workspace/repo; \
+    cmake --build build --target clean >/dev/null 2>&1 \
+        || ninja -C build -t clean >/dev/null 2>&1 \
+        || make -C build clean >/dev/null 2>&1 \
+        || true; \
+    rm -rf /root/.ccache /home/agent/.ccache "${CCACHE_DIR:-/nonexistent-ccache}"; \
+    compiled() { case "$(head -c4 "$1" | od -An -tx1 | tr -d ' \n')" in \
+        7f454c46 | 213c6172 | 4243c0de | dec0170b | 67706368) return 0;; esac; return 1; }; \
+    sweep() { \
+    cands="$(mktemp)"; \
+    trees="$(find /workspace/repo -path /workspace/repo/.git -prune -o -type f -name CMakeCache.txt -print \
+        2>/dev/null | sed 's|/CMakeCache.txt$||')"; \
+    if git -c safe.directory='*' -C /workspace/repo rev-parse --git-dir >/dev/null 2>&1; then \
+        find /workspace/repo -path /workspace/repo/.git -prune -o -type f -print 2>/dev/null \
+        | while IFS= read -r f; do \
+            case "$f" in \
+                */CMakeFiles/CMakeScratch/* | */CMakeFiles/CMakeTmp/* \
+                    | */CMakeFiles/_CMakeLTOTest-*/*) ;; \
+                */CMakeFiles/*) continue;; \
+                *) inside=; \
+                   for t in $trees; do case "$f" in "$t"/*) inside=1; break;; esac; done; \
+                   [ -n "$inside" ] || continue;; \
+            esac; \
+            compiled "$f" || continue; \
+            git -c safe.directory='*' -C /workspace/repo ls-files --error-unmatch -- "${f#/workspace/repo/}" \
+                >/dev/null 2>&1 && continue; \
+            printf '%s\n' "$f"; \
+        done > "$cands"; \
+    fi; \
+    if [ -s "$cands" ]; then \
+        find /workspace/repo \( -path /workspace/repo/.git -o -path '*/CMakeFiles/CMakeScratch' \
+                -o -path '*/CMakeFiles/CMakeTmp' -o -path '*/CMakeFiles/_CMakeLTOTest-*' \) \
+            -prune -o -type f \( -name '*.ninja' -o -name '*.make' -o -name Makefile \
+                -o -name Makefile2 -o -name CTestTestfile.cmake -o -name cmake_install.cmake \
+                -o -name 'install_manifest*.txt' \) -print0 2>/dev/null \
+        | xargs -0r awk 'FNR == 1 { print "\001" FILENAME }; { print };' \
+        | awk -v W=/workspace/repo ' \
+            NR == FNR { cand[$0] = 1; next }; \
+            /^\001/ { d = substr($0, 2); sub(/\/[^\/]*$/, "", d); t = d; \
+                while (t != "" && (getline x < (t "/CMakeCache.txt")) < 0) { \
+                    if (t == W || index(t, W "/") != 1) { t = ""; break }; \
+                    sub(/\/[^\/]*$/, "", t) }; \
+                if (t != "") close(t "/CMakeCache.txt"); next }; \
+            { n = split($0, a, /[ \t"'"'"'();:,=]+/); \
+              for (i = 1; i <= n; i++) { x = a[i]; if (x == "") continue; \
+                  sub(/^\.\//, "", x); \
+                  if (x in cand) named[x] = 1; \
+                  if ((d "/" x) in cand) named[d "/" x] = 1; \
+                  if (t != "" && (t "/" x) in cand) named[t "/" x] = 1 } }; \
+            END { for (c in cand) if (!(c in named)) print c }' "$cands" - \
+        | while IFS= read -r f; do \
+            rm -f -- "$f"; \
+            mkdir -p "$(dirname /var/lib/voyager/c-purge-removed)"; \
+            printf '%s\n' "$f" >> /var/lib/voyager/c-purge-removed; \
+            printf '%s\n' "$f" >> "$1"; \
+            echo "purge: removed $f, compiled at configure time and named by no build, \
+test or install rule" >&2; \
+        done; \
+    fi; \
+    rm -f "$cands"; \
+    }; \
+    removed="$(mktemp)"; \
+    sweep "$removed"; \
+    if grep -qv -e '/CMakeFiles/CMakeScratch/' -e '/CMakeFiles/CMakeTmp/' \
+            -e '/CMakeFiles/_CMakeLTOTest-' "$removed"; then \
+        echo "purge: building once, to see that the build needs none of it" >&2; \
+        if ! cmake --build build --parallel "$(nproc)" >"$removed.log" 2>&1; then \
+            echo "the purge removed $(grep -v -e /CMakeFiles/CMakeScratch/ \
+-e /CMakeFiles/CMakeTmp/ -e /CMakeFiles/_CMakeLTOTest- "$removed" | tr '\n' ' ')and the \
+build no longer builds without it, so it is not a configure-time leftover after all:" >&2; \
+            tail -n 20 "$removed.log" >&2; \
+            exit 1; \
+        fi; \
+        cmake --build build --target clean >/dev/null 2>&1 \
+            || ninja -C build -t clean >/dev/null 2>&1 \
+            || make -C build clean >/dev/null 2>&1 \
+            || true; \
+        sweep "$removed"; \
+    fi; \
+    rm -f "$removed" "$removed.log"; \
+    mkdir -p "$(dirname /var/lib/voyager/c-committed-compiled)"; \
+    : > /var/lib/voyager/c-committed-compiled; \
+    bins="$(mktemp)"; \
+    git -c safe.directory='*' -C /workspace/repo ls-files --eol -z 2>/dev/null | tr '\n\0' '\001\n' \
+    | awk '$1 == "i/-text" { sub(/^[^\t]*\t/, ""); print }' > "$bins"; \
+    git -c safe.directory='*' -C /workspace/repo ls-tree -r -z HEAD 2>/dev/null | tr '\n\0' '\001\n' \
+    | awk 'NR == FNR { bin[$0] = 1; next }; \
+           { p = $0; sub(/^[^\t]*\t/, "", p); split($0, f, " ") }; \
+           (f[1] == "100644" || f[1] == "100755") && (p in bin) { print f[3] " " p }' \
+        "$bins" - \
+    | while IFS= read -r line; do \
+        blob="${line%% *}"; p="${line#* }"; \
+        compiled "/workspace/repo/$p" 2>/dev/null || continue; \
+        printf '%s %s\n' "$blob" "$p" >> /var/lib/voyager/c-committed-compiled; \
+    done; \
+    rm -f "$bins"; \
+    separate() { \
+        case "$1" in */CMakeFiles/CMakeScratch/* | */CMakeFiles/CMakeTmp/* \
+            | */CMakeFiles/_CMakeLTOTest-*/*) return 1;; esac; \
+        d="${1%/*}"; \
+        while [ ! -f "$d/CMakeCache.txt" ]; do \
+            case "$d" in /workspace/repo/*) d="${d%/*}";; *) return 1;; esac; \
+        done; \
+        home="$(sed -n 's/^CMAKE_HOME_DIRECTORY:INTERNAL=//p' "$d/CMakeCache.txt")"; \
+        case "$home" in "" | /workspace/repo) return 1;; /workspace/repo/*) ;; *) return 0;; esac; \
+        a="${home%/*}"; \
+        while [ "$a" != /workspace/repo ]; do \
+            if [ -f "$a/CMakeCache.txt" ]; then \
+                case "$(sed -n 's/^CMAKE_HOME_DIRECTORY:INTERNAL=//p' "$a/CMakeCache.txt")" in \
+                    "" | "$a") ;; *) return 0;; esac; \
+            fi; \
+            a="${a%/*}"; \
+        done; \
+        return 1; \
+    }; \
+    left="$(find /workspace/repo -type f \( -name '*.o' -o -name '*.a' -o -name '*.lo' \
+                 -o -name '*.obj' -o -name '*.gch' \) -print 2>/dev/null \
+            | while IFS= read -r f; do separate "$f" || printf '%s\n' "$f"; done \
+            | head -n 1)"; \
+    if [ -n "$left" ]; then \
+        echo "the build tree still holds $left after the purge, so the image carries \
+code compiled from the tree before the faults" >&2; \
+        exit 1; \
+    fi
+
+# Every injected file carries the time it was copied in, and every other file carries the
+# time the pool image was built. One find sorted by modification time therefore names the
+# edited files and nothing else, which is the entire search. Flatten them all.
+# The same applies to the file mode, and this one has to be ASSIGNED rather than
+# subtracted. COPY brings the build context's permissions with it, and the pool image's
+# own files are 0644, so an injected file arrives with whatever the build box's umask gave
+# it. `chmod g-w,o-w` was enough while that was 0664 — the usual umask 002 — because the
+# only difference was a bit to take away. falconry/falcon on the 2026-09-11 pool fleet ran
+# on a box with umask 077: the files arrived 0600, subtracting write bits cannot put a
+# read bit back, and `gate_standout` refused the build with "on disk, file mode separates
+# the faulted files from every other .py file in the tree: they carry [384]", which is
+# 0600. Dropping faults and rebuilding could not have helped — every injected file arrives
+# 0600 whichever faults are cut — so the mode is set outright: 0755 for directories and
+# for files that are already executable, 0644 for every other file. The tree then flattens
+# to the same modes whatever the box's umask was, and the execute bits scripts need
+# survive. The g-w,o-w sweep stays as a backstop for anything neither find matched.
+# And so does the owner. COPY writes as root while the pool image left the tree to agent,
+# so the six arrive root owned. Nothing on disk shows it, because the chown below puts the
+# whole tree back to agent, but `git add` runs before that chown and caches the owner it
+# saw: `git ls-files --debug` then reports uid 0 for the injected files and uid 1000 for
+# every other one. Chown here, before the snapshot, so the index has nothing to tell.
+RUN find /workspace/repo -exec touch -h -d "2001-01-01T00:00:00Z" {} + 2>/dev/null || true;     find /workspace/repo -type d -exec chmod 0755 {} + 2>/dev/null || true;     find /workspace/repo -type f -perm -u+x -exec chmod 0755 {} + 2>/dev/null || true;     find /workspace/repo -type f ! -perm -u+x -exec chmod 0644 {} + 2>/dev/null || true;     chmod -R g-w,o-w /workspace/repo 2>/dev/null || true;     chown -R agent:agent /workspace/repo 2>/dev/null || true
+
+RUN set -eux; \
+    rm -rf /workspace/repo/.git; \
+    git init -q /workspace/repo; \
+    git -C /workspace/repo config user.name "task"; \
+    git -C /workspace/repo config user.email "task@example.invalid"; \
+    git -C /workspace/repo config core.pager cat; \
+    git config --global --add safe.directory /workspace/repo; \
+    git -C /workspace/repo add -A; \
+    git -C /workspace/repo commit -q -m "state at task start"; \
+    test "$(git -C /workspace/repo rev-list --count HEAD)" = "1"
+
+RUN mkdir -p /app && chown -R agent:agent /workspace/repo /app 2>/dev/null || true
+
+# git otherwise opens a pager, which costs the agent turns escaping it.
+ENV GIT_PAGER=cat
+ENV PAGER=cat
+
+WORKDIR /workspace/repo
+USER agent

@@ -1,0 +1,12 @@
+FROM ghcr.io/immich-app/base-server-prod:202610021601@sha256:bd94134f812c8231e9e997076f1db1e006fb0df5463e343b3e93286bd517abe8
+ARG BASE_COMMIT=116a9436ad1f8164d9dee904551e5067d724be99
+ENV CI=1 COREPACK_ENABLE_DOWNLOAD_PROMPT=0 PNPM_HOME=/home/agent/.local/share/pnpm PATH=/home/agent/.local/share/pnpm:$PATH
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tmux asciinema git sudo python3 postgresql-client curl ca-certificates && rm -rf /var/lib/apt/lists/* && npm install -g corepack@latest && corepack enable pnpm
+RUN useradd -m -s /bin/bash agent && install -d -o agent -g agent /app /data /logs /logs/artifacts && git config --system --add safe.directory /app
+RUN printf '%s\n' 'agent ALL=(root) NOPASSWD: /usr/sbin/service' > /etc/sudoers.d/agent-services && chmod 440 /etc/sudoers.d/agent-services
+USER agent
+WORKDIR /app
+RUN git init -q && git remote add origin https://github.com/immich-app/immich.git && git fetch -q --depth 1 origin "$BASE_COMMIT" && git checkout -q --detach FETCH_HEAD && test "$(git rev-parse HEAD)" = "$BASE_COMMIT"
+RUN pnpm install --frozen-lockfile && pnpm --filter @immich/sdk build && pnpm --filter @immich/plugin-sdk build && pnpm --filter immich build
+USER root
+CMD ["/bin/bash"]

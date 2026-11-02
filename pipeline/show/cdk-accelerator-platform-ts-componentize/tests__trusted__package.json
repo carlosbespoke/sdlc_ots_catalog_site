@@ -1,0 +1,13 @@
+{
+  "name": "accelerator-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Infrastructure for the Orion CI/CD accelerator platform.",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "synth": "cdk synth",
+    "rules": "node tools/check-rules.js .",
+    "ci": "bash scripts/ci.sh",
+    "test": "jest --passWithNoTests"
+  }
+}

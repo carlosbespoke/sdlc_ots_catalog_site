@@ -1,0 +1,26 @@
+FROM golang:1.27-bookworm@sha256:5cf287a799e6b94384bad13d16b14904c531f51ba65792237e122ce42b392f61
+ARG REPO_URL=https://github.com/cortexproject/cortex.git
+ARG BASE_COMMIT=ebd5b64808d9877720fd5af003b2b9ef6b2035a4
+ENV CI=1 GOTOOLCHAIN=local GOWORK=off GOPROXY=off GOFLAGS=-mod=vendor CGO_ENABLED=0
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tmux asciinema bash ca-certificates git jq less lsof procps python3 vim-tiny && rm -rf /var/lib/apt/lists/*
+RUN useradd -m -s /bin/bash agent && install -d -o agent -g agent /app /logs /logs/artifacts && git config --system --add safe.directory /app
+USER agent
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD && test "$(git rev-parse HEAD)" = "$BASE_COMMIT"
+# The vendored Thanos labelpb casts labels.Labels to and from []ZLabel through unsafe.Pointer, but the
+# two layouts differ in this build, so the Parquet store-gateway cannot serve even the legacy series.
+# Copying conversions are committed on top of the upstream base with a fixed identity and dates, so
+# both images get the same base commit, FIXED_BASE_COMMIT, which grading diffs against.
+ARG FIXED_BASE_COMMIT=7f57b4129c61ce778616f75ae66ac09cf3bedd6a
+RUN sed -i \
+      -e 's/^\treturn \*(\*\[\]ZLabel)(unsafe\.Pointer(&lset))$/\tout := make([]ZLabel, 0, lset.Len())\n\tlset.Range(func(l labels.Label) { out = append(out, ZLabel{Name: l.Name, Value: l.Value}) })\n\treturn out/' \
+      -e 's/^\treturn \*(\*labels\.Labels)(unsafe\.Pointer(&lset))$/\tbuilder := labels.NewScratchBuilder(len(lset))\n\tfor _, l := range lset {\n\t\tbuilder.Add(l.Name, l.Value)\n\t}\n\tbuilder.Sort()\n\treturn builder.Labels()/' \
+      /app/vendor/github.com/thanos-io/thanos/pkg/store/labelpb/label.go \
+    && GIT_AUTHOR_NAME=sd GIT_AUTHOR_EMAIL=sd@example.invalid GIT_COMMITTER_NAME=sd GIT_COMMITTER_EMAIL=sd@example.invalid \
+       GIT_AUTHOR_DATE='2026-01-01T00:00:00Z' GIT_COMMITTER_DATE='2026-01-01T00:00:00Z' \
+       git -C /app commit -q -am 'Copy labels in labelpb ZLabel conversions instead of casting between layouts' \
+    && test "$(git -C /app rev-parse HEAD)" = "$FIXED_BASE_COMMIT"
+RUN go build -o /tmp/cortex ./cmd/cortex
+COPY --chown=agent:agent fixture /app/fixture
+USER root
+CMD ["/bin/bash"]

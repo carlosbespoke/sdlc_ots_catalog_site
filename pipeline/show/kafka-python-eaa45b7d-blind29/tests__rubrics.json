@@ -1,0 +1,264 @@
+{
+  "task": "kafka-python-eaa45b7d-blind29",
+  "rubrics": [
+    {
+      "id": "R1",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Idempotence/acks conflict check in KafkaProducer.__init__?",
+      "pass_condition": "The research identifies that in kafka/producer/kafka.py, KafkaProducer.__init__ combines 'the user set acks' with 'the resolved acks value is not -1' using OR, so constructing a producer with enable_idempotence and acks='all' is rejected as a conflicting configuration while acks=-1 is accepted; the conflict must be recorded only when the user set acks AND the resolved value is not -1."
+    },
+    {
+      "id": "R2",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Sticky eligibility for keyed records in KafkaProducer.send?",
+      "pass_condition": "The research identifies that in kafka/producer/kafka.py, KafkaProducer.send makes sticky eligibility true only when key_bytes is not None, so a record carrying a key is appended with abort_on_new_batch set: the on-new-batch hook fires and the payload reaches the accumulator more than once per call; abort_on_new_batch must apply only when key_bytes is None."
+    },
+    {
+      "id": "R3",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Null-key stickiness in StickyPartitioner.partition?",
+      "pass_condition": "The research identifies that in kafka/partitioner/sticky.py, StickyPartitioner.partition runs its null-key re-pick only when a cached sticky partition already exists, so consecutive keyless sends wander and rotating one topic's sticky choice disturbs an unrelated topic's pinned choice; the re-pick must run when the cached sticky partition for that topic is None, keeping per-topic sticky state independent."
+    },
+    {
+      "id": "R4",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Rotation candidate filter in _pick_sticky_locked?",
+      "pass_condition": "The research identifies that in kafka/partitioner/sticky.py, StickyPartitioner._pick_sticky_locked excludes the partition to avoid only when avoid is None, so an explicit rotation returns the very partition it was told to move off even with nine others available; the exclusion must apply when avoid is not None, falling back to the full available list only if no candidate remains."
+    },
+    {
+      "id": "R5",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Producer id validity before InitProducerId?",
+      "pass_condition": "The research identifies that in kafka/producer/transaction_manager.py, ProducerIdAndEpoch.is_valid holds when the producer id is greater than or equal to NO_PRODUCER_ID, so an idempotent producer claims a broker-issued id before contacting any broker: the sender's first loop turn skips the InitProducerId request and sends data, and the identity never advances through init or the epoch bump. Validity must require an id strictly greater than NO_PRODUCER_ID."
+    },
+    {
+      "id": "R6",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Transactional assertion in MemoryRecordsBuilder.__init__?",
+      "pass_condition": "The research identifies that in kafka/record/memory_records.py, MemoryRecordsBuilder.__init__ asserts for magic >= 2 that a transactional batch has producer_id == -1, inverting its own message 'Cannot write transactional messages without a valid producer ID'; the assertion must require a non -1 producer id for transactional batches, so building a batch holder with no producer id supplied raises no AssertionError."
+    },
+    {
+      "id": "R7",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about String guard in SubscriptionState.subscribe?",
+      "pass_condition": "The research identifies that in kafka/consumer/subscription_state.py, SubscriptionState.subscribe guards with isinstance(topics, str) AND not isinstance(topics, Sequence), which can never hold for a str, so a bare string is silently accepted instead of raising TypeError('Topics must be a list (or non-str sequence)'); the guard must reject a str or any non-Sequence while a one-element list keeps working."
+    },
+    {
+      "id": "R8",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Preferred read replica clearing sentinel test?",
+      "pass_condition": "The research identifies that in kafka/consumer/subscription_state.py, TopicPartitionState.update_preferred_read_replica tests node_id is None AND node_id < 0, so a fetch response carrying the go-back-to-the-leader sentinel (node_id None or negative) never clears the cached preferred read replica; either condition must call clear_preferred_read_replica and report the change."
+    },
+    {
+      "id": "R9",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Ownership test in CooperativeStickyAssignor.assign?",
+      "pass_condition": "The research identifies that in kafka/coordinator/assignors/cooperative_sticky.py, CooperativeStickyAssignor.assign keeps a partition when current_owner is not None OR current_owner == member_id, so a first-ever assignment hands out fewer partitions than the topic has and a partition that must move between owners is not withheld in the first round; a partition is safe only when nobody owns it (None) or this member already owns it."
+    },
+    {
+      "id": "R10",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about owned_partitions fallback in parse_member_metadata?",
+      "pass_condition": "The research identifies that in kafka/coordinator/assignors/cooperative_sticky.py, parse_member_metadata iterates owned_partitions through an 'and ()' fallback, so any present owned_partitions collapses to an empty tuple and a member that explicitly listed two partitions is reported as owning nothing while the topic names in the same payload still parse; the fallback must yield the empty tuple only when the field is absent (v0 metadata)."
+    },
+    {
+      "id": "R11",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Partition movement cycle detection argument order?",
+      "pass_condition": "The research identifies that in kafka/coordinator/assignors/sticky/partition_movements.py, PartitionMovements._has_cycles calls _is_subcycle with the accumulated path and the cycle set swapped relative to _is_subcycle's parameter order, so moving one partition from A to B and a second from B back to A is reported as pointless shuffling; the call must pass them in the order _is_subcycle declares."
+    },
+    {
+      "id": "R12",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Avg sample counter initialisation?",
+      "pass_condition": "The research identifies that kafka/metrics/stats/avg.py Avg.combine initialises its sample counter to 1 instead of 0, so feeding values 0..9 reports an average of 4.6 instead of 4.5 because one extra sample is folded in ahead of the real samples."
+    },
+    {
+      "id": "R13",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Histogram bin-to-value conversion?",
+      "pass_condition": "The research identifies that kafka/metrics/stats/histogram.py Histogram.ConstantBinScheme.from_bin converts a bin index using integer division by the bucket width instead of multiplying the bin index by the bucket width, so percentile readings over values 0..99 return numbers nowhere near 25, 50 and 75."
+    },
+    {
+      "id": "R14",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Metrics registry argument order for MetricName and KafkaMetric?",
+      "pass_condition": "The research identifies two swapped-argument edits in kafka/metrics/metrics.py. (1) Metrics.metric_name builds MetricName(group, name, description, tags) while MetricName takes (name, group, description, tags), so metrics are keyed under the wrong label. (2) Metrics.add_metric constructs KafkaMetric(measurable, metric_name, config) while KafkaMetric takes (metric_name, measurable, config), so reporter snapshots do not hold entries under the name they were registered with and removal by metric name fails."
+    },
+    {
+      "id": "R15",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Batched coordinator lookup in _async_delete_groups?",
+      "pass_condition": "The research identifies that in kafka/admin/_groups.py, GroupAdminMixin._async_delete_groups takes the pinned-coordinator shortcut when group_coordinator_id is None, so deleting two group ids in one call skips the single pooled _find_coordinator_ids(group_ids) lookup and returns no result per group; the shortcut must be taken only when group_coordinator_id is not None, with the batched lookup in the other branch."
+    },
+    {
+      "id": "R16",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about LeaveGroup reason version guard?",
+      "pass_condition": "The research identifies that in kafka/admin/_groups.py, GroupAdminMixin._remove_group_members_batch_request guards the per-member reason with version > 5, so the reason is dropped at v5 even though that version carries the field; it must be included for version >= 5 while member ids and group_instance_id keep passing through untouched."
+    },
+    {
+      "id": "R17",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Single-error shortcut in _async_delete_records?",
+      "pass_condition": "The research identifies that in kafka/admin/_partitions.py, PartitionAdminMixin._async_delete_records takes its single-error shortcut only when len(partition2error) == 2, so a delete_records call made with an explicit partition_leader_id that gets NotLeaderForPartition is retried instead of raising 'Error deleting records from topic %s partition %s'; the shortcut must fire when exactly one partition error is present."
+    },
+    {
+      "id": "R18",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Timer.timeout_secs millisecond conversion?",
+      "pass_condition": "The research identifies that in kafka/util.py, Timer.timeout_secs returns the millisecond-to-second conversion only when timeout_ms is None and None otherwise, so with a 200 ms request timeout neither delete_records nor listing a partition's offsets ever gives up under a persistently repeated not-leader answer; the conversion must happen when timeout_ms is not None and yield None only when there is no timeout."
+    },
+    {
+      "id": "R19",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about describe_features finalized epoch normalisation?",
+      "pass_condition": "The research identifies that in kafka/admin/_cluster.py, ClusterAdminMixin._async_describe_features normalises the epoch with 'if epoch is not None or epoch < 0: epoch = None' over response.finalized_features_epoch, so a real epoch is blanked and the returned mapping no longer reports the finalized features epoch where it belongs; the epoch must be blanked only when it is None or negative."
+    },
+    {
+      "id": "R20",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about DeleteTopicsRequest encode version bound?",
+      "pass_condition": "The research identifies that in kafka/protocol/admin/topics.py, DeleteTopicsRequest.encode applies the topics-to-topic_names compatibility conversion for 'version <= 6' although that conversion is only meant for v0-v5, so encoding the request at the newest supported version (6) and decoding it back does not reproduce the input while older versions still round-trip; the conversion must be bounded at version <= 5."
+    },
+    {
+      "id": "R21",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about least_loaded_node bootstrap fallback guard?",
+      "pass_condition": "The research identifies that in kafka/net/compat.py, KafkaNetClient.least_loaded_node guards the random bootstrap choice with node_id is None OR bootstrap_fallback, so a freshly built client asked for the least loaded node before any brokers are known returns a node instead of None; the fallback must run only when node_id is None AND bootstrap_fallback was requested."
+    },
+    {
+      "id": "R22",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about in_flight_request_count per-node conditional?",
+      "pass_condition": "The research identifies that in kafka/net/compat.py, KafkaNetClient.in_flight_request_count returns len(conn.in_flight_requests) when conn is None and 0 otherwise, so it reports 0 for a node with three requests in flight and a non-zero count for a node id with no connection; the length must be returned when the connection exists and 0 otherwise."
+    },
+    {
+      "id": "R23",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Error propagation in KafkaConnection.close?",
+      "pass_condition": "The research identifies that in kafka/net/connection.py, KafkaConnection.close replaces the caller-supplied error with a default KafkaConnectionError when error is not None and the init future is not done, so closing with an error to propagate never pushes that error down and the underlying transport is never aborted; the default must apply only when error is None, leaving a caller-supplied error intact."
+    },
+    {
+      "id": "R24",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Write-after-close guard in KafkaTCPTransport.write?",
+      "pass_condition": "The research identifies that in kafka/net/backend/transport.py, KafkaTCPTransport.write guards with 'not self._write AND self._closed', so writing bytes into an already closed transport is silently accepted; either a missing write capability or a closed transport must raise RuntimeError('Transport closed for writes')."
+    },
+    {
+      "id": "R25",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about call_at monotonic deadline conversion?",
+      "pass_condition": "The research identifies that in kafka/net/backend/asyncio_backend.py, AsyncioBackend.call_at converts an absolute time.monotonic() deadline into a relative delay by adding time.monotonic() instead of subtracting it, so a callback scheduled for a point 10 ms in the future never fires even after two seconds; the delay must be when - time.monotonic() clamped at 0."
+    },
+    {
+      "id": "R26",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Pending waiter failure in _fail_pending_waiters?",
+      "pass_condition": "The research identifies that in kafka/net/backend/asyncio_backend.py, AsyncioBackend._fail_pending_waiters stores the failure exception only when an exception has already been recorded, so stopping the background loop while another thread blocks on a future that never resolves leaves that caller hanging instead of releasing it with an error; the exception must be stored when none is recorded (is None) before the waiter's event is set."
+    },
+    {
+      "id": "R27",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Canonical bootstrap host resolution argument order?",
+      "pass_condition": "The research identifies that in kafka/cluster.py, expand_to_canonical_bootstrap_hosts calls socket.getaddrinfo(port, host, afi, socket.SOCK_STREAM, 0, socket.AI_CANONNAME) with host and port swapped, so constructing the connection manager with the DNS lookup mode that resolves seed entries to their canonical names fails outright instead of simply keeping the setting; the call must pass host first and port second."
+    },
+    {
+      "id": "R28",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about AWS MSK IAM SASL receive authentication flag?",
+      "pass_condition": "The research identifies that in kafka/net/sasl/msk.py, SaslMechanismAwsMskIam.receive computes _is_authenticated as auth_bytes == b'', so a non-empty broker reply is refused: it is not stored and the exchange is never reported done or authenticated, while the first outgoing payload is still produced. Authentication must instead hold when auth_bytes is non-empty, with that reply stored and the exchange reported done."
+    },
+    {
+      "id": "P1",
+      "phase": "planning",
+      "dimension": "data_api",
+      "description": "Does the plan describe its approach for rca.json deliverable and its schema?",
+      "pass_condition": "The plan states that it will write the report to /app/rca.json as a top-level JSON object holding a \"causes\" array whose entries each carry a \"file\" key with the repository-relative path (for example \"kafka/producer/kafka.py\") and a \"function\" key with the function name, and describes when/how the file is produced (one entry per function that contains an undocumented edit it localized)."
+    },
+    {
+      "id": "P2",
+      "phase": "planning",
+      "dimension": "scope",
+      "description": "Does the plan describe its approach for Entry-selection rules for the reported functions?",
+      "pass_condition": "The plan states its entry-selection rules: name every function containing an undocumented edit and only those; name the function the edit sits in, not a caller or a helper the agent wrote; a class prefix is optional; for an edit inside a nested function either the inner or outer name is accepted; and a suspected function with no edit found is left out."
+    },
+    {
+      "id": "P3",
+      "phase": "planning",
+      "dimension": "strategy",
+      "description": "Does the plan describe its approach for Symptom-to-repair-to-report mapping covering the whole report?",
+      "pass_condition": "The plan commits to restoring every externally observed behaviour described in the report and gives an evidence-derived mapping from each symptom it localizes to the repository-relative file and enclosing function it will repair and to exactly one rca.json entry, with any symptom it cannot localize by reading and exercising the shipped source called out and justified rather than filled in with a guessed entry."
+    },
+    {
+      "id": "P4",
+      "phase": "planning",
+      "dimension": "minimality",
+      "description": "Does the plan describe its approach for Repair boundary: restored behaviours versus unrelated behaviour left unchanged?",
+      "pass_condition": "The plan bounds each repair to restoring an externally observed behaviour described in the report for kafka-python, leaving every unrelated observable behaviour unchanged; the fix may be applied in the function holding the undocumented edit, in a caller, or in a helper the agent writes, and no code is changed for a function only suspected of an edit; no refactoring, reformatting, or new public API."
+    },
+    {
+      "id": "P5",
+      "phase": "planning",
+      "dimension": "cross_cutting",
+      "description": "Does the plan describe its approach for Consumer join-group sequence restored from two edits located elsewhere?",
+      "pass_condition": "The plan states the target join behaviour: against a broker holding a JoinGroup request open, a short-timeout join returns promptly with a negative answer and then waits on the already-outstanding attempt instead of sending a second JoinGroup; it decides this is restored by repairing the two unrelated edits surfacing through it (running-average folding and the outgoing batch holder with no producer id), leaving coordinator code unedited and unreported."
+    },
+    {
+      "id": "P6",
+      "phase": "planning",
+      "dimension": "compatibility",
+      "description": "Does the plan describe its approach for Baseline observations for behaviours the report says are still correct?",
+      "pass_condition": "The plan records, before changing code, a concrete observation per behaviour the report says still works and reuses each afterwards: Max=9, Min=0, Count=10 and a non-zero Rate over the same 0..9 samples Avg reports wrongly; subscribe(['topic']) leaves that topic subscribed and raises nothing; DeleteTopicsRequest encode/decode at v5 reproduces the input; group removal still carries member ids and group_instance_id; member metadata parsing still returns the payload's topic names."
+    },
+    {
+      "id": "P7",
+      "phase": "planning",
+      "dimension": "verification",
+      "description": "Does the plan describe its approach for Static loadability check of every edited module?",
+      "pass_condition": "The plan includes a static loadability check: because the delivered checkout ships no test suite, it will import every module it edits and sweep the whole kafka package (for example python -c 'import kafka') to confirm each repaired file still parses and imports, treating a SyntaxError, ImportError or AttributeError raised at import time as the failure signal."
+    },
+    {
+      "id": "P8",
+      "phase": "planning",
+      "dimension": "verification",
+      "description": "Does the plan describe its approach for In-process probe protocol with inputs, expected results and failure signals?",
+      "pass_condition": "The plan states verification comes from agent-authored probes that import the library and exercise each behaviour in-process, run by whatever runner is available: KafkaProducer with enable_idempotence and acks='all' constructs (failure: a conflicting-configuration error); repeated null-key StickyPartitioner calls return one partition; Avg over 0..9 reports 4.5 and percentiles over 0..99 about 25/50/75; DeleteTopicsRequest round-trips at v5 and v6; Timer.timeout_secs converts 200 ms to 0.2 s."
+    },
+    {
+      "id": "P9",
+      "phase": "planning",
+      "dimension": "verification",
+      "description": "Does the plan describe its approach for Artifact-level validation of the written report?",
+      "pass_condition": "The plan includes an artifact check that /app/rca.json exists and parses as JSON (for example json.load) whose top-level object holds a \"causes\" array of objects each carrying \"file\" and \"function\" keys, one entry per function it concluded contains an undocumented edit and none for functions only suspected; failure signals are a missing file, a parse error, a missing or mis-shaped \"causes\" array, or an entry lacking either key."
+    }
+  ]
+}

@@ -1,0 +1,866 @@
+{
+ "id": "D",
+ "type": "doc",
+ "title": "System design & IaC",
+ "children": [
+  {
+   "id": "D.S1",
+   "type": "section",
+   "title": "Executive summary",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S1.B1",
+     "type": "block",
+     "text": "| KPI cards: 123 Tasks |<div class=\"kpi\"><div class=\"kpi-value\">20%</div><div class=\"kpi-label\">Gemini 4 Argon pass rate</div></div><div class=\"kpi\"><div class=\"kpi-value\">10%</div><div class=\"kpi-lab"
+    },
+    {
+     "id": "D.S1.P1",
+     "type": "paragraph",
+     "children": [
+      {
+       "id": "D.S1.P1.s1",
+       "type": "sentence",
+       "text": "Each task changes a production system that must keep running."
+      },
+      {
+       "id": "D.S1.P1.s2",
+       "type": "sentence",
+       "text": "In the system design tasks the agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and hidden tests kill or pause processes to check them."
+      },
+      {
+       "id": "D.S1.P1.s3",
+       "type": "sentence",
+       "text": "In the infrastructure tasks the agent restructures live Terraform or Pulumi code so that the plan against production state changes nothing that is deployed."
+      }
+     ]
+    },
+    {
+     "id": "D.S1.P2",
+     "type": "paragraph",
+     "children": [
+      {
+       "id": "D.S1.P2.s1",
+       "type": "sentence",
+       "text": "Gemini 4 Argon passes 20% of its runs on these tasks, and it fails every run on 44% of the tasks."
+      },
+      {
+       "id": "D.S1.P2.s2",
+       "type": "sentence",
+       "text": "Gemini 3.8 Flash passes 10%, and it fails every run on 73% of the tasks."
+      },
+      {
+       "id": "D.S1.P2.s3",
+       "type": "sentence",
+       "text": "The main languages are HCL (Terraform) (33%), Go (31%) and Python (13%)."
+      },
+      {
+       "id": "D.S1.P2.B1",
+       "type": "block",
+       "text": "| Domain | What the tasks do | % of catalog |\n|---|---|---:|\n| State-preserving infrastructure changes | Split flat Terraform stacks into modules, or port them to Pulumi, without replacing any deploye"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "D.S2",
+   "type": "section",
+   "title": "Why this catalog",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S2.S1",
+     "type": "section",
+     "title": "Problems engineers face",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S2.S1.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S2.S1.P1.s1",
+         "type": "sentence",
+         "text": "Engineers here change production systems that must keep running."
+        },
+        {
+         "id": "D.S2.S1.P1.s2",
+         "type": "sentence",
+         "text": "In services where several processes share state and any of them can stop, the failures are duplicate effects after retries, lost notifications, stale writers returning after a takeover, limits that hold in one process but not across instances, and partial state after a crash."
+        },
+        {
+         "id": "D.S2.S1.P1.s3",
+         "type": "sentence",
+         "text": "In infrastructure code, a flat Terraform stack has to become modules with stable keys, or move to Pulumi, while every deployed resource stays exactly as it is."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "D.S2.S2",
+     "type": "section",
+     "title": "How the tasks reproduce them",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S2.S2.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S2.S2.P1.s1",
+         "type": "sentence",
+         "text": "Service tasks pin an open-source repository at a base commit and give a short specification, often with time limits."
+        },
+        {
+         "id": "D.S2.S2.P1.s2",
+         "type": "sentence",
+         "text": "The agent runs the databases, caches or brokers it needs locally and delivers a patch."
+        },
+        {
+         "id": "D.S2.S2.P1.s3",
+         "type": "sentence",
+         "text": "Hidden tests then kill or pause processes and confirm that existing behaviour still works."
+        },
+        {
+         "id": "D.S2.S2.P1.s4",
+         "type": "sentence",
+         "text": "Infrastructure tasks ship the stack with its recorded production state and an offline toolchain."
+        },
+        {
+         "id": "D.S2.S2.P1.s5",
+         "type": "sentence",
+         "text": "A separate verifier plans the result with refresh disabled and expects moves only, then plans hidden changes such as an added key."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "D.S2.S3",
+     "type": "section",
+     "title": "Typical prompts",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S2.S3.L1",
+       "type": "list",
+       "children": [
+        {
+         "id": "D.S2.S3.L1.i1",
+         "type": "item",
+         "text": "A capability gap stated as \"X cannot do Y\", followed by measurable requirements, many with time limits."
+        },
+        {
+         "id": "D.S2.S3.L1.i2",
+         "type": "item",
+         "text": "A closing paragraph with the repository path, how to start each service and the build command."
+        },
+        {
+         "id": "D.S2.S3.L1.i3",
+         "type": "item",
+         "text": "A first-person request to modularize a named production Terraform stack, followed by rules for modules, `for_each` keys, variables, outputs and banned constructs."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "D.S3",
+   "type": "section",
+   "title": "Domain breakdown",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S3.B1",
+     "type": "block",
+     "text": "![Share of tasks by domain](assets/system-design_domain.svg)"
+    }
+   ]
+  },
+  {
+   "id": "D.S4",
+   "type": "section",
+   "title": "Language and seniority",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S4.B1",
+     "type": "block",
+     "text": "![Primary language and seniority](assets/system-design_metadata.svg)"
+    },
+    {
+     "id": "D.S4.S1",
+     "type": "section",
+     "title": "Primary language",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S4.S1.B1",
+       "type": "block",
+       "text": "| Primary language | % of catalog |\n|---|---:|\n| HCL (Terraform) | 33.3% |\n| Go | 30.8% |\n| Python | 12.8% |\n| TypeScript | 12.8% |\n| C# | 10.3% |"
+      }
+     ]
+    },
+    {
+     "id": "D.S4.S2",
+     "type": "section",
+     "title": "Seniority",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S4.S2.B1",
+       "type": "block",
+       "text": "| Seniority | % of catalog |\n|---|---:|\n| Staff+ | 56.4% |\n| Senior | 35.9% |\n| Not yet classified | 7.7% |"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "D.S5",
+   "type": "section",
+   "title": "Gemini pass rates across the catalog",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S5.B1",
+     "type": "block",
+     "text": "| Model | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |\n|---|---:|---:|---:|---:|\n| google/gemini-4-argon | 20% | 44% | 56% | 0% |\n| google/gemini-3.8-flash | 10% | 73% | 7% | 13% |"
+    },
+    {
+     "id": "D.S5.B2",
+     "type": "block",
+     "text": "![Per-task pass rate by Gemini model](assets/system-design_per_task.svg)"
+    }
+   ]
+  },
+  {
+   "id": "D.S6",
+   "type": "section",
+   "title": "Turn counts and long-horizon tasks",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S6.P1",
+     "type": "paragraph",
+     "children": [
+      {
+       "id": "D.S6.P1.s1",
+       "type": "sentence",
+       "text": "A task's turn count is the average over its Gemini runs."
+      },
+      {
+       "id": "D.S6.P1.s2",
+       "type": "sentence",
+       "text": "A task is long horizon when that average is 200 or more turns."
+      },
+      {
+       "id": "D.S6.P1.B1",
+       "type": "block",
+       "text": "| Measure | Value |\n|---|---:|\n| Average turn count | 264.6 |\n| Median turn count | 241.0 |\n| Range | 36 to 931 |\n| Long-horizon tasks (200+ turns) | 62% of tasks |"
+      },
+      {
+       "id": "D.S6.P1.B2",
+       "type": "block",
+       "text": "![Turns per task](assets/system-design_turns.svg)"
+      },
+      {
+       "id": "D.S6.P1.B3",
+       "type": "block",
+       "text": "| Model | % of tasks | Mean turns | % with 200+ turns |\n|---|---:|---:|---:|\n| google/gemini-3.8-flash | 47% | 259.7 | 52% |\n| google/gemini-4-argon | 56% | 313.2 | 79% |"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "D.S7",
+   "type": "section",
+   "title": "Example tasks from the shortlist",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S7.P1",
+     "type": "paragraph",
+     "children": [
+      {
+       "id": "D.S7.P1.s1",
+       "type": "sentence",
+       "text": "The first example is a main sample for the catalog; the others are attached samples."
+      },
+      {
+       "id": "D.S7.P1.s2",
+       "type": "sentence",
+       "text": "All of them come from the shortlist and have Gemini runs that pass at most half the time."
+      }
+     ]
+    },
+    {
+     "id": "D.S7.S1",
+     "type": "section",
+     "title": "Example 1: Payments & banking (TypeScript)",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S7.S1.B1",
+       "type": "block",
+       "text": "| Field | Value |\n|---|---|\n| Sample | Main sample for the catalog |\n| Final category | System design |\n| Domain | Applications & business domains |\n| Sub-domain | Payments & banking |\n| Language | Ty"
+      },
+      {
+       "id": "D.S7.S1.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S7.S1.P1.s1",
+         "type": "sentence",
+         "text": "Prompt shape: A product-style problem statement followed by `What we need`, `Keep working` and `Setup` sections that fix the environment variable, protobuf field numbers, HTTP headers, endpoint and status codes, and the build commands."
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S1.S1",
+       "type": "section",
+       "title": "Prompt",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S1.S1.B1",
+         "type": "block",
+         "text": "| [verbatim task prompt omitted: task content, not authored text] |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S1.S2",
+       "type": "section",
+       "title": "Pass rates",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S1.S2.B1",
+         "type": "block",
+         "text": "| Model | Pass rate | Mean score |\n|---|---:|---:|\n| google/gemini-4-argon | 20% | 0.20 |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S1.S3",
+       "type": "section",
+       "title": "Environment",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S1.S3.B1",
+         "type": "block",
+         "text": "![How the task works](assets/env-pdk-actual-sync-log-checkpoint-compaction.svg)"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S1.S4",
+       "type": "section",
+       "title": "How it maps to the work",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S1.S4.P1",
+         "type": "paragraph",
+         "children": [
+          {
+           "id": "D.S7.S1.S4.P1.s1",
+           "type": "sentence",
+           "text": "A backend engineer on a self-hosted budgeting app needs the sync server to compact each budget's change log from a client-built snapshot without breaking offline devices."
+          },
+          {
+           "id": "D.S7.S1.S4.P1.s2",
+           "type": "sentence",
+           "text": "The engineer starts from the sync server, CRDT and client packages, and the server cannot read the encrypted changes it stores."
+          },
+          {
+           "id": "D.S7.S1.S4.P1.s3",
+           "type": "sentence",
+           "text": "The hard part is the protocol: a conditional checkpoint commit tied to a receive base, correct handling of late messages with older timestamps, and compatibility for old clients, all checked across several simulated devices."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "D.S7.S2",
+     "type": "section",
+     "title": "Example 2: Identity and security boundaries (Go)",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S7.S2.B1",
+       "type": "block",
+       "text": "| Field | Value |\n|---|---|\n| Sample | Attached sample |\n| Final category | System design |\n| Domain | Not yet classified |\n| Sub-domain | Identity and security boundaries |\n| Language | Go |\n| Senior"
+      },
+      {
+       "id": "D.S7.S2.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S7.S2.P1.s1",
+         "type": "sentence",
+         "text": "Prompt shape: A paragraph stating the current insecure behavior, a bullet list of observable requirements with time limits and HTTP status codes, and a closing paragraph on services, the offline build command and what is out of scope."
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S2.S1",
+       "type": "section",
+       "title": "Prompt",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S2.S1.B1",
+         "type": "block",
+         "text": "| [verbatim task prompt omitted: task content, not authored text] |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S2.S2",
+       "type": "section",
+       "title": "Pass rates",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S2.S2.B1",
+         "type": "block",
+         "text": "| Model | Pass rate | Mean score |\n|---|---:|---:|\n| google/gemini-4-argon | 20% | 0.20 |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S2.S3",
+       "type": "section",
+       "title": "Environment",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S2.S3.B1",
+         "type": "block",
+         "text": "![How the task works](assets/env-pdk-harbor-scan-ephemeral-credentials.svg)"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S2.S4",
+       "type": "section",
+       "title": "How it maps to the work",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S2.S4.P1",
+         "type": "paragraph",
+         "children": [
+          {
+           "id": "D.S7.S2.S4.P1.s1",
+           "type": "sentence",
+           "text": "A maintainer of a container registry replaces long-lived, project-wide scanner robot accounts with short-lived credentials scoped to one repository."
+          },
+          {
+           "id": "D.S7.S2.S4.P1.s2",
+           "type": "sentence",
+           "text": "The engineer starts from Harbor's core and jobservice code for scan jobs, robot accounts and registry authorization."
+          },
+          {
+           "id": "D.S7.S2.S4.P1.s3",
+           "type": "sentence",
+           "text": "The hard part is the lifecycle across processes: keeping secrets out of Redis job records and logs, keeping the credential valid during long scans, and revoking it when a job ends or when jobservice dies without a final hook."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "D.S7.S3",
+     "type": "section",
+     "title": "Example 3: Storage and publication integrity (C#)",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S7.S3.B1",
+       "type": "block",
+       "text": "| Field | Value |\n|---|---|\n| Sample | Attached sample |\n| Final category | System design |\n| Domain | Not yet classified |\n| Sub-domain | Storage and publication integrity |\n| Language | C# |\n| Senio"
+      },
+      {
+       "id": "D.S7.S3.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S7.S3.P1.s1",
+         "type": "sentence",
+         "text": "Prompt shape: A two-sentence problem statement, a bullet list of required behaviors with HTTP status codes and a new admin endpoint, a compatibility paragraph, and a closing paragraph giving the build command, sidecar hosts, configuration keys and credentials."
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S3.S1",
+       "type": "section",
+       "title": "Prompt",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S3.S1.B1",
+         "type": "block",
+         "text": "| [verbatim task prompt omitted: task content, not authored text] |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S3.S2",
+       "type": "section",
+       "title": "Pass rates",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S3.S2.B1",
+         "type": "block",
+         "text": "| Model | Pass rate | Mean score |\n|---|---:|---:|\n| google/gemini-4-argon | 20% | 0.20 |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S3.S3",
+       "type": "section",
+       "title": "Environment",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S3.S3.B1",
+         "type": "block",
+         "text": "![How the task works](assets/env-pdk-bagetter-fenced-package-writes.svg)"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S3.S4",
+       "type": "section",
+       "title": "How it maps to the work",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S3.S4.P1",
+         "type": "paragraph",
+         "children": [
+          {
+           "id": "D.S7.S3.S4.P1.s1",
+           "type": "sentence",
+           "text": "A backend engineer running a NuGet server as several replicas over shared PostgreSQL and S3 must make package-version writes safe under races, partitions and crashes."
+          },
+          {
+           "id": "D.S7.S3.S4.P1.s2",
+           "type": "sentence",
+           "text": "The engineer starts from BaGetter's push, delete, mirror and storage code."
+          },
+          {
+           "id": "D.S7.S3.S4.P1.s3",
+           "type": "sentence",
+           "text": "The hard part is fencing: a writer whose database claim has expired must not overwrite or delete the winner's objects, and a new reconcile endpoint must clean up orphans while old-layout packages and an existing schema keep working."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "D.S7.S4",
+     "type": "section",
+     "title": "Example 4: Cloud infra: containers & self-hosted platforms (HCL (Terraform))",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S7.S4.B1",
+       "type": "block",
+       "text": "| Field | Value |\n|---|---|\n| Sample | Attached sample |\n| Final category | Infrastructure as code |\n| Domain | State-preserving infrastructure changes |\n| Sub-domain | Cloud infra: containers & self-"
+      },
+      {
+       "id": "D.S7.S4.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S7.S4.P1.s1",
+         "type": "sentence",
+         "text": "Prompt shape: A refactor request for an IPv6 Kubernetes stack that names four target modules and constrains the result to a plan of moves against recorded state."
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S4.S1",
+       "type": "section",
+       "title": "Prompt",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S4.S1.B1",
+         "type": "block",
+         "text": "| [verbatim task prompt omitted: task content, not authored text] |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S4.S2",
+       "type": "section",
+       "title": "Pass rates",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S4.S2.B1",
+         "type": "block",
+         "text": "| Model | Pass rate | Mean score |\n|---|---:|---:|\n| google/gemini-4-argon | 0% | 0.00 |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S4.S3",
+       "type": "section",
+       "title": "Environment",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S4.S3.B1",
+         "type": "block",
+         "text": "![How the task works](assets/env-system-design-ex4.svg)"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S4.S4",
+       "type": "section",
+       "title": "How it maps to the work",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S4.S4.P1",
+         "type": "paragraph",
+         "children": [
+          {
+           "id": "D.S7.S4.S4.P1.s1",
+           "type": "sentence",
+           "text": "A platform engineer maintains the Terraform for two test Kubernetes clusters whose VPCs, NAT64 gateways, auto scaling groups and worker pools were written with positional count."
+          },
+          {
+           "id": "D.S7.S4.S4.P1.s2",
+           "type": "sentence",
+           "text": "The engineer needs to restructure it into four modules and make clusters, zones and pools data-driven, without any resource being replaced."
+          },
+          {
+           "id": "D.S7.S4.S4.P1.s3",
+           "type": "sentence",
+           "text": "The check is the plan against the recorded production state."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "D.S7.S5",
+     "type": "section",
+     "title": "Example 5: Cloud infra: AWS platform stacks (HCL (Terraform))",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S7.S5.B1",
+       "type": "block",
+       "text": "| Field | Value |\n|---|---|\n| Sample | Attached sample |\n| Final category | Infrastructure as code |\n| Domain | State-preserving infrastructure changes |\n| Sub-domain | Cloud infra: AWS platform stack"
+      },
+      {
+       "id": "D.S7.S5.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S7.S5.P1.s1",
+         "type": "sentence",
+         "text": "Prompt shape: A refactor request for a model-serving stack that names eight modules and their ownership and requires a moves-only plan against recorded state."
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S5.S1",
+       "type": "section",
+       "title": "Prompt",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S5.S1.B1",
+         "type": "block",
+         "text": "| [verbatim task prompt omitted: task content, not authored text] |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S5.S2",
+       "type": "section",
+       "title": "Pass rates",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S5.S2.B1",
+         "type": "block",
+         "text": "| Model | Pass rate | Mean score |\n|---|---:|---:|\n| google/gemini-4-argon | 50% | 0.50 |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S5.S3",
+       "type": "section",
+       "title": "Environment",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S5.S3.B1",
+         "type": "block",
+         "text": "![How the task works](assets/env-terraform-multi-model-router-module-refactor.svg)"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S5.S4",
+       "type": "section",
+       "title": "How it maps to the work",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S5.S4.P1",
+         "type": "paragraph",
+         "children": [
+          {
+           "id": "D.S7.S5.S4.P1.s1",
+           "type": "sentence",
+           "text": "A platform engineer is asked to bring a production ML routing stack up to the team's module standard."
+          },
+          {
+           "id": "D.S7.S5.S4.P1.s2",
+           "type": "sentence",
+           "text": "The work spans eight modules with several independent keys, so each resource must land in the right module and keep its state address through a move."
+          },
+          {
+           "id": "D.S7.S5.S4.P1.s3",
+           "type": "sentence",
+           "text": "The engineer relies on the recorded state and the CI plan."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "D.S7.S6",
+     "type": "section",
+     "title": "Example 6: Cloud infra: AWS platform stacks (HCL (Terraform))",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S7.S6.B1",
+       "type": "block",
+       "text": "| Field | Value |\n|---|---|\n| Sample | Attached sample |\n| Final category | Infrastructure as code |\n| Domain | State-preserving infrastructure changes |\n| Sub-domain | Cloud infra: AWS platform stack"
+      },
+      {
+       "id": "D.S7.S6.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S7.S6.P1.s1",
+         "type": "sentence",
+         "text": "Prompt shape: A first-person request to modularize a named Terraform stack without changing running infrastructure, followed by long constraint sections on how CI judges the change, module layout and ownership, `for_each` keys, root variables, root outputs and banned constructs."
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S6.S1",
+       "type": "section",
+       "title": "Prompt",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S6.S1.B1",
+         "type": "block",
+         "text": "| [verbatim task prompt omitted: task content, not authored text] |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S6.S2",
+       "type": "section",
+       "title": "Pass rates",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S6.S2.B1",
+         "type": "block",
+         "text": "| Model | Pass rate | Mean score |\n|---|---:|---:|\n| google/gemini-4-argon | 0% | 0.00 |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S6.S3",
+       "type": "section",
+       "title": "Environment",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S6.S3.B1",
+         "type": "block",
+         "text": "![How the task works](assets/env-terraform-centralwatch-alert-routing-module-refactor.svg)"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S6.S4",
+       "type": "section",
+       "title": "How it maps to the work",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S6.S4.P1",
+         "type": "paragraph",
+         "children": [
+          {
+           "id": "D.S7.S6.S4.P1.s1",
+           "type": "sentence",
+           "text": "A platform engineer inherits a production alert-routing stack written as one flat root module with list-indexed resources and hard-coded settings."
+          },
+          {
+           "id": "D.S7.S6.S4.P1.s2",
+           "type": "sentence",
+           "text": "The engineer must split it into eventing, messaging and processing modules keyed by team, source, severity and channel, with generalized variables and outputs."
+          },
+          {
+           "id": "D.S7.S6.S4.P1.s3",
+           "type": "sentence",
+           "text": "The hard part is expressing every address change in configuration so the plan against the live state contains only moves, while passing IDs between modules through outputs instead of literals."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "counts": {
+  "doc": 1,
+  "section": 42,
+  "block": 35,
+  "paragraph": 18,
+  "sentence": 42,
+  "list": 1,
+  "item": 3
+ }
+}

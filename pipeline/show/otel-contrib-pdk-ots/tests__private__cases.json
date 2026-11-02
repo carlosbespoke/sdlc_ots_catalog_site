@@ -1,0 +1,511 @@
+[
+ {
+  "code": "result = observe({'env': {'OTEL_PYTHON_REQUESTS_EXCLUDED_URLS': 'resource'}, 'excluded': '', 'op': 'exclusions'})\n",
+  "id": "OBS-0001"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_PYTHON_EXCLUDED_URLS': 'resource'}, 'excluded': '', 'op': 'exclusions'})\n",
+  "id": "OBS-0002"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE': 'X-.*'}, 'op': 'headers', 'response': {'Ignored': 'no', 'X-Trace': 'a,b'}})\n",
+  "id": "OBS-0003"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': 'X-Req', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE': 'X-Resp'}, 'headers': {'X-Req': 'r'}, 'op': 'headers', 'response': {'X-Req': 'not selected', 'X-Resp': 's'}})\n",
+  "id": "OBS-0004"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': 'X-Secret', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE': 'X-Secret', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SANITIZE_FIELDS': '.*secret.*'}, 'headers': {'X-Secret': 'private'}, 'op': 'headers', 'response': {'X-Secret': 'private too'}})\n",
+  "id": "OBS-0005"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE': '.*', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SANITIZE_FIELDS': 'SET-COOKIE'}, 'op': 'headers', 'response': {'Public': 'ok', 'Set-Cookie': 'a=b'}})\n",
+  "id": "OBS-0006"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': 'X-.*'}, 'op': 'headers', 'response': {'X-Not-Configured': 'no'}})\n",
+  "id": "OBS-0007"
+ },
+ {
+  "code": "result = observe({'hooks': 'both', 'op': 'hooks'})\n",
+  "id": "OBS-0008"
+ },
+ {
+  "code": "result = observe({'hooks': 'request', 'op': 'hooks'})\n",
+  "id": "OBS-0009"
+ },
+ {
+  "code": "result = observe({'hooks': 'both', 'op': 'hooks', 'steps': [{}, {}]})\n",
+  "id": "OBS-0010"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': 'X-Test', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE': 'X-Test'}, 'headers': {'X-Test': 'r'}, 'hooks': 'both', 'op': 'hooks', 'response': {'X-Test': 's'}})\n",
+  "id": "OBS-0011"
+ },
+ {
+  "code": "result = observe({'op': 'lifecycle', 'steps': [{}, {'action': 'session_off'}, {}, {'session': 1}]})\n",
+  "id": "OBS-0012"
+ },
+ {
+  "code": "result = observe({'op': 'lifecycle', 'steps': [{'action': 'session_off', 'session': 1}, {}, {'session': 1}, {}]})\n",
+  "id": "OBS-0013"
+ },
+ {
+  "code": "result = observe({'env': {}, 'excluded': None, 'op': 'exclusions', 'url': 'https://example.test/resource'})\n",
+  "id": "OBS-0014"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_PYTHON_REQUESTS_EXCLUDED_URLS': ''}, 'excluded': None, 'op': 'exclusions', 'url': 'https://example.test/resource'})\n",
+  "id": "OBS-0015"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_PYTHON_EXCLUDED_URLS': 'resource', 'OTEL_PYTHON_REQUESTS_EXCLUDED_URLS': ''}, 'excluded': None, 'op': 'exclusions', 'url': 'https://example.test/resource'})\n",
+  "id": "OBS-0016"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_PYTHON_EXCLUDED_URLS': 'resource'}, 'excluded': None, 'op': 'exclusions', 'url': 'https://example.test/resource'})\n",
+  "id": "OBS-0017"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_PYTHON_EXCLUDED_URLS': 'resource', 'OTEL_PYTHON_REQUESTS_EXCLUDED_URLS': 'health'}, 'excluded': None, 'op': 'exclusions', 'url': 'https://example.test/resource'})\n",
+  "id": "OBS-0018"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_PYTHON_REQUESTS_EXCLUDED_URLS': 'health'}, 'excluded': None, 'op': 'exclusions', 'url': 'https://example.test/health'})\n",
+  "id": "OBS-0019"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_PYTHON_REQUESTS_EXCLUDED_URLS': 'health'}, 'excluded': None, 'op': 'exclusions', 'url': 'https://example.test/resource'})\n",
+  "id": "OBS-0020"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_PYTHON_REQUESTS_EXCLUDED_URLS': 'resource'}, 'excluded': 'health', 'op': 'exclusions', 'url': 'https://example.test/resource'})\n",
+  "id": "OBS-0021"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_PYTHON_REQUESTS_EXCLUDED_URLS': 'resource'}, 'excluded': 'health', 'op': 'exclusions', 'url': 'https://example.test/health'})\n",
+  "id": "OBS-0022"
+ },
+ {
+  "code": "result = observe({'env': {}, 'excluded': '  health , client/.*/info  ', 'op': 'exclusions', 'url': 'https://example.test/client/12/info'})\n",
+  "id": "OBS-0023"
+ },
+ {
+  "code": "result = observe({'env': {}, 'excluded': 'health', 'op': 'exclusions', 'url': 'https://example.test/prefix-health-suffix'})\n",
+  "id": "OBS-0024"
+ },
+ {
+  "code": "result = observe({'env': {}, 'excluded': '^https://other', 'op': 'exclusions', 'url': 'https://example.test/resource'})\n",
+  "id": "OBS-0025"
+ },
+ {
+  "code": "result = observe({'after_import': {'OTEL_PYTHON_REQUESTS_EXCLUDED_URLS': 'other'}, 'env': {'OTEL_PYTHON_REQUESTS_EXCLUDED_URLS': 'resource'}, 'op': 'exclusions'})\n",
+  "id": "OBS-0026"
+ },
+ {
+  "code": "result = observe({'after_import': {'OTEL_PYTHON_REQUESTS_EXCLUDED_URLS': 'resource'}, 'op': 'exclusions'})\n",
+  "id": "OBS-0027"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_PYTHON_REQUESTS_EXCLUDED_URLS': 'resource'}, 'hooks': 'both', 'op': 'exclusions'})\n",
+  "id": "OBS-0028"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': 'X-Test', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE': 'X-Test'}, 'headers': {'X-Test': 'one'}, 'op': 'headers', 'response': {'X-Test': 'one'}})\n",
+  "id": "OBS-0029"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': 'x-TeSt', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE': 'x-TeSt'}, 'headers': {'X-Test': 'a,b'}, 'op': 'headers', 'response': {'X-Test': 'a,b'}})\n",
+  "id": "OBS-0030"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': 'X-.*', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE': 'X-.*'}, 'headers': {'X-One': '1', 'X-Two': '2'}, 'op': 'headers', 'response': {'X-One': '1', 'X-Two': '2'}})\n",
+  "id": "OBS-0031"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': 'X', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE': 'X'}, 'headers': {'X-Test': 'no'}, 'op': 'headers', 'response': {'X-Test': 'no'}})\n",
+  "id": "OBS-0032"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': '', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE': ''}, 'headers': {'X-Test': 'no'}, 'op': 'headers', 'response': {'X-Test': 'no'}})\n",
+  "id": "OBS-0033"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': 'X-Test, Other', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE': 'X-Test, Other'}, 'headers': {'Other': 'also', 'X-Test': 'yes'}, 'op': 'headers', 'response': {'Other': 'also', 'X-Test': 'yes'}})\n",
+  "id": "OBS-0034"
+ },
+ {
+  "code": "result = observe({'headers': {'X-Test': 'not configured'}, 'op': 'headers', 'response': {'X-Test': 'not configured'}})\n",
+  "id": "OBS-0035"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SANITIZE_FIELDS': '.*'}, 'headers': {'X-Test': 'not captured'}, 'op': 'headers', 'response': {'X-Test': 'not captured'}})\n",
+  "id": "OBS-0036"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': 'X-Test', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE': 'X-Test', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SANITIZE_FIELDS': 'secret'}, 'headers': {'X-Test': 'plain'}, 'op': 'headers', 'response': {'X-Test': 'plain'}})\n",
+  "id": "OBS-0037"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': 'X-Secret', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SANITIZE_FIELDS': 'SECRET'}, 'headers': {'X-Secret': 'private'}, 'op': 'headers', 'response': {}})\n",
+  "id": "OBS-0038"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': 'X-Secret', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SANITIZE_FIELDS': 'SECRET'}, 'headers': {'X-Secret': 'a,b'}, 'op': 'headers', 'response': {}})\n",
+  "id": "OBS-0039"
+ },
+ {
+  "code": "result = observe({'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': 'X-Test', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE': 'X-Test'}, 'headers': {'X-Test': 'stable'}, 'op': 'headers', 'response': {'X-Test': 'stable'}, 'steps': [{}, {'env': {'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST': 'Other', 'OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE': 'Other'}}, {'action': 'off'}, {'action': 'on'}, {}]})\n",
+  "id": "OBS-0040"
+ },
+ {
+  "code": "result = observe({'hooks': 'response', 'op': 'hooks'})\n",
+  "id": "OBS-0041"
+ },
+ {
+  "code": "result = observe({'hooks': 'response', 'op': 'hooks', 'steps': [{}, {}]})\n",
+  "id": "OBS-0042"
+ },
+ {
+  "code": "result = observe({'excluded': 'resource', 'hooks': 'both', 'op': 'hooks'})\n",
+  "id": "OBS-0043"
+ },
+ {
+  "code": "result = observe({'op': 'hooks'})\n",
+  "id": "OBS-0044"
+ },
+ {
+  "code": "result = observe({'op': 'lifecycle', 'steps': [{}, {'action': 'off'}, {}, {'action': 'on'}, {}]})\n",
+  "id": "OBS-0045"
+ },
+ {
+  "code": "result = observe({'op': 'lifecycle', 'steps': [{'action': 'off'}, {}, {'session': 1}]})\n",
+  "id": "OBS-0046"
+ },
+ {
+  "code": "result = observe({'op': 'lifecycle', 'steps': [{}, {'session': 1}, {}]})\n",
+  "id": "OBS-0047"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport requests\nfrom opentelemetry.instrumentation.requests import RequestsInstrumentor\nRequestsInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nresponse = requests.get(base + '/hello', timeout=5)\nresult = {'status': response.status_code, 'body': response.json(), 'spans': spans(t, base)}\n",
+  "id": "OBS-0048"
+ },
+ {
+  "code": "\nfrom opentelemetry.instrumentation.requests import get_default_span_name\nresult = [get_default_span_name('GET'), get_default_span_name('POST'), get_default_span_name('_OTHER')]\n",
+  "id": "OBS-0049"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport requests\nfrom opentelemetry.instrumentation.requests import RequestsInstrumentor\ninstrumentor = RequestsInstrumentor()\ninstrumentor.instrument(tracer_provider=t.tp, meter_provider=t.mp)\nrequests.get(base + '/a', timeout=5)\ninstrumentor.uninstrument()\nplain = requests.get(base + '/b', timeout=5).status_code\ninstrumentor.instrument(tracer_provider=t.tp, meter_provider=t.mp)\nrequests.get(base + '/c', timeout=5)\nresult = {'plain': plain, 'span_count': len(t.exporter.get_finished_spans()), 'paths': [r['path'] for r in SERVER_LOG]}\n",
+  "id": "OBS-0050"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport requests\nfrom opentelemetry.instrumentation.requests import RequestsInstrumentor\nRequestsInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp,\n                                  duration_histogram_boundaries=[0.0, 5.0, 10.0, 25.0, 50.0, 100.0])\nrequests.get(base + '/x', timeout=5)\nsummary = metric_summary(t)\nresult = {name: summary[name] for name in summary if 'duration' in name}\n",
+  "id": "OBS-0051"
+ },
+ {
+  "code": "\nos.environ['OTEL_SEMCONV_STABILITY_OPT_IN'] = 'http'\nbase = loopback()\nt = telemetry()\nimport requests\nfrom opentelemetry.instrumentation.requests import RequestsInstrumentor\nRequestsInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp,\n                                  duration_histogram_boundaries=[0.5, 1.0, 2.5])\nrequests.get(base + '/x', timeout=5)\nsummary = metric_summary(t)\nresult = {name: summary[name] for name in summary if 'duration' in name}\n",
+  "id": "OBS-0052"
+ },
+ {
+  "code": "\nos.environ['OTEL_SEMCONV_STABILITY_OPT_IN'] = 'http/dup'\nbase = loopback()\nt = telemetry()\nimport requests\nfrom opentelemetry.instrumentation.requests import RequestsInstrumentor\nRequestsInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp,\n                                  duration_histogram_boundaries=[1.0, 2.0])\nrequests.get(base + '/x', timeout=5)\nsummary = metric_summary(t)\nresult = {name: summary[name]['bounds'] for name in sorted(summary) if 'duration' in name}\n",
+  "id": "OBS-0053"
+ },
+ {
+  "code": "\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST'] = 'CUStom-Header,X-.*'\nbase = loopback()\nt = telemetry()\nimport requests\nfrom opentelemetry.instrumentation.requests import RequestsInstrumentor\nRequestsInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nrequests.get(base + '/h', headers={'custom-header': 'v1, v2', 'X-Trace-Me': 'yes', 'Other': 'no'}, timeout=5)\nresult = spans(t, base, prefixes=('http.request.header.',))[0]['attributes']\n",
+  "id": "OBS-0054"
+ },
+ {
+  "code": "\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST'] = '.*'\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SANITIZE_FIELDS'] = '.*session.*'\nbase = loopback()\nt = telemetry()\nimport requests\nfrom opentelemetry.instrumentation.requests import RequestsInstrumentor\nRequestsInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nrequests.get(base + '/h', headers={'Session-Id': 'secret', 'X-Keep': 'kept'}, timeout=5)\nattributes = spans(t, base, prefixes=('http.request.header.',))[0]['attributes']\nresult = {k: attributes[k] for k in ('http.request.header.session_id', 'http.request.header.x_keep')}\n",
+  "id": "OBS-0055"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nfrom urllib import request\nfrom opentelemetry.instrumentation.urllib import URLLibInstrumentor\nURLLibInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nreq = request.Request(base + '/post', data=b'abc', method='POST')\nwith request.urlopen(req, timeout=5) as r:\n    body = json.loads(r.read())\nresult = {'status': r.status, 'body': body, 'spans': spans(t, base), 'server': [(x['method'], x['body']) for x in SERVER_LOG]}\n",
+  "id": "OBS-0056"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nfrom urllib import request, error\nfrom opentelemetry.instrumentation.urllib import URLLibInstrumentor\nURLLibInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\ntry:\n    request.urlopen(base + '/missing?status=404', timeout=5)\n    outcome = None\nexcept error.HTTPError as e:\n    outcome = e.code\nresult = {'outcome': outcome, 'spans': [(s['name'], s['kind'], s['status']) for s in spans(t, base)]}\n",
+  "id": "OBS-0057"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nfrom urllib import request\nfrom opentelemetry.instrumentation.urllib import URLLibInstrumentor\ninstrumentor = URLLibInstrumentor()\ninstrumentor.instrument(tracer_provider=t.tp, meter_provider=t.mp)\nrequest.urlopen(base + '/one', timeout=5).read()\nopener = request.build_opener()\ninstrumentor.uninstrument_opener(opener)\nopener.open(base + '/two', timeout=5).read()\nafter_opener = len(t.exporter.get_finished_spans())\ninstrumentor.uninstrument()\nrequest.urlopen(base + '/three', timeout=5).read()\nresult = {'after_opener': after_opener, 'after_uninstrument': len(t.exporter.get_finished_spans()),\n          'served': [x['path'] for x in SERVER_LOG]}\n",
+  "id": "OBS-0058"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nfrom http.client import HTTPResponse\nfrom urllib import request\nfrom opentelemetry.instrumentation.urllib import URLLibInstrumentor\ncalls = []\ndef request_hook(span, req):\n    calls.append(['request', span.is_recording(), isinstance(req, request.Request)])\n    span.set_attribute('hook.request', 'yes')\ndef response_hook(span, req, response):\n    calls.append(['response', span.is_recording(), isinstance(req, request.Request), isinstance(response, HTTPResponse)])\n    span.set_attribute('hook.response', 'yes')\nURLLibInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp, request_hook=request_hook, response_hook=response_hook)\nrequest.urlopen(base + '/hook', timeout=5).read()\nresult = {'calls': calls, 'attributes': spans(t, base, prefixes=('hook.',))[0]['attributes']}\n",
+  "id": "OBS-0059"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nfrom urllib import request\nfrom opentelemetry.instrumentation.urllib import URLLibInstrumentor\ncalls = []\nURLLibInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp,\n                                response_hook=lambda span, req, resp: calls.append(resp.status))\nrequest.urlopen(base + '/a', timeout=5).read()\nrequest.urlopen(base + '/b?status=201', timeout=5).read()\nresult = calls\n",
+  "id": "OBS-0060"
+ },
+ {
+  "code": "\nos.environ['OTEL_PYTHON_URLLIB_EXCLUDED_URLS'] = 'client/.*/info,healthcheck'\nbase = loopback()\nt = telemetry()\nfrom urllib import request\nfrom opentelemetry.instrumentation.urllib import URLLibInstrumentor\nURLLibInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nfor path in ('/client/123/info', '/xyz/healthcheck', '/kept'):\n    request.urlopen(base + path, timeout=5).read()\nresult = {'served': [x['path'] for x in SERVER_LOG], 'span_count': len(t.exporter.get_finished_spans())}\n",
+  "id": "OBS-0061"
+ },
+ {
+  "code": "\nos.environ['OTEL_PYTHON_EXCLUDED_URLS'] = 'healthcheck'\nbase = loopback()\nt = telemetry()\nfrom urllib import request\nfrom opentelemetry.instrumentation.urllib import URLLibInstrumentor\nURLLibInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nrequest.urlopen(base + '/healthcheck', timeout=5).read()\nrequest.urlopen(base + '/other', timeout=5).read()\nresult = len(t.exporter.get_finished_spans())\n",
+  "id": "OBS-0062"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nfrom urllib import request\nfrom opentelemetry.instrumentation.urllib import URLLibInstrumentor\nURLLibInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp, excluded_urls='skip-me')\nrequest.urlopen(base + '/skip-me', timeout=5).read()\nrequest.urlopen(base + '/keep', timeout=5).read()\nresult = len(t.exporter.get_finished_spans())\n",
+  "id": "OBS-0063"
+ },
+ {
+  "code": "\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST'] = 'CUStom-Header'\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE'] = 'X-Resp.*'\nbase = loopback()\nt = telemetry()\nfrom urllib import request\nfrom opentelemetry.instrumentation.urllib import URLLibInstrumentor\nURLLibInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nreq = request.Request(base + '/h?h=X-Response-Id:r1', headers={'Custom-Header': 'c1'})\nrequest.urlopen(req, timeout=5).read()\nresult = spans(t, base, prefixes=('http.request.header.', 'http.response.header.'))[0]['attributes']\n",
+  "id": "OBS-0064"
+ },
+ {
+  "code": "\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST'] = 'session-id,x-keep'\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE'] = 'set-cookie'\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SANITIZE_FIELDS'] = '.*session.*,set-cookie'\nbase = loopback()\nt = telemetry()\nfrom urllib import request\nfrom opentelemetry.instrumentation.urllib import URLLibInstrumentor\nURLLibInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nreq = request.Request(base + '/h?h=Set-Cookie:a%3Db', headers={'Session-Id': 's', 'X-Keep': 'k'})\nrequest.urlopen(req, timeout=5).read()\nresult = spans(t, base, prefixes=('http.request.header.', 'http.response.header.'))[0]['attributes']\n",
+  "id": "OBS-0065"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport urllib3\nfrom opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor\ndef strip_query_params(url):\n    return url.split('?')[0]\nURLLib3Instrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp, url_filter=strip_query_params)\nhttp = urllib3.PoolManager()\nresponse = http.request('GET', base + '/page?token=abc')\nresult = {'status': response.status, 'spans': spans(t, base, keys=('http.url', 'url.full')),\n          'served': [x['path'] for x in SERVER_LOG]}\n",
+  "id": "OBS-0066"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport urllib3\nfrom opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor\nURLLib3Instrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nhttp = urllib3.PoolManager()\nhttp.request('GET', base + '/page?token=abc')\nhttp.request('POST', base + '/submit', body=b'x')\nresult = spans(t, base, keys=('http.url', 'url.full', 'http.method'))\n",
+  "id": "OBS-0067"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport urllib3\nfrom opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor\ninstrumentor = URLLib3Instrumentor()\ninstrumentor.instrument(tracer_provider=t.tp, meter_provider=t.mp)\nhttp = urllib3.PoolManager()\nhttp.request('GET', base + '/a')\ninstrumentor.uninstrument()\nstatus = http.request('GET', base + '/b').status\nresult = {'status': status, 'span_count': len(t.exporter.get_finished_spans())}\n",
+  "id": "OBS-0068"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport urllib3\nfrom urllib3.connectionpool import HTTPConnectionPool\nfrom urllib3.response import HTTPResponse\nfrom opentelemetry.instrumentation.urllib3 import RequestInfo, URLLib3Instrumentor\ncalls = []\ndef request_hook(span, pool, request_info):\n    calls.append(['request', span.is_recording(), isinstance(pool, HTTPConnectionPool), isinstance(request_info, RequestInfo),\n                  request_info.method, request_info.url, request_info.body])\n    span.set_attribute('hook.request', 'yes')\ndef response_hook(span, pool, response):\n    calls.append(['response', span.is_recording(), isinstance(pool, HTTPConnectionPool), isinstance(response, HTTPResponse), response.status])\n    span.set_attribute('hook.response', 'yes')\nURLLib3Instrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp, request_hook=request_hook, response_hook=response_hook)\nurllib3.PoolManager().request('POST', base + '/hook', body=b'payload')\nresult = {'calls': scrub(calls, base), 'attributes': spans(t, base, prefixes=('hook.',))[0]['attributes']}\n",
+  "id": "OBS-0069"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport urllib3\nfrom opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor\nseen = []\nURLLib3Instrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp,\n                                 request_hook=lambda span, pool, info: seen.append([info.method, info.url, dict(info.headers or {}).get('X-A')]))\npool = urllib3.HTTPConnectionPool('127.0.0.1', int(base.rsplit(':', 1)[1]))\npool.urlopen('GET', '/direct', headers={'X-A': '1'})\nresult = scrub(seen, base)\n",
+  "id": "OBS-0070"
+ },
+ {
+  "code": "\nos.environ['OTEL_PYTHON_URLLIB3_EXCLUDED_URLS'] = 'client/.*/info,healthcheck'\nbase = loopback()\nt = telemetry()\nimport urllib3\nfrom opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor\nURLLib3Instrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nhttp = urllib3.PoolManager()\nfor path in ('/client/9/info', '/a/healthcheck', '/kept'):\n    http.request('GET', base + path)\nresult = {'served': [x['path'] for x in SERVER_LOG], 'span_count': len(t.exporter.get_finished_spans())}\n",
+  "id": "OBS-0071"
+ },
+ {
+  "code": "\nos.environ['OTEL_PYTHON_EXCLUDED_URLS'] = 'healthcheck'\nbase = loopback()\nt = telemetry()\nimport urllib3\nfrom opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor\nURLLib3Instrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nhttp = urllib3.PoolManager()\nhttp.request('GET', base + '/healthcheck')\nhttp.request('GET', base + '/other')\nresult = len(t.exporter.get_finished_spans())\n",
+  "id": "OBS-0072"
+ },
+ {
+  "code": "\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST'] = 'CUStom-Header'\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE'] = 'X-Resp.*'\nbase = loopback()\nt = telemetry()\nimport urllib3\nfrom opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor\nURLLib3Instrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nurllib3.PoolManager().request('GET', base + '/h?h=X-Response-Id:r1', headers={'Custom-Header': 'c1'})\nresult = spans(t, base, prefixes=('http.request.header.', 'http.response.header.'))[0]['attributes']\n",
+  "id": "OBS-0073"
+ },
+ {
+  "code": "\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST'] = 'session-id,x-keep'\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE'] = 'set-cookie'\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SANITIZE_FIELDS'] = '.*session.*,set-cookie'\nbase = loopback()\nt = telemetry()\nimport urllib3\nfrom opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor\nURLLib3Instrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nurllib3.PoolManager().request('GET', base + '/h?h=Set-Cookie:a%3Db', headers={'Session-Id': 's', 'X-Keep': 'k'})\nresult = spans(t, base, prefixes=('http.request.header.', 'http.response.header.'))[0]['attributes']\n",
+  "id": "OBS-0074"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport httpx\nfrom opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor\nHTTPXClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nwith httpx.Client() as client:\n    sync_status = client.get(base + '/sync').status_code\nasync def get(url):\n    async with httpx.AsyncClient() as client:\n        return (await client.get(url)).status_code\nasync_status = run_async(get(base + '/async'))\nresult = {'statuses': [sync_status, async_status], 'spans': [(s['name'], s['kind'], s['status']) for s in spans(t, base)],\n          'served': [x['path'] for x in SERVER_LOG]}\n",
+  "id": "OBS-0075"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport httpx\nfrom opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor\nHTTPXClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nwith httpx.Client() as client:\n    status = client.get(base + '/x?status=503').status_code\nresult = {'status': status, 'spans': [(s['name'], s['kind'], s['status']) for s in spans(t, base)]}\n",
+  "id": "OBS-0076"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport httpx\nfrom opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor\ninstrumentor = HTTPXClientInstrumentor()\ninstrumentor.instrument(tracer_provider=t.tp, meter_provider=t.mp)\nclient = httpx.Client()\nother = httpx.Client()\nHTTPXClientInstrumentor.uninstrument_client(client)\nclient.get(base + '/uninstrumented')\nother.get(base + '/instrumented')\ncounts = [len(t.exporter.get_finished_spans())]\ninstrumentor.uninstrument()\nhttpx.Client().get(base + '/after')\ncounts.append(len(t.exporter.get_finished_spans()))\nresult = {'counts': counts, 'served': [x['path'] for x in SERVER_LOG]}\n",
+  "id": "OBS-0077"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport httpx\nfrom opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor\nwith httpx.Client() as client, httpx.Client() as plain:\n    HTTPXClientInstrumentor.instrument_client(client, tracer_provider=t.tp, meter_provider=t.mp)\n    client.get(base + '/one')\n    plain.get(base + '/two')\nresult = {'span_count': len(t.exporter.get_finished_spans()), 'served': [x['path'] for x in SERVER_LOG]}\n",
+  "id": "OBS-0078"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport httpx\nfrom opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor\ncalls = []\nasync def request_hook(span, request):\n    calls.append(['request', span.is_recording()])\nasync def response_hook(span, request, response):\n    calls.append(['response', span.is_recording(), response.status_code])\nasync def get(url):\n    async with httpx.AsyncClient() as client:\n        HTTPXClientInstrumentor.instrument_client(client, tracer_provider=t.tp, meter_provider=t.mp,\n                                                  request_hook=request_hook, response_hook=response_hook)\n        return (await client.get(url)).status_code\nstatus = run_async(get(base + '/async-one'))\nresult = {'status': status, 'calls': calls, 'span_count': len(t.exporter.get_finished_spans())}\n",
+  "id": "OBS-0079"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport httpx\nfrom opentelemetry.instrumentation.httpx import SyncOpenTelemetryTransport\ntransport = SyncOpenTelemetryTransport(httpx.HTTPTransport(), tracer_provider=t.tp, meter_provider=t.mp)\nwith httpx.Client(transport=transport) as client:\n    status = client.get(base + '/t').status_code\nresult = {'status': status, 'spans': [(s['name'], s['kind']) for s in spans(t, base)]}\n",
+  "id": "OBS-0080"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport httpx\nfrom opentelemetry.instrumentation.httpx import AsyncOpenTelemetryTransport\ncalls = []\nasync def request_hook(span, request):\n    method, url, headers, stream, extensions = request\n    calls.append(['request', method, str(url).replace(base, 'BASE')])\nasync def response_hook(span, request, response):\n    status_code, headers, stream, extensions = response\n    calls.append(['response', status_code])\n    span.set_attribute('hook.response', 'yes')\ntransport = AsyncOpenTelemetryTransport(httpx.AsyncHTTPTransport(), tracer_provider=t.tp, meter_provider=t.mp,\n                                        request_hook=request_hook, response_hook=response_hook)\nasync def get(url):\n    async with httpx.AsyncClient(transport=transport) as client:\n        return (await client.get(url)).status_code\nstatus = run_async(get(base + '/at'))\nresult = {'status': status, 'calls': calls, 'attributes': spans(t, base, prefixes=('hook.',))[0]['attributes']}\n",
+  "id": "OBS-0081"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport httpx2\nfrom opentelemetry.instrumentation.httpx import SyncOpenTelemetryTransportHttpx2\ntransport = SyncOpenTelemetryTransportHttpx2(httpx2.HTTPTransport(), tracer_provider=t.tp, meter_provider=t.mp)\nwith httpx2.Client(transport=transport) as client:\n    status = client.get(base + '/h2').status_code\nresult = {'status': status, 'spans': [(s['name'], s['kind']) for s in spans(t, base)]}\n",
+  "id": "OBS-0082"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport httpx\nfrom opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor\ncalls = []\ndef request_hook(span, request):\n    method, url, headers, stream, extensions = request\n    calls.append(['sync-request', method])\ndef response_hook(span, request, response):\n    status_code, headers, stream, extensions = response\n    calls.append(['sync-response', status_code])\nasync def async_request_hook(span, request):\n    calls.append(['async-request', request[0]])\nasync def async_response_hook(span, request, response):\n    calls.append(['async-response', response[0]])\nHTTPXClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp, request_hook=request_hook,\n                                     response_hook=response_hook, async_request_hook=async_request_hook,\n                                     async_response_hook=async_response_hook)\nwith httpx.Client() as client:\n    client.post(base + '/s', content=b'x')\nasync def get(url):\n    async with httpx.AsyncClient() as client:\n        await client.get(url + '?status=202')\nrun_async(get(base + '/a'))\nresult = calls\n",
+  "id": "OBS-0083"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport httpx\nfrom opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor\ndef request_hook(span, request):\n    span.set_attribute('hook.request', 'yes')\ndef response_hook(span, request, response):\n    span.set_attribute('hook.response', response[0])\nHTTPXClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp, request_hook=request_hook, response_hook=response_hook)\nhttpx.get(base + '/attr')\nresult = spans(t, base, prefixes=('hook.',))[0]['attributes']\n",
+  "id": "OBS-0084"
+ },
+ {
+  "code": "\nos.environ['OTEL_PYTHON_HTTPX_EXCLUDED_URLS'] = 'client/.*/info,healthcheck'\nbase = loopback()\nt = telemetry()\nimport httpx\nfrom opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor\nHTTPXClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nwith httpx.Client() as client:\n    for path in ('/client/1/info', '/b/healthcheck', '/kept'):\n        client.get(base + path)\nresult = {'served': [x['path'] for x in SERVER_LOG], 'span_count': len(t.exporter.get_finished_spans())}\n",
+  "id": "OBS-0085"
+ },
+ {
+  "code": "\nos.environ['OTEL_PYTHON_EXCLUDED_URLS'] = 'healthcheck'\nbase = loopback()\nt = telemetry()\nimport httpx\nfrom opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor\nHTTPXClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nasync def get():\n    async with httpx.AsyncClient() as client:\n        await client.get(base + '/healthcheck')\n        await client.get(base + '/other')\nrun_async(get())\nresult = len(t.exporter.get_finished_spans())\n",
+  "id": "OBS-0086"
+ },
+ {
+  "code": "\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST'] = 'CUStom-Header'\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE'] = 'X-Resp.*'\nbase = loopback()\nt = telemetry()\nimport httpx\nfrom opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor\nHTTPXClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nhttpx.get(base + '/h?h=X-Response-Id:r1', headers={'Custom-Header': 'c1'})\nresult = spans(t, base, prefixes=('http.request.header.', 'http.response.header.'))[0]['attributes']\n",
+  "id": "OBS-0087"
+ },
+ {
+  "code": "\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST'] = 'session-id,x-keep'\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE'] = 'set-cookie'\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SANITIZE_FIELDS'] = '.*session.*,set-cookie'\nbase = loopback()\nt = telemetry()\nimport httpx\nfrom opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor\nHTTPXClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nhttpx.get(base + '/h?h=Set-Cookie:a%3Db', headers={'Session-Id': 's', 'X-Keep': 'k'})\nresult = spans(t, base, prefixes=('http.request.header.', 'http.response.header.'))[0]['attributes']\n",
+  "id": "OBS-0088"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport httpx2\nfrom opentelemetry.instrumentation.httpx import HTTPX2ClientInstrumentor\nHTTPX2ClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nwith httpx2.Client() as client:\n    status = client.get(base + '/h2').status_code\nresult = {'status': status, 'spans': [(s['name'], s['kind']) for s in spans(t, base)]}\n",
+  "id": "OBS-0089"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport httpx2\nfrom opentelemetry.instrumentation.httpx import HTTPX2ClientInstrumentor\nwith httpx2.Client() as client, httpx2.Client() as plain:\n    HTTPX2ClientInstrumentor.instrument_client(client, tracer_provider=t.tp, meter_provider=t.mp)\n    client.get(base + '/one')\n    plain.get(base + '/two')\nresult = len(t.exporter.get_finished_spans())\n",
+  "id": "OBS-0090"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport aiohttp\nfrom opentelemetry.instrumentation.aiohttp_client import create_trace_config\ndef strip_query_params(url):\n    return str(url.with_query(None))\nasync def get(url):\n    async with aiohttp.ClientSession(trace_configs=[create_trace_config(url_filter=strip_query_params, tracer_provider=t.tp,\n                                                                        meter_provider=t.mp)]) as session:\n        async with session.get(url) as response:\n            return response.status, await response.text()\nstatus, text = run_async(get(base + '/page?token=abc'))\nresult = {'status': status, 'text': text, 'spans': spans(t, base, keys=('http.url', 'url.full'))}\n",
+  "id": "OBS-0091"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport aiohttp\nfrom opentelemetry.instrumentation.aiohttp_client import create_trace_config\nasync def get():\n    async with aiohttp.ClientSession(trace_configs=[create_trace_config(tracer_provider=t.tp, meter_provider=t.mp)]) as traced:\n        async with traced.post(base + '/p', data=b'x') as r:\n            await r.read()\n    async with aiohttp.ClientSession() as plain:\n        async with plain.get(base + '/q') as r:\n            await r.read()\nrun_async(get())\nresult = {'spans': [(s['name'], s['kind'], s['status']) for s in spans(t, base)], 'served': [x['path'] for x in SERVER_LOG]}\n",
+  "id": "OBS-0092"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport aiohttp\nfrom opentelemetry.instrumentation.aiohttp_client import AioHttpClientInstrumentor\nAioHttpClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nasync def get(url):\n    async with aiohttp.ClientSession() as session:\n        async with session.get(url) as response:\n            return response.status, await response.text()\nstatus, text = run_async(get(base + '/x?status=404'))\nresult = {'status': status, 'text': text, 'spans': [(s['name'], s['kind'], s['status']) for s in spans(t, base)]}\n",
+  "id": "OBS-0093"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport aiohttp\nfrom opentelemetry.instrumentation.aiohttp_client import AioHttpClientInstrumentor\ninstrumentor = AioHttpClientInstrumentor()\ninstrumentor.instrument(tracer_provider=t.tp, meter_provider=t.mp)\nasync def go():\n    counts = []\n    async with aiohttp.ClientSession() as off, aiohttp.ClientSession() as on:\n        AioHttpClientInstrumentor.uninstrument_session(off)\n        async with off.get(base + '/off') as r:\n            await r.read()\n        async with on.get(base + '/on') as r:\n            await r.read()\n    counts.append(len(t.exporter.get_finished_spans()))\n    instrumentor.uninstrument()\n    async with aiohttp.ClientSession() as new:\n        async with new.get(base + '/new') as r:\n            await r.read()\n    counts.append(len(t.exporter.get_finished_spans()))\n    return counts\nresult = {'counts': run_async(go()), 'served': [x['path'] for x in SERVER_LOG]}\n",
+  "id": "OBS-0094"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport aiohttp\nfrom opentelemetry.instrumentation.aiohttp_client import AioHttpClientInstrumentor\ncalls = []\ndef request_hook(span, params):\n    if span and span.is_recording():\n        span.set_attribute('custom_user_attribute_from_request_hook', 'some-value')\n    calls.append(['request', type(params).__name__, params.method])\ndef response_hook(span, params):\n    if span and span.is_recording():\n        span.set_attribute('custom_user_attribute_from_response_hook', 'some-value')\n    calls.append(['response', type(params).__name__, params.response.status])\nAioHttpClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp, request_hook=request_hook, response_hook=response_hook)\nasync def get(url):\n    async with aiohttp.ClientSession() as session:\n        async with session.get(url) as response:\n            await response.read()\nrun_async(get(base + '/hook'))\nresult = {'calls': calls, 'attributes': spans(t, base, prefixes=('custom_user_attribute',))[0]['attributes']}\n",
+  "id": "OBS-0095"
+ },
+ {
+  "code": "\nimport socket\nprobe = socket.socket(); probe.bind(('127.0.0.1', 0)); port = probe.getsockname()[1]; probe.close()\nt = telemetry()\nimport aiohttp\nfrom opentelemetry.instrumentation.aiohttp_client import AioHttpClientInstrumentor\ncalls = []\nAioHttpClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp,\n                                       response_hook=lambda span, params: calls.append(type(params).__name__))\nasync def get():\n    async with aiohttp.ClientSession() as session:\n        try:\n            async with session.get('http://127.0.0.1:%d/closed' % port) as response:\n                await response.read()\n        except aiohttp.ClientConnectionError:\n            return 'connection-error'\noutcome = run_async(get())\nresult = {'outcome': outcome, 'calls': calls, 'spans': [(s.kind.name, s.status.status_code.name) for s in t.exporter.get_finished_spans()]}\n",
+  "id": "OBS-0096"
+ },
+ {
+  "code": "\nos.environ['OTEL_PYTHON_AIOHTTP_CLIENT_EXCLUDED_URLS'] = 'client/.*/info,healthcheck'\nbase = loopback()\nt = telemetry()\nimport aiohttp\nfrom opentelemetry.instrumentation.aiohttp_client import AioHttpClientInstrumentor\nAioHttpClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nasync def go():\n    async with aiohttp.ClientSession() as session:\n        for path in ('/client/1/info', '/c/healthcheck', '/kept'):\n            async with session.get(base + path) as r:\n                await r.read()\nrun_async(go())\nresult = {'served': [x['path'] for x in SERVER_LOG], 'span_count': len(t.exporter.get_finished_spans())}\n",
+  "id": "OBS-0097"
+ },
+ {
+  "code": "\nos.environ['OTEL_PYTHON_EXCLUDED_URLS'] = 'healthcheck'\nbase = loopback()\nt = telemetry()\nimport aiohttp\nfrom opentelemetry.instrumentation.aiohttp_client import AioHttpClientInstrumentor\nAioHttpClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nasync def go():\n    async with aiohttp.ClientSession() as session:\n        for path in ('/healthcheck', '/other'):\n            async with session.get(base + path) as r:\n                await r.read()\nrun_async(go())\nresult = len(t.exporter.get_finished_spans())\n",
+  "id": "OBS-0098"
+ },
+ {
+  "code": "\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST'] = 'CUStom-Header'\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE'] = 'X-Resp.*'\nbase = loopback()\nt = telemetry()\nimport aiohttp\nfrom opentelemetry.instrumentation.aiohttp_client import AioHttpClientInstrumentor\nAioHttpClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nasync def go():\n    async with aiohttp.ClientSession() as session:\n        async with session.get(base + '/h?h=X-Response-Id:r1', headers={'Custom-Header': 'c1'}) as r:\n            await r.read()\nrun_async(go())\nresult = spans(t, base, prefixes=('http.request.header.', 'http.response.header.'))[0]['attributes']\n",
+  "id": "OBS-0099"
+ },
+ {
+  "code": "\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST'] = 'session-id,x-keep'\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE'] = 'set-cookie'\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SANITIZE_FIELDS'] = '.*session.*,set-cookie'\nbase = loopback()\nt = telemetry()\nimport aiohttp\nfrom opentelemetry.instrumentation.aiohttp_client import AioHttpClientInstrumentor\nAioHttpClientInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nasync def go():\n    async with aiohttp.ClientSession() as session:\n        async with session.get(base + '/h?h=Set-Cookie:a%3Db', headers={'Session-Id': 's', 'X-Keep': 'k'}) as r:\n            await r.read()\nrun_async(go())\nresult = spans(t, base, prefixes=('http.request.header.', 'http.response.header.'))[0]['attributes']\n",
+  "id": "OBS-0100"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport aiohttp\nfrom opentelemetry.instrumentation.aiohttp_client import create_trace_config\nconfig = create_trace_config(tracer_provider=t.tp, meter_provider=t.mp, captured_request_headers=['x-req.*'],\n                             captured_response_headers=['x-resp.*'], sensitive_headers=['x-req-secret'])\nasync def go():\n    async with aiohttp.ClientSession(trace_configs=[config]) as session:\n        async with session.get(base + '/h?h=X-Resp-A:ra', headers={'X-Req-A': 'qa', 'X-Req-Secret': 'qs'}) as r:\n            await r.read()\nrun_async(go())\nresult = spans(t, base, prefixes=('http.request.header.', 'http.response.header.'))[0]['attributes']\n",
+  "id": "OBS-0101"
+ },
+ {
+  "code": "\nfrom opentelemetry.util.http import ExcludeList, parse_excluded_urls\nexcluded = parse_excluded_urls(' client/.*/info , healthcheck ')\nurls = ['https://site/client/123/info', 'https://site/xyz/healthcheck', 'https://site/client/info', 'https://site/ok']\nresult = {'type': isinstance(excluded, ExcludeList), 'disabled': [excluded.url_disabled(u) for u in urls]}\n",
+  "id": "OBS-0102"
+ },
+ {
+  "code": "\nos.environ['OTEL_PYTHON_EXCLUDED_URLS'] = 'global'\nos.environ['OTEL_PYTHON_HTTPX_EXCLUDED_URLS'] = 'specific'\nfrom opentelemetry.util.http import get_excluded_urls\nhttpx_list = get_excluded_urls('HTTPX')\nurllib_list = get_excluded_urls('URLLIB')\nresult = [[httpx_list.url_disabled(u), urllib_list.url_disabled(u)] for u in ('http://h/global', 'http://h/specific')]\n",
+  "id": "OBS-0103"
+ },
+ {
+  "code": "\nfrom opentelemetry.util.http import remove_url_credentials\nresult = [remove_url_credentials('http://user:secret@example.com:8080/path?q=1'),\n          remove_url_credentials('https://example.com/path'),\n          remove_url_credentials('not a url')]\n",
+  "id": "OBS-0104"
+ },
+ {
+  "code": "\nfrom opentelemetry.util.http import redact_query_parameters, redact_url\nresult = [redact_query_parameters('https://s3.example.com/o?AWSAccessKeyId=AK&Signature=S&x=1'),\n          redact_query_parameters('https://example.com/o?sig=abc&X-Goog-Signature=def'),\n          redact_query_parameters('https://example.com/o?keep=1'),\n          redact_url('https://u:p@example.com/o?sig=abc&keep=1')]\n",
+  "id": "OBS-0105"
+ },
+ {
+  "code": "\nfrom opentelemetry.util.http import sanitize_method\nresult = [sanitize_method(m) for m in ('GET', 'get', 'PATCH', 'CUSTOM', None)]\n",
+  "id": "OBS-0106"
+ },
+ {
+  "code": "\nfrom opentelemetry.util.http import (get_custom_header_attributes, normalise_request_header_name,\n                                     normalise_response_header_name)\nheaders = {'Content-Type': 'text/plain', 'X-Session-Id': 'abc', 'X-Other': 'o'}\nresult = [get_custom_header_attributes(headers, ['content-type', 'x-.*'], ['.*session.*'], normalise_request_header_name),\n          get_custom_header_attributes(headers, ['Content-Type'], None, normalise_response_header_name),\n          get_custom_header_attributes(headers, [], None, normalise_request_header_name),\n          get_custom_header_attributes(headers, None, None, normalise_request_header_name),\n          get_custom_header_attributes(None, ['.*'], None, normalise_request_header_name)]\n",
+  "id": "OBS-0107"
+ },
+ {
+  "code": "\nos.environ['OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST'] = ' content-type , x-.* '\nfrom opentelemetry.util.http import SanitizeValue, get_custom_headers\nsanitizer = SanitizeValue(['set-cookie', '.*token.*'])\nresult = {'headers': get_custom_headers('OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_REQUEST'),\n          'absent': get_custom_headers('OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_CLIENT_RESPONSE'),\n          'sanitized': [sanitizer.sanitize_header_value('Set-Cookie', 'a=b'), sanitizer.sanitize_header_value('X-Auth-Token', 't'),\n                        sanitizer.sanitize_header_value('Accept', 'x')]}\n",
+  "id": "OBS-0108"
+ },
+ {
+  "code": "\nfrom opentelemetry.util.http import detect_synthetic_user_agent, normalize_user_agent\nfrom opentelemetry.util.http.constants import BOT_PATTERNS, TEST_PATTERNS\nagents = ['Mozilla/5.0', None, TEST_PATTERNS[0], 'x ' + BOT_PATTERNS[0] + ' y', TEST_PATTERNS[0] + ' ' + BOT_PATTERNS[0]]\nresult = {'detected': [detect_synthetic_user_agent(a) for a in agents],\n          'normalized': [normalize_user_agent(b'agent/1.0'), normalize_user_agent('agent/2.0'), normalize_user_agent(None)]}\n",
+  "id": "OBS-0109"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport requests\nfrom opentelemetry.instrumentation.requests import RequestsInstrumentor\nfrom opentelemetry.util.http.httplib import HttpClientInstrumentor\nHttpClientInstrumentor().instrument()\nRequestsInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nrequests.get(base + '/ip', timeout=5)\nresult = spans(t, base, keys=('net.peer.ip', 'network.peer.address'))\n",
+  "id": "OBS-0110"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry(set_global=True)\nimport http.client\nfrom opentelemetry.util.http.httplib import HttpClientInstrumentor\nHttpClientInstrumentor().instrument()\nconnection = http.client.HTTPConnection('127.0.0.1', int(base.rsplit(':', 1)[1]), timeout=5)\nconnection.request('GET', '/plain')\nstatus = connection.getresponse().status\nconnection.close()\nresult = {'status': status, 'span_count': len(t.exporter.get_finished_spans())}\n",
+  "id": "OBS-0111"
+ },
+ {
+  "code": "\nt = telemetry(set_global=True)\nfrom opentelemetry.instrumentation.asgi import OpenTelemetryMiddleware\nasync def app(scope, receive, send):\n    await send({'type': 'http.response.start', 'status': 200, 'headers': [(b'content-type', b'text/plain')]})\n    await send({'type': 'http.response.body', 'body': b'Hello!'})\napp = OpenTelemetryMiddleware(app)\nsent = []\nasync def receive():\n    return {'type': 'http.request', 'body': b'', 'more_body': False}\nasync def send(message):\n    sent.append(message['type'])\nscope = {'type': 'http', 'http_version': '1.1', 'method': 'GET', 'path': '/', 'raw_path': b'/', 'query_string': b'',\n         'headers': [(b'host', b'testserver')], 'server': ('testserver', 80), 'client': ('127.0.0.1', 1234), 'scheme': 'http'}\nrun_async(app(scope, receive, send))\nresult = {'sent': sent, 'server_spans': [(s.name, s.kind.name) for s in t.exporter.get_finished_spans() if s.kind.name == 'SERVER']}\n",
+  "id": "OBS-0112"
+ },
+ {
+  "code": "\nfrom opentelemetry.instrumentation.instrumentor import BaseInstrumentor\ncalls = []\nclass Demo(BaseInstrumentor):\n    def instrumentation_dependencies(self):\n        return []\n    def _instrument(self, **kwargs):\n        calls.append(['instrument', sorted(kwargs)])\n    def _uninstrument(self, **kwargs):\n        calls.append(['uninstrument', sorted(kwargs)])\ndemo = Demo()\ndemo.instrument(flag=1)\ndemo.instrument(flag=2)\nfirst = demo.is_instrumented_by_opentelemetry\ndemo.uninstrument()\ndemo.uninstrument()\nresult = {'calls': calls, 'instrumented_after_first': first, 'instrumented_after_uninstrument': demo.is_instrumented_by_opentelemetry,\n          'singleton': Demo() is demo}\n",
+  "id": "OBS-0113"
+ },
+ {
+  "code": "\nfrom opentelemetry.instrumentation.instrumentor import BaseInstrumentor\ncalls = []\nclass NeedsOld(BaseInstrumentor):\n    def instrumentation_dependencies(self):\n        return ['requests ~= 1.0']\n    def _instrument(self, **kwargs):\n        calls.append('instrumented')\n    def _uninstrument(self, **kwargs):\n        calls.append('uninstrumented')\ninst = NeedsOld()\ninst.instrument()\nblocked = list(calls)\ninst.instrument(skip_dep_check=True)\nresult = {'blocked': blocked, 'after_skip': calls, 'instrumented': inst.is_instrumented_by_opentelemetry}\n",
+  "id": "OBS-0114"
+ },
+ {
+  "code": "\nfrom opentelemetry.instrumentation.requests import RequestsInstrumentor\nfrom opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor\nfrom opentelemetry.instrumentation.aiohttp_client import AioHttpClientInstrumentor\nresult = [sorted(RequestsInstrumentor().instrumentation_dependencies()),\n          sorted(URLLib3Instrumentor().instrumentation_dependencies()),\n          sorted(AioHttpClientInstrumentor().instrumentation_dependencies())]\n",
+  "id": "OBS-0115"
+ },
+ {
+  "code": "\nfrom opentelemetry.instrumentation.dependencies import DependencyConflict, get_dependency_conflicts\nok = get_dependency_conflicts(['requests ~= 2.0'])\nold = get_dependency_conflicts(['requests ~= 1.0'])\nmissing = get_dependency_conflicts(['surely-not-installed-package >= 1'])\nresult = {'ok': ok, 'old_type': isinstance(old, DependencyConflict), 'old_required': old.required,\n          'old_found_startswith': str(old.found).split('==')[0] if old.found else None,\n          'missing_required': missing.required, 'missing_found': missing.found}\n",
+  "id": "OBS-0116"
+ },
+ {
+  "code": "\nfrom opentelemetry.instrumentation.utils import http_status_to_status_code\nresult = {'client': [http_status_to_status_code(s).name for s in (100, 200, 302, 404, 500)],\n          'server': [http_status_to_status_code(s, server_span=True).name for s in (200, 404, 500)],\n          'allow_redirect_false': http_status_to_status_code(302, allow_redirect=False).name}\n",
+  "id": "OBS-0117"
+ },
+ {
+  "code": "\nimport wrapt\nfrom opentelemetry.instrumentation.utils import unwrap\ndemo = types.ModuleType('demo_target_module')\nsys.modules['demo_target_module'] = demo\nclass Target:\n    def method(self):\n        return 'original'\nwrapt.wrap_function_wrapper(Target, 'method', lambda wrapped, instance, args, kwargs: 'wrapped')\nbefore = Target().method()\nunwrap(Target, 'method')\nclass Holder:\n    @staticmethod\n    def greet():\n        return 'original'\ndemo.Holder = Holder\nwrapt.wrap_function_wrapper('demo_target_module', 'Holder.greet', lambda wrapped, instance, args, kwargs: 'wrapped')\nbefore_path = Holder.greet()\nunwrap('demo_target_module.Holder', 'greet')\nresult = [before, Target().method(), before_path, Holder.greet()]\n",
+  "id": "OBS-0118"
+ },
+ {
+  "code": "\nbase = loopback()\nt = telemetry()\nimport requests\nfrom opentelemetry.instrumentation.requests import RequestsInstrumentor\nfrom opentelemetry.instrumentation.utils import is_instrumentation_enabled, suppress_http_instrumentation, suppress_instrumentation\nRequestsInstrumentor().instrument(tracer_provider=t.tp, meter_provider=t.mp)\nwith suppress_instrumentation():\n    inside = is_instrumentation_enabled()\n    requests.get(base + '/s1', timeout=5)\nwith suppress_http_instrumentation():\n    requests.get(base + '/s2', timeout=5)\nrequests.get(base + '/s3', timeout=5)\nresult = {'enabled_inside': inside, 'enabled_outside': is_instrumentation_enabled(), 'span_count': len(t.exporter.get_finished_spans()),\n          'served': [x['path'] for x in SERVER_LOG]}\n",
+  "id": "OBS-0119"
+ },
+ {
+  "code": "\nfrom opentelemetry import trace\nfrom opentelemetry.sdk.trace import TracerProvider\nfrom opentelemetry.instrumentation.propagators import (FuncSetter, TraceResponsePropagator, get_global_response_propagator,\n                                                       set_global_response_propagator)\ntracer = TracerProvider().get_tracer('t')\ncarrier = {}\nwith tracer.start_as_current_span('s') as span:\n    TraceResponsePropagator().inject(carrier)\n    context = span.get_span_context()\nexpected = '00-%032x-%016x-%02x' % (context.trace_id, context.span_id, context.trace_flags)\nset_global_response_propagator(TraceResponsePropagator())\nresult = {'keys': sorted(carrier), 'value_matches': carrier.get('traceresponse') == expected,\n          'expose': carrier.get('Access-Control-Expose-Headers'),\n          'global': type(get_global_response_propagator()).__name__}\n",
+  "id": "OBS-0120"
+ },
+ {
+  "code": "\nfrom opentelemetry.sdk.trace import TracerProvider\nfrom opentelemetry.instrumentation.propagators import FuncSetter, TraceResponsePropagator\ncalls = []\nclass Response:\n    def append_header(self, key, value):\n        calls.append(key)\ntracer = TracerProvider().get_tracer('t')\nwith tracer.start_as_current_span('s'):\n    TraceResponsePropagator().inject(Response(), setter=FuncSetter(Response.append_header))\nresult = sorted(calls)\n",
+  "id": "OBS-0121"
+ },
+ {
+  "code": "\nfrom opentelemetry.instrumentation.propagators import TraceResponsePropagator\ncarrier = {}\nTraceResponsePropagator().inject(carrier)\nresult = carrier\n",
+  "id": "OBS-0122"
+ },
+ {
+  "code": "\nimport logging\nfrom opentelemetry.instrumentation.log_utils import std_to_otel\nresult = [std_to_otel(level).value for level in (logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR, logging.CRITICAL, 0)]\n",
+  "id": "OBS-0123"
+ },
+ {
+  "code": "\nfrom opentelemetry.instrumentation._labeler import enrich_metric_attributes, get_labeler\nlabeler = get_labeler()\nlabeler.add('user_id', '123')\nlabeler.add_attributes({'has_premium': True, 'experiment_group': 'control', 'http.request.method': 'POST'})\nsame = get_labeler() is labeler\nenriched = enrich_metric_attributes({'http.request.method': 'GET', 'http.response.status_code': 200})\nresult = {'same_labeler': same, 'attributes': dict(sorted(labeler.get_attributes().items())), 'enriched': dict(sorted(enriched.items()))}\n",
+  "id": "OBS-0124"
+ },
+ {
+  "code": "\nbase = loopback()\nos.environ.update({'OTEL_TRACES_EXPORTER': 'console', 'OTEL_METRICS_EXPORTER': 'none', 'OTEL_LOGS_EXPORTER': 'none'})\nfrom opentelemetry.instrumentation import auto_instrumentation\nauto_instrumentation.initialize()\nfrom opentelemetry import trace\nfrom opentelemetry.sdk.trace.export import SimpleSpanProcessor\nfrom opentelemetry.sdk.trace.export.in_memory_span_exporter import InMemorySpanExporter\nexporter = InMemorySpanExporter()\nprovider = trace.get_tracer_provider()\nprovider.add_span_processor(SimpleSpanProcessor(exporter))\nimport requests, urllib.request\nrequests.get(base + '/r', timeout=5)\nurllib.request.urlopen(base + '/u', timeout=5).read()\nresult = {'provider': type(provider).__name__,\n          'scopes': sorted(s.instrumentation_scope.name for s in exporter.get_finished_spans())}\n",
+  "id": "OBS-0125"
+ },
+ {
+  "code": "\nbase = loopback()\nos.environ.update({'OTEL_TRACES_EXPORTER': 'console', 'OTEL_METRICS_EXPORTER': 'none', 'OTEL_LOGS_EXPORTER': 'none',\n                   'OTEL_PYTHON_DISABLED_INSTRUMENTATIONS': 'urllib,requests'})\nfrom opentelemetry.instrumentation import auto_instrumentation\nauto_instrumentation.initialize()\nfrom opentelemetry import trace\nfrom opentelemetry.sdk.trace.export import SimpleSpanProcessor\nfrom opentelemetry.sdk.trace.export.in_memory_span_exporter import InMemorySpanExporter\nexporter = InMemorySpanExporter()\ntrace.get_tracer_provider().add_span_processor(SimpleSpanProcessor(exporter))\nimport urllib.request, httpx\nurllib.request.urlopen(base + '/u', timeout=5).read()\nhttpx.get(base + '/h')\nresult = sorted(s.instrumentation_scope.name for s in exporter.get_finished_spans())\n",
+  "id": "OBS-0126"
+ },
+ {
+  "code": "\nbase = loopback()\nos.environ.update({'OTEL_TRACES_EXPORTER': 'console', 'OTEL_METRICS_EXPORTER': 'none', 'OTEL_LOGS_EXPORTER': 'none',\n                   'OTEL_PYTHON_DISABLED_INSTRUMENTATIONS': '*'})\nfrom opentelemetry.instrumentation import auto_instrumentation\nauto_instrumentation.initialize()\nfrom opentelemetry import trace\nfrom opentelemetry.sdk.trace.export import SimpleSpanProcessor\nfrom opentelemetry.sdk.trace.export.in_memory_span_exporter import InMemorySpanExporter\nexporter = InMemorySpanExporter()\ntrace.get_tracer_provider().add_span_processor(SimpleSpanProcessor(exporter))\nimport requests, urllib.request\nrequests.get(base + '/r', timeout=5)\nurllib.request.urlopen(base + '/u', timeout=5).read()\nresult = len(exporter.get_finished_spans())\n",
+  "id": "OBS-0127"
+ },
+ {
+  "code": "\nimport contextlib, io\nfrom opentelemetry.instrumentation import bootstrap\nbuffer = io.StringIO()\nsys.argv = ['opentelemetry-bootstrap', '-a', 'requirements']\nwith contextlib.redirect_stdout(buffer):\n    try:\n        bootstrap.run()\n    except SystemExit:\n        pass\nnames = {line.split('==')[0].split('>=')[0].strip() for line in buffer.getvalue().splitlines() if line.strip()}\nresult = {name: name in names for name in ('opentelemetry-instrumentation-requests', 'opentelemetry-instrumentation-urllib',\n          'opentelemetry-instrumentation-urllib3', 'opentelemetry-instrumentation-httpx',\n          'opentelemetry-instrumentation-aiohttp-client', 'opentelemetry-instrumentation-as

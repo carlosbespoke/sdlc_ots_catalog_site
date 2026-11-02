@@ -1,0 +1,849 @@
+{
+  "schema": 1,
+  "generator": {
+    "file": "build_task.py",
+    "git_revision": "78e8d7344e68a2839c7adaddd183d42fde0a23a7",
+    "uncommitted": false,
+    "sha256": "3bef90d515f1b5709abe42e08e65a7effba668126e7c8a91facd7ed46e914b32",
+    "written_by_build": true
+  },
+  "grader_sha256": "de4be0e4848fa18a5f095e6044829fb3b4035cab57c6f374382936963644807b",
+  "grader_template": "6de7f55556911e1ca4da10e31c661aa6838785d71f82de6f039e0b1659055c27",
+  "grader_template_commit": "a56fb2632f4336851ff10ff0a4bd1416b426d722",
+  "args": {
+    "ids": "0cab6148,0b4167c8,096c9b59,c4050a5b,557b8c24,867be627,0d4b5b43,d88c4b0b,e77f4065,fc341357,bf1dbfbd,8d8e1760,2d833aee,c27e49be,25df3a64,e84ca6ca,66c658d0,6b165a0e,32b0c92c,fec4a003,3c6a0283,b792bcd3,d76d992b,46343a64,f135da0d,898b8029,35ce80d5,03b112a3,9a832d9c,427284ac",
+    "test": "",
+    "repo": "zha-device-handlers",
+    "repo_url": "https://github.com/zigpy/zha-device-handlers.git",
+    "commit": "b139f815ce3e23496eda0107d40410cad2b82357",
+    "base_image": "diagvgen-base-zigpy__zha-device-handlers-b139f815",
+    "workdir": "/workspace/repo",
+    "test_cmd": "python -m pytest -p no:cacheprovider --color=no -p no:randomly",
+    "language": "python",
+    "baseline_failures": 0,
+    "source_roots": [
+      "zhaquirks"
+    ],
+    "hide_tests": true,
+    "planning_path": "/app/RESEARCH_AND_PLANNING.md",
+    "symptom": "Everything below was observed on a running installation after a routine update, with no configuration change on my side. The repository has received 30 separate undocumented edits. The same equipment is still on the air, speaking the same protocol it always did, but numbers now arrive wrong, alarms stay silent, shades travel the wrong way, keys on the remotes do nothing, and options written from the app no longer land.\n\nStart with the plain readings that equipment sends in unprompted. A mains-powered wall unit that measures its own internal temperature of 25 degrees used to surface 2500 in hundredths and now surfaces 2525, while the lowest and highest figures it has recorded still pass through untouched. A mains socket that measures consumption has the mirror-image trouble: an instantaneous demand of 25000 is surfaced verbatim instead of being scaled down to 25, and its cumulative delivered-energy total of 25 now arrives as 0, because the scaling that belongs to the demand figure is applied to everything else instead. A combined presence-and-brightness sensor converts its raw readings wrongly in two separate ways at once: every reading is one step too high across the whole range, so pitch darkness that used to surface as 1 now surfaces as 2, and independently of that the brightest raw readings are grossly overstated, with a raw 34299 that should convert to 26989 coming back as an enormous number. An air-quality sensor now accepts and surfaces a particulate reading of 1001, where readings past the plausible range used to be dropped, while 1000 still comes through as before, and the temperature carried in those same reports is roughly a tenth too large, so a figure that should be 2880 arrives noticeably higher and negative figures are skewed the same way. Several sensors that run on batteries pack many fields into a single report, and that packed frame no longer decodes to the values it actually carries, particularly when it includes text or raw-byte members.\n\nAlarms and presence that should raise a state the app watches now fail in three ways. A ceiling-mounted presence sensor used to blank out its second alarm bit and now passes that bit straight through, while a genuine first-alarm report from it is blanked to zero instead. A lamp with presence sensing built in reports movement on a maker-specific reading, and that report no longer reaches the alarm state at all, so the alarm never trips and never clears. A detector that watches for fire behaves the same way: its state changes leave the alarm state completely untouched, so neither the alarm nor the all-clear that used to follow each change ever appears.\n\nTapping the keys of the handheld remotes mostly produces nothing now. A small remote that reports single taps, double taps and holds inside a maker-specific frame fires no event whatsoever for any of the three, though the frames still arrive. A four-key remote credits a tap on one key to a different key entirely, and the set of status values it treats as a real tap has shifted, so some taps that used to be reported are now discarded. On a dimmer remote, a burst of four quick taps is no longer collapsed into one four-tap report: the instant of the last tap is recorded on a different time scale from the one it is later compared against, so the grouped callback never fires with the right count. A two-gang wall switch is worse still \u2014 an actual tap produces no event at all, while a later update of that switch's status text produces a spurious tap event out of nowhere.\n\nTelling blinds and shades to move, or asking where they are, goes wrong in several ways. A blind whose internals run backwards used to have its open and close instructions exchanged before transmission; both now leave exactly as issued, so it travels opposite to what was asked for. A shade takes the wrong action both for a move-to-percentage request and for the plain movement instructions \u2014 the two handling paths have traded places, so the wrong figure is written to the hardware in each case, and the position that should be read back afterwards is not. Another shade reports 175 for a position report of 75, where 25 was expected. Asking a blind controller to read back its fourteen stored setup figures now leaves one of them out of the request. And waiting for that same controller's motor to come to rest returns immediately after a single poll even while the motor still reports itself running, while the timeout failure that used to be raised when a motor never stops is never raised any more.\n\nWriting settings down to equipment from the app is the next sore spot. Writing a target temperature to an electric heating panel produces the wrong outgoing frame, although writing its operating mode still produces precisely the frame it always did, and that same panel's incoming reports are mis-scaled in opposite directions, with a measured room temperature that should surface as 1790 arriving far too small while the setpoint it echoes back arrives far too large. On a radiator valve, turning on the display auto-lock option no longer produces the message it used to, while the many other writes to that valve are unchanged. A mains-wired heating controller used to turn a write of its heating-mode setting into a maker-specific instruction, and that translation no longer happens, so a plain write is attempted instead. Converting a weekly heating programme into its byte form and back yields wrong temperatures in every slot, though the days and the switch-over times survive the round trip intact. And on a multi-gang switch, writing the option that detaches the relay no longer sends the combined bit mask out to the hardware, and none of the local relay state updates that used to follow that write are emitted.\n\nFinally, the descriptions that tell the software what a piece of equipment is made of are themselves misbehaving. Where a description pins a figure to a constant, that figure no longer reads back: a consumption-measuring socket whose divisor is pinned to 1000 reads back something other than 1000, an unsolicited divisor report from the hardware that used to be quietly ignored is now accepted and raises an update event, and the three pinned figures about a sensor's batteries \u2014 the size, the count and the rated voltage \u2014 yield nothing at all when read back. Declaring such a sensor with only a size fills in a count and a rated voltage that were never given, and when size, count and a rated voltage of 60 are all supplied, the 60 is replaced by a default figure. An energy meter that must keep its unused three-phase readings hidden now reports them as available, while its single-phase active power reading, which should be available, reports as unavailable. A group of readings declared as belonging to the client side ends up marked as the server side, so the per-hardware configuration pass is applied to the wrong side of it. And a description that drops the second numbered section of a piece of hardware and then declares a fresh empty one in its place now fails to load at all, the whole description rejected with an error rather than yielding the new section.",
+    "drop_paths": "",
+    "title": "ZHA quirks collection: diagnosing thirty regressions without a test suite",
+    "description": "A user-facing bug report describes wide-ranging misbehaviour across a Zigbee home-automation quirks repository: wrong scaling of temperature, power and illuminance readings, alarm reports that never propagate, remotes whose presses vanish or land on the wrong key, blinds that move the wrong way or report impossible positions, heating controls that send the wrong frames, pinned constant values that no longer read back, and definitions that fail to load. The agent receives the faulted source tree without any test suite and must localize each defect from the described behaviour alone, repair it, and name the functions that were edited.",
+    "allow": ""
+  },
+  "base_dockerfile_sha256": "409215d5ffb5fa83f8a59c9b78e81dca65627accb24c645cd85a1258533646d1",
+  "base_dockerfile_text": "# Generated by voyager repo-pipeline. Reproduces zigpy/zha-device-handlers@b139f815ce3e23496eda0107d40410cad2b82357\nFROM --platform=linux/amd64 python@sha256:00faa2debb87529f9f0764e9491d8ba400a3678976616c3bd7cb193745ac20d1\nENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8\nENV PIP_DISABLE_PIP_VERSION_CHECK=1\nENV PIP_NO_INPUT=1\nENV PIP_NO_CACHE_DIR=1\nENV UV_NO_CACHE=1\nENV UV_PYTHON=/opt/venv/bin/python\nENV UV_PYTHON_DOWNLOADS=never\nENV PYTHONDONTWRITEBYTECODE=1\nENV PYTHONUNBUFFERED=1\nENV PYTHONHASHSEED=0\nENV VIRTUAL_ENV=/opt/venv\nENV PATH=/opt/venv/bin:$PATH\nENV SOURCE_DATE_EPOCH=0\nRUN echo REPOPIPELINE_STAGE=system_packages \\\n    && apt-get update -qq \\\n    && apt-get install -y -qq --no-install-recommends build-essential ca-certificates curl git pkg-config \\\n    && rm -rf /var/lib/apt/lists/*\n# Keep the toolchain visible to login shells (`bash -lc`), not just `ENV`:\n# /etc/profile rebuilds PATH and would otherwise discard the ENV entry.\nRUN printf 'export PIP_DISABLE_PIP_VERSION_CHECK=\"1\"\\nexport PIP_NO_INPUT=\"1\"\\nexport PIP_NO_CACHE_DIR=\"1\"\\nexport UV_NO_CACHE=\"1\"\\nexport UV_PYTHON=\"/opt/venv/bin/python\"\\nexport UV_PYTHON_DOWNLOADS=\"never\"\\nexport PYTHONDONTWRITEBYTECODE=\"1\"\\nexport PYTHONUNBUFFERED=\"1\"\\nexport PYTHONHASHSEED=\"0\"\\nexport VIRTUAL_ENV=\"/opt/venv\"\\nexport PATH=\"/opt/venv/bin:$PATH\"\\n' > /etc/profile.d/00-repopipeline.sh && chmod 0644 /etc/profile.d/00-repopipeline.sh\nRUN echo REPOPIPELINE_STAGE=venv \\\n    && python -m venv /opt/venv \\\n    && /opt/venv/bin/python -m pip install --no-cache-dir 'pip==25.2' 'setuptools==75.8.2' 'wheel==0.45.1'\nRUN useradd -m -u 1000 -s /bin/bash agent 2>/dev/null || true \\\n    && git config --system --add safe.directory /workspace/repo\nRUN echo REPOPIPELINE_STAGE=clone \\\n    && git init -q /workspace/repo \\\n    && cd /workspace/repo \\\n    && git remote add origin https://github.com/zigpy/zha-device-handlers.git \\\n    && git fetch --depth 1 origin b139f815ce3e23496eda0107d40410cad2b82357 \\\n    && git checkout -q FETCH_HEAD \\\n    && git submodule update --init --recursive --depth 1 2>/dev/null || true\nWORKDIR /workspace/repo\nRUN echo REPOPIPELINE_STAGE=install \\\n    && pip install uv==0.12.3 \\\n    && UV_PROJECT_ENVIRONMENT=/opt/venv uv sync --frozen --all-extras --all-groups \\\n    && { python -c \"import pytest\" 2>/dev/null || pip install pytest==8.4.2 || uv pip install --python /opt/venv/bin/python pytest==8.4.2; } \\\n    && rm -rf /root/.cache /tmp/* /var/tmp/* \\\n    && chown -R agent:agent /workspace/repo /opt/venv 2>/dev/null || true\nLABEL org.opencontainers.image.source=\"https://github.com/zigpy/zha-device-handlers\" \\\n      org.opencontainers.image.revision=\"b139f815ce3e23496eda0107d40410cad2b82357\" \\\n      io.voyager.repo=\"zigpy/zha-device-handlers\" \\\n      io.voyager.language=\"python\" \\\n      io.voyager.toolchain=\"python3.13\" \\\n      io.voyager.test-command=\"python -m pytest -p no:cacheprovider --color=no -q\"",
+  "faults": [
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_sinope.py::test_sinope_device_temp[SinopeTechnologiesCalypso]"
+      ],
+      "id": "0cab6148",
+      "kind": "change_constant",
+      "path": "zhaquirks/sinope/__init__.py",
+      "func": "_update_attribute",
+      "line": 143,
+      "before": "100",
+      "after": "101"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_tuya.py::test_eheat_send_attribute[MoesBHT]"
+      ],
+      "id": "0b4167c8",
+      "kind": "flip_comparison",
+      "path": "zhaquirks/tuya/ts0601_electric_heating.py",
+      "func": "map_attribute",
+      "line": 106,
+      "before": "attribute == \"occupied_heating_setpoint\"",
+      "after": "attribute != 'occupied_heating_setpoint'"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_schneiderelectric.py::test_schneider_device_temp[SocketOutlet]"
+      ],
+      "id": "096c9b59",
+      "kind": "flip_comparison",
+      "path": "zhaquirks/schneiderelectric/outlet.py",
+      "func": "_update_attribute",
+      "line": 33,
+      "before": "attrid == self.AttributeDefs.instantaneous_demand.id",
+      "after": "attrid != self.AttributeDefs.instantaneous_demand.id"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_candeo.py::test_candeo_motion_illuminance[34299-26989]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[34977-36895]"
+      ],
+      "id": "c4050a5b",
+      "kind": "swap_arithmetic_operator",
+      "path": "zhaquirks/candeo/__init__.py",
+      "func": "lux_calibration",
+      "line": 58,
+      "before": "78029.21628 - (61.73575 * value)",
+      "after": "78029.21628 + 61.73575 * value"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_linkind.py::test_linkind_motion_ignore_alarm_2[LinkindD0003]"
+      ],
+      "id": "557b8c24",
+      "kind": "flip_comparison",
+      "path": "zhaquirks/linkind/motion.py",
+      "func": "_update_attribute",
+      "line": 37,
+      "before": "attrid == IasZone.AttributeDefs.zone_status.id",
+      "after": "attrid != IasZone.AttributeDefs.zone_status.id"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_ubisys.py::test_j1_read_calibration_attributes"
+      ],
+      "id": "867be627",
+      "kind": "change_constant",
+      "path": "zhaquirks/ubisys/cover_j1.py",
+      "func": "_read_calibration_attributes",
+      "line": 221,
+      "before": "1",
+      "after": "2"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_tuya_cover.py::test_zemismart_zm16b_position_report"
+      ],
+      "id": "0d4b5b43",
+      "kind": "swap_arithmetic_operator",
+      "path": "zhaquirks/tuya/builder/__init__.py",
+      "func": "tuya_cover",
+      "line": 474,
+      "before": "100 - x",
+      "after": "100 + x"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_sonoff.py::test_sonoff_cluster_write_attributes_logic"
+      ],
+      "id": "d88c4b0b",
+      "kind": "flip_comparison",
+      "path": "zhaquirks/sonoff/zbm5.py",
+      "func": "write_attributes",
+      "line": 133,
+      "before": "bit is not None",
+      "after": "bit is None"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_konke.py::test_konke_button[KonkeButtonRemote1]",
+        "tests/test_konke.py::test_konke_button[KonkeButtonRemote2]"
+      ],
+      "id": "e77f4065",
+      "kind": "change_constant",
+      "path": "zhaquirks/konke/__init__.py",
+      "func": "handle_cluster_general_request",
+      "line": 79,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_xiaomi.py::test_aqara_t2_relay[1]",
+        "tests/test_xiaomi.py::test_aqara_t2_relay[2]"
+      ],
+      "id": "fc341357",
+      "kind": "flip_comparison",
+      "path": "zhaquirks/xiaomi/aqara/switch_acn047.py",
+      "func": "_update_attribute",
+      "line": 63,
+      "before": "attrid == STATUS_TYPE_ATTR",
+      "after": "attrid != STATUS_TYPE_ATTR"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_thirdreality.py::test_third_reality_nightlight[Nightlight]"
+      ],
+      "id": "bf1dbfbd",
+      "kind": "flip_comparison",
+      "path": "zhaquirks/thirdreality/night_light.py",
+      "func": "_update_attribute",
+      "line": 64,
+      "before": "attrid == THIRD_REALITY_MOTION_EVENT_ATTR_ID",
+      "after": "attrid != THIRD_REALITY_MOTION_EVENT_ATTR_ID"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_quirks_v2_builder.py::test_quirks_v2_apply_custom_configuration"
+      ],
+      "id": "8d8e1760",
+      "kind": "llm_dropped_keyword_argument",
+      "path": "zhaquirks/builder/builder.py",
+      "func": "__call__",
+      "line": 110,
+      "before": "            cluster = self.cluster(endpoint, is_server=is_server)",
+      "after": "            cluster = self.cluster(endpoint)",
+      "why": "Constructing the cluster from the endpoint alone looks natural since the server/client distinction is already applied a few lines below when adding it to the endpoint."
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_quirks_v2_builder.py::test_quirks_v2_processing_order",
+        "zha.quirks:quirks.py:256 Failed to load quirk for <Device model='model' manuf='manufacturer' nwk=0x2233 ieee=sentinel.ieee is_initialized=False>"
+      ],
+      "id": "2d833aee",
+      "kind": "swap_boolean_operator",
+      "path": "zhaquirks/device.py",
+      "func": "add_endpoint",
+      "line": 73,
+      "before": "replace_device is None or endpoint_id not in self.replacement.get(\n            SIG_ENDPOINTS, {}\n        )",
+      "after": "replace_device is None and endpoint_id not in self.replacement.get(SIG_ENDPOINTS, {})"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_bituo.py::test_spm01x_phantom_attrs_unsupported"
+      ],
+      "id": "c27e49be",
+      "kind": "flip_comparison",
+      "path": "zhaquirks/bituo/spm01.py",
+      "func": "is_attribute_unsupported",
+      "line": 35,
+      "before": "self.find_attribute(attr).id in self.PHANTOM_ATTRIBUTES",
+      "after": "self.find_attribute(attr).id not in self.PHANTOM_ATTRIBUTES"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_legrand.py::test_legrand_wire_pilot_cluster_write_attrs"
+      ],
+      "id": "25df3a64",
+      "kind": "flip_comparison",
+      "path": "zhaquirks/legrand/cable_outlet.py",
+      "func": "write_attributes",
+      "line": 103,
+      "before": "attr_def == LegrandCableOutletCluster.AttributeDefs.pilot_wire_mode",
+      "after": "attr_def != LegrandCableOutletCluster.AttributeDefs.pilot_wire_mode"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_smartwings.py::test_smartwings_inverted_commands[WM25LBlinds]"
+      ],
+      "id": "e84ca6ca",
+      "kind": "flip_comparison",
+      "path": "zhaquirks/smartwings/wm25lz.py",
+      "func": "command",
+      "line": 53,
+      "before": "command_id == self.CMD_DOWN_CLOSE",
+      "after": "command_id != self.CMD_DOWN_CLOSE"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_tuya_air.py::test_smart_air_pm25_dropping_high_values"
+      ],
+      "id": "66c658d0",
+      "kind": "flip_comparison",
+      "path": "zhaquirks/tuya/tuya_co.py",
+      "func": "_update_attribute",
+      "line": 30,
+      "before": "attrid == self.AttributeDefs.measured_value.id",
+      "after": "attrid != self.AttributeDefs.measured_value.id"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_ubisys.py::test_j1_wait_until_stopped",
+        "tests/test_ubisys.py::test_j1_wait_until_stopped_timeout"
+      ],
+      "id": "6b165a0e",
+      "kind": "swap_boolean_operator",
+      "path": "zhaquirks/ubisys/cover_j1.py",
+      "func": "_wait_until_stopped",
+      "line": 254,
+      "before": "wc.get_cached_value(attr) or 0",
+      "after": "wc.get_cached_value(attr) and 0"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.AA-None-None-BatterySize.AA-None-None]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR123A-1-60-BatterySize.CR123A-1-60]"
+      ],
+      "id": "32b0c92c",
+      "kind": "swap_boolean_operator",
+      "path": "zhaquirks/tuya/builder/__init__.py",
+      "func": "tuya_battery",
+      "line": 257,
+      "before": "not battery_voltage and (battery_type and battery_qty)",
+      "after": "not battery_voltage or (battery_type and battery_qty)"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_xiaomi.py::test_xiaomi_e1_roller_commands_1[2-2-True]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_roller_commands_2[5-60-True]"
+      ],
+      "id": "fec4a003",
+      "kind": "flip_comparison",
+      "path": "zhaquirks/xiaomi/aqara/roller_curtain_e1.py",
+      "func": "command",
+      "line": 193,
+      "before": "command_id == WindowCovering.ServerCommandDefs.go_to_lift_percentage.id",
+      "after": "command_id != WindowCovering.ServerCommandDefs.go_to_lift_percentage.id"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_tuya.py::test_eheating_state_report[MoesBHT]"
+      ],
+      "id": "3c6a0283",
+      "kind": "flip_comparison",
+      "path": "zhaquirks/tuya/ts0601_electric_heating.py",
+      "func": "_update_attribute",
+      "line": 73,
+      "before": "attrid == MOESBHT_TEMPERATURE_ATTR",
+      "after": "attrid != MOESBHT_TEMPERATURE_ATTR"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_tuya.py::test_moes[MoesHY368_Type1]"
+      ],
+      "id": "b792bcd3",
+      "kind": "flip_comparison",
+      "path": "zhaquirks/tuya/__init__.py",
+      "func": "write_attributes",
+      "line": 870,
+      "before": "record.attrid == self.attributes_by_name[\"keypad_lockout\"].id",
+      "after": "record.attrid != self.attributes_by_name['keypad_lockout'].id"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_tuya_smoke.py::test_tuya_smoke_sensor_attribute_update"
+      ],
+      "id": "d76d992b",
+      "kind": "flip_comparison",
+      "path": "zhaquirks/tuya/tuya_smoke.py",
+      "func": "_update_attribute",
+      "line": 58,
+      "before": "attrid == self.AttributeDefs.smoke_detected.id",
+      "after": "attrid != self.AttributeDefs.smoke_detected.id"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_develco.py::test_mfg_cluster_events",
+        "tests/test_innr.py::test_innr_sp240_firmware_version_metering[421213828-MeteringClusterInnrOld-100]",
+        "tests/test_innr.py::test_innr_sp240_firmware_version_metering[421213829-MeteringClusterInnrNew-1000]",
+        "tests/test_innr.py::test_innr_sp240_firmware_version_metering[421213830-MeteringClusterInnrNew-1000]",
+        "tests/test_innr.py::test_innr_sp240_firmware_version_metering[None-MeteringClusterInnrNew-1000]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.AA-None-None-BatterySize.AA-None-None]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR123A-1-60-BatterySize.CR123A-1-60]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR123A-1-None-BatterySize.CR123A-1-30]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR1632-1-None-BatterySize.CR1632-1-30]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR2032-1-None-BatterySize.CR2032-1-30]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR2450-1-None-BatterySize.CR2450-1-30]",
+        "tests/test_tuya_builder.py::test_battery_methods[TuyaPowerConfigurationCluster2AAA-None-None-None-BatterySize.AAA-2-15]"
+      ],
+      "id": "46343a64",
+      "kind": "llm_wrong_attribute_key",
+      "path": "zhaquirks/clusters.py",
+      "func": "get",
+      "line": 80,
+      "before": "            and attr_def.id in self._CONSTANT_ATTRIBUTES",
+      "after": "            and attr_def.name in self._CONSTANT_ATTRIBUTES",
+      "why": "AttributeDef exposes both id and name, and looking up constants by name reads naturally right after resolving the definition."
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_deserialization[\\x04>\\x01\\xe0\\x00\\x00\\t`\\x048\\x00\\x00\\x06\\xa4\\x05d\\x00\\x00\\x08\\x98\\x81\\xe0\\x00\\x00\\x08\\x98-mon,tue,wed,thu,fri|8:00,24.0|18:00,17.0|23:00,22.0|8:00,22.0]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_serialization[mon,tue,wed,thu,fri|8:00,24.0|18:00,17.0|23:00,22.0|8:00,22.0-\\x1a\\x04>\\x01\\xe0\\x00\\x00\\t`\\x048\\x00\\x00\\x06\\xa4\\x05d\\x00\\x00\\x08\\x98\\x81\\xe0\\x00\\x00\\x08\\x98]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_string_representation[mon,tue,wed,thu,fri,sat,sun|8:00,24.0|18:00,17.0|23:00,22.0|8:00,22.0]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_string_representation[mon,tue,wed,thu,fri|8:00,24.0|18:00,17.0|23:00,22.0|8:00,22.0]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_string_representation[mon|8:00,21.5|18:30,17.5|23:00,22.0|8:00,22.5]"
+      ],
+      "id": "f135da0d",
+      "kind": "swap_arithmetic_operator",
+      "path": "zhaquirks/xiaomi/aqara/thermostat_agl001.py",
+      "func": "_write_temp_to_buf",
+      "line": 227,
+      "before": "self._temp * 100",
+      "after": "self._temp // 100"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_tuya_air.py::test_co2_sensor[\\t\\x02\\x01\\x00\\x00\\x12\\x02\\x00\\x04\\x00\\x00\\x01 -temperature-2880]",
+        "tests/test_tuya_air.py::test_co2_sensor[\\t\\x02\\x01\\x00\\x00\\x12\\x02\\x00\\x04\\x00\\x00\\xff\\xef-temperature--170]",
+        "tests/test_tuya_air.py::test_co2_sensor[\\t\\x02\\x01\\x00\\x00\\x12\\x02\\x00\\x04\\x00\\x00\\xff\\xfb-temperature--50]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_7bztmfm1-TS0601-test_plan4]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_8ygsuhe1-TS0601-test_plan5]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_c2fmom5z-TS0601-test_plan8]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_dwcarsat-TS0601-test_plan0]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_mja3fuja-TS0601-test_plan3]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_ryfmq5rl-TS0601-test_plan2]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_yvx5lh6k-TS0601-test_plan6]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE204_c2fmom5z-TS0601-test_plan9]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE204_dwcarsat-TS0601-test_plan1]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE204_yvx5lh6k-TS0601-test_plan7]"
+      ],
+      "id": "898b8029",
+      "kind": "change_constant",
+      "path": "zhaquirks/tuya/tuya_co.py",
+      "func": "tuya_air_quality_temperature_converter",
+      "line": 22,
+      "before": "10",
+      "after": "11"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_candeo.py::test_candeo_motion_illuminance[0-1]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[24112-1]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[33598-18074]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[34299-26989]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[34977-36895]"
+      ],
+      "id": "35ce80d5",
+      "kind": "change_constant",
+      "path": "zhaquirks/candeo/__init__.py",
+      "func": "_update_attribute",
+      "line": 45,
+      "before": "1",
+      "after": "2"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100021EC0B21A8012400000000002182002063-attributes1]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C06001001213C0C21A81324010000000021D1052061-attributes20]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100121B30B21A8012400000000002195002056-attributes13]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100121B30B21A8012400000000002195002057-attributes14]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100121BA0B21A813240100000000215D062058-attributes0]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100121D10B21A801240000000000216E002050-attributes26]",
+        "tests/test_xiaomi.py::test_attribute_parsing[050042166C756D692E73656E736F725F6D6F74696F6E2E61713201FF42210121950B0328160421A83105214400062401000000000A217CBE6410000B210900-attributes21]"
+      ],
+      "id": "03b112a3",
+      "kind": "llm_boolean_operator_swap",
+      "path": "zhaquirks/xiaomi/__init__.py",
+      "func": "_iter_parse_attr_report",
+      "line": 310,
+      "before": "        ) or attr_type not in (DataTypeId.octstr, DataTypeId.string):",
+      "after": "        ) and attr_type not in (DataTypeId.octstr, DataTypeId.string):",
+      "why": "Both conditions describe \"not a Xiaomi string report\", so combining them with `and` reads like a natural way to say the attribute isn't one of the special ones."
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_linxura.py::test_button_ias",
+        "tests/test_linxura.py::test_button_triggers[\\x18\\n\\n\\x02\\x00\\x19\\r\\x00\\xfe\\xff0\\x01-button_3-remote_button_short_press]",
+        "tests/test_linxura.py::test_button_triggers[\\x18\\n\\n\\x02\\x00\\x19\\x0f\\x00\\xfe\\xff0\\x01-button_3-remote_button_double_press]",
+        "tests/test_linxura.py::test_button_triggers[\\x18\\n\\n\\x02\\x00\\x19\\x11\\x00\\xfe\\xff0\\x01-button_3-remote_button_long_press]"
+      ],
+      "id": "9a832d9c",
+      "kind": "swap_arithmetic_operator",
+      "path": "zhaquirks/linxura/button.py",
+      "func": "_handle_attribute_event",
+      "line": 63,
+      "before": "value // 2 - 6 + 1",
+      "after": "value // 2 - 6 - 1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "tests/test_philips.py::test_ButtonPressQueue_presses_with_pause[press_sequence0]",
+        "tests/test_philips.py::test_ButtonPressQueue_presses_with_pause[press_sequence1]",
+        "tests/test_philips.py::test_ButtonPressQueue_presses_without_pause[2]",
+        "tests/test_philips.py::test_ButtonPressQueue_presses_without_pause[4]"
+      ],
+      "id": "427284ac",
+      "kind": "llm_unit_mismatch",
+      "path": "zhaquirks/philips/__init__.py",
+      "func": "press",
+      "line": 101,
+      "before": "        self._ms_last_click = now_ms",
+      "after": "        self._ms_last_click = time.time()",
+      "why": "It looks like a straightforward timestamp update using the same time source as above, but stores seconds where milliseconds are compared."
+    }
+  ],
+  "causes": [
+    {
+      "file": "zhaquirks/sinope/__init__.py",
+      "function": "_update_attribute",
+      "qualname": "CustomDeviceTemperatureCluster._update_attribute",
+      "id": "0cab6148",
+      "kind": "change_constant",
+      "breaks": [
+        "tests/test_sinope.py::test_sinope_device_temp[SinopeTechnologiesCalypso]"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/ts0601_electric_heating.py",
+      "function": "map_attribute",
+      "qualname": "MoesBHTThermostat.map_attribute",
+      "id": "0b4167c8",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_tuya.py::test_eheat_send_attribute[MoesBHT]"
+      ]
+    },
+    {
+      "file": "zhaquirks/schneiderelectric/outlet.py",
+      "function": "_update_attribute",
+      "qualname": "MeteringCluster._update_attribute",
+      "id": "096c9b59",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_schneiderelectric.py::test_schneider_device_temp[SocketOutlet]"
+      ]
+    },
+    {
+      "file": "zhaquirks/candeo/__init__.py",
+      "function": "lux_calibration",
+      "qualname": "CandeoIlluminanceMeasurementCluster.lux_calibration",
+      "id": "c4050a5b",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "tests/test_candeo.py::test_candeo_motion_illuminance[34299-26989]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[34977-36895]"
+      ]
+    },
+    {
+      "file": "zhaquirks/linkind/motion.py",
+      "function": "_update_attribute",
+      "qualname": "IasZoneLinkind._update_attribute",
+      "id": "557b8c24",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_linkind.py::test_linkind_motion_ignore_alarm_2[LinkindD0003]"
+      ]
+    },
+    {
+      "file": "zhaquirks/ubisys/cover_j1.py",
+      "function": "_read_calibration_attributes",
+      "qualname": "UbisysJ1CalibrationCluster._read_calibration_attributes",
+      "id": "867be627",
+      "kind": "change_constant",
+      "breaks": [
+        "tests/test_ubisys.py::test_j1_read_calibration_attributes"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/builder/__init__.py",
+      "function": "tuya_cover",
+      "qualname": "TuyaQuirkBuilder.tuya_cover",
+      "id": "0d4b5b43",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "tests/test_tuya_cover.py::test_zemismart_zm16b_position_report"
+      ]
+    },
+    {
+      "file": "zhaquirks/sonoff/zbm5.py",
+      "function": "write_attributes",
+      "qualname": "SonoffInputConfigCluster.write_attributes",
+      "id": "d88c4b0b",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_sonoff.py::test_sonoff_cluster_write_attributes_logic"
+      ]
+    },
+    {
+      "file": "zhaquirks/konke/__init__.py",
+      "function": "handle_cluster_general_request",
+      "qualname": "KonkeOnOffCluster.handle_cluster_general_request",
+      "id": "e77f4065",
+      "kind": "change_constant",
+      "breaks": [
+        "tests/test_konke.py::test_konke_button[KonkeButtonRemote1]",
+        "tests/test_konke.py::test_konke_button[KonkeButtonRemote2]"
+      ]
+    },
+    {
+      "file": "zhaquirks/xiaomi/aqara/switch_acn047.py",
+      "function": "_update_attribute",
+      "qualname": "MultistateInputCluster._update_attribute",
+      "id": "fc341357",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_xiaomi.py::test_aqara_t2_relay[1]",
+        "tests/test_xiaomi.py::test_aqara_t2_relay[2]"
+      ]
+    },
+    {
+      "file": "zhaquirks/thirdreality/night_light.py",
+      "function": "_update_attribute",
+      "qualname": "ThirdRealitySpecificCluster._update_attribute",
+      "id": "bf1dbfbd",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_thirdreality.py::test_third_reality_nightlight[Nightlight]"
+      ]
+    },
+    {
+      "file": "zhaquirks/builder/builder.py",
+      "function": "__call__",
+      "qualname": "AddCluster.__call__",
+      "id": "8d8e1760",
+      "kind": "llm_dropped_keyword_argument",
+      "breaks": [
+        "tests/test_quirks_v2_builder.py::test_quirks_v2_apply_custom_configuration"
+      ]
+    },
+    {
+      "file": "zhaquirks/device.py",
+      "function": "add_endpoint",
+      "qualname": "BaseCustomDevice.add_endpoint",
+      "id": "2d833aee",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "tests/test_quirks_v2_builder.py::test_quirks_v2_processing_order"
+      ]
+    },
+    {
+      "file": "zhaquirks/bituo/spm01.py",
+      "function": "is_attribute_unsupported",
+      "qualname": "SPM01ElectricalMeasurement.is_attribute_unsupported",
+      "id": "c27e49be",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_bituo.py::test_spm01x_phantom_attrs_unsupported"
+      ]
+    },
+    {
+      "file": "zhaquirks/legrand/cable_outlet.py",
+      "function": "write_attributes",
+      "qualname": "LegrandCableOutletCluster.write_attributes",
+      "id": "25df3a64",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_legrand.py::test_legrand_wire_pilot_cluster_write_attrs"
+      ]
+    },
+    {
+      "file": "zhaquirks/smartwings/wm25lz.py",
+      "function": "command",
+      "qualname": "InvertedWindowCoveringCluster.command",
+      "id": "e84ca6ca",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_smartwings.py::test_smartwings_inverted_commands[WM25LBlinds]"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/tuya_co.py",
+      "function": "_update_attribute",
+      "qualname": "TuyaPM25ConcentrationIgnoreValues._update_attribute",
+      "id": "66c658d0",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_tuya_air.py::test_smart_air_pm25_dropping_high_values"
+      ]
+    },
+    {
+      "file": "zhaquirks/ubisys/cover_j1.py",
+      "function": "_wait_until_stopped",
+      "qualname": "UbisysJ1CalibrationCluster._wait_until_stopped",
+      "id": "6b165a0e",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "tests/test_ubisys.py::test_j1_wait_until_stopped",
+        "tests/test_ubisys.py::test_j1_wait_until_stopped_timeout"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/builder/__init__.py",
+      "function": "tuya_battery",
+      "qualname": "TuyaQuirkBuilder.tuya_battery",
+      "id": "32b0c92c",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.AA-None-None-BatterySize.AA-None-None]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR123A-1-60-BatterySize.CR123A-1-60]"
+      ]
+    },
+    {
+      "file": "zhaquirks/xiaomi/aqara/roller_curtain_e1.py",
+      "function": "command",
+      "qualname": "WindowCoveringRollerE1.command",
+      "id": "fec4a003",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_xiaomi.py::test_xiaomi_e1_roller_commands_1[2-2-True]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_roller_commands_2[5-60-True]"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/ts0601_electric_heating.py",
+      "function": "_update_attribute",
+      "qualname": "MoesBHTManufCluster._update_attribute",
+      "id": "3c6a0283",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_tuya.py::test_eheating_state_report[MoesBHT]"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/__init__.py",
+      "function": "write_attributes",
+      "qualname": "TuyaUserInterfaceCluster.write_attributes",
+      "id": "b792bcd3",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_tuya.py::test_moes[MoesHY368_Type1]"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/tuya_smoke.py",
+      "function": "_update_attribute",
+      "qualname": "TuyaSmokeDetectorCluster._update_attribute",
+      "id": "d76d992b",
+      "kind": "flip_comparison",
+      "breaks": [
+        "tests/test_tuya_smoke.py::test_tuya_smoke_sensor_attribute_update"
+      ]
+    },
+    {
+      "file": "zhaquirks/clusters.py",
+      "function": "get",
+      "qualname": "CustomCluster.get",
+      "id": "46343a64",
+      "kind": "llm_wrong_attribute_key",
+      "breaks": [
+        "tests/test_develco.py::test_mfg_cluster_events",
+        "tests/test_innr.py::test_innr_sp240_firmware_version_metering[421213828-MeteringClusterInnrOld-100]",
+        "tests/test_innr.py::test_innr_sp240_firmware_version_metering[421213829-MeteringClusterInnrNew-1000]",
+        "tests/test_innr.py::test_innr_sp240_firmware_version_metering[421213830-MeteringClusterInnrNew-1000]",
+        "tests/test_innr.py::test_innr_sp240_firmware_version_metering[None-MeteringClusterInnrNew-1000]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.AA-None-None-BatterySize.AA-None-None]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR123A-1-60-BatterySize.CR123A-1-60]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR123A-1-None-BatterySize.CR123A-1-30]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR1632-1-None-BatterySize.CR1632-1-30]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR2032-1-None-BatterySize.CR2032-1-30]",
+        "tests/test_tuya_builder.py::test_battery_methods[None-BatterySize.CR2450-1-None-BatterySize.CR2450-1-30]",
+        "tests/test_tuya_builder.py::test_battery_methods[TuyaPowerConfigurationCluster2AAA-None-None-None-BatterySize.AAA-2-15]"
+      ]
+    },
+    {
+      "file": "zhaquirks/xiaomi/aqara/thermostat_agl001.py",
+      "function": "_write_temp_to_buf",
+      "qualname": "ScheduleEvent._write_temp_to_buf",
+      "id": "f135da0d",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_deserialization[\\x04>\\x01\\xe0\\x00\\x00\\t`\\x048\\x00\\x00\\x06\\xa4\\x05d\\x00\\x00\\x08\\x98\\x81\\xe0\\x00\\x00\\x08\\x98-mon,tue,wed,thu,fri|8:00,24.0|18:00,17.0|23:00,22.0|8:00,22.0]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_serialization[mon,tue,wed,thu,fri|8:00,24.0|18:00,17.0|23:00,22.0|8:00,22.0-\\x1a\\x04>\\x01\\xe0\\x00\\x00\\t`\\x048\\x00\\x00\\x06\\xa4\\x05d\\x00\\x00\\x08\\x98\\x81\\xe0\\x00\\x00\\x08\\x98]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_string_representation[mon,tue,wed,thu,fri,sat,sun|8:00,24.0|18:00,17.0|23:00,22.0|8:00,22.0]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_string_representation[mon,tue,wed,thu,fri|8:00,24.0|18:00,17.0|23:00,22.0|8:00,22.0]",
+        "tests/test_xiaomi.py::test_xiaomi_e1_thermostat_schedule_settings_string_representation[mon|8:00,21.5|18:30,17.5|23:00,22.0|8:00,22.5]"
+      ]
+    },
+    {
+      "file": "zhaquirks/tuya/tuya_co.py",
+      "function": "tuya_air_quality_temperature_converter",
+      "qualname": "tuya_air_quality_temperature_converter",
+      "id": "898b8029",
+      "kind": "change_constant",
+      "breaks": [
+        "tests/test_tuya_air.py::test_co2_sensor[\\t\\x02\\x01\\x00\\x00\\x12\\x02\\x00\\x04\\x00\\x00\\x01 -temperature-2880]",
+        "tests/test_tuya_air.py::test_co2_sensor[\\t\\x02\\x01\\x00\\x00\\x12\\x02\\x00\\x04\\x00\\x00\\xff\\xef-temperature--170]",
+        "tests/test_tuya_air.py::test_co2_sensor[\\t\\x02\\x01\\x00\\x00\\x12\\x02\\x00\\x04\\x00\\x00\\xff\\xfb-temperature--50]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_7bztmfm1-TS0601-test_plan4]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_8ygsuhe1-TS0601-test_plan5]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_c2fmom5z-TS0601-test_plan8]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_dwcarsat-TS0601-test_plan0]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_mja3fuja-TS0601-test_plan3]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_ryfmq5rl-TS0601-test_plan2]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE200_yvx5lh6k-TS0601-test_plan6]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE204_c2fmom5z-TS0601-test_plan9]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE204_dwcarsat-TS0601-test_plan1]",
+        "tests/test_tuya_air.py::test_smart_air_sensor[_TZE204_yvx5lh6k-TS0601-test_plan7]"
+      ]
+    },
+    {
+      "file": "zhaquirks/candeo/__init__.py",
+      "function": "_update_attribute",
+      "qualname": "CandeoIlluminanceMeasurementCluster._update_attribute",
+      "id": "35ce80d5",
+      "kind": "change_constant",
+      "breaks": [
+        "tests/test_candeo.py::test_candeo_motion_illuminance[0-1]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[24112-1]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[33598-18074]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[34299-26989]",
+        "tests/test_candeo.py::test_candeo_motion_illuminance[34977-36895]"
+      ]
+    },
+    {
+      "file": "zhaquirks/xiaomi/__init__.py",
+      "function": "_iter_parse_attr_report",
+      "qualname": "XiaomiCluster._iter_parse_attr_report",
+      "id": "03b112a3",
+      "kind": "llm_boolean_operator_swap",
+      "breaks": [
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100021EC0B21A8012400000000002182002063-attributes1]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C06001001213C0C21A81324010000000021D1052061-attributes20]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100121B30B21A8012400000000002195002056-attributes13]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100121B30B21A8012400000000002195002057-attributes14]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100121BA0B21A813240100000000215D062058-attributes0]",
+        "tests/test_xiaomi.py::test_attribute_parsing[02FF4C0600100121D10B21A801240000000000216E002050-attributes26]",
+        "tests/test_xiaomi.py::test_attribute_parsing[050042166C756D692E73656E736F725F6D6F74696F6E2E61713201FF42210121950B0328160421A83105214400062401000000000A217CBE6410000B210900-attributes21]"
+      ]
+    },
+    {
+      "file": "zhaquirks/linxura/button.py",
+      "function": "_handle_attribute_event",
+      "qualname": "LinxuraIASCluster._handle_attribute_event",
+      "id": "9a832d9c",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "tests/test_linxura.py::test_button_ias",
+        "tests/test_linxura.py::test_button_triggers[\\x18\\n\\n\\x02\\x00\\x19\\r\\x00\\xfe\\xff0\\x01-button_3-remote_button_short_press]",
+        "tests/test_linxura.py::test_button_triggers[\\x18\\n\\n\\x02\\x00\\x19\\x0f\\x00\\xfe\\xff0\\x01-button_3-remote_button_double_press]",
+        "tests/test_linxura.py::test_button_triggers[\\x18\\n\\n\\x02\\x00\\x19\\x11\\x00\\xfe\\xff0\\x01-button_3-remote_button_long_press]"
+      ]
+    },
+    {
+      "file": "zhaquirks/philips/__init__.py",
+      "function": "press",
+      "qualname": "ButtonPressQueue.press",
+      "id": "427284ac",
+      "kind": "llm_unit_mismatch",
+      "breaks": [
+        "tests/test_philips.py::test_ButtonPressQueue_presses_with_pause[press_sequence0]",
+        "tests/test_philips.py::test_ButtonPressQueue_presses_with_pause[press_sequence1]",
+        "tests/test_philips.py::test_ButtonPressQueue_presses_without_pause[2]",
+        "tests/test_philips.py::test_ButtonPressQueue_presses_without_pause[4]"
+      ]
+    }
+  ],
+  "formatter_pass": {
+    "decision": "formatted",
+    "tools": [
+      "ruff"
+    ],
+    "formatter_args": "",
+    "reformatted": 25,
+    "faulted_files": 25,
+    "left_as_spliced": 0,
+    "stands_out": {
+      "ruff": []
+    }
+  },
+  "rebuild": "python3 build_task.py --faults-file <this file> --ids <args.ids> and the rest of args above; --base-dockerfile can be written out of base_dockerfile_text",
+  "baseline_failures": 0
+}

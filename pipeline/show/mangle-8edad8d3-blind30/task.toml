@@ -1,0 +1,59 @@
+schema_version = "1.3"
+artifacts = ["/logs/artifacts"]
+
+[task]
+name = "bespokelabsai/mangle-30f-ca6ef8d7"
+description = "A pinned checkout of the google/mangle Datalog implementation has been altered in thirty places, each a single-line change to a comparison or a constant. The agent receives the source tree without any tests and must work from a behavioural report alone: programs that should be turned away are accepted, well-typed programs are refused, rules with negation, ordering comparisons and grouping stop producing answers, explanations come back truncated or fail to be written out, date and range arithmetic is off by small amounts, and several lookup and conversion helpers answer backwards. The agent must restore the intended behaviour and name every function it repaired."
+authors = []
+keywords = ["diagnosis", "root-cause", "fault-chain", "go", "go test"]
+
+[metadata]
+task_id = "mangle-30f-ca6ef8d7"
+display_title = "Repairing google/mangle's Datalog toolchain without a test suite"
+display_description = "A pinned checkout of the google/mangle Datalog implementation has been altered in thirty places, each a single-line change to a comparison or a constant. The agent receives the source tree without any tests and must work from a behavioural report alone: programs that should be turned away are accepted, well-typed programs are refused, rules with negation, ordering comparisons and grouping stop producing answers, explanations come back truncated or fail to be written out, date and range arithmetic is off by small amounts, and several lookup and conversion helpers answer backwards. The agent must restore the intended behaviour and name every function it repaired."
+category = "bugfix"
+difficulty = "hard"
+language = "go"
+repository_url = "https://github.com/google/mangle.git"
+base_commit_hash = "8edad8d350b99dc08063981663f4b4a159a6b7ec"
+target_test = ""
+fault_count = 30
+fault_files = "analysis/boundscheck.go;analysis/rectify.go;analysis/stratification.go;analysis/varlist.go;ast/decl.go;ast/temporal.go;builtin/builtin.go;builtin/temporal.go;engine/premise.go;factstore/factstore.go;factstore/temporal.go;functional/functional.go;json2struct/json2struct.go;packages/packages.go;parse/parse.go;provenance/facts.go;provenance/provenance.go;provenance/recorder.go;rewrite/rewrite.go;symbols/decldesugar.go;symbols/nametrie.go;symbols/typeexprs.go;unionfind/unifytypeexpr.go"
+fault_ids = "14b7c239,04db4774,06de3210,fa211687,53410a35,a085d6de,a9d722fd,e050288f,0d95ae30,2869dc13,6edaea62,343efcdb,6eb032a9,7ed45173,f891bdbf,8f129294,a7ff9a8a,d484eebc,13bbb551,ad875130,1ba30d2f,3b0117b9,525253b1,ae8822e4,7a936f3e,6e5a922f,a0d6106c,943360bf,6fe6c51b,57bafe51"
+why_hard = "30 edits across 23 files, one per function, and the repository's own suite is the only thing that shows them"
+generated_by = "voyager-diagnosis-pipeline"
+
+# Single-container (shared) verifier: grading runs in the agent's OWN container after the
+# agent phase, so there is no separate verifier image. The repository's own suite is kept
+# out of the agent's tree during its phase (environment/Dockerfile removes it) and restored
+# at grade time by tests/grade.py from the root-owned /tests mount, so the "no test suite"
+# premise still holds inside one container. The grader runs as root (user below) so it can
+# read /tests and restore the suite; the tree under test still runs as the agent account
+# (answer_key run_tests_as = "agent"); and the seal in the grader neutralizes .git so root
+# git obeys nothing the agent planted (the shared-container exposure the separate verifier
+# used to close by isolation). environment_mode="shared" is incompatible with a
+# [verifier.environment] block, so that block is intentionally absent; the verifier
+# inherits the agent's environment.
+[verifier]
+environment_mode = "shared"
+user = "root"
+timeout_sec = 2400.0
+[[verifier.collect]]
+command = "bash -c 'mkdir -p /logs/artifacts && cd /workspace/repo && tar czf /logs/artifacts/worktree.tgz --exclude=./.git . ; cp -f /app/rca.json /logs/artifacts/rca.json 2>/dev/null || true ; cp -f /app/RESEARCH_AND_PLANNING.md /logs/artifacts/RESEARCH_AND_PLANNING.md 2>/dev/null || true'"
+service = "main"
+timeout_sec = 300
+
+# The solving agent's own budget, per language because Horizon doubles whatever is
+# declared here. AGENT_TIMEOUT_SEC holds the numbers and the reason.
+[agent]
+timeout_sec = 10800.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+os = "linux"
+workdir = "/workspace/repo"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

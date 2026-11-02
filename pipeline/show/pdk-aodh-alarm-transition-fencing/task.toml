@@ -1,0 +1,43 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-aodh-alarm-transition-fencing"
+description = "Fence Prometheus alarm state changes and durably deliver ordered REST webhooks"
+authors = []
+keywords = ["python", "system-design"]
+
+[metadata]
+task_id = "pdk-aodh-alarm-transition-fencing"
+display_title = "Fenced ordered alarm transitions"
+repository_url = "https://opendev.org/openstack/aodh"
+base_commit_hash = "6299ebe3a88f05552a37eb6105db69efd4897884"
+language = "python"
+category = "system_design"
+
+[verifier]
+environment_mode = "separate"
+# At least 3x one full grade (both suites) on 4 CPUs; hidden suites wait out real outages, and
+# Horizon's graders are slower than a build sandbox.
+timeout_sec = 5400.0
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached 6299ebe3a88f05552a37eb6105db69efd4897884 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+
+[environment]
+# Always false. A compose task attaches every service, main included, in both compose files to one
+# network declared `internal: true`, so host names resolve but nothing reaches the internet.
+allow_internet = false
+build_timeout_sec = 5400.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+# The solver runs unprivileged; the environment image keeps root as its default user. Multi-service
+# work with real outages needs long test cycles, so the solver gets six hours.
+user = "agent"
+timeout_sec = 43200.0

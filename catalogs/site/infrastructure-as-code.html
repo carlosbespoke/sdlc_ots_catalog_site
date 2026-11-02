@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light"><title>Infrastructure as code | Bespoke Labs</title>
+<link rel="icon" href="data:,"><link rel="stylesheet" href="site.css"><script src="site.js" defer></script></head>
+<body id="top"><a class="skip" href="#content">Skip to content</a>
+<header class="band"><div class="band-in"><a class="brand" href="index.html"><img src="assets/bespoke-labs-logo.svg" alt="Bespoke Labs" width="162"></a>
+<span class="div" aria-hidden="true">/</span><div class="crumb"><a href="index.html">OTS catalogs</a> / Infrastructure as code</div></div></header>
+<main id="content" tabindex="-1"><article id="catalog-content">
+<header class="hero"><h1 id="infrastructure-as-code">Infrastructure as code</h1><div class="hero-meta" aria-hidden="true"></div></header>
+<div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,342 tasks">1,342</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="435 tasks">435</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="56 tasks">56</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="378 tasks">378</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="120 tasks">120</span></a><a href="infrastructure-as-code.html" aria-current="page"><span>Infrastructure as code</span><span class="count" aria-label="300 tasks">300</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="36 tasks">36</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#example-tasks-from-the-shortlist">Example tasks from the shortlist</a><a class="level-3" href="#example-1-cloud-infra-containers-self-hosted-platforms-hcl-terraform">Example 1: Cloud infra: containers &amp; self-hosted platforms (HCL (Terraform))</a><a class="level-3" href="#example-2-cloud-infra-containers-self-hosted-platforms-typescript">Example 2: Cloud infra: containers &amp; self-hosted platforms (TypeScript)</a><a class="level-3" href="#example-3-cloud-infra-aws-platform-stacks-typescript">Example 3: Cloud infra: AWS platform stacks (TypeScript)</a></nav></aside>
+<div class="reading">
+<h2 id="why-this-catalog">Why this catalog</h2>
+<h3 id="problems-engineers-face">Problems engineers face</h3>
+<p>Platform engineers in this catalog restructure infrastructure code that is already running. The most common task is a flat Terraform root module that has to become local modules with <code>for_each</code> keys. The change must reach production as address moves only, because the team cannot plan against a live account. A second pattern is replacing positional count with stable keys for zones, services or stages, where operations were indexed in several historical orders. A third is extracting reusable components from an app that builds everything inline, where synthesized output must not change. The example set adds two further problems: moving a stack between tools while a preview stays clean (the Pulumi ports) and bringing a stack under a policy pack without replacing resources.</p>
+<h3 id="how-the-tasks-reproduce-them">How the tasks reproduce them</h3>
+<p>Each task ships a copy of the stack with its recorded production state or recorded templates, an offline toolchain and no network. The Terraform refactor tasks include a CI script that plans with refresh disabled and runs conftest on the plan. The instruction states module ownership, key rules, root variables with today's defaults and outputs. A separate verifier container holds its own pristine state, plans the agent's configuration, and then plans hidden changes such as an added key under a fresh name, a removed key or a changed entry. The CDK task compares synthesized templates for hidden configurations. The Pulumi tasks run previews against an imported stack and against a copy with swapped generated IDs. Most tasks score zero when a gate fails.</p>
+<h3 id="typical-prompts">Typical prompts</h3>
+<ul>
+<li>A refactor request for a named production stack that lists target modules, ownership, key rules, root variables and outputs, and requires a plan of moves only.</li>
+<li>A componentization request that lists every construct class with its path, props and public properties, and requires identical synthesized templates.</li>
+<li>A migration brief for an imported stack with an empty program, with naming, config and equivalence rules and banned options.</li>
+<li>A compliance remediation request with numbered requirements, a policy pack, a guardrail spec and an exceptions register, graded with hidden variable probes.</li>
+<li>A bulleted list of needs followed by constraints to keep working, such as a clean preview and unchanged owned files.</li>
+</ul>
+<h2 id="domain-breakdown">Domain breakdown</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Share of tasks by domain</h4></div><div class="fig-box"><img src="assets/infrastructure-as-code_domain.svg" alt="Share of tasks by domain" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Domain</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Sub-domain</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr class="group-header">
+<td><strong>Cloud infrastructure &amp; IaC</strong></td>
+<td></td>
+<td class="numeric"><strong>99.0%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Cloud infra: AWS platform stacks</td>
+<td class="numeric">58.7%</td>
+</tr>
+<tr>
+<td></td>
+<td>Cloud infra: containers &amp; self-hosted platforms</td>
+<td class="numeric">28.3%</td>
+</tr>
+<tr>
+<td></td>
+<td>Cloud infra: serverless &amp; event-driven</td>
+<td class="numeric">12.0%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Security</strong></td>
+<td></td>
+<td class="numeric"><strong>1.0%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Cloud security &amp; compliance</td>
+<td class="numeric">1.0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="language-and-seniority">Language and seniority</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Primary language and seniority</h4></div><div class="fig-box"><img src="assets/infrastructure-as-code_metadata.svg" alt="Primary language and seniority" /></div></figure><h3 id="primary-language">Primary language</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Primary language</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HCL (Terraform)</td>
+<td class="numeric">98.7%</td>
+</tr>
+<tr>
+<td>TypeScript</td>
+<td class="numeric">1.0%</td>
+</tr>
+<tr>
+<td>Python</td>
+<td class="numeric">0.3%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="seniority">Seniority</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Seniority</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Senior</td>
+<td class="numeric">100.0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="model-pass-rates-across-the-catalog">Model pass rates across the catalog</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 0%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 20-80%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 100%</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">63%</td>
+<td class="numeric">3%</td>
+<td class="numeric">89%</td>
+<td class="numeric">8%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">78%</td>
+<td class="numeric">15%</td>
+<td class="numeric">15%</td>
+<td class="numeric">70%</td>
+</tr>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">53%</td>
+<td class="numeric">0%</td>
+<td class="numeric">57%</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">71%</td>
+<td class="numeric">14%</td>
+<td class="numeric">43%</td>
+<td class="numeric">43%</td>
+</tr>
+<tr>
+<td>claude-opus-5-5</td>
+<td class="numeric">86%</td>
+<td class="numeric">14%</td>
+<td class="numeric">0%</td>
+<td class="numeric">86%</td>
+</tr>
+<tr>
+<td>gpt-6-astra</td>
+<td class="numeric">100%</td>
+<td class="numeric">0%</td>
+<td class="numeric">0%</td>
+<td class="numeric">100%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/infrastructure-as-code_per_task.svg" alt="Per-task pass rate by model" /></div></figure><h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
+<p>A task's turn count is the average over its runs. A task is long horizon when that average is 200 or more turns.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Measure</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Average turn count</td>
+<td class="numeric">112.6</td>
+</tr>
+<tr>
+<td>Median turn count</td>
+<td class="numeric">109.0</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>39 to 271</td>
+</tr>
+<tr>
+<td>Long-horizon tasks (200+ turns)</td>
+<td>3% of tasks</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Turns per task</h4></div><div class="fig-box"><img src="assets/infrastructure-as-code_turns.svg" alt="Turns per task" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of tasks</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean turns</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% with 200+ turns</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">98%</td>
+<td class="numeric">115.9</td>
+<td class="numeric">10%</td>
+</tr>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">2%</td>
+<td class="numeric">105.8</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">7%</td>
+<td class="numeric">74.6</td>
+<td class="numeric">5%</td>
+</tr>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">2%</td>
+<td class="numeric">156.8</td>
+<td class="numeric">24%</td>
+</tr>
+<tr>
+<td>gpt-6-astra</td>
+<td class="numeric">2%</td>
+<td class="numeric">41.0</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>claude-opus-5-5</td>
+<td class="numeric">2%</td>
+<td class="numeric">45.7</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>meta/muse-wonder</td>
+<td>&lt;1%</td>
+<td class="numeric">165.0</td>
+<td class="numeric">0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="example-tasks-from-the-shortlist">Example tasks from the shortlist</h2>
+<nav class="task-chips" data-ui aria-label="Example tasks"><a href="#example-1-cloud-infra-containers-self-hosted-platforms-hcl-terraform">Example 1: Cloud infra: containers &amp; self-hosted platforms (HCL (Terraform))</a><a href="#example-2-cloud-infra-containers-self-hosted-platforms-typescript">Example 2: Cloud infra: containers &amp; self-hosted platforms (TypeScript)</a><a href="#example-3-cloud-infra-aws-platform-stacks-typescript">Example 3: Cloud infra: AWS platform stacks (TypeScript)</a></nav>
+<h3 id="example-1-cloud-infra-containers-self-hosted-platforms-hcl-terraform">Example 1: Cloud infra: containers &amp; self-hosted platforms (HCL (Terraform))</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Infrastructure as code</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Cloud infrastructure &amp; IaC</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Cloud infra: containers &amp; self-hosted platforms</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>HCL (Terraform)</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>46 (google/gemini-4-argon), 100 (z-ai/glm-5.3-flash)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A refactor request for an IPv6 Kubernetes stack that names four target modules and constrains the result to a plan of moves against recorded state.</p>
+<h4 id="prompt">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>The Terraform for our dual IPv6 Kubernetes production stack in <code>/workspace/infra</code> has grown into one flat root module: everything is declared at the top level, the per-AZ resources are <code>count</code>-indexed by list position, and names, settings and tags are hard-coded all over the files. Split it into four local modules (network, bootstrap, platform and observability) without touching the running infrastructure: against the current state, the plan has to come out as nothing but moves.</p>
+<p>There is no AWS access from this machine. <code>terraform init</code> works offline from the local provider mirror, <code>terraform.tfstate</code> is a copy of the production state, and <code>scripts/ci-plan.sh</code> runs what CI runs: a <code>terraform plan -refresh=false</code> against the state followed by the guardrail policies in <code>policies/</code>.</p>
+<h6 id="detailed-constraints">Detailed Constraints</h6>
+<p><strong>How CI judges the change.</strong> CI takes the repository alone and plans it with <code>terraform plan -refresh=false</code> against its own copy of the production state. Local <code>terraform state</code> commands and edits to <code>terraform.tfstate</code> never reach it, so the whole migration has to be expressed in the configuration. That plan must:</p>
+<ul>
+<li>still manage every resource that is in the state today, and</li>
+<li>contain no create, update, replace, destroy or forget: only resources moving to new addresses.</li>
+</ul>
+<p>The guardrail policies in <code>policies/</code> must pass on that plan, and <code>providers.tf</code> and everything in <code>policies/</code> stay exactly as they are, byte for byte.</p>
+<p><strong>Layout.</strong></p>
+<ul>
+<li>The root module calls <code>module &quot;network&quot;</code>, <code>module &quot;bootstrap&quot;</code>, <code>module &quot;platform&quot;</code> and <code>module &quot;observability&quot;</code>, with sources <code>./modules/network</code>, <code>./modules/bootstrap</code>, <code>./modules/platform</code> and <code>./modules/observability</code> and one instance each, calls no other module and declares no resources of its own.</li>
+<li>Which module owns what (every instance of the resources described, wherever they are declared today):
+<ul>
+<li>network: both VPCs, their internet gateways, public and workload subnets, Elastic IPs and NAT64-capable NAT gateways, route tables, IPv4 and IPv6 routes, and route table associations;</li>
+<li>bootstrap: the bootstrap KMS key and alias, S3 bucket and every bucket settings resource, the per-pool bootstrap objects, the DynamoDB bootstrap table, and the network and worker SSM configuration catalogs;</li>
+<li>platform: both clusters' control-plane and worker IAM roles, inline policies and instance profiles, security groups and rules, CloudWatch log groups, launch templates and auto scaling groups;</li>
+<li>observability: the alert SNS topic, SQS queue, subscription and queue policy, and both clusters' per-pool capacity alarms.</li>
+</ul>
+</li>
+<li>Each of these modules declares the resources it owns itself and calls no other module.</li>
+<li>Modules get each other's IDs and ARNs through module outputs and variables. Never paste an ID, ARN, IP address or DNS name of an existing resource, or any part of one (such as an ARN suffix), into the <code>.tf</code> files or templates. The configuration reads files only through literal paths inside its own module (such as <code>&quot;${path.module}/templates/...&quot;</code>; in a child module a path starts with <code>${path.module}/</code>, because Terraform resolves any other relative path from the root directory, not from the module): no computed paths, no <code>terraform_remote_state</code> data sources, and never the state or a plan file.</li>
+</ul>
+<p><strong>Keys.</strong></p>
+<ul>
+<li>Everything that exists once per availability zone today is a <code>for_each</code> resource keyed by the AZ name (for example <code>[&quot;us-east-1a&quot;]</code>), including each instance of a list that also holds things that belong to no single availability zone.</li>
+<li>Everything that exists once per worker pool today is a <code>for_each</code> resource keyed by the pool name (for example <code>[&quot;mesh&quot;]</code>), including each instance of a list that also holds things that belong to no single worker pool.</li>
+<li>Don't use <code>count</code> anywhere. Other repeated resources use <code>for_each</code> with string keys that are not numbers (a name such as <code>[&quot;assets&quot;]</code>, never <code>[&quot;0&quot;]</code>).</li>
+<li>Each existing availability zone's entry in <code>availability_zones</code> is the only source of its values: changing an entry changes, for that availability zone alone, exactly the settings the entry provides, and changes nothing else.</li>
+<li>Adding an availability zone to <code>availability_zones</code> must plan only the creation of that availability zone's resources, each configured exactly like its counterparts in the existing availability zones apart from the availability zone itself and the values its entry in <code>availability_zones</code> gives it (same settings, names and tags), and removing one only the destruction of that availability zone's resources. Beyond that, the only change either may plan is an in-place update of the settings that collect something from every availability zone today (wherever a setting holds a part of every availability zone: their names, IDs, ARNs, subnets or CIDRs, say, in a list, a policy document or an environment value): each of them must take in, or drop, exactly that availability zone's part where it belongs, in the same form as today (today's parts keep their order; where a new part goes is up to you), and change nothing else. No other resource may be created, updated, replaced or destroyed.</li>
+<li>Each existing worker pool's entry in <code>worker_pools</code> is the only source of its values: changing an entry changes, for that worker pool alone, exactly the settings the entry provides, and changes nothing else.</li>
+<li>Adding a worker pool to <code>worker_pools</code> must plan only the creation of that worker pool's resources, each configured exactly like its counterparts in the existing worker pools apart from the worker pool itself and the values its entry in <code>worker_pools</code> gives it (same settings, names and tags), and removing one only the destruction of that worker pool's resources. Beyond that, the only change either may plan is an in-place update of the settings that collect something from every worker pool today (wherever a setting holds a part of every worker pool: their names, IDs, ARNs, subnets or CIDRs, say, in a list, a policy document or an environment value): each of them must take in, or drop, exactly that worker pool's part where it belongs, in the same form as today (today's parts keep their order; where a new part goes is up to you), and change nothing else. No other resource may be created, updated, replaced or destroyed.</li>
+</ul>
+<p><strong>Root variables.</strong> Declare these in the root module, each defaulting to today's value:</p>
+<ul>
+<li><code>project</code> (<code>string</code>, <code>&quot;v6mesh&quot;</code>): every whole-word occurrence of <code>v6mesh</code> in a resource name, identifier or tag value today comes from it (whole word: not part of a longer run of letters and digits, so <code>v6mesh-api</code>, <code>v6mesh_key</code> and <code>/v6mesh/</code> count, while a longer word that merely contains <code>v6mesh</code> stays as it is), and so does every mention of those names elsewhere in the configuration (for example a resource name inside a policy); inside documents such as policies, container definitions and environment values, every whole-word occurrence of <code>v6mesh</code> that stands for it comes from it too; This includes the <code>PROJECT</code> value in every launch template's user data, project fields in the SSM catalogs and bootstrap objects, and the project token in alarm namespaces and dimensions.</li>
+<li><code>environment</code> (<code>string</code>, <code>&quot;prod&quot;</code>): every whole-word occurrence of <code>prod</code> in a resource name, identifier or tag value today, and the <code>ENVIRONMENT</code> value in every launch template's user data, the environment fields in the SSM catalogs and bootstrap objects, and the environment token in alarm namespaces and dimensions, comes from it (whole word: not part of a longer run of letters and digits, so <code>prod-api</code>, <code>prod_key</code> and <code>/prod/</code> count, while a longer word that merely contains <code>prod</code> stays as it is), and so does every mention of those names elsewhere in the configuration (for example a resource name inside a policy); inside documents such as policies, container definitions and environment values, every whole-word occurrence of <code>prod</code> that stands for it comes from it too.</li>
+<li><code>primary_vpc_cidr</code> (<code>string</code>, <code>&quot;172.20.0.0/16&quot;</code>): the alpha cluster VPC's IPv4 CIDR and its control-plane API security-group rule.</li>
+<li><code>secondary_vpc_cidr</code> (<code>string</code>, <code>&quot;172.21.0.0/16&quot;</code>): the beta cluster VPC's IPv4 CIDR and its control-plane API security-group rule.</li>
+<li><code>availability_zones</code>: <code>map(object({ order = number, primary_public_cidr = string, primary_workload_cidr = string, secondary_public_cidr = string, secondary_workload_cidr = string }))</code>, keyed by AZ name, defaulting to today's three AZs, their stable collection order and all four subnet CIDRs. It is the only source of AZ membership, AZ order and subnet CIDRs.</li>
+<li><code>worker_pools</code>: <code>map(object({ order = number, instance_type = string, disk_size = number, min_size = number, max_size = number, desired_size = number }))</code>, keyed by pool name, defaulting to today's gateway, system and mesh pools, their stable collection order, instance type, root disk size and scaling bounds. It is the only source of worker-pool membership, order and sizing.</li>
+<li><code>tags</code> (<code>map(string)</code>, <code>{ Owner = &quot;soloio-platform&quot;, CostCenter = &quot;cc-6204&quot;, ManagedBy = &quot;terraform&quot; }</code>): the shared tags (<code>Owner</code>, <code>CostCenter</code> and <code>ManagedBy</code>) that tagged resources carry today. Wherever the configuration writes them out today, in any form, they come from this variable, so that a different map (other keys, other values) reaches every one of those places; a resource's other tags stay as they are, and resources that are untagged today stay untagged.</li>
+<li><code>node_ami_id</code> (<code>string</code>, <code>&quot;ami-0009de7aaac3fdbb1&quot;</code>): the AMI of every control-plane and worker launch template.</li>
+<li><code>master_instance_type</code> (<code>string</code>, <code>&quot;t3.medium&quot;</code>): the instance type of both control-plane launch templates.</li>
+<li><code>log_retention_days</code> (<code>number</code>, <code>30</code>): the retention period of every control-plane and worker CloudWatch log group.</li>
+<li><code>bootstrap_version_retention_days</code> (<code>number</code>, <code>30</code>): the bootstrap bucket's noncurrent-version retention period.</li>
+<li><code>alarm_period_seconds</code> (<code>number</code>, <code>60</code>): the metric period of every worker-pool capacity alarm.</li>
+<li>Changing <code>primary_vpc_cidr</code>, <code>secondary_vpc_cidr</code>, <code>node_ami_id</code>, <code>master_instance_type</code>, <code>log_retention_days</code>, <code>bootstrap_version_retention_days</code> and <code>alarm_period_seconds</code> changes only what each one's line above says it controls: every other setting keeps today's value, including a setting that merely has the same value today.</li>
+</ul>
+<p><strong>Root outputs.</strong> Keep <code>primary_vpc_id</code>, <code>secondary_vpc_id</code>, <code>bootstrap_bucket_name</code> and <code>alerts_topic_arn</code> with their current values. <code>primary_workload_subnet_ids</code> becomes a map from the AZ name to the <code>id</code> of that availability zone's <code>aws_subnet.primary_workload</code>. <code>secondary_workload_subnet_ids</code> becomes a map from the AZ name to the <code>id</code> of that availability zone's <code>aws_subnet.secondary_workload</code>. <code>primary_nat64_public_ips</code> becomes a map from the AZ name to the <code>public_ip</code> of that availability zone's <code>aws_eip.primary_nat64</code>. <code>secondary_nat64_public_ips</code> becomes a map from the AZ name to the <code>public_ip</code> of that availability zone's <code>aws_eip.secondary_nat64</code>. <code>primary_worker_asg_names</code> becomes a map from the pool name to the <code>name</code> of that worker pool's <code>aws_autoscaling_group.primary_worker</code>. <code>secondary_worker_asg_names</code> becomes a map from the pool name to the <code>name</code> of that worker pool's <code>aws_autoscaling_group.secondary_worker</code>. <code>bootstrap_object_keys</code> is a new output: a map from the pool name to the <code>key</code> of that worker pool's <code>aws_s3_object.pool_bootstrap</code>. Each output passes through outputs of the module that owns the resource (network for <code>primary_vpc_id</code>, <code>secondary_vpc_id</code>, <code>primary_workload_subnet_ids</code>, <code>secondary_workload_subnet_ids</code>, <code>primary_nat64_public_ips</code> and <code>secondary_nat64_public_ips</code>; bootstrap for <code>bootstrap_bucket_name</code> and <code>bootstrap_object_keys</code>; platform for <code>primary_worker_asg_names</code> and <code>secondary_worker_asg_names</code>; observability for <code>alerts_topic_arn</code>): the root output is a plain reference to an output of that module, and that module output is a plain reference to the resource. A plain reference is a reference such as <code>module.network.&lt;output&gt;</code> or <code>&lt;resource type&gt;.&lt;name&gt;.&lt;attribute&gt;</code>, a local that holds one, or a <code>for</code> expression that only re-keys one (<code>{ for k, v in &lt;reference&gt; : k =&gt; v.id }</code>) or iterates a plain reference and looks each key up in one (<code>{ for k, v in var.&lt;map&gt; : k =&gt; &lt;reference&gt;[k].id }</code>); no literals, function calls, conditionals or string templates anywhere along the way.</p>
+<p><strong>Not allowed anywhere in the configuration:</strong> <code>ignore_changes</code>, <code>prevent_destroy</code> and <code>replace_triggered_by</code>, <code>removed</code> and <code>import</code> blocks, provisioners, <code>external</code> data sources, backend or cloud blocks, provider blocks other than the one in <code>providers.tf</code>, override files and <code>.tf.json</code> files.</p>
+</div>
+</details>
+<h4 id="pass-rates">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">40%</td>
+<td class="numeric">0.40</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">0%</td>
+<td class="numeric">0.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-infrastructure-as-code-ex1.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work">How it maps to the work</h4>
+<p>A platform engineer maintains the Terraform for two test Kubernetes clusters whose VPCs, NAT64 gateways, auto scaling groups and worker pools were written with positional count. The engineer needs to restructure it into four modules and make clusters, zones and pools data-driven, without any resource being replaced. The check is the plan against the recorded production state.</p>
+<h3 id="example-2-cloud-infra-containers-self-hosted-platforms-typescript">Example 2: Cloud infra: containers &amp; self-hosted platforms (TypeScript)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Infrastructure as code</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Cloud infrastructure &amp; IaC</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Cloud infra: containers &amp; self-hosted platforms</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>TypeScript</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>89 (google/gemini-4-argon), 210 (google/gemini-3.8-flash), 68 (gpt-6-astra), 39 (claude-opus-5-5), 92 (x-ai/grok-4.7)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A migration brief written as a bulleted list of needs, with naming and equivalence rules, constraints on Pulumi options and the checks to keep passing.</p>
+<h4 id="prompt-2">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<h5 id="pulumi-program-for-atlasgrids-imported-dev-stack">Pulumi program for AtlasGrid's imported <code>dev</code> stack</h5>
+<p>AtlasGrid's production ECS platform is managed with Terraform (<code>/workspace/terraform</code>; <code>terraform.tfstate</code> is production). The platform team bulk-imported every production resource into stack <code>dev</code> of the Pulumi project <code>/workspace/pulumi</code>, but its entry point <code>index.ts</code> declares nothing, so a preview would delete everything. We need the matching TypeScript program.</p>
+<h6 id="what-we-need">What we need</h6>
+<ul>
+<li>Each module call is a <code>pulumi.ComponentResource</code> under the stack, named after the module and typed <code>atlasgrid:modules:&lt;Module&gt;</code> (<code>Network</code>, <code>Identity</code>, <code>Edge</code>, <code>Cluster</code>, <code>Workloads</code>, <code>Observability</code>).</li>
+<li>Each Terraform resource instance is one <code>@pulumi/aws</code> resource under its module's component, named after the Terraform resource plus <code>-&lt;key&gt;</code> for <code>for_each</code> instances (<code>ecs-us-east-1a</code>).</li>
+<li>Each variable in <code>variables.tf</code> is a same-named config key (<code>atlasgrid-ecs:project</code>, …) holding its value as plain YAML (integers, strings, mappings); unset keys take the Terraform default.</li>
+<li>For any values Terraform and AWS accept, <code>pulumi preview</code> plans the same creates, updates, replacements, deletions, settings and outputs as <code>terraform plan</code> with those values.</li>
+<li>Values Terraform reads from another resource's attribute come from that attribute's output (unknown in preview exactly where unknown in Terraform's plan).</li>
+<li>Lists built from maps use sorted key order, and later maps win in <code>merge()</code>.</li>
+<li>If the stack state drifts, the preview reverts the drift as Terraform would.</li>
+<li>Stack outputs match <code>outputs.tf</code>: same names and values (maps as objects).</li>
+<li>Default <code>aws</code> provider only; no <code>protect</code>, <code>ignoreChanges</code>, <code>retainOnDelete</code>, <code>deletedWith</code>, <code>import</code>, <code>aliases</code>, <code>replaceOnChanges</code>, <code>replaceWith</code>, <code>customTimeouts</code>, <code>transforms</code> or <code>hooks</code> options, stack transforms, remote components, <code>.get()</code> lookups, <code>StackReference</code>s or provider functions like <code>aws.getRegion()</code>.</li>
+<li>No production-generated IDs, ARNs, account ID, IPs or DNS names anywhere in <code>/workspace/pulumi</code>, even partly or in notes; constants from the Terraform code are fine.</li>
+<li>The program runs offline from the regular files in <code>/workspace/pulumi</code> alone (no symlinks).</li>
+</ul>
+<h6 id="keep-working">Keep working</h6>
+<ul>
+<li>Production: <code>pulumi preview --refresh=false</code> on <code>dev</code> shows no changes</li>
+<li>A clean <code>npx tsc --noEmit</code></li>
+<li><code>Pulumi.yaml</code>, <code>Pulumi.dev.yaml</code>, <code>package.json</code>, <code>tsconfig.json</code>, <code>templates/</code>, byte for byte (undo any <code>pulumi config set</code>)</li>
+</ul>
+<h6 id="setup">Setup</h6>
+<p>No AWS access; <code>pulumi preview --refresh=false</code> works offline (backend <code>/workspace/pulumi-state</code> and passphrase preset) and <code>pulumi stack export</code> shows every URN. In <code>/workspace/terraform</code>, <code>terraform init -input=false</code> and <code>terraform plan -refresh=false</code> work offline from a provider mirror, including with <code>-var</code>/<code>-var-file</code>. <code>node_modules</code> links to the image's packages (Node.js 22, versions per <code>package.json</code>; <code>@pulumi/aws</code> 6.83.0 is built on Terraform's AWS provider 5.100.0); nothing can be installed. <code>templates/userdata.sh.tpl</code> copies the cluster module's template.</p>
+</div>
+</details>
+<h4 id="pass-rates-2">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">12%</td>
+<td class="numeric">0.12</td>
+</tr>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">67%</td>
+<td class="numeric">0.67</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">50%</td>
+<td class="numeric">0.50</td>
+</tr>
+<tr>
+<td>claude-opus-5-5</td>
+<td class="numeric">100%</td>
+<td class="numeric">1.00</td>
+</tr>
+<tr>
+<td>gpt-6-astra</td>
+<td class="numeric">100%</td>
+<td class="numeric">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-2">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-infrastructure-as-code-ex2.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work-2">How it maps to the work</h4>
+<p>A platform engineer ports an ECS platform from Terraform to Pulumi on top of an already imported stack. The engineer has to reproduce module structure, <code>for_each</code> naming and Terraform defaults so the preview shows no changes, and also reproduce what Terraform would plan under new inputs. Drift in the stack must be reverted as Terraform would.</p>
+<h3 id="example-3-cloud-infra-aws-platform-stacks-typescript">Example 3: Cloud infra: AWS platform stacks (TypeScript)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Infrastructure as code</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Cloud infrastructure &amp; IaC</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Cloud infra: AWS platform stacks</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>TypeScript</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>145 (google/gemini-4-argon), 116 (x-ai/grok-4.7)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A componentization request that spells out every construct class with its path, props and public properties, and requires identical synthesized templates for any valid configuration.</p>
+<h4 id="prompt-3">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>The Orion accelerator CDK app builds every resource inline in three long stack constructors. Nothing in it is reusable: a stage's queue, topic, task definition, routing and alarms are just lines in one loop.</p>
+<p>To close this out:</p>
+<ul>
+<li>Split it into components; only tags, outputs and what aws-cdk-lib adds at a stack's root stay outside them. Each is a <code>Construct</code> exported from <code>lib/components/&lt;class-name-in-kebab-case&gt;.ts</code>, at the given path under its stack, props in parentheses. Props use <code>lib/config.ts</code> types (<code>settings</code> is one entry, lists are <code>string[]</code>, <code>stageTopics</code> and <code>stageQueues</code> are plain objects keyed by stage name) and take aws-cdk-lib constructs as <code>I</code> interfaces (<code>ec2.IVpc</code>), except <code>OperationsMonitoring</code>'s <code>fn</code>, a <code>lambda.Function</code>. Public properties are read-only, concretely typed, and <code>fooBar</code> is the child <code>FooBar</code> unless noted; <code>&lt;name&gt;</code> is the config entry's key.</li>
+<li><code>NetworkStack</code>: <code>CoreNetwork</code> at <code>Network</code> (<code>cidr</code>, <code>maxAzs</code>, <code>natGateways</code>) exposing <code>vpc</code>; <code>GatewayAccess</code> at <code>Gateway</code> (<code>vpc</code>) exposing <code>endpoint</code>; <code>FlowLogging</code> at <code>FlowLogs</code> (<code>vpc</code>, <code>project</code>, <code>stage</code>, <code>logRetentionDays</code>) exposing <code>logGroup</code>, <code>flowLog</code>; <code>NetworkSecurity</code> at <code>Security</code> (<code>vpc</code>, <code>prefix</code>, <code>cidr</code>, <code>containerPort</code>) exposing <code>deliverySecurityGroup</code> (<code>Delivery</code>), <code>runtimeSecurityGroup</code> (<code>Runtime</code>), <code>notificationSecurityGroup</code> (<code>Notifications</code>). The S3 gateway endpoint and the flow log hang off the VPC today; they move out from under it into <code>GatewayAccess</code> and <code>FlowLogging</code>.</li>
+<li><code>DeliveryStack</code>: <code>ArtifactEncryption</code> at <code>Encryption</code> (<code>prefix</code>) exposing <code>key</code>; <code>ArtifactBucket</code> at <code>Buckets/&lt;name&gt;</code> (<code>name</code>, <code>settings</code>, <code>prefix</code>, <code>account</code>, <code>isProd</code>, <code>encryptionKey</code>) exposing <code>bucket</code>; <code>ReleaseCatalog</code> at <code>Releases</code> (<code>prefix</code>, <code>encryptionKey</code>) exposing <code>table</code>; <code>RuntimePlatform</code> at <code>Platform</code> (<code>prefix</code>, <code>vpc</code>, <code>isProd</code>) exposing <code>repository</code>, <code>cluster</code>; <code>DeliveryGateway</code> at <code>Gateway</code> (<code>vpc</code>, <code>securityGroup</code>, <code>prefix</code>) exposing <code>loadBalancer</code>, its <code>listener</code> (<code>LoadBalancer/HttpListener</code>, added to the load balancer), <code>zone</code> (<code>HostedZone</code>); <code>StageRuntime</code> at <code>Stages/&lt;name&gt;</code> (<code>project</code>, <code>environment</code>, <code>name</code>, <code>settings</code>, <code>prefix</code>, <code>image</code>, <code>containerPort</code>, <code>logRetentionDays</code>, <code>queueRetentionDays</code>, <code>encryptionKey</code>, <code>storageBucket</code>, <code>releaseTable</code>) exposing <code>queue</code> (<code>DeployQueue</code>), <code>topic</code> (<code>EventsTopic</code>), <code>taskDefinition</code>, holding <code>ServiceLogs</code>, <code>TaskDocument</code>; <code>StageRouting</code> at <code>Routes/&lt;name&gt;</code> (<code>name</code>, <code>settings</code>, <code>prefix</code>, <code>vpc</code>, <code>listener</code>, <code>loadBalancer</code>, <code>zone</code>, <code>containerPort</code>, <code>healthCheckPath</code>, <code>deregistrationSeconds</code>) exposing <code>blueTarget</code>, <code>greenTarget</code>, <code>record</code> (<code>AliasRecord</code>), holding <code>ListenerRule</code> (the target groups and rule move out from under the listener); <code>DiscoveryParameters</code> at <code>Parameters</code> (<code>project</code>, <code>stage</code>, <code>repository</code>, <code>loadBalancer</code>) holding <code>RepositoryArnParameter</code>, <code>LoadBalancerDnsParameter</code>.</li>
+<li><code>OperationsStack</code>: <code>NotificationChannel</code> at <code>Channel</code> (<code>prefix</code>, <code>encryptionKey</code>, <code>emails</code>) exposing <code>topic</code>; <code>NotificationProcessor</code> at <code>Processor</code> (<code>project</code>, <code>stage</code>, <code>prefix</code>, <code>stageNames</code>, <code>memoryMiB</code>, <code>timeoutSeconds</code>, <code>logRetentionDays</code>, <code>vpc</code>, <code>securityGroup</code>, <code>encryptionKey</code>, <code>channel</code>, <code>stageTopics</code>, <code>stageQueues</code>) exposing <code>fn</code> (<code>Function</code>), holding <code>Logs</code>; <code>PipelineEventRule</code> at <code>Rules/&lt;name&gt;</code> (<code>name</code>, <code>prefix</code>, <code>settings</code>, <code>topic</code>) exposing <code>rule</code>; <code>OperationsMonitoring</code> at <code>Monitoring</code> (<code>project</code>, <code>stage</code>, <code>prefix</code>, <code>fn</code>, <code>topic</code>, <code>stageQueues</code>) exposing <code>healthAlarm</code> (<code>Health</code>), <code>dashboard</code>, holding <code>TopicParameter</code>, <code>FunctionParameter</code>.</li>
+<li>For any config that fits <code>lib/config.ts</code>, not just <code>prod</code> and <code>staging</code>, every stack synthesizes today's template, each resource made by the same aws-cdk-lib construct class, with no raw overrides. The one change is a <code>component</code> tag on each <code>owner</code>-tagged resource inside a component, holding that component's lower-cased path under the stack (<code>stages/dev</code>).</li>
+<li><code>bash scripts/ci.sh</code> passes.</li>
+</ul>
+<p>The stacks keep their signatures and public properties, and <code>bin/accelerator.ts</code>, <code>lib/config.ts</code>, the root config files, <code>config/</code>, <code>lambda/</code>, <code>deployed/</code>, <code>tools/</code> and <code>scripts/</code> stay untouched, apart from adding <code>config/&lt;name&gt;.json</code> and <code>deployed/&lt;name&gt;/</code> to try configs.</p>
+<p>Everything runs offline in <code>/workspace/accelerator-platform</code> (<code>npx cdk synth -c stage=&lt;stage&gt;</code>; see the README); git has today's app.</p>
+</div>
+</details>
+<h4 id="pass-rates-3">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">50%</td>
+<td class="numeric">0.50</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">100%</td>
+<td class="numeric">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-3">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-infrastructure-as-code-ex3.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work-3">How it maps to the work</h4>
+<p>A platform engineer receives a CDK app whose stacks build everything inline and has to turn it into reusable constructs for a team that wants to share them. The CloudFormation output for the deployed environments must not change, apart from a component tag. The engineer works from the recorded templates and synth results.</p>
+
+<footer class="page-footer" data-ui><a class="back-top" href="#top">Back to top ↑</a><nav class="page-nav" aria-label="Previous and next catalogs"><a rel="prev" href="feature-implementation.html"><small>Previous</small>Feature implementation</a><a rel="next" href="data-engineering.html"><small>Next</small>Data engineering</a></nav>
+<p class="footer-word">Bespoke Labs · Task catalogs</p></footer></div></div></article></main>
+</body></html>

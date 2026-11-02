@@ -1,0 +1,1201 @@
+{
+ "schema": 1,
+ "modules": [
+  "eventing",
+  "messaging",
+  "processing"
+ ],
+ "ownership": {
+  "aws_kms_key.cwalarms_kms_key": "eventing",
+  "aws_kms_alias.cwalarms_kms_alias": "eventing",
+  "aws_cloudwatch_event_bus.central_cloudwatch_alarms": "eventing",
+  "aws_cloudwatch_event_rule.source": "eventing",
+  "aws_cloudwatch_event_target.cwalarms_event_sqs_targets": "messaging",
+  "aws_cloudwatch_event_target.cwalarms_event_logs_targets": "messaging",
+  "aws_cloudwatch_log_group.event_rule": "eventing",
+  "aws_sqs_queue.source_dlq": "eventing",
+  "aws_cloudwatch_metric_alarm.source_age": "eventing",
+  "aws_ssm_parameter.source_filter": "eventing",
+  "aws_iam_role.eventbridge_tosqs_role": "eventing",
+  "aws_iam_role_policy.eventbridge_sqs_policy": "messaging",
+  "aws_sqs_queue.central_cwalarm_deadletter_queue": "messaging",
+  "aws_sqs_queue.cwarlams": "messaging",
+  "aws_sqs_queue_policy.cwalarms": "messaging",
+  "aws_sns_topic.this": "messaging",
+  "aws_sns_topic_policy.cwalarms_sns_topic_policy": "messaging",
+  "aws_sns_topic_subscription.cwalarms_sns_subscription": "messaging",
+  "aws_sqs_queue.team_delivery_dlq": "messaging",
+  "aws_sqs_queue_policy.team_delivery_dlq": "messaging",
+  "aws_cloudwatch_log_group.team": "messaging",
+  "aws_cloudwatch_metric_alarm.topic_failures": "messaging",
+  "aws_ssm_parameter.team_route": "messaging",
+  "aws_ssm_parameter.team_notification_map": "messaging",
+  "aws_ssm_parameter.deployment_metadata": "messaging",
+  "aws_sns_topic.operations": "messaging",
+  "aws_sns_topic_policy.operations": "messaging",
+  "aws_sns_topic_subscription.operations": "messaging",
+  "aws_cloudwatch_log_group.cwalarms_sns_enricher": "processing",
+  "aws_iam_role.cwalarms_sns_enricher": "processing",
+  "aws_iam_role_policy.cwalarms_sns_enricher": "processing",
+  "aws_lambda_function.cwalarms_sns_enricher": "processing",
+  "aws_lambda_event_source_mapping.cwalarms_sns_enricher": "processing",
+  "aws_cloudwatch_metric_alarm.queue_depth": "processing",
+  "aws_cloudwatch_metric_alarm.lambda_errors": "processing",
+  "aws_cloudwatch_metric_alarm.lambda_throttles": "processing",
+  "aws_sns_topic.severity": "messaging",
+  "aws_sns_topic_policy.severity": "messaging",
+  "aws_sns_topic_subscription.severity": "messaging",
+  "aws_sqs_queue.severity": "messaging",
+  "aws_sqs_queue_policy.severity": "messaging",
+  "aws_cloudwatch_log_group.severity": "messaging",
+  "aws_cloudwatch_metric_alarm.severity_backlog": "messaging",
+  "aws_ssm_parameter.severity_route": "messaging",
+  "aws_ssm_parameter.source_notification_map": "eventing",
+  "aws_ssm_parameter.severity_notification_map": "messaging",
+  "aws_ssm_parameter.primary_team": "messaging",
+  "aws_ssm_parameter.primary_source": "eventing",
+  "aws_ssm_parameter.primary_severity": "messaging",
+  "aws_cloudwatch_metric_alarm.team_dlq_age": "messaging",
+  "aws_cloudwatch_metric_alarm.source_backlog": "eventing",
+  "aws_cloudwatch_metric_alarm.severity_age": "messaging",
+  "aws_sns_topic.channel": "messaging",
+  "aws_sns_topic_policy.channel": "messaging",
+  "aws_sqs_queue.channel_dlq": "messaging",
+  "aws_sqs_queue.channel": "messaging",
+  "aws_sqs_queue_policy.channel": "messaging",
+  "aws_sns_topic_subscription.channel": "messaging",
+  "aws_cloudwatch_log_group.channel": "processing",
+  "aws_cloudwatch_metric_alarm.channel_backlog": "processing",
+  "aws_cloudwatch_metric_alarm.channel_age": "processing",
+  "aws_ssm_parameter.channel_route": "processing",
+  "aws_ssm_parameter.channel_notification_map": "processing",
+  "aws_ssm_parameter.routing_inventory": "processing",
+  "aws_ssm_parameter.primary_channel": "processing"
+ },
+ "direct_modules": true,
+ "no_count": true,
+ "key_dimensions": {
+  "team": {
+   "variable": "teams",
+   "keys": {
+    "aws_sns_topic.this[0]": "operations",
+    "aws_sns_topic.this[1]": "identity",
+    "aws_sns_topic.this[2]": "platform",
+    "aws_sns_topic.this[3]": "data",
+    "aws_sns_topic.this[4]": "commerce",
+    "aws_sns_topic.this[5]": "security",
+    "aws_sns_topic.this[6]": "network",
+    "aws_sns_topic.this[7]": "risk",
+    "aws_sns_topic.this[8]": "support",
+    "aws_sns_topic.this[9]": "payments",
+    "aws_sns_topic_policy.cwalarms_sns_topic_policy[0]": "operations",
+    "aws_sns_topic_policy.cwalarms_sns_topic_policy[1]": "identity",
+    "aws_sns_topic_policy.cwalarms_sns_topic_policy[2]": "platform",
+    "aws_sns_topic_policy.cwalarms_sns_topic_policy[3]": "data",
+    "aws_sns_topic_policy.cwalarms_sns_topic_policy[4]": "commerce",
+    "aws_sns_topic_policy.cwalarms_sns_topic_policy[5]": "security",
+    "aws_sns_topic_policy.cwalarms_sns_topic_policy[6]": "network",
+    "aws_sns_topic_policy.cwalarms_sns_topic_policy[7]": "risk",
+    "aws_sns_topic_policy.cwalarms_sns_topic_policy[8]": "support",
+    "aws_sns_topic_policy.cwalarms_sns_topic_policy[9]": "payments",
+    "aws_sns_topic_subscription.cwalarms_sns_subscription[0]": "operations",
+    "aws_sns_topic_subscription.cwalarms_sns_subscription[1]": "identity",
+    "aws_sns_topic_subscription.cwalarms_sns_subscription[2]": "platform",
+    "aws_sns_topic_subscription.cwalarms_sns_subscription[3]": "data",
+    "aws_sns_topic_subscription.cwalarms_sns_subscription[4]": "commerce",
+    "aws_sns_topic_subscription.cwalarms_sns_subscription[5]": "security",
+    "aws_sns_topic_subscription.cwalarms_sns_subscription[6]": "network",
+    "aws_sns_topic_subscription.cwalarms_sns_subscription[7]": "risk",
+    "aws_sns_topic_subscription.cwalarms_sns_subscription[8]": "support",
+    "aws_sns_topic_subscription.cwalarms_sns_subscription[9]": "payments",
+    "aws_sqs_queue.team_delivery_dlq[0]": "operations",
+    "aws_sqs_queue.team_delivery_dlq[1]": "identity",
+    "aws_sqs_queue.team_delivery_dlq[2]": "platform",
+    "aws_sqs_queue.team_delivery_dlq[3]": "data",
+    "aws_sqs_queue.team_delivery_dlq[4]": "commerce",
+    "aws_sqs_queue.team_delivery_dlq[5]": "security",
+    "aws_sqs_queue.team_delivery_dlq[6]": "network",
+    "aws_sqs_queue.team_delivery_dlq[7]": "risk",
+    "aws_sqs_queue.team_delivery_dlq[8]": "support",
+    "aws_sqs_queue.team_delivery_dlq[9]": "payments",
+    "aws_sqs_queue_policy.team_delivery_dlq[0]": "operations",
+    "aws_sqs_queue_policy.team_delivery_dlq[1]": "identity",
+    "aws_sqs_queue_policy.team_delivery_dlq[2]": "platform",
+    "aws_sqs_queue_policy.team_delivery_dlq[3]": "data",
+    "aws_sqs_queue_policy.team_delivery_dlq[4]": "commerce",
+    "aws_sqs_queue_policy.team_delivery_dlq[5]": "security",
+    "aws_sqs_queue_policy.team_delivery_dlq[6]": "network",
+    "aws_sqs_queue_policy.team_delivery_dlq[7]": "risk",
+    "aws_sqs_queue_policy.team_delivery_dlq[8]": "support",
+    "aws_sqs_queue_policy.team_delivery_dlq[9]": "payments",
+    "aws_cloudwatch_log_group.team[0]": "operations",
+    "aws_cloudwatch_log_group.team[1]": "identity",
+    "aws_cloudwatch_log_group.team[2]": "platform",
+    "aws_cloudwatch_log_group.team[3]": "data",
+    "aws_cloudwatch_log_group.team[4]": "commerce",
+    "aws_cloudwatch_log_group.team[5]": "security",
+    "aws_cloudwatch_log_group.team[6]": "network",
+    "aws_cloudwatch_log_group.team[7]": "risk",
+    "aws_cloudwatch_log_group.team[8]": "support",
+    "aws_cloudwatch_log_group.team[9]": "payments",
+    "aws_cloudwatch_metric_alarm.topic_failures[0]": "operations",
+    "aws_cloudwatch_metric_alarm.topic_failures[1]": "identity",
+    "aws_cloudwatch_metric_alarm.topic_failures[2]": "platform",
+    "aws_cloudwatch_metric_alarm.topic_failures[3]": "data",
+    "aws_cloudwatch_metric_alarm.topic_failures[4]": "commerce",
+    "aws_cloudwatch_metric_alarm.topic_failures[5]": "security",
+    "aws_cloudwatch_metric_alarm.topic_failures[6]": "network",
+    "aws_cloudwatch_metric_alarm.topic_failures[7]": "risk",
+    "aws_cloudwatch_metric_alarm.topic_failures[8]": "support",
+    "aws_cloudwatch_metric_alarm.topic_failures[9]": "payments",
+    "aws_ssm_parameter.team_route[0]": "operations",
+    "aws_ssm_parameter.team_route[1]": "identity",
+    "aws_ssm_parameter.team_route[2]": "platform",
+    "aws_ssm_parameter.team_route[3]": "data",
+    "aws_ssm_parameter.team_route[4]": "commerce",
+    "aws_ssm_parameter.team_route[5]": "security",
+    "aws_ssm_parameter.team_route[6]": "network",
+    "aws_ssm_parameter.team_route[7]": "risk",
+    "aws_ssm_parameter.team_route[8]": "support",
+    "aws_ssm_parameter.team_route[9]": "payments",
+    "aws_cloudwatch_metric_alarm.team_dlq_age[0]": "operations",
+    "aws_cloudwatch_metric_alarm.team_dlq_age[1]": "identity",
+    "aws_cloudwatch_metric_alarm.team_dlq_age[2]": "platform",
+    "aws_cloudwatch_metric_alarm.team_dlq_age[3]": "data",
+    "aws_cloudwatch_metric_alarm.team_dlq_age[4]": "commerce",
+    "aws_cloudwatch_metric_alarm.team_dlq_age[5]": "security",
+    "aws_cloudwatch_metric_alarm.team_dlq_age[6]": "network",
+    "aws_cloudwatch_metric_alarm.team_dlq_age[7]": "risk",
+    "aws_cloudwatch_metric_alarm.team_dlq_age[8]": "support",
+    "aws_cloudwatch_metric_alarm.team_dlq_age[9]": "payments"
+   },
+   "add": {
+    "key": "treasury",
+    "value": {
+     "email": "treasury-alerts@example.com",
+     "retention_days": 150,
+     "delivery_threshold": 9,
+     "dlq_visibility_seconds": 135,
+     "dlq_delay_seconds": 75,
+     "dlq_receive_wait_seconds": 12,
+     "dlq_max_message_size": 174080,
+     "dlq_age_threshold_seconds": 1320
+    },
+    "created_values": [
+     {
+      "base": "aws_sns_topic_subscription.cwalarms_sns_subscription",
+      "attr": "endpoint",
+      "value": "treasury-alerts@example.com"
+     },
+     {
+      "base": "aws_cloudwatch_log_group.team",
+      "attr": "retention_in_days",
+      "value": 150
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.topic_failures",
+      "attr": "threshold",
+      "value": 9
+     },
+     {
+      "base": "aws_sqs_queue.team_delivery_dlq",
+      "attr": "visibility_timeout_seconds",
+      "value": 135
+     },
+     {
+      "base": "aws_sqs_queue.team_delivery_dlq",
+      "attr": "delay_seconds",
+      "value": 75
+     },
+     {
+      "base": "aws_sqs_queue.team_delivery_dlq",
+      "attr": "receive_wait_time_seconds",
+      "value": 12
+     },
+     {
+      "base": "aws_sqs_queue.team_delivery_dlq",
+      "attr": "max_message_size",
+      "value": 174080
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.team_dlq_age",
+      "attr": "threshold",
+      "value": 1320
+     },
+     {
+      "base": "aws_ssm_parameter.team_route",
+      "attr": "value",
+      "value": "{\"delivery_threshold\":9,\"dlq_age_threshold_seconds\":1320,\"dlq_delay_seconds\":75,\"dlq_max_message_size\":174080,\"dlq_receive_wait_seconds\":12,\"dlq_visibility_seconds\":135,\"email\":\"treasury-alerts@example.com\",\"retention_days\":150,\"team\":\"treasury\",\"topic_name\":\"centralwatch-prod-treasury-alerts\"}"
+     }
+    ]
+   },
+   "remove": "operations",
+   "allowed_updates": {
+    "aws_ssm_parameter.team_notification_map": [
+     "value"
+    ],
+    "aws_iam_role_policy.cwalarms_sns_enricher": [
+     "policy"
+    ],
+    "aws_lambda_function.cwalarms_sns_enricher": [
+     "environment"
+    ],
+    "aws_ssm_parameter.primary_team": [
+     "value"
+    ],
+    "aws_ssm_parameter.routing_inventory": [
+     "value"
+    ]
+   },
+   "required_updates": {
+    "aws_ssm_parameter.team_notification_map": [
+     "value"
+    ],
+    "aws_iam_role_policy.cwalarms_sns_enricher": [
+     "policy"
+    ],
+    "aws_lambda_function.cwalarms_sns_enricher": [
+     "environment"
+    ],
+    "aws_ssm_parameter.routing_inventory": [
+     "value"
+    ]
+   }
+  },
+  "source": {
+   "variable": "sources",
+   "keys": {
+    "aws_cloudwatch_event_rule.source[0]": "rds",
+    "aws_cloudwatch_event_rule.source[1]": "backup",
+    "aws_cloudwatch_event_rule.source[2]": "ec2",
+    "aws_cloudwatch_event_rule.source[3]": "cloudwatch",
+    "aws_cloudwatch_event_rule.source[4]": "security",
+    "aws_cloudwatch_event_rule.source[5]": "billing",
+    "aws_cloudwatch_event_rule.source[6]": "health",
+    "aws_cloudwatch_event_target.cwalarms_event_sqs_targets[0]": "rds",
+    "aws_cloudwatch_event_target.cwalarms_event_sqs_targets[1]": "backup",
+    "aws_cloudwatch_event_target.cwalarms_event_sqs_targets[2]": "ec2",
+    "aws_cloudwatch_event_target.cwalarms_event_sqs_targets[3]": "cloudwatch",
+    "aws_cloudwatch_event_target.cwalarms_event_sqs_targets[4]": "security",
+    "aws_cloudwatch_event_target.cwalarms_event_sqs_targets[5]": "billing",
+    "aws_cloudwatch_event_target.cwalarms_event_sqs_targets[6]": "health",
+    "aws_cloudwatch_event_target.cwalarms_event_logs_targets[0]": "rds",
+    "aws_cloudwatch_event_target.cwalarms_event_logs_targets[1]": "backup",
+    "aws_cloudwatch_event_target.cwalarms_event_logs_targets[2]": "ec2",
+    "aws_cloudwatch_event_target.cwalarms_event_logs_targets[3]": "cloudwatch",
+    "aws_cloudwatch_event_target.cwalarms_event_logs_targets[4]": "security",
+    "aws_cloudwatch_event_target.cwalarms_event_logs_targets[5]": "billing",
+    "aws_cloudwatch_event_target.cwalarms_event_logs_targets[6]": "health",
+    "aws_cloudwatch_log_group.event_rule[0]": "rds",
+    "aws_cloudwatch_log_group.event_rule[1]": "backup",
+    "aws_cloudwatch_log_group.event_rule[2]": "ec2",
+    "aws_cloudwatch_log_group.event_rule[3]": "cloudwatch",
+    "aws_cloudwatch_log_group.event_rule[4]": "security",
+    "aws_cloudwatch_log_group.event_rule[5]": "billing",
+    "aws_cloudwatch_log_group.event_rule[6]": "health",
+    "aws_sqs_queue.source_dlq[0]": "rds",
+    "aws_sqs_queue.source_dlq[1]": "backup",
+    "aws_sqs_queue.source_dlq[2]": "ec2",
+    "aws_sqs_queue.source_dlq[3]": "cloudwatch",
+    "aws_sqs_queue.source_dlq[4]": "security",
+    "aws_sqs_queue.source_dlq[5]": "billing",
+    "aws_sqs_queue.source_dlq[6]": "health",
+    "aws_cloudwatch_metric_alarm.source_age[0]": "rds",
+    "aws_cloudwatch_metric_alarm.source_age[1]": "backup",
+    "aws_cloudwatch_metric_alarm.source_age[2]": "ec2",
+    "aws_cloudwatch_metric_alarm.source_age[3]": "cloudwatch",
+    "aws_cloudwatch_metric_alarm.source_age[4]": "security",
+    "aws_cloudwatch_metric_alarm.source_age[5]": "billing",
+    "aws_cloudwatch_metric_alarm.source_age[6]": "health",
+    "aws_ssm_parameter.source_filter[0]": "rds",
+    "aws_ssm_parameter.source_filter[1]": "backup",
+    "aws_ssm_parameter.source_filter[2]": "ec2",
+    "aws_ssm_parameter.source_filter[3]": "cloudwatch",
+    "aws_ssm_parameter.source_filter[4]": "security",
+    "aws_ssm_parameter.source_filter[5]": "billing",
+    "aws_ssm_parameter.source_filter[6]": "health",
+    "aws_cloudwatch_metric_alarm.source_backlog[0]": "rds",
+    "aws_cloudwatch_metric_alarm.source_backlog[1]": "backup",
+    "aws_cloudwatch_metric_alarm.source_backlog[2]": "ec2",
+    "aws_cloudwatch_metric_alarm.source_backlog[3]": "cloudwatch",
+    "aws_cloudwatch_metric_alarm.source_backlog[4]": "security",
+    "aws_cloudwatch_metric_alarm.source_backlog[5]": "billing",
+    "aws_cloudwatch_metric_alarm.source_backlog[6]": "health"
+   },
+   "add": {
+    "key": "organizations",
+    "value": {
+     "detail_type": "AWS Organizations Event",
+     "log_retention_days": 150,
+     "age_threshold_seconds": 750,
+     "dlq_visibility_seconds": 135,
+     "dlq_retention_seconds": 950400,
+     "dlq_delay_seconds": 27,
+     "dlq_receive_wait_seconds": 12,
+     "backlog_threshold": 33
+    },
+    "created_values": [
+     {
+      "base": "aws_cloudwatch_event_rule.source",
+      "attr": "event_pattern",
+      "value": "{\"detail-type\":[\"AWS Organizations Event\"]}"
+     },
+     {
+      "base": "aws_cloudwatch_log_group.event_rule",
+      "attr": "retention_in_days",
+      "value": 150
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.source_age",
+      "attr": "threshold",
+      "value": 750
+     },
+     {
+      "base": "aws_sqs_queue.source_dlq",
+      "attr": "visibility_timeout_seconds",
+      "value": 135
+     },
+     {
+      "base": "aws_sqs_queue.source_dlq",
+      "attr": "message_retention_seconds",
+      "value": 950400
+     },
+     {
+      "base": "aws_sqs_queue.source_dlq",
+      "attr": "delay_seconds",
+      "value": 27
+     },
+     {
+      "base": "aws_sqs_queue.source_dlq",
+      "attr": "receive_wait_time_seconds",
+      "value": 12
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.source_backlog",
+      "attr": "threshold",
+      "value": 33
+     },
+     {
+      "base": "aws_ssm_parameter.source_filter",
+      "attr": "value",
+      "value": "{\"age_threshold_seconds\":750,\"backlog_threshold\":33,\"detail_type\":\"AWS Organizations Event\",\"dlq_delay_seconds\":27,\"dlq_receive_wait_seconds\":12,\"dlq_retention_seconds\":950400,\"dlq_visibility_seconds\":135,\"log_retention_days\":150,\"source\":\"organizations\"}"
+     }
+    ]
+   },
+   "remove": "rds",
+   "allowed_updates": {
+    "aws_sqs_queue_policy.cwalarms": [
+     "policy"
+    ],
+    "aws_iam_role_policy.eventbridge_sqs_policy": [
+     "policy"
+    ],
+    "aws_iam_role_policy.cwalarms_sns_enricher": [
+     "policy"
+    ],
+    "aws_lambda_function.cwalarms_sns_enricher": [
+     "environment"
+    ],
+    "aws_ssm_parameter.source_notification_map": [
+     "value"
+    ],
+    "aws_ssm_parameter.primary_source": [
+     "value"
+    ],
+    "aws_ssm_parameter.routing_inventory": [
+     "value"
+    ]
+   },
+   "required_updates": {
+    "aws_sqs_queue_policy.cwalarms": [
+     "policy"
+    ],
+    "aws_iam_role_policy.eventbridge_sqs_policy": [
+     "policy"
+    ],
+    "aws_iam_role_policy.cwalarms_sns_enricher": [
+     "policy"
+    ],
+    "aws_lambda_function.cwalarms_sns_enricher": [
+     "environment"
+    ],
+    "aws_ssm_parameter.source_notification_map": [
+     "value"
+    ],
+    "aws_ssm_parameter.routing_inventory": [
+     "value"
+    ]
+   }
+  },
+  "severity": {
+   "variable": "severities",
+   "keys": {
+    "aws_sns_topic.severity[0]": "critical",
+    "aws_sns_topic.severity[1]": "warning",
+    "aws_sns_topic.severity[2]": "emergency",
+    "aws_sns_topic.severity[3]": "info",
+    "aws_sns_topic.severity[4]": "high",
+    "aws_sns_topic_policy.severity[0]": "critical",
+    "aws_sns_topic_policy.severity[1]": "warning",
+    "aws_sns_topic_policy.severity[2]": "emergency",
+    "aws_sns_topic_policy.severity[3]": "info",
+    "aws_sns_topic_policy.severity[4]": "high",
+    "aws_sns_topic_subscription.severity[0]": "critical",
+    "aws_sns_topic_subscription.severity[1]": "warning",
+    "aws_sns_topic_subscription.severity[2]": "emergency",
+    "aws_sns_topic_subscription.severity[3]": "info",
+    "aws_sns_topic_subscription.severity[4]": "high",
+    "aws_sqs_queue.severity[0]": "critical",
+    "aws_sqs_queue.severity[1]": "warning",
+    "aws_sqs_queue.severity[2]": "emergency",
+    "aws_sqs_queue.severity[3]": "info",
+    "aws_sqs_queue.severity[4]": "high",
+    "aws_sqs_queue_policy.severity[0]": "critical",
+    "aws_sqs_queue_policy.severity[1]": "warning",
+    "aws_sqs_queue_policy.severity[2]": "emergency",
+    "aws_sqs_queue_policy.severity[3]": "info",
+    "aws_sqs_queue_policy.severity[4]": "high",
+    "aws_cloudwatch_log_group.severity[0]": "critical",
+    "aws_cloudwatch_log_group.severity[1]": "warning",
+    "aws_cloudwatch_log_group.severity[2]": "emergency",
+    "aws_cloudwatch_log_group.severity[3]": "info",
+    "aws_cloudwatch_log_group.severity[4]": "high",
+    "aws_cloudwatch_metric_alarm.severity_backlog[0]": "critical",
+    "aws_cloudwatch_metric_alarm.severity_backlog[1]": "warning",
+    "aws_cloudwatch_metric_alarm.severity_backlog[2]": "emergency",
+    "aws_cloudwatch_metric_alarm.severity_backlog[3]": "info",
+    "aws_cloudwatch_metric_alarm.severity_backlog[4]": "high",
+    "aws_ssm_parameter.severity_route[0]": "critical",
+    "aws_ssm_parameter.severity_route[1]": "warning",
+    "aws_ssm_parameter.severity_route[2]": "emergency",
+    "aws_ssm_parameter.severity_route[3]": "info",
+    "aws_ssm_parameter.severity_route[4]": "high",
+    "aws_cloudwatch_metric_alarm.severity_age[0]": "critical",
+    "aws_cloudwatch_metric_alarm.severity_age[1]": "warning",
+    "aws_cloudwatch_metric_alarm.severity_age[2]": "emergency",
+    "aws_cloudwatch_metric_alarm.severity_age[3]": "info",
+    "aws_cloudwatch_metric_alarm.severity_age[4]": "high"
+   },
+   "add": {
+    "key": "notice",
+    "value": {
+     "email": "notice-alerts@example.com",
+     "log_retention_days": 150,
+     "queue_visibility_seconds": 135,
+     "queue_retention_seconds": 950400,
+     "backlog_threshold": 13,
+     "queue_delay_seconds": 24,
+     "queue_receive_wait_seconds": 12,
+     "age_threshold_seconds": 720
+    },
+    "created_values": [
+     {
+      "base": "aws_sns_topic_subscription.severity",
+      "attr": "endpoint",
+      "value": "notice-alerts@example.com"
+     },
+     {
+      "base": "aws_cloudwatch_log_group.severity",
+      "attr": "retention_in_days",
+      "value": 150
+     },
+     {
+      "base": "aws_sqs_queue.severity",
+      "attr": "visibility_timeout_seconds",
+      "value": 135
+     },
+     {
+      "base": "aws_sqs_queue.severity",
+      "attr": "message_retention_seconds",
+      "value": 950400
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.severity_backlog",
+      "attr": "threshold",
+      "value": 13
+     },
+     {
+      "base": "aws_sqs_queue.severity",
+      "attr": "delay_seconds",
+      "value": 24
+     },
+     {
+      "base": "aws_sqs_queue.severity",
+      "attr": "receive_wait_time_seconds",
+      "value": 12
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.severity_age",
+      "attr": "threshold",
+      "value": 720
+     },
+     {
+      "base": "aws_ssm_parameter.severity_route",
+      "attr": "value",
+      "value": "{\"age_threshold_seconds\":720,\"backlog_threshold\":13,\"email\":\"notice-alerts@example.com\",\"log_retention_days\":150,\"queue_delay_seconds\":24,\"queue_name\":\"centralwatch-prod-notice-severity\",\"queue_receive_wait_seconds\":12,\"queue_retention_seconds\":950400,\"queue_visibility_seconds\":135,\"severity\":\"notice\",\"topic_name\":\"centralwatch-prod-notice-severity\"}"
+     }
+    ]
+   },
+   "remove": "critical",
+   "allowed_updates": {
+    "aws_ssm_parameter.severity_notification_map": [
+     "value"
+    ],
+    "aws_iam_role_policy.cwalarms_sns_enricher": [
+     "policy"
+    ],
+    "aws_lambda_function.cwalarms_sns_enricher": [
+     "environment"
+    ],
+    "aws_ssm_parameter.primary_severity": [
+     "value"
+    ],
+    "aws_ssm_parameter.routing_inventory": [
+     "value"
+    ]
+   },
+   "required_updates": {
+    "aws_ssm_parameter.severity_notification_map": [
+     "value"
+    ],
+    "aws_iam_role_policy.cwalarms_sns_enricher": [
+     "policy"
+    ],
+    "aws_lambda_function.cwalarms_sns_enricher": [
+     "environment"
+    ],
+    "aws_ssm_parameter.routing_inventory": [
+     "value"
+    ]
+   }
+  },
+  "channel": {
+   "variable": "channels",
+   "keys": {
+    "aws_sns_topic.channel[0]": "webhook",
+    "aws_sns_topic.channel[1]": "ticketing",
+    "aws_sns_topic.channel[2]": "chatops",
+    "aws_sns_topic.channel[3]": "archive",
+    "aws_sns_topic_policy.channel[0]": "webhook",
+    "aws_sns_topic_policy.channel[1]": "ticketing",
+    "aws_sns_topic_policy.channel[2]": "chatops",
+    "aws_sns_topic_policy.channel[3]": "archive",
+    "aws_sqs_queue.channel_dlq[0]": "webhook",
+    "aws_sqs_queue.channel_dlq[1]": "ticketing",
+    "aws_sqs_queue.channel_dlq[2]": "chatops",
+    "aws_sqs_queue.channel_dlq[3]": "archive",
+    "aws_sqs_queue.channel[0]": "webhook",
+    "aws_sqs_queue.channel[1]": "ticketing",
+    "aws_sqs_queue.channel[2]": "chatops",
+    "aws_sqs_queue.channel[3]": "archive",
+    "aws_sqs_queue_policy.channel[0]": "webhook",
+    "aws_sqs_queue_policy.channel[1]": "ticketing",
+    "aws_sqs_queue_policy.channel[2]": "chatops",
+    "aws_sqs_queue_policy.channel[3]": "archive",
+    "aws_sns_topic_subscription.channel[0]": "webhook",
+    "aws_sns_topic_subscription.channel[1]": "ticketing",
+    "aws_sns_topic_subscription.channel[2]": "chatops",
+    "aws_sns_topic_subscription.channel[3]": "archive",
+    "aws_cloudwatch_log_group.channel[0]": "webhook",
+    "aws_cloudwatch_log_group.channel[1]": "ticketing",
+    "aws_cloudwatch_log_group.channel[2]": "chatops",
+    "aws_cloudwatch_log_group.channel[3]": "archive",
+    "aws_cloudwatch_metric_alarm.channel_backlog[0]": "webhook",
+    "aws_cloudwatch_metric_alarm.channel_backlog[1]": "ticketing",
+    "aws_cloudwatch_metric_alarm.channel_backlog[2]": "chatops",
+    "aws_cloudwatch_metric_alarm.channel_backlog[3]": "archive",
+    "aws_cloudwatch_metric_alarm.channel_age[0]": "webhook",
+    "aws_cloudwatch_metric_alarm.channel_age[1]": "ticketing",
+    "aws_cloudwatch_metric_alarm.channel_age[2]": "chatops",
+    "aws_cloudwatch_metric_alarm.channel_age[3]": "archive",
+    "aws_ssm_parameter.channel_route[0]": "webhook",
+    "aws_ssm_parameter.channel_route[1]": "ticketing",
+    "aws_ssm_parameter.channel_route[2]": "chatops",
+    "aws_ssm_parameter.channel_route[3]": "archive"
+   },
+   "add": {
+    "key": "mobile",
+    "value": {
+     "queue_visibility_seconds": 85,
+     "queue_retention_seconds": 691200,
+     "queue_delay_seconds": 12,
+     "queue_receive_wait_seconds": 13,
+     "queue_max_message_size": 176128,
+     "dlq_retention_seconds": 864000,
+     "log_retention_days": 150,
+     "backlog_threshold": 37,
+     "age_threshold_seconds": 960
+    },
+    "created_values": [
+     {
+      "base": "aws_sqs_queue.channel",
+      "attr": "visibility_timeout_seconds",
+      "value": 85
+     },
+     {
+      "base": "aws_sqs_queue.channel",
+      "attr": "message_retention_seconds",
+      "value": 691200
+     },
+     {
+      "base": "aws_sqs_queue.channel",
+      "attr": "delay_seconds",
+      "value": 12
+     },
+     {
+      "base": "aws_sqs_queue.channel",
+      "attr": "receive_wait_time_seconds",
+      "value": 13
+     },
+     {
+      "base": "aws_sqs_queue.channel",
+      "attr": "max_message_size",
+      "value": 176128
+     },
+     {
+      "base": "aws_sqs_queue.channel_dlq",
+      "attr": "message_retention_seconds",
+      "value": 864000
+     },
+     {
+      "base": "aws_cloudwatch_log_group.channel",
+      "attr": "retention_in_days",
+      "value": 150
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.channel_backlog",
+      "attr": "threshold",
+      "value": 37
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.channel_age",
+      "attr": "threshold",
+      "value": 960
+     },
+     {
+      "base": "aws_ssm_parameter.channel_route",
+      "attr": "value",
+      "value": "{\"age_threshold_seconds\":960,\"backlog_threshold\":37,\"channel\":\"mobile\",\"dlq_retention_seconds\":864000,\"log_retention_days\":150,\"queue_delay_seconds\":12,\"queue_max_message_size\":176128,\"queue_name\":\"centralwatch-prod-mobile-channel\",\"queue_receive_wait_seconds\":13,\"queue_retention_seconds\":691200,\"queue_visibility_seconds\":85,\"topic_name\":\"centralwatch-prod-mobile-channel\"}"
+     }
+    ]
+   },
+   "remove": "webhook",
+   "allowed_updates": {
+    "aws_iam_role_policy.cwalarms_sns_enricher": [
+     "policy"
+    ],
+    "aws_lambda_function.cwalarms_sns_enricher": [
+     "environment"
+    ],
+    "aws_ssm_parameter.channel_notification_map": [
+     "value"
+    ],
+    "aws_ssm_parameter.routing_inventory": [
+     "value"
+    ],
+    "aws_ssm_parameter.primary_channel": [
+     "value"
+    ]
+   },
+   "required_updates": {
+    "aws_iam_role_policy.cwalarms_sns_enricher": [
+     "policy"
+    ],
+    "aws_lambda_function.cwalarms_sns_enricher": [
+     "environment"
+    ],
+    "aws_ssm_parameter.channel_notification_map": [
+     "value"
+    ],
+    "aws_ssm_parameter.routing_inventory": [
+     "value"
+    ]
+   }
+  }
+ },
+ "variables": {
+  "project": {
+   "default": "centralwatch",
+   "type": "string"
+  },
+  "environment": {
+   "default": "prod",
+   "type": "string"
+  },
+  "tags": {
+   "default": {
+    "Owner": "monitoring-team",
+    "CostCenter": "cc-4170",
+    "ManagedBy": "terraform"
+   },
+   "type": "map(string)"
+  },
+  "teams": {
+   "default": {
+    "operations": {
+     "email": "operations-alerts@example.com",
+     "retention_days": 120,
+     "delivery_threshold": 5,
+     "dlq_visibility_seconds": 45,
+     "dlq_delay_seconds": 10,
+     "dlq_receive_wait_seconds": 1,
+     "dlq_max_message_size": 131072,
+     "dlq_age_threshold_seconds": 600
+    },
+    "identity": {
+     "email": "identity-alerts@example.com",
+     "retention_days": 60,
+     "delivery_threshold": 4,
+     "dlq_visibility_seconds": 50,
+     "dlq_delay_seconds": 15,
+     "dlq_receive_wait_seconds": 2,
+     "dlq_max_message_size": 132096,
+     "dlq_age_threshold_seconds": 660
+    },
+    "platform": {
+     "email": "platform-alerts@example.com",
+     "retention_days": 90,
+     "delivery_threshold": 5,
+     "dlq_visibility_seconds": 55,
+     "dlq_delay_seconds": 20,
+     "dlq_receive_wait_seconds": 3,
+     "dlq_max_message_size": 133120,
+     "dlq_age_threshold_seconds": 720
+    },
+    "data": {
+     "email": "data-alerts@example.com",
+     "retention_days": 120,
+     "delivery_threshold": 6,
+     "dlq_visibility_seconds": 60,
+     "dlq_delay_seconds": 25,
+     "dlq_receive_wait_seconds": 4,
+     "dlq_max_message_size": 134144,
+     "dlq_age_threshold_seconds": 780
+    },
+    "commerce": {
+     "email": "commerce-alerts@example.com",
+     "retention_days": 30,
+     "delivery_threshold": 7,
+     "dlq_visibility_seconds": 65,
+     "dlq_delay_seconds": 30,
+     "dlq_receive_wait_seconds": 5,
+     "dlq_max_message_size": 135168,
+     "dlq_age_threshold_seconds": 840
+    },
+    "security": {
+     "email": "security-alerts@example.com",
+     "retention_days": 365,
+     "delivery_threshold": 2,
+     "dlq_visibility_seconds": 70,
+     "dlq_delay_seconds": 35,
+     "dlq_receive_wait_seconds": 6,
+     "dlq_max_message_size": 136192,
+     "dlq_age_threshold_seconds": 900
+    },
+    "network": {
+     "email": "network-alerts@example.com",
+     "retention_days": 90,
+     "delivery_threshold": 4,
+     "dlq_visibility_seconds": 75,
+     "dlq_delay_seconds": 40,
+     "dlq_receive_wait_seconds": 7,
+     "dlq_max_message_size": 137216,
+     "dlq_age_threshold_seconds": 960
+    },
+    "risk": {
+     "email": "risk-alerts@example.com",
+     "retention_days": 180,
+     "delivery_threshold": 3,
+     "dlq_visibility_seconds": 80,
+     "dlq_delay_seconds": 45,
+     "dlq_receive_wait_seconds": 8,
+     "dlq_max_message_size": 138240,
+     "dlq_age_threshold_seconds": 1020
+    },
+    "support": {
+     "email": "support-alerts@example.com",
+     "retention_days": 60,
+     "delivery_threshold": 8,
+     "dlq_visibility_seconds": 85,
+     "dlq_delay_seconds": 50,
+     "dlq_receive_wait_seconds": 9,
+     "dlq_max_message_size": 139264,
+     "dlq_age_threshold_seconds": 1080
+    },
+    "payments": {
+     "email": "payments-alerts@example.com",
+     "retention_days": 30,
+     "delivery_threshold": 3,
+     "dlq_visibility_seconds": 90,
+     "dlq_delay_seconds": 55,
+     "dlq_receive_wait_seconds": 10,
+     "dlq_max_message_size": 140288,
+     "dlq_age_threshold_seconds": 1140
+    }
+   },
+   "type": "map(object({ email = string, retention_days = number, delivery_threshold = number, dlq_visibility_seconds = number, dlq_delay_seconds = number, dlq_receive_wait_seconds = number, dlq_max_message_size = number, dlq_age_threshold_seconds = number }))"
+  },
+  "sources": {
+   "default": {
+    "rds": {
+     "detail_type": "RDS DB Instance Event",
+     "log_retention_days": 30,
+     "age_threshold_seconds": 600,
+     "dlq_visibility_seconds": 45,
+     "dlq_retention_seconds": 259200,
+     "dlq_delay_seconds": 3,
+     "dlq_receive_wait_seconds": 4,
+     "backlog_threshold": 12
+    },
+    "backup": {
+     "detail_type": "Backup Job State Change",
+     "log_retention_days": 90,
+     "age_threshold_seconds": 900,
+     "dlq_visibility_seconds": 50,
+     "dlq_retention_seconds": 345600,
+     "dlq_delay_seconds": 6,
+     "dlq_receive_wait_seconds": 5,
+     "backlog_threshold": 14
+    },
+    "ec2": {
+     "detail_type": "EC2 Instance State-change Notification",
+     "log_retention_days": 30,
+     "age_threshold_seconds": 420,
+     "dlq_visibility_seconds": 55,
+     "dlq_retention_seconds": 432000,
+     "dlq_delay_seconds": 9,
+     "dlq_receive_wait_seconds": 6,
+     "backlog_threshold": 16
+    },
+    "cloudwatch": {
+     "detail_type": "CloudWatch Alarm State Change",
+     "log_retention_days": 120,
+     "age_threshold_seconds": 300,
+     "dlq_visibility_seconds": 60,
+     "dlq_retention_seconds": 518400,
+     "dlq_delay_seconds": 12,
+     "dlq_receive_wait_seconds": 7,
+     "backlog_threshold": 18
+    },
+    "security": {
+     "detail_type": "Security Hub Findings - Imported",
+     "log_retention_days": 365,
+     "age_threshold_seconds": 180,
+     "dlq_visibility_seconds": 65,
+     "dlq_retention_seconds": 604800,
+     "dlq_delay_seconds": 15,
+     "dlq_receive_wait_seconds": 8,
+     "backlog_threshold": 20
+    },
+    "billing": {
+     "detail_type": "AWS API Call via CloudTrail",
+     "log_retention_days": 180,
+     "age_threshold_seconds": 1200,
+     "dlq_visibility_seconds": 70,
+     "dlq_retention_seconds": 691200,
+     "dlq_delay_seconds": 18,
+     "dlq_receive_wait_seconds": 9,
+     "backlog_threshold": 22
+    },
+    "health": {
+     "detail_type": "AWS Health Event",
+     "log_retention_days": 90,
+     "age_threshold_seconds": 480,
+     "dlq_visibility_seconds": 75,
+     "dlq_retention_seconds": 777600,
+     "dlq_delay_seconds": 21,
+     "dlq_receive_wait_seconds": 10,
+     "backlog_threshold": 24
+    }
+   },
+   "type": "map(object({ detail_type = string, log_retention_days = number, age_threshold_seconds = number, dlq_visibility_seconds = number, dlq_retention_seconds = number, dlq_delay_seconds = number, dlq_receive_wait_seconds = number, backlog_threshold = number }))"
+  },
+  "kms_deletion_window_days": {
+   "default": 20,
+   "type": "number"
+  },
+  "queue_visibility_timeout_seconds": {
+   "default": 90,
+   "type": "number"
+  },
+  "queue_message_retention_seconds": {
+   "default": 345600,
+   "type": "number"
+  },
+  "dlq_message_retention_seconds": {
+   "default": 1209600,
+   "type": "number"
+  },
+  "lambda_memory_size": {
+   "default": 256,
+   "type": "number"
+  },
+  "lambda_timeout_seconds": {
+   "default": 20,
+   "type": "number"
+  },
+  "lambda_reserved_concurrency": {
+   "default": 25,
+   "type": "number"
+  },
+  "enricher_log_retention_days": {
+   "default": 120,
+   "type": "number"
+  },
+  "alarm_period_seconds": {
+   "default": 300,
+   "type": "number"
+  },
+  "alarm_evaluation_periods": {
+   "default": 2,
+   "type": "number"
+  },
+  "severities": {
+   "default": {
+    "critical": {
+     "email": "critical-alerts@example.com",
+     "log_retention_days": 365,
+     "queue_visibility_seconds": 45,
+     "queue_retention_seconds": 1209600,
+     "backlog_threshold": 2,
+     "queue_delay_seconds": 4,
+     "queue_receive_wait_seconds": 5,
+     "age_threshold_seconds": 240
+    },
+    "warning": {
+     "email": "warning-alerts@example.com",
+     "log_retention_days": 90,
+     "queue_visibility_seconds": 50,
+     "queue_retention_seconds": 604800,
+     "backlog_threshold": 20,
+     "queue_delay_seconds": 8,
+     "queue_receive_wait_seconds": 6,
+     "age_threshold_seconds": 480
+    },
+    "emergency": {
+     "email": "emergency-alerts@example.com",
+     "log_retention_days": 365,
+     "queue_visibility_seconds": 55,
+     "queue_retention_seconds": 1209600,
+     "backlog_threshold": 1,
+     "queue_delay_seconds": 12,
+     "queue_receive_wait_seconds": 7,
+     "age_threshold_seconds": 180
+    },
+    "info": {
+     "email": "info-alerts@example.com",
+     "log_retention_days": 30,
+     "queue_visibility_seconds": 60,
+     "queue_retention_seconds": 345600,
+     "backlog_threshold": 50,
+     "queue_delay_seconds": 16,
+     "queue_receive_wait_seconds": 8,
+     "age_threshold_seconds": 900
+    },
+    "high": {
+     "email": "high-alerts@example.com",
+     "log_retention_days": 180,
+     "queue_visibility_seconds": 65,
+     "queue_retention_seconds": 864000,
+     "backlog_threshold": 8,
+     "queue_delay_seconds": 20,
+     "queue_receive_wait_seconds": 9,
+     "age_threshold_seconds": 360
+    }
+   },
+   "type": "map(object({ email = string, log_retention_days = number, queue_visibility_seconds = number, queue_retention_seconds = number, backlog_threshold = number, queue_delay_seconds = number, queue_receive_wait_seconds = number, age_threshold_seconds = number }))"
+  },
+  "kms_enable_key_rotation": {
+   "default": true,
+   "type": "bool"
+  },
+  "event_target_maximum_event_age_seconds": {
+   "default": 3600,
+   "type": "number"
+  },
+  "event_target_maximum_retry_attempts": {
+   "default": 8,
+   "type": "number"
+  },
+  "central_dlq_visibility_timeout_seconds": {
+   "default": 120,
+   "type": "number"
+  },
+  "central_queue_delay_seconds": {
+   "default": 5,
+   "type": "number"
+  },
+  "lambda_batch_size": {
+   "default": 10,
+   "type": "number"
+  },
+  "lambda_batching_window_seconds": {
+   "default": 5,
+   "type": "number"
+  },
+  "queue_depth_threshold": {
+   "default": 100,
+   "type": "number"
+  },
+  "lambda_error_threshold": {
+   "default": 5,
+   "type": "number"
+  },
+  "lambda_throttle_threshold": {
+   "default": 3,
+   "type": "number"
+  },
+  "alarm_datapoints_to_alarm": {
+   "default": 2,
+   "type": "number"
+  },
+  "operations_email": {
+   "default": "operations-escalation@example.com",
+   "type": "string"
+  },
+  "channels": {
+   "default": {
+    "webhook": {
+     "queue_visibility_seconds": 40,
+     "queue_retention_seconds": 345600,
+     "queue_delay_seconds": 2,
+     "queue_receive_wait_seconds": 3,
+     "queue_max_message_size": 151552,
+     "dlq_retention_seconds": 1209600,
+     "log_retention_days": 90,
+     "backlog_threshold": 15,
+     "age_threshold_seconds": 420
+    },
+    "ticketing": {
+     "queue_visibility_seconds": 50,
+     "queue_retention_seconds": 432000,
+     "queue_delay_seconds": 4,
+     "queue_receive_wait_seconds": 5,
+     "queue_max_message_size": 155648,
+     "dlq_retention_seconds": 1123200,
+     "log_retention_days": 120,
+     "backlog_threshold": 20,
+     "age_threshold_seconds": 540
+    },
+    "chatops": {
+     "queue_visibility_seconds": 60,
+     "queue_retention_seconds": 518400,
+     "queue_delay_seconds": 6,
+     "queue_receive_wait_seconds": 7,
+     "queue_max_message_size": 159744,
+     "dlq_retention_seconds": 1036800,
+     "log_retention_days": 180,
+     "backlog_threshold": 25,
+     "age_threshold_seconds": 660
+    },
+    "archive": {
+     "queue_visibility_seconds": 70,
+     "queue_retention_seconds": 604800,
+     "queue_delay_seconds": 8,
+     "queue_receive_wait_seconds": 9,
+     "queue_max_message_size": 163840,
+     "dlq_retention_seconds": 950400,
+     "log_retention_days": 365,
+     "backlog_threshold": 30,
+     "age_threshold_seconds": 780
+    }
+   },
+   "type": "map(object({ queue_visibility_seconds = number, queue_retention_seconds = number, queue_delay_seconds = number, queue_receive_wait_seconds = number, queue_max_message_size = number, dlq_retention_seconds = number, log_retention_days = number, backlog_threshold = number, age_threshold_seconds = number }))"
+  }
+ },
+ "probes": [
+  {
+   "name": "add_team",
+   "kind": "key_add",
+   "dimension": "team",
+   "update_values": {
+    "aws_ssm_parameter.team_notification_map": {
+     "value": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"commerce\":{\"delivery_threshold\":7,\"dlq_age_threshold_seconds\":840,\"dlq_delay_seconds\":30,\"dlq_max_message_size\":135168,\"dlq_receive_wait_seconds\":5,\"dlq_visibility_seconds\":65,\"email\":\"commerce-alerts@example.com\",\"retention_days\":30,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-commerce-alerts\"},\"data\":{\"delivery_threshold\":6,\"dlq_age_threshold_seconds\":780,\"dlq_delay_seconds\":25,\"dlq_max_message_size\":134144,\"dlq_receive_wait_seconds\":4,\"dlq_visibility_seconds\":60,\"email\":\"data-alerts@example.com\",\"retention_days\":120,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-data-alerts\"},\"identity\":{\"delivery_threshold\":4,\"dlq_age_threshold_seconds\":660,\"dlq_delay_seconds\":15,\"dlq_max_message_size\":132096,\"dlq_receive_wait_seconds\":2,\"dlq_visibility_seconds\":50,\"email\":\"identity-alerts@example.com\",\"retention_days\":60,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-identity-alerts\"},\"network\":{\"delivery_threshold\":4,\"dlq_age_threshold_seconds\":960,\"dlq_delay_seconds\":40,\"dlq_max_message_size\":137216,\"dlq_receive_wait_seconds\":7,\"dlq_visibility_seconds\":75,\"email\":\"network-alerts@example.com\",\"retention_days\":90,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-network-alerts\"},\"operations\":{\"delivery_threshold\":5,\"dlq_age_threshold_seconds\":600,\"dlq_delay_seconds\":10,\"dlq_max_message_size\":131072,\"dlq_receive_wait_seconds\":1,\"dlq_visibility_seconds\":45,\"email\":\"operations-alerts@example.com\",\"retention_days\":120,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-operations-alerts\"},\"payments\":{\"delivery_threshold\":3,\"dlq_age_threshold_seconds\":1140,\"dlq_delay_seconds\":55,\"dlq_max_message_size\":140288,\"dlq_receive_wait_seconds\":10,\"dlq_visibility_seconds\":90,\"email\":\"payments-alerts@example.com\",\"retention_days\":30,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-payments-alerts\"},\"platform\":{\"delivery_threshold\":5,\"dlq_age_threshold_seconds\":720,\"dlq_delay_seconds\":20,\"dlq_max_message_size\":133120,\"dlq_receive_wait_seconds\":3,\"dlq_visibility_seconds\":55,\"email\":\"platform-alerts@example.com\",\"retention_days\":90,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-platform-alerts\"},\"risk\":{\"delivery_threshold\":3,\"dlq_age_threshold_seconds\":1020,\"dlq_delay_seconds\":45,\"dlq_max_message_size\":138240,\"dlq_receive_wait_seconds\":8,\"dlq_visibility_seconds\":80,\"email\":\"risk-alerts@example.com\",\"retention_days\":180,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-risk-alerts\"},\"security\":{\"delivery_threshold\":2,\"dlq_age_threshold_seconds\":900,\"dlq_delay_seconds\":35,\"dlq_max_message_size\":136192,\"dlq_receive_wait_seconds\":6,\"dlq_visibility_seconds\":70,\"email\":\"security-alerts@example.com\",\"retention_days\":365,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-security-alerts\"},\"support\":{\"delivery_threshold\":8,\"dlq_age_threshold_seconds\":1080,\"dlq_delay_seconds\":50,\"dlq_max_message_size\":139264,\"dlq_receive_wait_seconds\":9,\"dlq_visibility_seconds\":85,\"email\":\"support-alerts@example.com\",\"retention_days\":60,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-support-alerts\"},\"treasury\":{\"delivery_threshold\":9,\"dlq_age_threshold_seconds\":1320,\"dlq_delay_seconds\":75,\"dlq_max_message_size\":174080,\"dlq_receive_wait_seconds\":12,\"dlq_visibility_seconds\":135,\"email\":\"treasury-alerts@example.com\",\"retention_days\":150,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-treasury-alerts\"}}",
+       "unknown": null
+      }
+     }
+    },
+    "aws_iam_role_policy.cwalarms_sns_enricher": {
+     "policy": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"logs:CreateLogStream\",\"logs:PutLogEvents\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:logs:us-east-1:123456789012:log-group:/aws/lambda/centralwatch-prod-enricher:*\"},{\"Action\":[\"sns:Publish\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-commerce-alerts\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-data-alerts\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-identity-alerts\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-network-alerts\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-operations-alerts\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-payments-alerts\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-platform-alerts\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-risk-alerts\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-security-alerts\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-support-alerts\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-treasury-alerts\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-critical-severity\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-emergency-severity\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-high-severity\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-info-severity\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-warning-severity\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-archive-channel\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-chatops-channel\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-ticketing-channel\",\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-webhook-channel\"]},{\"Action\":[\"sqs:GetQueueAttributes\",\"sqs:ReceiveMessage\",\"sqs:DeleteMessage\",\"sqs:ChangeMessageVisibility\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-alarms\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-central-dlq\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-backup-source-dlq\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-billing-source-dlq\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-cloudwatch-source-dlq\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-ec2-source-dlq\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-health-source-dlq\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-rds-source-dlq\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-security-source-dlq\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-critical-severity\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-emergency-severity\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-high-severity\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-info-severity\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-warning-severity\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-archive-channel\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-chatops-channel\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-ticketing-channel\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-webhook-channel\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-archive-channel-dlq\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-chatops-channel-dlq\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-ticketing-channel-dlq\",\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-webhook-channel-dlq\"]},{\"Action\":[\"ssm:GetParameters\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/team-map\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/source-map\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/severity-map\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/channel-map\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/routing-inventory\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/teams/commerce\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/teams/data\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/teams/identity\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/teams/network\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/teams/operations\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/teams/payments\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/teams/platform\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/teams/risk\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/teams/security\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/teams/support\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/teams/treasury\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/sources/backup\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/sources/billing\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/sources/cloudwatch\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/sources/ec2\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/sources/health\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/sources/rds\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/sources/security\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/severities/critical\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/severities/emergency\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/severities/high\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/severities/info\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/severities/warning\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/channels/archive\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/channels/chatops\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/channels/ticketing\",\"arn:aws:ssm:us-east-1:123456789012:parameter/centralwatch/prod/channels/webhook\"]},{\"Action\":[\"kms:Decrypt\",\"kms:GenerateDataKey*\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:kms:us-east-1:123456789012:key/13c16fff-e19d-4628-8e2f-e3ec9c66202d\"}]}",
+       "unknown": null
+      }
+     }
+    },
+    "aws_lambda_function.cwalarms_sns_enricher": {
+     "environment": {
+      "after": [
+       {}
+      ],
+      "unknown": [
+       {
+        "variables": true
+       }
+      ],
+      "filled": {
+       "after": [
+        {
+         "variables": {
+          "CHANNEL_QUEUE_ARNS": "arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-webhook-channel,arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-ticketing-channel,arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-chatops-channel,arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-archive-channel",
+          "CHANNEL_ROUTE_PATHS": "/centralwatch/prod/channels/webhook,/centralwatch/prod/channels/ticketing,/centralwatch/prod/channels/chatops,/centralwatch/prod/channels/archive",
+          "CHANNEL_TOPIC_ARNS": "arn:aws:sns:us-east-1:123456789012:centralwatch-prod-webhook-channel,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-ticketing-channel,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-chatops-channel,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-archive-channel",
+          "ENVIRONMENT": "prod",
+          "PROJECT": "centralwatch",
+          "ROUTING_INVENTORY": "/centralwatch/prod/routing-inventory",
+          "SEVERITY_QUEUE_ARNS": "arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-critical-severity,arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-warning-severity,arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-emergency-severity,arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-info-severity,arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-high-severity",
+          "SEVERITY_ROUTE_PATHS": "/centralwatch/prod/severities/critical,/centralwatch/prod/severities/warning,/centralwatch/prod/severities/emergency,/centralwatch/prod/severities/info,/centralwatch/prod/severities/high",
+          "SEVERITY_TOPIC_ARNS": "arn:aws:sns:us-east-1:123456789012:centralwatch-prod-critical-severity,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-warning-severity,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-emergency-severity,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-info-severity,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-high-severity",
+          "SOURCE_FILTER_PATHS": "/centralwatch/prod/sources/rds,/centralwatch/prod/sources/backup,/centralwatch/prod/sources/ec2,/centralwatch/prod/sources/cloudwatch,/centralwatch/prod/sources/security,/centralwatch/prod/sources/billing,/centralwatch/prod/sources/health",
+          "SSM_TEAM_MAP": "/centralwatch/prod/team-map",
+          "TEAM_ROUTE_PATHS": "/centralwatch/prod/teams/operations,/centralwatch/prod/teams/identity,/centralwatch/prod/teams/platform,/centralwatch/prod/teams/data,/centralwatch/prod/teams/commerce,/centralwatch/prod/teams/security,/centralwatch/prod/teams/network,/centralwatch/prod/teams/risk,/centralwatch/prod/teams/support,/centralwatch/prod/teams/payments,/centralwatch/prod/teams/treasury",
+          "TEAM_TOPIC_ARNS": "arn:aws:sns:us-east-1:123456789012:centralwatch-prod-operations-alerts,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-identity-alerts,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-platform-alerts,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-data-alerts,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-commerce-alerts,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-security-alerts,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-network-alerts,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-risk-alerts,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-support-alerts,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-payments-alerts,arn:aws:sns:us-east-1:123456789012:centralwatch-prod-treasury-alerts"
+         }
+        }
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_ssm_parameter.primary_team": {
+     "value": {
+      "after": "operations",
+      "unknown": null,
+      "filled": {
+       "after": "operations",
+       "unknown": null
+      }
+     }
+    },
+    "aws_ssm_parameter.routing_inventory": {
+     "value": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"channels\":{\"archive\":\"/centralwatch/prod/channels/archive\",\"chatops\":\"/centralwatch/prod/channels/chatops\",\"ticketing\":\"/centralwatch/prod/channels/ticketing\",\"webhook\":\"/centralwatch/prod/channels/webhook\"},\"severities\":{\"critical\":\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-critical-severity\",\"emergency\":\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-emergency-severity\",\"high\":\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-high-severity\",\"info\":\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-info-severity\",\"warning\":\"arn:aws:sqs:us-east-1:123456789012:centralwatch-prod-warning-severity\"},\"sources\":{\"backup\":\"arn:aws:events:us-east-1:123456789012:rule/centralwatch-prod-central-bus/centralwatch-prod-backup-events\",\"billing\":\"arn:aws:events:us-east-1:123456789012:rule/centralwatch-prod-central-bus/centralwatch-prod-billing-events\",\"cloudwatch\":\"arn:aws:events:us-east-1:123456789012:rule/centralwatch-prod-central-bus/centralwatch-prod-cloudwatch-events\",\"ec2\":\"arn:aws:events:us-east-1:123456789012:rule/centralwatch-prod-central-bus/centralwatch-prod-ec2-events\",\"health\":\"arn:aws:events:us-east-1:123456789012:rule/centralwatch-prod-central-bus/centralwatch-prod-health-events\",\"rds\":\"arn:aws:events:us-east-1:123456789012:rule/centralwatch-prod-central-bus/centralwatch-prod-rds-events\",\"security\":\"arn:aws:events:us-east-1:123456789012:rule/centralwatch-prod-central-bus/centralwatch-prod-security-events\"},\"teams\":{\"commerce\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-commerce-alerts\",\"data\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-data-alerts\",\"identity\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-identity-alerts\",\"network\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-network-alerts\",\"operations\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-operations-alerts\",\"payments\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-payments-alerts\",\"platform\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-platform-alerts\",\"risk\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-risk-alerts\",\"security\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-security-alerts\",\"support\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-support-alerts\",\"treasury\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-treasury-alerts\"}}",
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_team",
+   "kind": "key_remove",
+   "dimension": "team",
+   "update_values": {
+    "aws_ssm_parameter.team_notification_map": {
+     "value": {
+      "after": "{\"commerce\":{\"delivery_threshold\":7,\"dlq_age_threshold_seconds\":840,\"dlq_delay_seconds\":30,\"dlq_max_message_size\":135168,\"dlq_receive_wait_seconds\":5,\"dlq_visibility_seconds\":65,\"email\":\"commerce-alerts@example.com\",\"retention_days\":30,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-commerce-alerts\"},\"data\":{\"delivery_threshold\":6,\"dlq_age_threshold_seconds\":780,\"dlq_delay_seconds\":25,\"dlq_max_message_size\":134144,\"dlq_receive_wait_seconds\":4,\"dlq_visibility_seconds\":60,\"email\":\"data-alerts@example.com\",\"retention_days\":120,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-data-alerts\"},\"identity\":{\"delivery_threshold\":4,\"dlq_age_threshold_seconds\":660,\"dlq_delay_seconds\":15,\"dlq_max_message_size\":132096,\"dlq_receive_wait_seconds\":2,\"dlq_visibility_seconds\":50,\"email\":\"identity-alerts@example.com\",\"retention_days\":60,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-identity-alerts\"},\"network\":{\"delivery_threshold\":4,\"dlq_age_threshold_seconds\":960,\"dlq_delay_seconds\":40,\"dlq_max_message_size\":137216,\"dlq_receive_wait_seconds\":7,\"dlq_visibility_seconds\":75,\"email\":\"network-alerts@example.com\",\"retention_days\":90,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-network-alerts\"},\"payments\":{\"delivery_threshold\":3,\"dlq_age_threshold_seconds\":1140,\"dlq_delay_seconds\":55,\"dlq_max_message_size\":140288,\"dlq_receive_wait_seconds\":10,\"dlq_visibility_seconds\":90,\"email\":\"payments-alerts@example.com\",\"retention_days\":30,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-payments-alerts\"},\"platform\":{\"delivery_threshold\":5,\"dlq_age_threshold_seconds\":720,\"dlq_delay_seconds\":20,\"dlq_max_message_size\":133120,\"dlq_receive_wait_seconds\":3,\"dlq_visibility_seconds\":55,\"email\":\"platform-alerts@example.com\",\"retention_days\":90,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-platform-alerts\"},\"risk\":{\"delivery_threshold\":3,\"dlq_age_threshold_seconds\":1020,\"dlq_delay_seconds\":45,\"dlq_max_message_size\":138240,\"dlq_receive_wait_seconds\":8,\"dlq_visibility_seconds\":80,\"email\":\"risk-alerts@example.com\",\"retention_days\":180,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-risk-alerts\"},\"security\":{\"delivery_threshold\":2,\"dlq_age_threshold_seconds\":900,\"dlq_delay_seconds\":35,\"dlq_max_message_size\":136192,\"dlq_receive_wait_seconds\":6,\"dlq_visibility_seconds\":70,\"email\":\"security-alerts@example.com\",\"retention_days\":365,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-security-alerts\"},\"support\":{\"delivery_threshold\":8,\"dlq_age_threshold_seconds\":1080,\"dlq_delay_seconds\":50,\"dlq_max_message_size\":139264,\"dlq_receive_wait_seconds\":9,\"dlq_visibility_seconds\":85,\"email\":\"support-alerts@example.com\",\"retention_days\":60,\"topic_arn\":\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-support-alerts\"}}",
+      "unknown": null
+     }
+    },
+    "aws_iam_role_policy.cwalarms_sns_enricher": {
+     "policy": {
+      "after": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"logs:CreateLogStream\",\"logs:PutLogEvents\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:logs:us-east-1:123456789012:log-group:/aws/lambda/centralwatch-prod-enricher:*\"},{\"Action\":[\"sns:Publish\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:sns:us-east-1:123456789012:centralwatch-prod-commerce-alerts\",\"ar

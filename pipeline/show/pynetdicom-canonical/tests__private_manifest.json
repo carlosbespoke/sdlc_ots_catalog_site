@@ -1,0 +1,657 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 900,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "a1c9de456fc37cacb63cf3a68b0b029d2472b9e90158c33e6727af9b731d2727",
+  "documentation.json": "a7543416219e0b567e13e154079e381bd96b1a2d79005ad1cbec40526cc19774",
+  "driver.py": "6df61343694adad2c1a4e9dc77233efb50d2cf99f1bf51fcd7485b17b25e814a",
+  "expected.json": "deeb1da1caa3d6dbd2d549dc423dcba65e1b87d187a8f00f016262fb6e69b1c9"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "F-ROLE-INVERTED",
+    "kind": "f2p",
+    "requirement": "requestor proposes SCU and SCP, acceptor accepts only the SCP role: requestor is SCP, acceptor is SCU",
+    "tests": [
+     "OBS-0001",
+     "OBS-0002"
+    ]
+   },
+   {
+    "id": "F-TS-ORDER",
+    "kind": "f2p",
+    "requirement": "the acceptor uses the first of its own supported transfer syntaxes that was proposed",
+    "tests": [
+     "OBS-0003",
+     "OBS-0004"
+    ]
+   },
+   {
+    "id": "F-TS-UNSUPPORTED",
+    "kind": "f2p",
+    "requirement": "a proposed context with no common transfer syntax is rejected with result 0x04",
+    "tests": [
+     "OBS-0005",
+     "OBS-0006",
+     "OBS-0007"
+    ]
+   },
+   {
+    "id": "F-CONTEXT-ID-255",
+    "kind": "f2p",
+    "requirement": "a presentation context ID may be any odd integer from 1 to 255 inclusive",
+    "tests": [
+     "OBS-0008",
+     "OBS-0009"
+    ]
+   },
+   {
+    "id": "F-128-CONTEXTS",
+    "kind": "f2p",
+    "requirement": "up to 128 requested presentation contexts may be added",
+    "tests": [
+     "OBS-0010",
+     "OBS-0011",
+     "OBS-0012"
+    ]
+   },
+   {
+    "id": "F-AE-BACKSLASH",
+    "kind": "f2p",
+    "requirement": "an AE title may not contain a backslash",
+    "tests": [
+     "OBS-0013",
+     "OBS-0014",
+     "OBS-0015"
+    ]
+   },
+   {
+    "id": "F-UID-64",
+    "kind": "f2p",
+    "requirement": "without UID conformance enforcement a UID of up to 64 characters is valid",
+    "tests": [
+     "OBS-0016",
+     "OBS-0017",
+     "OBS-0018"
+    ]
+   },
+   {
+    "id": "F-SUPPORTED-EXTEND",
+    "kind": "f2p",
+    "requirement": "adding an already supported abstract syntax extends its transfer syntaxes",
+    "tests": [
+     "OBS-0019",
+     "OBS-0020"
+    ]
+   },
+   {
+    "id": "F-HANDLER-STATUS",
+    "kind": "f2p",
+    "requirement": "a handler status Dataset without Status gives 0xC001, a status that is neither Dataset nor int gives 0xC002",
+    "tests": [
+     "OBS-0021",
+     "OBS-0022",
+     "OBS-0023",
+     "OBS-0024"
+    ]
+   },
+   {
+    "id": "F-STORE-EXCEPTION",
+    "kind": "f2p",
+    "requirement": "an exception raised by the EVT_C_STORE handler gives 0xC211",
+    "tests": [
+     "OBS-0025",
+     "OBS-0026"
+    ]
+   },
+   {
+    "id": "F-RETRIEVE-WARNING",
+    "kind": "f2p",
+    "requirement": "C-GET and C-MOVE final responses are 0xB000 when any sub-operation had a failure or a warning",
+    "tests": [
+     "OBS-0027",
+     "OBS-0028",
+     "OBS-0029"
+    ]
+   },
+   {
+    "id": "F-MAX-ASSOCIATIONS",
+    "kind": "f2p",
+    "requirement": "maximum_associations simultaneous associations are accepted",
+    "tests": [
+     "OBS-0030",
+     "OBS-0031"
+    ]
+   },
+   {
+    "id": "F-USERID-UNHANDLED",
+    "kind": "f2p",
+    "requirement": "with no EVT_USER_ID handler bound the association is accepted and no response is sent",
+    "tests": [
+     "OBS-0032",
+     "OBS-0033"
+    ]
+   },
+   {
+    "id": "F-UNRESTRICTED-PRIVATE",
+    "kind": "f2p",
+    "requirement": "UNRESTRICTED_STORAGE_SERVICE treats private abstract syntaxes as storage and accepts them",
+    "tests": [
+     "OBS-0034",
+     "OBS-0035"
+    ]
+   },
+   {
+    "id": "F-TIMER-STOP",
+    "kind": "f2p",
+    "requirement": "a timer stopped after its timeout has expired stays expired",
+    "tests": [
+     "OBS-0036",
+     "OBS-0037"
+    ]
+   },
+   {
+    "id": "F-FILE-META",
+    "kind": "f2p",
+    "requirement": "Event.file_meta sets the Implementation Class UID from PYNETDICOM_IMPLEMENTATION_UID",
+    "tests": [
+     "OBS-0038",
+     "OBS-0039"
+    ]
+   },
+   {
+    "id": "F-N-WARNING-DATASET",
+    "kind": "f2p",
+    "requirement": "DIMSE-N Warning responses carry the handler's dataset like Success responses",
+    "tests": [
+     "OBS-0040",
+     "OBS-0041",
+     "OBS-0042",
+     "OBS-0043",
+     "OBS-0044"
+    ]
+   },
+   {
+    "id": "F-MOVE-KWARGS-AE-TITLE",
+    "kind": "f2p",
+    "requirement": "a C-MOVE handler's kwargs 'ae_title' sets the Called AE Title of the destination association",
+    "tests": [
+     "OBS-0045"
+    ]
+   },
+   {
+    "id": "F-N-CREATE-UID",
+    "kind": "f2p",
+    "requirement": "the handler's Affected SOP Instance UID goes into the N-CREATE response, not its Attribute List",
+    "tests": [
+     "OBS-0046",
+     "OBS-0047"
+    ]
+   },
+   {
+    "id": "F-PDV-SIZE",
+    "kind": "f2p",
+    "requirement": "each P-DATA fragment's PDV item, including its 6 byte header, fits the maximum length",
+    "tests": [
+     "OBS-0048",
+     "OBS-0049",
+     "OBS-0050"
+    ]
+   },
+   {
+    "id": "F-CALLED-SERVER-TITLE",
+    "kind": "f2p",
+    "requirement": "require_called_aet compares the Called AE Title with the association server's own AE title",
+    "tests": [
+     "OBS-0051",
+     "OBS-0052"
+    ]
+   },
+   {
+    "id": "P-ROLE-TABLE",
+    "kind": "p2p",
+    "requirement": "role selection outcomes of the documented table, other rows",
+    "tests": [
+     "OBS-0053",
+     "OBS-0054",
+     "OBS-0055",
+     "OBS-0056",
+     "OBS-0057",
+     "OBS-0058",
+     "OBS-0059",
+     "OBS-0060",
+     "OBS-0061"
+    ]
+   },
+   {
+    "id": "P-ROLE-ASSOCIATION",
+    "kind": "p2p",
+    "requirement": "role selection over an association (C-GET style: requestor proposes the SCP role)",
+    "tests": [
+     "OBS-0062",
+     "OBS-0063",
+     "OBS-0064",
+     "OBS-0065"
+    ]
+   },
+   {
+    "id": "P-NEGOTIATION",
+    "kind": "p2p",
+    "requirement": "presentation context negotiation example outcomes (accepted and abstract syntax rejections)",
+    "tests": [
+     "OBS-0066",
+     "OBS-0067",
+     "OBS-0068",
+     "OBS-0069",
+     "OBS-0070"
+    ]
+   },
+   {
+    "id": "P-CONTEXT-OBJECT",
+    "kind": "p2p",
+    "requirement": "PresentationContext and build_context: IDs, transfer syntaxes, as_tuple",
+    "tests": [
+     "OBS-0071",
+     "OBS-0072",
+     "OBS-0073",
+     "OBS-0074",
+     "OBS-0075"
+    ]
+   },
+   {
+    "id": "P-REQUESTED-CONTEXTS",
+    "kind": "p2p",
+    "requirement": "requested contexts: defaults, duplicates, removal, the 128 limit's rejection side",
+    "tests": [
+     "OBS-0076",
+     "OBS-0077",
+     "OBS-0078",
+     "OBS-0079",
+     "OBS-0080",
+     "OBS-0081"
+    ]
+   },
+   {
+    "id": "P-SUPPORTED-CONTEXTS",
+    "kind": "p2p",
+    "requirement": "supported contexts: defaults, roles, removal and server start checks",
+    "tests": [
+     "OBS-0082",
+     "OBS-0083",
+     "OBS-0084",
+     "OBS-0085",
+     "OBS-0086",
+     "OBS-0087"
+    ]
+   },
+   {
+    "id": "P-AE-TITLE",
+    "kind": "p2p",
+    "requirement": "AE title defaults and validation",
+    "tests": [
+     "OBS-0088",
+     "OBS-0089",
+     "OBS-0090",
+     "OBS-0091",
+     "OBS-0092"
+    ]
+   },
+   {
+    "id": "P-AE-PROPERTIES",
+    "kind": "p2p",
+    "requirement": "AE timeouts, maximum PDU, maximum associations, implementation identifiers",
+    "tests": [
+     "OBS-0093",
+     "OBS-0094",
+     "OBS-0095",
+     "OBS-0096"
+    ]
+   },
+   {
+    "id": "P-UID-RULES",
+    "kind": "p2p",
+    "requirement": "UID validation rules with and without conformance enforcement",
+    "tests": [
+     "OBS-0097",
+     "OBS-0098",
+     "OBS-0099"
+    ]
+   },
+   {
+    "id": "P-ASSOCIATION-BASICS",
+    "kind": "p2p",
+    "requirement": "requesting, releasing and using an association; default C-ECHO service",
+    "tests": [
+     "OBS-0100",
+     "OBS-0101",
+     "OBS-0102",
+     "OBS-0103",
+     "OBS-0104"
+    ]
+   },
+   {
+    "id": "P-CALLED-CALLING",
+    "kind": "p2p",
+    "requirement": "Called/Calling AE title checks on the acceptor",
+    "tests": [
+     "OBS-0105",
+     "OBS-0106",
+     "OBS-0107"
+    ]
+   },
+   {
+    "id": "P-MAX-ASSOCIATIONS",
+    "kind": "p2p",
+    "requirement": "the default association limit leaves room for several simultaneous associations",
+    "tests": [
+     "OBS-0108",
+     "OBS-0109"
+    ]
+   },
+   {
+    "id": "P-USER-IDENTITY",
+    "kind": "p2p",
+    "requirement": "User Identity Negotiation with a bound EVT_USER_ID handler",
+    "tests": [
+     "OBS-0110",
+     "OBS-0111",
+     "OBS-0112",
+     "OBS-0113",
+     "OBS-0114",
+     "OBS-0115"
+    ]
+   },
+   {
+    "id": "P-EVENTS",
+    "kind": "p2p",
+    "requirement": "event handler binding: extra arguments, notification and intervention handlers",
+    "tests": [
+     "OBS-0116",
+     "OBS-0117",
+     "OBS-0118",
+     "OBS-0119",
+     "OBS-0120",
+     "OBS-0121"
+    ]
+   },
+   {
+    "id": "P-ECHO",
+    "kind": "p2p",
+    "requirement": "Verification SCP responses",
+    "tests": [
+     "OBS-0122",
+     "OBS-0123",
+     "OBS-0124"
+    ]
+   },
+   {
+    "id": "P-STORE",
+    "kind": "p2p",
+    "requirement": "Storage SCP: handler statuses and access to the received dataset",
+    "tests": [
+     "OBS-0125",
+     "OBS-0126",
+     "OBS-0127",
+     "OBS-0128",
+     "OBS-0129",
+     "OBS-0130",
+     "OBS-0131",
+     "OBS-0132",
+     "OBS-0133"
+    ]
+   },
+   {
+    "id": "P-FIND",
+    "kind": "p2p",
+    "requirement": "C-FIND SCP response sequences",
+    "tests": [
+     "OBS-0134",
+     "OBS-0135",
+     "OBS-0136",
+     "OBS-0137",
+     "OBS-0138",
+     "OBS-0139",
+     "OBS-0140"
+    ]
+   },
+   {
+    "id": "P-RETRIEVE",
+    "kind": "p2p",
+    "requirement": "C-GET and C-MOVE final responses for success, failure and unknown destination",
+    "tests": [
+     "OBS-0141",
+     "OBS-0142",
+     "OBS-0143",
+     "OBS-0144",
+     "OBS-0145",
+     "OBS-0146",
+     "OBS-0147"
+    ]
+   },
+   {
+    "id": "P-RETRIEVE-ERRORS",
+    "kind": "p2p",
+    "requirement": "pynetdicom's own failure statuses for C-FIND, C-GET and C-MOVE handlers",
+    "tests": [
+     "OBS-0148",
+     "OBS-0149",
+     "OBS-0150",
+     "OBS-0151"
+    ]
+   },
+   {
+    "id": "P-FIND-SERVICES",
+    "kind": "p2p",
+    "requirement": "C-FIND-based service classes answer with the handler's matches",
+    "tests": [
+     "OBS-0152",
+     "OBS-0153",
+     "OBS-0154",
+     "OBS-0155",
+     "OBS-0156",
+     "OBS-0157"
+    ]
+   },
+   {
+    "id": "P-N-SERVICES",
+    "kind": "p2p",
+    "requirement": "DIMSE-N SCP success and failure responses",
+    "tests": [
+     "OBS-0158",
+     "OBS-0159",
+     "OBS-0160",
+     "OBS-0161",
+     "OBS-0162",
+     "OBS-0163",
+     "OBS-0164",
+     "OBS-0165",
+     "OBS-0166",
+     "OBS-0167",
+     "OBS-0168",
+     "OBS-0169",
+     "OBS-0170",
+     "OBS-0171",
+     "OBS-0172",
+     "OBS-0173"
+    ]
+   },
+   {
+    "id": "P-SOP-CLASSES",
+    "kind": "p2p",
+    "requirement": "SOP class UIDs and the service class each belongs to",
+    "tests": [
+     "OBS-0174",
+     "OBS-0175",
+     "OBS-0176"
+    ]
+   },
+   {
+    "id": "P-UNRESTRICTED",
+    "kind": "p2p",
+    "requirement": "UNRESTRICTED_STORAGE_SERVICE for public storage and non-storage syntaxes",
+    "tests": [
+     "OBS-0177",
+     "OBS-0178"
+    ]
+   },
+   {
+    "id": "P-TIMER",
+    "kind": "p2p",
+    "requirement": "Timer behaviour before start, while running and when stopped early",
+    "tests": [
+     "OBS-0179",
+     "OBS-0180",
+     "OBS-0181",
+     "OBS-0182"
+    ]
+   },
+   {
+    "id": "P-STATUS",
+    "kind": "p2p",
+    "requirement": "status helpers",
+    "tests": [
+     "OBS-0183",
+     "OBS-0184"
+    ]
+   },
+   {
+    "id": "P-DSUTILS",
+    "kind": "p2p",
+    "requirement": "dataset encoding helpers",
+    "tests": [
+     "OBS-0185",
+     "OBS-0186",
+     "OBS-0187"
+    ]
+   },
+   {
+    "id": "P-TLS",
+    "kind": "p2p",
+    "requirement": "associations over TLS: server ssl_context and requestor tls_args",
+    "tests": [
+     "OBS-0188",
+     "OBS-0189"
+    ]
+   },
+   {
+    "id": "P-NOTIFICATIONS",
+    "kind": "p2p",
+    "requirement": "notification events fire during an association's life",
+    "tests": [
+     "OBS-0190",
+     "OBS-0191",
+     "OBS-0192"
+    ]
+   },
+   {
+    "id": "P-STORE-FILE",
+    "kind": "p2p",
+    "requirement": "send_c_store with a file path, with and without chunked sending",
+    "tests": [
+     "OBS-0193"
+    ]
+   },
+   {
+    "id": "P-CONFIG",
+    "kind": "p2p",
+    "requirement": "configuration options: custom validators and codecs",
+    "tests": [
+     "OBS-0194",
+     "OBS-0195",
+     "OBS-0196"
+    ]
+   },
+   {
+    "id": "P-PDU",
+    "kind": "p2p",
+    "requirement": "PDU encoding and decoding",
+    "tests": [
+     "OBS-0197",
+     "OBS-0198",
+     "OBS-0199",
+     "OBS-0200"
+    ]
+   },
+   {
+    "id": "P-PRIMITIVES",
+    "kind": "p2p",
+    "requirement": "DIMSE and upper layer primitive parameter validation",
+    "tests": [
+     "OBS-0201",
+     "OBS-0202"
+    ]
+   },
+   {
+    "id": "P-NON-PATIENT",
+    "kind": "p2p",
+    "requirement": "Non-Patient Object Storage SCP",
+    "tests": [
+     "OBS-0203"
+    ]
+   },
+   {
+    "id": "P-AE-LIFECYCLE",
+    "kind": "p2p",
+    "requirement": "server shutdown and active associations",
+    "tests": [
+     "OBS-0204"
+    ]
+   },
+   {
+    "id": "P-REGISTER-UID",
+    "kind": "p2p",
+    "requirement": "registering private SOP classes with register_uid",
+    "tests": [
+     "OBS-0205",
+     "OBS-0206",
+     "OBS-0207"
+    ]
+   },
+   {
+    "id": "P-EVENTS-LOWLEVEL",
+    "kind": "p2p",
+    "requirement": "PDU, DIMSE, ACSE, data and FSM notification events",
+    "tests": [
+     "OBS-0208",
+     "OBS-0209",
+     "OBS-0210"
+    ]
+   },
+   {
+    "id": "P-PRINT",
+    "kind": "p2p",
+    "requirement": "Print Management SCP: film session, film box and print action",
+    "tests": [
+     "OBS-0211"
+    ]
+   },
+   {
+    "id": "P-MOVE-DESTINATION",
+    "kind": "p2p",
+    "requirement": "C-MOVE sub-operations are sent to the yielded destination as the Move Destination",
+    "tests": [
+     "OBS-0212"
+    ]
+   },
+   {
+    "id": "P-N-CREATE-UID",
+    "kind": "p2p",
+    "requirement": "N-CREATE without an Affected SOP Instance UID from either side is a processing failure",
+    "tests": [
+     "OBS-0213",
+     "OBS-0214"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   }
+  ]
+ }
+}

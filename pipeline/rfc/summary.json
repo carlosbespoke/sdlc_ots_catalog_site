@@ -1,0 +1,924 @@
+{
+ "title": "Ready-for-client tasks in the alpharecon project: 3049 tasks",
+ "total": 3049,
+ "notes": [
+  "Scope: Horizon project alpharecon, status ready-for-client, 45 batches. Pulled 2026-10-27.",
+  "Domain categories used: 51 of the 53 in the taxonomy, plus 11 proposed new categories for tasks that fit none.",
+  "Unused taxonomy categories: GPU kernels, Mobile apps (Android)",
+  "Task shape, seniority and SDLC phase are set from the batch; domain category, language and domain-based role were assigned by a model from each task's instruction, files and Dockerfile, then the same role overrides as the shortlist were applied.",
+  "Not classified: 0 tasks.",
+  "Final category: the client-facing classification signed off on 27 Oct 2026. It follows the batch group, except that spec-drift tasks fold into Diagnosis, Debugging, and Bug Fixing, and the 204 fault-tolerance candidates (DeepSWE, Cohere system-design and durability tasks) were split into System design, Fault tolerance or Feature implementation by reading each full instruction. The 5 SRE tasks are parked."
+ ],
+ "dims": {
+  "Final category": [
+   [
+    "ProgramBench repo upgrade",
+    811
+   ],
+   [
+    "Diagnosis, Debugging, and Bug Fixing",
+    687
+   ],
+   [
+    "Feature implementation",
+    636
+   ],
+   [
+    "Infrastructure as code",
+    325
+   ],
+   [
+    "ProgramBench reimplementation",
+    234
+   ],
+   [
+    "System design",
+    138
+   ],
+   [
+    "Data engineering",
+    83
+   ],
+   [
+    "Fault tolerance",
+    79
+   ],
+   [
+    "Migration",
+    37
+   ],
+   [
+    "Optimization",
+    14
+   ],
+   [
+    "SRE (parked)",
+    5
+   ]
+  ],
+  "Final category basis": [
+   [
+    "Batch rule",
+    2486
+   ],
+   [
+    "Spec drift folded into Diagnosis",
+    354
+   ],
+   [
+    "Instruction review (classifier + manual check)",
+    204
+   ],
+   [
+    "Parked",
+    5
+   ]
+  ],
+  "Batch group": [
+   [
+    "ProgramBench repo upgrade (all batches)",
+    811
+   ],
+   [
+    "Feature implementation / DeepSWE (all batches)",
+    504
+   ],
+   [
+    "Spec drift (all batches)",
+    354
+   ],
+   [
+    "IaC-ots",
+    312
+   ],
+   [
+    "Diagnosis (all batches)",
+    292
+   ],
+   [
+    "Cohere (all batches)",
+    289
+   ],
+   [
+    "programbench-reimplementation-ots",
+    234
+   ],
+   [
+    "data-processing-xai-ots",
+    83
+   ],
+   [
+    "system-design-harsh-xai",
+    60
+   ],
+   [
+    "RCA + SRE (xAI)",
+    59
+   ],
+   [
+    "Migration (all batches)",
+    37
+   ],
+   [
+    "Optimization (all batches)",
+    14
+   ]
+  ],
+  "Domain super-group": [
+   [
+    "Languages & developer tooling",
+    811
+   ],
+   [
+    "Cloud infrastructure & IaC",
+    432
+   ],
+   [
+    "Applications & business domains",
+    421
+   ],
+   [
+    "Scientific & ML software",
+    390
+   ],
+   [
+    "Data engineering & databases",
+    362
+   ],
+   [
+    "Systems, hardware & accelerators",
+    260
+   ],
+   [
+    "Security",
+    132
+   ],
+   [
+    "Distributed systems & coordination",
+    98
+   ],
+   [
+    "Build, release & supply chain",
+    81
+   ],
+   [
+    "Observability & reliability",
+    62
+   ]
+  ],
+  "Domain category": [
+   [
+    "Compilers & language runtimes",
+    333
+   ],
+   [
+    "CLI tooling",
+    288
+   ],
+   [
+    "Cloud infra: AWS platform stacks",
+    198
+   ],
+   [
+    "Cloud infra: containers & self-hosted platforms",
+    160
+   ],
+   [
+    "Web applications",
+    143
+   ],
+   [
+    "Data formats & serialization",
+    143
+   ],
+   [
+    "Media processing",
+    141
+   ],
+   [
+    "Networking & HTTP",
+    131
+   ],
+   [
+    "AI agents & retrieval",
+    120
+   ],
+   [
+    "API tooling",
+    113
+   ],
+   [
+    "Scientific computing",
+    86
+   ],
+   [
+    "Machine learning & MLOps",
+    85
+   ],
+   [
+    "Databases & storage engines",
+    76
+   ],
+   [
+    "Monitoring & observability",
+    55
+   ],
+   [
+    "Compression & data integrity",
+    55
+   ],
+   [
+    "Data pipelines & ETL",
+    47
+   ],
+   [
+    "Secrets & access control",
+    44
+   ],
+   [
+    "Data validation",
+    41
+   ],
+   [
+    "IoT & smart home",
+    40
+   ],
+   [
+    "Messaging & event streaming",
+    39
+   ],
+   [
+    "Statistics & numerical methods",
+    38
+   ],
+   [
+    "Cloud infra: serverless & event-driven",
+    37
+   ],
+   [
+    "Configuration management",
+    37
+   ],
+   [
+    "SQL tooling",
+    36
+   ],
+   [
+    "Build systems",
+    35
+   ],
+   [
+    "Payments & banking",
+    35
+   ],
+   [
+    "Cryptography & secure protocols",
+    34
+   ],
+   [
+    "Frontend & UI state",
+    31
+   ],
+   [
+    "Geospatial",
+    30
+   ],
+   [
+    "Calendaring & recurrence",
+    28
+   ],
+   [
+    "NEW: Text & NLP processing",
+    27
+   ],
+   [
+    "Software supply chain",
+    25
+   ],
+   [
+    "Collaborative documents",
+    25
+   ],
+   [
+    "Binary analysis",
+    22
+   ],
+   [
+    "Web crawling",
+    21
+   ],
+   [
+    "CI/CD",
+    21
+   ],
+   [
+    "NEW: General-purpose utility libraries",
+    20
+   ],
+   [
+    "Workflow automation",
+    19
+   ],
+   [
+    "Filesystems",
+    19
+   ],
+   [
+    "Logic programming",
+    18
+   ],
+   [
+    "Graph algorithms",
+    16
+   ],
+   [
+    "Analytics engineering",
+    16
+   ],
+   [
+    "Secret scanning",
+    13
+   ],
+   [
+    "Cloud security & compliance",
+    12
+   ],
+   [
+    "NEW: Games & game engines",
+    11
+   ],
+   [
+    "Job scheduling",
+    11
+   ],
+   [
+    "NEW: Fonts & text rendering",
+    9
+   ],
+   [
+    "NEW: Code formatters & linters",
+    9
+   ],
+   [
+    "Rate limiting",
+    7
+   ],
+   [
+    "Medical imaging & healthcare",
+    7
+   ],
+   [
+    "Hardware RTL",
+    7
+   ],
+   [
+    "Parser security hardening",
+    7
+   ],
+   [
+    "NEW: CAD / CAM",
+    5
+   ],
+   [
+    "NEW: Emulators",
+    4
+   ],
+   [
+    "Education tooling",
+    4
+   ],
+   [
+    "Memory management",
+    4
+   ],
+   [
+    "NEW: Data structures",
+    3
+   ],
+   [
+    "NEW: Data visualization",
+    3
+   ],
+   [
+    "Probabilistic data structures",
+    2
+   ],
+   [
+    "NEW: Blockchain",
+    1
+   ],
+   [
+    "Sports analytics",
+    1
+   ],
+   [
+    "NEW: Spreadsheets",
+    1
+   ]
+  ],
+  "Task shape category": [
+   [
+    "Software evolution",
+    1202
+   ],
+   [
+    "Feature development",
+    599
+   ],
+   [
+    "Debugging",
+    333
+   ],
+   [
+    "Infrastructure as code",
+    325
+   ],
+   [
+    "Fault tolerance / distributed systems",
+    254
+   ],
+   [
+    "Greenfield / reimplementation",
+    234
+   ],
+   [
+    "Data engineering",
+    83
+   ],
+   [
+    "Performance",
+    14
+   ],
+   [
+    "SRE & live operations",
+    5
+   ]
+  ],
+  "Task shape": [
+   [
+    "Evolve a repo from one release to the next",
+    848
+   ],
+   [
+    "Feature development across several PRs",
+    599
+   ],
+   [
+    "NEW: Docs-vs-code drift repair",
+    354
+   ],
+   [
+    "NEW: State-preserving IaC change",
+    325
+   ],
+   [
+    "NEW: Multi-bug diagnosis & fault localization",
+    292
+   ],
+   [
+    "Failure-proofing",
+    254
+   ],
+   [
+    "Rebuild a program from its binary",
+    234
+   ],
+   [
+    "NEW: Data pipeline repair / extension",
+    83
+   ],
+   [
+    "On-call root cause analysis",
+    41
+   ],
+   [
+    "NEW: CPU performance optimization",
+    14
+   ],
+   [
+    "Live system change",
+    4
+   ],
+   [
+    "Incident response",
+    1
+   ]
+  ],
+  "Primary role": [
+   [
+    "Library / Backend Engineer",
+    438
+   ],
+   [
+    "Platform Engineer",
+    426
+   ],
+   [
+    "Developer Tools Engineer",
+    404
+   ],
+   [
+    "Compiler / Language Engineer",
+    330
+   ],
+   [
+    "ML / AI Engineer",
+    174
+   ],
+   [
+    "Backend Engineer",
+    163
+   ],
+   [
+    "Systems Engineer",
+    142
+   ],
+   [
+    "Research Software Engineer",
+    136
+   ],
+   [
+    "Media Software Engineer",
+    134
+   ],
+   [
+    "Distributed Systems Engineer",
+    133
+   ],
+   [
+    "Security Engineer",
+    119
+   ],
+   [
+    "Data Engineer",
+    99
+   ],
+   [
+    "Database Engineer",
+    77
+   ],
+   [
+    "Build & Release Engineer",
+    52
+   ],
+   [
+    "Full-stack Engineer",
+    40
+   ],
+   [
+    "Embedded / IoT Engineer",
+    40
+   ],
+   [
+    "Observability Engineer",
+    39
+   ],
+   [
+    "Frontend Engineer",
+    25
+   ],
+   [
+    "Data Scientist",
+    19
+   ],
+   [
+    "Performance Engineer",
+    15
+   ],
+   [
+    "Analytics Engineer",
+    12
+   ],
+   [
+    "Game Developer",
+    10
+   ],
+   [
+    "Cloud Security Engineer",
+    8
+   ],
+   [
+    "Hardware Engineer",
+    6
+   ],
+   [
+    "SRE",
+    5
+   ],
+   [
+    "Database Reliability Engineer",
+    3
+   ]
+  ],
+  "Seniority": [
+   [
+    "Senior",
+    2432
+   ],
+   [
+    "Staff+",
+    493
+   ],
+   [
+    "Mid\u2013Senior",
+    124
+   ]
+  ],
+  "SDLC phase": [
+   [
+    "Maintenance",
+    1248
+   ],
+   [
+    "Implementation",
+    954
+   ],
+   [
+    "Debugging",
+    333
+   ],
+   [
+    "Refactoring",
+    325
+   ],
+   [
+    "Design",
+    133
+   ],
+   [
+    "Migration",
+    37
+   ],
+   [
+    "Performance",
+    14
+   ],
+   [
+    "Deployment & operations",
+    5
+   ]
+  ],
+  "Primary language": [
+   [
+    "Go",
+    895
+   ],
+   [
+    "Python",
+    792
+   ],
+   [
+    "HCL (Terraform)",
+    316
+   ],
+   [
+    "Rust",
+    310
+   ],
+   [
+    "Agent's choice",
+    234
+   ],
+   [
+    "C",
+    204
+   ],
+   [
+    "C++",
+    159
+   ],
+   [
+    "TypeScript",
+    103
+   ],
+   [
+    "C#",
+    20
+   ],
+   [
+    "SQL",
+    14
+   ],
+   [
+    "Java",
+    1
+   ],
+   [
+    "JavaScript",
+    1
+   ]
+  ]
+ },
+ "xtab": {
+  "title": "Batch group \u00d7 Final category",
+  "rows_label": "Batch group",
+  "cols_label": "Final category",
+  "cols": [
+   "ProgramBench repo upgrade",
+   "Diagnosis, Debugging, and Bug Fixing",
+   "Feature implementation",
+   "Infrastructure as code",
+   "ProgramBench reimplementation",
+   "System design",
+   "Data engineering",
+   "Fault tolerance",
+   "Migration",
+   "Optimization",
+   "SRE (parked)"
+  ],
+  "rows": [
+   [
+    "ProgramBench repo upgrade (all batches)",
+    [
+     811,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   [
+    "Feature implementation / DeepSWE (all batches)",
+    [
+     0,
+     0,
+     440,
+     0,
+     0,
+     6,
+     0,
+     58,
+     0,
+     0,
+     0
+    ]
+   ],
+   [
+    "Spec drift (all batches)",
+    [
+     0,
+     354,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   [
+    "IaC-ots",
+    [
+     0,
+     0,
+     0,
+     312,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   [
+    "Diagnosis (all batches)",
+    [
+     0,
+     292,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   [
+    "Cohere (all batches)",
+    [
+     0,
+     0,
+     196,
+     0,
+     0,
+     72,
+     0,
+     21,
+     0,
+     0,
+     0
+    ]
+   ],
+   [
+    "programbench-reimplementation-ots",
+    [
+     0,
+     0,
+     0,
+     0,
+     234,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   [
+    "data-processing-xai-ots",
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     83,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   [
+    "system-design-harsh-xai",
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     60,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   [
+    "RCA + SRE (xAI)",
+    [
+     0,
+     41,
+     0,
+     13,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     5
+    ]
+   ],
+   [
+    "Migration (all batches)",
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     37,
+     0,
+     0
+    ]
+   ],
+   [
+    "Optimization (all batches)",
+    [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     14,
+     0
+    ]
+   ]
+  ]
+ }
+}

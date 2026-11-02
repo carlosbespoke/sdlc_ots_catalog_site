@@ -1,0 +1,66 @@
+{
+ "stage": "cwseuuu7",
+ "account": "111111111111",
+ "region": "us-east-1",
+ "project": "nova",
+ "network": {
+  "cidr": "10.112.0.0/16",
+  "maxAzs": 6,
+  "natGateways": 4
+ },
+ "artifactBuckets": {
+  "storage": {
+   "transitionDays": 55,
+   "noncurrentDays": 200
+  },
+  "dwxtsauuja-vtw": {
+   "transitionDays": 90,
+   "noncurrentDays": 365
+  }
+ },
+ "stages": {
+  "vdmi-ysuep": {
+   "desiredCount": 4,
+   "cpu": 2048,
+   "memoryMiB": 4096,
+   "queueVisibilitySeconds": 120,
+   "listenerPriority": 60
+  },
+  "qbktsz.3": {
+   "desiredCount": 2,
+   "cpu": 1024,
+   "memoryMiB": 2048,
+   "queueVisibilitySeconds": 65,
+   "listenerPriority": 70
+  },
+  "owiku": {
+   "desiredCount": 1,
+   "cpu": 512,
+   "memoryMiB": 1024,
+   "queueVisibilitySeconds": 40,
+   "listenerPriority": 80
+  }
+ },
+ "container": {
+  "image": "public.ecr.aws/docker/library/nginx:1.27",
+  "port": 8443,
+  "healthCheckPath": "/health/deep",
+  "deregistrationSeconds": 50
+ },
+ "notificationEmails": [
+  "release@example.com"
+ ],
+ "eventRules": {
+  "iulf-xggq": {
+   "source": "aws.ecs",
+   "detailType": "ECS Task State Change",
+   "states": [
+    "STOPPED"
+   ]
+  }
+ },
+ "logRetentionDays": 90,
+ "queueRetentionDays": 10,
+ "notificationMemoryMiB": 768,
+ "notificationTimeoutSeconds": 30
+}

@@ -1,0 +1,95 @@
+# Go and Debian are pinned to the image used for the manual reproduction.
+FROM golang:1.25.14-bookworm@sha256:3b4a11519ad929d1e1d261a12cff056f0c85b735253d7d861346b9c6f8b36437
+
+ENV GOTOOLCHAIN=local
+ENV GOFLAGS=-mod=readonly
+ENV GOPATH=/go
+ENV GOMAXPROCS=2
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Agent terminal tooling. Use the same frozen Debian snapshot
+# as the accepted Bigcache v8 Optimization task so the package versions cannot
+# disappear from a rolling repository.
+RUN set -eu; \
+    if [ ! -s /etc/ssl/certs/ca-certificates.crt ]; then \
+      apt-get update && apt-get install -y --no-install-recommends ca-certificates; \
+    fi; \
+    rm -f /tmp/hz-prereq.list; \
+    echo 'deb [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] https://snapshot.debian.org/archive/debian/20260801T000000Z bookworm main' >> /tmp/hz-prereq.list; \
+    echo 'deb [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] https://snapshot.debian.org/archive/debian-security/20260801T000000Z bookworm-security main' >> /tmp/hz-prereq.list; \
+    apt-get -o Dir::Etc::sourcelist=/tmp/hz-prereq.list -o Dir::Etc::sourceparts=/dev/null -o Acquire::Check-Valid-Until=false update; \
+    apt-get -o Dir::Etc::sourcelist=/tmp/hz-prereq.list -o Dir::Etc::sourceparts=/dev/null -o Acquire::Check-Valid-Until=false install -y --no-install-recommends tmux=3.3a-3 asciinema; \
+    rm -f /tmp/hz-prereq.list; \
+    rm -rf /var/lib/apt/lists/*
+
+ENV PATH=/usr/local/go/bin:${PATH}
+RUN chmod 755 /go/bin || true \
+ && echo 'export PATH=/usr/local/go/bin:$PATH' > /etc/profile.d/10-golang.sh \
+ && chmod 644 /etc/profile.d/10-golang.sh \
+ && test -x /usr/bin/git \
+ && test -x /usr/bin/tmux \
+ && test -x /usr/bin/asciinema
+
+# This archive is the exact landed-change parent, not a mutable branch checkout.
+COPY source.tar.gz /tmp/fasthttp-source.tar.gz
+RUN mkdir -p /app \
+ && tar -xzf /tmp/fasthttp-source.tar.gz -C /app \
+ && rm /tmp/fasthttp-source.tar.gz
+
+WORKDIR /app
+
+# Resolve and verify dependencies only while the image is built. Runtime is offline.
+RUN go mod download \
+ && go mod verify \
+ && go test -run '^$' ./...
+
+# Present one baseline commit without upstream future history or solution commits.
+RUN rm -rf .git \
+ && git init -q \
+ && git config user.email build@alpharecon.local \
+ && git config user.name alpharecon-optimization \
+ && git add -A \
+ && GIT_AUTHOR_DATE="2026-04-01T00:00:00Z" GIT_COMMITTER_DATE="2026-04-01T00:00:00Z" \
+    git commit -q -m "fasthttp zstd-decompression baseline" \
+ && find /app -exec touch -h -d "2026-04-01T00:00:00Z" {} + \
+ && test -z "$(git status --porcelain)"
+
+ENV GOPROXY=off
+ENV GOVCS=*:off
+
+# --- TESTING DEPENDENCIES / TRUSTED RUNTIME (separate removable section) ---
+# No hidden test, measurement configuration or reference patch enters the image.
+# Harbor uploads tests/ only after the agent phase. tests/Dockerfile is not used.
+RUN set -eu; \
+    echo 'deb [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] https://snapshot.debian.org/archive/debian/20260801T000000Z bookworm main' > /tmp/testing.list; \
+    echo 'deb [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] https://snapshot.debian.org/archive/debian-security/20260801T000000Z bookworm-security main' >> /tmp/testing.list; \
+    apt-get -o Dir::Etc::sourcelist=/tmp/testing.list -o Dir::Etc::sourceparts=/dev/null -o Acquire::Check-Valid-Until=false update; \
+    apt-get -o Dir::Etc::sourcelist=/tmp/testing.list -o Dir::Etc::sourceparts=/dev/null -o Acquire::Check-Valid-Until=false install -y --no-install-recommends python3=3.11.2-1+b1; \
+    rm /tmp/testing.list; \
+    rm -rf /var/lib/apt/lists/*; \
+    useradd --uid 1000 -m -s /bin/bash agent; \
+    useradd --uid 1001 -m -s /bin/bash verifier
+
+COPY runtime/ /opt/fasthttp-runtime/
+RUN go build -trimpath -o /usr/local/bin/fasthttp-source-scan /opt/fasthttp-runtime/scan.go \
+ && cc -O2 -Wall -Wextra -Werror /opt/fasthttp-runtime/landlock_exec.c -o /usr/local/bin/landlock-exec \
+ && cp -a /app /opt/baseline \
+ && test "$(git -C /opt/baseline rev-parse HEAD^{tree})" = "b7897a0a91e39b4e401b499ba770f49f403b9720" \
+ && mkdir -p /tests /logs/agent /logs/verifier /var/lib/fasthttp-verifier \
+ && chmod 0700 /tests /var/lib/fasthttp-verifier \
+ && chmod 0755 /logs \
+ && chown -R agent:agent /app /home/agent /logs/agent \
+ && chmod -R a-w /opt/baseline /opt/fasthttp-runtime \
+ && chmod -R go-w /go /usr/local/go \
+ && find / -xdev -type f -perm /6000 -exec chmod a-s {} + \
+ && test -x /usr/bin/setpriv
+# --- END TESTING DEPENDENCIES / TRUSTED RUNTIME ---
+
+ENV GOCACHE=/home/agent/.cache/go-build
+RUN mkdir -p /home/agent/.cache \
+ && cp -a /root/.cache/go-build /home/agent/.cache/go-build \
+ && chown -R agent:agent /home/agent/.cache
+# The idle container process must not share the solver uid: the verifier stops
+# all uid-1000 processes before grading. Harbor sets [agent].user explicitly.
+USER root
+WORKDIR /app

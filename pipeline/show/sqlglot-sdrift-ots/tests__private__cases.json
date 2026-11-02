@@ -1,0 +1,635 @@
+[
+ {
+  "code": "result = run_one({'op': 'csv', 'args': ['a', 'b']})\n",
+  "id": "OBS-0001"
+ },
+ {
+  "code": "result = run_one({'op': 'csv', 'args': ['a', '', 'c']})\n",
+  "id": "OBS-0002"
+ },
+ {
+  "code": "result = run_one({'op': 'date_unit', 'value': None})\n",
+  "id": "OBS-0003"
+ },
+ {
+  "code": "result = run_one({'op': 'date_unit', 'value': 'hour'})\n",
+  "id": "OBS-0004"
+ },
+ {
+  "code": "result = run_one({'op': 'date_unit', 'value': 'minute'})\n",
+  "id": "OBS-0005"
+ },
+ {
+  "code": "result = run_one({'op': 'new_name', 'taken': ['x'], 'base': 'x'})\n",
+  "id": "OBS-0006"
+ },
+ {
+  "code": "result = run_one({'op': 'new_name', 'taken': ['x', 'x_2'], 'base': 'x'})\n",
+  "id": "OBS-0007"
+ },
+ {
+  "code": "result = run_one({'op': 'new_name', 'taken': ['alias', 'alias_3'], 'base': 'alias'})\n",
+  "id": "OBS-0008"
+ },
+ {
+  "code": "result = run_one({'op': 'new_name', 'taken': ['alias', 'alias_2', 'alias_4'], 'base': 'alias'})\n",
+  "id": "OBS-0009"
+ },
+ {
+  "code": "result = run_one({'op': 'new_name', 'taken': ['col', 'col_2', 'col_3', 'col_5', 'col_7'], 'base': 'col'})\n",
+  "id": "OBS-0010"
+ },
+ {
+  "code": "result = run_one({'op': 'new_name', 'taken': ['node', 'node_9', 'unrelated'], 'base': 'node'})\n",
+  "id": "OBS-0011"
+ },
+ {
+  "code": "result = run_one({'op': 'new_name', 'taken': ['part_2', 'part_2_2', 'part_2_4'], 'base': 'part_2'})\n",
+  "id": "OBS-0012"
+ },
+ {
+  "code": "result = run_one({'op': 'normalize_table', 'table': '`A-B`.C', 'dialect': 'bigquery'})\n",
+  "id": "OBS-0013"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'add': [{'column': 'a'}, {'column': 'b'}]}, {'column': 'c'}], 'replacement': 'renamed', 'copy': True})\n",
+  "id": "OBS-0014"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'add': [{'column': 'a'}, {'column': 'b'}]}, {'column': 'c'}], 'replacement': 'replacement', 'copy': False})\n",
+  "id": "OBS-0015"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'add': [{'column': 'a'}, {'mul': [{'column': 'b'}, {'column': 'c'}]}]}, {'column': 'd'}], 'replacement': 'renamed', 'copy': True})\n",
+  "id": "OBS-0016"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'add': [{'column': 'a'}, {'mul': [{'column': 'b'}, {'column': 'c'}]}]}, {'column': 'd'}], 'replacement': 'replacement', 'copy': False})\n",
+  "id": "OBS-0017"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'add': [{'column': 'a'}, {'column': 'b'}]}, {'add': [{'column': 'c'}, {'column': 'd'}]}, {'column': 'e'}], 'replacement': 'renamed', 'copy': True})\n",
+  "id": "OBS-0018"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'add': [{'column': 'a'}, {'column': 'b'}]}, {'add': [{'column': 'c'}, {'column': 'd'}]}, {'column': 'e'}], 'replacement': 'replacement', 'copy': False})\n",
+  "id": "OBS-0019"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'mul': [{'add': [{'column': 'a'}, {'column': 'b'}]}, {'column': 'c'}]}, {'column': 'd'}], 'replacement': 'renamed', 'copy': True})\n",
+  "id": "OBS-0020"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'mul': [{'add': [{'column': 'a'}, {'column': 'b'}]}, {'column': 'c'}]}, {'column': 'd'}], 'replacement': 'replacement', 'copy': False})\n",
+  "id": "OBS-0021"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'sub': [{'column': 'a'}, {'add': [{'column': 'b'}, {'column': 'c'}]}]}, {'column': 'd'}], 'replacement': 'renamed', 'copy': True})\n",
+  "id": "OBS-0022"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'sub': [{'column': 'a'}, {'add': [{'column': 'b'}, {'column': 'c'}]}]}, {'column': 'd'}], 'replacement': 'replacement', 'copy': False})\n",
+  "id": "OBS-0023"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'add': [{'add': [{'column': 'a'}, {'column': 'b'}]}, {'mul': [{'column': 'c'}, {'column': 'd'}]}]}, {'column': 'e'}], 'replacement': 'renamed', 'copy': True})\n",
+  "id": "OBS-0024"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'add': [{'add': [{'column': 'a'}, {'column': 'b'}]}, {'mul': [{'column': 'c'}, {'column': 'd'}]}]}, {'column': 'e'}], 'replacement': 'replacement', 'copy': False})\n",
+  "id": "OBS-0025"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [0, 1]})\n",
+  "id": "OBS-0026"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [1, 2]})\n",
+  "id": "OBS-0027"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [0, 1, 2]})\n",
+  "id": "OBS-0028"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [0, 2, 1]})\n",
+  "id": "OBS-0029"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [1, 0, 2]})\n",
+  "id": "OBS-0030"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [1, 2, 0]})\n",
+  "id": "OBS-0031"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [2, 0, 1]})\n",
+  "id": "OBS-0032"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c', 'd'], 'remove': [1, 2]})\n",
+  "id": "OBS-0033"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c', 'd'], 'remove': [0, 2, 1]})\n",
+  "id": "OBS-0034"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c', 'd', 'e'], 'remove': [1, 2, 3]})\n",
+  "id": "OBS-0035"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'a', 'b'], 'remove': [0, 1]})\n",
+  "id": "OBS-0036"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'a', 'a', 'b'], 'remove': [1, 2]})\n",
+  "id": "OBS-0037"
+ },
+ {
+  "code": "result = run_one({'op': 'seq_get', 'seq': [], 'index': 0})\n",
+  "id": "OBS-0038"
+ },
+ {
+  "code": "result = run_one({'op': 'seq_get', 'seq': [1], 'index': 0})\n",
+  "id": "OBS-0039"
+ },
+ {
+  "code": "result = run_one({'op': 'seq_get', 'seq': [1], 'index': 1})\n",
+  "id": "OBS-0040"
+ },
+ {
+  "code": "result = run_one({'op': 'seq_get', 'seq': [1, 2, 3], 'index': -1})\n",
+  "id": "OBS-0041"
+ },
+ {
+  "code": "result = run_one({'op': 'lists', 'value': None})\n",
+  "id": "OBS-0042"
+ },
+ {
+  "code": "result = run_one({'op': 'lists', 'value': [1, 2]})\n",
+  "id": "OBS-0043"
+ },
+ {
+  "code": "result = run_one({'op': 'lists', 'value': [1, [2, [3]]]})\n",
+  "id": "OBS-0044"
+ },
+ {
+  "code": "result = run_one({'op': 'lists', 'value': [1, [2, [3]]]})\n",
+  "id": "OBS-0045"
+ },
+ {
+  "code": "result = run_one({'op': 'lists', 'value': 'abc'})\n",
+  "id": "OBS-0046"
+ },
+ {
+  "code": "result = run_one({'op': 'lists', 'value': ['ab', ['cd']]})\n",
+  "id": "OBS-0047"
+ },
+ {
+  "code": "result = run_one({'op': 'ensure_tuple', 'value': [1, 2]})\n",
+  "id": "OBS-0048"
+ },
+ {
+  "code": "result = run_one({'op': 'csv', 'args': []})\n",
+  "id": "OBS-0049"
+ },
+ {
+  "code": "result = run_one({'op': 'csv', 'args': ['a']})\n",
+  "id": "OBS-0050"
+ },
+ {
+  "code": "result = run_one({'op': 'new_name', 'taken': [], 'base': 'x'})\n",
+  "id": "OBS-0051"
+ },
+ {
+  "code": "result = run_one({'op': 'name_sequence', 'prefix': 'a', 'n': 4})\n",
+  "id": "OBS-0052"
+ },
+ {
+  "code": "result = run_one({'op': 'new_name', 'taken': ['free_2', 'free_4'], 'base': 'free'})\n",
+  "id": "OBS-0053"
+ },
+ {
+  "code": "result = run_one({'op': 'split', 'value': 'db.table', 'sep': '.', 'n': 3})\n",
+  "id": "OBS-0054"
+ },
+ {
+  "code": "result = run_one({'op': 'split_end', 'value': 'db.table', 'sep': '.', 'n': 3})\n",
+  "id": "OBS-0055"
+ },
+ {
+  "code": "result = run_one({'op': 'split', 'value': 'a.b.c.d', 'sep': '.', 'n': 2})\n",
+  "id": "OBS-0056"
+ },
+ {
+  "code": "result = run_one({'op': 'split_end', 'value': 'a.b.c.d', 'sep': '.', 'n': 2})\n",
+  "id": "OBS-0057"
+ },
+ {
+  "code": "result = run_one({'op': 'split', 'value': 'one', 'sep': '.', 'n': 3})\n",
+  "id": "OBS-0058"
+ },
+ {
+  "code": "result = run_one({'op': 'split_end', 'value': 'one', 'sep': '.', 'n': 3})\n",
+  "id": "OBS-0059"
+ },
+ {
+  "code": "result = run_one({'op': 'iterable', 'value': 'test'})\n",
+  "id": "OBS-0060"
+ },
+ {
+  "code": "result = run_one({'op': 'iterable', 'value': [1, 2]})\n",
+  "id": "OBS-0061"
+ },
+ {
+  "code": "result = run_one({'op': 'iterable', 'value': {'a': 1}})\n",
+  "id": "OBS-0062"
+ },
+ {
+  "code": "result = run_one({'op': 'iterable', 'value': 7})\n",
+  "id": "OBS-0063"
+ },
+ {
+  "code": "result = run_one({'op': 'date_unit', 'value': 'day'})\n",
+  "id": "OBS-0064"
+ },
+ {
+  "code": "result = run_one({'op': 'date_unit', 'value': 'DAY'})\n",
+  "id": "OBS-0065"
+ },
+ {
+  "code": "result = run_one({'op': 'depth', 'value': None})\n",
+  "id": "OBS-0066"
+ },
+ {
+  "code": "result = run_one({'op': 'depth', 'value': {}})\n",
+  "id": "OBS-0067"
+ },
+ {
+  "code": "result = run_one({'op': 'depth', 'value': {'a': 'b'}})\n",
+  "id": "OBS-0068"
+ },
+ {
+  "code": "result = run_one({'op': 'depth', 'value': {'a': {}}})\n",
+  "id": "OBS-0069"
+ },
+ {
+  "code": "result = run_one({'op': 'depth', 'value': {'a': {'b': {}}}})\n",
+  "id": "OBS-0070"
+ },
+ {
+  "code": "result = run_one({'op': 'bool', 'value': True})\n",
+  "id": "OBS-0071"
+ },
+ {
+  "code": "result = run_one({'op': 'bool', 'value': False})\n",
+  "id": "OBS-0072"
+ },
+ {
+  "code": "result = run_one({'op': 'bool', 'value': None})\n",
+  "id": "OBS-0073"
+ },
+ {
+  "code": "result = run_one({'op': 'bool', 'value': 'true'})\n",
+  "id": "OBS-0074"
+ },
+ {
+  "code": "result = run_one({'op': 'bool', 'value': 'TRUE'})\n",
+  "id": "OBS-0075"
+ },
+ {
+  "code": "result = run_one({'op': 'bool', 'value': '1'})\n",
+  "id": "OBS-0076"
+ },
+ {
+  "code": "result = run_one({'op': 'bool', 'value': 'false'})\n",
+  "id": "OBS-0077"
+ },
+ {
+  "code": "result = run_one({'op': 'bool', 'value': 'FALSE'})\n",
+  "id": "OBS-0078"
+ },
+ {
+  "code": "result = run_one({'op': 'bool', 'value': '0'})\n",
+  "id": "OBS-0079"
+ },
+ {
+  "code": "result = run_one({'op': 'bool', 'value': 'other'})\n",
+  "id": "OBS-0080"
+ },
+ {
+  "code": "result = run_one({'op': 'ranges', 'ranges': []})\n",
+  "id": "OBS-0081"
+ },
+ {
+  "code": "result = run_one({'op': 'ranges', 'ranges': [[1, 3]]})\n",
+  "id": "OBS-0082"
+ },
+ {
+  "code": "result = run_one({'op': 'ranges', 'ranges': [[1, 3], [2, 6]]})\n",
+  "id": "OBS-0083"
+ },
+ {
+  "code": "result = run_one({'op': 'ranges', 'ranges': [[1, 3], [3, 5]]})\n",
+  "id": "OBS-0084"
+ },
+ {
+  "code": "result = run_one({'op': 'ranges', 'ranges': [[5, 7], [1, 3], [2, 6]]})\n",
+  "id": "OBS-0085"
+ },
+ {
+  "code": "result = run_one({'op': 'ranges', 'ranges': [[8, 9], [1, 2]]})\n",
+  "id": "OBS-0086"
+ },
+ {
+  "code": "result = run_one({'op': 'identifier', 'name': 'abc'})\n",
+  "id": "OBS-0087"
+ },
+ {
+  "code": "result = run_one({'op': 'identifier', 'name': 'a-b'})\n",
+  "id": "OBS-0088"
+ },
+ {
+  "code": "result = run_one({'op': 'identifier', 'name': 'A B'})\n",
+  "id": "OBS-0089"
+ },
+ {
+  "code": "result = run_one({'op': 'identifier_copy', 'name': 'x'})\n",
+  "id": "OBS-0090"
+ },
+ {
+  "code": "result = run_one({'op': 'table_name', 'table': 'a.b', 'dialect': None})\n",
+  "id": "OBS-0091"
+ },
+ {
+  "code": "result = run_one({'op': 'normalize_table', 'table': 'a.b', 'dialect': None})\n",
+  "id": "OBS-0092"
+ },
+ {
+  "code": "result = run_one({'op': 'table_name', 'table': 'a-b.c', 'dialect': None})\n",
+  "id": "OBS-0093"
+ },
+ {
+  "code": "result = run_one({'op': 'normalize_table', 'table': 'a-b.c', 'dialect': None})\n",
+  "id": "OBS-0094"
+ },
+ {
+  "code": "result = run_one({'op': 'table_name', 'table': '`A-B`.C', 'dialect': 'bigquery'})\n",
+  "id": "OBS-0095"
+ },
+ {
+  "code": "result = run_one({'op': 'convert', 'kind': 'str', 'value': 'x'})\n",
+  "id": "OBS-0096"
+ },
+ {
+  "code": "result = run_one({'op': 'convert', 'kind': 'bool', 'value': True})\n",
+  "id": "OBS-0097"
+ },
+ {
+  "code": "result = run_one({'op': 'convert', 'kind': 'bool', 'value': False})\n",
+  "id": "OBS-0098"
+ },
+ {
+  "code": "result = run_one({'op': 'convert', 'kind': 'none', 'value': None})\n",
+  "id": "OBS-0099"
+ },
+ {
+  "code": "result = run_one({'op': 'convert', 'kind': 'int', 'value': 3})\n",
+  "id": "OBS-0100"
+ },
+ {
+  "code": "result = run_one({'op': 'convert', 'kind': 'list', 'value': [1, 'x']})\n",
+  "id": "OBS-0101"
+ },
+ {
+  "code": "result = run_one({'op': 'anon', 'sql': \"SELECT secret, secret, 12, 'hi' FROM tbl\"})\n",
+  "id": "OBS-0102"
+ },
+ {
+  "code": "result = run_one({'op': 'anon', 'sql': 'SELECT f(x), 7 FROM y'})\n",
+  "id": "OBS-0103"
+ },
+ {
+  "code": "result = run_one({'op': 'anon', 'sql': 'SELECT /* hidden */ abc'})\n",
+  "id": "OBS-0104"
+ },
+ {
+  "code": "result = run_one({'op': 'anon', 'sql': 'SELECT 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999'})\n",
+  "id": "OBS-0105"
+ },
+ {
+  "code": "result = run_one({'op': 'anon', 'sql': 'SELECT 1, 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999'})\n",
+  "id": "OBS-0106"
+ },
+ {
+  "code": "result = run_one({'op': 'anon', 'sql': 'SELECT # vendor comment\\n secret'})\n",
+  "id": "OBS-0107"
+ },
+ {
+  "code": "result = run_one({'op': 'diff', 'source': 'SELECT a', 'target': 'SELECT b'})\n",
+  "id": "OBS-0108"
+ },
+ {
+  "code": "result = run_one({'op': 'diff', 'source': 'SELECT a + b', 'target': 'SELECT a + c'})\n",
+  "id": "OBS-0109"
+ },
+ {
+  "code": "result = run_one({'op': 'diff', 'source': 'SELECT a, b FROM x', 'target': 'SELECT a, c FROM x'})\n",
+  "id": "OBS-0110"
+ },
+ {
+  "code": "result = run_one({'op': 'diff', 'source': 'SELECT foo(a, b)', 'target': 'SELECT foo(a, c)'})\n",
+  "id": "OBS-0111"
+ },
+ {
+  "code": "result = run_one({'op': 'diff', 'source': 'SELECT a FROM x WHERE b = 1', 'target': 'SELECT a FROM x WHERE c = 1'})\n",
+  "id": "OBS-0112"
+ },
+ {
+  "code": "result = run_one({'op': 'diff', 'source': 'SELECT a + b + c', 'target': 'SELECT a + b + d'})\n",
+  "id": "OBS-0113"
+ },
+ {
+  "code": "result = run_one({'op': 'sql', 'sql': 'SELECT 1'})\n",
+  "id": "OBS-0114"
+ },
+ {
+  "code": "result = run_one({'op': 'sql', 'sql': 'SELECT a, b + 1 AS c FROM d'})\n",
+  "id": "OBS-0115"
+ },
+ {
+  "code": "result = run_one({'op': 'sql', 'sql': 'SELECT * FROM x WHERE a = 1 AND b = 2'})\n",
+  "id": "OBS-0116"
+ },
+ {
+  "code": "result = run_one({'op': 'sql', 'sql': 'WITH x AS (SELECT 1 a) SELECT a FROM x'})\n",
+  "id": "OBS-0117"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'column': 'a'}, {'column': 'b'}], 'replacement': 'renamed', 'copy': True})\n",
+  "id": "OBS-0118"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'column': 'a'}, {'column': 'b'}], 'replacement': 'replacement', 'copy': False})\n",
+  "id": "OBS-0119"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'mul': [{'column': 'a'}, {'column': 'b'}]}, {'column': 'a'}], 'replacement': 'renamed', 'copy': True})\n",
+  "id": "OBS-0120"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_transform', 'expressions': [{'mul': [{'column': 'a'}, {'column': 'b'}]}, {'column': 'a'}], 'replacement': 'replacement', 'copy': False})\n",
+  "id": "OBS-0121"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': []})\n",
+  "id": "OBS-0122"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [0]})\n",
+  "id": "OBS-0123"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [1]})\n",
+  "id": "OBS-0124"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [2]})\n",
+  "id": "OBS-0125"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [0, 2]})\n",
+  "id": "OBS-0126"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [1, 0]})\n",
+  "id": "OBS-0127"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [2, 0]})\n",
+  "id": "OBS-0128"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [2, 1]})\n",
+  "id": "OBS-0129"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c'], 'remove': [2, 1, 0]})\n",
+  "id": "OBS-0130"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'c', 'd', 'e'], 'remove': [4, 2, 0]})\n",
+  "id": "OBS-0131"
+ },
+ {
+  "code": "result = run_one({'op': 'ast_pop', 'names': ['a', 'b', 'a'], 'remove': [0, 2]})\n",
+  "id": "OBS-0132"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.expressions.builders', [\"array(1, 'x').sql()\\n\"]),\n    doc_examples('sqlglot.expressions.builders', [\"cast('x + 1', 'int').sql()\\n\"]),\n    doc_examples('sqlglot.expressions.builders', ['import sqlglot\\n', 'sorted(column_table_names(sqlglot.parse_one(\"a.b AND c.d AND c.e\")))\\n']),\n    doc_examples('sqlglot.expressions.builders', ['delete(\"my_table\", where=\"id > 1\").sql()\\n']),\n    doc_examples('sqlglot.expressions.builders', ['from sqlglot import parse_one\\n', 'expand(parse_one(\"select * from x AS z\"), {\"x\": parse_one(\"select * from y\")}).sql()\\n', 'expand(parse_one(\"select * from x AS z\"), {\"x\": parse_one(\"select * from y\"), \"y\": parse_one(\"select * from z\")}).sql()\\n']),\n    doc_examples('sqlglot.expressions.builders', ['from_(\"tbl\").select(\"col1\", \"col2\").sql()\\n']),\n    doc_examples('sqlglot.expressions.builders', ['func(\"abs\", 5).sql()\\n', 'func(\"cast\", this=5, to=DataType.build(\"DOUBLE\")).sql()\\n']),\n    doc_examples('sqlglot.expressions.builders', ['insert(\"VALUES (1, 2, 3)\", \"tbl\").sql()\\n']),\n    doc_examples('sqlglot.expressions.builders', ['merge(\"WHEN MATCHED THEN UPDATE SET col1 = source_table.col1\",\\n      \"WHEN NOT MATCHED THEN INSERT (col1) VALUES (source_table.col1)\",\\n      into=\"my_table\",\\n      using=\"source_table\",\\n      on=\"my_table.id = source_table.id\").sql()\\n']),\n    doc_examples('sqlglot.expressions.builders', ['from sqlglot import exp, parse_one\\n', 'replace_placeholders(\\n    parse_one(\"select * from :tbl where ? = ?\"),\\n    exp.to_identifier(\"str_col\"), \"b\", tbl=exp.to_identifier(\"foo\")\\n).sql()\\n']),\n    doc_examples('sqlglot.expressions.builders', ['from sqlglot import exp, parse_one\\n', 'replace_tables(parse_one(\"select * from a.b\"), {\"a.b\": \"c\"}).sql()\\n']),\n    doc_examples('sqlglot.expressions.builders', ['select(\"col1\", \"col2\").from_(\"tbl\").sql()\\n']),\n    doc_examples('sqlglot.expressions.builders', [\"subquery('select x from tbl', 'bar').select('x').sql()\\n\"]),\n    doc_examples('sqlglot.expressions.builders', ['from sqlglot import exp, parse_one\\n', 'table_name(parse_one(\"select * from a.b.c\").find(exp.Table))\\n']),\n    doc_examples('sqlglot.expressions.builders', [\"tuple_(1, 'x').sql()\\n\"]),\n    doc_examples('sqlglot.expressions.builders', ['update(\"my_table\", {\"x\": 1, \"y\": \"2\", \"z\": None}, from_=\"baz_cte\", where=\"baz_cte.id > 1 and my_table.id = baz_cte.id\", with_={\"baz_cte\": \"SELECT id FROM foo\"}).sql()\\n']),\n    doc_examples('sqlglot.expressions.builders', [\"values([(1, '2')]).sql()\\n\"]),\n    doc_examples('sqlglot.expressions.builders', [\"repr(var('x'))\\n\", \"repr(var(column('x', table='y')))\\n\"]),\n]\n",
+  "id": "OBS-0133"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.expressions.core', ['class Foo(Expr):\\n    arg_types = {\"this\": True, \"expression\": False}\\n']),\n    doc_examples('sqlglot.expressions.core', ['condition(\"x=1\").and_(\"y=1\").sql()\\n']),\n    doc_examples('sqlglot.expressions.core', ['import sqlglot\\n', 'sqlglot.parse_one(\"SELECT x from y\").assert_is(sqlglot.exp.Select).select(\"z\").sql()\\n']),\n    doc_examples('sqlglot.expressions.core', ['condition(\"x=1\").not_().sql()\\n']),\n    doc_examples('sqlglot.expressions.core', ['condition(\"x=1\").or_(\"y=1\").sql()\\n']),\n    doc_examples('sqlglot.expressions.core', ['from sqlglot import parse_one\\n', 'parse_one(\"SELECT a\").expressions[0].output_name\\n', 'parse_one(\"SELECT b AS c\").expressions[0].output_name\\n', 'parse_one(\"SELECT 1 + 2\").expressions[0].output_name\\n']),\n    doc_examples('sqlglot.expressions.core', ['import sqlglot\\n', 'tree = sqlglot.parse_one(\"SELECT x FROM tbl\")\\n', 'tree.find(sqlglot.exp.Column).replace(sqlglot.exp.column(\"y\"))\\n', 'tree.sql()\\n']),\n    doc_examples('sqlglot.expressions.core', [\"alias_('foo', 'bar').sql()\\n\", \"alias_('(select 1, 2)', 'bar', table=['a', 'b']).sql()\\n\"]),\n    doc_examples('sqlglot.expressions.core', ['and_(\"x=1\", and_(\"y=1\", \"z=1\")).sql()\\n']),\n    doc_examples('sqlglot.expressions.core', ['condition(\"x=1\").sql()\\n', 'where = condition(\"x=1\")\\n', 'where = where.and_(\"y=1\")\\n', 'where.sql()\\n']),\n    doc_examples('sqlglot.expressions.core', ['maybe_parse(\"1\")\\n', 'maybe_parse(to_identifier(\"x\"))\\n']),\n    doc_examples('sqlglot.expressions.core', ['not_(\"this_suit=\\'black\\'\").sql()\\n']),\n    doc_examples('sqlglot.expressions.core', ['or_(\"x=1\", or_(\"y=1\", \"z=1\")).sql()\\n']),\n    doc_examples('sqlglot.expressions.core', ['paren(\"5 + 3\").sql()\\n']),\n    doc_examples('sqlglot.expressions.core', ['xor(\"x=1\", xor(\"y=1\", \"z=1\")).sql()\\n']),\n]\n",
+  "id": "OBS-0134"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.expressions.dml', ['Delete().delete(\"tbl\").returning(\"*\", dialect=\"postgres\").sql()\\n']),\n    doc_examples('sqlglot.expressions.dml', ['Delete().delete(\"tbl\").sql()\\n']),\n    doc_examples('sqlglot.expressions.dml', ['Delete().delete(\"tbl\").where(\"x = \\'a\\' OR x < \\'b\\'\").sql()\\n']),\n    doc_examples('sqlglot.expressions.dml', ['import sqlglot\\n', 'sqlglot.parse_one(\"INSERT INTO t SELECT x FROM cte\").with_(\"cte\", as_=\"SELECT * FROM tbl\").sql()\\n']),\n    doc_examples('sqlglot.expressions.dml', ['Update().table(\"my_table\").set_(\"x = 1\").from_(\"baz\").sql()\\n']),\n    doc_examples('sqlglot.expressions.dml', ['Update().table(\"my_table\").set_(\"x = 1\").sql()\\n']),\n    doc_examples('sqlglot.expressions.dml', ['Update().table(\"my_table\").set_(\"x = 1\").sql()\\n']),\n    doc_examples('sqlglot.expressions.dml', ['Update().table(\"tbl\").set_(\"x = 1\").where(\"x = \\'a\\' OR x < \\'b\\'\").sql()\\n']),\n    doc_examples('sqlglot.expressions.dml', ['Update().table(\"my_table\").set_(\"x = 1\").from_(\"baz\").with_(\"baz\", \"SELECT id FROM foo\").sql()\\n']),\n]\n",
+  "id": "OBS-0135"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.expressions.query', ['import sqlglot\\n', 'sqlglot.parse_one(\"JOIN x\", into=Join).on(\"y = 1\").sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['from sqlglot import parse_one, exp\\n', 'piv = parse_one(\"SELECT * FROM t UNPIVOT(val FOR name IN (a, b))\").find(exp.Pivot)\\n', 'list(piv.output_columns([\"a\", \"b\", \"c\"]))\\n']),\n    doc_examples('sqlglot.expressions.query', ['import sqlglot\\n', 'sqlglot.parse_one(\"SELECT * FROM foo\").except_(\"SELECT * FROM bla\").sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['import sqlglot\\n', 'sqlglot.parse_one(\"SELECT * FROM foo\").intersect(\"SELECT * FROM bla\").sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().select(\"1\").union(Select().select(\"1\")).limit(1).sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().from_(\"tbl\").select(\"x\").offset(10).sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().from_(\"tbl\").select(\"x\").order_by(\"x DESC\").sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['subquery = Select().select(\"x\").from_(\"tbl\").subquery()\\n', 'Select().select(\"x\").from_(subquery).sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['import sqlglot\\n', 'sqlglot.parse_one(\"SELECT * FROM foo\").union(\"SELECT * FROM bla\").sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().select(\"x\").from_(\"tbl\").where(\"x = \\'a\\' OR x < \\'b\\'\").sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().with_(\"tbl2\", as_=\"SELECT * FROM tbl\").select(\"x\").from_(\"tbl2\").sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().from_(\"tbl\").select(\"x\").cluster_by(\"x\").sql(dialect=\"hive\")\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().select(\"*\").from_(\"tbl\").ctas(\"x\").sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().from_(\"tbl\").select(\"x\").distinct().sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().from_(\"tbl\").select(\"x\").sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().from_(\"tbl\").select(\"x\", \"COUNT(1)\").group_by(\"x\").sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().select(\"x\", \"COUNT(y)\").from_(\"tbl\").group_by(\"x\").having(\"COUNT(y) > 3\").sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().select(\"x\").from_(\"tbl\").hint(\"BROADCAST(y)\").sql(dialect=\"spark\")\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().select(\"x\").lateral(\"OUTER explode(y) tbl2 AS z\").from_(\"tbl\").sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().select(\"x\").from_(\"tbl\").where(\"x = \\'a\\'\").lock().sql(\"mysql\")\\n', 'Select().select(\"x\").from_(\"tbl\").where(\"x = \\'a\\'\").lock(update=False).sql(\"mysql\")\\n']),\n    doc_examples('sqlglot.expressions.query', ['Select().from_(\"tbl\").select(\"x\").sort_by(\"x DESC\").sql(dialect=\"hive\")\\n']),\n    doc_examples('sqlglot.expressions.query', ['except_(\"SELECT * FROM foo\", \"SELECT * FROM bla\").sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['intersect(\"SELECT * FROM foo\", \"SELECT * FROM bla\").sql()\\n']),\n    doc_examples('sqlglot.expressions.query', ['union(\"SELECT * FROM foo\", \"SELECT * FROM bla\").sql()\\n']),\n]\n",
+  "id": "OBS-0136"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.helper', ['dict_depth(None)\\n', 'dict_depth({})\\n', 'dict_depth({\"a\": \"b\"})\\n', 'dict_depth({\"a\": {}})\\n', 'dict_depth({\"a\": {\"b\": {}}})\\n']),\n    doc_examples('sqlglot.helper', ['list(flatten([[1, 2], 3, {4}, (5, \"bla\")]))\\n', 'list(flatten([1, 2, 3]))\\n']),\n    doc_examples('sqlglot.helper', ['is_iterable([1,2])\\n', 'is_iterable(\"test\")\\n']),\n    doc_examples('sqlglot.helper', ['merge_ranges([(1, 3), (2, 6)])\\n', 'merge_ranges([(2, 4), (4, 9)])\\n']),\n    doc_examples('sqlglot.helper', ['split_num_words(\"db.table\", \".\", 3)\\n', 'split_num_words(\"db.table\", \".\", 3, fill_from_start=False)\\n', 'split_num_words(\"db.table\", \".\", 1)\\n']),\n]\n",
+  "id": "OBS-0137"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.annotate_types', ['import sqlglot\\n', 'schema = {\"y\": {\"cola\": \"SMALLINT\"}}\\n', 'sql = \"SELECT x.cola + 2.5 AS cola FROM (SELECT y.cola AS cola FROM y AS y) AS x\"\\n', 'annotated_expr = annotate_types(sqlglot.parse_one(sql), schema=schema)\\n', 'annotated_expr.expressions[0].type.this  # Get the type of \"x.cola + 2.5 AS cola\"\\n']),\n]\n",
+  "id": "OBS-0138"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.canonicalize_internal_names', ['import sqlglot\\n', 'from sqlglot.optimizer.qualify import qualify\\n', 'schema = {\"src\": {\"c1\": \"INT\", \"c2\": \"INT\"}}\\n', 'canonicalize_internal_names(qualify(sqlglot.parse_one(\"WITH t AS (SELECT c1, c2 FROM c.db.src) SELECT * FROM t\"), schema=schema)).sql()\\n']),\n]\n",
+  "id": "OBS-0139"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.eliminate_ctes', ['import sqlglot\\n', 'sql = \"WITH y AS (SELECT a FROM x) SELECT a FROM z\"\\n', 'expression = sqlglot.parse_one(sql)\\n', 'eliminate_ctes(expression).sql()\\n']),\n]\n",
+  "id": "OBS-0140"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.eliminate_joins', ['import sqlglot\\n', 'sql = \"SELECT x.a FROM x LEFT JOIN (SELECT DISTINCT y.b FROM y) AS y ON x.b = y.b\"\\n', 'expression = sqlglot.parse_one(sql)\\n', 'eliminate_joins(expression).sql()\\n']),\n]\n",
+  "id": "OBS-0141"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.eliminate_subqueries', ['import sqlglot\\n', 'expression = sqlglot.parse_one(\"SELECT a FROM (SELECT * FROM x) AS y\")\\n', 'eliminate_subqueries(expression).sql()\\n', 'expression = sqlglot.parse_one(\"SELECT a FROM (SELECT * FROM x) AS y CROSS JOIN (SELECT * FROM x) AS z\")\\n', 'eliminate_subqueries(expression).sql()\\n']),\n]\n",
+  "id": "OBS-0142"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.merge_subqueries', ['import sqlglot\\n', 'expression = sqlglot.parse_one(\"SELECT a FROM (SELECT x.a FROM x) CROSS JOIN y\")\\n', 'merge_subqueries(expression).sql()\\n', 'expression = sqlglot.parse_one(\"SELECT a FROM (SELECT x.a FROM x) CROSS JOIN y\")\\n', 'merge_subqueries(expression, leave_tables_isolated=True).sql()\\n']),\n]\n",
+  "id": "OBS-0143"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.normalize', ['import sqlglot\\n', 'expression = sqlglot.parse_one(\"(a AND b) OR (c AND d)\")\\n', 'normalization_distance(expression)\\n']),\n    doc_examples('sqlglot.optimizer.normalize', ['import sqlglot\\n', 'expression = sqlglot.parse_one(\"(x AND y) OR z\")\\n', 'normalize(expression, dnf=False).sql()\\n']),\n    doc_examples('sqlglot.optimizer.normalize', ['from sqlglot import parse_one\\n', 'normalized(parse_one(\"(a AND b) OR c OR (d AND e)\"), dnf=True)\\n', 'normalized(parse_one(\"(a OR b) AND c\"))  # Checks CNF by default\\n', 'normalized(parse_one(\"a AND (b OR c)\"), dnf=True)\\n']),\n]\n",
+  "id": "OBS-0144"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.normalize_identifiers', ['import sqlglot\\n', 'expression = sqlglot.parse_one(\\'SELECT Bar.A AS A FROM \"Foo\".Bar\\')\\n', 'normalize_identifiers(expression).sql()\\n', 'normalize_identifiers(\"foo\", dialect=\"snowflake\").sql(dialect=\"snowflake\")\\n']),\n]\n",
+  "id": "OBS-0145"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.optimize_joins', ['from sqlglot import parse_one, exp\\n', 'from sqlglot.optimizer.optimize_joins import _is_reorderable\\n', 'ast = parse_one(\"SELECT * FROM x JOIN y ON x.id = y.id JOIN z ON y.id = z.id\")\\n', '_is_reorderable(ast.find(exp.Select).args.get(\"joins\", []))\\n', 'ast = parse_one(\"SELECT * FROM x LEFT JOIN y ON x.id = y.id JOIN z ON y.id = z.id\")\\n', '_is_reorderable(ast.find(exp.Select).args.get(\"joins\", []))\\n']),\n    doc_examples('sqlglot.optimizer.optimize_joins', ['from sqlglot import parse_one\\n', 'optimize_joins(parse_one(\"SELECT * FROM x CROSS JOIN y JOIN z ON x.a = z.a AND y.a = z.a\")).sql()\\n']),\n]\n",
+  "id": "OBS-0146"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.pushdown_predicates', ['import sqlglot\\n', 'sql = \"SELECT y.a AS a FROM (SELECT x.a AS a FROM x AS x) AS y WHERE y.a = 1\"\\n', 'expression = sqlglot.parse_one(sql)\\n', 'pushdown_predicates(expression).sql()\\n']),\n]\n",
+  "id": "OBS-0147"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.pushdown_projections', ['import sqlglot\\n', 'sql = \"SELECT y.a AS a FROM (SELECT x.a AS a, x.b AS b FROM x) AS y\"\\n', 'expression = sqlglot.parse_one(sql)\\n', 'pushdown_projections(expression).sql()\\n']),\n]\n",
+  "id": "OBS-0148"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.qualify', ['import sqlglot\\n', 'schema = {\"tbl\": {\"col\": \"INT\"}}\\n', 'expression = sqlglot.parse_one(\"SELECT col FROM tbl\")\\n', 'qualify(expression, schema=schema).sql()\\n']),\n]\n",
+  "id": "OBS-0149"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.qualify_columns', ['import sqlglot\\n', 'schema = {\"tbl\": {\"col\": \"INT\"}}\\n', 'expression = sqlglot.parse_one(\"SELECT col FROM tbl\")\\n', 'qualify_columns(expression, schema).sql()\\n']),\n]\n",
+  "id": "OBS-0150"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.qualify_tables', ['import sqlglot\\n', 'expression = sqlglot.parse_one(\"SELECT 1 FROM tbl\")\\n', 'qualify_tables(expression, db=\"db\").sql()\\n', 'expression = sqlglot.parse_one(\"SELECT 1 FROM (t1 JOIN t2) AS t\")\\n', 'qualify_tables(expression).sql()\\n']),\n]\n",
+  "id": "OBS-0151"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.scope', ['import sqlglot\\n', 'expression = sqlglot.parse_one(\"SELECT a FROM (SELECT a FROM x) AS y\")\\n', 'scopes = traverse_scope(expression)\\n', 'scopes[0].expression.sql(), list(scopes[0].sources)\\n', 'scopes[1].expression.sql(), list(scopes[1].sources)\\n']),\n]\n",
+  "id": "OBS-0152"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.simplify', ['from sqlglot import parse_one\\n', 'Simplifier().simplify_startswith(parse_one(\"STARTSWITH(\\'foo\\', \\'f\\')\")).sql()\\n']),\n    doc_examples('sqlglot.optimizer.simplify', ['import sqlglot\\n', 'expression = sqlglot.parse_one(\"TRUE AND TRUE\")\\n', 'simplify(expression).sql()\\n']),\n]\n",
+  "id": "OBS-0153"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.optimizer.unnest_subqueries', ['import sqlglot\\n', 'expression = sqlglot.parse_one(\"SELECT * FROM x AS x WHERE (SELECT y.a AS a FROM y AS y WHERE x.a = y.a) = 1 \")\\n', 'unnest_subqueries(expression).sql()\\n']),\n]\n",
+  "id": "OBS-0154"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.schema', ['nested_set({}, [\"top_key\", \"second_key\"], \"value\")\\n', 'nested_set({\"top_key\": {\"third_key\": \"third_value\"}}, [\"top_key\", \"second_key\"], \"value\")\\n']),\n]\n",
+  "id": "OBS-0155"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.time', ['format_time(\"%Y\", {\"%Y\": \"YYYY\"})\\n']),\n]\n",
+  "id": "OBS-0156"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.transforms', ['from sqlglot import parse_one\\n', 'expr = parse_one(\"SELECT * FROM tbl PIVOT (SUM(tbl.sales) FOR tbl.quarter IN (\\'Q1\\', \\'Q2\\'))\")\\n', 'print(unqualify_pivot_fields(expr).sql(dialect=\"spark\"))\\n']),\n]\n",
+  "id": "OBS-0157"
+ },
+ {
+  "code": "result = [\n    doc_examples('sqlglot.trie', ['in_trie(new_trie([\"cat\"]), \"bob\")\\n', 'in_trie(new_trie([\"cat\"]), \"ca\")\\n', 'in_trie(new_trie([\"cat\"]), \"cat\")\\n']),\n    doc_examples('sqlglot.trie', ['new_trie([\"bla\", \"foo\", \"blab\"])\\n']),\n]\n",
+  "id": "OBS-0158"
+ },
+ {
+  "code": "result = [\n    page_blocks(['import sqlglot\\nsqlglot.transpile(\"SELECT EPOCH_MS(1618088028295)\", read=\"duckdb\", write=\"hive\")[0]\\n']),\n    page_blocks(['import sqlglot\\nsqlglot.transpile(\"SELECT EPOCH_MS(1618088028295)\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT STRFTIME(x, \\'%y-%-m-%S\\')\", read=\"duckdb\", write=\"hive\")[0]\\n']),\n    page_blocks(['import sqlglot\\nsqlglot.transpile(\"SELECT EPOCH_MS(1618088028295)\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT STRFTIME(x, \\'%y-%-m-%S\\')\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\n\\n# Spark SQL requires backticks (`) for delimited identifiers and uses `FLOAT` over `REAL`\\nsql = \"\"\"WITH baz AS (SELECT a, c FROM foo WHERE a = 1) SELECT f.a, b.b, baz.c, CAST(\"b\".\"a\" AS REAL) d FROM foo f JOIN bar b ON f.a = b.a LEFT JOIN baz ON f.a = baz.a\"\"\"\\n\\n# Translates the query into Spark SQL, formats it, and delimits all of its identifiers\\nprint(sqlglot.transpile(sql, write=\"spark\", identify=True, pretty=True)[0])\\n']),\n    page_blocks(['import sqlglot\\nsqlglot.transpile(\"SELECT EPOCH_MS(1618088028295)\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT STRFTIME(x, \\'%y-%-m-%S\\')\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\n\\n# Spark SQL requires backticks (`) for delimited identifiers and uses `FLOAT` over `REAL`\\nsql = \"\"\"WITH baz AS (SELECT a, c FROM foo WHERE a = 1) SELECT f.a, b.b, baz.c, CAST(\"b\".\"a\" AS REAL) d FROM foo f JOIN bar b ON f.a = b.a LEFT JOIN baz ON f.a = baz.a\"\"\"\\n\\n# Translates the query into Spark SQL, formats it, and delimits all of its identifiers\\nprint(sqlglot.transpile(sql, write=\"spark\", identify=True, pretty=True)[0])\\n', 'sql = \"\"\"\\n/* multi\\n   line\\n   comment\\n*/\\nSELECT\\n  tbl.cola /* comment 1 */ + tbl.colb /* comment 2 */,\\n  CAST(x AS SIGNED), # comment 3\\n  y               -- comment 4\\nFROM\\n  bar /* comment 5 */,\\n  tbl #          comment 6\\n\"\"\"\\n\\n# Note: MySQL-specific comments (`#`) are converted into standard syntax\\nprint(sqlglot.transpile(sql, read=\\'mysql\\', pretty=True)[0])\\n']),\n    page_blocks(['import sqlglot\\nsqlglot.transpile(\"SELECT EPOCH_MS(1618088028295)\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT STRFTIME(x, \\'%y-%-m-%S\\')\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\n\\n# Spark SQL requires backticks (`) for delimited identifiers and uses `FLOAT` over `REAL`\\nsql = \"\"\"WITH baz AS (SELECT a, c FROM foo WHERE a = 1) SELECT f.a, b.b, baz.c, CAST(\"b\".\"a\" AS REAL) d FROM foo f JOIN bar b ON f.a = b.a LEFT JOIN baz ON f.a = baz.a\"\"\"\\n\\n# Translates the query into Spark SQL, formats it, and delimits all of its identifiers\\nprint(sqlglot.transpile(sql, write=\"spark\", identify=True, pretty=True)[0])\\n', 'sql = \"\"\"\\n/* multi\\n   line\\n   comment\\n*/\\nSELECT\\n  tbl.cola /* comment 1 */ + tbl.colb /* comment 2 */,\\n  CAST(x AS SIGNED), # comment 3\\n  y               -- comment 4\\nFROM\\n  bar /* comment 5 */,\\n  tbl #          comment 6\\n\"\"\"\\n\\n# Note: MySQL-specific comments (`#`) are converted into standard syntax\\nprint(sqlglot.transpile(sql, read=\\'mysql\\', pretty=True)[0])\\n', 'from sqlglot import parse_one, exp\\n\\n# print all column references (a and b)\\nfor column in parse_one(\"SELECT a, b + 1 AS c FROM d\").find_all(exp.Column):\\n    print(column.alias_or_name)\\n\\n# find all projections in select statements (a and c)\\nfor select in parse_one(\"SELECT a, b + 1 AS c FROM d\").find_all(exp.Select):\\n    for projection in select.expressions:\\n        print(projection.alias_or_name)\\n\\n# find all tables (x, y, z)\\nfor table in parse_one(\"SELECT * FROM x JOIN y JOIN z\").find_all(exp.Table):\\n    print(table.name)\\n']),\n    page_blocks(['import sqlglot\\nsqlglot.transpile(\"SELECT EPOCH_MS(1618088028295)\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT STRFTIME(x, \\'%y-%-m-%S\\')\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\n\\n# Spark SQL requires backticks (`) for delimited identifiers and uses `FLOAT` over `REAL`\\nsql = \"\"\"WITH baz AS (SELECT a, c FROM foo WHERE a = 1) SELECT f.a, b.b, baz.c, CAST(\"b\".\"a\" AS REAL) d FROM foo f JOIN bar b ON f.a = b.a LEFT JOIN baz ON f.a = baz.a\"\"\"\\n\\n# Translates the query into Spark SQL, formats it, and delimits all of its identifiers\\nprint(sqlglot.transpile(sql, write=\"spark\", identify=True, pretty=True)[0])\\n', 'sql = \"\"\"\\n/* multi\\n   line\\n   comment\\n*/\\nSELECT\\n  tbl.cola /* comment 1 */ + tbl.colb /* comment 2 */,\\n  CAST(x AS SIGNED), # comment 3\\n  y               -- comment 4\\nFROM\\n  bar /* comment 5 */,\\n  tbl #          comment 6\\n\"\"\"\\n\\n# Note: MySQL-specific comments (`#`) are converted into standard syntax\\nprint(sqlglot.transpile(sql, read=\\'mysql\\', pretty=True)[0])\\n', 'from sqlglot import parse_one, exp\\n\\n# print all column references (a and b)\\nfor column in parse_one(\"SELECT a, b + 1 AS c FROM d\").find_all(exp.Column):\\n    print(column.alias_or_name)\\n\\n# find all projections in select statements (a and c)\\nfor select in parse_one(\"SELECT a, b + 1 AS c FROM d\").find_all(exp.Select):\\n    for projection in select.expressions:\\n        print(projection.alias_or_name)\\n\\n# find all tables (x, y, z)\\nfor table in parse_one(\"SELECT * FROM x JOIN y JOIN z\").find_all(exp.Table):\\n    print(table.name)\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT foo FROM (SELECT baz FROM t\")\\n', 'import sqlglot.errors\\ntry:\\n    sqlglot.transpile(\"SELECT foo FROM (SELECT baz FROM t\")\\nexcept sqlglot.errors.ParseError as e:\\n    print(e.errors)\\n']),\n    page_blocks(['import sqlglot\\nsqlglot.transpile(\"SELECT EPOCH_MS(1618088028295)\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT STRFTIME(x, \\'%y-%-m-%S\\')\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\n\\n# Spark SQL requires backticks (`) for delimited identifiers and uses `FLOAT` over `REAL`\\nsql = \"\"\"WITH baz AS (SELECT a, c FROM foo WHERE a = 1) SELECT f.a, b.b, baz.c, CAST(\"b\".\"a\" AS REAL) d FROM foo f JOIN bar b ON f.a = b.a LEFT JOIN baz ON f.a = baz.a\"\"\"\\n\\n# Translates the query into Spark SQL, formats it, and delimits all of its identifiers\\nprint(sqlglot.transpile(sql, write=\"spark\", identify=True, pretty=True)[0])\\n', 'sql = \"\"\"\\n/* multi\\n   line\\n   comment\\n*/\\nSELECT\\n  tbl.cola /* comment 1 */ + tbl.colb /* comment 2 */,\\n  CAST(x AS SIGNED), # comment 3\\n  y               -- comment 4\\nFROM\\n  bar /* comment 5 */,\\n  tbl #          comment 6\\n\"\"\"\\n\\n# Note: MySQL-specific comments (`#`) are converted into standard syntax\\nprint(sqlglot.transpile(sql, read=\\'mysql\\', pretty=True)[0])\\n', 'from sqlglot import parse_one, exp\\n\\n# print all column references (a and b)\\nfor column in parse_one(\"SELECT a, b + 1 AS c FROM d\").find_all(exp.Column):\\n    print(column.alias_or_name)\\n\\n# find all projections in select statements (a and c)\\nfor select in parse_one(\"SELECT a, b + 1 AS c FROM d\").find_all(exp.Select):\\n    for projection in select.expressions:\\n        print(projection.alias_or_name)\\n\\n# find all tables (x, y, z)\\nfor table in parse_one(\"SELECT * FROM x JOIN y JOIN z\").find_all(exp.Table):\\n    print(table.name)\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT foo FROM (SELECT baz FROM t\")\\n', 'import sqlglot.errors\\ntry:\\n    sqlglot.transpile(\"SELECT foo FROM (SELECT baz FROM t\")\\nexcept sqlglot.errors.ParseError as e:\\n    print(e.errors)\\n', \"[{\\n  'description': 'Expecting )',\\n  'line': 1,\\n  'col': 34,\\n  'start_context': 'SELECT foo FROM (SELECT baz FROM ',\\n  'highlight': 't',\\n  'end_context': '',\\n  'into_expression': None\\n}]\\n\"]),\n    page_blocks(['import sqlglot\\nsqlglot.transpile(\"SELECT EPOCH_MS(1618088028295)\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT STRFTIME(x, \\'%y-%-m-%S\\')\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\n\\n# Spark SQL requires backticks (`) for delimited identifiers and uses `FLOAT` over `REAL`\\nsql = \"\"\"WITH baz AS (SELECT a, c FROM foo WHERE a = 1) SELECT f.a, b.b, baz.c, CAST(\"b\".\"a\" AS REAL) d FROM foo f JOIN bar b ON f.a = b.a LEFT JOIN baz ON f.a = baz.a\"\"\"\\n\\n# Translates the query into Spark SQL, formats it, and delimits all of its identifiers\\nprint(sqlglot.transpile(sql, write=\"spark\", identify=True, pretty=True)[0])\\n', 'sql = \"\"\"\\n/* multi\\n   line\\n   comment\\n*/\\nSELECT\\n  tbl.cola /* comment 1 */ + tbl.colb /* comment 2 */,\\n  CAST(x AS SIGNED), # comment 3\\n  y               -- comment 4\\nFROM\\n  bar /* comment 5 */,\\n  tbl #          comment 6\\n\"\"\"\\n\\n# Note: MySQL-specific comments (`#`) are converted into standard syntax\\nprint(sqlglot.transpile(sql, read=\\'mysql\\', pretty=True)[0])\\n', 'from sqlglot import parse_one, exp\\n\\n# print all column references (a and b)\\nfor column in parse_one(\"SELECT a, b + 1 AS c FROM d\").find_all(exp.Column):\\n    print(column.alias_or_name)\\n\\n# find all projections in select statements (a and c)\\nfor select in parse_one(\"SELECT a, b + 1 AS c FROM d\").find_all(exp.Select):\\n    for projection in select.expressions:\\n        print(projection.alias_or_name)\\n\\n# find all tables (x, y, z)\\nfor table in parse_one(\"SELECT * FROM x JOIN y JOIN z\").find_all(exp.Table):\\n    print(table.name)\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT foo FROM (SELECT baz FROM t\")\\n', 'import sqlglot.errors\\ntry:\\n    sqlglot.transpile(\"SELECT foo FROM (SELECT baz FROM t\")\\nexcept sqlglot.errors.ParseError as e:\\n    print(e.errors)\\n', \"[{\\n  'description': 'Expecting )',\\n  'line': 1,\\n  'col': 34,\\n  'start_context': 'SELECT foo FROM (SELECT baz FROM ',\\n  'highlight': 't',\\n  'end_context': '',\\n  'into_expression': None\\n}]\\n\", 'import sqlglot\\nsqlglot.transpile(\"SELECT APPROX_DISTINCT(a, 0.1) FROM foo\", read=\"presto\", write=\"hive\")\\n']),\n    page_blocks(['import sqlglot\\nsqlglot.transpile(\"SELECT EPOCH_MS(1618088028295)\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT STRFTIME(x, \\'%y-%-m-%S\\')\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\n\\n# Spark SQL requires backticks (`) for delimited identifiers and uses `FLOAT` over `REAL`\\nsql = \"\"\"WITH baz AS (SELECT a, c FROM foo WHERE a = 1) SELECT f.a, b.b, baz.c, CAST(\"b\".\"a\" AS REAL) d FROM foo f JOIN bar b ON f.a = b.a LEFT JOIN baz ON f.a = baz.a\"\"\"\\n\\n# Translates the query into Spark SQL, formats it, and delimits all of its identifiers\\nprint(sqlglot.transpile(sql, write=\"spark\", identify=True, pretty=True)[0])\\n', 'sql = \"\"\"\\n/* multi\\n   line\\n   comment\\n*/\\nSELECT\\n  tbl.cola /* comment 1 */ + tbl.colb /* comment 2 */,\\n  CAST(x AS SIGNED), # comment 3\\n  y               -- comment 4\\nFROM\\n  bar /* comment 5 */,\\n  tbl #          comment 6\\n\"\"\"\\n\\n# Note: MySQL-specific comments (`#`) are converted into standard syntax\\nprint(sqlglot.transpile(sql, read=\\'mysql\\', pretty=True)[0])\\n', 'from sqlglot import parse_one, exp\\n\\n# print all column references (a and b)\\nfor column in parse_one(\"SELECT a, b + 1 AS c FROM d\").find_all(exp.Column):\\n    print(column.alias_or_name)\\n\\n# find all projections in select statements (a and c)\\nfor select in parse_one(\"SELECT a, b + 1 AS c FROM d\").find_all(exp.Select):\\n    for projection in select.expressions:\\n        print(projection.alias_or_name)\\n\\n# find all tables (x, y, z)\\nfor table in parse_one(\"SELECT * FROM x JOIN y JOIN z\").find_all(exp.Table):\\n    print(table.name)\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT foo FROM (SELECT baz FROM t\")\\n', 'import sqlglot.errors\\ntry:\\n    sqlglot.transpile(\"SELECT foo FROM (SELECT baz FROM t\")\\nexcept sqlglot.errors.ParseError as e:\\n    print(e.errors)\\n', \"[{\\n  'description': 'Expecting )',\\n  'line': 1,\\n  'col': 34,\\n  'start_context': 'SELECT foo FROM (SELECT baz FROM ',\\n  'highlight': 't',\\n  'end_context': '',\\n  'into_expression': None\\n}]\\n\", 'import sqlglot\\nsqlglot.transpile(\"SELECT APPROX_DISTINCT(a, 0.1) FROM foo\", read=\"presto\", write=\"hive\")\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT APPROX_DISTINCT(a, 0.1) FROM foo\", read=\"presto\", write=\"hive\", unsupported_level=sqlglot.ErrorLevel.RAISE)\\n', 'from sqlglot import select, condition\\n\\nwhere = condition(\"x=1\").and_(\"y=1\")\\nselect(\"*\").from_(\"y\").where(where).sql()\\n']),\n    page_blocks(['import sqlglot\\nsqlglot.transpile(\"SELECT EPOCH_MS(1618088028295)\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT STRFTIME(x, \\'%y-%-m-%S\\')\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\n\\n# Spark SQL requires backticks (`) for delimited identifiers and uses `FLOAT` over `REAL`\\nsql = \"\"\"WITH baz AS (SELECT a, c FROM foo WHERE a = 1) SELECT f.a, b.b, baz.c, CAST(\"b\".\"a\" AS REAL) d FROM foo f JOIN bar b ON f.a = b.a LEFT JOIN baz ON f.a = baz.a\"\"\"\\n\\n# Translates the query into Spark SQL, formats it, and delimits all of its identifiers\\nprint(sqlglot.transpile(sql, write=\"spark\", identify=True, pretty=True)[0])\\n', 'sql = \"\"\"\\n/* multi\\n   line\\n   comment\\n*/\\nSELECT\\n  tbl.cola /* comment 1 */ + tbl.colb /* comment 2 */,\\n  CAST(x AS SIGNED), # comment 3\\n  y               -- comment 4\\nFROM\\n  bar /* comment 5 */,\\n  tbl #          comment 6\\n\"\"\"\\n\\n# Note: MySQL-specific comments (`#`) are converted into standard syntax\\nprint(sqlglot.transpile(sql, read=\\'mysql\\', pretty=True)[0])\\n', 'from sqlglot import parse_one, exp\\n\\n# print all column references (a and b)\\nfor column in parse_one(\"SELECT a, b + 1 AS c FROM d\").find_all(exp.Column):\\n    print(column.alias_or_name)\\n\\n# find all projections in select statements (a and c)\\nfor select in parse_one(\"SELECT a, b + 1 AS c FROM d\").find_all(exp.Select):\\n    for projection in select.expressions:\\n        print(projection.alias_or_name)\\n\\n# find all tables (x, y, z)\\nfor table in parse_one(\"SELECT * FROM x JOIN y JOIN z\").find_all(exp.Table):\\n    print(table.name)\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT foo FROM (SELECT baz FROM t\")\\n', 'import sqlglot.errors\\ntry:\\n    sqlglot.transpile(\"SELECT foo FROM (SELECT baz FROM t\")\\nexcept sqlglot.errors.ParseError as e:\\n    print(e.errors)\\n', \"[{\\n  'description': 'Expecting )',\\n  'line': 1,\\n  'col': 34,\\n  'start_context': 'SELECT foo FROM (SELECT baz FROM ',\\n  'highlight': 't',\\n  'end_context': '',\\n  'into_expression': None\\n}]\\n\", 'import sqlglot\\nsqlglot.transpile(\"SELECT APPROX_DISTINCT(a, 0.1) FROM foo\", read=\"presto\", write=\"hive\")\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT APPROX_DISTINCT(a, 0.1) FROM foo\", read=\"presto\", write=\"hive\", unsupported_level=sqlglot.ErrorLevel.RAISE)\\n', 'from sqlglot import select, condition\\n\\nwhere = condition(\"x=1\").and_(\"y=1\")\\nselect(\"*\").from_(\"y\").where(where).sql()\\n', 'from sqlglot import parse_one\\nparse_one(\"SELECT x FROM y\").from_(\"z\").sql()\\n']),\n    page_blocks(['import sqlglot\\nsqlglot.transpile(\"SELECT EPOCH_MS(1618088028295)\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT STRFTIME(x, \\'%y-%-m-%S\\')\", read=\"duckdb\", write=\"hive\")[0]\\n', 'import sqlglot\\n\\n# Spark SQL requires backticks (`) for delimited identifiers and uses `FLOAT` over `REAL`\\nsql = \"\"\"WITH baz AS (SELECT a, c FROM foo WHERE a = 1) SELECT f.a, b.b, baz.c, CAST(\"b\".\"a\" AS REAL) d FROM foo f JOIN bar b ON f.a = b.a LEFT JOIN baz ON f.a = baz.a\"\"\"\\n\\n# Translates the query into Spark SQL, formats it, and delimits all of its identifiers\\nprint(sqlglot.transpile(sql, write=\"spark\", identify=True, pretty=True)[0])\\n', 'sql = \"\"\"\\n/* multi\\n   line\\n   comment\\n*/\\nSELECT\\n  tbl.cola /* comment 1 */ + tbl.colb /* comment 2 */,\\n  CAST(x AS SIGNED), # comment 3\\n  y               -- comment 4\\nFROM\\n  bar /* comment 5 */,\\n  tbl #          comment 6\\n\"\"\"\\n\\n# Note: MySQL-specific comments (`#`) are converted into standard syntax\\nprint(sqlglot.transpile(sql, read=\\'mysql\\', pretty=True)[0])\\n', 'from sqlglot import parse_one, exp\\n\\n# print all column references (a and b)\\nfor column in parse_one(\"SELECT a, b + 1 AS c FROM d\").find_all(exp.Column):\\n    print(column.alias_or_name)\\n\\n# find all projections in select statements (a and c)\\nfor select in parse_one(\"SELECT a, b + 1 AS c FROM d\").find_all(exp.Select):\\n    for projection in select.expressions:\\n        print(projection.alias_or_name)\\n\\n# find all tables (x, y, z)\\nfor table in parse_one(\"SELECT * FROM x JOIN y JOIN z\").find_all(exp.Table):\\n    print(table.name)\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT foo FROM (SELECT baz FROM t\")\\n', 'import sqlglot.errors\\ntry:\\n    sqlglot.transpile(\"SELECT foo FROM (SELECT baz FROM t\")\\nexcept sqlglot.errors.ParseError as e:\\n    print(e.errors)\\n', \"[{\\n  'description': 'Expecting )',\\n  'line': 1,\\n  'col': 34,\\n  'start_context': 'SELECT foo FROM (SELECT baz FROM ',\\n  'highlight': 't',\\n  'end_context': '',\\n  'into_expression': None\\n}]\\n\", 'import sqlglot\\nsqlglot.transpile(\"SELECT APPROX_DISTINCT(a, 0.1) FROM foo\", read=\"presto\", write=\"hive\")\\n', 'import sqlglot\\nsqlglot.transpile(\"SELECT APPROX_D

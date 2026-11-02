@@ -1,0 +1,1736 @@
+{
+ "schema": 1,
+ "modules": [
+  "network",
+  "platform",
+  "compute"
+ ],
+ "direct_modules": true,
+ "ownership": {
+  "aws_vpc.main": "network",
+  "aws_internet_gateway.gw": "network",
+  "aws_subnet.public": "network",
+  "aws_subnet.private": "network",
+  "aws_subnet.database": "network",
+  "aws_eip.nat": "network",
+  "aws_nat_gateway.nat": "network",
+  "aws_route_table.public": "network",
+  "aws_route.public_internet": "network",
+  "aws_route_table.private": "network",
+  "aws_route.private_nat": "network",
+  "aws_route_table_association.public": "network",
+  "aws_route_table_association.private": "network",
+  "aws_route_table.database": "network",
+  "aws_route_table_association.database": "network",
+  "aws_vpc_endpoint.s3": "network",
+  "aws_vpc_endpoint_route_table_association.s3": "network",
+  "aws_security_group.tfe_server": "network",
+  "aws_security_group_rule.https": "network",
+  "aws_security_group_rule.dashboard": "network",
+  "aws_security_group_rule.netdata": "network",
+  "aws_security_group_rule.postgres": "network",
+  "aws_security_group_rule.egress": "network",
+  "aws_cloudwatch_log_group.vpc_flow_logs": "network",
+  "aws_iam_role.vpc_flow_logs": "network",
+  "aws_iam_role_policy.vpc_flow_logs": "network",
+  "aws_flow_log.vpc": "network",
+  "aws_ssm_parameter.bootstrap_az": "network",
+  "aws_ssm_parameter.network_inventory": "network",
+  "aws_kms_key.tfe": "platform",
+  "aws_kms_alias.tfe": "platform",
+  "aws_s3_bucket.tfe": "platform",
+  "aws_s3_bucket_versioning.tfe": "platform",
+  "aws_s3_bucket_server_side_encryption_configuration.tfe": "platform",
+  "aws_s3_bucket_public_access_block.tfe": "platform",
+  "aws_s3_bucket_lifecycle_configuration.software": "platform",
+  "aws_s3_object.artifact": "platform",
+  "aws_ssm_parameter.artifact_checksum": "platform",
+  "aws_ssm_parameter.artifact_destination": "platform",
+  "aws_ssm_parameter.artifact_metadata": "platform",
+  "aws_sqs_queue.artifact_intake": "platform",
+  "aws_cloudwatch_log_group.artifact": "platform",
+  "aws_cloudwatch_metric_alarm.artifact_backlog": "platform",
+  "aws_ssm_parameter.artifact_manifest": "platform",
+  "aws_ssm_parameter.artifact_registry": "platform",
+  "aws_ssm_parameter.preferred_artifact": "platform",
+  "aws_dynamodb_table.artifact_audit": "platform",
+  "aws_db_subnet_group.tfe": "platform",
+  "aws_db_parameter_group.tfe": "platform",
+  "aws_db_instance.tfe": "platform",
+  "aws_key_pair.tfe": "compute",
+  "aws_lb.tfe": "compute",
+  "aws_lb_target_group.tfe": "compute",
+  "aws_lb_listener.tfe": "compute",
+  "aws_cloudwatch_log_group.tfe": "compute",
+  "aws_iam_role.tfe": "compute",
+  "aws_iam_instance_profile.tfe": "compute",
+  "aws_iam_role_policy.tfe_artifacts": "compute",
+  "aws_iam_role_policy_attachment.ssm": "compute",
+  "aws_launch_template.tfe": "compute",
+  "aws_autoscaling_group.tfe": "compute",
+  "aws_cloudwatch_metric_alarm.tfe_capacity": "compute"
+ },
+ "no_count": true,
+ "key_dimensions": {
+  "az": {
+   "variable": "availability_zones",
+   "keys": {
+    "aws_subnet.public[0]": "us-east-1c",
+    "aws_subnet.public[1]": "us-east-1a",
+    "aws_subnet.public[2]": "us-east-1b",
+    "aws_subnet.private[0]": "us-east-1c",
+    "aws_subnet.private[1]": "us-east-1a",
+    "aws_subnet.private[2]": "us-east-1b",
+    "aws_subnet.database[0]": "us-east-1c",
+    "aws_subnet.database[1]": "us-east-1a",
+    "aws_subnet.database[2]": "us-east-1b",
+    "aws_eip.nat[0]": "us-east-1c",
+    "aws_eip.nat[1]": "us-east-1a",
+    "aws_eip.nat[2]": "us-east-1b",
+    "aws_nat_gateway.nat[0]": "us-east-1c",
+    "aws_nat_gateway.nat[1]": "us-east-1a",
+    "aws_nat_gateway.nat[2]": "us-east-1b",
+    "aws_route_table.private[0]": "us-east-1c",
+    "aws_route_table.private[1]": "us-east-1a",
+    "aws_route_table.private[2]": "us-east-1b",
+    "aws_route.private_nat[0]": "us-east-1c",
+    "aws_route.private_nat[1]": "us-east-1a",
+    "aws_route.private_nat[2]": "us-east-1b",
+    "aws_route_table_association.public[0]": "us-east-1a",
+    "aws_route_table_association.public[1]": "us-east-1b",
+    "aws_route_table_association.public[2]": "us-east-1c",
+    "aws_route_table_association.private[0]": "us-east-1a",
+    "aws_route_table_association.private[1]": "us-east-1b",
+    "aws_route_table_association.private[2]": "us-east-1c",
+    "aws_route_table_association.database[0]": "us-east-1a",
+    "aws_route_table_association.database[1]": "us-east-1b",
+    "aws_route_table_association.database[2]": "us-east-1c",
+    "aws_vpc_endpoint_route_table_association.s3[0]": "us-east-1c",
+    "aws_vpc_endpoint_route_table_association.s3[1]": "us-east-1a",
+    "aws_vpc_endpoint_route_table_association.s3[2]": "us-east-1b",
+    "aws_vpc_endpoint_route_table_association.s3[3]": null
+   },
+   "add": {
+    "key": "us-east-1f",
+    "value": {
+     "public_cidr": "10.72.7.0/24",
+     "private_cidr": "10.72.80.0/20",
+     "database_cidr": "10.72.207.0/24",
+     "bootstrap_priority": 40
+    },
+    "created_values": [
+     {
+      "base": "aws_subnet.public",
+      "attr": "availability_zone",
+      "value": "us-east-1f"
+     },
+     {
+      "base": "aws_subnet.private",
+      "attr": "availability_zone",
+      "value": "us-east-1f"
+     },
+     {
+      "base": "aws_subnet.database",
+      "attr": "availability_zone",
+      "value": "us-east-1f"
+     },
+     {
+      "base": "aws_subnet.public",
+      "attr": "cidr_block",
+      "value": "10.72.7.0/24"
+     },
+     {
+      "base": "aws_subnet.private",
+      "attr": "cidr_block",
+      "value": "10.72.80.0/20"
+     },
+     {
+      "base": "aws_subnet.database",
+      "attr": "cidr_block",
+      "value": "10.72.207.0/24"
+     },
+     {
+      "base": "aws_subnet.public",
+      "attr": "tags",
+      "value": {
+       "Project": "tfeairgap",
+       "Environment": "prod",
+       "Owner": "tfe-platform",
+       "CostCenter": "cc-7240",
+       "ManagedBy": "terraform",
+       "Name": "tfeairgap-prod-public-us-east-1f",
+       "Tier": "public",
+       "BootstrapPriority": "40"
+      }
+     },
+     {
+      "base": "aws_subnet.public",
+      "attr": "tags_all",
+      "value": {
+       "Project": "tfeairgap",
+       "Environment": "prod",
+       "Owner": "tfe-platform",
+       "CostCenter": "cc-7240",
+       "ManagedBy": "terraform",
+       "Name": "tfeairgap-prod-public-us-east-1f",
+       "Tier": "public",
+       "BootstrapPriority": "40"
+      }
+     }
+    ]
+   },
+   "remove": "us-east-1c",
+   "allowed_updates": {
+    "aws_lb.tfe": [
+     "subnet_mapping",
+     "subnets"
+    ],
+    "aws_autoscaling_group.tfe": [
+     "availability_zones",
+     "vpc_zone_identifier"
+    ],
+    "aws_db_subnet_group.tfe": [
+     "subnet_ids",
+     "supported_network_types"
+    ],
+    "aws_ssm_parameter.bootstrap_az": [
+     "value"
+    ],
+    "aws_ssm_parameter.network_inventory": [
+     "value"
+    ]
+   },
+   "required_updates": {
+    "aws_lb.tfe": [
+     "subnets"
+    ],
+    "aws_autoscaling_group.tfe": [
+     "vpc_zone_identifier"
+    ],
+    "aws_db_subnet_group.tfe": [
+     "subnet_ids"
+    ],
+    "aws_ssm_parameter.network_inventory": [
+     "value"
+    ]
+   }
+  },
+  "artifact": {
+   "variable": "artifacts",
+   "keys": {
+    "aws_s3_object.artifact[0]": "license",
+    "aws_s3_object.artifact[1]": "bootstrap",
+    "aws_s3_object.artifact[2]": "airgap",
+    "aws_ssm_parameter.artifact_checksum[0]": "license",
+    "aws_ssm_parameter.artifact_checksum[1]": "bootstrap",
+    "aws_ssm_parameter.artifact_checksum[2]": "airgap",
+    "aws_ssm_parameter.artifact_destination[0]": "license",
+    "aws_ssm_parameter.artifact_destination[1]": "bootstrap",
+    "aws_ssm_parameter.artifact_destination[2]": "airgap",
+    "aws_ssm_parameter.artifact_metadata[0]": "license",
+    "aws_ssm_parameter.artifact_metadata[1]": "bootstrap",
+    "aws_ssm_parameter.artifact_metadata[2]": "airgap",
+    "aws_sqs_queue.artifact_intake[0]": "license",
+    "aws_sqs_queue.artifact_intake[1]": "bootstrap",
+    "aws_sqs_queue.artifact_intake[2]": "airgap",
+    "aws_cloudwatch_log_group.artifact[0]": "license",
+    "aws_cloudwatch_log_group.artifact[1]": "bootstrap",
+    "aws_cloudwatch_log_group.artifact[2]": "airgap",
+    "aws_cloudwatch_metric_alarm.artifact_backlog[0]": "license",
+    "aws_cloudwatch_metric_alarm.artifact_backlog[1]": "bootstrap",
+    "aws_cloudwatch_metric_alarm.artifact_backlog[2]": "airgap"
+   },
+   "add": {
+    "key": "voucher",
+    "value": {
+     "object_key": "bundles/entitlement.pem",
+     "checksum": "sha256:a73c-entitlement",
+     "destination": "/opt/tfe/entitlement.pem",
+     "media_type": "application/pkcs8",
+     "queue_delay_seconds": 45,
+     "backlog_threshold": 7,
+     "install_priority": 40
+    },
+    "created_values": [
+     {
+      "base": "aws_s3_object.artifact",
+      "attr": "key",
+      "value": "bundles/entitlement.pem"
+     },
+     {
+      "base": "aws_s3_object.artifact",
+      "attr": "content",
+      "value": "sha256:a73c-entitlement"
+     },
+     {
+      "base": "aws_s3_object.artifact",
+      "attr": "content_type",
+      "value": "application/pkcs8"
+     },
+     {
+      "base": "aws_ssm_parameter.artifact_checksum",
+      "attr": "value",
+      "value": "sha256:a73c-entitlement"
+     },
+     {
+      "base": "aws_ssm_parameter.artifact_destination",
+      "attr": "value",
+      "value": "/opt/tfe/entitlement.pem"
+     },
+     {
+      "base": "aws_ssm_parameter.artifact_metadata",
+      "attr": "value",
+      "value": "{\"backlog_threshold\":7,\"checksum\":\"sha256:a73c-entitlement\",\"deployment\":\"tfeairgap-prod\",\"destination\":\"/opt/tfe/entitlement.pem\",\"install_priority\":40,\"kind\":\"voucher\",\"media_type\":\"application/pkcs8\",\"object_key\":\"bundles/entitlement.pem\",\"queue_delay_seconds\":45}"
+     },
+     {
+      "base": "aws_sqs_queue.artifact_intake",
+      "attr": "delay_seconds",
+      "value": 45
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.artifact_backlog",
+      "attr": "threshold",
+      "value": 7
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.artifact_backlog",
+      "attr": "dimensions",
+      "value": {
+       "QueueName": "tfeairgap-prod-voucher-intake",
+       "Deployment": "tfeairgap-prod-voucher"
+      }
+     }
+    ]
+   },
+   "remove": "license",
+   "allowed_updates": {
+    "aws_ssm_parameter.artifact_manifest": [
+     "value"
+    ],
+    "aws_ssm_parameter.artifact_registry": [
+     "value"
+    ],
+    "aws_ssm_parameter.preferred_artifact": [
+     "value"
+    ],
+    "aws_iam_role_policy.tfe_artifacts": [
+     "policy"
+    ]
+   },
+   "required_updates": {
+    "aws_ssm_parameter.artifact_manifest": [
+     "value"
+    ],
+    "aws_ssm_parameter.artifact_registry": [
+     "value"
+    ],
+    "aws_iam_role_policy.tfe_artifacts": [
+     "policy"
+    ]
+   }
+  }
+ },
+ "variables": {
+  "project": {
+   "default": "tfeairgap",
+   "type": "string"
+  },
+  "environment": {
+   "default": "prod",
+   "type": "string"
+  },
+  "vpc_cidr": {
+   "default": "10.72.0.0/16",
+   "type": "string"
+  },
+  "availability_zones": {
+   "default": {
+    "us-east-1a": {
+     "public_cidr": "10.72.1.0/24",
+     "private_cidr": "10.72.32.0/20",
+     "database_cidr": "10.72.201.0/24",
+     "bootstrap_priority": 30
+    },
+    "us-east-1b": {
+     "public_cidr": "10.72.2.0/24",
+     "private_cidr": "10.72.48.0/20",
+     "database_cidr": "10.72.202.0/24",
+     "bootstrap_priority": 20
+    },
+    "us-east-1c": {
+     "public_cidr": "10.72.0.0/24",
+     "private_cidr": "10.72.16.0/20",
+     "database_cidr": "10.72.200.0/24",
+     "bootstrap_priority": 10
+    }
+   },
+   "type": "map(object({ public_cidr = string, private_cidr = string, database_cidr = string, bootstrap_priority = number }))"
+  },
+  "artifacts": {
+   "default": {
+    "airgap": {
+     "object_key": "packages/725.airgap",
+     "checksum": "sha256:f19e-airgap",
+     "destination": "/var/lib/tfe/725.airgap",
+     "media_type": "application/octet-stream",
+     "queue_delay_seconds": 30,
+     "backlog_threshold": 3,
+     "install_priority": 20
+    },
+    "bootstrap": {
+     "object_key": "packages/replicated.tar.gz",
+     "checksum": "sha256:4ba1-bootstrap",
+     "destination": "/var/lib/tfe/replicated.tar.gz",
+     "media_type": "application/gzip",
+     "queue_delay_seconds": 15,
+     "backlog_threshold": 10,
+     "install_priority": 30
+    },
+    "license": {
+     "object_key": "packages/license.rli",
+     "checksum": "sha256:8d7c-license",
+     "destination": "/etc/tfe/license.rli",
+     "media_type": "application/vnd.hashicorp.license",
+     "queue_delay_seconds": 0,
+     "backlog_threshold": 1,
+     "install_priority": 10
+    }
+   },
+   "type": "map(object({ object_key = string, checksum = string, destination = string, media_type = string, queue_delay_seconds = number, backlog_threshold = number, install_priority = number }))"
+  },
+  "tags": {
+   "default": {
+    "Owner": "tfe-platform",
+    "CostCenter": "cc-7240",
+    "ManagedBy": "terraform"
+   },
+   "type": "map(string)"
+  },
+  "tfe_ami_id": {
+   "default": "ami-0a12bc345de678f90",
+   "type": "string"
+  },
+  "tfe_instance_type": {
+   "default": "t3.xlarge",
+   "type": "string"
+  },
+  "root_volume_size": {
+   "default": 50,
+   "type": "number"
+  },
+  "asg_min_size": {
+   "default": 2,
+   "type": "number"
+  },
+  "asg_max_size": {
+   "default": 5,
+   "type": "number"
+  },
+  "asg_desired_capacity": {
+   "default": 2,
+   "type": "number"
+  },
+  "db_instance_class": {
+   "default": "db.t3.large",
+   "type": "string"
+  },
+  "db_allocated_storage": {
+   "default": 50,
+   "type": "number"
+  },
+  "log_retention_days": {
+   "default": 30,
+   "type": "number"
+  },
+  "queue_visibility_timeout": {
+   "default": 300,
+   "type": "number"
+  },
+  "alarm_period": {
+   "default": 300,
+   "type": "number"
+  },
+  "load_balancer_idle_timeout": {
+   "default": 60,
+   "type": "number"
+  }
+ },
+ "probes": [
+  {
+   "name": "add_az",
+   "kind": "key_add",
+   "dimension": "az",
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-19b6a1bfe61612b70",
+     "unknown": false
+    },
+    "load_balancer_dns_name": {
+     "after": "tfeairgap-prod-load-balancer-1.us-east-1.elb.amazonaws.com",
+     "unknown": false
+    },
+    "data_bucket_name": {
+     "after": "tfeairgap-prod-data-4f7c",
+     "unknown": false
+    },
+    "software_bucket_name": {
+     "after": "tfeairgap-prod-software-4f7c",
+     "unknown": false
+    },
+    "database_endpoint": {
+     "after": "tfeairgap-prod-postgres.aaaaaaaaaa.us-east-1.rds.amazonaws.com:5432",
+     "unknown": false
+    },
+    "artifact_manifest_name": {
+     "after": "/tfeairgap/prod/artifacts/manifest",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-a03b94601f941c516",
+      "us-east-1b": "subnet-329b98c54bc9ebf36",
+      "us-east-1c": "subnet-366ccdc0205cad56a"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "private_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-aa7a10e17a8881bb5",
+      "us-east-1b": "subnet-4eeb55036512de581",
+      "us-east-1c": "subnet-2537d4f223b3a3e51"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "artifact_queue_urls": {
+     "after": {
+      "airgap": "http://127.0.0.1:5000/123456789012/tfeairgap-prod-airgap-intake",
+      "bootstrap": "http://127.0.0.1:5000/123456789012/tfeairgap-prod-bootstrap-intake",
+      "license": "http://127.0.0.1:5000/123456789012/tfeairgap-prod-license-intake"
+     },
+     "unknown": false
+    },
+    "artifact_log_group_arns": {
+     "after": {
+      "airgap": "arn:aws:logs:us-east-1:123456789012:log-group:/tfeairgap/prod/artifacts/airgap",
+      "bootstrap": "arn:aws:logs:us-east-1:123456789012:log-group:/tfeairgap/prod/artifacts/bootstrap",
+      "license": "arn:aws:logs:us-east-1:123456789012:log-group:/tfeairgap/prod/artifacts/license"
+     },
+     "unknown": false
+    },
+    "database_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-ec913ab040205e5a9",
+      "us-east-1b": "subnet-b4f8766a949c231ed",
+      "us-east-1c": "subnet-1086f2c9e5ca5cb07"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "nat_gateway_ids": {
+     "after": {
+      "us-east-1a": "nat-9bcf3ea5f7d555a0e",
+      "us-east-1b": "nat-2cccf37a034ae894c",
+      "us-east-1c": "nat-d05d5d2a5660aaf3f"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "private_route_table_ids": {
+     "after": {
+      "us-east-1a": "rtb-b700f1b34bf9c9354",
+      "us-east-1b": "rtb-4cdae9306eadcdd79",
+      "us-east-1c": "rtb-00a64bdd7b7bfe5e3"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "artifact_object_arns": {
+     "after": {
+      "airgap": "arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/725.airgap",
+      "bootstrap": "arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/replicated.tar.gz",
+      "license": "arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/license.rli"
+     },
+     "unknown": false
+    },
+    "artifact_checksum_parameter_arns": {
+     "after": {
+      "airgap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/checksum",
+      "bootstrap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/checksum",
+      "license": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/license/checksum"
+     },
+     "unknown": false
+    },
+    "artifact_metadata_parameter_arns": {
+     "after": {
+      "airgap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/metadata",
+      "bootstrap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/metadata",
+      "license": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/license/metadata"
+     },
+     "unknown": false
+    },
+    "artifact_queue_arns": {
+     "after": {
+      "airgap": "arn:aws:sqs:us-east-1:123456789012:tfeairgap-prod-airgap-intake",
+      "bootstrap": "arn:aws:sqs:us-east-1:123456789012:tfeairgap-prod-bootstrap-intake",
+      "license": "arn:aws:sqs:us-east-1:123456789012:tfeairgap-prod-license-intake"
+     },
+     "unknown": false
+    },
+    "kms_key_arn": {
+     "after": "arn:aws:kms:us-east-1:123456789012:key/b6672b9e-5393-494f-8255-257d811bf8ad",
+     "unknown": false
+    },
+    "artifact_registry_name": {
+     "after": "/tfeairgap/prod/artifacts/registry",
+     "unknown": false
+    },
+    "network_inventory_name": {
+     "after": "/tfeairgap/prod/network/inventory",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_lb.tfe": {
+     "subnet_mapping": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": null,
+       "unknown": true
+      }
+     },
+     "subnets": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-0838fd738284d91f1",
+        "subnet-329b98c54bc9ebf36",
+        "subnet-366ccdc0205cad56a",
+        "subnet-a03b94601f941c516"
+       ],
+       "unknown": [
+        false,
+        false,
+        false,
+        false
+       ]
+      }
+     }
+    },
+    "aws_autoscaling_group.tfe": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ],
+      "filled": {
+       "after": [
+        "us-east-1a",
+        "us-east-1b",
+        "us-east-1c"
+       ],
+       "unknown": null
+      }
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-233b746537c3b33f5",
+        "subnet-2537d4f223b3a3e51",
+        "subnet-4eeb55036512de581",
+        "subnet-aa7a10e17a8881bb5"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_db_subnet_group.tfe": {
+     "subnet_ids": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-1086f2c9e5ca5cb07",
+        "subnet-96c895125fcf4d559",
+        "subnet-b4f8766a949c231ed",
+        "subnet-ec913ab040205e5a9"
+       ],
+       "unknown": null
+      }
+     },
+     "supported_network_types": {
+      "after": [],
+      "unknown": [],
+      "filled": {
+       "after": [],
+       "unknown": null
+      }
+     }
+    },
+    "aws_ssm_parameter.bootstrap_az": {
+     "value": {
+      "after": "us-east-1c",
+      "unknown": null,
+      "filled": {
+       "after": "us-east-1c",
+       "unknown": null
+      }
+     }
+    },
+    "aws_ssm_parameter.network_inventory": {
+     "value": {
+      "after": "{\"deployment\":\"tfeairgap-prod\",\"zones\":[{\"az\":\"us-east-1c\",\"bootstrap_priority\":10,\"database_cidr\":\"10.72.200.0/24\",\"private_cidr\":\"10.72.16.0/20\",\"public_cidr\":\"10.72.0.0/24\"},{\"az\":\"us-east-1a\",\"bootstrap_priority\":30,\"database_cidr\":\"10.72.201.0/24\",\"private_cidr\":\"10.72.32.0/20\",\"public_cidr\":\"10.72.1.0/24\"},{\"az\":\"us-east-1b\",\"bootstrap_priority\":20,\"database_cidr\":\"10.72.202.0/24\",\"private_cidr\":\"10.72.48.0/20\",\"public_cidr\":\"10.72.2.0/24\"},{\"az\":\"us-east-1f\",\"bootstrap_priority\":40,\"database_cidr\":\"10.72.207.0/24\",\"private_cidr\":\"10.72.80.0/20\",\"public_cidr\":\"10.72.7.0/24\"}]}",
+      "unknown": null,
+      "filled": {
+       "after": "{\"deployment\":\"tfeairgap-prod\",\"zones\":[{\"az\":\"us-east-1c\",\"bootstrap_priority\":10,\"database_cidr\":\"10.72.200.0/24\",\"private_cidr\":\"10.72.16.0/20\",\"public_cidr\":\"10.72.0.0/24\"},{\"az\":\"us-east-1a\",\"bootstrap_priority\":30,\"database_cidr\":\"10.72.201.0/24\",\"private_cidr\":\"10.72.32.0/20\",\"public_cidr\":\"10.72.1.0/24\"},{\"az\":\"us-east-1b\",\"bootstrap_priority\":20,\"database_cidr\":\"10.72.202.0/24\",\"private_cidr\":\"10.72.48.0/20\",\"public_cidr\":\"10.72.2.0/24\"},{\"az\":\"us-east-1f\",\"bootstrap_priority\":40,\"database_cidr\":\"10.72.207.0/24\",\"private_cidr\":\"10.72.80.0/20\",\"public_cidr\":\"10.72.7.0/24\"}]}",
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_az",
+   "kind": "key_remove",
+   "dimension": "az",
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-19b6a1bfe61612b70",
+     "unknown": false
+    },
+    "load_balancer_dns_name": {
+     "after": "tfeairgap-prod-load-balancer-1.us-east-1.elb.amazonaws.com",
+     "unknown": false
+    },
+    "data_bucket_name": {
+     "after": "tfeairgap-prod-data-4f7c",
+     "unknown": false
+    },
+    "software_bucket_name": {
+     "after": "tfeairgap-prod-software-4f7c",
+     "unknown": false
+    },
+    "database_endpoint": {
+     "after": "tfeairgap-prod-postgres.aaaaaaaaaa.us-east-1.rds.amazonaws.com:5432",
+     "unknown": false
+    },
+    "artifact_manifest_name": {
+     "after": "/tfeairgap/prod/artifacts/manifest",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-a03b94601f941c516",
+      "us-east-1b": "subnet-329b98c54bc9ebf36"
+     },
+     "unknown": false
+    },
+    "private_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-aa7a10e17a8881bb5",
+      "us-east-1b": "subnet-4eeb55036512de581"
+     },
+     "unknown": false
+    },
+    "artifact_queue_urls": {
+     "after": {
+      "airgap": "http://127.0.0.1:5000/123456789012/tfeairgap-prod-airgap-intake",
+      "bootstrap": "http://127.0.0.1:5000/123456789012/tfeairgap-prod-bootstrap-intake",
+      "license": "http://127.0.0.1:5000/123456789012/tfeairgap-prod-license-intake"
+     },
+     "unknown": false
+    },
+    "artifact_log_group_arns": {
+     "after": {
+      "airgap": "arn:aws:logs:us-east-1:123456789012:log-group:/tfeairgap/prod/artifacts/airgap",
+      "bootstrap": "arn:aws:logs:us-east-1:123456789012:log-group:/tfeairgap/prod/artifacts/bootstrap",
+      "license": "arn:aws:logs:us-east-1:123456789012:log-group:/tfeairgap/prod/artifacts/license"
+     },
+     "unknown": false
+    },
+    "database_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-ec913ab040205e5a9",
+      "us-east-1b": "subnet-b4f8766a949c231ed"
+     },
+     "unknown": false
+    },
+    "nat_gateway_ids": {
+     "after": {
+      "us-east-1a": "nat-9bcf3ea5f7d555a0e",
+      "us-east-1b": "nat-2cccf37a034ae894c"
+     },
+     "unknown": false
+    },
+    "private_route_table_ids": {
+     "after": {
+      "us-east-1a": "rtb-b700f1b34bf9c9354",
+      "us-east-1b": "rtb-4cdae9306eadcdd79"
+     },
+     "unknown": false
+    },
+    "artifact_object_arns": {
+     "after": {
+      "airgap": "arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/725.airgap",
+      "bootstrap": "arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/replicated.tar.gz",
+      "license": "arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/license.rli"
+     },
+     "unknown": false
+    },
+    "artifact_checksum_parameter_arns": {
+     "after": {
+      "airgap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/checksum",
+      "bootstrap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/checksum",
+      "license": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/license/checksum"
+     },
+     "unknown": false
+    },
+    "artifact_metadata_parameter_arns": {
+     "after": {
+      "airgap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/metadata",
+      "bootstrap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/metadata",
+      "license": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/license/metadata"
+     },
+     "unknown": false
+    },
+    "artifact_queue_arns": {
+     "after": {
+      "airgap": "arn:aws:sqs:us-east-1:123456789012:tfeairgap-prod-airgap-intake",
+      "bootstrap": "arn:aws:sqs:us-east-1:123456789012:tfeairgap-prod-bootstrap-intake",
+      "license": "arn:aws:sqs:us-east-1:123456789012:tfeairgap-prod-license-intake"
+     },
+     "unknown": false
+    },
+    "kms_key_arn": {
+     "after": "arn:aws:kms:us-east-1:123456789012:key/b6672b9e-5393-494f-8255-257d811bf8ad",
+     "unknown": false
+    },
+    "artifact_registry_name": {
+     "after": "/tfeairgap/prod/artifacts/registry",
+     "unknown": false
+    },
+    "network_inventory_name": {
+     "after": "/tfeairgap/prod/network/inventory",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_lb.tfe": {
+     "subnet_mapping": {
+      "after": null,
+      "unknown": true
+     },
+     "subnets": {
+      "after": [
+       "subnet-329b98c54bc9ebf36",
+       "subnet-a03b94601f941c516"
+      ],
+      "unknown": [
+       false,
+       false
+      ]
+     }
+    },
+    "aws_autoscaling_group.tfe": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": null
+     },
+     "vpc_zone_identifier": {
+      "after": [
+       "subnet-4eeb55036512de581",
+       "subnet-aa7a10e17a8881bb5"
+      ],
+      "unknown": null
+     }
+    },
+    "aws_db_subnet_group.tfe": {
+     "subnet_ids": {
+      "after": [
+       "subnet-b4f8766a949c231ed",
+       "subnet-ec913ab040205e5a9"
+      ],
+      "unknown": null
+     },
+     "supported_network_types": {
+      "after": [],
+      "unknown": null
+     }
+    },
+    "aws_ssm_parameter.bootstrap_az": {
+     "value": {
+      "after": "us-east-1b",
+      "unknown": null
+     }
+    },
+    "aws_ssm_parameter.network_inventory": {
+     "value": {
+      "after": "{\"deployment\":\"tfeairgap-prod\",\"zones\":[{\"az\":\"us-east-1a\",\"bootstrap_priority\":30,\"database_cidr\":\"10.72.201.0/24\",\"private_cidr\":\"10.72.32.0/20\",\"public_cidr\":\"10.72.1.0/24\"},{\"az\":\"us-east-1b\",\"bootstrap_priority\":20,\"database_cidr\":\"10.72.202.0/24\",\"private_cidr\":\"10.72.48.0/20\",\"public_cidr\":\"10.72.2.0/24\"}]}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "update_az",
+   "kind": "key_update",
+   "dimension": "az",
+   "updates": {
+    "us-east-1a": {
+     "public_cidr": "10.72.10.0/24",
+     "private_cidr": "10.72.96.0/20",
+     "database_cidr": "10.72.210.0/24",
+     "bootstrap_priority": 5
+    },
+    "us-east-1b": {
+     "public_cidr": "10.72.11.0/24",
+     "private_cidr": "10.72.112.0/20",
+     "database_cidr": "10.72.211.0/24",
+     "bootstrap_priority": 25
+    },
+    "us-east-1c": {
+     "public_cidr": "10.72.12.0/24",
+     "private_cidr": "10.72.128.0/20",
+     "database_cidr": "10.72.212.0/24",
+     "bootstrap_priority": 5
+    }
+   },
+   "expect": [
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.public",
+     "attr": "cidr_block",
+     "value": "10.72.10.0/24"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.private",
+     "attr": "cidr_block",
+     "value": "10.72.96.0/20"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.database",
+     "attr": "cidr_block",
+     "value": "10.72.210.0/24"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.public",
+     "attr": "tags.BootstrapPriority",
+     "value": "5"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.public",
+     "attr": "cidr_block",
+     "value": "10.72.11.0/24"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.private",
+     "attr": "cidr_block",
+     "value": "10.72.112.0/20"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.database",
+     "attr": "cidr_block",
+     "value": "10.72.211.0/24"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.public",
+     "attr": "tags.BootstrapPriority",
+     "value": "25"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.public",
+     "attr": "cidr_block",
+     "value": "10.72.12.0/24"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.private",
+     "attr": "cidr_block",
+     "value": "10.72.128.0/20"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.database",
+     "attr": "cidr_block",
+     "value": "10.72.212.0/24"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.public",
+     "attr": "tags.BootstrapPriority",
+     "value": "5"
+    }
+   ],
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-19b6a1bfe61612b70",
+     "unknown": false
+    },
+    "load_balancer_dns_name": {
+     "after": "tfeairgap-prod-load-balancer-1.us-east-1.elb.amazonaws.com",
+     "unknown": false
+    },
+    "data_bucket_name": {
+     "after": "tfeairgap-prod-data-4f7c",
+     "unknown": false
+    },
+    "software_bucket_name": {
+     "after": "tfeairgap-prod-software-4f7c",
+     "unknown": false
+    },
+    "database_endpoint": {
+     "after": "tfeairgap-prod-postgres.aaaaaaaaaa.us-east-1.rds.amazonaws.com:5432",
+     "unknown": false
+    },
+    "artifact_manifest_name": {
+     "after": "/tfeairgap/prod/artifacts/manifest",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {},
+     "unknown": {
+      "us-east-1a": true,
+      "us-east-1b": true,
+      "us-east-1c": true
+     }
+    },
+    "private_subnet_ids": {
+     "after": {},
+     "unknown": {
+      "us-east-1a": true,
+      "us-east-1b": true,
+      "us-east-1c": true
+     }
+    },
+    "artifact_queue_urls": {
+     "after": {
+      "airgap": "http://127.0.0.1:5000/123456789012/tfeairgap-prod-airgap-intake",
+      "bootstrap": "http://127.0.0.1:5000/123456789012/tfeairgap-prod-bootstrap-intake",
+      "license": "http://127.0.0.1:5000/123456789012/tfeairgap-prod-license-intake"
+     },
+     "unknown": false
+    },
+    "artifact_log_group_arns": {
+     "after": {
+      "airgap": "arn:aws:logs:us-east-1:123456789012:log-group:/tfeairgap/prod/artifacts/airgap",
+      "bootstrap": "arn:aws:logs:us-east-1:123456789012:log-group:/tfeairgap/prod/artifacts/bootstrap",
+      "license": "arn:aws:logs:us-east-1:123456789012:log-group:/tfeairgap/prod/artifacts/license"
+     },
+     "unknown": false
+    },
+    "database_subnet_ids": {
+     "after": {},
+     "unknown": {
+      "us-east-1a": true,
+      "us-east-1b": true,
+      "us-east-1c": true
+     }
+    },
+    "nat_gateway_ids": {
+     "after": {},
+     "unknown": {
+      "us-east-1a": true,
+      "us-east-1b": true,
+      "us-east-1c": true
+     }
+    },
+    "private_route_table_ids": {
+     "after": {
+      "us-east-1a": "rtb-b700f1b34bf9c9354",
+      "us-east-1b": "rtb-4cdae9306eadcdd79",
+      "us-east-1c": "rtb-00a64bdd7b7bfe5e3"
+     },
+     "unknown": false
+    },
+    "artifact_object_arns": {
+     "after": {
+      "airgap": "arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/725.airgap",
+      "bootstrap": "arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/replicated.tar.gz",
+      "license": "arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/license.rli"
+     },
+     "unknown": false
+    },
+    "artifact_checksum_parameter_arns": {
+     "after": {
+      "airgap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/checksum",
+      "bootstrap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/checksum",
+      "license": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/license/checksum"
+     },
+     "unknown": false
+    },
+    "artifact_metadata_parameter_arns": {
+     "after": {
+      "airgap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/metadata",
+      "bootstrap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/metadata",
+      "license": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/license/metadata"
+     },
+     "unknown": false
+    },
+    "artifact_queue_arns": {
+     "after": {
+      "airgap": "arn:aws:sqs:us-east-1:123456789012:tfeairgap-prod-airgap-intake",
+      "bootstrap": "arn:aws:sqs:us-east-1:123456789012:tfeairgap-prod-bootstrap-intake",
+      "license": "arn:aws:sqs:us-east-1:123456789012:tfeairgap-prod-license-intake"
+     },
+     "unknown": false
+    },
+    "kms_key_arn": {
+     "after": "arn:aws:kms:us-east-1:123456789012:key/b6672b9e-5393-494f-8255-257d811bf8ad",
+     "unknown": false
+    },
+    "artifact_registry_name": {
+     "after": "/tfeairgap/prod/artifacts/registry",
+     "unknown": false
+    },
+    "network_inventory_name": {
+     "after": "/tfeairgap/prod/network/inventory",
+     "unknown": false
+    }
+   },
+   "reference_replaced": [
+    "aws_nat_gateway.nat[0]",
+    "aws_nat_gateway.nat[1]",
+    "aws_nat_gateway.nat[2]",
+    "aws_route_table_association.database[0]",
+    "aws_route_table_association.database[1]",
+    "aws_route_table_association.database[2]",
+    "aws_route_table_association.private[0]",
+    "aws_route_table_association.private[1]",
+    "aws_route_table_association.private[2]",
+    "aws_route_table_association.public[0]",
+    "aws_route_table_association.public[1]",
+    "aws_route_table_association.public[2]",
+    "aws_subnet.database[0]",
+    "aws_subnet.database[1]",
+    "aws_subnet.database[2]",
+    "aws_subnet.private[0]",
+    "aws_subnet.private[1]",
+    "aws_subnet.private[2]",
+    "aws_subnet.public[0]",
+    "aws_subnet.public[1]",
+    "aws_subnet.public[2]"
+   ],
+   "update_values": {
+    "aws_lb.tfe": {
+     "subnet_mapping": {
+      "after": null,
+      "unknown": true
+     },
+     "subnets": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_autoscaling_group.tfe": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ]
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_db_subnet_group.tfe": {
+     "subnet_ids": {
+      "after": null,
+      "unknown": true
+     },
+     "supported_network_types": {
+      "after": [],
+      "unknown": []
+     }
+    },
+    "aws_ssm_parameter.bootstrap_az": {
+     "value": {
+      "after": "us-east-1a",
+      "unknown": null
+     }
+    },
+    "aws_ssm_parameter.network_inventory": {
+     "value": {
+      "after": "{\"deployment\":\"tfeairgap-prod\",\"zones\":[{\"az\":\"us-east-1c\",\"bootstrap_priority\":5,\"database_cidr\":\"10.72.212.0/24\",\"private_cidr\":\"10.72.128.0/20\",\"public_cidr\":\"10.72.12.0/24\"},{\"az\":\"us-east-1a\",\"bootstrap_priority\":5,\"database_cidr\":\"10.72.210.0/24\",\"private_cidr\":\"10.72.96.0/20\",\"public_cidr\":\"10.72.10.0/24\"},{\"az\":\"us-east-1b\",\"bootstrap_priority\":25,\"database_cidr\":\"10.72.211.0/24\",\"private_cidr\":\"10.72.112.0/20\",\"public_cidr\":\"10.72.11.0/24\"}]}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "add_artifact",
+   "kind": "key_add",
+   "dimension": "artifact",
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-19b6a1bfe61612b70",
+     "unknown": false
+    },
+    "load_balancer_dns_name": {
+     "after": "tfeairgap-prod-load-balancer-1.us-east-1.elb.amazonaws.com",
+     "unknown": false
+    },
+    "data_bucket_name": {
+     "after": "tfeairgap-prod-data-4f7c",
+     "unknown": false
+    },
+    "software_bucket_name": {
+     "after": "tfeairgap-prod-software-4f7c",
+     "unknown": false
+    },
+    "database_endpoint": {
+     "after": "tfeairgap-prod-postgres.aaaaaaaaaa.us-east-1.rds.amazonaws.com:5432",
+     "unknown": false
+    },
+    "artifact_manifest_name": {
+     "after": "/tfeairgap/prod/artifacts/manifest",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-a03b94601f941c516",
+      "us-east-1b": "subnet-329b98c54bc9ebf36",
+      "us-east-1c": "subnet-366ccdc0205cad56a"
+     },
+     "unknown": false
+    },
+    "private_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-aa7a10e17a8881bb5",
+      "us-east-1b": "subnet-4eeb55036512de581",
+      "us-east-1c": "subnet-2537d4f223b3a3e51"
+     },
+     "unknown": false
+    },
+    "artifact_queue_urls": {
+     "after": {
+      "airgap": "http://127.0.0.1:5000/123456789012/tfeairgap-prod-airgap-intake",
+      "bootstrap": "http://127.0.0.1:5000/123456789012/tfeairgap-prod-bootstrap-intake",
+      "license": "http://127.0.0.1:5000/123456789012/tfeairgap-prod-license-intake"
+     },
+     "unknown": {
+      "voucher": true
+     }
+    },
+    "artifact_log_group_arns": {
+     "after": {
+      "airgap": "arn:aws:logs:us-east-1:123456789012:log-group:/tfeairgap/prod/artifacts/airgap",
+      "bootstrap": "arn:aws:logs:us-east-1:123456789012:log-group:/tfeairgap/prod/artifacts/bootstrap",
+      "license": "arn:aws:logs:us-east-1:123456789012:log-group:/tfeairgap/prod/artifacts/license"
+     },
+     "unknown": {
+      "voucher": true
+     }
+    },
+    "database_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-ec913ab040205e5a9",
+      "us-east-1b": "subnet-b4f8766a949c231ed",
+      "us-east-1c": "subnet-1086f2c9e5ca5cb07"
+     },
+     "unknown": false
+    },
+    "nat_gateway_ids": {
+     "after": {
+      "us-east-1a": "nat-9bcf3ea5f7d555a0e",
+      "us-east-1b": "nat-2cccf37a034ae894c",
+      "us-east-1c": "nat-d05d5d2a5660aaf3f"
+     },
+     "unknown": false
+    },
+    "private_route_table_ids": {
+     "after": {
+      "us-east-1a": "rtb-b700f1b34bf9c9354",
+      "us-east-1b": "rtb-4cdae9306eadcdd79",
+      "us-east-1c": "rtb-00a64bdd7b7bfe5e3"
+     },
+     "unknown": false
+    },
+    "artifact_object_arns": {
+     "after": {
+      "airgap": "arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/725.airgap",
+      "bootstrap": "arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/replicated.tar.gz",
+      "license": "arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/license.rli"
+     },
+     "unknown": {
+      "voucher": true
+     }
+    },
+    "artifact_checksum_parameter_arns": {
+     "after": {
+      "airgap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/checksum",
+      "bootstrap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/checksum",
+      "license": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/license/checksum"
+     },
+     "unknown": {
+      "voucher": true
+     }
+    },
+    "artifact_metadata_parameter_arns": {
+     "after": {
+      "airgap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/metadata",
+      "bootstrap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/metadata",
+      "license": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/license/metadata"
+     },
+     "unknown": {
+      "voucher": true
+     }
+    },
+    "artifact_queue_arns": {
+     "after": {
+      "airgap": "arn:aws:sqs:us-east-1:123456789012:tfeairgap-prod-airgap-intake",
+      "bootstrap": "arn:aws:sqs:us-east-1:123456789012:tfeairgap-prod-bootstrap-intake",
+      "license": "arn:aws:sqs:us-east-1:123456789012:tfeairgap-prod-license-intake"
+     },
+     "unknown": {
+      "voucher": true
+     }
+    },
+    "kms_key_arn": {
+     "after": "arn:aws:kms:us-east-1:123456789012:key/b6672b9e-5393-494f-8255-257d811bf8ad",
+     "unknown": false
+    },
+    "artifact_registry_name": {
+     "after": "/tfeairgap/prod/artifacts/registry",
+     "unknown": false
+    },
+    "network_inventory_name": {
+     "after": "/tfeairgap/prod/network/inventory",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_ssm_parameter.artifact_manifest": {
+     "value": {
+      "after": "tfeairgap-prod:license:packages/license.rli:sha256:8d7c-license:/etc/tfe/license.rli:application/vnd.hashicorp.license:0:1:10,tfeairgap-prod:bootstrap:packages/replicated.tar.gz:sha256:4ba1-bootstrap:/var/lib/tfe/replicated.tar.gz:application/gzip:15:10:30,tfeairgap-prod:airgap:packages/725.airgap:sha256:f19e-airgap:/var/lib/tfe/725.airgap:application/octet-stream:30:3:20,tfeairgap-prod:voucher:bundles/entitlement.pem:sha256:a73c-entitlement:/opt/tfe/entitlement.pem:application/pkcs8:45:7:40",
+      "unknown": null,
+      "filled": {
+       "after": "tfeairgap-prod:license:packages/license.rli:sha256:8d7c-license:/etc/tfe/license.rli:application/vnd.hashicorp.license:0:1:10,tfeairgap-prod:bootstrap:packages/replicated.tar.gz:sha256:4ba1-bootstrap:/var/lib/tfe/replicated.tar.gz:application/gzip:15:10:30,tfeairgap-prod:airgap:packages/725.airgap:sha256:f19e-airgap:/var/lib/tfe/725.airgap:application/octet-stream:30:3:20,tfeairgap-prod:voucher:bundles/entitlement.pem:sha256:a73c-entitlement:/opt/tfe/entitlement.pem:application/pkcs8:45:7:40",
+       "unknown": null
+      }
+     }
+    },
+    "aws_ssm_parameter.artifact_registry": {
+     "value": {
+      "after": "{\"artifacts\":[{\"backlog_threshold\":1,\"checksum\":\"sha256:8d7c-license\",\"destination\":\"/etc/tfe/license.rli\",\"install_priority\":10,\"kind\":\"license\",\"media_type\":\"application/vnd.hashicorp.license\",\"object_key\":\"packages/license.rli\",\"queue_delay_seconds\":0},{\"backlog_threshold\":10,\"checksum\":\"sha256:4ba1-bootstrap\",\"destination\":\"/var/lib/tfe/replicated.tar.gz\",\"install_priority\":30,\"kind\":\"bootstrap\",\"media_type\":\"application/gzip\",\"object_key\":\"packages/replicated.tar.gz\",\"queue_delay_seconds\":15},{\"backlog_threshold\":3,\"checksum\":\"sha256:f19e-airgap\",\"destination\":\"/var/lib/tfe/725.airgap\",\"install_priority\":20,\"kind\":\"airgap\",\"media_type\":\"application/octet-stream\",\"object_key\":\"packages/725.airgap\",\"queue_delay_seconds\":30},{\"backlog_threshold\":7,\"checksum\":\"sha256:a73c-entitlement\",\"destination\":\"/opt/tfe/entitlement.pem\",\"install_priority\":40,\"kind\":\"voucher\",\"media_type\":\"application/pkcs8\",\"object_key\":\"bundles/entitlement.pem\",\"queue_delay_seconds\":45}],\"environment\":\"prod\",\"project\":\"tfeairgap\"}",
+      "unknown": null,
+      "filled": {
+       "after": "{\"artifacts\":[{\"backlog_threshold\":1,\"checksum\":\"sha256:8d7c-license\",\"destination\":\"/etc/tfe/license.rli\",\"install_priority\":10,\"kind\":\"license\",\"media_type\":\"application/vnd.hashicorp.license\",\"object_key\":\"packages/license.rli\",\"queue_delay_seconds\":0},{\"backlog_threshold\":10,\"checksum\":\"sha256:4ba1-bootstrap\",\"destination\":\"/var/lib/tfe/replicated.tar.gz\",\"install_priority\":30,\"kind\":\"bootstrap\",\"media_type\":\"application/gzip\",\"object_key\":\"packages/replicated.tar.gz\",\"queue_delay_seconds\":15},{\"backlog_threshold\":3,\"checksum\":\"sha256:f19e-airgap\",\"destination\":\"/var/lib/tfe/725.airgap\",\"install_priority\":20,\"kind\":\"airgap\",\"media_type\":\"application/octet-stream\",\"object_key\":\"packages/725.airgap\",\"queue_delay_seconds\":30},{\"backlog_threshold\":7,\"checksum\":\"sha256:a73c-entitlement\",\"destination\":\"/opt/tfe/entitlement.pem\",\"install_priority\":40,\"kind\":\"voucher\",\"media_type\":\"application/pkcs8\",\"object_key\":\"bundles/entitlement.pem\",\"queue_delay_seconds\":45}],\"environment\":\"prod\",\"project\":\"tfeairgap\"}",
+       "unknown": null
+      }
+     }
+    },
+    "aws_ssm_parameter.preferred_artifact": {
+     "value": {
+      "after": "license",
+      "unknown": null,
+      "filled": {
+       "after": "license",
+       "unknown": null
+      }
+     }
+    },
+    "aws_iam_role_policy.tfe_artifacts": {
+     "policy": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:ListBucket\"],\"Condition\":{\"StringEquals\":{\"aws:PrincipalTag/Environment\":\"prod\",\"aws:PrincipalTag/Project\":\"tfeairgap\"}},\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::tfeairgap-prod-data-4f7c\",\"arn:aws:s3:::tfeairgap-prod-software-4f7c\",\"arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/license.rli\",\"arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/replicated.tar.gz\",\"arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/725.airgap\",\"arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/725.voucher\"],\"Sid\":\"tfeairgap-prod-artifact-buckets\"},{\"Action\":[\"ssm:GetParameter\",\"ssm:GetParameters\"],\"Condition\":{\"StringLike\":{\"ssm:ResourceTag/Name\":\"tfeairgap-prod-*\"}},\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/license/checksum\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/checksum\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/checksum\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/voucher/checksum\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/license/destination\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/destination\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/destination\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/voucher/destination\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/license/metadata\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/metadata\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/metadata\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/voucher/metadata\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/manifest\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/registry\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/preferred\"],\"Sid\":\"tfeairgap-prod-parameters\"}]}",
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_artifact",
+   "kind": "key_remove",
+   "dimension": "artifact",
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-19b6a1bfe61612b70",
+     "unknown": false
+    },
+    "load_balancer_dns_name": {
+     "after": "tfeairgap-prod-load-balancer-1.us-east-1.elb.amazonaws.com",
+     "unknown": false
+    },
+    "data_bucket_name": {
+     "after": "tfeairgap-prod-data-4f7c",
+     "unknown": false
+    },
+    "software_bucket_name": {
+     "after": "tfeairgap-prod-software-4f7c",
+     "unknown": false
+    },
+    "database_endpoint": {
+     "after": "tfeairgap-prod-postgres.aaaaaaaaaa.us-east-1.rds.amazonaws.com:5432",
+     "unknown": false
+    },
+    "artifact_manifest_name": {
+     "after": "/tfeairgap/prod/artifacts/manifest",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-a03b94601f941c516",
+      "us-east-1b": "subnet-329b98c54bc9ebf36",
+      "us-east-1c": "subnet-366ccdc0205cad56a"
+     },
+     "unknown": false
+    },
+    "private_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-aa7a10e17a8881bb5",
+      "us-east-1b": "subnet-4eeb55036512de581",
+      "us-east-1c": "subnet-2537d4f223b3a3e51"
+     },
+     "unknown": false
+    },
+    "artifact_queue_urls": {
+     "after": {
+      "airgap": "http://127.0.0.1:5000/123456789012/tfeairgap-prod-airgap-intake",
+      "bootstrap": "http://127.0.0.1:5000/123456789012/tfeairgap-prod-bootstrap-intake"
+     },
+     "unknown": false
+    },
+    "artifact_log_group_arns": {
+     "after": {
+      "airgap": "arn:aws:logs:us-east-1:123456789012:log-group:/tfeairgap/prod/artifacts/airgap",
+      "bootstrap": "arn:aws:logs:us-east-1:123456789012:log-group:/tfeairgap/prod/artifacts/bootstrap"
+     },
+     "unknown": false
+    },
+    "database_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-ec913ab040205e5a9",
+      "us-east-1b": "subnet-b4f8766a949c231ed",
+      "us-east-1c": "subnet-1086f2c9e5ca5cb07"
+     },
+     "unknown": false
+    },
+    "nat_gateway_ids": {
+     "after": {
+      "us-east-1a": "nat-9bcf3ea5f7d555a0e",
+      "us-east-1b": "nat-2cccf37a034ae894c",
+      "us-east-1c": "nat-d05d5d2a5660aaf3f"
+     },
+     "unknown": false
+    },
+    "private_route_table_ids": {
+     "after": {
+      "us-east-1a": "rtb-b700f1b34bf9c9354",
+      "us-east-1b": "rtb-4cdae9306eadcdd79",
+      "us-east-1c": "rtb-00a64bdd7b7bfe5e3"
+     },
+     "unknown": false
+    },
+    "artifact_object_arns": {
+     "after": {
+      "airgap": "arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/725.airgap",
+      "bootstrap": "arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/replicated.tar.gz"
+     },
+     "unknown": false
+    },
+    "artifact_checksum_parameter_arns": {
+     "after": {
+      "airgap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/checksum",
+      "bootstrap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/checksum"
+     },
+     "unknown": false
+    },
+    "artifact_metadata_parameter_arns": {
+     "after": {
+      "airgap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/metadata",
+      "bootstrap": "arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/metadata"
+     },
+     "unknown": false
+    },
+    "artifact_queue_arns": {
+     "after": {
+      "airgap": "arn:aws:sqs:us-east-1:123456789012:tfeairgap-prod-airgap-intake",
+      "bootstrap": "arn:aws:sqs:us-east-1:123456789012:tfeairgap-prod-bootstrap-intake"
+     },
+     "unknown": false
+    },
+    "kms_key_arn": {
+     "after": "arn:aws:kms:us-east-1:123456789012:key/b6672b9e-5393-494f-8255-257d811bf8ad",
+     "unknown": false
+    },
+    "artifact_registry_name": {
+     "after": "/tfeairgap/prod/artifacts/registry",
+     "unknown": false
+    },
+    "network_inventory_name": {
+     "after": "/tfeairgap/prod/network/inventory",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_ssm_parameter.artifact_manifest": {
+     "value": {
+      "after": "tfeairgap-prod:bootstrap:packages/replicated.tar.gz:sha256:4ba1-bootstrap:/var/lib/tfe/replicated.tar.gz:application/gzip:15:10:30,tfeairgap-prod:airgap:packages/725.airgap:sha256:f19e-airgap:/var/lib/tfe/725.airgap:application/octet-stream:30:3:20",
+      "unknown": null
+     }
+    },
+    "aws_ssm_parameter.artifact_registry": {
+     "value": {
+      "after": "{\"artifacts\":[{\"backlog_threshold\":10,\"checksum\":\"sha256:4ba1-bootstrap\",\"destination\":\"/var/lib/tfe/replicated.tar.gz\",\"install_priority\":30,\"kind\":\"bootstrap\",\"media_type\":\"application/gzip\",\"object_key\":\"packages/replicated.tar.gz\",\"queue_delay_seconds\":15},{\"backlog_threshold\":3,\"checksum\":\"sha256:f19e-airgap\",\"destination\":\"/var/lib/tfe/725.airgap\",\"install_priority\":20,\"kind\":\"airgap\",\"media_type\":\"application/octet-stream\",\"object_key\":\"packages/725.airgap\",\"queue_delay_seconds\":30}],\"environment\":\"prod\",\"project\":\"tfeairgap\"}",
+      "unknown": null
+     }
+    },
+    "aws_ssm_parameter.preferred_artifact": {
+     "value": {
+      "after": "airgap",
+      "unknown": null
+     }
+    },
+    "aws_iam_role_policy.tfe_artifacts": {
+     "policy": {
+      "after": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:ListBucket\"],\"Condition\":{\"StringEquals\":{\"aws:PrincipalTag/Environment\":\"prod\",\"aws:PrincipalTag/Project\":\"tfeairgap\"}},\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::tfeairgap-prod-data-4f7c\",\"arn:aws:s3:::tfeairgap-prod-software-4f7c\",\"arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/replicated.tar.gz\",\"arn:aws:s3:::tfeairgap-prod-software-4f7c/packages/725.airgap\"],\"Sid\":\"tfeairgap-prod-artifact-buckets\"},{\"Action\":[\"ssm:GetParameter\",\"ssm:GetParameters\"],\"Condition\":{\"StringLike\":{\"ssm:ResourceTag/Name\":\"tfeairgap-prod-*\"}},\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/checksum\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/checksum\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/destination\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/destination\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/bootstrap/metadata\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/airgap/metadata\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/manifest\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/registry\",\"arn:aws:ssm:us-east-1:123456789012:parameter/tfeairgap/prod/artifacts/preferred\"],\"Sid\":\"tfeairgap-prod-parameters\"}]}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "update_artifact",
+   "kind": "key_update",
+   "dimension": "artifact",
+   "updates": {
+    "license": {
+     "object_key": "releases/enterprise-license.jwt",
+     "checksum": "sha256:9ac1-license-new",
+     "destination": "/etc/tfe/license.jwt",
+     "media_type": "application/jwt",
+     "queue_delay_seconds": 5,
+     "backlog_threshold": 2,
+     "install_priority": 50
+    },
+    "bootstrap": {
+     "object_key": "releases/installer-v2.tgz",
+     "checksum": "sha256:6bb2-bootstrap-new",
+     "destination": "/var/lib/tfe/installer-v2.tgz",
+     "media_type": "application/x-gzip",
+     "queue_delay_seconds": 25,
+     "backlog_threshold": 12,
+     "install_priority": 5
+    },
+    "airgap": {
+     "object_key": "releases/726.airgap",
+     "checksum": "sha256:3fe8-airgap-new",
+     "destination": "/var/lib/tfe/726.airgap",
+     "media_type": "application/vnd.hashicorp.airgap",
+     "queue_delay_seconds": 35,
+     "backlog_threshold": 6,
+     "install_priority": 5
+    }
+   },
+   "expect": [
+    {
+     "key": "license",
+     "base": "aws_s3_object.artifact",
+     "attr": "key",
+     "value": "releases/enterprise-license.jwt"
+    },
+    {
+     "key": "license",
+     "base": "aws_s3_object.artifact",
+     "attr": "content",
+     "value": "sha256:9ac1-license-new"
+    },
+    {
+     "key": "license",
+     "base": "aws_ssm_parameter.artifact_checksum",
+     "attr": "value",
+     "value": "sha256:9ac1-license-new"
+    },
+    {
+     "key": "license",
+     "base": "aws_s3_object.artifact",
+     "attr": "content_type",
+     "value": "application/jwt"
+    },
+    {
+     "key": "license",
+     "base": "aws_ssm_parameter.artifact_destination",
+     "attr": "value",
+     "value": "/etc/tfe/license.jwt"
+    },
+    {
+     "key": "license",
+     "base": "aws_ssm_parameter.artifact_metadata",
+     "attr": "value",
+     "value": "{\"backlog_threshold\":2,\"checksum\":\"sha256:9ac1-license-new\",\"deployment\":\"tfeairgap-prod\",\"destination\":\"/etc/tfe/license.jwt\",\"install_priority\":50,\"kind\":\"license\",\"media_type\":\"application/jwt\",\"object_key\":\"releases/enterprise-license.jwt\",\"queue_delay_seconds\":5}"
+    },
+    {
+     "key": "license",
+     "base": "aws_sqs_queue.artifact_intake",
+     "attr": "delay_seconds",
+     "value": 5
+    },
+    {
+     "key": "license",
+     "base": "aws_cloudwatch_metric_alarm.artifact_backlog",
+     "attr": "threshold",
+     "value": 2
+    },
+    {
+     "key": "bootstrap",
+     "base": "aws_s3_object.artifact",
+     "attr": "key",
+     "value": "releases/installer-v2.tgz"
+    },
+    {
+     "key": "bootstrap",
+     "base": "aws_s3_object.artifact",
+     "attr": "content",
+     "value": "sha256:6bb2-bootstrap-new"
+    },
+    {
+     "key": "bootstrap",
+     "base": "aws_ssm_parameter.artifact_checksum",
+     "attr": "value",
+     "value": "sha256:6bb2-bootstrap-new"
+    },
+    {
+     "key": "bootstrap",
+     "base": "aws_s3_object.artifact",
+     "attr": "content_type",
+     "value": "application/x-gzip"
+    },
+    {
+     "key": "bootstrap",
+     "base": "aws_ssm_parameter.artifact_destination",
+     "attr": "value",
+     "value": "/var/lib/tfe/installer-v2.tgz"
+    },
+    {
+     "key": "bootstrap",
+     "base": "aws_ssm_parameter.artifact_metadata",
+     "attr": "value",
+     "value": "{\"backlog_threshold\":12,\"checksum\":\"sha256:6bb2-bootstrap-new\",\"deployment\":\"tfeairgap-prod\",\"destination\":\"/var/lib/tfe/installer-v2.tgz\",\"install_priority\":5,\"kind\":\"bootstrap\",\"media_type\":\"application/x-gzip\",\"object_key\":\"releases/installer-v2.tgz\",\"queue_delay_seconds\":25}"
+    },
+    {
+     "key": "bootstrap",
+     "base": "aws_sqs_queue.artifact_intake",
+     "attr": "delay_seconds",
+     "value": 25
+    },
+    {
+     "key": "bootstrap",
+     "base": "aws_cloudwatch_metric_alarm.artifact_backlog",
+     "attr": "threshold",
+     "value": 12
+    },
+    {
+     "key": "airgap",
+     "base": "aws_s3_object.artifact",
+     "attr": "key",
+     "value": "releases/726.airgap"
+    },
+    {
+     "key": "airgap",
+     "base": "aws_s3_object.artifact",
+     "attr": "content",
+     "value": "sha256:3fe8-airgap-new"
+    },
+    {
+     "key": "airgap",
+     "base": "aws_ssm_parameter.artifact_checksum",
+     "attr": "value",
+     "value": "sha256:3fe8-airgap-new"
+    },
+    {
+     "key": "airgap",
+     "base": "aws_s3_object.artifact",
+     "attr": "content_type",
+     "value": "application/vnd.hashicorp.airgap"
+    },
+    {
+     "key": "airgap",
+     "base": "aws_ssm_parameter.artifact_destination",
+     "attr": "value",
+     "value": "/var/lib/tfe/726.airgap"
+    },
+    {
+     "key": "airgap",
+     "base": "aws_ssm_parameter.artifact_metadata",
+     "attr": "value",
+     "value": "{\"backlog_threshold\":6,\"checksum\":\"sha256:3fe8-airgap-new\",\"deployment\":\"tfeairgap-prod\",\"destination\":\"/var/lib/tfe/726.airgap\",\"install_priority\":5,\"kind\":\"airgap\",\"media_type\":\"application/vnd.hashicorp.airgap\",\"object_key\":\"releases/726.airgap\",\"queue_delay_seconds\":35}"
+    },
+    {
+     "key": "airgap",
+     "base": "aws_sqs_queue.artifact_intake",
+     "attr": "delay_seconds",
+     "value": 35
+    },
+    {
+     "key": "airgap",
+     "base": "aws_cloudwatch_metric_alarm.artifact_backlog",
+     "attr": "threshold",
+     "value": 6
+    }
+   ],
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-19b6a1bfe61612b70",
+     "unknown": false
+    },
+    "load_balancer_dns_name": {
+     "after": "tfeairgap-prod-load-balancer-1.us-east-1.elb.amazonaws.com",
+     "unknown": false
+    },
+    "data_bucket_name": {
+     "after": "tfeairgap-prod-data-4f7c",
+     "unknown": false
+    },
+    "software_bucket_name": {
+     "after": "tfeairgap-prod-software-4f7c",
+     "unknown": false
+    },
+    "database_endpoint": {
+     "after": "tfeairgap-prod-postgres.aaaaaaaaaa.us-east-1.rds.amazonaws.com:5432",
+     "unknown": false
+    },
+    "artifact_manifest_name": {
+     "after": "/tfeairgap/prod/artifacts/manifest",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {
+      "us-east-1a

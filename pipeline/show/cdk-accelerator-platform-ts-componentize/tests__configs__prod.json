@@ -1,0 +1,22 @@
+{
+  "stage": "prod", "account": "111111111111", "region": "us-east-1", "project": "orion",
+  "network": { "cidr": "10.72.0.0/16", "maxAzs": 3, "natGateways": 3 },
+  "artifactBuckets": {
+    "storage": { "transitionDays": 45, "noncurrentDays": 120 },
+    "artifacts": { "transitionDays": 45, "noncurrentDays": 120 },
+    "reports": { "transitionDays": 60, "noncurrentDays": 180 }
+  },
+  "stages": {
+    "uat": { "desiredCount": 2, "cpu": 512, "memoryMiB": 1024, "queueVisibilitySeconds": 90, "listenerPriority": 30 },
+    "dev": { "desiredCount": 1, "cpu": 256, "memoryMiB": 512, "queueVisibilitySeconds": 45, "listenerPriority": 10 },
+    "qa": { "desiredCount": 2, "cpu": 512, "memoryMiB": 1024, "queueVisibilitySeconds": 60, "listenerPriority": 20 }
+  },
+  "container": { "image": "public.ecr.aws/docker/library/nginx:1.27", "port": 8080, "healthCheckPath": "/healthz", "deregistrationSeconds": 20 },
+  "notificationEmails": ["platform-primary@accelerator.example", "platform-secondary@accelerator.example", "security-operations@accelerator.example", "delivery-managers@accelerator.example"],
+  "eventRules": {
+    "build-failed": { "source": "aws.codebuild", "detailType": "CodeBuild Build State Change", "states": ["FAILED", "FAULT", "STOPPED"] },
+    "build-succeeded": { "source": "aws.codebuild", "detailType": "CodeBuild Build State Change", "states": ["SUCCEEDED"] },
+    "deployment-state": { "source": "aws.ecs", "detailType": "ECS Deployment State Change" }
+  },
+  "logRetentionDays": 30, "queueRetentionDays": 4, "notificationMemoryMiB": 256, "notificationTimeoutSeconds": 12
+}

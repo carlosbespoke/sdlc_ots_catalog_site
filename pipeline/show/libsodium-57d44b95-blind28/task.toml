@@ -1,0 +1,60 @@
+schema_version = "1.3"
+artifacts = ["/logs/artifacts"]
+
+[task]
+name = "bespokelabsai/libsodium-26f-18ddb0a4"
+description = "A pinned checkout of the libsodium C library has had 26 deliberate one-line faults injected across its public cryptographic operations, and the test suite has been removed. The agent receives only the faulted source tree and a prose description of the misbehaviour that users observe: wrong digests and ciphertexts, verification calls that accept or reject the wrong inputs, crashes on null or malformed arguments, and aborted processes. It must localize each fault from behaviour alone, repair it, and name the faulted functions."
+authors = []
+keywords = ["diagnosis", "root-cause", "fault-chain", "c", "make check"]
+
+[metadata]
+task_id = "libsodium-26f-18ddb0a4"
+display_title = "libsodium: 26 injected one-line faults to diagnose without a test suite"
+display_description = "A pinned checkout of the libsodium C library has had 26 deliberate one-line faults injected across its public cryptographic operations, and the test suite has been removed. The agent receives only the faulted source tree and a prose description of the misbehaviour that users observe: wrong digests and ciphertexts, verification calls that accept or reject the wrong inputs, crashes on null or malformed arguments, and aborted processes. It must localize each fault from behaviour alone, repair it, and name the faulted functions."
+category = "bugfix"
+difficulty = "hard"
+language = "c"
+repository_url = "https://github.com/jedisct1/libsodium.git"
+base_commit_hash = "57d44b954969b859ce8cf6aeeabb06ef28e65548"
+target_test = ""
+fault_count = 26
+fault_files = "src/libsodium/crypto_aead/aegis256/aead_aegis256.c;src/libsodium/crypto_aead/aes256gcm/aesni/aead_aes256gcm_aesni.c;src/libsodium/crypto_aead/chacha20poly1305/aead_chacha20poly1305.c;src/libsodium/crypto_aead/xchacha20poly1305/aead_xchacha20poly1305.c;src/libsodium/crypto_core/ed25519/core_ed25519.c;src/libsodium/crypto_core/ed25519/core_h2c.c;src/libsodium/crypto_core/ed25519/ref10/ed25519_ref10.c;src/libsodium/crypto_generichash/blake2b/ref/blake2b-ref.c;src/libsodium/crypto_generichash/blake2b/ref/generichash_blake2b.c;src/libsodium/crypto_ipcrypt/ipcrypt_aesni.c;src/libsodium/crypto_kem/mlkem768/ref/kem_mlkem768_ref.c;src/libsodium/crypto_pwhash/argon2/argon2-encoding.c;src/libsodium/crypto_pwhash/argon2/pwhash_argon2i.c;src/libsodium/crypto_pwhash/scryptsalsa208sha256/crypto_scrypt-common.c;src/libsodium/crypto_pwhash/scryptsalsa208sha256/pwhash_scryptsalsa208sha256.c;src/libsodium/crypto_pwhash/scryptsalsa208sha256/sse/pwhash_scryptsalsa208sha256_sse.c;src/libsodium/crypto_scalarmult/ed25519/ref10/scalarmult_ed25519_ref10.c;src/libsodium/crypto_secretstream/xchacha20poly1305/secretstream_xchacha20poly1305.c;src/libsodium/crypto_shorthash/siphash24/ref/shorthash_siphashx24_ref.c;src/libsodium/crypto_sign/ed25519/ref10/open.c;src/libsodium/crypto_xof/shake128/ref/shake128_ref.c;src/libsodium/crypto_xof/shake256/ref/shake256_ref.c;src/libsodium/crypto_xof/turboshake128/ref/turboshake128_ref.c;src/libsodium/sodium/codecs.c;src/libsodium/sodium/core.c"
+fault_ids = "c1cde7d7,b84ae3dd,317ddd02,3731f1de,30b7f209,814d1eab,eb527623,a179657c,28f5fdb1,44919dc2,6f334a51,74891d33,617172ba,64fb6b16,cde9de3e,724264a5,bfce9fce,0388df9c,f5d528c4,3218f741,ea24dff6,a9f78ce8,f117dc42,13165a63,10387c0f,84678986"
+why_hard = "26 edits across 25 files, one per function, and the repository's own suite is the only thing that shows them"
+generated_by = "voyager-diagnosis-pipeline"
+
+# Dual-container (separate) verifier, which the Voyager OTS spec requires of every task
+# (2026-09-29). Grading runs in its OWN container, built from tests/Dockerfile: the same
+# environment/Dockerfile the agent's image comes from, plus root-owned /tests layers the
+# agent image never holds. Nothing the agent did at run time reaches that container except
+# what the collect command below hands over - /logs/artifacts/worktree.tgz (the working
+# tree without .git) and /logs/artifacts/rca.json - and tests/grade.py adopts only source
+# files out of the archive. So the agent's .git, its venv, its home directory, its
+# processes and anything it planted outside the source roots never meet the grader. The
+# grader still runs as root (user below) and drops to the agent account for every suite run
+# (answer_key run_tests_as = "agent"). No [verifier.environment] block: Harbor then gives
+# the verifier a fresh copy of [environment] below, so one declaration governs both
+# containers' network, cpus, memory and storage.
+[verifier]
+environment_mode = "separate"
+user = "root"
+timeout_sec = 4860.0
+[[verifier.collect]]
+command = "bash -c 'mkdir -p /logs/artifacts && cd /workspace/repo && tar czf /logs/artifacts/worktree.tgz --exclude=./.git . ; cp -f /app/rca.json /logs/artifacts/rca.json 2>/dev/null || true'"
+service = "main"
+timeout_sec = 300
+
+# The solving agent's own budget, per language. Horizon applies it as written, with no
+# multiplier. AGENT_TIMEOUT_SEC holds the numbers and the reason.
+[agent]
+timeout_sec = 21600.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+os = "linux"
+workdir = "/workspace/repo"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

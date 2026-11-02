@@ -1,0 +1,543 @@
+{
+  "schema": 1,
+  "generator": {
+    "file": "build_task.py",
+    "git_revision": "7bdb9d784b3462d8da5269a0778942c59bb9dddb",
+    "uncommitted": false,
+    "sha256": "1653e3cfc59b6973c29bf0090cd8e20cd957f3636e94f3b3fc81db8d8fc491dd",
+    "written_by_build": true
+  },
+  "grader_sha256": "a07c58ee6d504848e67dcdec6936a6c3504a1a099939601d4bc269c85cfd1360",
+  "grader_template": "227d2ef73677d1c9258596153617adaff55dddfaa4e94706182465118a5969b4",
+  "grader_template_commit": "7bdb9d784b3462d8da5269a0778942c59bb9dddb",
+  "args": {
+    "ids": "30f3832c,68afe501,df1d6c38,9a4ddc4f,1ee58913,f4f18288,8c5d09f1,44366fd5,ec3203e3,f1ea76f6,2e6fcc4b,2b27c3ee,eb27a658,8071b094,5ebcdca3,4b54932b,8655b801",
+    "test": "",
+    "repo": "h3",
+    "repo_url": "https://github.com/uber/h3.git",
+    "commit": "cd62033b337b128ea7c4749f2302143b424187fc",
+    "base_image": "diagvgen-base-uber__h3-cd62033b",
+    "workdir": "/workspace/repo",
+    "test_cmd": "cmake --build build -j 8 && ctest --test-dir build --output-junit /workspace/repo/results.xml --output-on-failure -j 4",
+    "language": "c",
+    "baseline_failures": 0,
+    "source_roots": [
+      "src/h3lib/lib"
+    ],
+    "hide_tests": true,
+    "symptom": "A program that pins places onto a grid of cells covering the globe, and asks this library questions about those cells, now gets wrong answers back from a great many of them. The repository has received 17 separate undocumented edits. The symptoms below are everything that has been observed from the outside, calling the library the way any user would.\n\nMeasuring how much ground one cell covers. The figure in steradians, the figure in square kilometres and the figure in square metres all come back far from the true value, and the same wrongness shows up when the thing measured is a closed ring of latitude and longitude points rather than a cell. Separately, the square-kilometre answer for a cell is many orders of magnitude smaller than it should be, as though the planet's radius never entered the arithmetic at all. Asking instead for the length of an edge in metres gives a number roughly one part in a thousand too large.\n\nStepping outward from a starting cell into what surrounds it. The collection of cells within a given number of steps contains cells that cannot be reached in that many steps, and the ring of cells at exactly that distance comes back with wrong members, or fails outright, for a great many starting cells. Asking whether two cells sit side by side answers wrongly, so an index built for the join between two touching cells either fails or names a join that does not connect them.\n\nLaying a cell out as coordinates on a flat grid anchored at some other cell. The coordinates handed back do not describe the cell they were asked for, and the count of steps between two cells worked out that way is wrong or is reported as a failure. Going the other way, feeding such coordinates back in returns a different cell from the one they were made from, and the chain of cells traced from one endpoint to another contains entries that are not next to each other.\n\nAsking for the corners of cells and tracing outlines around them. The full list of corner indexes for a five-sided cell comes back one entry too long, the surplus slot holding something that is not a corner. Asking for a single numbered corner hands back the wrong one, or an error, depending on the resolution asked for. Corner indexes for cells that sit beside a five-sided cell are wrong too, so an outline traced around a group of cells has its corners misplaced and the shape does not close where it should. Flattening such an outline into plain nested coordinate arrays gives loops and coordinate counts that do not match the outline it was handed.\n\nPlacing a cell within the hierarchy it belongs to. Asking where a cell falls among the ordered children of a coarser ancestor returns the wrong position, and feeding that position back in to recover a cell yields a different cell than the one started with.\n\nCovering a drawn region with cells, which goes wrong in several ways at once. The set returned includes cells lying wholly outside the drawn shape, well away from any of its sides, while cells that straddle its rim are dropped, leaving gaps along the boundary where cells plainly overlap the region. Asked for in condensed form, where coarse cells stand in for whole blocks of finer ones, the cells handed back do not line up with the region that was drawn. The number given beforehand as an upper bound on how many cells the covering will need disagrees with how many the covering actually produces. And an option value that is not one of the defined choices for how the covering should be done is quietly accepted, the call returning a result rather than refusing the option.",
+    "drop_paths": "",
+    "title": "uber/h3: diagnosing seventeen injected faults without a test suite",
+    "description": "A pinned checkout of the uber/h3 C library has had seventeen one-line faults injected across its source tree, and the test suite has been removed. Users report wrong numbers from ground-coverage and edge-length measurements, unreliable neighbour and grid-walking results, broken round trips through flat-grid coordinates and child positions, misplaced cell corners, and region-covering calls that return cells outside the shape, drop cells along its boundary, mis-estimate the cell count and accept undefined option values. The agent receives the faulted tree and must restore the behaviour described and name each faulted function.",
+    "allow": ""
+  },
+  "base_dockerfile_sha256": "8a12baf34478ab79a52d94272239cd851c97f5fc2b1698f57fb3b2f3ceb3e988",
+  "base_dockerfile_text": "FROM --platform=linux/amd64 ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3\nENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 SOURCE_DATE_EPOCH=0\nRUN apt-get update && apt-get install -y --no-install-recommends build-essential cmake git ca-certificates \\\n    && rm -rf /var/lib/apt/lists/*\nRUN git config --system --add safe.directory '*'\nRUN mkdir -p /workspace/repo && cd /workspace/repo \\\n    && git init -q && git remote add origin https://github.com/uber/h3.git \\\n    && git fetch --depth 1 -q origin cd62033b337b128ea7c4749f2302143b424187fc \\\n    && git checkout -q FETCH_HEAD \\\n    && git submodule update --init --recursive --depth 1\nWORKDIR /workspace/repo\nRUN cmake -S . -B build -DCMAKE_BUILD_TYPE=Release\nRUN cmake --build build -j 4\nLABEL repo=\"uber/h3\" revision=\"cd62033b337b128ea7c4749f2302143b424187fc\" language=\"c\"",
+  "faults": [
+    {
+      "drop": null,
+      "breaks": [
+        "testLinkedGeoConvert_test103"
+      ],
+      "id": "30f3832c",
+      "kind": "change_constant",
+      "path": "src/h3lib/lib/linkedGeo.c",
+      "func": "linkedGeoPolygonToGeoMultiPolygon",
+      "line": 281,
+      "before": "0",
+      "after": "1",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testPolygonInternal_test114",
+        "testPolygonToCellsExperimental_test105"
+      ],
+      "id": "68afe501",
+      "kind": "swap_boolean_operator",
+      "path": "src/h3lib/lib/polygon.c",
+      "func": "lineCrossesLine",
+      "line": 259,
+      "before": "test >= 0 && test <= 1",
+      "after": "test >= 0 || test <= 1",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testPolygonToCellsExperimental_test105"
+      ],
+      "id": "df1d6c38",
+      "kind": "change_constant",
+      "path": "src/h3lib/lib/polyfill.c",
+      "func": "iterStepPolygonCompact",
+      "line": 424,
+      "before": "0",
+      "after": "1",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testCellToChildPos_test91"
+      ],
+      "id": "9a4ddc4f",
+      "kind": "change_constant",
+      "path": "src/h3lib/lib/h3Index.c",
+      "func": "cellToChildPos",
+      "line": 1428,
+      "before": "1",
+      "after": "2",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testVertexExhaustive_test139"
+      ],
+      "id": "1ee58913",
+      "kind": "change_constant",
+      "path": "src/h3lib/lib/vertex.c",
+      "func": "cellToVertexes",
+      "line": 305,
+      "before": "5",
+      "after": "6",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testCellToLocalIjExhaustive_test140",
+        "testGridPathCellsExhaustive_test141"
+      ],
+      "id": "f4f18288",
+      "kind": "change_constant",
+      "path": "src/h3lib/lib/localij.c",
+      "func": "localIjkToCell",
+      "line": 390,
+      "before": "0",
+      "after": "1",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testPolygonToCellsExperimental_test105",
+        "testPolygonToCells_test104"
+      ],
+      "id": "8c5d09f1",
+      "kind": "swap_boolean_operator",
+      "path": "src/h3lib/lib/polygon.c",
+      "func": "validatePolygonFlags",
+      "line": 52,
+      "before": "flags & (~FLAG_CONTAINMENT_MODE_MASK) ||\n        FLAG_GET_CONTAINMENT_MODE(flags) >= CONTAINMENT_INVALID",
+      "after": "flags & (~FLAG_CONTAINMENT_MODE_MASK) &&\n        FLAG_GET_CONTAINMENT_MODE(flags) >= CONTAINMENT_INVALID",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testCliEdgeLengthM_test144"
+      ],
+      "id": "44366fd5",
+      "kind": "change_constant",
+      "path": "src/h3lib/lib/latLng.c",
+      "func": "edgeLengthM",
+      "line": 322,
+      "before": "1000",
+      "after": "1001",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testCellToLocalIjExhaustive_test140",
+        "testCellToLocalIjInternal_test120",
+        "testGridDistanceExhaustive_test142",
+        "testGridDistance_test121",
+        "testGridPathCellsExhaustive_test141"
+      ],
+      "id": "ec3203e3",
+      "kind": "flip_comparison",
+      "path": "src/h3lib/lib/localij.c",
+      "func": "cellToLocalIjk",
+      "line": 180,
+      "before": "revDir == K_AXES_DIGIT",
+      "after": "revDir != K_AXES_DIGIT",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testCliCellAreaKm2_test144",
+        "testCliCellAreaM2_test144",
+        "testH3CellAreaExhaustive_test143",
+        "testH3CellArea_test124"
+      ],
+      "id": "f1ea76f6",
+      "kind": "swap_arithmetic_operator",
+      "path": "src/h3lib/lib/area.c",
+      "func": "cellAreaKm2",
+      "line": 205,
+      "before": "EARTH_RADIUS_KM * EARTH_RADIUS_KM",
+      "after": "EARTH_RADIUS_KM / EARTH_RADIUS_KM",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testCellsToMultiPoly_test100",
+        "testCliCellAreaKm2_test144",
+        "testCliCellAreaM2_test144",
+        "testCliCellAreaRads2_test144",
+        "testGeoLoopArea_test134",
+        "testH3CellAreaExhaustive_test143",
+        "testH3CellArea_test124",
+        "testPolyfillInternal_test115"
+      ],
+      "id": "2e6fcc4b",
+      "kind": "swap_arithmetic_operator",
+      "path": "src/h3lib/lib/area.c",
+      "func": "cagnoli",
+      "line": 34,
+      "before": "x.lat / 2.0",
+      "after": "x.lat * 2.0",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testDirectedEdgeExhaustive_test138",
+        "testDirectedEdge_test108",
+        "testGridPathCellsExhaustive_test141"
+      ],
+      "id": "2b27c3ee",
+      "kind": "flip_comparison",
+      "path": "src/h3lib/lib/directedEdge.c",
+      "func": "areNeighborCells",
+      "line": 84,
+      "before": "destinationResDigit == K_AXES_DIGIT",
+      "after": "destinationResDigit != K_AXES_DIGIT",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testCellsToMultiPoly_test100",
+        "testDirectedEdgeExhaustive_test138",
+        "testGosperIter_test133",
+        "testVertexExhaustive_test139"
+      ],
+      "id": "eb27a658",
+      "kind": "flip_comparison",
+      "path": "src/h3lib/lib/vertex.c",
+      "func": "vertexRotations",
+      "line": 76,
+      "before": "pentagonDirectionFaces[p].baseCell == baseCell",
+      "after": "pentagonDirectionFaces[p].baseCell != baseCell",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testCellToBBoxExhaustive_test144",
+        "testH3Memory_test145",
+        "testPolyfillInternal_test115",
+        "testPolygonToCellsExperimental_test105",
+        "testPolygonToCellsReportedExperimental_test107"
+      ],
+      "id": "8071b094",
+      "kind": "change_constant",
+      "path": "src/h3lib/lib/polyfill.c",
+      "func": "cellToBBox",
+      "line": 227,
+      "before": "0",
+      "after": "1",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testCellToLocalIjExhaustive_test140",
+        "testCellToLocalIjInternal_test120",
+        "testCellsToMultiPoly_test100",
+        "testDirectedEdgeExhaustive_test138",
+        "testGosperIter_test133",
+        "testGridDisk_test82",
+        "testGridDistanceExhaustive_test142",
+        "testGridPathCellsExhaustive_test141",
+        "testGridRingUnsafe_test86",
+        "testGridRing_test84",
+        "testH3NeighborRotations_test136",
+        "testH3NeighborRotations_test137",
+        "testVertexExhaustive_test139"
+      ],
+      "id": "5ebcdca3",
+      "kind": "flip_comparison",
+      "path": "src/h3lib/lib/baseCells.c",
+      "func": "_isBaseCellPolarPentagon",
+      "line": 835,
+      "before": "baseCell == 4",
+      "after": "baseCell != 4",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testPolygonToCellsExperimental_test105"
+      ],
+      "id": "4b54932b",
+      "kind": "flip_comparison",
+      "path": "src/h3lib/lib/polyfill.c",
+      "func": "maxPolygonToCellsSizeExperimental",
+      "line": 762,
+      "before": "iter._res > 0",
+      "after": "iter._res >= 0",
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "testVertexExhaustive_test139"
+      ],
+      "id": "8655b801",
+      "kind": "flip_comparison",
+      "path": "src/h3lib/lib/vertex.c",
+      "func": "cellToVertex",
+      "line": 242,
+      "before": "res == 0",
+      "after": "res != 0",
+      "breaks_nonlocal_only": true
+    }
+  ],
+  "baseline_failing_names": [],
+  "causes": [
+    {
+      "file": "src/h3lib/lib/linkedGeo.c",
+      "function": "linkedGeoPolygonToGeoMultiPolygon",
+      "qualname": "linkedGeoPolygonToGeoMultiPolygon",
+      "id": "30f3832c",
+      "kind": "change_constant",
+      "breaks": [
+        "testLinkedGeoConvert_test103"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/polygon.c",
+      "function": "lineCrossesLine",
+      "qualname": "lineCrossesLine",
+      "id": "68afe501",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "testPolygonInternal_test114",
+        "testPolygonToCellsExperimental_test105"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/polyfill.c",
+      "function": "iterStepPolygonCompact",
+      "qualname": "iterStepPolygonCompact",
+      "id": "df1d6c38",
+      "kind": "change_constant",
+      "breaks": [
+        "testPolygonToCellsExperimental_test105"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/h3Index.c",
+      "function": "cellToChildPos",
+      "qualname": "cellToChildPos",
+      "id": "9a4ddc4f",
+      "kind": "change_constant",
+      "breaks": [
+        "testCellToChildPos_test91"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/vertex.c",
+      "function": "cellToVertexes",
+      "qualname": "cellToVertexes",
+      "id": "1ee58913",
+      "kind": "change_constant",
+      "breaks": [
+        "testVertexExhaustive_test139"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/localij.c",
+      "function": "localIjkToCell",
+      "qualname": "localIjkToCell",
+      "id": "f4f18288",
+      "kind": "change_constant",
+      "breaks": [
+        "testCellToLocalIjExhaustive_test140",
+        "testGridPathCellsExhaustive_test141"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/polygon.c",
+      "function": "validatePolygonFlags",
+      "qualname": "validatePolygonFlags",
+      "id": "8c5d09f1",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "testPolygonToCellsExperimental_test105",
+        "testPolygonToCells_test104"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/latLng.c",
+      "function": "edgeLengthM",
+      "qualname": "edgeLengthM",
+      "id": "44366fd5",
+      "kind": "change_constant",
+      "breaks": [
+        "testCliEdgeLengthM_test144"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/localij.c",
+      "function": "cellToLocalIjk",
+      "qualname": "cellToLocalIjk",
+      "id": "ec3203e3",
+      "kind": "flip_comparison",
+      "breaks": [
+        "testCellToLocalIjExhaustive_test140",
+        "testCellToLocalIjInternal_test120",
+        "testGridDistanceExhaustive_test142",
+        "testGridDistance_test121",
+        "testGridPathCellsExhaustive_test141"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/area.c",
+      "function": "cellAreaKm2",
+      "qualname": "cellAreaKm2",
+      "id": "f1ea76f6",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "testCliCellAreaKm2_test144",
+        "testCliCellAreaM2_test144",
+        "testH3CellAreaExhaustive_test143",
+        "testH3CellArea_test124"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/area.c",
+      "function": "cagnoli",
+      "qualname": "cagnoli",
+      "id": "2e6fcc4b",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "testCellsToMultiPoly_test100",
+        "testCliCellAreaKm2_test144",
+        "testCliCellAreaM2_test144",
+        "testCliCellAreaRads2_test144",
+        "testGeoLoopArea_test134",
+        "testH3CellAreaExhaustive_test143",
+        "testH3CellArea_test124",
+        "testPolyfillInternal_test115"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/directedEdge.c",
+      "function": "areNeighborCells",
+      "qualname": "areNeighborCells",
+      "id": "2b27c3ee",
+      "kind": "flip_comparison",
+      "breaks": [
+        "testDirectedEdgeExhaustive_test138",
+        "testDirectedEdge_test108",
+        "testGridPathCellsExhaustive_test141"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/vertex.c",
+      "function": "vertexRotations",
+      "qualname": "vertexRotations",
+      "id": "eb27a658",
+      "kind": "flip_comparison",
+      "breaks": [
+        "testCellsToMultiPoly_test100",
+        "testDirectedEdgeExhaustive_test138",
+        "testGosperIter_test133",
+        "testVertexExhaustive_test139"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/polyfill.c",
+      "function": "cellToBBox",
+      "qualname": "cellToBBox",
+      "id": "8071b094",
+      "kind": "change_constant",
+      "breaks": [
+        "testCellToBBoxExhaustive_test144",
+        "testH3Memory_test145",
+        "testPolyfillInternal_test115",
+        "testPolygonToCellsExperimental_test105",
+        "testPolygonToCellsReportedExperimental_test107"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/baseCells.c",
+      "function": "_isBaseCellPolarPentagon",
+      "qualname": "_isBaseCellPolarPentagon",
+      "id": "5ebcdca3",
+      "kind": "flip_comparison",
+      "breaks": [
+        "testCellToLocalIjExhaustive_test140",
+        "testCellToLocalIjInternal_test120",
+        "testCellsToMultiPoly_test100",
+        "testDirectedEdgeExhaustive_test138",
+        "testGosperIter_test133",
+        "testGridDisk_test82",
+        "testGridDistanceExhaustive_test142",
+        "testGridPathCellsExhaustive_test141",
+        "testGridRingUnsafe_test86",
+        "testGridRing_test84",
+        "testH3NeighborRotations_test136",
+        "testH3NeighborRotations_test137",
+        "testVertexExhaustive_test139"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/polyfill.c",
+      "function": "maxPolygonToCellsSizeExperimental",
+      "qualname": "maxPolygonToCellsSizeExperimental",
+      "id": "4b54932b",
+      "kind": "flip_comparison",
+      "breaks": [
+        "testPolygonToCellsExperimental_test105"
+      ]
+    },
+    {
+      "file": "src/h3lib/lib/vertex.c",
+      "function": "cellToVertex",
+      "qualname": "cellToVertex",
+      "id": "8655b801",
+      "kind": "flip_comparison",
+      "breaks": [
+        "testVertexExhaustive_test139"
+      ]
+    }
+  ],
+  "formatter_pass": {
+    "tool": null,
+    "formatted": [],
+    "raw": [
+      "src/h3lib/lib/area.c",
+      "src/h3lib/lib/baseCells.c",
+      "src/h3lib/lib/directedEdge.c",
+      "src/h3lib/lib/h3Index.c",
+      "src/h3lib/lib/latLng.c",
+      "src/h3lib/lib/linkedGeo.c",
+      "src/h3lib/lib/localij.c",
+      "src/h3lib/lib/polyfill.c",
+      "src/h3lib/lib/polygon.c",
+      "src/h3lib/lib/vertex.c"
+    ]
+  },
+  "rebuild": "python3 build_task.py --faults-file <this file> --ids <args.ids> and the rest of args above; --base-dockerfile can be written out of base_dockerfile_text",
+  "baseline_failures": 0
+}

@@ -1,0 +1,7 @@
+We've switched to a new tracking vendor and load their exports straight into TrackingData, like `TrackingData(pd.read_csv("/data/tracking/match_2026-09-27.csv"), provider="vendor", frame_rate=25)`. That file is a sample of Saturday's export. The physical numbers we get from it are off. add_velocity gives players speeds of 30 m/s and more right after halftime and around short camera dropouts, so the get_covered_distance totals and speed zone distances come out too high. Also, filter_tracking_data only smooths the ball; player positions don't change at all.
+
+A frame's values should only come from its own stretch, meaning the frames of one period with no missing frame number between them. For each stretch, add_velocity, add_acceleration and filter_tracking_data (ball and players) should give what their usual calculation gives on that stretch alone, taken in frame order. A stretch of a single frame gets NaN velocity and acceleration. When smoothing is asked for, a stretch with no more frames than the window length keeps its unsmoothed values. Data without a frame column is taken in row order with no missing frames, and data without a period_id column is one period.
+
+ruff check and ruff format --check on /app/databallpy and /app/tests have to stay clean, and the existing tests in /app/tests should keep passing.
+
+Could you find what's going on and fix it? There's no network here; databallpy is installed in editable mode from /app.

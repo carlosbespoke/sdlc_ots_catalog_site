@@ -1,0 +1,29 @@
+{
+  "base_commit": "832f43da6c85e3c60878c667e5b793dd51fa39dc",
+  "f2p_node_ids": [
+    "hidden.Checkpoint.interrupted checkpoint leaves the downloadable snapshot and log unchanged",
+    "hidden.Checkpoint.fresh API device recovers compacted budget without missing payees",
+    "hidden.Checkpoint.one conditional commit wins and old-format lagging sync never sees partial history",
+    "hidden.Checkpoint.stale base rejects late timestamps without losing a message",
+    "hidden.Checkpoint.threshold requests a checkpoint and exposes its receive base",
+    "hidden.Checkpoint.message-count threshold 300 compacts repeated edits and fresh download",
+    "hidden.Checkpoint.checkpoint cannot erase a late older-timestamp message",
+    "hidden.Checkpoint.two devices proposing checkpoints together converge without sync errors"
+  ],
+  "p2p_node_ids": [
+    "hidden.Checkpoint.API device uploads a budget through the existing cloud flow",
+    "hidden.Checkpoint.existing upload and sync remain available before checkpoint"
+  ],
+  "gated_p2p_node_ids": [
+    "hidden.Checkpoint.API device uploads a budget through the existing cloud flow",
+    "hidden.Checkpoint.existing upload and sync remain available before checkpoint"
+  ],
+  "p2p_gating": "guards",
+  "grade": {
+    "format": "junit",
+    "tool_label": "node-test",
+    "reports": [
+      "/logs/verifier/new.xml"
+    ]
+  }
+}

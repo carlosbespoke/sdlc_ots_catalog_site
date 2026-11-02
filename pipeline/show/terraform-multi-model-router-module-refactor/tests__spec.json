@@ -1,0 +1,1921 @@
+{
+ "schema": 1,
+ "modules": [
+  "network",
+  "security",
+  "identity",
+  "artifacts",
+  "compute",
+  "routing",
+  "observability",
+  "queues"
+ ],
+ "ownership": {
+  "aws_vpc.main": "network",
+  "aws_internet_gateway.main": "network",
+  "aws_subnet.public": "network",
+  "aws_subnet.private": "network",
+  "aws_eip.nat": "network",
+  "aws_nat_gateway.main": "network",
+  "aws_route_table.public": "network",
+  "aws_route_table_association.public": "network",
+  "aws_route_table.private": "network",
+  "aws_route_table_association.private": "network",
+  "aws_vpc_endpoint.s3": "network",
+  "aws_vpc_endpoint_route_table_association.s3": "network",
+  "aws_cloudwatch_log_group.vpc_flow": "network",
+  "aws_iam_role.vpc_flow": "network",
+  "aws_iam_role_policy.vpc_flow": "network",
+  "aws_flow_log.vpc": "network",
+  "aws_security_group.alb": "security",
+  "aws_security_group.ecs": "security",
+  "aws_security_group_rule.alb_ingress": "security",
+  "aws_security_group_rule.alb_egress": "security",
+  "aws_security_group_rule.ecs_ingress_alb": "security",
+  "aws_security_group_rule.ecs_ingress_self": "security",
+  "aws_security_group_rule.ecs_egress": "security",
+  "aws_iam_role.ecs_infrastructure": "identity",
+  "aws_iam_role_policy_attachment.ecs_infrastructure": "identity",
+  "aws_iam_role.ecs_instance": "identity",
+  "aws_iam_role_policy_attachment.ecs_instance": "identity",
+  "aws_iam_instance_profile.ecs_instance": "identity",
+  "aws_iam_role_policy.ecs_infrastructure_pass_role": "identity",
+  "aws_iam_role.task_execution": "identity",
+  "aws_iam_role_policy_attachment.task_execution": "identity",
+  "aws_iam_role.task": "identity",
+  "aws_iam_role_policy.task_data": "artifacts",
+  "aws_ecr_repository.model": "artifacts",
+  "aws_ecr_lifecycle_policy.model": "artifacts",
+  "aws_s3_bucket.model": "artifacts",
+  "aws_s3_bucket_versioning.model": "artifacts",
+  "aws_s3_bucket_server_side_encryption_configuration.model": "artifacts",
+  "aws_s3_bucket_public_access_block.model": "artifacts",
+  "aws_s3_bucket_lifecycle_configuration.model": "artifacts",
+  "aws_ssm_parameter.model_config": "artifacts",
+  "aws_s3_bucket.alb_logs": "artifacts",
+  "aws_s3_bucket_public_access_block.alb_logs": "artifacts",
+  "aws_s3_bucket_server_side_encryption_configuration.alb_logs": "artifacts",
+  "aws_s3_bucket_versioning.alb_logs": "artifacts",
+  "aws_s3_bucket_lifecycle_configuration.alb_logs": "artifacts",
+  "aws_s3_bucket_policy.alb_logs": "artifacts",
+  "aws_ecs_cluster.main": "compute",
+  "aws_ecs_task_definition.model": "compute",
+  "aws_lb.main": "routing",
+  "aws_lb_target_group.model": "routing",
+  "aws_lb_listener_rule.model": "routing",
+  "aws_cloudwatch_log_group.model": "compute",
+  "aws_sns_topic.model_alerts": "observability",
+  "aws_cloudwatch_metric_alarm.unhealthy_targets": "observability",
+  "aws_network_acl.private": "network",
+  "aws_network_acl_rule.private_ingress": "network",
+  "aws_network_acl_rule.private_egress": "network",
+  "aws_ssm_parameter.az_network": "network",
+  "aws_cloudwatch_log_group.az_operations": "observability",
+  "aws_cloudwatch_metric_alarm.nat_errors": "observability",
+  "aws_cloudwatch_metric_alarm.nat_packets": "observability",
+  "aws_security_group_rule.model_ingress": "security",
+  "aws_ssm_parameter.model_route": "artifacts",
+  "aws_ssm_parameter.model_deployment": "artifacts",
+  "aws_iam_policy.model_artifact_reader": "artifacts",
+  "aws_cloudwatch_log_group.model_audit": "compute",
+  "aws_sns_topic.model_deployments": "observability",
+  "aws_cloudwatch_metric_alarm.model_cpu": "observability",
+  "aws_cloudwatch_metric_alarm.model_memory": "observability",
+  "aws_cloudwatch_metric_alarm.model_errors": "observability",
+  "aws_cloudwatch_metric_alarm.model_latency": "observability",
+  "aws_sqs_queue.inference_dlq": "queues",
+  "aws_sqs_queue.inference": "queues",
+  "aws_sqs_queue_redrive_policy.inference": "queues",
+  "aws_ssm_parameter.queue_config": "queues",
+  "aws_cloudwatch_log_group.queue": "queues",
+  "aws_sns_topic.queue_alerts": "queues",
+  "aws_cloudwatch_metric_alarm.queue_age": "queues",
+  "aws_cloudwatch_metric_alarm.queue_depth": "queues",
+  "aws_iam_role.queue_worker": "queues",
+  "aws_iam_role_policy.queue_worker": "queues",
+  "aws_iam_policy.queue_publish": "queues",
+  "aws_ssm_parameter.queue_catalog": "queues",
+  "aws_iam_role_policy.task_queues": "queues",
+  "aws_ssm_parameter.az_catalog": "network",
+  "aws_iam_role_policy.task_network": "network",
+  "aws_ssm_parameter.model_catalog": "artifacts",
+  "aws_lb_listener.entrypoint": "routing",
+  "aws_ssm_parameter.entrypoint_config": "routing",
+  "aws_ssm_parameter.entrypoint_catalog": "routing",
+  "aws_ssm_parameter.primary_entrypoint": "routing",
+  "aws_cloudwatch_metric_alarm.queue_errors": "queues",
+  "aws_cloudwatch_log_group.entrypoint": "observability",
+  "aws_sns_topic.entrypoint_alerts": "observability",
+  "aws_cloudwatch_metric_alarm.entrypoint_requests": "observability",
+  "aws_cloudwatch_metric_alarm.entrypoint_errors": "observability",
+  "aws_iam_role_policy.task_entrypoints": "observability"
+ },
+ "no_count": true,
+ "key_dimensions": {
+  "az": {
+   "variable": "availability_zones",
+   "keys": {
+    "aws_subnet.public[0]": "us-east-1b",
+    "aws_subnet.public[1]": "us-east-1c",
+    "aws_subnet.public[2]": "us-east-1a",
+    "aws_subnet.private[0]": "us-east-1b",
+    "aws_subnet.private[1]": "us-east-1c",
+    "aws_subnet.private[2]": "us-east-1a",
+    "aws_eip.nat[0]": "us-east-1b",
+    "aws_eip.nat[1]": "us-east-1c",
+    "aws_eip.nat[2]": "us-east-1a",
+    "aws_nat_gateway.main[0]": "us-east-1b",
+    "aws_nat_gateway.main[1]": "us-east-1c",
+    "aws_nat_gateway.main[2]": "us-east-1a",
+    "aws_route_table_association.public[0]": "us-east-1b",
+    "aws_route_table_association.public[1]": "us-east-1c",
+    "aws_route_table_association.public[2]": "us-east-1a",
+    "aws_route_table.private[0]": "us-east-1b",
+    "aws_route_table.private[1]": "us-east-1c",
+    "aws_route_table.private[2]": "us-east-1a",
+    "aws_route_table_association.private[0]": "us-east-1b",
+    "aws_route_table_association.private[1]": "us-east-1c",
+    "aws_route_table_association.private[2]": "us-east-1a",
+    "aws_vpc_endpoint_route_table_association.s3[0]": "us-east-1a",
+    "aws_vpc_endpoint_route_table_association.s3[1]": "us-east-1b",
+    "aws_vpc_endpoint_route_table_association.s3[2]": "us-east-1c",
+    "aws_vpc_endpoint_route_table_association.s3[3]": null,
+    "aws_network_acl.private[0]": "us-east-1b",
+    "aws_network_acl.private[1]": "us-east-1c",
+    "aws_network_acl.private[2]": "us-east-1a",
+    "aws_network_acl_rule.private_ingress[0]": "us-east-1b",
+    "aws_network_acl_rule.private_ingress[1]": "us-east-1c",
+    "aws_network_acl_rule.private_ingress[2]": "us-east-1a",
+    "aws_network_acl_rule.private_egress[0]": "us-east-1b",
+    "aws_network_acl_rule.private_egress[1]": "us-east-1c",
+    "aws_network_acl_rule.private_egress[2]": "us-east-1a",
+    "aws_ssm_parameter.az_network[0]": "us-east-1b",
+    "aws_ssm_parameter.az_network[1]": "us-east-1c",
+    "aws_ssm_parameter.az_network[2]": "us-east-1a",
+    "aws_cloudwatch_log_group.az_operations[0]": "us-east-1b",
+    "aws_cloudwatch_log_group.az_operations[1]": "us-east-1c",
+    "aws_cloudwatch_log_group.az_operations[2]": "us-east-1a",
+    "aws_cloudwatch_metric_alarm.nat_errors[0]": "us-east-1b",
+    "aws_cloudwatch_metric_alarm.nat_errors[1]": "us-east-1c",
+    "aws_cloudwatch_metric_alarm.nat_errors[2]": "us-east-1a",
+    "aws_cloudwatch_metric_alarm.nat_packets[0]": "us-east-1b",
+    "aws_cloudwatch_metric_alarm.nat_packets[1]": "us-east-1c",
+    "aws_cloudwatch_metric_alarm.nat_packets[2]": "us-east-1a"
+   },
+   "add": {
+    "key": "us-east-1f",
+    "value": {
+     "public_cidr": "10.60.6.0/24",
+     "private_cidr": "10.60.112.0/20",
+     "acl_rule_number": 170,
+     "nat_error_threshold": 9,
+     "nat_packet_threshold": 720000,
+     "ingress_from_port": 8300,
+     "egress_to_port": 10443
+    },
+    "created_values": [
+     {
+      "base": "aws_subnet.public",
+      "attr": "availability_zone",
+      "value": "us-east-1f"
+     },
+     {
+      "base": "aws_subnet.private",
+      "attr": "availability_zone",
+      "value": "us-east-1f"
+     },
+     {
+      "base": "aws_subnet.public",
+      "attr": "cidr_block",
+      "value": "10.60.6.0/24"
+     },
+     {
+      "base": "aws_subnet.private",
+      "attr": "cidr_block",
+      "value": "10.60.112.0/20"
+     },
+     {
+      "base": "aws_network_acl_rule.private_ingress",
+      "attr": "rule_number",
+      "value": 170
+     },
+     {
+      "base": "aws_network_acl_rule.private_ingress",
+      "attr": "cidr_block",
+      "value": "10.60.112.0/20"
+     },
+     {
+      "base": "aws_network_acl_rule.private_ingress",
+      "attr": "from_port",
+      "value": 8300
+     },
+     {
+      "base": "aws_network_acl_rule.private_egress",
+      "attr": "rule_number",
+      "value": 170
+     },
+     {
+      "base": "aws_network_acl_rule.private_egress",
+      "attr": "cidr_block",
+      "value": "10.60.6.0/24"
+     },
+     {
+      "base": "aws_network_acl_rule.private_egress",
+      "attr": "to_port",
+      "value": 10443
+     },
+     {
+      "base": "aws_ssm_parameter.az_network",
+      "attr": "value",
+      "value": "{\"acl_rule_number\":170,\"az\":\"us-east-1f\",\"egress_to_port\":10443,\"ingress_from_port\":8300,\"nat_error_threshold\":9,\"nat_packet_threshold\":720000,\"private_cidr\":\"10.60.112.0/20\",\"public_cidr\":\"10.60.6.0/24\"}"
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.nat_errors",
+      "attr": "threshold",
+      "value": 9
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.nat_packets",
+      "attr": "threshold",
+      "value": 720000
+     }
+    ]
+   },
+   "remove": "us-east-1b",
+   "allowed_updates": {
+    "aws_lb.main": [
+     "subnet_mapping",
+     "subnets"
+    ],
+    "aws_ssm_parameter.az_catalog": [
+     "value"
+    ],
+    "aws_iam_role_policy.task_network": [
+     "policy"
+    ]
+   },
+   "required_updates": {
+    "aws_lb.main": [
+     "subnets"
+    ],
+    "aws_ssm_parameter.az_catalog": [
+     "value"
+    ],
+    "aws_iam_role_policy.task_network": [
+     "policy"
+    ]
+   }
+  },
+  "model": {
+   "variable": "models",
+   "keys": {
+    "aws_ecr_repository.model[0]": "llama",
+    "aws_ecr_repository.model[1]": "embed",
+    "aws_ecr_repository.model[2]": "opt",
+    "aws_ecr_lifecycle_policy.model[0]": "llama",
+    "aws_ecr_lifecycle_policy.model[1]": "embed",
+    "aws_ecr_lifecycle_policy.model[2]": "opt",
+    "aws_s3_bucket.model[0]": "llama",
+    "aws_s3_bucket.model[1]": "embed",
+    "aws_s3_bucket.model[2]": "opt",
+    "aws_s3_bucket_versioning.model[0]": "llama",
+    "aws_s3_bucket_versioning.model[1]": "embed",
+    "aws_s3_bucket_versioning.model[2]": "opt",
+    "aws_s3_bucket_server_side_encryption_configuration.model[0]": "llama",
+    "aws_s3_bucket_server_side_encryption_configuration.model[1]": "embed",
+    "aws_s3_bucket_server_side_encryption_configuration.model[2]": "opt",
+    "aws_s3_bucket_public_access_block.model[0]": "llama",
+    "aws_s3_bucket_public_access_block.model[1]": "embed",
+    "aws_s3_bucket_public_access_block.model[2]": "opt",
+    "aws_s3_bucket_lifecycle_configuration.model[0]": "llama",
+    "aws_s3_bucket_lifecycle_configuration.model[1]": "embed",
+    "aws_s3_bucket_lifecycle_configuration.model[2]": "opt",
+    "aws_ssm_parameter.model_config[0]": "llama",
+    "aws_ssm_parameter.model_config[1]": "embed",
+    "aws_ssm_parameter.model_config[2]": "opt",
+    "aws_ecs_task_definition.model[0]": "llama",
+    "aws_ecs_task_definition.model[1]": "embed",
+    "aws_ecs_task_definition.model[2]": "opt",
+    "aws_lb_target_group.model[0]": "llama",
+    "aws_lb_target_group.model[1]": "embed",
+    "aws_lb_target_group.model[2]": "opt",
+    "aws_lb_listener_rule.model[0]": "llama",
+    "aws_lb_listener_rule.model[1]": "embed",
+    "aws_lb_listener_rule.model[2]": "opt",
+    "aws_cloudwatch_log_group.model[0]": "llama",
+    "aws_cloudwatch_log_group.model[1]": "embed",
+    "aws_cloudwatch_log_group.model[2]": "opt",
+    "aws_sns_topic.model_alerts[0]": "llama",
+    "aws_sns_topic.model_alerts[1]": "embed",
+    "aws_sns_topic.model_alerts[2]": "opt",
+    "aws_cloudwatch_metric_alarm.unhealthy_targets[0]": "llama",
+    "aws_cloudwatch_metric_alarm.unhealthy_targets[1]": "embed",
+    "aws_cloudwatch_metric_alarm.unhealthy_targets[2]": "opt",
+    "aws_security_group_rule.model_ingress[0]": "llama",
+    "aws_security_group_rule.model_ingress[1]": "embed",
+    "aws_security_group_rule.model_ingress[2]": "opt",
+    "aws_ssm_parameter.model_route[0]": "llama",
+    "aws_ssm_parameter.model_route[1]": "embed",
+    "aws_ssm_parameter.model_route[2]": "opt",
+    "aws_ssm_parameter.model_deployment[0]": "llama",
+    "aws_ssm_parameter.model_deployment[1]": "embed",
+    "aws_ssm_parameter.model_deployment[2]": "opt",
+    "aws_iam_policy.model_artifact_reader[0]": "llama",
+    "aws_iam_policy.model_artifact_reader[1]": "embed",
+    "aws_iam_policy.model_artifact_reader[2]": "opt",
+    "aws_cloudwatch_log_group.model_audit[0]": "llama",
+    "aws_cloudwatch_log_group.model_audit[1]": "embed",
+    "aws_cloudwatch_log_group.model_audit[2]": "opt",
+    "aws_sns_topic.model_deployments[0]": "llama",
+    "aws_sns_topic.model_deployments[1]": "embed",
+    "aws_sns_topic.model_deployments[2]": "opt",
+    "aws_cloudwatch_metric_alarm.model_cpu[0]": "llama",
+    "aws_cloudwatch_metric_alarm.model_cpu[1]": "embed",
+    "aws_cloudwatch_metric_alarm.model_cpu[2]": "opt",
+    "aws_cloudwatch_metric_alarm.model_memory[0]": "llama",
+    "aws_cloudwatch_metric_alarm.model_memory[1]": "embed",
+    "aws_cloudwatch_metric_alarm.model_memory[2]": "opt",
+    "aws_cloudwatch_metric_alarm.model_errors[0]": "llama",
+    "aws_cloudwatch_metric_alarm.model_errors[1]": "embed",
+    "aws_cloudwatch_metric_alarm.model_errors[2]": "opt",
+    "aws_cloudwatch_metric_alarm.model_latency[0]": "llama",
+    "aws_cloudwatch_metric_alarm.model_latency[1]": "embed",
+    "aws_cloudwatch_metric_alarm.model_latency[2]": "opt",
+    "aws_ssm_parameter.model_catalog": null
+   },
+   "add": {
+    "key": "vision",
+    "value": {
+     "cpu": "4096",
+     "memory": "16384",
+     "desired_count": 1,
+     "priority": 400,
+     "port": 8002,
+     "health_path": "/vision/ready",
+     "error_limit": 14,
+     "latency_limit": 2,
+     "runtime_mode": "vector",
+     "network_alert_role": "disabled",
+     "cpu_alarm_threshold": 65,
+     "memory_alarm_threshold": 67,
+     "health_timeout": 6
+    },
+    "created_values": [
+     {
+      "base": "aws_ecs_task_definition.model",
+      "attr": "cpu",
+      "value": "4096"
+     },
+     {
+      "base": "aws_ecs_task_definition.model",
+      "attr": "memory",
+      "value": "16384"
+     },
+     {
+      "base": "aws_security_group_rule.model_ingress",
+      "attr": "from_port",
+      "value": 8002
+     },
+     {
+      "base": "aws_security_group_rule.model_ingress",
+      "attr": "to_port",
+      "value": 8002
+     },
+     {
+      "base": "aws_lb_target_group.model",
+      "attr": "port",
+      "value": 8002
+     },
+     {
+      "base": "aws_lb_listener_rule.model",
+      "attr": "priority",
+      "value": 400
+     },
+     {
+      "base": "aws_ssm_parameter.model_config",
+      "attr": "value",
+      "value": "{\"cpu\":\"4096\",\"cpu_alarm_threshold\":65,\"desired_count\":1,\"error_limit\":14,\"health_path\":\"/vision/ready\",\"health_timeout\":6,\"latency_limit\":2,\"memory\":\"16384\",\"memory_alarm_threshold\":67,\"model\":\"vision\",\"network_alert_role\":\"disabled\",\"port\":8002,\"runtime_mode\":\"vector\"}"
+     },
+     {
+      "base": "aws_ssm_parameter.model_route",
+      "attr": "value",
+      "value": "{\"health_path\":\"/vision/ready\",\"health_timeout\":6,\"model\":\"vision\",\"port\":8002,\"priority\":400}"
+     },
+     {
+      "base": "aws_ssm_parameter.model_deployment",
+      "attr": "value",
+      "value": "{\"cpu\":\"4096\",\"cpu_alarm_threshold\":65,\"desired_count\":1,\"error_limit\":14,\"health_timeout\":6,\"latency_limit\":2,\"listener_weight\":400,\"memory\":\"16384\",\"memory_alarm_threshold\":67,\"network_alert_role\":\"disabled\",\"runtime_mode\":\"vector\"}"
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.model_errors",
+      "attr": "threshold",
+      "value": 14
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.model_latency",
+      "attr": "threshold",
+      "value": 2
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.model_cpu",
+      "attr": "threshold",
+      "value": 65
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.model_memory",
+      "attr": "threshold",
+      "value": 67
+     },
+     {
+      "base": "aws_lb_target_group.model",
+      "attr": "health_check",
+      "value": [
+       {
+        "enabled": true,
+        "healthy_threshold": 2,
+        "interval": 30,
+        "matcher": "200",
+        "path": "/vision/ready",
+        "port": "traffic-port",
+        "protocol": "HTTP",
+        "timeout": 6,
+        "unhealthy_threshold": 5
+       }
+      ]
+     }
+    ]
+   },
+   "remove": "llama",
+   "allowed_updates": {
+    "aws_iam_role_policy.task_data": [
+     "policy"
+    ],
+    "aws_cloudwatch_metric_alarm.nat_errors[0]": [
+     "alarm_actions"
+    ],
+    "aws_cloudwatch_metric_alarm.nat_packets[0]": [
+     "alarm_actions"
+    ],
+    "aws_cloudwatch_metric_alarm.nat_errors[1]": [
+     "alarm_actions"
+    ],
+    "aws_cloudwatch_metric_alarm.nat_packets[1]": [
+     "alarm_actions"
+    ],
+    "aws_cloudwatch_metric_alarm.nat_errors[2]": [
+     "alarm_actions"
+    ],
+    "aws_cloudwatch_metric_alarm.nat_packets[2]": [
+     "alarm_actions"
+    ],
+    "aws_lb_listener.entrypoint[1]": [
+     "default_action"
+    ],
+    "aws_ssm_parameter.model_catalog": [
+     "value"
+    ]
+   },
+   "required_updates": {
+    "aws_iam_role_policy.task_data": [
+     "policy"
+    ],
+    "aws_lb_listener.entrypoint[1]": [
+     "default_action"
+    ],
+    "aws_ssm_parameter.model_catalog": [
+     "value"
+    ]
+   }
+  },
+  "queue": {
+   "variable": "queues",
+   "keys": {
+    "aws_sqs_queue.inference_dlq[0]": "batch",
+    "aws_sqs_queue.inference_dlq[1]": "interactive",
+    "aws_sqs_queue.inference_dlq[2]": "bulk",
+    "aws_sqs_queue.inference[0]": "batch",
+    "aws_sqs_queue.inference[1]": "interactive",
+    "aws_sqs_queue.inference[2]": "bulk",
+    "aws_sqs_queue_redrive_policy.inference[0]": "batch",
+    "aws_sqs_queue_redrive_policy.inference[1]": "interactive",
+    "aws_sqs_queue_redrive_policy.inference[2]": "bulk",
+    "aws_ssm_parameter.queue_config[0]": "batch",
+    "aws_ssm_parameter.queue_config[1]": "interactive",
+    "aws_ssm_parameter.queue_config[2]": "bulk",
+    "aws_cloudwatch_log_group.queue[0]": "batch",
+    "aws_cloudwatch_log_group.queue[1]": "interactive",
+    "aws_cloudwatch_log_group.queue[2]": "bulk",
+    "aws_sns_topic.queue_alerts[0]": "batch",
+    "aws_sns_topic.queue_alerts[1]": "interactive",
+    "aws_sns_topic.queue_alerts[2]": "bulk",
+    "aws_cloudwatch_metric_alarm.queue_age[0]": "batch",
+    "aws_cloudwatch_metric_alarm.queue_age[1]": "interactive",
+    "aws_cloudwatch_metric_alarm.queue_age[2]": "bulk",
+    "aws_cloudwatch_metric_alarm.queue_depth[0]": "batch",
+    "aws_cloudwatch_metric_alarm.queue_depth[1]": "interactive",
+    "aws_cloudwatch_metric_alarm.queue_depth[2]": "bulk",
+    "aws_iam_role.queue_worker[0]": "batch",
+    "aws_iam_role.queue_worker[1]": "interactive",
+    "aws_iam_role.queue_worker[2]": "bulk",
+    "aws_iam_role_policy.queue_worker[0]": "batch",
+    "aws_iam_role_policy.queue_worker[1]": "interactive",
+    "aws_iam_role_policy.queue_worker[2]": "bulk",
+    "aws_iam_policy.queue_publish[0]": "batch",
+    "aws_iam_policy.queue_publish[1]": "interactive",
+    "aws_iam_policy.queue_publish[2]": "bulk",
+    "aws_cloudwatch_metric_alarm.queue_errors[0]": "batch",
+    "aws_cloudwatch_metric_alarm.queue_errors[1]": "interactive",
+    "aws_cloudwatch_metric_alarm.queue_errors[2]": "bulk"
+   },
+   "add": {
+    "key": "burst",
+    "value": {
+     "visibility_timeout_seconds": 300,
+     "message_retention_seconds": 864000,
+     "max_receive_count": 4,
+     "age_alarm_threshold": 240,
+     "depth_alarm_threshold": 250,
+     "delay_seconds": 5,
+     "dlq_retention_seconds": 604800,
+     "error_alarm_threshold": 12
+    },
+    "created_values": [
+     {
+      "base": "aws_sqs_queue.inference",
+      "attr": "visibility_timeout_seconds",
+      "value": 300
+     },
+     {
+      "base": "aws_sqs_queue.inference",
+      "attr": "message_retention_seconds",
+      "value": 864000
+     },
+     {
+      "base": "aws_sqs_queue.inference",
+      "attr": "delay_seconds",
+      "value": 5
+     },
+     {
+      "base": "aws_sqs_queue.inference_dlq",
+      "attr": "message_retention_seconds",
+      "value": 604800
+     },
+     {
+      "base": "aws_ssm_parameter.queue_config",
+      "attr": "value",
+      "value": "{\"age_alarm_threshold\":240,\"delay_seconds\":5,\"depth_alarm_threshold\":250,\"dlq_retention_seconds\":604800,\"error_alarm_threshold\":12,\"max_receive_count\":4,\"message_retention_seconds\":864000,\"queue\":\"burst\",\"visibility_timeout_seconds\":300}"
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.queue_age",
+      "attr": "threshold",
+      "value": 240
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.queue_depth",
+      "attr": "threshold",
+      "value": 250
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.queue_errors",
+      "attr": "threshold",
+      "value": 12
+     }
+    ]
+   },
+   "remove": "batch",
+   "allowed_updates": {
+    "aws_iam_role_policy.task_queues": [
+     "policy"
+    ],
+    "aws_ssm_parameter.queue_catalog": [
+     "value"
+    ]
+   },
+   "required_updates": {
+    "aws_iam_role_policy.task_queues": [
+     "policy"
+    ],
+    "aws_ssm_parameter.queue_catalog": [
+     "value"
+    ]
+   }
+  },
+  "entrypoint": {
+   "variable": "entrypoints",
+   "keys": {
+    "aws_security_group_rule.alb_ingress[0]": "partner",
+    "aws_security_group_rule.alb_ingress[1]": "public",
+    "aws_security_group_rule.alb_ingress[2]": "operations",
+    "aws_lb_listener.entrypoint[0]": "partner",
+    "aws_lb_listener.entrypoint[1]": "public",
+    "aws_lb_listener.entrypoint[2]": "operations",
+    "aws_ssm_parameter.entrypoint_config[0]": "partner",
+    "aws_ssm_parameter.entrypoint_config[1]": "public",
+    "aws_ssm_parameter.entrypoint_config[2]": "operations",
+    "aws_cloudwatch_log_group.entrypoint[0]": "partner",
+    "aws_cloudwatch_log_group.entrypoint[1]": "public",
+    "aws_cloudwatch_log_group.entrypoint[2]": "operations",
+    "aws_sns_topic.entrypoint_alerts[0]": "partner",
+    "aws_sns_topic.entrypoint_alerts[1]": "public",
+    "aws_sns_topic.entrypoint_alerts[2]": "operations",
+    "aws_cloudwatch_metric_alarm.entrypoint_requests[0]": "partner",
+    "aws_cloudwatch_metric_alarm.entrypoint_requests[1]": "public",
+    "aws_cloudwatch_metric_alarm.entrypoint_requests[2]": "operations",
+    "aws_cloudwatch_metric_alarm.entrypoint_errors[0]": "partner",
+    "aws_cloudwatch_metric_alarm.entrypoint_errors[1]": "public",
+    "aws_cloudwatch_metric_alarm.entrypoint_errors[2]": "operations"
+   },
+   "add": {
+    "key": "canary",
+    "value": {
+     "port": 8090,
+     "cidr_blocks": [
+      "203.0.113.0/24"
+     ],
+     "purpose": "preview",
+     "response_prefix": "Canary endpoint ready",
+     "status_code": "200",
+     "request_threshold": 400,
+     "error_threshold": 10
+    },
+    "created_values": [
+     {
+      "base": "aws_security_group_rule.alb_ingress",
+      "attr": "from_port",
+      "value": 8090
+     },
+     {
+      "base": "aws_security_group_rule.alb_ingress",
+      "attr": "to_port",
+      "value": 8090
+     },
+     {
+      "base": "aws_security_group_rule.alb_ingress",
+      "attr": "cidr_blocks",
+      "value": [
+       "203.0.113.0/24"
+      ]
+     },
+     {
+      "base": "aws_lb_listener.entrypoint",
+      "attr": "port",
+      "value": 8090
+     },
+     {
+      "base": "aws_lb_listener.entrypoint",
+      "attr": "default_action",
+      "value": [
+       {
+        "authenticate_cognito": [],
+        "authenticate_oidc": [],
+        "fixed_response": [
+         {
+          "content_type": "application/json",
+          "message_body": "{\"status\":\"Canary endpoint ready\"}",
+          "status_code": "200"
+         }
+        ],
+        "forward": [],
+        "redirect": [],
+        "target_group_arn": "",
+        "type": "fixed-response"
+       }
+      ]
+     },
+     {
+      "base": "aws_ssm_parameter.entrypoint_config",
+      "attr": "value",
+      "value": "{\"cidr_blocks\":[\"203.0.113.0/24\"],\"entrypoint\":\"canary\",\"error_threshold\":10,\"port\":8090,\"purpose\":\"preview\",\"request_threshold\":400,\"response_prefix\":\"Canary endpoint ready\",\"status_code\":\"200\"}"
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.entrypoint_requests",
+      "attr": "threshold",
+      "value": 400
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.entrypoint_errors",
+      "attr": "threshold",
+      "value": 10
+     }
+    ]
+   },
+   "remove": "partner",
+   "allowed_updates": {
+    "aws_ssm_parameter.entrypoint_catalog": [
+     "value"
+    ],
+    "aws_ssm_parameter.primary_entrypoint": [
+     "value"
+    ],
+    "aws_iam_role_policy.task_entrypoints": [
+     "policy"
+    ],
+    "aws_lb_listener_rule.model[0]": [
+     "listener_arn"
+    ],
+    "aws_lb_listener_rule.model[1]": [
+     "listener_arn"
+    ],
+    "aws_lb_listener_rule.model[2]": [
+     "listener_arn"
+    ]
+   },
+   "required_updates": {
+    "aws_ssm_parameter.entrypoint_catalog": [
+     "value"
+    ],
+    "aws_iam_role_policy.task_entrypoints": [
+     "policy"
+    ]
+   }
+  }
+ },
+ "variables": {
+  "project": {
+   "default": "modelrouter",
+   "type": "string"
+  },
+  "environment": {
+   "default": "prod",
+   "type": "string"
+  },
+  "tags": {
+   "default": {
+    "Owner": "ai-platform",
+    "CostCenter": "cc-7310",
+    "ManagedBy": "terraform"
+   },
+   "type": "map(string)"
+  },
+  "vpc_cidr": {
+   "default": "10.60.0.0/16",
+   "type": "string"
+  },
+  "availability_zones": {
+   "default": {
+    "us-east-1a": {
+     "public_cidr": "10.60.2.0/24",
+     "private_cidr": "10.60.48.0/20",
+     "acl_rule_number": 130,
+     "nat_error_threshold": 6,
+     "nat_packet_threshold": 550000,
+     "ingress_from_port": 8200,
+     "egress_to_port": 9443
+    },
+    "us-east-1b": {
+     "public_cidr": "10.60.0.0/24",
+     "private_cidr": "10.60.16.0/20",
+     "acl_rule_number": 110,
+     "nat_error_threshold": 5,
+     "nat_packet_threshold": 500000,
+     "ingress_from_port": 8000,
+     "egress_to_port": 443
+    },
+    "us-east-1c": {
+     "public_cidr": "10.60.1.0/24",
+     "private_cidr": "10.60.32.0/20",
+     "acl_rule_number": 120,
+     "nat_error_threshold": 7,
+     "nat_packet_threshold": 650000,
+     "ingress_from_port": 8100,
+     "egress_to_port": 8443
+    }
+   },
+   "type": "map(object({ public_cidr = string, private_cidr = string, acl_rule_number = number, nat_error_threshold = number, nat_packet_threshold = number, ingress_from_port = number, egress_to_port = number }))"
+  },
+  "models": {
+   "default": {
+    "llama": {
+     "cpu": "16384",
+     "memory": "65536",
+     "desired_count": 1,
+     "priority": 200,
+     "port": 8001,
+     "health_path": "/llama/ready",
+     "error_limit": 12,
+     "latency_limit": 2.5,
+     "runtime_mode": "generative",
+     "network_alert_role": "primary",
+     "cpu_alarm_threshold": 60,
+     "memory_alarm_threshold": 75,
+     "health_timeout": 8
+    },
+    "embed": {
+     "cpu": "2048",
+     "memory": "8192",
+     "desired_count": 2,
+     "priority": 300,
+     "port": 8002,
+     "health_path": "/embed/ready",
+     "error_limit": 20,
+     "latency_limit": 1.2,
+     "runtime_mode": "vector",
+     "network_alert_role": "standby",
+     "cpu_alarm_threshold": 72,
+     "memory_alarm_threshold": 64,
+     "health_timeout": 6
+    },
+    "opt": {
+     "cpu": "8192",
+     "memory": "32768",
+     "desired_count": 1,
+     "priority": 100,
+     "port": 8003,
+     "health_path": "/opt/ready",
+     "error_limit": 15,
+     "latency_limit": 1.8,
+     "runtime_mode": "generative",
+     "network_alert_role": "disabled",
+     "cpu_alarm_threshold": 68,
+     "memory_alarm_threshold": 70,
+     "health_timeout": 9
+    }
+   },
+   "type": "map(object({ cpu = string, memory = string, desired_count = number, priority = number, port = number, health_path = string, error_limit = number, latency_limit = number, runtime_mode = string, network_alert_role = string, cpu_alarm_threshold = number, memory_alarm_threshold = number, health_timeout = number }))"
+  },
+  "log_retention_days": {
+   "default": 30,
+   "type": "number"
+  },
+  "health_check_interval": {
+   "default": 30,
+   "type": "number"
+  },
+  "deregistration_delay": {
+   "default": 120,
+   "type": "number"
+  },
+  "alarm_period": {
+   "default": 60,
+   "type": "number"
+  },
+  "alarm_evaluation_periods": {
+   "default": 2,
+   "type": "number"
+  },
+  "bucket_expiration_days": {
+   "default": 365,
+   "type": "number"
+  },
+  "bucket_noncurrent_days": {
+   "default": 90,
+   "type": "number"
+  },
+  "force_destroy_buckets": {
+   "default": false,
+   "type": "bool"
+  },
+  "alb_idle_timeout": {
+   "default": 60,
+   "type": "number"
+  },
+  "enable_deletion_protection": {
+   "default": false,
+   "type": "bool"
+  },
+  "task_ephemeral_storage": {
+   "default": 50,
+   "type": "number"
+  },
+  "ecr_scan_on_push": {
+   "default": true,
+   "type": "bool"
+  },
+  "queues": {
+   "default": {
+    "batch": {
+     "visibility_timeout_seconds": 900,
+     "message_retention_seconds": 1209600,
+     "max_receive_count": 4,
+     "age_alarm_threshold": 1800,
+     "depth_alarm_threshold": 500,
+     "delay_seconds": 15,
+     "dlq_retention_seconds": 1209600,
+     "error_alarm_threshold": 25
+    },
+    "interactive": {
+     "visibility_timeout_seconds": 120,
+     "message_retention_seconds": 345600,
+     "max_receive_count": 2,
+     "age_alarm_threshold": 180,
+     "depth_alarm_threshold": 100,
+     "delay_seconds": 0,
+     "dlq_retention_seconds": 604800,
+     "error_alarm_threshold": 8
+    },
+    "bulk": {
+     "visibility_timeout_seconds": 600,
+     "message_retention_seconds": 604800,
+     "max_receive_count": 5,
+     "age_alarm_threshold": 3600,
+     "depth_alarm_threshold": 1000,
+     "delay_seconds": 30,
+     "dlq_retention_seconds": 1209600,
+     "error_alarm_threshold": 40
+    }
+   },
+   "type": "map(object({ visibility_timeout_seconds = number, message_retention_seconds = number, max_receive_count = number, age_alarm_threshold = number, depth_alarm_threshold = number, delay_seconds = number, dlq_retention_seconds = number, error_alarm_threshold = number }))"
+  },
+  "queue_long_poll_seconds": {
+   "default": 20,
+   "type": "number"
+  },
+  "alarm_actions_enabled": {
+   "default": true,
+   "type": "bool"
+  },
+  "entrypoints": {
+   "default": {
+    "partner": {
+     "port": 8443,
+     "cidr_blocks": [
+      "198.51.100.0/24"
+     ],
+     "purpose": "primary",
+     "response_prefix": "Partner token required",
+     "status_code": "403",
+     "request_threshold": 1200,
+     "error_threshold": 20
+    },
+    "public": {
+     "port": 80,
+     "cidr_blocks": [
+      "0.0.0.0/0"
+     ],
+     "purpose": "routes",
+     "response_prefix": "No model specified. Use",
+     "status_code": "404",
+     "request_threshold": 5000,
+     "error_threshold": 100
+    },
+    "operations": {
+     "port": 8080,
+     "cidr_blocks": [
+      "10.60.0.0/16"
+     ],
+     "purpose": "health",
+     "response_prefix": "Operations endpoint healthy",
+     "status_code": "200",
+     "request_threshold": 300,
+     "error_threshold": 5
+    }
+   },
+   "type": "map(object({ port = number, cidr_blocks = list(string), purpose = string, response_prefix = string, status_code = string, request_threshold = number, error_threshold = number }))"
+  },
+  "alarm_datapoints_to_alarm": {
+   "default": 2,
+   "type": "number"
+  },
+  "ecr_images_to_keep": {
+   "default": 20,
+   "type": "number"
+  },
+  "queue_max_message_size": {
+   "default": 262144,
+   "type": "number"
+  },
+  "flow_log_aggregation_interval": {
+   "default": 600,
+   "type": "number"
+  }
+ },
+ "probes": [
+  {
+   "name": "add_az",
+   "kind": "key_add",
+   "dimension": "az",
+   "update_values": {
+    "aws_lb.main": {
+     "subnet_mapping": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": null,
+       "unknown": true
+      }
+     },
+     "subnets": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-0838fd738284d91f1",
+        "subnet-9ce7ad9243bcb9720",
+        "subnet-e7e2e0c8bee7e8ae1",
+        "subnet-f89161188cf2f0591"
+       ],
+       "unknown": [
+        false,
+        false,
+        false,
+        false
+       ]
+      }
+     }
+    },
+    "aws_ssm_parameter.az_catalog": {
+     "value": {
+      "after": "us-east-1a=10.60.48.0/20,us-east-1b=10.60.16.0/20,us-east-1c=10.60.32.0/20,us-east-1f=10.60.112.0/20",
+      "unknown": null,
+      "filled": {
+       "after": "us-east-1a=10.60.48.0/20,us-east-1b=10.60.16.0/20,us-east-1c=10.60.32.0/20,us-east-1f=10.60.112.0/20",
+       "unknown": null
+      }
+     }
+    },
+    "aws_iam_role_policy.task_network": {
+     "policy": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"ssm:GetParameter\",\"ssm:GetParameters\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/network/us-east-1a\",\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/network/us-east-1b\",\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/network/us-east-1c\",\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/network/us-east-1f\"]}]}",
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_az",
+   "kind": "key_remove",
+   "dimension": "az",
+   "update_values": {
+    "aws_lb.main": {
+     "subnet_mapping": {
+      "after": null,
+      "unknown": true
+     },
+     "subnets": {
+      "after": [
+       "subnet-9ce7ad9243bcb9720",
+       "subnet-f89161188cf2f0591"
+      ],
+      "unknown": [
+       false,
+       false
+      ]
+     }
+    },
+    "aws_ssm_parameter.az_catalog": {
+     "value": {
+      "after": "us-east-1a=10.60.48.0/20,us-east-1c=10.60.32.0/20",
+      "unknown": null
+     }
+    },
+    "aws_iam_role_policy.task_network": {
+     "policy": {
+      "after": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"ssm:GetParameter\",\"ssm:GetParameters\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/network/us-east-1a\",\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/network/us-east-1c\"]}]}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "add_model",
+   "kind": "key_add",
+   "dimension": "model",
+   "update_values": {
+    "aws_iam_role_policy.task_data": {
+     "policy": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::modelrouter-prod-mmr-embed-models-a91c\",\"arn:aws:s3:::modelrouter-prod-mmr-llama-models-a91c\",\"arn:aws:s3:::modelrouter-prod-mmr-opt-models-a91c\",\"arn:aws:s3:::modelrouter-prod-mmr-vision-models-a91c\",\"arn:aws:s3:::modelrouter-prod-mmr-embed-models-a91c/*\",\"arn:aws:s3:::modelrouter-prod-mmr-llama-models-a91c/*\",\"arn:aws:s3:::modelrouter-prod-mmr-opt-models-a91c/*\",\"arn:aws:s3:::modelrouter-prod-mmr-vision-models-a91c/*\"],\"Sid\":\"ModelArtifacts\"},{\"Action\":[\"ssm:GetParameter\",\"ssm:GetParameters\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/embed/runtime\",\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/llama/runtime\",\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/opt/runtime\",\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/vision/runtime\"],\"Sid\":\"ModelConfig\"},{\"Action\":[\"ecr:BatchGetImage\",\"ecr:GetDownloadUrlForLayer\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ecr:us-east-1:123456789012:repository/modelrouter-prod-mmr-embed\",\"arn:aws:ecr:us-east-1:123456789012:repository/modelrouter-prod-mmr-llama\",\"arn:aws:ecr:us-east-1:123456789012:repository/modelrouter-prod-mmr-opt\",\"arn:aws:ecr:us-east-1:123456789012:repository/modelrouter-prod-mmr-vision\"],\"Sid\":\"ModelImages\"}]}",
+       "unknown": null
+      }
+     }
+    },
+    "aws_cloudwatch_metric_alarm.nat_errors[0]": {
+     "alarm_actions": {
+      "after": [
+       "arn:aws:sns:us-east-1:123456789012:modelrouter-prod-mmr-llama-alerts"
+      ],
+      "unknown": null,
+      "filled": {
+       "after": [
+        "arn:aws:sns:us-east-1:123456789012:modelrouter-prod-mmr-llama-alerts"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_cloudwatch_metric_alarm.nat_packets[0]": {
+     "alarm_actions": {
+      "after": [
+       "arn:aws:sns:us-east-1:123456789012:modelrouter-prod-mmr-llama-alerts"
+      ],
+      "unknown": null,
+      "filled": {
+       "after": [
+        "arn:aws:sns:us-east-1:123456789012:modelrouter-prod-mmr-llama-alerts"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_cloudwatch_metric_alarm.nat_errors[1]": {
+     "alarm_actions": {
+      "after": [
+       "arn:aws:sns:us-east-1:123456789012:modelrouter-prod-mmr-llama-alerts"
+      ],
+      "unknown": null,
+      "filled": {
+       "after": [
+        "arn:aws:sns:us-east-1:123456789012:modelrouter-prod-mmr-llama-alerts"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_cloudwatch_metric_alarm.nat_packets[1]": {
+     "alarm_actions": {
+      "after": [
+       "arn:aws:sns:us-east-1:123456789012:modelrouter-prod-mmr-llama-alerts"
+      ],
+      "unknown": null,
+      "filled": {
+       "after": [
+        "arn:aws:sns:us-east-1:123456789012:modelrouter-prod-mmr-llama-alerts"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_cloudwatch_metric_alarm.nat_errors[2]": {
+     "alarm_actions": {
+      "after": [
+       "arn:aws:sns:us-east-1:123456789012:modelrouter-prod-mmr-llama-alerts"
+      ],
+      "unknown": null,
+      "filled": {
+       "after": [
+        "arn:aws:sns:us-east-1:123456789012:modelrouter-prod-mmr-llama-alerts"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_cloudwatch_metric_alarm.nat_packets[2]": {
+     "alarm_actions": {
+      "after": [
+       "arn:aws:sns:us-east-1:123456789012:modelrouter-prod-mmr-llama-alerts"
+      ],
+      "unknown": null,
+      "filled": {
+       "after": [
+        "arn:aws:sns:us-east-1:123456789012:modelrouter-prod-mmr-llama-alerts"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_lb_listener.entrypoint[1]": {
+     "default_action": {
+      "after": [
+       {
+        "authenticate_cognito": [],
+        "authenticate_oidc": [],
+        "fixed_response": [
+         {
+          "content_type": "application/json",
+          "message_body": "{\"error\":\"No model specified. Use /embed/*, /llama/*, /opt/*, /vision/* paths.\"}",
+          "status_code": "404"
+         }
+        ],
+        "forward": [],
+        "order": 1,
+        "redirect": [],
+        "target_group_arn": "",
+        "type": "fixed-response"
+       }
+      ],
+      "unknown": null,
+      "filled": {
+       "after": [
+        {
+         "authenticate_cognito": [],
+         "authenticate_oidc": [],
+         "fixed_response": [
+          {
+           "content_type": "application/json",
+           "message_body": "{\"error\":\"No model specified. Use /embed/*, /llama/*, /opt/*, /vision/* paths.\"}",
+           "status_code": "404"
+          }
+         ],
+         "forward": [],
+         "order": 1,
+         "redirect": [],
+         "target_group_arn": "",
+         "type": "fixed-response"
+        }
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_ssm_parameter.model_catalog": {
+     "value": {
+      "after": "embed,llama,opt,vision",
+      "unknown": null,
+      "filled": {
+       "after": "embed,llama,opt,vision",
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_model",
+   "kind": "key_remove",
+   "dimension": "model",
+   "update_values": {
+    "aws_iam_role_policy.task_data": {
+     "policy": {
+      "after": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::modelrouter-prod-mmr-embed-models-a91c\",\"arn:aws:s3:::modelrouter-prod-mmr-opt-models-a91c\",\"arn:aws:s3:::modelrouter-prod-mmr-embed-models-a91c/*\",\"arn:aws:s3:::modelrouter-prod-mmr-opt-models-a91c/*\"],\"Sid\":\"ModelArtifacts\"},{\"Action\":[\"ssm:GetParameter\",\"ssm:GetParameters\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/embed/runtime\",\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/opt/runtime\"],\"Sid\":\"ModelConfig\"},{\"Action\":[\"ecr:BatchGetImage\",\"ecr:GetDownloadUrlForLayer\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ecr:us-east-1:123456789012:repository/modelrouter-prod-mmr-embed\",\"arn:aws:ecr:us-east-1:123456789012:repository/modelrouter-prod-mmr-opt\"],\"Sid\":\"ModelImages\"}]}",
+      "unknown": null
+     }
+    },
+    "aws_cloudwatch_metric_alarm.nat_errors[0]": {
+     "alarm_actions": {
+      "after": [],
+      "unknown": null
+     }
+    },
+    "aws_cloudwatch_metric_alarm.nat_packets[0]": {
+     "alarm_actions": {
+      "after": [],
+      "unknown": null
+     }
+    },
+    "aws_cloudwatch_metric_alarm.nat_errors[1]": {
+     "alarm_actions": {
+      "after": [],
+      "unknown": null
+     }
+    },
+    "aws_cloudwatch_metric_alarm.nat_packets[1]": {
+     "alarm_actions": {
+      "after": [],
+      "unknown": null
+     }
+    },
+    "aws_cloudwatch_metric_alarm.nat_errors[2]": {
+     "alarm_actions": {
+      "after": [],
+      "unknown": null
+     }
+    },
+    "aws_cloudwatch_metric_alarm.nat_packets[2]": {
+     "alarm_actions": {
+      "after": [],
+      "unknown": null
+     }
+    },
+    "aws_lb_listener.entrypoint[1]": {
+     "default_action": {
+      "after": [
+       {
+        "authenticate_cognito": [],
+        "authenticate_oidc": [],
+        "fixed_response": [
+         {
+          "content_type": "application/json",
+          "message_body": "{\"error\":\"No model specified. Use /embed/*, /opt/* paths.\"}",
+          "status_code": "404"
+         }
+        ],
+        "forward": [],
+        "order": 1,
+        "redirect": [],
+        "target_group_arn": "",
+        "type": "fixed-response"
+       }
+      ],
+      "unknown": null
+     }
+    },
+    "aws_ssm_parameter.model_catalog": {
+     "value": {
+      "after": "embed,opt",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "update_az",
+   "kind": "key_update",
+   "dimension": "az",
+   "updates": {
+    "us-east-1b": {
+     "public_cidr": "10.60.3.0/24",
+     "private_cidr": "10.60.64.0/20",
+     "acl_rule_number": 210,
+     "nat_error_threshold": 11,
+     "nat_packet_threshold": 700000,
+     "ingress_from_port": 8010,
+     "egress_to_port": 444
+    },
+    "us-east-1c": {
+     "public_cidr": "10.60.4.0/24",
+     "private_cidr": "10.60.80.0/20",
+     "acl_rule_number": 220,
+     "nat_error_threshold": 12,
+     "nat_packet_threshold": 710000,
+     "ingress_from_port": 8110,
+     "egress_to_port": 8444
+    },
+    "us-east-1a": {
+     "public_cidr": "10.60.5.0/24",
+     "private_cidr": "10.60.96.0/20",
+     "acl_rule_number": 230,
+     "nat_error_threshold": 13,
+     "nat_packet_threshold": 720000,
+     "ingress_from_port": 8210,
+     "egress_to_port": 9444
+    }
+   },
+   "expect": [
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.public",
+     "attr": "cidr_block",
+     "value": "10.60.3.0/24"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.private",
+     "attr": "cidr_block",
+     "value": "10.60.64.0/20"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_network_acl_rule.private_ingress",
+     "attr": "rule_number",
+     "value": 210
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_network_acl_rule.private_ingress",
+     "attr": "cidr_block",
+     "value": "10.60.64.0/20"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_network_acl_rule.private_ingress",
+     "attr": "from_port",
+     "value": 8010
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_network_acl_rule.private_egress",
+     "attr": "rule_number",
+     "value": 210
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_network_acl_rule.private_egress",
+     "attr": "cidr_block",
+     "value": "10.60.3.0/24"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_network_acl_rule.private_egress",
+     "attr": "to_port",
+     "value": 444
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_ssm_parameter.az_network",
+     "attr": "value",
+     "value": "{\"acl_rule_number\":210,\"az\":\"us-east-1b\",\"egress_to_port\":444,\"ingress_from_port\":8010,\"nat_error_threshold\":11,\"nat_packet_threshold\":700000,\"private_cidr\":\"10.60.64.0/20\",\"public_cidr\":\"10.60.3.0/24\"}"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_cloudwatch_metric_alarm.nat_errors",
+     "attr": "threshold",
+     "value": 11
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_cloudwatch_metric_alarm.nat_packets",
+     "attr": "threshold",
+     "value": 700000
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.public",
+     "attr": "cidr_block",
+     "value": "10.60.4.0/24"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.private",
+     "attr": "cidr_block",
+     "value": "10.60.80.0/20"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_network_acl_rule.private_ingress",
+     "attr": "rule_number",
+     "value": 220
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_network_acl_rule.private_ingress",
+     "attr": "cidr_block",
+     "value": "10.60.80.0/20"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_network_acl_rule.private_ingress",
+     "attr": "from_port",
+     "value": 8110
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_network_acl_rule.private_egress",
+     "attr": "rule_number",
+     "value": 220
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_network_acl_rule.private_egress",
+     "attr": "cidr_block",
+     "value": "10.60.4.0/24"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_network_acl_rule.private_egress",
+     "attr": "to_port",
+     "value": 8444
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_ssm_parameter.az_network",
+     "attr": "value",
+     "value": "{\"acl_rule_number\":220,\"az\":\"us-east-1c\",\"egress_to_port\":8444,\"ingress_from_port\":8110,\"nat_error_threshold\":12,\"nat_packet_threshold\":710000,\"private_cidr\":\"10.60.80.0/20\",\"public_cidr\":\"10.60.4.0/24\"}"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_cloudwatch_metric_alarm.nat_errors",
+     "attr": "threshold",
+     "value": 12
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_cloudwatch_metric_alarm.nat_packets",
+     "attr": "threshold",
+     "value": 710000
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.public",
+     "attr": "cidr_block",
+     "value": "10.60.5.0/24"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.private",
+     "attr": "cidr_block",
+     "value": "10.60.96.0/20"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_network_acl_rule.private_ingress",
+     "attr": "rule_number",
+     "value": 230
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_network_acl_rule.private_ingress",
+     "attr": "cidr_block",
+     "value": "10.60.96.0/20"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_network_acl_rule.private_ingress",
+     "attr": "from_port",
+     "value": 8210
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_network_acl_rule.private_egress",
+     "attr": "rule_number",
+     "value": 230
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_network_acl_rule.private_egress",
+     "attr": "cidr_block",
+     "value": "10.60.5.0/24"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_network_acl_rule.private_egress",
+     "attr": "to_port",
+     "value": 9444
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_ssm_parameter.az_network",
+     "attr": "value",
+     "value": "{\"acl_rule_number\":230,\"az\":\"us-east-1a\",\"egress_to_port\":9444,\"ingress_from_port\":8210,\"nat_error_threshold\":13,\"nat_packet_threshold\":720000,\"private_cidr\":\"10.60.96.0/20\",\"public_cidr\":\"10.60.5.0/24\"}"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_cloudwatch_metric_alarm.nat_errors",
+     "attr": "threshold",
+     "value": 13
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_cloudwatch_metric_alarm.nat_packets",
+     "attr": "threshold",
+     "value": 720000
+    }
+   ],
+   "may_change": [
+    {
+     "legacy": "aws_ssm_parameter.az_catalog",
+     "attr": "value"
+    }
+   ],
+   "reference_replaced": [
+    "aws_nat_gateway.main[0]",
+    "aws_nat_gateway.main[1]",
+    "aws_nat_gateway.main[2]",
+    "aws_network_acl_rule.private_egress[0]",
+    "aws_network_acl_rule.private_egress[1]",
+    "aws_network_acl_rule.private_egress[2]",
+    "aws_network_acl_rule.private_ingress[0]",
+    "aws_network_acl_rule.private_ingress[1]",
+    "aws_network_acl_rule.private_ingress[2]",
+    "aws_route_table_association.private[0]",
+    "aws_route_table_association.private[1]",
+    "aws_route_table_association.private[2]",
+    "aws_route_table_association.public[0]",
+    "aws_route_table_association.public[1]",
+    "aws_route_table_association.public[2]",
+    "aws_subnet.private[0]",
+    "aws_subnet.private[1]",
+    "aws_subnet.private[2]",
+    "aws_subnet.public[0]",
+    "aws_subnet.public[1]",
+    "aws_subnet.public[2]"
+   ],
+   "update_values": {
+    "aws_lb.main": {
+     "subnet_mapping": {
+      "after": null,
+      "unknown": true
+     },
+     "subnets": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_ssm_parameter.az_catalog": {
+     "value": {
+      "after": "us-east-1a=10.60.96.0/20,us-east-1b=10.60.64.0/20,us-east-1c=10.60.80.0/20",
+      "unknown": null
+     }
+    },
+    "aws_iam_role_policy.task_network": {
+     "policy": {
+      "after": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"ssm:GetParameter\",\"ssm:GetParameters\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/network/us-east-1a\",\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/network/us-east-1b\",\"arn:aws:ssm:us-east-1:123456789012:parameter/modelrouter/prod/mmr/network/us-east-1c\"]}]}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "add_queue",
+   "kind": "key_add",
+   "dimension": "queue",
+   "update_values": {
+    "aws_iam_role_policy.task_queues": {
+     "policy": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"sqs:ReceiveMessage\",\"sqs:DeleteMessage\",\"sqs:GetQueueAttributes\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:sqs:us-east-1:123456789012:modelrouter-prod-mmr-batch\",\"arn:aws:sqs:us-east-1:123456789012:modelrouter-prod-mmr-bulk\",\"arn:aws:sqs:us-east-1:123456789012:modelrouter-prod-mmr-burst\",\"arn:aws:sqs:us-east-1:123456789012:modelrouter-prod-mmr-interactive\"]}]}",
+       "unknown": null
+      }
+     }
+    },
+    "aws_ssm_parameter.queue_catalog": {
+     "value": {
+      "after": "batch,bulk,burst,interactive",
+      "unknown": null,
+      "filled": {
+       "after": "batch,bulk,burst,interactive",
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_queue",
+   "kind": "key_remove",
+   "dimension": "queue",
+   "update_values": {
+    "aws_iam_role_policy.task_queues": {
+     "policy": {
+      "after": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"sqs:ReceiveMessage\",\"sqs:DeleteMessage\",\"sqs:GetQueueAttributes\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:sqs:us-east-1:123456789012:modelrouter-prod-mmr-bulk\",\"arn:aws:sqs:us-east-1:123456789012:modelrouter-prod-mmr-interactive\"]}]}",
+      "unknown": null
+     }
+    },
+    "aws_ssm_parameter.queue_catalog": {
+     "value": {
+      "after": "bulk,interactive",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "update_queues",
+   "kind": "key_update",
+   "dimension": "queue",
+   "updates": {
+    "batch": {
+     "visibility_timeout_seconds": 840,
+     "message_retention_seconds": 1000000,
+     "max_receive_count": 6,
+     "age_alarm_threshold": 1600,
+     "depth_alarm_threshold": 450,
+     "delay_seconds": 10,
+     "dlq_retention_seconds": 1000000,
+     "error_alarm_threshold": 22
+    },
+    "interactive": {
+     "visibility_timeout_seconds": 180,
+     "message_retention_seconds": 400000,
+     "max_receive_count": 3,
+     "age_alarm_threshold": 240,
+     "depth_alarm_threshold": 140,
+     "delay_seconds": 2,
+     "dlq_retention_seconds": 700000,
+     "error_alarm_threshold": 11
+    },
+    "bulk": {
+     "visibility_timeout_seconds": 720,
+     "message_retention_seconds": 800000,
+     "max_receive_count": 7,
+     "age_alarm_threshold": 3200,
+     "depth_alarm_threshold": 900,
+     "delay_seconds": 45,
+     "dlq_retention_seconds": 1100000,
+     "error_alarm_threshold": 36
+    }
+   },
+   "expect": [
+    {
+     "key": "batch",
+     "base": "aws_sqs_queue.inference",
+     "attr": "visibility_timeout_seconds",
+     "value": 840
+    },
+    {
+     "key": "batch",
+     "base": "aws_sqs_queue.inference",
+     "attr": "message_retention_seconds",
+     "value": 1000000
+    },
+    {
+     "key": "batch",
+     "base": "aws_sqs_queue.inference",
+     "attr": "delay_seconds",
+     "value": 10
+    },
+    {
+     "key": "batch",
+     "base": "aws_sqs_queue.inference_dlq",
+     "attr": "message_retention_seconds",
+     "value": 1000000
+    },
+    {
+     "key": "batch",
+     "base": "aws_ssm_parameter.queue_config",
+     "attr": "value",
+     "value": "{\"age_alarm_threshold\":1600,\"delay_seconds\":10,\"depth_alarm_threshold\":450,\"dlq_retention_seconds\":1000000,\"error_alarm_threshold\":22,\"max_receive_count\":6,\"message_retention_seconds\":1000000,\"queue\":\"batch\",\"visibility_timeout_seconds\":840}"
+    },
+    {
+     "key": "batch",
+     "base": "aws_cloudwatch_metric_alarm.queue_age",
+     "attr": "threshold",
+     "value": 1600
+    },
+    {
+     "key": "batch",
+     "base": "aws_cloudwatch_metric_alarm.queue_depth",
+     "attr": "threshold",
+     "value": 450
+    },
+    {
+     "key": "batch",
+     "base": "aws_cloudwatch_metric_alarm.queue_errors",
+     "attr": "threshold",
+     "value": 22
+    },
+    {
+     "key": "interactive",
+     "base": "aws_sqs_queue.inference",
+     "attr": "visibility_timeout_seconds",
+     "value": 180
+    },
+    {
+     "key": "interactive",
+     "base": "aws_sqs_queue.inference",
+     "attr": "message_retention_seconds",
+     "value": 400000
+    },
+    {
+     "key": "interactive",
+     "base": "aws_sqs_queue.inference",
+     "attr": "delay_seconds",
+     "value": 2
+    },
+    {
+     "key": "interactive",
+     "base": "aws_sqs_queue.inference_dlq",
+     "attr": "message_retention_seconds",
+     "value": 700000
+    },
+    {
+     "key": "interactive",
+     "base": "aws_ssm_parameter.queue_config",
+     "attr": "value",
+     "value": "{\"age_alarm_threshold\":240,\"delay_seconds\":2,\"depth_alarm_threshold\":140,\"dlq_retention_seconds\":700000,\"error_alarm_threshold\":11,\"max_receive_count\":3,\"message_retention_seconds\":400000,\"queue\":\"interactive\",\"visibility_timeout_seconds\":180}"
+    },
+    {
+     "key": "interactive",
+     "base": "aws_cloudwatch_metric_alarm.queue_age",
+     "attr": "threshold",
+     "value": 240
+    },
+    {
+     "key": "interactive",
+     "base": "aws_cloudwatch_metric_alarm.queue_depth",
+     "attr": "threshold",
+     "value": 140
+    },
+    {
+     "key": "interactive",
+     "base": "aws_cloudwatch_metric_alarm.queue_errors",
+     "attr": "threshold",
+     "value": 11
+    },
+    {
+     "key": "bulk",
+     "base": "aws_sqs_queue.inference",
+     "attr": "visibility_timeout_seconds",
+     "value": 720
+    },
+    {
+     "key": "bulk",
+     "base": "aws_sqs_queue.inference",
+     "attr": "message_retention_seconds",
+     "value": 800000
+    },
+    {
+     "key": "bulk",
+     "base": "aws_sqs_queue.inference",
+     "attr": "delay_seconds",
+     "value": 45
+    },
+    {
+     "key": "bulk",
+     "base": "aws_sqs_queue.inference_dlq",
+     "attr": "message_retention_seconds",
+     "value": 1100000
+    },
+    {
+     "key": "bulk",
+     "base": "aws_ssm_parameter.queue_config",
+     "attr": "value",
+     "value": "{\"age_alarm_threshold\":3200,\"delay_seconds\":45,\"depth_alarm_threshold\":900,\"dlq_retention_seconds\":1100000,\"error_alarm_threshold\":36,\"max_receive_count\":7,\"message_retention_seconds\":800000,\"queue\":\"bulk\",\"visibility_timeout_seconds\":720}"
+    },
+    {
+     "key": "bulk",
+     "base": "aws_cloudwatch_metric_alarm.queue_age",
+     "attr": "threshold",
+     "value": 3200
+    },
+    {
+     "key": "bulk",
+     "base": "aws_cloudwatch_metric_alarm.queue_depth",
+     "attr": "threshold",
+     "value": 900
+    },
+    {
+     "key": "bulk",
+     "base": "aws_cloudwatch_metric_alarm.queue_errors",
+     "attr": "threshold",
+     "value": 36
+    }
+   ],
+   "may_change": [
+    {
+     "base": "aws_sqs_queue_redrive_policy.inference",
+     "attr": "redrive_policy"
+    }
+   ],
+   "reference_replaced": [],
+   "update_values": {
+    "aws_iam_role_policy.task_queues": {
+     "policy": {
+      "after": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"sqs:ReceiveMessage\",\"sqs:DeleteMessage\",\"sqs:GetQueueAttributes\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:sqs:us-east-1:123456789012:modelrouter-prod-mmr-batch\",\"arn:aws:sqs:us-east-1:123456789012:modelrouter-prod-mmr-bulk\",\"arn:aws:sqs:us-east-1:123456789012:modelrouter-prod-mmr-interactive\"]}]}",
+      "unknown": null
+     }
+    },
+    "aws_ssm_parameter.queue_catalog": {
+     "value": {
+      "after": "batch,bulk,interactive",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "update_models",
+   "kind": "key_update",
+   "dimension": "model",
+   "updates": {
+    "llama": {
+     "cpu": "12288",
+     "memory": "49152",
+     "desired_count": 2,
+     "priority": 210,
+     "port": 8101,
+     "health_path": "/llama/live",
+     "error_limit": 17,
+     "latency_limit": 3.1,
+     "runtime_mode": "chat",
+     "network_alert_role": "standby",
+     "cpu_alarm_threshold": 66,
+     "memory_alarm_threshold": 78,
+     "health_timeout": 7
+    },
+    "embed": {
+     "cpu": "4096",
+     "memory": "16384",
+     "desired_count": 3,
+     "priority": 310,
+     "port": 8102,
+     "health_path": "/embed/live",
+     "error_limit": 24,
+     "latency_limit": 1.4,
+     "runtime_mode": "retrieval",
+     "network_alert_role": "disabled",
+     "cpu_alarm_threshold": 74,
+     "memory_alarm_threshold": 66,
+     "health_timeout": 5
+    },
+    "opt": {
+     "cpu": "6144",
+     "memory": "24576",
+     "desired_count": 2,
+     "priority": 110,
+     "port": 8103,
+     "health_path": "/opt/live",
+     "error_limit": 19,
+     "latency_limit": 2.1,
+     "runtime_mode": "completion",
+     "network_alert_role": "primary",
+     "cpu_alarm_threshold": 70,
+     "memory_alarm_threshold": 73,
+     "health_timeout": 8
+    }
+   },
+   "expect": [
+    {
+     "key": "llama",
+     "base": "aws_ecs_task_definition.model",
+     "attr": "cpu",
+     "value": "12288"
+    },
+    {
+     "key": "llama",
+     "base": "aws_ecs_task_definition.model",
+     "attr": "memory",
+     "value": "49152"
+    },
+    {
+     "key": "llama",
+     "base": "aws_lb_target_group.model",
+     "attr": "port",
+     "value": 8101
+    },
+    {
+     "key": "llama",
+     "base": "aws_lb_listener_rule.model",
+     "attr": "priority",
+     "value": 210
+    },
+    {
+     "key": "llama",
+  

@@ -1,0 +1,60 @@
+schema_version = "1.3"
+artifacts = ["/logs/artifacts"]
+
+[task]
+name = "bespokelabsai/capstone-30f-9356027c"
+description = "The capstone disassembly library at a pinned commit has had 30 one-line faults injected across its decoding, printing and detail-reporting paths. The agent receives the faulted source tree with no test suite and must localize each defect from behavioural symptoms alone, repair the behaviour, and name the faulted functions."
+authors = []
+keywords = ["diagnosis", "root-cause", "fault-chain", "c", "ctest"]
+
+[metadata]
+task_id = "capstone-30f-9356027c"
+display_title = "Diagnosing 30 injected faults in capstone without a test suite"
+display_description = "The capstone disassembly library at a pinned commit has had 30 one-line faults injected across its decoding, printing and detail-reporting paths. The agent receives the faulted source tree with no test suite and must localize each defect from behavioural symptoms alone, repair the behaviour, and name the faulted functions."
+category = "bugfix"
+difficulty = "hard"
+language = "c"
+repository_url = "https://github.com/capstone-engine/capstone.git"
+base_commit_hash = "fab085153272a2e4f8d2c45ce3ce69f0cddf5246"
+target_test = ""
+fault_count = 30
+fault_files = "MCInst.c;arch/AArch64/AArch64Disassembler.c;arch/AArch64/AArch64InstPrinter.c;arch/ARC/ARCDisassembler.c;arch/ARM/ARMDisassembler.c;arch/ARM/ARMInstPrinter.c;arch/ARM/ARMMapping.c;arch/BPF/BPFDisassembler.c;arch/EVM/EVMDisassembler.c;arch/HPPA/HPPADisassembler.c;arch/M680X/M680XInstPrinter.c;arch/M68K/M68KDisassembler.c;arch/M68K/M68KInstPrinter.c;arch/MOS65XX/MOS65XXDisassembler.c;arch/Mips/MipsDisassembler.c;arch/PowerPC/PPCInstPrinter.c;arch/PowerPC/PPCMapping.c;arch/RISCV/RISCVDisassembler.c;arch/RISCV/RISCVInstPrinter.c;arch/Sparc/SparcInstPrinter.c;arch/TMS320C64x/TMS320C64xInstPrinter.c;arch/TriCore/TriCoreDisassembler.c;arch/WASM/WASMDisassembler.c;arch/X86/X86Disassembler.c;arch/X86/X86DisassemblerDecoder.c;arch/X86/X86InstPrinterCommon.c;arch/X86/X86IntelInstPrinter.c;arch/XCore/XCoreDisassembler.c;arch/XCore/XCoreInstPrinter.c;cs.c"
+fault_ids = "d29c87d3,6f02de3f,3d21a9f8,f1406232,3b8be3d8,8e51f1de,7af88617,6d615226,a96e3706,8c8ffe23,cb023777,f0875faf,381ac900,75051eba,6ed1d6d5,34c3afc0,db0e6296,e2aa3393,bbe8ab6c,2adbc844,2cbc52ed,a8f37a3d,0092b844,86303780,1ea77341,00d3aa9a,f7553cad,949d91b7,428ef6da,151518d2"
+why_hard = "30 edits across 30 files, one per function, and the repository's own suite is the only thing that shows them"
+generated_by = "voyager-diagnosis-pipeline"
+
+# Dual-container (separate) verifier, which the Voyager OTS spec requires of every task
+# (2026-09-29). Grading runs in its OWN container, built from tests/Dockerfile: the same
+# environment/Dockerfile the agent's image comes from, plus root-owned /tests layers the
+# agent image never holds. Nothing the agent did at run time reaches that container except
+# what the collect command below hands over - /logs/artifacts/worktree.tgz (the working
+# tree without .git) and /logs/artifacts/rca.json - and tests/grade.py adopts only source
+# files out of the archive. So the agent's .git, its venv, its home directory, its
+# processes and anything it planted outside the source roots never meet the grader. The
+# grader still runs as root (user below) and drops to the agent account for every suite run
+# (answer_key run_tests_as = "agent"). No [verifier.environment] block: Harbor then gives
+# the verifier a fresh copy of [environment] below, so one declaration governs both
+# containers' network, cpus, memory and storage.
+[verifier]
+environment_mode = "separate"
+user = "root"
+timeout_sec = 2400.0
+[[verifier.collect]]
+command = "bash -c 'mkdir -p /logs/artifacts && cd /workspace/repo && tar czf /logs/artifacts/worktree.tgz --exclude=./.git . ; cp -f /app/rca.json /logs/artifacts/rca.json 2>/dev/null || true'"
+service = "main"
+timeout_sec = 300
+
+# The solving agent's own budget, per language. Horizon applies it as written, with no
+# multiplier. AGENT_TIMEOUT_SEC holds the numbers and the reason.
+[agent]
+timeout_sec = 21600.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+os = "linux"
+workdir = "/workspace/repo"
+cpus = 2
+memory_mb = 8192
+storage_mb = 30720
+gpus = 0

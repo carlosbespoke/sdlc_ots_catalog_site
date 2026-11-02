@@ -1,0 +1,90 @@
+{
+ "submitted_at": "2026-10-28T19:49:15.436281",
+ "model": "umbra",
+ "effort_tier": 3,
+ "agent_type": "typhoon",
+ "runs": 2,
+ "max_turns": 1000,
+ "max_tokens": 32000,
+ "budget_usd": 1000,
+ "evaluations": [
+  {
+   "catalog": "ProgramBench",
+   "evaluation_id": "dda76064-dbfc-4c8d-afb9-b988bbd3d7b2",
+   "tasks": 10,
+   "runs": 20,
+   "est_cost_usd": 269.26
+  },
+  {
+   "catalog": "Diagnosis, Debugging, and Bug Fixing",
+   "evaluation_id": "3bd53a16-a3c0-40d8-a2f3-136011678920",
+   "tasks": 15,
+   "runs": 30,
+   "est_cost_usd": 251.29
+  },
+  {
+   "catalog": "Feature implementation",
+   "evaluation_id": "57771e6b-b017-4bd2-8a5d-60f2a240019b",
+   "tasks": 10,
+   "runs": 20,
+   "est_cost_usd": 114.14
+  },
+  {
+   "catalog": "Infrastructure as code",
+   "evaluation_id": "a59efed3-8aa6-4a16-b29e-c1ef17c3964e",
+   "tasks": 20,
+   "runs": 40,
+   "est_cost_usd": 78.08,
+   "failed_attempt": {
+    "evaluation_id": "31813de0-e31c-428d-ba96-68180cd248d8",
+    "reason": "2-vCPU default machine: Docker refused the CPU request; 0 USD spent"
+   },
+   "machine_type": "e2-custom-8-16384"
+  },
+  {
+   "catalog": "Data engineering",
+   "evaluation_id": "0e509c53-8c3b-41c7-abdd-c2a2f5e44c27",
+   "tasks": 17,
+   "runs": 34,
+   "est_cost_usd": 47.32,
+   "failed_attempt": {
+    "evaluation_id": "f2d556a4-1b02-446b-83ec-4667059e62c8",
+    "reason": "2-vCPU default machine: Docker refused the CPU request; 0 USD spent"
+   },
+   "machine_type": "e2-custom-8-16384"
+  },
+  {
+   "catalog": "Migration",
+   "evaluation_id": "516fd781-e381-4f86-881f-676f27623885",
+   "tasks": 12,
+   "runs": 24,
+   "est_cost_usd": 130.02
+  }
+ ],
+ "reruns": [
+  {
+   "catalog": "Feature implementation",
+   "task_id": "8da212de-c823-4bbf-a7d7-c14abdfa40d6",
+   "evaluation_id": "c661d41f-d922-4b15-b731-f5797f774776",
+   "runs": 1,
+   "replaces_rollout": "ec15b1b7-b3f9-4eca-9c97-67987c3088a7",
+   "reason": "errored: stop_reason no_progress after 4 turns"
+  },
+  {
+   "catalog": "ProgramBench",
+   "task_id": "10e6a5df-9263-4053-9f32-b931d0aea658",
+   "task_name": "fairy-stockfish__fairy-stockfish.433d411",
+   "evaluation_id": "2a4de9f0-f43c-4f72-a53d-8b1c6a698591",
+   "runs": 2,
+   "reason": "run(s) never completed (771-901 turns, stopped after 7.5-13.5 h, no grade)"
+  },
+  {
+   "catalog": "ProgramBench",
+   "task_id": "3e6d30f8-8ca8-4447-b58f-f01d6ef640d1",
+   "task_name": "beariish__bolt.2e30103",
+   "evaluation_id": "b1d155a4-1d5e-4432-8129-cd871e330c2c",
+   "runs": 1,
+   "reason": "run(s) never completed (771-901 turns, stopped after 7.5-13.5 h, no grade)"
+  }
+ ]
+}

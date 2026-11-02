@@ -1,0 +1,71 @@
+# tests/Dockerfile for a C# task. The verifier's container: the same base as environment/Dockerfile
+# (keep the two in step), the unprivileged user the submission runs as, and a NuGet cache warmed
+# for the staged hidden build. FILL the values marked FILL.
+FROM mcr.microsoft.com/dotnet/sdk:10.0.401@sha256:e70cdb7f80b0348f5cb85f19a8f670fca061f033d57eed12fa003d58b0e06317
+
+# FILL: the repository and the base commit.
+ARG REPO_URL=https://github.com/digdir/dialogporten.git
+ARG BASE_COMMIT=1eb4fbbc91d0f9c8248160cbc0fc03306e83aa8e
+ENV CI=1 \
+    DOTNET_CLI_TELEMETRY_OPTOUT=1 \
+    DOTNET_NOLOGO=1 \
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
+    NUGET_PACKAGES=/opt/nuget/packages \
+    PATH=/root/.dotnet/tools:$PATH
+
+RUN set -eu; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      bash ca-certificates curl git jq less lsof netcat-openbsd procps python3 vim-tiny \
+      redis-server postgresql-common gnupg; \
+    install -d /etc/apt/keyrings; \
+    curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /etc/apt/keyrings/postgresql.gpg; \
+    printf 'deb [signed-by=/etc/apt/keyrings/postgresql.gpg] https://apt.postgresql.org/pub/repos/apt noble-pgdg main\n' > /etc/apt/sources.list.d/pgdg.list; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends postgresql-18 postgresql-client-18; \
+    rm -rf /var/lib/apt/lists/*
+
+RUN set -eu; \
+    service postgresql start; \
+    su postgres -c "psql -v ON_ERROR_STOP=1 -c \"ALTER USER postgres PASSWORD 'postgres'\""; \
+    service postgresql stop
+
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" \
+    && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD \
+    && test "$(git -C /app rev-parse HEAD)" = "$BASE_COMMIT"
+
+# The base GraphQL app maps the subscription endpoint but never enables WebSockets, so no client can
+# open dialogEvents at all. app.UseWebSockets() is committed on top of it with a fixed identity and
+# dates, so both images get the same base commit, FIXED_BASE_COMMIT, which grading diffs against.
+ARG FIXED_BASE_COMMIT=18b3a4dee4af29ffe92103b0e263a9c7349131af
+RUN sed -i 's/^    app\.UseCors();$/    app.UseWebSockets();\n    app.UseCors();/' /app/src/Digdir.Domain.Dialogporten.GraphQL/Program.cs \
+    && GIT_AUTHOR_NAME=sd GIT_AUTHOR_EMAIL=sd@example.invalid GIT_COMMITTER_NAME=sd GIT_COMMITTER_EMAIL=sd@example.invalid \
+       GIT_AUTHOR_DATE='2026-01-01T00:00:00Z' GIT_COMMITTER_DATE='2026-01-01T00:00:00Z' \
+       git -C /app commit -q -am 'Enable WebSockets for GraphQL subscriptions' \
+    && test "$(git -C /app rev-parse HEAD)" = "$FIXED_BASE_COMMIT"
+
+RUN set -eu; \
+    for p in src/Digdir.Domain.Dialogporten.WebApi src/Digdir.Domain.Dialogporten.Service src/Digdir.Domain.Dialogporten.GraphQL tests/Digdir.Domain.Dialogporten.Application.Unit.Tests; do \
+      dotnet build "$p" -c Debug -v q -nologo -p:NuGetAudit=false; \
+    done; \
+    chmod -R a+rX /opt/nuget                                         # FILL: same list as environment/
+
+COPY grader.py /tests/grader.py
+COPY config.json /tests/config.json
+COPY test.patch /tests/test.patch
+COPY test.sh /tests/test.sh
+RUN chmod +x /tests/test.sh && useradd --create-home --uid 1500 sdapp
+
+# Warm the NuGet cache for the staged hidden build so grading runs offline, then restore the tree.
+RUN set -eu; \
+    git -C /app apply --whitespace=nowarn /tests/test.patch; \
+    GRADE_DIR=/tmp/warm bash /app/test.sh stage; \
+    GRADE_DIR=/tmp/warm bash /tmp/warm/test.sh build-tests; \
+    rm -rf /tmp/warm; \
+    git -C /app apply -R --whitespace=nowarn /tests/test.patch; \
+    git -C /app clean -qfd -- tests; \
+    test -z "$(git -C /app status --porcelain)"; \
+    chmod -R a+rX /opt/nuget
+
+CMD ["/bin/bash"]

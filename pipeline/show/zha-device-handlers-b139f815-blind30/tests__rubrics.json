@@ -1,0 +1,271 @@
+{
+  "task": "zha-device-handlers-b139f815-blind30",
+  "rubrics": [
+    {
+      "id": "R1",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Sinope device-temperature scaling multiplier?",
+      "pass_condition": "The research identifies that in zhaquirks/sinope/__init__.py the device-temperature cluster's _update_attribute multiplies current_temperature by 101 instead of 100, so a 25 degree internal reading surfaces as 2525 rather than 2500 in hundredths, and that only current_temperature is rescaled while the minimum and maximum recorded values pass through untouched."
+    },
+    {
+      "id": "R2",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Schneider Electric metering demand scaling guard?",
+      "pass_condition": "The research identifies that in zhaquirks/schneiderelectric/outlet.py the metering cluster's _update_attribute guards the divide-by-1000 with `attrid != self.AttributeDefs.instantaneous_demand.id`, so every attribute except instantaneous_demand is divided: demand 25000 surfaces verbatim instead of 25 and current_summation_delivered 25 becomes 0. The test must be an equality on instantaneous_demand, as the cluster docstring about demand multiplied by 1000 confirms."
+    },
+    {
+      "id": "R3",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Candeo illuminance log conversion coefficient?",
+      "pass_condition": "The research identifies that in zhaquirks/candeo/__init__.py the illuminance cluster's _update_attribute converts the calibrated lux back with `20000 * math.log10(value) + 1` where the original coefficient is 10000, so every reading across the whole range is over-scaled and pitch darkness surfaces as 2 instead of 1."
+    },
+    {
+      "id": "R4",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Candeo lux_calibration high-range linear term sign?",
+      "pass_condition": "The research identifies a second, independent defect in zhaquirks/candeo/__init__.py: lux_calibration's `value > 2500` branch adds the linear term in `(78029.21628 + 61.73575 * value) + (0.01223567 * (value**2))` where that term must be subtracted, so a raw reading of 34299 comes back as an enormous number instead of 26989."
+    },
+    {
+      "id": "R5",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Tuya PM2.5 out-of-range drop guard?",
+      "pass_condition": "The research identifies that in zhaquirks/tuya/tuya_co.py the PM2.5 ignore-values cluster's _update_attribute tests `attrid != self.AttributeDefs.measured_value.id and value > 1000`, so out-of-range readings are no longer discarded; the comparison must be an equality on measured_value so 1001 is dropped while 1000 still passes, matching the docstring about ignoring values over 1000."
+    },
+    {
+      "id": "R6",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Tuya air-quality temperature converter multiplier?",
+      "pass_condition": "The research identifies that the module-level tuya_air_quality_temperature_converter in zhaquirks/tuya/tuya_co.py multiplies the two-byte big-endian signed temperature by 11 instead of 10, so a report that should surface as 2880 centidegrees arrives roughly a tenth too large and negative values are skewed the same way."
+    },
+    {
+      "id": "R7",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Packed Xiaomi/Aqara/Mija attribute report decoding?",
+      "pass_condition": "The research identifies that in zhaquirks/xiaomi/__init__.py the Xiaomi cluster's _iter_parse_attr_report joins the packed-attribute id membership test (XIAOMI_AQARA_ATTRIBUTE, XIAOMI_MIJA_ATTRIBUTE, XIAOMI_AQARA_ATTRIBUTE_E1) and the type test `attr_type not in (DataTypeId.octstr, DataTypeId.string)` with `and` where the original operator is `or`, so packed battery-sensor frames whose members are octstr or string types take the wrong branch and the multi-field frame no longer decodes to the values it carries."
+    },
+    {
+      "id": "R8",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Linkind motion Alarm_2 masking guard?",
+      "pass_condition": "The research identifies that in zhaquirks/linkind/motion.py the IAS zone cluster's _update_attribute tests `attrid != IasZone.AttributeDefs.zone_status.id` before clearing the Alarm_2 bit, so Alarm_2 passes through on zone_status while genuine Alarm_1 reports are blanked; the test must match zone_status so only zone_status has Alarm_2 masked off."
+    },
+    {
+      "id": "R9",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Third Reality night light motion forwarding guard?",
+      "pass_condition": "The research identifies that in zhaquirks/thirdreality/night_light.py the manufacturer-specific cluster's _update_attribute tests `attrid != THIRD_REALITY_MOTION_EVENT_ATTR_ID` before forwarding to ias_zone.update_attribute(IasZone.AttributeDefs.zone_status.id, value), so the motion report never reaches zone_status and the alarm neither trips nor clears; the guard must match that motion attribute id."
+    },
+    {
+      "id": "R10",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Tuya smoke detector alarm forwarding guard?",
+      "pass_condition": "The research identifies that in zhaquirks/tuya/tuya_smoke.py the smoke detector cluster's _update_attribute tests `attrid != self.AttributeDefs.smoke_detected.id` before forwarding IasZone.ZoneStatus.Alarm_1 (when value == 0) or 0 to the ias_zone zone_status, so smoke_detected changes leave the alarm state untouched; the guard must match smoke_detected."
+    },
+    {
+      "id": "R11",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Konke button report argument index?",
+      "pass_condition": "The research identifies that in zhaquirks/konke/__init__.py the on/off cluster's handle_cluster_general_request reads the reported attribute as `attr = args[1][0]` from the Report_Attributes args where the original index is `args[0][0]`, so the konke_button_event attribute is never recognised and no single-tap, double-tap or hold event fires although frames still arrive."
+    },
+    {
+      "id": "R12",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Linxura four-button press-type index arithmetic?",
+      "pass_condition": "The research identifies that in zhaquirks/linxura/button.py the IAS cluster's _handle_attribute_event computes `PRESS_TYPES[value // 2 - 6 - 1]` in the `12 < value < 18` BUTTON_3 branch while the sibling BUTTON_2 and BUTTON_4 branches use `+ 1`, so BUTTON_3 taps are credited to another key and the status values treated as real taps shift; it must use `+ 1`."
+    },
+    {
+      "id": "R13",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Philips press grouping timestamp unit?",
+      "pass_condition": "The research identifies that in zhaquirks/philips/__init__.py the ButtonPressQueue press path records the last tap with `self._ms_last_click = time.time()` in seconds although that field is later compared against a millisecond now_ms, so a burst of four quick taps is never collapsed into one grouped callback with a count of 4; it must store the millisecond value."
+    },
+    {
+      "id": "R14",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Aqara ACN047 two-gang press event guard?",
+      "pass_condition": "The research identifies that in zhaquirks/xiaomi/aqara/switch_acn047.py the multistate input cluster's _update_attribute tests `attrid != STATUS_TYPE_ATTR and value == 1` before emitting the press event, so a genuine tap on STATUS_TYPE_ATTR emits nothing while an unrelated attribute update with value 1 emits a spurious press; the guard must match STATUS_TYPE_ATTR."
+    },
+    {
+      "id": "R15",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about SmartWings WM25LZ inverted cover command branch?",
+      "pass_condition": "The research identifies that in zhaquirks/smartwings/wm25lz.py the inverted window-covering cluster's command uses `elif command_id != self.CMD_DOWN_CLOSE`, so the branch rewrites every command except down/close; it must match CMD_DOWN_CLOSE so CMD_UP_OPEN and CMD_DOWN_CLOSE are swapped with each other before transmission and the blind travels in the requested direction."
+    },
+    {
+      "id": "R16",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Aqara roller curtain E1 command dispatch guard?",
+      "pass_condition": "The research identifies that in zhaquirks/xiaomi/aqara/roller_curtain_e1.py the roller cluster's command tests `command_id != WindowCovering.ServerCommandDefs.go_to_lift_percentage.id` before writing AnalogOutput present_value `(100 - args[0])`, so the go-to-percentage and plain movement paths traded places and the position is not read back afterwards; the guard must match go_to_lift_percentage."
+    },
+    {
+      "id": "R17",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Tuya cover inverted position report converter?",
+      "pass_condition": "The research identifies that in zhaquirks/tuya/builder/__init__.py the cover builder makes the inverted report converter `(lambda x: 100 + x) if invert else None` while the write-side dp_converter stays `(lambda x: 100 - x)`, so a position report of 75 surfaces as 175 instead of 25; the report converter must subtract too."
+    },
+    {
+      "id": "R18",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Ubisys J1 calibration read endpoint index?",
+      "pass_condition": "The research identifies that in zhaquirks/ubisys/cover_j1.py the calibration cluster's _read_calibration_attributes reads the calibration attribute list from `self.endpoint.device.endpoints[2].window_covering` where it must read endpoints[1].window_covering, so the read-back of the stored calibration attributes is issued against the wrong endpoint's cluster and one requested figure is left out."
+    },
+    {
+      "id": "R19",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Ubisys J1 motion-stop polling default?",
+      "pass_condition": "The research identifies that _wait_until_stopped computes `status = wc.get_cached_value(attr) and 0`, forcing status to 0 so `if status == 0: break` exits after a single poll and the timeout error for a motor that never stops is never raised; it must default with `or 0`, so polling continues while operational_status is non-zero."
+    },
+    {
+      "id": "R20",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about MoesBHT setpoint write mapping guard?",
+      "pass_condition": "The research identifies that in zhaquirks/tuya/ts0601_electric_heating.py the thermostat's map_attribute tests `attribute != \"occupied_heating_setpoint\"` before returning `{MOESBHT_TARGET_TEMP_ATTR: round(value / 100)}`, so writing a target temperature produces the wrong outgoing frame while the untouched system_mode branch still produces the frame it always did; the guard must match \"occupied_heating_setpoint\"."
+    },
+    {
+      "id": "R21",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about MoesBHT incoming report routing and scaling?",
+      "pass_condition": "The research identifies that the MoesBHT manufacturer cluster's _update_attribute tests `elif attrid != MOESBHT_TEMPERATURE_ATTR` before raising the local_temperature change, so the temperature and setpoint branches hit the wrong attributes and mis-scale in opposite directions; with the guard matching MOESBHT_TEMPERATURE_ATTR a measured room temperature surfaces as 1790 while the echoed setpoint keeps its `value * 100` scaling."
+    },
+    {
+      "id": "R22",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Aqara AGL001 weekly schedule temperature packing?",
+      "pass_condition": "The research identifies that in zhaquirks/xiaomi/aqara/thermostat_agl001.py the schedule event's _write_temp_to_buf packs `int(self._temp // 100)` into the buffer where it must pack `int(self._temp * 100)`, so converting a weekly heating programme to bytes and back yields wrong temperatures in every slot while the days and the switch-over times, packed by the neighbouring writer, survive the round trip intact."
+    },
+    {
+      "id": "R23",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Tuya keypad lockout write translation guard?",
+      "pass_condition": "The research identifies that in zhaquirks/tuya/__init__.py the user-interface cluster's write_attributes tests `record.attrid != self.attributes_by_name[\"keypad_lockout\"].id` before translating the record into `{self._CHILD_LOCK_ATTR: lock}` using KeypadLockout.No_lockout, so turning the display auto-lock option on produces no manufacturer message while the valve's other writes stay unchanged; the guard must match keypad_lockout."
+    },
+    {
+      "id": "R24",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Legrand cable outlet pilot wire mode write guard?",
+      "pass_condition": "The research identifies that in zhaquirks/legrand/cable_outlet.py the cable-outlet cluster's write_attributes tests `attr_def != LegrandCableOutletCluster.AttributeDefs.pilot_wire_mode` before calling set_pilot_wire_mode(value, manufacturer=manufacturer) and re-reading the attribute, so the heating-mode write is attempted as a plain write instead of the manufacturer-specific command; the guard must match pilot_wire_mode."
+    },
+    {
+      "id": "R25",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Sonoff ZBM5 relay bit mask accumulation check?",
+      "pass_condition": "The research identifies that in zhaquirks/sonoff/zbm5.py the input-config cluster's write_attributes accumulates the mask under `if bit is None:` after `bit = self._RELAY_BITS.get(...)`, inverting the intent, so writing the detach-relay option sends no combined bit mask and no local relay-state updates follow; the test must be `is not None`."
+    },
+    {
+      "id": "R26",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Pinned constant attribute lookup key mismatch?",
+      "pass_condition": "The research identifies that in zhaquirks/clusters.py the custom cluster's get tests `attr_def.name in self._CONSTANT_ATTRIBUTES` but indexes `self._CONSTANT_ATTRIBUTES[attr_def.id]`, so pinned constants do not read back: a metering divisor pinned to 1000 no longer returns 1000, an unsolicited divisor report is accepted and raises an update event, and pinned battery size, quantity and rated voltage return nothing; the membership test must use attr_def.id."
+    },
+    {
+      "id": "R27",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about Tuya battery declaration default filling?",
+      "pass_condition": "The research identifies that in zhaquirks/tuya/builder/__init__.py the battery builder uses `if not battery_voltage or (battery_type and battery_qty):` before filling battery_voltage from BATTERY_VOLTAGES, where the operator must be `and`, so declaring only a battery size invents a quantity and rated voltage, and an explicitly supplied rated voltage of 60 is replaced by the default."
+    },
+    {
+      "id": "R28",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about BITUO SPM01 phantom attribute availability test?",
+      "pass_condition": "The research identifies that in zhaquirks/bituo/spm01.py the electrical-measurement cluster's is_attribute_unsupported returns True when the attribute id is `not in self.PHANTOM_ATTRIBUTES`, contradicting its docstring, so the unused three-phase attributes report as available while the single-phase active power attribute reports as unavailable; the membership test must be `in`."
+    },
+    {
+      "id": "R29",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about v2 builder AddCluster server/client side forwarding?",
+      "pass_condition": "The research identifies that in zhaquirks/builder/builder.py the AddCluster call instantiates `cluster = self.cluster(endpoint)` without forwarding the side, so a cluster declared client-side is created as a server cluster and the per-device custom configuration pass is applied to the wrong side; it must pass the is_server flag to the cluster constructor."
+    },
+    {
+      "id": "R30",
+      "phase": "research",
+      "dimension": "root_cause",
+      "description": "Does the research explain the findings about BaseCustomDevice.add_endpoint fallback condition?",
+      "pass_condition": "The research identifies that in zhaquirks/device.py the base custom device's add_endpoint guards the plain-endpoint fallback with `if replace_device is None and endpoint_id not in self.replacement.get(SIG_ENDPOINTS, {})` where the operator must be `or`, so a quirk that removes endpoint 2 and then adds a fresh empty one is rejected with an error instead of yielding the new endpoint."
+    },
+    {
+      "id": "P1",
+      "phase": "planning",
+      "dimension": "strategy",
+      "description": "Does the plan describe its approach for Completeness across every reported regression family?",
+      "pass_condition": "The plan must cover every reported regression family: report scaling (device temperature, metering, illuminance, particulate, air-quality temperature, packed battery frames), zone_status alarms, press and multi-tap events, cover commands, position reports, calibration read-back and polling, written settings (heating setpoint, display auto-lock, pilot wire mode, relay detach, weekly schedule) and quirk-definition behavior, mapping each described symptom to a located edit; unexplained symptoms mean the audit is unfinished."
+    },
+    {
+      "id": "P2",
+      "phase": "planning",
+      "dimension": "decomposition",
+      "description": "Does the plan describe its approach for Multiple independent edits inside one file?",
+      "pass_condition": "The plan states that finding one defect in a file does not finish that file, and names at least three multi-edit pairs from the paired symptoms \u2014 zhaquirks/candeo/__init__.py (illuminance _update_attribute and lux_calibration), zhaquirks/tuya/tuya_co.py, zhaquirks/tuya/ts0601_electric_heating.py, zhaquirks/ubisys/cover_j1.py, zhaquirks/tuya/builder/__init__.py \u2014 auditing every behavior-bearing function in a touched file instead of stopping at the first match."
+    },
+    {
+      "id": "P3",
+      "phase": "planning",
+      "dimension": "data_api",
+      "description": "Does the plan describe its approach for /app/rca.json report artifact and schema?",
+      "pass_condition": "The plan describes producing /app/rca.json as a JSON object with a top-level \"causes\" array, one entry per edited function, each entry holding a \"file\" key with the repository-relative path and a \"function\" key with the enclosing function name, noting that a class prefix is ignored if included and that for an edit inside a nested function either the inner or outer name is accepted."
+    },
+    {
+      "id": "P4",
+      "phase": "planning",
+      "dimension": "scope",
+      "description": "Does the plan describe its approach for Precision rule for which functions are reported?",
+      "pass_condition": "The plan states the report lists exactly the functions containing an undocumented edit and only those: a function suspected but holding no edit is left out, and when a repair is written in a caller, a wrapper, or a helper the agent added, the entry names the function the edit is in, keeping the located-edit list separate from the list of files touched while repairing."
+    },
+    {
+      "id": "P5",
+      "phase": "planning",
+      "dimension": "constraints",
+      "description": "Does the plan describe its approach for Where the repairs and the report must live when the run ends?",
+      "pass_condition": "The plan states that the repairs are applied in place in the working tree at /workspace/repo and left there (not staged as a patch file, a branch to apply later, or a copy under another directory), and that the report is written to the absolute path /app/rca.json, so that both the modified sources and the report exist at those locations when the run ends."
+    },
+    {
+      "id": "P6",
+      "phase": "planning",
+      "dimension": "verification",
+      "description": "Does the plan describe its approach for Self-built evidence harness in a repository without tests?",
+      "pass_condition": "The plan records that the shipped repository has no tests directory, so `python -m pytest` collects nothing, and therefore states how it will build its own evidence: scratch scripts, ad-hoc python -c snippets, or a locally written test file exercising the repaired quirk classes, because convincing yourself the behavior is restored is part of the task."
+    },
+    {
+      "id": "P7",
+      "phase": "planning",
+      "dimension": "verification",
+      "description": "Does the plan describe its approach for Runtime probe cases for restored values, events and frames?",
+      "pass_condition": "The plan names concrete runtime probes against the installed environment with zigpy: instantiate or stub the cluster and call _update_attribute, command, write_attributes or map_attribute with crafted inputs, asserting a 25 degree device temperature surfaces 2500, a 25000 demand surfaces 25, raw illuminance 34299 surfaces 26989, and 1001 is dropped while 1000 is kept. Any differing surfaced value, emitted event or outgoing frame is the failure signal."
+    },
+    {
+      "id": "P8",
+      "phase": "planning",
+      "dimension": "verification",
+      "description": "Does the plan describe its approach for Package import and quirk registration load check?",
+      "pass_condition": "The plan includes a separate, cheap load check that imports the zhaquirks package and runs its quirk registration entry point, for example `python -c \"import zhaquirks; zhaquirks.setup()\"`, so definition-loading failures surface: the definition that removes endpoint 2 and adds a fresh empty endpoint must register successfully. The failure signal is an exception or a rejected definition during import or registration."
+    }
+  ]
+}

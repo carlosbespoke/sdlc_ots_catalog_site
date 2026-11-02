@@ -1,0 +1,49 @@
+{
+ "motivation": {
+  "problems": "Engineers in the catalog's main roles, such as library, backend and developer tools engineers, add a capability to an existing library or service and must leave unconfigured behavior unchanged. The tasks show four recurring patterns. One is an opt-in subsystem that spans many code paths with one shared model, as in hvac-auth-method-exposure-assessments, client-python-label-aware-selective-collection and watchtower-container-selector-expressions. A second is bounded or safe handling of untrusted input, as in opcua-bounded-context-aware-binary-decoding and gmsm-streaming-pkcs-encryption-and-container-07f4. A third is restoring stubbed functions that currently panic or throw, as in iplib-hostmask, phonenumbers-source, cipher-t1-adfgvx-ts and redb-table-restore. A fourth is concurrency and lifecycle correctness, as in goth-atomic-provider-generation-replacement and go-workflows-durable-worker-run-outcomes. Fixing a fail-open defect is also present in hono-middleware-composition-policies. Across all four, the engineer reads a large unfamiliar codebase, matches names and signatures given in the brief, and keeps existing tests passing.",
+  "how_tasks_exemplify": "Each task gives the agent a pinned repository inside an offline container and a written specification. The two provided tasks show the range. minab-secured-loan-origination ships a pre-laid data layer and a Maven cache, and its instruction names methods, error types and a rollback rule. memdb-txn ships a library with panicking stubs and lists banned imports and calls. The agent's edits are collected as a git diff against a base commit. Grading runs hidden tests after the session, outside the agent's view, and for the minab task the verifier runs from a root-owned copy of the base repository so the session cannot alter it. Existing tests must also keep passing.",
+  "prompt_patterns": [
+   "A capability gap stated as 'X cannot Y', then a list of exact type names, signatures and edge-case rules, ending with a clause to preserve behavior when the feature is unused. Example: python-socketio-end-to-end-hierarchical-call-e1d3.",
+   "A first-person request to restore methods that currently panic or throw 'not implemented', named by file. Example: memdb-txn.",
+   "A compact feature brief tied to one product area, with a final step that removes or replaces an old API. Example: minab-secured-loan-origination.",
+   "A short imperative request with exposed API signatures and a constraint such as no new crates. Example: gimli-auto-aranges.",
+   "A security-flavored defect report that asks for a corrected behavior and a regression guarantee. Example: hono-middleware-composition-policies."
+  ],
+  "open_questions": [
+   "The batch alpharecon-deepswe-binary holds 433 of 636 tasks, but neither provided task comes from it. Does the large batch use the same task layout and grading as minab-secured-loan-origination?",
+   "The memdb-txn tests/ folder lists a grader script and manifest, but their contents were not in the provided files. How is the reward computed there, as pass/fail or as a weighted fraction?",
+   "Several sampled task names start with 'tests-50pct' or 'tests-75pct'. What do these prefixes mean for what the agent sees or for grading?",
+   "Do the Cohere batches and the alpharecon batches share one grading policy, or is each batch graded differently?"
+  ]
+ },
+ "tasks": [
+  {
+   "name": "minab-secured-loan-origination",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image maven 3.9 with Temurin JDK 25\"] --> B[\"Repo at /app from openfinova minab-banking at a pinned commit\"]\n  B --> C[\"Setup patch adds DTO, audit entity, origination columns\"]\n  D[\"Maven repo cached in /home/agent/.m2, offline\"] --> E[\"Agent session as user agent, no network\"]\n  B --> E\n  F[\"Instruction.md feature description\"] --> E\n  E --> G[\"Edits to LoanAccountService and REST controller\"]\n  G --> H[\"git diff against base commit saved as model.patch\"]\n  H --> I[\"Root-owned verifier copy of base git and Maven settings\"]\n  I --> J[\"Hidden SecuredLoanOriginationTest classes run with mvn offline\"]\n  J --> K[\"Reward 1.0 or 0.0 in /logs/verifier/reward.txt\"]",
+   "environment_facts": [
+    "Base image maven:3.9-eclipse-temurin-25 pinned by digest, with git, python3 and tmux added (environment/Dockerfile).",
+    "The repository is openfinova/minab-banking at a pinned upstream commit, patched with a setup.patch and committed as the base commit under /app (environment/Dockerfile, task.toml).",
+    "Maven dependencies are pre-fetched into /home/agent/.m2 and Maven is set offline; allow_internet is false and network_mode is no-network (environment/Dockerfile, task.toml).",
+    "The agent's changes are collected as a git diff against the base commit into /logs/artifacts/model.patch (task.toml).",
+    "The verifier runs as root in the same container, keeps its own copy of the base git data and Maven settings in /opt/verifier, runs hidden loan-service tests with mvn -o, and writes reward 1.0 or 0.0 (tests/test.sh).",
+    "Resources are 2 CPUs and 8192 MB memory, with a 21600 second agent timeout (task.toml)."
+   ],
+   "workflow": "A backend engineer on a banking platform is asked to close a gap where loan accounts can be opened without guarantors or collateral. The work spans the service layer, the persistence calls, the audit record and the REST endpoint, and it requires removing an old entry point without breaking existing tests. The engineer reads the existing services and the pre-laid data layer, then makes the new path transactional and retires the old one.",
+   "prompt_pattern": "A dense feature specification that names the target service method, the exact fields and error types, a transactional rollback rule, and a final instruction to remove the old API while keeping existing tests green."
+  },
+  {
+   "name": "memdb-txn",
+   "environment_mermaid": "flowchart LR\nA[\"golang 1.25 bookworm image with git, python3, tmux\"] --> B[\"go wrapper with 6 GB ulimit, GOTOOLCHAIN local, GOPROXY off\"]\nA --> C[\"go-memdb copy in /app with panicking methods, README and existing tests\"]\nC --> D[\"Modules and test binaries pre-built, tree committed and tagged mig-base\"]\nE[\"instruction.md and README.md\"] --> F[\"Agent session, no network\"]\nB --> F\nD --> F\nF --> G[\"Implemented txn.go, memdb.go, index.go, filter.go, watch.go\"]\nG --> H[\"git diff against mig-base saved as model.patch\"]\nH --> I[\"Verifier container with hidden spec tests, manifest and fb_grader.py\"]\nI --> J[\"Patch scope guard parses Go with go/parser\"]\nJ --> K[\"105 required tests run as execute-only binaries as uid 65534\"]\nK --> L[\"Reward 1 only if every required test passes\"]",
+   "environment_facts": [
+    "Base image golang:1.25-bookworm with git, python3, tmux and asciinema, GOTOOLCHAIN=local, CGO_ENABLED=0 and GOPROXY=off at run time (environment/Dockerfile).",
+    "The repository copy is hashicorp/go-memdb at upstream commit 0f077dd1e96afe2b98dcc5741222d2cf700d8686. The Dockerfile commits it and tags it mig-base, and the collect step writes the diff against that tag to /logs/artifacts/model.patch (environment/Dockerfile, task.toml).",
+    "The go command is wrapped so every call runs with a 6 GB virtual-memory limit. The agent has 2 CPUs, 8192 MB, no internet and a 21600 s timeout (environment/Dockerfile, task.toml).",
+    "The verifier is a separate container with a 2400 s timeout. It holds the spec tests, a manifest of 105 required tests, 74 fail-to-pass and 31 pass-to-pass, and fb_grader.py (task.toml, tests/manifest.json).",
+    "The grader applies the patch to a pristine tree, restores all test files and testdata from the spec, and resets go.mod, go.sum and vendor files. It parses changed Go files for banned imports, init functions, process-exit calls and caller introspection, and rejects the patch if any is found (tests/fb_grader.py).",
+    "Each test binary is built root-owned and execute-only and is run as uid 65534 from a fresh directory, one test by name per run. Reward is 1.0 only when all required tests pass, and otherwise 0.0 (tests/fb_grader.py)."
+   ],
+   "workflow": "A database engineer restores a vendored in-memory database library whose transaction, query, snapshot, deferred callback, filter and watch methods have been stubbed to panic. The engineer reads the surviving code, the API comments and the README, implements the methods without changing public signatures, and keeps to strict rules about what the new code may import or call. The result is judged by a hidden spec suite that includes index and schema regressions.",
+   "prompt_pattern": "A first-person request to restore panicking methods in five named files, followed by a long list of banned packages and calls that the grader rejects outright."
+  }
+ ]
+}

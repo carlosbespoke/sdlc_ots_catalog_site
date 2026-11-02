@@ -1,0 +1,497 @@
+[
+ {
+  "code": "import inspect\nresult = inspect.signature(divide_loop).parameters[\"tail\"].default\n",
+  "id": "OBS-0001"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\nresult = [s(divide_loop(k, \"i\", 4, [\"io\", \"ii\"])), s(divide_loop(k, \"i\", 4, [\"io\", \"ii\"], tail=\"guard\"))]\n",
+  "equal_pair": true,
+  "id": "OBS-0002"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef ten(x: i32[10]):\n    for i in seq(0, 10):\n        x[i] = 0.0\n\"\"\")\nresult = [s(divide_loop(k, \"i\", 3, [\"io\", \"ii\"], perfect=False)), s(divide_loop(k, \"i\", 3, [\"io\", \"ii\"], tail=\"guard\"))]\n",
+  "equal_pair": true,
+  "id": "OBS-0003"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\nresult = [cdef(divide_loop(k, k.find_loop(\"i\"), 8, (\"hi\", \"lo\"))),\n          cdef(divide_loop(k, k.find_loop(\"i\"), 8, (\"hi\", \"lo\"), tail=\"guard\"))]\n",
+  "equal_pair": true,
+  "id": "OBS-0004"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\nresult = raised(cut_loop, k, \"i\", \"n\")\n",
+  "id": "OBS-0005"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef eight(x: f32[8]):\n    for i in seq(0, 8):\n        x[i] = 1.0\n\"\"\")\nresult = [raised(cut_loop, k, \"i\", 8), raised(cut_loop, k, \"i\", 0), raised(cut_loop, k, \"i\", 9)]\n",
+  "id": "OBS-0006"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef window(n: size, x: f32[n + 10]):\n    for i in seq(2, n + 10):\n        x[i] = 1.0\n\"\"\")\nresult = raised(cut_loop, k, k.find_loop(\"i\"), \"n + 10\")\n",
+  "id": "OBS-0007"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef zero(n: size, x: f32[n]):\n    for i in seq(0, n):\n        x[i] = 0.0\n\"\"\")\nresult = s(specialize(k, k.find_loop(\"i\"), [\"n < 8\", \"n < 16\"]))\n",
+  "id": "OBS-0008"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef pair(n: size, m: size, x: f32[n], y: f32[m]):\n    for i in seq(0, n):\n        x[i] = 0.0\n    for j in seq(0, m):\n        y[j] = 1.0\n\"\"\")\nresult = s(specialize(k, k.body(), [\"n == 4\", \"m == 4\", \"n + m < 32\"]))\n",
+  "id": "OBS-0009"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef copy3(N: size, M: size, K: size, y: f32[N, M, K]):\n    x: f32[N, M, K]\n    for i in seq(0, N):\n        for j in seq(0, M):\n            for k in seq(0, K):\n                x[i, j, k] = 1.0\n                y[i, j, k] = x[i, j, k]\n\"\"\")\nresult = s(rearrange_dim(k, \"x : _\", [2, 0, 1]))\n",
+  "id": "OBS-0010"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef fill(y: i32[4, 6, 8]):\n    x: i32[4, 6, 8]\n    for i in seq(0, 4):\n        for j in seq(0, 6):\n            for k in seq(0, 8):\n                x[i, j, k] = 3.0\n                y[i, j, k] = x[i, j, k]\n\"\"\")\nresult = [s(rearrange_dim(k, k.find(\"x : _\"), [1, 2, 0])), cdef(rearrange_dim(k, \"x : _\", [1, 2, 0]))]\n",
+  "id": "OBS-0011"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef four(a: f32[2, 3, 4, 5]):\n    t: f32[2, 3, 4, 5]\n    for i in seq(0, 2):\n        for j in seq(0, 3):\n            for k in seq(0, 4):\n                for l in seq(0, 5):\n                    t[i, j, k, l] = a[i, j, k, l]\n\"\"\")\nresult = s(rearrange_dim(k, \"t : _\", [3, 1, 0, 2]))\n",
+  "id": "OBS-0012"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef load(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] + x[i]\n\"\"\")\nresult = s(bind_expr(k, k.find(\"x[i]\", many=True), \"b\"))\n",
+  "id": "OBS-0013"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef mul8(n: size, x: i8[n], y: i8[n], z: i8[n]):\n    for i in seq(0, n):\n        z[i] = x[i] * y[i]\n\"\"\")\np = bind_expr(k, k.find(\"x[i] * y[i]\"), \"t\")\nresult = [s(p), cdef(p)]\n",
+  "id": "OBS-0014"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef acc(n: size, x: f64[n], s: f64):\n    for i in seq(0, n):\n        s += x[i]\n\"\"\")\np = bind_expr(k, [k.find(\"x[i]\")], \"v\")\nresult = [s(p), p.find(\"v : _\").type().name]\n",
+  "id": "OBS-0015"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef add(a: f32, b: f32, c: f32):\n    a = b + c\n\"\"\")\nresult = s(split_write(k, k.find(\"a = _\")))\n",
+  "id": "OBS-0016"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef red(a: f32, b: f32, c: f32):\n    a += b + c\n\"\"\")\nresult = s(split_write(k, k.find(\"a += _\")))\n",
+  "id": "OBS-0017"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef axpy(n: size, x: f32[n], y: f32[n], z: f32[n]):\n    for i in seq(0, n):\n        z[i] = y[i] + 2.0 * x[i]\n\"\"\")\nresult = s(split_write(k, k.find(\"z[_] = _\")))\n",
+  "id": "OBS-0018"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef copy16(n: size, x: ui16[n], y: ui16[n]):\n    for i in seq(0, n):\n        y[i] = x[i]\n\"\"\")\nresult = [cdef(k), chead(k)]\n",
+  "id": "OBS-0019"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef tmp16(x: ui16[4], y: ui16[4]):\n    t: ui16[4]\n    for i in seq(0, 4):\n        t[i] = x[i]\n    for i in seq(0, 4):\n        y[i] = t[i]\n\"\"\")\nresult = cdef(k)\n",
+  "id": "OBS-0020"
+ },
+ {
+  "code": "seen = []\nclass Recorder(DRAM):\n    @classmethod\n    def alloc(cls, new_name, prim_type, shape, srcinfo):\n        seen.append(prim_type)\n        return f\"{prim_type} {new_name}[{']['.join(shape)}];\"\n    @classmethod\n    def free(cls, new_name, prim_type, shape, srcinfo):\n        return \"\"\nk = P(\"\"\"\n@proc\ndef rec(x: ui16[4], y: i8[4]):\n    t: ui16[4] @ Recorder\n    u: i8[4] @ Recorder\n    for i in seq(0, 4):\n        t[i] = x[i]\n        u[i] = y[i]\n\"\"\", Recorder=Recorder)\nbody = cdef(k)\nresult = [seen, body]\n",
+  "id": "OBS-0021"
+ },
+ {
+  "code": "result = [ExoType.Stride.is_indexable(), [t.name for t in ExoType if t.is_indexable()]]\n",
+  "id": "OBS-0022"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef strided(n: size, s: stride, x: f32[n]):\n    for i in seq(0, n):\n        x[i] = 0.0\n\"\"\")\nresult = [[a.name(), a.type().name, a.type().is_indexable(), a.type().is_numeric()] for a in k.args()]\n",
+  "id": "OBS-0023"
+ },
+ {
+  "code": "import exo.main\nwrite(\"exo_file.py\", \"\"\"\nfrom __future__ import annotations\nfrom exo import *\n\n@proc\ndef kernel(n: size, x: f32[n]):\n    for i in seq(0, n):\n        x[i] = 0.0\n\"\"\")\nexo.main.exocc(\"-o\", \"build\", \"exo_file.py\")\nresult = listing(\"build\")\n",
+  "id": "OBS-0024"
+ },
+ {
+  "code": "import exo.main\nwrite(\"lib_src.py\", \"\"\"\nfrom __future__ import annotations\nfrom exo import *\n\n@proc\ndef kernel2(x: f32[4]):\n    for i in seq(0, 4):\n        x[i] = 1.0\n\"\"\")\nexo.main.exocc(\"--outdir\", \"out/gen\", \"lib_src.py\")\nheaders = [name for name in listing(\"out\") if name.endswith(\".h\")]\nresult = [listing(\"out\"), [open(\"out/\" + name).read() for name in headers]]\n",
+  "id": "OBS-0025"
+ },
+ {
+  "code": "from exo.stdlib.inspection import get_parents\nk = P(\"\"\"\n@proc\ndef cube(x: f32[4, 4, 4]):\n    for i in seq(0, 4):\n        for j in seq(0, 4):\n            for k in seq(0, 4):\n                x[i, j, k] = 0.0\n\"\"\")\nst = k.find(\"x[_] = _\")\nresult = [[c.name() for c in get_parents(k, st, up_to=k.find_loop(\"i\"))],\n          [c.name() for c in get_parents(k, st, up_to=k.find_loop(\"k\"))],\n          [c.name() for c in get_parents(k, st)]]\n",
+  "id": "OBS-0026"
+ },
+ {
+  "code": "from exo.stdlib.inspection import get_parents\nk = P(\"\"\"\n@proc\ndef guarded(n: size, x: f32[n]):\n    for i in seq(0, n):\n        if i < 3:\n            x[i] = 1.0\n\"\"\")\nst = k.find(\"x[_] = _\")\nresult = [type(c).__name__ for c in get_parents(k, st, up_to=k.find(\"if _: _\"))]\n",
+  "id": "OBS-0027"
+ },
+ {
+  "code": "from exo.stdlib.range_analysis import infer_range, bounds_inference\nk = P(\"\"\"\n@proc\ndef tile(x: f32[64]):\n    for io in seq(0, 8):\n        for ii in seq(0, 8):\n            x[8 * io + ii] = 0.0\n\"\"\")\nidx = k.find(\"x[_] = _\").idx()[0]\nrng = infer_range(idx, k.find_loop(\"io\"))\nresult = [str(rng), str(bounds_inference(k.find_loop(\"ii\"), \"x\", 0))]\n",
+  "id": "OBS-0028"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef four(a: f32, b: f32, c: f32, d: f32):\n    a = 1.0\n    b = 2.0\n    c = 3.0\n    d = 4.0\n\"\"\")\nst = k.find(\"d = _\")\nresult = [st.prev(2).name(), st.prev(3).name(), type(st.prev(4)).__name__, st.prev(1).name()]\n",
+  "id": "OBS-0029"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef loop2(n: size, x: f32[n], y: f32[n], z: f32[n]):\n    for i in seq(0, n):\n        x[i] = 0.0\n        y[i] = 1.0\n        z[i] = 2.0\n\"\"\")\nst = k.find(\"z[_] = _\")\nresult = [s(st.prev(2)), type(st.prev(5)).__name__]\n",
+  "id": "OBS-0030"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\nresult = [s(divide_loop(k, \"i\", 4, [\"io\", \"ii\"], tail=\"cut\")),\n          s(divide_loop(k, \"i\", 4, [\"io\", \"ii\"], tail=\"cut_and_guard\")),\n          s(divide_loop(k, \"i\", 4, [\"io\", \"ii\"], tail=\"guard\"))]\n",
+  "id": "OBS-0031"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef sixteen(x: f32[16]):\n    for i in seq(0, 16):\n        x[i] = 2.0\n\"\"\")\nresult = [s(divide_loop(k, \"i\", 4, [\"io\", \"ii\"], perfect=True)), raised(divide_loop, k, \"i\", 5, [\"io\", \"ii\"], perfect=True),\n          raised(divide_loop, k, \"i\", 1, [\"io\", \"ii\"], tail=\"guard\")]\n",
+  "id": "OBS-0032"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef rec(x: f32[10]):\n    for i in seq(0, 10):\n        x[i] = 1.0\n\"\"\")\nresult = s(divide_with_recompute(k, k.find_loop(\"i\"), 2, 4, [\"io\", \"ii\"]))\n",
+  "id": "OBS-0033"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef mult(n: size, x: f32[n, 4]):\n    for i in seq(0, n):\n        for j in seq(0, 4):\n            x[i, j] = 0.0\n\"\"\")\nresult = s(mult_loops(k, \"i j\", \"k\"))\n",
+  "id": "OBS-0034"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef join(n: size, x: f32[n]):\n    assert n > 4\n    for i in seq(0, 4):\n        x[i] = 0.0\n    for i in seq(4, n):\n        x[i] = 0.0\n\"\"\")\nresult = s(join_loops(k, k.find_loop(\"i\"), k.find_loop(\"i #1\")))\n",
+  "id": "OBS-0035"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\nscale_k = k\nk = P(\"\"\"\n@proc\ndef big(n: size, x: f32[n]):\n    assert n > 4\n    for i in seq(0, n):\n        x[i] = 1.0\n\"\"\")\nresult = [s(cut_loop(k, \"i\", 3)), raised(cut_loop, k, \"i\", -1), raised(cut_loop, scale_k, \"i\", 3)]\n",
+  "id": "OBS-0036"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef shift(n: size, x: f32[n + 8]):\n    for i in seq(2, n + 2):\n        x[i] = 1.0\n\"\"\")\nresult = [s(shift_loop(k, k.find_loop(\"i\"), 5)), s(shift_loop(k, k.find_loop(\"i\"), 0)),\n          raised(shift_loop, k, k.find_loop(\"i\"), -3)]\n",
+  "id": "OBS-0037"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef nest(n: size, m: size, x: f32[n, m]):\n    for i in seq(0, n):\n        for j in seq(0, m):\n            x[i, j] = 0.0\n\"\"\")\nresult = [s(reorder_loops(k, \"i j\")), s(reorder_loops(k, k.find_loop(\"i\")))]\n",
+  "id": "OBS-0038"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef two(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        x[i] = 1.0\n        y[i] = 2.0\n\"\"\")\nresult = s(fission(k, k.find(\"x[_] = _\").after()))\n",
+  "id": "OBS-0039"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef deep(n: size, m: size, x: f32[n, m], y: f32[n, m]):\n    for i in seq(0, n):\n        for j in seq(0, m):\n            x[i, j] = 1.0\n            y[i, j] = 2.0\n\"\"\")\nresult = [s(fission(k, k.find(\"x[_] = _\").after(), n_lifts=2)), s(fission(k, k.find(\"y[_] = _\").before()))]\n",
+  "id": "OBS-0040"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef idem(x: f32):\n    x = 1.0\n\"\"\")\nresult = [s(add_loop(k, k.find(\"x = _\"), \"i\", 4)), s(add_loop(k, k.find(\"x = _\"), \"j\", \"4\", guard=True))]\n",
+  "id": "OBS-0041"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef rem(n: size, x: f32):\n    for i in seq(0, n):\n        x = 3.0\n\"\"\")\nresult = raised(remove_loop, k, k.find_loop(\"i\"))\n",
+  "id": "OBS-0042"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef unr(x: f32[3]):\n    for i in seq(0, 3):\n        x[i] = 1.0\n\"\"\")\nresult = [s(unroll_loop(k, \"i\")), raised(unroll_loop, P(\"\"\"\n@proc\ndef unr2(n: size, x: f32[n]):\n    for i in seq(0, n):\n        x[i] = 1.0\n\"\"\"), \"i\")]\n",
+  "id": "OBS-0043"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef lift(n: size, x: f32[n]):\n    for i in seq(0, n):\n        if n > 4:\n            x[i] = 1.0\n        else:\n            x[i] = 2.0\n\"\"\")\nresult = s(lift_scope(k, k.find(\"if _: _\")))\n",
+  "id": "OBS-0044"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef fz(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        x[i] = 1.0\n    for j in seq(0, n):\n        y[j] = 2.0\n\"\"\")\nresult = s(fuse(k, k.find_loop(\"i\"), k.find_loop(\"j\")))\n",
+  "id": "OBS-0045"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef fi(n: size, x: f32, y: f32):\n    if n > 2:\n        x = 1.0\n    if n > 2:\n        y = 2.0\n\"\"\")\nresult = s(fuse(k, k.find(\"if _: _\"), k.find(\"if _: _ #1\")))\n",
+  "id": "OBS-0046"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\nresult = [s(specialize(k, k.find_loop(\"i\"), \"n == 8\")), s(specialize(k, k.find_loop(\"i\"), [\"n > 3\"]))]\n",
+  "id": "OBS-0047"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef ex(n: size, x: R[n], a: R[n]):\n    for i in seq(0, n):\n        a[i] = 32.0 * x[i] + 4.0\n\"\"\")\nresult = s(bind_expr(k, k.find(\"32.0 * x[i]\"), \"b\"))\n",
+  "id": "OBS-0048"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef cse(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = 3.0 * x[i]\n        y[i] += 3.0 * x[i]\n\"\"\")\nresult = s(bind_expr(k, k.find(\"3.0 * x[i]\", many=True), \"c\"))\n",
+  "id": "OBS-0049"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef rs(x: f32[8]):\n    t: f32[16]\n    for i in seq(0, 8):\n        t[i + 4] = x[i]\n    for i in seq(0, 8):\n        x[i] = t[i + 4]\n\"\"\")\nresult = [s(resize_dim(k, \"t : _\", 0, 8, 4)), raised(resize_dim, k, \"t : _\", 0, 4, 4)]\n",
+  "id": "OBS-0050"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef tmp(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        t: f32\n        t = x[i]\n        y[i] = t\n\"\"\")\nresult = [s(expand_dim(k, \"t : _\", \"n\", \"i\")), raised(expand_dim, k, \"t : _\", \"4\", \"i\")]\n",
+  "id": "OBS-0051"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef sw(n: size, m: size, y: f32[n, m]):\n    x: f32[n, m]\n    for i in seq(0, n):\n        for j in seq(0, m):\n            x[i, j] = 1.0\n            y[i, j] = x[i, j]\n\"\"\")\nresult = [s(rearrange_dim(k, \"x : _\", [1, 0])), raised(rearrange_dim, k, \"x : _\", [0, 0])]\n",
+  "id": "OBS-0052"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef dd(n: size, m: size):\n    x: R[n, 12, m]\n    for i in seq(0, n):\n        for j in seq(0, 12):\n            for k in seq(0, m):\n                x[i, j, k] = 1.0\n\"\"\")\nresult = [s(divide_dim(k, \"x : _\", 1, 4)), raised(divide_dim, k, \"x : _\", 1, 5)]\n",
+  "id": "OBS-0053"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef md(n: size, m: size):\n    x: R[n, m, 4]\n    for i in seq(0, n):\n        for j in seq(0, m):\n            for k in seq(0, 4):\n                x[i, j, k] = 1.0\n\"\"\")\nresult = s(mult_dim(k, \"x : _\", 0, 2))\n",
+  "id": "OBS-0054"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef ub(x: f32[2]):\n    buf: f32[2]\n    buf[0] = 1.0\n    buf[1] = 2.0\n    x[0] = buf[0]\n    x[1] = buf[1]\n\"\"\")\nresult = s(unroll_buffer(k, \"buf : _\", 0))\n",
+  "id": "OBS-0055"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef tmp(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        t: f32\n        t = x[i]\n        y[i] = t\n\"\"\")\np = lift_alloc(k, \"t : _\")\nresult = [s(p), s(sink_alloc(p, p.find(\"t : _\")))]\n",
+  "id": "OBS-0056"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef ru(x: f32, y: f32):\n    a: f32\n    a = x\n    y = a\n    b: f32\n    b = y\n    x = b\n\"\"\")\nresult = s(reuse_buffer(k, \"a : _\", \"b : _\"))\n",
+  "id": "OBS-0057"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef dl(x: f32):\n    unused: f32[4]\n    x = 1.0\n\"\"\")\nresult = s(delete_buffer(k, \"unused : _\"))\n",
+  "id": "OBS-0058"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef iw(x: f32[8, 8]):\n    y = x[2, 0:8]\n    for i in seq(0, 8):\n        y[i] = 1.0\n\"\"\")\nresult = s(inline_window(k, k.find(\"y = _\")))\n",
+  "id": "OBS-0059"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef sm(n: size, x: f32[n, 4], y: f32[n]):\n    for i in seq(0, n):\n        for j in seq(0, 4):\n            y[i] += x[i, j]\n\"\"\")\nresult = s(stage_mem(k, k.find_loop(\"j\"), \"x[i, 0:4]\", \"xt\"))\n",
+  "id": "OBS-0060"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef acc(n: size, x: f32[n, 4], y: f32[n]):\n    for i in seq(0, n):\n        for j in seq(0, 4):\n            y[i] += x[i, j]\n\"\"\")\nresult = s(stage_mem(k, k.find_loop(\"j\"), \"y[i]\", \"yt\", accum=True))\n",
+  "id": "OBS-0061"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\np = make_instr(rename(k, \"scale2\"), \"do_scale({x_data}, {y_data});\", \"#include <x.h>\")\nresult = [s(rename(k, \"renamed\")), p.name(), p.is_instr(), p.get_instr()]\n",
+  "id": "OBS-0062"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\np = insert_pass(k, k.find(\"y[_] = _\").after())\nresult = [s(p), s(delete_pass(p))]\n",
+  "id": "OBS-0063"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef simp(n: size, x: f32[n + 0]):\n    for i in seq(0, n + 0):\n        x[i + 2 - 2] = 1.0 * 2.0\n\"\"\")\nresult = s(simplify(k))\n",
+  "id": "OBS-0064"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef dc(n: size, x: f32):\n    assert n > 4\n    if n > 2:\n        x = 1.0\n    else:\n        x = 2.0\n\"\"\")\nresult = s(eliminate_dead_code(k, k.find(\"if _: _\")))\n",
+  "id": "OBS-0065"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef ro(x: f32, y: f32):\n    x = 1.0\n    y = 2.0\n\"\"\")\nresult = s(reorder_stmts(k, k.find(\"x = _\").expand(0, 1)))\n",
+  "id": "OBS-0066"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef ce(a: f32, b: f32, c: f32, d: f32):\n    d = a * b + c\n\"\"\")\nresult = [s(commute_expr(k, [k.find(\"a * b\")])), s(commute_expr(k, [k.find(\"a * b + c\")]))]\n",
+  "id": "OBS-0067"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef la(a: f32, b: f32, c: f32, d: f32):\n    d = a + (b + c)\n\"\"\")\nresult = s(left_reassociate_expr(k, k.find(\"a + (b + c)\")))\n",
+  "id": "OBS-0068"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef rw(n: size, x: f32[n]):\n    assert n == 8\n    for i in seq(0, n):\n        x[i] = 1.0\n\"\"\")\nresult = [s(rewrite_expr(k, k.find_loop(\"i\").hi(), 8)), raised(rewrite_expr, k, k.find_loop(\"i\").hi(), 9)]\n",
+  "id": "OBS-0069"
+ },
+ {
+  "code": "out = []\nfor first, second in [(\"=\", \"=\"), (\"+=\", \"=\"), (\"=\", \"+=\"), (\"+=\", \"+=\")]:\n    k = P(f\"\"\"\n    @proc\n    def mw(a: f32, b: f32, c: f32):\n        a {first} b\n        a {second} c\n    \"\"\")\n    out.append(s(merge_writes(k, k.body())))\nresult = out\n",
+  "id": "OBS-0070"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef fr(a: f32, b: f32):\n    a = a + b * 2.0\n\"\"\")\nresult = s(fold_into_reduce(k, k.find(\"a = _\")))\n",
+  "id": "OBS-0071"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef ia(x: f32, y: f32):\n    t: f32\n    t = x\n    y = t * 2.0\n\"\"\")\nresult = s(inline_assign(k, k.find(\"t = _\")))\n",
+  "id": "OBS-0072"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef lr(n: size, x: f32, y: f32[n]):\n    x = 0.0\n    for i in seq(0, n):\n        x += 3.0 * y[i]\n\"\"\")\nresult = s(lift_reduce_constant(k, k.find(\"x = _\").expand(0, 1)))\n",
+  "id": "OBS-0073"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef tmp(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        t: f32\n        t = x[i]\n        y[i] = t\n\"\"\")\nresult = [s(set_precision(k, \"t\", \"f64\")), s(set_precision(k, \"x\", \"i32\")),\n          s(set_memory(k, \"t\", DRAM_STATIC)), s(set_window(k, \"x\", True))]\n",
+  "id": "OBS-0074"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\np = parallelize_loop(k, k.find_loop(\"i\"))\nresult = [s(p), cdef(p)]\n",
+  "id": "OBS-0075"
+ },
+ {
+  "code": "cfgs = defs(\"\"\"\n@config\nclass CFG:\n    n: index\n    scale: f32\n\"\"\")\nCFG = cfgs[\"CFG\"]\nk = P(\"\"\"\n@proc\ndef bc(x: f32[4], y: f32):\n    for i in seq(0, 4):\n        x[i] = y\n\"\"\")\np = bind_config(k, k.find(\"x[_] = _\").rhs(), CFG, \"scale\")\nresult = [s(p), cdef(p)]\n",
+  "id": "OBS-0076"
+ },
+ {
+  "code": "cfgs = defs(\"\"\"\n@config\nclass CFG:\n    n: index\n    scale: f32\n\"\"\")\nCFG = cfgs[\"CFG\"]\nk = P(\"\"\"\n@proc\ndef wc(x: f32):\n    x = 1.0\n\"\"\")\np = write_config(k, k.find(\"x = _\").before(), CFG, \"n\", \"4\")\nresult = [s(p), s(delete_config(p, p.find(\"CFG.n = _\")))]\n",
+  "id": "OBS-0077"
+ },
+ {
+  "code": "cfgs = defs(\"\"\"\n@config\nclass CFG:\n    n: index\n    scale: f32\n\"\"\")\nCFG = cfgs[\"CFG\"]\nk = P(\"\"\"\n@proc\ndef rc(x: f32):\n    CFG.scale = 3.0\n    x = CFG.scale\n\"\"\", CFG=CFG)\nresult = [s(k), cdef(k)]\n",
+  "id": "OBS-0078"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef foo(N: size, M: size, K: size, x: R[N, K + M]):\n    assert N >= 8\n    for i in seq(0, 8):\n        x[i, 0] += 2.0\n\"\"\")\np, sub = extract_subproc(k, \"for i in _:_\", \"sub_foo\")\np2, sub2 = extract_subproc(k, \"for i in _:_\", \"sub_bar\", include_asserts=False)\nresult = [s(p), s(sub), s(sub2)]\n",
+  "id": "OBS-0079"
+ },
+ {
+  "code": "sub = P(\"\"\"\n@proc\ndef callee(n: size, x: f32[n]):\n    for i in seq(0, n):\n        x[i] = 4.0\n\"\"\")\nk = P(\"\"\"\n@proc\ndef caller(y: f32[16]):\n    callee(16, y)\n\"\"\", callee=sub)\nresult = [s(k), s(inline(k, \"callee(_)\"))]\n",
+  "id": "OBS-0080"
+ },
+ {
+  "code": "ld = P(\"\"\"\n@instr(\"{dst_data} = load4(&{src_data});\")\ndef load4(dst: [f32][4], src: [f32][4]):\n    assert stride(src, 0) == 1\n    assert stride(dst, 0) == 1\n    for i in seq(0, 4):\n        dst[i] = src[i]\n\"\"\")\nk = P(\"\"\"\n@proc\ndef cp(n: size, a: f32[n, 4], b: f32[n, 4]):\n    for i in seq(0, n):\n        for j in seq(0, 4):\n            b[i, j] = a[i, j]\n\"\"\")\np = replace(k, \"for j in _:_\", ld)\nresult = [s(p), cdef(p)]\n",
+  "id": "OBS-0081"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\nk2 = divide_loop(k, \"i\", 2, [\"io\", \"ii\"], tail=\"cut\")\ncaller = P(\"\"\"\n@proc\ndef top(x: f32[8], y: f32[8]):\n    scale(8, x, y)\n\"\"\", scale=k)\nresult = s(call_eqv(caller, \"scale(_)\", k2))\n",
+  "id": "OBS-0082"
+ },
+ {
+  "code": "made = defs(\"\"\"\n@proc\ndef foo(x: [f32][3]):\n    for i in seq(0, 3):\n        x[i] = 0.0\n\n@proc\ndef bar(y: f32[10], z: f32[20, 20]):\n    foo(y[2:5])\n    foo(z[1, 10:13])\n\"\"\")\nresult = [s(made[\"bar\"]), cdef(made[\"bar\"])]\n",
+  "id": "OBS-0083"
+ },
+ {
+  "code": "made = defs(\"\"\"\n@proc\ndef foo(x: [f32][3]):\n    for i in seq(0, 3):\n        x[i] = 0.0\n\"\"\")\ntry:\n    defs(\"\"\"\n    @proc\n    def bad(y: f32[10]):\n        foo(y[2:6])\n    \"\"\", foo=made[\"foo\"])\n    result = \"accepted\"\nexcept Exception as error:\n    result = type(error).__name__\n",
+  "id": "OBS-0084"
+ },
+ {
+  "code": "made = defs(\"\"\"\n@proc\ndef callee(x: f32[10]):\n    pass\n\n@proc\ndef two(a: f32[5], b: f32[5]):\n    pass\n\"\"\")\nout = []\nfor text in [\"\"\"\n@proc\ndef caller(x: f32[2, 10]):\n    callee(x[0])\n\"\"\", \"\"\"\n@proc\ndef alias(y: f32[5]):\n    two(y, y)\n\"\"\", \"\"\"\n@proc\ndef nonaffine(n: size, m: size, x: f32[64]):\n    assert n < 8 and m < 8\n    x[n * m] = 0.0\n\"\"\", \"\"\"\n@proc\ndef valuedep(x: f32[4]):\n    if x[0] < 3.0:\n        pass\n\"\"\", \"\"\"\n@proc\ndef quasi(n: size, x: f32[n]):\n    for i in seq(0, n):\n        x[i / 3 * 3 + i % 3] = 0.0\n\"\"\"]:\n    try:\n        got = defs(text, **made)\n        out.append(sorted(got))\n    except Exception as error:\n        out.append(type(error).__name__)\nresult = out\n",
+  "id": "OBS-0085"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef conv1d(IC: size, OC: size, N: size, W: size, data: i32[IC, N] @ DRAM, kernels: i32[OC, IC, W] @ DRAM, out: i32[OC, N] @ DRAM):\n    for i in seq(0, OC):\n        for j in seq(0, N):\n            out[i, j] = 0.0\n            for c in seq(0, IC):\n                for r in seq(0, W):\n                    y: i32\n                    if j + r < N:\n                        y = data[c, j + r]\n                    else:\n                        y = 0\n                    out[i, j] += kernels[i, c, r] * y\n\"\"\")\nresult = [s(k), cdef(k)]\n",
+  "id": "OBS-0086"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef types(a: f16, b: f32, c: f64, d: i8, e: i32, f: ui8):\n    t: f64\n    t = c\n    c = t\n\"\"\")\nresult = [s(k), cdef(k)]\n",
+  "id": "OBS-0087"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\nresult = [k.name(), k.is_instr(), s(k.partial_eval(8)), s(k.partial_eval(n=4)), s(k.add_assertion(\"n > 2\"))]\n",
+  "id": "OBS-0088"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef tr(n: size, m: size, x: f32[n, m]):\n    for i in seq(0, n):\n        for j in seq(0, m):\n            x[i, j] = 1.0\n\"\"\")\nresult = s(k.transpose(k.args()[2]))\n",
+  "id": "OBS-0089"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\nk2 = divide_loop(k, \"i\", 2, [\"io\", \"ii\"], tail=\"cut\")\nother = P(\"\"\"\n@proc\ndef other(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 3.0\n\"\"\")\nresult = [other.unsafe_assert_eq(k).name(), raised(k.unsafe_assert_eq, \"not a proc\"), s(k2)]\n",
+  "id": "OBS-0090"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\nimport pathlib\npathlib.Path(\"lib\").mkdir()\nk.compile_c(pathlib.Path(\"lib\"), \"scaled\")\nc_code = k.c_code_str()\nresult = [listing(\"lib\"), c_code[c_code.index(\"// scale(\"):]]\n",
+  "id": "OBS-0091"
+ },
+ {
+  "code": "made = defs(\"\"\"\n@proc\ndef leaf(x: f32[4]):\n    for i in seq(0, 4):\n        x[i] = 1.0\n\n@proc\ndef root(y: f32[4]):\n    leaf(y)\n\"\"\")\nc_text, h_text = exo.compile_procs_to_strings([made[\"root\"]], \"lib.h\")\nresult = [c_text[c_text.index(\"// leaf(\"):], h_text[h_text.index(\"// root(\"):]]\n",
+  "id": "OBS-0092"
+ },
+ {
+  "code": "import pathlib\nmade = defs(\"\"\"\n@proc\ndef leaf(x: f32[4]):\n    for i in seq(0, 4):\n        x[i] = 1.0\n\"\"\")\npathlib.Path(\"gen\").mkdir()\nexo.compile_procs([made[\"leaf\"]], pathlib.Path(\"gen\"), \"lib.c\", \"lib.h\")\ntext = open(\"gen/lib.c\").read()\nresult = [listing(\"gen\"), text[text.index(\"// leaf(\"):]]\n",
+  "id": "OBS-0093"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef blk(n: size, x: f32[n], a: f32, b: f32, c: f32):\n    a = 1.0\n    b = 2.0\n    for i in seq(0, n):\n        x[i] = a\n        if i == 0:\n            x[i] = b\n        else:\n            x[i] = c\n    c = 3.0\n\"\"\")\nresult = [[a.name() for a in k.args()], len(k.body()), type(k.find(\"a = _\")).__name__,\n          type(k.find(\"a = _ ; b = _\")).__name__, len(k.find(\"x[_] = _\", many=True)),\n          len(k.find_all(\"x[_] = _\")), s(k.find(\"x[_] = _ #2\")), k.find_loop(\"i\").name(),\n          type(k.find_alloc_or_arg(\"x\")).__name__, raised(k.find, \"y = _\")]\n",
+  "id": "OBS-0094"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef nest(n: size, m: size, x: f32[n, m]):\n    for i in seq(0, n):\n        for j in seq(0, m):\n            x[i, j] = 0.0\n\"\"\")\nresult = [type(k.find_loop(\"j\")).__name__, k.find_loop(\"j\").name(), k.find(\"for i in _:_\").name(),\n          s(k.find_loop(\"i\").find(\"x[_] = _\"))]\n",
+  "id": "OBS-0095"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef blk(n: size, x: f32[n], a: f32, b: f32, c: f32):\n    a = 1.0\n    b = 2.0\n    for i in seq(0, n):\n        x[i] = a\n        if i == 0:\n            x[i] = b\n        else:\n            x[i] = c\n    c = 3.0\n\"\"\")\na = k.find(\"a = _\")\nresult = [a.next().name(), type(a.prev()).__name__, a.next(2).name(),\n          a.before().anchor().name(), a.after().anchor().name(), len(a.expand(0, 1)),\n          len(a.expand()), len(a.as_block()), type(k.find(\"if _: _\").parent()).__name__]\n",
+  "id": "OBS-0096"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef blk(n: size, x: f32[n], a: f32, b: f32, c: f32):\n    a = 1.0\n    b = 2.0\n    for i in seq(0, n):\n        x[i] = a\n        if i == 0:\n            x[i] = b\n        else:\n            x[i] = c\n    c = 3.0\n\"\"\")\nloop = k.find_loop(\"i\")\nbody = loop.body()\niff = k.find(\"if _: _\")\nresult = [len(body), type(body[0]).__name__, len(body[0:2]), type(iff.orelse()).__name__,\n          type(iff.body()).__name__, s(body[1].body()[0]),\n          type(k.find(\"a = _\").parent()).__name__, bool(k.find(\"a = _\").prev()), bool(loop)]\n",
+  "id": "OBS-0097"
+ },
+ {
+  "code": "made = defs(\"\"\"\n@proc\ndef sub(x: [f32][4]):\n    for i in seq(0, 4):\n        x[i] = 0.0\n\n@proc\ndef kinds(n: size, x: f32[n, 4] @ DRAM, y: f32, z: f32[4]):\n    assert n >= 2\n    t: i32[n] @ DRAM\n    for i in seq(2, n):\n        x[i, 0] = y\n        y += z[1]\n        if i > 3:\n            w = z[0:4]\n            sub(w)\n\"\"\")\nk = made[\"kinds\"]\narg, alloc = k.args()[1], k.find(\"t : _\")\nassign, red, loop, iff = k.find(\"x[_] = _\"), k.find(\"y += _\"), k.find_loop(\"i\"), k.find(\"if _: _\")\nwin, call = k.find(\"w = _\"), k.find(\"sub(_)\")\nresult = [arg.name(), arg.mem().name(), arg.is_tensor(), len(arg.shape()), arg.type().name,\n          alloc.name(), alloc.mem().name(), alloc.is_tensor(), alloc.type().name,\n          assign.name(), len(assign.idx()), type(assign.rhs()).__name__, assign.type().name,\n          red.name(), type(red.rhs()).__name__, loop.name(), loop.lo().value(), type(loop.hi()).__name__,\n          len(loop.body()), type(iff.cond()).__name__, type(iff.orelse()).__name__, win.name(),\n          type(win.winexpr()).__name__, call.subproc().name(), len(call.args())]\n",
+  "id": "OBS-0098"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef lits(n: size, x: f32[n]):\n    for i in seq(0, n):\n        x[i] = -(2.0 * x[i] + 1.0)\n\"\"\")\ne = k.find(\"x[_] = _\").rhs()\ninner = e.arg()\nresult = [type(e).__name__, type(inner).__name__, inner.op(), type(inner.lhs()).__name__,\n          inner.lhs().lhs().value(), inner.rhs().value(), inner.lhs().rhs().name()]\n",
+  "id": "OBS-0099"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef tmp(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        t: f32\n        t = x[i]\n        y[i] = t\n\"\"\")\nc0 = k.find(\"t : _\")\np1 = expand_dim(k, c0, \"n\", \"i\")\nf = p1.forward(c0)\np2 = lift_alloc(p1, c0)\nresult = [type(f).__name__, f.name(), s(p2), s(p2.forward(c0))]\n",
+  "id": "OBS-0100"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\nloop = k.find_loop(\"i\")\np = divide_loop(k, loop, 4, [\"io\", \"ii\"], tail=\"cut\")\nst = k.find(\"y[_] = _\")\nresult = [type(p.forward(loop)).__name__, s(p.forward(st)), raised(p.forward(loop).name)]\n",
+  "id": "OBS-0101"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef blk(n: size, x: f32[n], a: f32, b: f32, c: f32):\n    a = 1.0\n    b = 2.0\n    for i in seq(0, n):\n        x[i] = a\n        if i == 0:\n            x[i] = b\n        else:\n            x[i] = c\n    c = 3.0\n\"\"\")\ndef is_loop(proc, loop):\n    loop = proc.forward(loop)\n    return isinstance(loop, ForCursor)\n\ndef get_top_level_stmt(proc, c):\n    c = proc.forward(c)\n    while not isinstance(c.parent(), InvalidCursor):\n        c = c.parent()\n    return c\nst = k.find(\"x[_] = _ #1\")\nresult = [is_loop(k, k.find_loop(\"i\")), is_loop(k, st), s(get_top_level_stmt(k, st)),\n          [t.name for t in ExoType], [t.name for t in ExoType if t.is_numeric()],\n          [t.name for t in ExoType if t.is_bool()]]\n",
+  "id": "OBS-0102"
+ },
+ {
+  "code": "import importlib\nnames = {\"exo\": [\"proc\", \"instr\", \"config\", \"Memory\", \"Extern\", \"DRAM\", \"SchedulingError\"],\n         \"exo.libs.memories\": [\"DRAM_STATIC\", \"AVX2\", \"AVX512\"],\n         \"exo.libs.externs\": [\"sin\", \"relu\"],\n         \"exo.stdlib.scheduling\": [\"repeat\", \"replace_all\"],\n         \"exo.stdlib.stdlib\": [\"vectorize\", \"tile_loops\"],\n         \"exo.API_cursors\": [\"ForCursor\", \"AssignCursor\", \"InvalidCursor\"],\n         \"exo.frontend.syntax\": [\"size\", \"f32\", \"stride\", \"par\"],\n         \"exo.core.extern\": [\"Extern\", \"_EErr\"]}\nresult = {mod: [type(getattr(importlib.import_module(mod), n)).__name__ for n in ns] for mod, ns in names.items()}\n",
+  "id": "OBS-0103"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef blk(n: size, x: f32[n], a: f32, b: f32, c: f32):\n    a = 1.0\n    b = 2.0\n    for i in seq(0, n):\n        x[i] = a\n        if i == 0:\n            x[i] = b\n        else:\n            x[i] = c\n    c = 3.0\n\"\"\")\nfrom exo.stdlib import inspection as I\na, b = k.find(\"x[_] = _ #1\"), k.find(\"x[_] = _ #2\")\nresult = [type(I.get_lca(k, a, b)).__name__,\n          I.get_depth(k, a), I.get_depth(k, k.find(\"a = _\")),\n          [type(x).__name__ for x in I.match_parent(a, k.find(\"x[_] = _\"))],\n          I.get_enclosing_loop(k, a).name(), I.get_enclosing_loop_by_name(k, a, \"i\").name(),\n          I.get_index_in_body(k, k.find(\"c = _\")), I.is_loop(k, k.find_loop(\"i\")),\n          [type(x).__name__ for x in I.nlr_stmts(k)][:6], I.loop_body_len(k, k.find_loop(\"i\"))]\n",
+  "id": "OBS-0104"
+ },
+ {
+  "code": "from exo.core.memory import MemGenError\n\nclass AVX512Like(Memory):\n    @classmethod\n    def global_(cls):\n        return \"#include <immintrin.h>\"\n\n    @classmethod\n    def can_read(cls):\n        return False\n\n    @classmethod\n    def alloc(cls, new_name, prim_type, shape, srcinfo):\n        if not shape:\n            raise MemGenError(f\"{srcinfo}: AVX512 vectors are not scalar values\")\n        if not prim_type == \"float\":\n            raise MemGenError(f\"{srcinfo}: AVX512 vectors must be f32 (for now)\")\n        shape = shape[:-1]\n        if shape:\n            return f'__m512 {new_name}[{\"][\".join(map(str, shape))}];'\n        return f\"__m512 {new_name};\"\n\n    @classmethod\n    def free(cls, new_name, prim_type, shape, srcinfo):\n        return \"\"\n\n    @classmethod\n    def window(cls, basetyp, baseptr, indices, strides, srcinfo):\n        idxs = indices[:-1] or \"\"\n        if idxs:\n            idxs = \"[\" + \"][\".join(idxs) + \"]\"\n        return f\"{baseptr}{idxs}\"\nld = P(\"\"\"\n@instr(\"{dst_data} = _mm512_loadu_ps(&{src_data});\")\ndef ld16(dst: [f32][16] @ AVX512Like, src: [f32][16] @ DRAM):\n    assert stride(src, 0) == 1\n    assert stride(dst, 0) == 1\n    for i in seq(0, 16):\n        dst[i] = src[i]\n\"\"\", AVX512Like=AVX512Like)\nk = P(\"\"\"\n@proc\ndef use(inp: f32[32]):\n    v: f32[2, 16] @ AVX512Like\n    for i in seq(0, 2):\n        ld16(v[i, 0:16], inp[16 * i:16 * i + 16])\n\"\"\", AVX512Like=AVX512Like, ld16=ld)\nc_text, h_text = exo.compile_procs_to_strings([k], \"m.h\")\nresult = [s(k), c_text[c_text.index(\"// use(\"):], h_text]\n",
+  "id": "OBS-0105"
+ },
+ {
+  "code": "from exo.core.memory import MemGenError\n\nclass AVX512Like(Memory):\n    @classmethod\n    def global_(cls):\n        return \"#include <immintrin.h>\"\n\n    @classmethod\n    def can_read(cls):\n        return False\n\n    @classmethod\n    def alloc(cls, new_name, prim_type, shape, srcinfo):\n        if not shape:\n            raise MemGenError(f\"{srcinfo}: AVX512 vectors are not scalar values\")\n        if not prim_type == \"float\":\n            raise MemGenError(f\"{srcinfo}: AVX512 vectors must be f32 (for now)\")\n        shape = shape[:-1]\n        if shape:\n            return f'__m512 {new_name}[{\"][\".join(map(str, shape))}];'\n        return f\"__m512 {new_name};\"\n\n    @classmethod\n    def free(cls, new_name, prim_type, shape, srcinfo):\n        return \"\"\n\n    @classmethod\n    def window(cls, basetyp, baseptr, indices, strides, srcinfo):\n        idxs = indices[:-1] or \"\"\n        if idxs:\n            idxs = \"[\" + \"][\".join(idxs) + \"]\"\n        return f\"{baseptr}{idxs}\"\nk = P(\"\"\"\n@proc\ndef direct(x: f32[16]):\n    v: f32[16] @ AVX512Like\n    for i in seq(0, 16):\n        v[i] = x[i]\n\"\"\", AVX512Like=AVX512Like)\ntry:\n    cdef(k)\n    result = \"compiled\"\nexcept Exception as error:\n    result = type(error).__name__\n",
+  "id": "OBS-0106"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef tmp(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        t: f32\n        t = x[i]\n        y[i] = t\n\"\"\")\nfrom exo.libs.memories import AVX2\nk2 = P(\"\"\"\n@proc\ndef v8(x: f32[8], y: f32[8]):\n    t: f32[8]\n    for i in seq(0, 8):\n        t[i] = x[i]\n    for i in seq(0, 8):\n        y[i] = t[i]\n\"\"\")\nresult = [s(set_memory(k, \"t\", DRAM_STATIC)), cdef(set_memory(k, \"t\", DRAM_STATIC)), s(set_memory(k2, \"t\", AVX2))]\n",
+  "id": "OBS-0107"
+ },
+ {
+  "code": "from exo.core.extern import Extern, _EErr\n\nclass _Sin(Extern):\n    def __init__(self):\n        super().__init__(\"sin\")\n\n    def typecheck(self, args):\n        if len(args) != 1:\n            raise _EErr(f\"expected 1 argument, got {len(args)}\")\n        arg_type = args[0].type\n        if not arg_type.is_real_scalar():\n            raise _EErr(f\"expected argument to be a real scalar value, but got type {arg_type}\")\n        return arg_type\n\n    def compile(self, args, prim_type):\n        return f\"sin(({prim_type}){args[0]})\"\n\n    def globl(self, prim_type):\n        return \"#include <math.h>\"\n\nsin = _Sin()\nk = P(\"\"\"\n@proc\ndef foo(x: f32):\n    x = sin(x) * 3.0\n\"\"\", sin=sin)\nc_text, h_text = exo.compile_procs_to_strings([k], \"e.h\")\ntry:\n    P(\"\"\"\n    @proc\n    def two(x: f32):\n        x = sin(x, x)\n    \"\"\", sin=sin)\n    bad = \"accepted\"\nexcept Exception as error:\n    bad = type(error).__name__\nresult = [s(k), c_text, h_text, bad]\n",
+  "id": "OBS-0108"
+ },
+ {
+  "code": "from exo.libs.externs import relu, select, fmaxf, sqrt\nk = P(\"\"\"\n@proc\ndef lib(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = relu(x[i]) + select(x[i], x[i], x[i], x[i]) + fmaxf(x[i], y[i]) + sqrt(x[i])\n\"\"\", relu=relu, select=select, fmaxf=fmaxf, sqrt=sqrt)\nresult = [s(k), cdef(k)]\n",
+  "id": "OBS-0109"
+ },
+ {
+  "code": "ld = P(\"\"\"\n@instr(\"{dst_data} = vld1q_f32(&{src_data});\")\ndef neon_vld_4xf32(dst: [f32][4] @ DRAM, src: [f32][4] @ DRAM):\n    assert stride(src, 0) == 1\n    assert stride(dst, 0) == 1\n    for i in seq(0, 4):\n        dst[i] = src[i]\n\"\"\")\nk = P(\"\"\"\n@proc\ndef foo(M: size, src: f32[M, 4], dst: f32[M, 4]):\n    for i in seq(0, M):\n        for j in seq(0, 4):\n            dst[i, j] = src[i, j]\n\"\"\")\np = replace(k, \"for j in _:_\", ld)\nresult = [ld.is_instr(), ld.get_instr(), s(p), cdef(p)]\n",
+  "id": "OBS-0110"
+ },
+ {
+  "code": "ld = P(\"\"\"\n@instr(\"copy4({dst_data}, {src_data});\")\ndef copy4(dst: [f32][4], src: [f32][4]):\n    for i in seq(0, 4):\n        dst[i] = src[i]\n\"\"\")\nk = P(\"\"\"\n@proc\ndef mismatch(src: f32[8], dst: f32[8]):\n    for j in seq(0, 8):\n        dst[j] = src[j] * 2.0\n\"\"\")\nresult = raised(replace, k, \"for j in _:_\", ld)\n",
+  "id": "OBS-0111"
+ },
+ {
+  "code": "out = []\nout.append(s(P(\"\"\"\n@proc\ndef foo(a: i32):\n    pass\n    with python:\n        if False:\n            with exo:\n                a += 1\n\"\"\")))\nout.append(s(P(\"\"\"\n@proc\ndef foo(a: i32):\n    with python:\n        for i in range(3):\n            with exo:\n                a += {i % 2}\n\"\"\")))\nout.append(s(P(\"\"\"\n@proc\ndef foo(a: i32, b: i32):\n    with python:\n        exprs = [a, ~{b * 2}]\n        for expr in exprs:\n            with exo:\n                a += expr\n\"\"\")))\nout.append(s(P(\"\"\"\n@proc\ndef foo(a: i32, b: i32):\n    with python:\n        syms = [a, b]\n        for sym in syms:\n            with exo:\n                sym += 1\n\"\"\")))\nresult = out\n",
+  "id": "OBS-0112"
+ },
+ {
+  "code": "out = []\nout.append(s(P(\"\"\"\n@proc\ndef foo(a: {T}[5], b: {T}):\n    a[0] += b\n\"\"\", T=\"i32\")))\nout.append(s(P(\"\"\"\n@proc\ndef foo(a: i32 @ mems[0], b: i32 @ mems[0]):\n    a += b\n\"\"\", mems=[DRAM_STATIC])))\nout.append(s(P(\"\"\"\n@proc\ndef foo(a: i32, b: i32):\n    with python:\n        with exo as stmt:\n            a += b\n        with exo:\n            {stmt}\n            {stmt}\n\"\"\")))\ninner = P(\"\"\"\n@proc\ndef inner(n: size, x: R[n]):\n    for i in seq(0, n):\n        x[i] = 0.0\n\"\"\")\nout.append(s(P(\"\"\"\n@proc\ndef bar(n: size, a: R[n]):\n    assert n > 2\n    with python:\n        slices = [slice(1, 3), slice(0, 1)]\n        for sl in slices:\n            with exo:\n                inner({sl.stop} - {sl.start}, a[{sl}])\n\"\"\", inner=inner)))\nresult = out\n",
+  "id": "OBS-0113"
+ },
+ {
+  "code": "from exo.libs.memories import AVX2\nmade = defs(\"\"\"\n@proc\ndef vcallee(x: [f32][8] @ AVX2):\n    pass\n\n@proc\ndef vcaller(y: f32[8] @ DRAM):\n    vcallee(y[0:8])\n\"\"\", AVX2=AVX2)\ntry:\n    cdef(made[\"vcaller\"])\n    result = \"compiled\"\nexcept Exception as error:\n    result = type(error).__name__\n",
+  "id": "OBS-0114"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef mixed(n: size, a: f64[n], b: R[n]):\n    t: R\n    for i in seq(0, n):\n        t = a[i]\n        b[i] = t\n\"\"\")\nresult = [s(k), cdef(k)]\n",
+  "id": "OBS-0115"
+ },
+ {
+  "code": "made = defs(\"\"\"\n@proc\ndef wcallee(x: [f32][4]):\n    x[0] = 1.0\n\n@proc\ndef wcaller(y: f32[4, 4]):\n    for i in seq(0, 4):\n        wcallee(y[i, 0:4])\n\"\"\")\nresult = cdef(made[\"wcaller\"])\n",
+  "id": "OBS-0116"
+ },
+ {
+  "code": "out = []\nfor text in [\"\"\"\n@proc\ndef oob(x: f32[4]):\n    for i in seq(0, 5):\n        x[i] = 0.0\n\"\"\", \"\"\"\n@proc\ndef badtype(n: size, x: f32[n]):\n    n = 3.0\n\"\"\", \"\"\"\n@proc\ndef unsat(n: size):\n    assert n < 2\n    assert n > 4\n    pass\n\"\"\", \"\"\"\n@proc\ndef ok(n: size, x: f32[n + 2]):\n    for i in seq(0, n):\n        x[i + 2] = 0.0\n\"\"\"]:\n    try:\n        out.append(sorted(defs(text)))\n    except Exception as error:\n        out.append(type(error).__name__)\nresult = out\n",
+  "id": "OBS-0117"
+ },
+ {
+  "code": "k = P(\"\"\"\n@proc\ndef scale(n: size, x: f32[n], y: f32[n]):\n    for i in seq(0, n):\n        y[i] = x[i] * 2.0\n\"\"\")\np = divide_loop(k, \"i\", 4, [\"io\", \"ii\"], tail=\"cut\")\nresult = [s(k), s(p), raised(reorder_loops, k, \"i i\"), [cls.__name__ for cls in SchedulingError.__mro__]]\n",
+  "id": "OBS-0118"
+ },
+ {
+  "code": "import exo.main\nwrite(\"exo_file.py\", \"\"\"\nfrom __future__ import annotations\nfrom exo import *\n\n@proc\ndef kernel(n: size, x: f32[n]):\n    for i in seq(0, n):\n        x[i] = 0.0\n\"\"\")\nexo.main.exocc(\"exo_file.py\")\nexo.main.exocc(\"-o\", \"other\", \"--stem\", \"custom\", \"exo_file.py\")\nexo.main.exocc(\"--stem\", \"named\", \"exo_file.py\")\nc_text = open(\"exo_file/exo_file.c\").read()\nresult = [listing(\"exo_file\"), listing(\"other\"), c_text[c_text.index(\"// kernel(\"):]]\n",
+  "id": "OBS-0119"
+ },
+ {
+  "code": "from exo.stdlib.scheduling import repeat, replace_all, lift_if\nld = P(\"\"\"\n@instr(\"cp4({dst_data}, {src_data});\")\ndef cp4(dst: [f32][4], src: [f32][4]):\n    for i in seq(0, 4):\n        dst[i] = src[i]\n\"\"\")\nk = P(\"\"\"\n@proc\ndef two(a: f32[8], b: f32[8]):\n    for j in seq(0, 4):\n        b[j] = a[j]\n    for j in seq(0, 4):\n        b[j + 4] = a[j + 4]\n\"\"\")\nunrolled = repeat(unroll_loop)\nresult = [s(replace_all(k, [ld])), raised(unrolled, k, \"j\")]\n",
+  "id": "OBS-0120"
+ },
+ {
+  "code": "from exo.stdlib.scheduling import lift_if\nk = P(\"\"\"\n@proc\ndef li(n: size, m: size, x: f32[n, m]):\n    for i in seq(0, n):\n        for j in seq(0, m):\n            if n > 4:\n                x[i, j] = 1.0\n\"\"\")\nresult = [s(lift_if(k, k.find(\"if _: _\"), n_lifts=2)), raised(lift_if, k, k.find(\"if _: _\"), n_lifts=3)]\n",
+  "id": "OBS-0121"
+ },
+ {
+  "code": "from exo.stdlib.stdlib import tile_loops\nk = P(\"\"\"\n@proc\ndef tl(x: f32[16, 16]):\n    for i in seq(0, 16):\n        for j in seq(0, 16):\n            x[i, j] = 0.0\n\"\"\")\np, inner = tile_loops(k, [(k.find_loop(\"i\"), 4), (k.find_loop(\"j\"), 8)])\nresult = [s(p), [c.name() for c in inner]]\n",
+  "id": "OBS-0122"
+ },
+ {
+  "code": "from exo.stdlib.halide_scheduling_ops import tile\nk = P(\"\"\"\n@proc\ndef ht(x: f32[16, 16]):\n    for i in seq(0, 16):\n        for j in seq(0, 16):\n            x[i, j] = 0.0\n\"\"\")\nresult = raised(tile, k, k.find_loop(\"i\"), k.find_loop(\"j\"), [\"io\", \"ii\"], [\"jo\", \"ji\"], 4, 8)\n",
+  "id": "OBS-0123"
+ }
+]

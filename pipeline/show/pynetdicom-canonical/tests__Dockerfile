@@ -1,0 +1,105 @@
+# syntax=docker/dockerfile:1
+# Verifier image (Harbor separate-verifier mode). Built from tests/ after the agent finishes.
+# Harbor starts it as a fresh container, copies the agent's final /workdir in (task.toml
+# `artifacts`), bind-mounts /logs/verifier and runs /tests/test.sh as root. The agent's container
+# is stopped by then and never receives anything from tests/.
+#
+# The toolchain section repeats environment/Dockerfile's interpreter and dependency layers
+# verbatim, so the candidate is observed with the interpreter and libraries it was written
+# against. Keep the two in step: `separate-verifier.py parity` compares the built images.
+
+# --- Toolchain (from environment/Dockerfile) ---
+FROM python@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e
+
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_INPUT=1 PIP_NO_CACHE_DIR=1
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONHASHSEED=42
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH=/opt/venv/bin:$PATH
+ENV PYTHONPATH=/workdir
+ENV SOURCE_DATE_EPOCH=0
+
+# --- Agent harness prerequisites (driftflow/harness.py, ISSUE-103) ---
+# Harbor's TerminusV2 agent opens a tmux session in this container, records it, and drives
+# the solver through it. Without tmux every rollout dies at agent setup with "Failed to start
+# tmux session" before the agent takes a turn, and the whole cohort is lost. Nothing else in
+# the local gates notices, because none of them starts the real agent.
+#
+# This layer needs build-time network for the package manager. Build with network enabled;
+# that is independent of the task's run-time isolation, which task.toml still declares as
+# no-network. Keep the base image digest-pinned.
+#
+# Debian ships *.patch files under /usr/share/doc, which isolation probes that walk the
+# filesystem for private assets will flag. Drop the docs here rather than loosening a probe.
+RUN if command -v apt-get >/dev/null; then \
+        apt-get update && apt-get install -y --no-install-recommends \
+            asciinema ca-certificates git tmux \
+        && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man; \
+    elif command -v apk >/dev/null; then \
+        apk add --no-cache asciinema ca-certificates git tmux; \
+    fi
+# Fail the BUILD, not a paid cohort. Starting and tearing down a real session proves tmux
+# works, which `command -v` does not.
+RUN command -v git && command -v tmux \
+    && tmux -V \
+    && tmux -L harbor-build-smoke new-session -d -s smoke 'sleep 30' \
+    && tmux -L harbor-build-smoke has-session -t smoke \
+    && tmux -L harbor-build-smoke kill-server
+
+# Keep the toolchain visible to login shells (`bash -lc`), not just `ENV`: /etc/profile rebuilds
+# PATH and would otherwise discard the ENV entry.
+RUN printf 'export VIRTUAL_ENV="/opt/venv"\nexport PATH="/opt/venv/bin:$PATH"\nexport PYTHONPATH="/workdir"\nexport PYTHONDONTWRITEBYTECODE="1"\nexport PYTHONHASHSEED="42"\nexport TZ="UTC"\n' \
+      > /etc/profile.d/00-pynetdicom.sh && chmod 0644 /etc/profile.d/00-pynetdicom.sh
+
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/python -m pip install --no-cache-dir 'pip==25.0.1' 'setuptools==80.9.0' 'wheel==0.45.1'
+
+# --- Solve-time dependencies: pynetdicom's only runtime requirement (pydicom >=3,<4), resolved as of the
+# pinned commit's date (uv pip compile --python-version 3.12 --exclude-newer 2026-03-09), plus pytest and
+# pytest-xdist so the solver can run tests of its own. pynetdicom itself is not installed: it is imported
+# from /workdir through PYTHONPATH, so every in-scope module imports in this image.
+RUN /opt/venv/bin/python -m pip install --no-cache-dir \
+        'pydicom==3.0.1' \
+        'pytest==9.0.2' \
+        'pytest-xdist==3.8.0' \
+        'execnet==2.1.2' \
+        'iniconfig==2.3.0' \
+        'packaging==26.0' \
+        'pluggy==1.6.0' \
+        'pygments==2.19.2' \
+        && true
+
+# pynetdicom/_version.py reads its version from the installed distribution metadata
+# (importlib.metadata.version("pynetdicom")). The package is imported from /workdir, not installed, so
+# register metadata only (pyproject.toml's version, no files and no path entry) for that lookup.
+RUN d=$(/opt/venv/bin/python -c "import sysconfig; print(sysconfig.get_paths()['purelib'])")/pynetdicom-3.1.0.dev0.dist-info \
+    && mkdir -p "$d" \
+    && printf 'Metadata-Version: 2.1\nName: pynetdicom\nVersion: 3.1.0.dev0\nRequires-Dist: pydicom >=3, <4\n' > "$d/METADATA" \
+    && printf 'pip\n' > "$d/INSTALLER" \
+    && : > "$d/RECORD" \
+    && /opt/venv/bin/python -c "from importlib.metadata import version; assert version('pynetdicom') == '3.1.0.dev0'"
+
+RUN useradd -m -u 1000 -s /bin/bash agent 2>/dev/null || true \
+    && git config --system --add safe.directory /workdir
+
+# --- Verifier ---
+# No extra packages: the grader's observation child imports the candidate's pynetdicom (a staged
+# copy of /workdir) with the same interpreter and libraries as the solver image. Seal that
+# interpreter as the solver image does: drop any .pth that would put /workdir on sys.path and
+# keep the venv root-owned and not group/other-writable.
+RUN find /opt/venv -name '*.pth' -print0 | xargs -0 -r grep -l /workdir | xargs -r rm -f \
+    && chown -R root:root /opt/venv \
+    && chmod -R go-w /opt/venv \
+    && /opt/venv/bin/python -c "import pydicom, pytest; from importlib.metadata import version; assert version('pynetdicom') == '3.1.0.dev0'; print('verifier interpreter sealed')"
+
+# The grader, its private material and the reward writer, root-only: candidate code that the
+# grader runs as an unprivileged user must not read them. /workdir stays empty in the image;
+# it arrives as the agent's artifact.
+COPY . /tests
+RUN rm -f /tests/Dockerfile \
+    && chown -R root:root /tests \
+    && chmod -R go-rwx /tests \
+    && mkdir -p /workdir /logs/verifier
+
+WORKDIR /workdir
+CMD ["sh", "-c", "sleep infinity"]

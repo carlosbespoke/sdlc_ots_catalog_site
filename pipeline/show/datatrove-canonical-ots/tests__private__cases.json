@@ -1,0 +1,370 @@
+[
+ {
+  "code": "from datatrove.io import get_datafolder\nfolder = put(path(\"in\"), {\"f%d.txt\" % i: \"x\" for i in range(7)})\ndf = get_datafolder(folder)\nresult = [df.get_shard(rank, 3) for rank in range(3)]\n",
+  "id": "OBS-0001"
+ },
+ {
+  "code": "from datatrove.pipeline.readers import JsonlReader\nfolder = put(path(\"data\"), {\"part_%02d.jsonl\" % i: jsonl({\"text\": \"doc %d\" % i, \"id\": \"id%d\" % i}) for i in range(5)})\nresult = [ids(JsonlReader(folder), rank=rank, world_size=2) for rank in range(2)]\n",
+  "id": "OBS-0002"
+ },
+ {
+  "code": "from datatrove.io import DataFolder\nfolder = put(path(\"in\"), {\"a/%d.jsonl\" % i: \"x\" for i in range(4)} | {\"b/%d.jsonl\" % i: \"x\" for i in range(4)})\ndf = DataFolder(folder)\nresult = [df.get_shard(1, 4), df.get_shard(3, 4, glob_pattern=\"b/*.jsonl\"), df.get_shard(0, 10)]\n",
+  "id": "OBS-0003"
+ },
+ {
+  "code": "from datatrove.pipeline.readers import JsonlReader\nfolder = put(path(\"data\"), {\"a.jsonl\": jsonl({\"text\": \"one\", \"id\": \"1\", \"source\": \"crawl\"},\n                                             {\"text\": \"two\", \"id\": \"2\"})})\nreader = JsonlReader(folder, default_metadata={\"source\": \"default\", \"lang\": \"en\"}, add_file_path=False)\nresult = run(reader)\n",
+  "id": "OBS-0004"
+ },
+ {
+  "code": "from datatrove.pipeline.readers import CSVReader\nfolder = put(path(\"csv\"), {\"a.csv\": \"text,id,dump\\nhello,1,CC-2024\\nworld,2,\\n\"})\nreader = CSVReader(folder, default_metadata={\"dump\": \"unknown\", \"split\": \"train\"})\nresult = [[doc[0], doc[1], {k: v for k, v in doc[2].items() if k != \"file_path\"}] for doc in run(reader)]\n",
+  "id": "OBS-0005"
+ },
+ {
+  "code": "from datatrove.pipeline.readers import JsonlReader\nfolder = put(path(\"data\"), {\"a.jsonl\": jsonl({\"text\": \"t\", \"id\": \"1\", \"metadata\": {\"url\": \"https://a.org/x\"}})})\nreader = JsonlReader(folder, default_metadata={\"url\": \"https://default.invalid/\", \"kind\": \"web\"})\ndocs = run(reader)\nresult = [docs[0][2][\"url\"], docs[0][2][\"kind\"], sorted(docs[0][2])]\n",
+  "id": "OBS-0006"
+ },
+ {
+  "code": "from datatrove.pipeline.writers import JsonlWriter\nout = path(\"out\")\nrun(JsonlWriter(out), [D(\"hello\", id=\"a\"), D(\"world\", id=\"b\", lang=\"en\")])\nresult = tree(out)\n",
+  "id": "OBS-0007"
+ },
+ {
+  "code": "from datatrove.pipeline.writers import JsonlWriter\nout = path(\"out\")\nrun(JsonlWriter(out, output_filename=\"${lang}/${rank}.jsonl\"), [D(\"x\", id=\"1\", lang=\"en\"), D(\"y\", id=\"2\", lang=\"fr\")], rank=3)\nresult = names(out)\n",
+  "id": "OBS-0008"
+ },
+ {
+  "code": "from datatrove.pipeline.writers import JsonlWriter\nfrom datatrove.pipeline.readers import JsonlReader\nout = path(\"out\")\nrun(JsonlWriter(out), [D(\"round trip\", id=\"r1\", n=1)])\nresult = [names(out), run(JsonlReader(out, add_file_path=False))]\n",
+  "id": "OBS-0009"
+ },
+ {
+  "code": "from datatrove.pipeline.filters import LambdaFilter\nfrom datatrove.pipeline.writers import JsonlWriter\nout = path(\"removed\")\nkept = ids(LambdaFilter(lambda doc: len(doc.text) > 3, exclusion_writer=JsonlWriter(out, compression=None)),\n           [D(\"tiny\", id=\"1\"), D(\"no\", id=\"2\"), D(\"yes!\", id=\"3\"), D(\"ok\", id=\"4\")])\nresult = [kept, tree(out)]\n",
+  "id": "OBS-0010"
+ },
+ {
+  "code": "from datatrove.pipeline.filters import RegexFilter\nfrom datatrove.pipeline.writers import JsonlWriter\nout = path(\"removed\")\nkept = ids(RegexFilter(r\"\\bspam\\b\", exclusion_writer=JsonlWriter(out, compression=None)),\n           [D(\"buy spam now\", id=\"s1\"), D(\"a fine text\", id=\"k1\"), D(\"spam\", id=\"s2\")])\nresult = [kept, tree(out)]\n",
+  "id": "OBS-0011"
+ },
+ {
+  "code": "from datatrove.pipeline.filters.base_filter import BaseFilter\nfrom datatrove.pipeline.writers import JsonlWriter\n\nclass Mixed(BaseFilter):\n    name = \"mixed\"\n    def filter(self, doc):\n        if doc.text.startswith(\"r\"):\n            return False, \"starts_with_r\"\n        return not doc.text.startswith(\"x\")\n\nout = path(\"removed\")\nblock = Mixed(exclusion_writer=JsonlWriter(out, compression=None))\nkept = ids(block, [D(\"red\", id=\"1\"), D(\"xray\", id=\"2\"), D(\"blue\", id=\"3\")])\nresult = [kept, tree(out)]\n",
+  "id": "OBS-0012"
+ },
+ {
+  "code": "from datatrove.executor import LocalPipelineExecutor\n\ndef record(data, rank=0, world_size=1):\n    with open(path(\"calls.txt\"), \"a\") as handle:\n        handle.write(\"%d/%d\\n\" % (rank, world_size))\n    if data:\n        yield from data\n\nlogs = path(\"logs\")\nLocalPipelineExecutor([record], tasks=2, workers=1, logging_dir=logs).run()\nLocalPipelineExecutor([record], tasks=2, workers=1, logging_dir=logs, skip_completed=False).run()\nwith open(path(\"calls.txt\")) as handle:\n    calls = handle.read().split()\nresult = [calls, sorted(names(path(\"logs\", \"completions\")))]\n",
+  "id": "OBS-0013"
+ },
+ {
+  "code": "from datatrove.executor import LocalPipelineExecutor\nfrom datatrove.pipeline.writers import JsonlWriter\nlogs, out = path(\"logs\"), path(\"out\")\ndocs = [D(\"alpha\", id=\"a\"), D(\"beta\", id=\"b\")]\nLocalPipelineExecutor([docs, JsonlWriter(out, compression=None)], tasks=1, workers=1, logging_dir=logs).run()\nfirst = tree(out)\nLocalPipelineExecutor([[D(\"gamma\", id=\"c\")], JsonlWriter(out, compression=None)], tasks=1, workers=1,\n                      logging_dir=logs, skip_completed=False).run()\nresult = [first, tree(out)]\n",
+  "id": "OBS-0014"
+ },
+ {
+  "code": "from datatrove.executor import LocalPipelineExecutor\n\ndef count(data, rank=0, world_size=1):\n    with open(path(\"calls.txt\"), \"a\") as handle:\n        handle.write(\"%d\\n\" % rank)\n    if data:\n        yield from data\n\nlogs = path(\"logs\")\nLocalPipelineExecutor([count], tasks=3, workers=1, logging_dir=logs, local_tasks=1, local_rank_offset=1).run()\nLocalPipelineExecutor([count], tasks=3, workers=1, logging_dir=logs, skip_completed=False).run()\nwith open(path(\"calls.txt\")) as handle:\n    result = handle.read().split()\n",
+  "id": "OBS-0015"
+ },
+ {
+  "code": "from datatrove.executor import LocalPipelineExecutor\nfrom datatrove.pipeline.writers import JsonlWriter\nout = path(\"out\")\ndocs = [D(\"some data\", id=\"0\"), D(\"some more data\", id=\"1\"), D(\"even more data\", id=\"2\")]\nLocalPipelineExecutor([docs, JsonlWriter(out, compression=None)], tasks=2, workers=1, logging_dir=path(\"logs\")).run()\nresult = tree(out)\n",
+  "id": "OBS-0016"
+ },
+ {
+  "code": "from datatrove.executor import LocalPipelineExecutor\n\ndef seen(data, rank=0, world_size=1):\n    items = [doc.id for doc in data] if data else []\n    with open(path(\"seen-%d.txt\" % rank), \"w\") as handle:\n        handle.write(\",\".join(items))\n    yield from []\n\ndocs = tuple(D(\"doc %d\" % i, id=str(i)) for i in range(5))\nLocalPipelineExecutor([docs, seen], tasks=3, workers=1, logging_dir=path(\"logs\")).run()\nresult = {name: open(path(name)).read() for name in sorted(os.listdir(WORK)) if name.startswith(\"seen-\")}\n",
+  "id": "OBS-0017"
+ },
+ {
+  "code": "from datatrove.executor import LocalPipelineExecutor\nfrom datatrove.pipeline.filters import LambdaFilter\nlogs = path(\"logs\")\ndocs = [D(\"keep me\", id=\"k%d\" % i) for i in range(4)]\nLocalPipelineExecutor([docs, LambdaFilter(lambda d: True)], tasks=2, workers=1, logging_dir=logs).run()\nstats = [content(path(\"logs\", \"stats\", name)) for name in sorted(os.listdir(path(\"logs\", \"stats\")))]\nresult = [[step[\"stats\"][\"total\"] for step in task] for task in stats]\n",
+  "id": "OBS-0018"
+ },
+ {
+  "code": "from datatrove.pipeline.stats import DocStats\nblock = DocStats(path(\"stats\"), groups_to_compute=[\"summary\"])\ndocs = run(block, [D(\"a b\\tc\\nd\", id=\"1\"), D(\"no-spaces\", id=\"2\"), D(\"line one\\n\\nline two\\r\\n\", id=\"3\")])\nresult = [doc[2][\"white_space_ratio\"] for doc in docs]\n",
+  "id": "OBS-0019"
+ },
+ {
+  "code": "from datatrove.pipeline.stats import DocStats\nout = path(\"stats\")\nrun(DocStats(out, groups_to_compute=[\"summary\", \"histogram\"]), [D(\"x\\ty\\nz w\", id=\"1\"), D(\"ab cd\", id=\"2\")])\nresult = {name: value for name, value in tree(out).items() if \"white_space\" in name}\n",
+  "id": "OBS-0020"
+ },
+ {
+  "code": "from datatrove.pipeline.formatters import SymbolLinesFormatter\ntext = \"Title\\n\\n=====\\nBody text.\\n   \\n***\\n---\\nEnd.\"\nresult = SymbolLinesFormatter().format(text)\n",
+  "id": "OBS-0021"
+ },
+ {
+  "code": "from datatrove.pipeline.formatters import SymbolLinesFormatter\nblock = SymbolLinesFormatter(replace_char=\"\\n\")\nresult = run(block, [D(\"a\\n\\n|||\\n...\\n\\nb\", id=\"1\"), D(\"one\\n  \\ntwo\", id=\"2\")])\n",
+  "id": "OBS-0022"
+ },
+ {
+  "code": "from datatrove.pipeline.formatters import SymbolLinesFormatter\nresult = [SymbolLinesFormatter(symbols_to_remove=[\"#\"]).format(\"# heading\\n##\\n\\n###\\ntext\\n \\n\"),\n          SymbolLinesFormatter().format(\"\\n\\nfirst\\n\\n\\nsecond\\n\")]\n",
+  "id": "OBS-0023"
+ },
+ {
+  "code": "from datatrove.pipeline.formatters import PIIFormatter\ntext = \"a@x.org b@y.org c@z.org d@w.org\"\nresult = PIIFormatter().format(text)\n",
+  "id": "OBS-0024"
+ },
+ {
+  "code": "from datatrove.pipeline.formatters import PIIFormatter\nblock = PIIFormatter(ip_replacement=(\"IP1\", \"IP2\"), remove_emails=False)\nresult = run(block, [D(\"8.8.8.8 and 1.1.1.1 and 9.9.9.9\", id=\"1\"), D(\"then 8.8.4.4 and 192.168.0.1\", id=\"2\")])\n",
+  "id": "OBS-0025"
+ },
+ {
+  "code": "from datatrove.pipeline.formatters import PIIFormatter\nblock = PIIFormatter(email_replacement=(\"E1\", \"E2\", \"E3\"), remove_ips=False)\nresult = [block.format(\"x@a.com y@b.com\"), block.format(\"z@c.com w@d.com u@e.com\")]\n",
+  "id": "OBS-0026"
+ },
+ {
+  "code": "from datatrove.data import Document, Media, MediaType\ndoc = Document(text=\"some data\", id=\"0\")\ndoc2 = Document(\"txt\", \"1\", metadata={\"a\": 1})\nresult = [doc.text, doc.id, doc.media, doc.metadata, doc2.metadata, raised(Document, text=\"x\"),\n          [MediaType.IMAGE, MediaType.VIDEO, MediaType.AUDIO, MediaType.DOCUMENT]]\n",
+  "id": "OBS-0027"
+ },
+ {
+  "code": "from datatrove.data import Media\nm = Media(id=\"m1\", type=0, url=\"https://x.org/a.png\")\nresult = [m.id, m.type, m.url, m.alt, m.path, m.offset, m.length, m.media_bytes, m.metadata]\n",
+  "id": "OBS-0028"
+ },
+ {
+  "code": "from datatrove.io import DataFolder, get_datafolder\nfrom fsspec.implementations.local import LocalFileSystem\nfolder = put(path(\"in\"), {\"a.jsonl\": \"1\", \"sub/b.jsonl\": \"2\", \"sub/deep/c.txt\": \"3\", \"d.txt\": \"4\"})\nforms = [get_datafolder(folder), get_datafolder((folder, {})), get_datafolder((folder, LocalFileSystem())),\n         get_datafolder(DataFolder(folder))]\nresult = [[f.list_files() for f in forms], raised(get_datafolder, 42), raised(get_datafolder, (folder, 3)),\n          type(forms[0]).__name__, forms[0].is_local()]\n",
+  "id": "OBS-0029"
+ },
+ {
+  "code": "from datatrove.io import DataFolder\nfolder = put(path(\"in\"), {\"a.jsonl\": \"1\", \"sub/b.jsonl\": \"2\", \"sub/deep/c.txt\": \"3\", \"d.txt\": \"4\", \"e.jsonl.gz\": \"5\"})\ndf = DataFolder(folder)\nresult = [df.list_files(recursive=False), df.list_files(glob_pattern=\"*.jsonl\"), df.list_files(glob_pattern=\".txt\"),\n          df.list_files(glob_pattern=\"**/*.txt\"), df.list_files(subdirectory=\"sub\"),\n          df.list_files(subdirectory=\"sub\", recursive=False), df.list_files(include_directories=True, recursive=False)]\n",
+  "id": "OBS-0030"
+ },
+ {
+  "code": "from datatrove.io import DataFolder\ndf = DataFolder(path(\"new\"))\nwith df.open(\"x/y/z.txt\", \"wt\") as handle:\n    handle.write(\"hello\")\nempty = DataFolder(put(path(\"empty\"), {}))\nos.makedirs(path(\"empty\"), exist_ok=True)\nresult = [names(path(\"new\")), df.get_shard(0, 1), DataFolder(path(\"empty\")).get_shard(0, 2),\n          os.path.relpath(df.resolve_paths(\"x/y/z.txt\"), WORK), [os.path.relpath(p, WORK) for p in df.resolve_paths([\"a\", \"b/c\"])]]\n",
+  "id": "OBS-0031"
+ },
+ {
+  "code": "from datatrove.io import DataFolder\ndf = DataFolder(path(\"o\"))\nwith df.get_output_file_manager(mode=\"wt\") as manager:\n    manager.write(\"a.txt\", \"one\\n\")\n    manager.write(\"a.txt\", \"two\\n\")\n    manager.write(\"sub/b.txt\", \"three\\n\")\n    opened = sorted(manager.get_open_files())\nwith df.open_files([\"a.txt\", \"sub/b.txt\"], mode=\"rt\")[0] as handle:\n    first = handle.read()\nresult = [opened, first, tree(path(\"o\"))]\n",
+  "id": "OBS-0032"
+ },
+ {
+  "code": "from datatrove.io import open_file, file_exists, file_is_local, get_shard_from_paths_file\nput(WORK, {\"paths.txt\": \"a\\nb\\nc\\nd\\ne\\n\", \"z.txt.gz\": \"zipped\"})\nwith open_file(path(\"paths.txt\")) as handle:\n    first = handle.readline()\nwith open_file(path(\"z.txt.gz\"), mode=\"rt\", compression=\"gzip\") as handle:\n    zipped = handle.read()\nresult = [first, zipped, file_exists(path(\"paths.txt\")), file_exists(path(\"nope.txt\")), file_is_local(path(\"paths.txt\")),\n          [list(get_shard_from_paths_file(path(\"paths.txt\"), r, 3)) for r in range(3)]]\n",
+  "id": "OBS-0033"
+ },
+ {
+  "code": "from datatrove.io import safely_create_file\ncalls = []\ntarget = path(\"asset.bin\")\nsafely_create_file(target, lambda: calls.append(1))\nsafely_create_file(target, lambda: calls.append(2))\nsafely_create_file(path(\"other.bin\"), lambda: calls.append(3), completed_file=False)\nsafely_create_file(path(\"other.bin\"), lambda: calls.append(4), completed_file=False)\nresult = [calls, names(WORK)]\n",
+  "id": "OBS-0034"
+ },
+ {
+  "code": "from datatrove.pipeline.readers import JsonlReader\nfolder = put(path(\"data\"), {\"a.jsonl\": jsonl({\"text\": \"one\", \"id\": \"x1\", \"lang\": \"en\"}, {\"text\": \"two\"},\n                                             {\"text\": \"\", \"id\": \"empty\"}, {\"text\": \"three\", \"metadata\": {\"k\": 1}, \"src\": \"s\"})})\nresult = run(JsonlReader(folder, add_file_path=False))\n",
+  "id": "OBS-0035"
+ },
+ {
+  "code": "from datatrove.pipeline.readers import JsonlReader\nfolder = put(path(\"data\"), {\"a.jsonl\": jsonl({\"content\": \"alpha\", \"key\": \"k1\", \"n\": 1}, {\"content\": \"beta\", \"key\": \"k2\"})})\ndef adapter(self, data, path, id_in_file):\n    return {\"text\": data[\"content\"].upper(), \"id\": \"%s-%s\" % (data[\"key\"], id_in_file), \"metadata\": {\"tk\": self.text_key}}\nresult = [run(JsonlReader(folder, text_key=\"content\", id_key=\"key\", add_file_path=False)),\n          run(JsonlReader(folder, text_key=\"content\", adapter=adapter, add_file_path=False))]\n",
+  "id": "OBS-0036"
+ },
+ {
+  "code": "from datatrove.pipeline.readers import JsonlReader\nrows = [{\"text\": \"t%d\" % i, \"id\": str(i)} for i in range(6)]\nfolder = put(path(\"data\"), {\"a.jsonl\": jsonl(*rows[:3]), \"b.jsonl.gz\": jsonl(*rows[3:]), \"sub/c.jsonl\": jsonl({\"text\": \"deep\", \"id\": \"d\"}),\n                            \"notes.txt\": \"x\"})\nresult = [ids(JsonlReader(folder, limit=4)), ids(JsonlReader(folder, skip=2, limit=3)), ids(JsonlReader(folder, recursive=False, glob_pattern=\"*.jsonl*\")),\n          ids(JsonlReader(folder, glob_pattern=\"sub/*.jsonl\")), ids(JsonlReader(folder, glob_pattern=\"*.jsonl\"))]\n",
+  "id": "OBS-0037"
+ },
+ {
+  "code": "from datatrove.pipeline.readers import JsonlReader\nfolder = put(path(\"data\"), {\"a.jsonl\": jsonl({\"text\": \"A\", \"id\": \"a\"}), \"b.jsonl\": jsonl({\"text\": \"B\", \"id\": \"b\"}),\n                            \"c.jsonl\": jsonl({\"text\": \"C\", \"id\": \"c\"})})\nput(WORK, {\"paths.txt\": \"c.jsonl\\na.jsonl\\n\"})\ndocs = run(JsonlReader(folder, paths_file=path(\"paths.txt\")))\nresult = [[d[0] for d in docs], [os.path.relpath(d[2][\"file_path\"], WORK) for d in docs], raised(lambda: list(JsonlReader(path(\"data\"), glob_pattern=\"*.nothing\").run()))]\n",
+  "id": "OBS-0038"
+ },
+ {
+  "code": "from datatrove.pipeline.readers import CSVReader\nfolder = put(path(\"csv\"), {\"a.csv\": \"text,id,score\\nhello,1,0.5\\n\\\"multi, comma\\\",2,1\\n,3,2\\n\", \"b.csv.gz\": \"text,id\\nzipped,9\\n\"})\nresult = [CSVReader.__name__, [[d[0], d[1], d[2].get(\"score\")] for d in run(CSVReader(folder))], ids(CSVReader(folder, text_key=\"id\", id_key=\"text\"))]\n",
+  "id": "OBS-0039"
+ },
+ {
+  "code": "import pyarrow as pa, pyarrow.parquet as pq\nfrom datatrove.pipeline.readers import ParquetReader\nos.makedirs(path(\"pq\"))\npq.write_table(pa.table({\"text\": [\"a\", \"b\", \"c\", \"d\"], \"id\": [\"1\", \"2\", \"3\", \"4\"], \"lang\": [\"en\", \"fr\", \"de\", \"it\"]}), path(\"pq\", \"x.parquet\"))\nresult = [run(ParquetReader(path(\"pq\"), batch_size=3)), run(ParquetReader(path(\"pq\"), read_metadata=False, limit=2))]\nresult = [[[d[0], d[1], sorted(d[2])] for d in part] for part in result]\n",
+  "id": "OBS-0040"
+ },
+ {
+  "code": "import pyarrow as pa\nfrom datatrove.pipeline.readers import IpcReader\nos.makedirs(path(\"ipc\"))\ntable = pa.table({\"text\": [\"x\", \"y\", \"z\"], \"id\": [\"1\", \"2\", \"3\"], \"tag\": [\"p\", \"q\", \"r\"]})\nwith pa.OSFile(path(\"ipc\", \"f.arrow\"), \"wb\") as sink:\n    with pa.ipc.new_file(sink, table.schema) as writer:\n        writer.write_table(table, max_chunksize=2)\nwith pa.OSFile(path(\"ipc\", \"s.arrows\"), \"wb\") as sink:\n    with pa.ipc.new_stream(sink, table.schema) as writer:\n        writer.write_table(table)\nresult = [[[d[0], d[1], d[2][\"tag\"]] for d in run(IpcReader(path(\"ipc\"), glob_pattern=\"*.arrow\"))],\n          [[d[0], d[1], d[2][\"tag\"]] for d in run(IpcReader(path(\"ipc\"), glob_pattern=\"*.arrows\", stream=True))]]\n",
+  "id": "OBS-0041"
+ },
+ {
+  "code": "from datatrove.pipeline.writers import JsonlWriter\nout = path(\"out\")\ndocs = [D(\"x\", id=\"a1\", language=\"en\"), D(\"y\", id=\"b2\", language=\"fr\"), D(\"z\", id=\"c3\", language=\"en\")]\npassed = ids(JsonlWriter(out, output_filename=\"${language}/dump-1/${rank}.jsonl\", compression=None), docs, rank=7)\nrun(JsonlWriter(path(\"by_id\"), output_filename=\"${id}.jsonl\", compression=\"gzip\"), docs[:2])\nresult = [passed, tree(out), names(path(\"by_id\"))]\n",
+  "id": "OBS-0042"
+ },
+ {
+  "code": "from datatrove.pipeline.writers import JsonlWriter\nout = path(\"out\")\nrun(JsonlWriter(out, compression=None, expand_metadata=True), [D(\"hello\", id=\"1\", url=\"u\", score=0.5), D(\"bye\", id=\"2\")])\ndef adapter(self, document):\n    return {\"content\": document.text[::-1], \"ident\": document.id}\nrun(JsonlWriter(path(\"ad\"), compression=None, adapter=adapter), [D(\"abc\", id=\"9\")])\nresult = [tree(out), tree(path(\"ad\"))]\n",
+  "id": "OBS-0043"
+ },
+ {
+  "code": "from datatrove.pipeline.writers import JsonlWriter\nout = path(\"out\")\ndocs = [D(\"document number %d with some padding text\" % i, id=str(i)) for i in range(6)]\nrun(JsonlWriter(out, compression=None, max_file_size=100), docs)\nresult = [names(out), [len(v.splitlines()) for k, v in sorted(tree(out).items())], raised(JsonlWriter, out, compression=None, max_file_size=-5) ]\n",
+  "id": "OBS-0044"
+ },
+ {
+  "code": "from datatrove.pipeline.writers import ParquetWriter\nout = path(\"out\")\nrun(ParquetWriter(out, batch_size=2), [D(\"a\", id=\"1\", k=\"v\"), D(\"b\", id=\"2\", k=\"w\"), D(\"c\", id=\"3\", k=\"x\")])\nresult = tree(out)\n",
+  "id": "OBS-0045"
+ },
+ {
+  "code": "from datatrove.pipeline.writers import ParquetWriter\nout = path(\"out\")\nrun(ParquetWriter(out, output_filename=\"${lang}_${rank}.parquet\", expand_metadata=True, compression=\"gzip\"),\n    [D(\"a\", id=\"1\", lang=\"en\"), D(\"b\", id=\"2\", lang=\"fr\")], rank=2)\nresult = [tree(out), raised(ParquetWriter, path(\"x\"), compression=\"rar\")]\n",
+  "id": "OBS-0046"
+ },
+ {
+  "code": "from datatrove.pipeline.filters.base_filter import BaseFilter\nfrom datatrove.pipeline.writers import JsonlWriter\n\nclass Reasoned(BaseFilter):\n    name = \"reasoned\"\n    def filter(self, doc):\n        return (False, \"too_short\") if len(doc.text) < 4 else True\n\nout = path(\"removed\")\nkept = run(Reasoned(exclusion_writer=JsonlWriter(out, compression=None)), [D(\"long text\", id=\"1\"), D(\"abc\", id=\"2\"), D(\"ok!!\", id=\"3\")])\nresult = [kept, tree(out), ids(Reasoned(), [D(\"ab\", id=\"a\"), D(\"abcd\", id=\"b\")])]\n",
+  "id": "OBS-0047"
+ },
+ {
+  "code": "from datatrove.pipeline.filters.base_filter import BaseFilter\n\nclass Batched(BaseFilter):\n    name = \"batched\"\n    def __init__(self):\n        super().__init__(batch_size=2)\n        self.sizes = []\n    def filter(self, doc):\n        return \"x\" not in doc.text\n    def filter_batch(self, batch):\n        self.sizes.append(len(batch))\n        return [self.filter(doc) for doc in batch]\n\nblock = Batched()\nkept = ids(block, [D(\"a\", id=\"1\"), D(\"x\", id=\"2\"), D(\"b\", id=\"3\"), D(\"xx\", id=\"4\"), D(\"c\", id=\"5\")])\nresult = [kept, block.sizes]\n",
+  "id": "OBS-0048"
+ },
+ {
+  "code": "from datatrove.pipeline.filters import GopherQualityFilter\nf = GopherQualityFilter()\ngood = \"The quick brown fox jumps over the lazy dog and that is the end of the story for now. \" * 6\ncases = [good, \"short text with the and of\", \"The \" + \"a \" * 60 + \"and the end.\",\n         \"The \" + \"extraordinarily \" * 60 + \"and that\", good + \" #\" * 80, good + \" ...\" * 80,\n         \"\\n\".join([\"- the item and that is it ok \" * 2] * 20), good.replace(\"the\", \"a\").replace(\"that\", \"this\").replace(\" and \", \" or \")]\nresult = [f.filter(D(t, id=str(i))) for i, t in enumerate(cases)]\n",
+  "id": "OBS-0049"
+ },
+ {
+  "code": "from datatrove.pipeline.filters import GopherQualityFilter\ntext = \"The cat and the dog went to the park that day. \" * 4\nresult = [GopherQualityFilter().filter(D(text)), GopherQualityFilter(min_doc_words=10).filter(D(text)),\n          GopherQualityFilter(min_doc_words=10, max_doc_words=20).filter(D(text)),\n          GopherQualityFilter(min_doc_words=None, min_stop_words=None, stop_words=[\"zebra\"]).filter(D(text)),\n          GopherQualityFilter(min_doc_words=10, min_stop_words=3, stop_words=[\"zebra\", \"cat\", \"dog\"]).filter(D(text))]\n",
+  "id": "OBS-0050"
+ },
+ {
+  "code": "from datatrove.pipeline.filters import GopherRepetitionFilter\nfrom datatrove.pipeline.filters.gopher_repetition_filter import find_duplicates, get_n_grams, find_top_duplicate, find_all_duplicate\nf = GopherRepetitionFilter()\nvaried = \" \".join(\"word%d\" % i for i in range(200))\nresult = [f.filter(D(varied)), f.filter(D(\"same line here\\n\" * 10)), f.filter(D(\"para one is here\\n\\npara one is here\\n\\nother text\")),\n          f.filter(D(\"alpha beta \" * 50)), find_duplicates([\"a\", \"b\", \"a\", \"a\"]), get_n_grams([\"a\", \"b\", \"c\", \"d\"], 3),\n          find_top_duplicate([\"ab\", \"ab\", \"c\"]), find_all_duplicate(\"a b c a b c a b c\".split(), 3)]\n",
+  "id": "OBS-0051"
+ },
+ {
+  "code": "from datatrove.pipeline.filters import C4QualityFilter\nf = C4QualityFilter(min_num_sentences=2)\ntext = \"\\n\".join([\"This is a proper sentence here.\", \"no punctuation at the end\", \"Too short.\",\n                  \"We use javascript for this page.\", \"Read our privacy policy for more.\", \"Citations here[1] are removed.\",\n                  \"Another fine line of text!\", \"Ellipsis at the end of line...\"])\ndoc = D(text, id=\"1\")\nkept = f.filter(doc)\nresult = [kept, doc.text, f.filter(D(\"Lorem ipsum dolor sit amet here.\\nA good sentence is here.\", id=\"2\")),\n          f.filter(D(\"A sentence with { bracket in it.\\nAnother good sentence here.\", id=\"3\")), f.filter(D(\"Only one good sentence here.\", id=\"4\"))]\n",
+  "id": "OBS-0052"
+ },
+ {
+  "code": "from datatrove.pipeline.filters import C4QualityFilter\nrelaxed = C4QualityFilter(filter_no_terminal_punct=False, min_num_sentences=-1, min_words_per_line=-1, remove_citations=False,\n                          filter_javascript=False, filter_curly_bracket=False, filter_policy=False, filter_lorem_ipsum=False)\ndoc = D(\"keep this[2]\\nJavaScript {x}\\nlorem ipsum\\n\" + \"y\" * 1001 + \" end\", id=\"r\")\nres = relaxed.filter(doc)\nresult = [res, doc.text, C4QualityFilter(max_word_length=-1, min_num_sentences=-1).filter(D(\"w\" * 2000 + \" is long.\", id=\"w\"))]\n",
+  "id": "OBS-0053"
+ },
+ {
+  "code": "from datatrove.pipeline.filters import C4ParagraphFilter\nf = C4ParagraphFilter()\nlong = \"x\" * 200\nresult = [f.filter(D(\"\\n\".join([long, long, long]))), f.filter(D(\"\\n\".join([long, long]))),\n          f.filter(D(\"\\n\".join([long, long, \"short\", \"tiny\"]))), f.filter(D(\"\\n\".join([long, long, \"y\" * 199])))]\n",
+  "id": "OBS-0054"
+ },
+ {
+  "code": "from datatrove.pipeline.filters import FineWebQualityFilter\nf = FineWebQualityFilter()\ngood = \"\\n\".join(\"This is sentence number %d, which is long enough to count.\" % i for i in range(10))\nresult = [f.filter(D(good)), f.filter(D(\"\\n\\n  \\n\")), f.filter(D(\"\\n\".join(\"line %d without a stop mark at all here\" % i for i in range(10)))),\n          f.filter(D(\"\\n\".join([\"Short line.\"] * 3 + [\"A much longer line that has quite a few characters in it.\"] ))),\n          f.filter(D(\"\\n\".join([\"The same repeated line appears here again.\"] * 5))),\n          f.filter(D(\"\\n\".join(\"Item %d is listed.\" % i for i in range(10)))),\n          FineWebQualityFilter(line_punct_thr=0.5, line_punct_exclude_zero=True).filter(D(\"\\n\".join(\"plain line number %d goes on and on and on\" % i for i in range(10))))]\n",
+  "id": "OBS-0055"
+ },
+ {
+  "code": "from datatrove.pipeline.filters import URLFilter\nf = URLFilter(use_integrated_lists=False, extra_domains=[\"bad.com\", \"sub.ok.org\"], extra_urls=[\"https://fine.net/exact/page\"],\n              banned_words=[\"casino\"], soft_banned_words=[\"free\", \"win\", \"prize\"], banned_subwords=[\"xxx\"])\nurls = [\"https://www.bad.com/a\", \"https://sub.ok.org/x\", \"https://other.ok.org/x\", \"https://fine.net/exact/page\",\n        \"https://fine.net/casino/page\", \"https://fine.net/free-prize\", \"https://fine.net/free\", \"https://fine.net/abcxxxdef\", \"https://good.org/news\"]\nresult = [f.filter(D(\"t\", url=u)) for u in urls]\n",
+  "id": "OBS-0056"
+ },
+ {
+  "code": "from datatrove.pipeline.filters import URLFilter\nf = URLFilter(use_integrated_lists=False, soft_word_threshold=1, soft_banned_words=[\"deal\"], banned_words=[\"Spam\"])\nurls = [\"https://shop.example/deal\", \"https://shop.example/ideal\", \"https://x.org/spam/page\", \"https://x.org/SPAM-page\"]\nresult = [f.filter(D(\"t\", url=u)) for u in urls]\n",
+  "id": "OBS-0057"
+ },
+ {
+  "code": "from datatrove.pipeline.filters import RegexFilter, LambdaFilter\ndocs = [D(\"hello world\", id=\"1\", lang=\"en\"), D(\"bonjour\", id=\"2\", lang=\"fr\"), D(\"hello again\", id=\"3\", lang=\"en\")]\nresult = [ids(RegexFilter(r\"^hello\"), docs), ids(LambdaFilter(lambda d: d.metadata[\"lang\"] == \"en\"), docs)]\n",
+  "id": "OBS-0058"
+ },
+ {
+  "code": "from datatrove.pipeline.filters import SamplerFilter\ndocs = [D(\"doc %d\" % i, id=str(i)) for i in range(40)]\na = ids(SamplerFilter(rate=0.5, seed=7), docs)\nb = ids(SamplerFilter(rate=0.5, seed=7), docs)\nresult = [a, b, ids(SamplerFilter(rate=0.0, seed=1), docs), len(ids(SamplerFilter(rate=1.0), docs))]\n",
+  "id": "OBS-0059"
+ },
+ {
+  "code": "from datatrove.pipeline.formatters import FTFYFormatter\nf = FTFYFormatter()\nresult = [f.format(\"The Mona Lisa doesn\u00c3\u00a2\\x80\\x99t have eyebrows.\"), f.format(\"\u201ccurly\u201d quotes stay\"), f.format(\"\ufb01ne ligature\"),\n          f.format(\"&lt;b&gt; html\"), f.format(\"\uff57\uff49\uff44\uff45\"), FTFYFormatter(uncurl_quotes=True, fix_latin_ligatures=True).format(\"\u201c\ufb01\u201d\")]\n",
+  "id": "OBS-0060"
+ },
+ {
+  "code": "from datatrove.pipeline.formatters import PIIFormatter\ntext = \"mail me at john.doe@mail.com from 192.168.1.1 or 8.8.8.8\"\nresult = [PIIFormatter().format(text), PIIFormatter(remove_emails=False).format(text), PIIFormatter(remove_ips=False).format(text),\n          PIIFormatter(only_remove_public_ips=False, ip_replacement=\"IP\").format(text), PIIFormatter(email_replacement=\"EMAIL\").format(text),\n          PIIFormatter().format(\"servers 1.1.1.1 and 10.0.0.7\")]\n",
+  "id": "OBS-0061"
+ },
+ {
+  "code": "from datatrove.pipeline.formatters import SymbolLinesFormatter\nblock = SymbolLinesFormatter()\nresult = [run(block, [D(\"Header\\n=====\\nText line\\n* * *\\n---\\n...\\nMore text\", id=\"1\")]),\n          SymbolLinesFormatter(replace_char=\"\\n\").format(\"a\\n###\\n!!!\\nb\"), SymbolLinesFormatter().format(\"a - b\\n- - -\\nc\")]\n",
+  "id": "OBS-0062"
+ },
+ {
+  "code": "from datatrove.pipeline.dedup.exact_dedup import ExactDedupConfig, ExactDedupSignature, ExactFindDedups, ExactDedupFilter\nfrom datatrove.pipeline.writers import JsonlWriter\ndocs = [D(\"\", id=str(i), url=u) for i, u in enumerate([\"https://a.com\", \"https://a.com\", \"https://b.com\", \"https://a.com\", \"https://c.com\"])]\nconfig = ExactDedupConfig(content_getter=lambda d: d.metadata[\"url\"])\nExactDedupSignature(output_folder=path(\"sigs\"), config=config)(data=docs)\nExactFindDedups(data_folder=path(\"sigs\"), output_folder=path(\"dups\"), config=config)()\nkept = ids(ExactDedupFilter(data_folder=path(\"dups\"), config=config, exclusion_writer=JsonlWriter(path(\"ex\"), compression=None)), docs)\nresult = [kept, sorted(line for v in tree(path(\"ex\")).values() for line in v.splitlines())]\n",
+  "id": "OBS-0063"
+ },
+ {
+  "code": "from datatrove.pipeline.dedup.exact_dedup import ExactDedupConfig, ExactDedupSignature, ExactFindDedups, ExactDedupFilter\ndocs = [D(\"same text\", id=\"1\"), D(\"same text\", id=\"2\"), D(\"other\", id=\"3\"), D(\"same text\", id=\"4\")]\nconfig = ExactDedupConfig(content_getter=lambda d: d.text, document_priority=lambda d: int(d.id))\nExactDedupSignature(output_folder=path(\"sigs\"), config=config)(data=docs)\nExactFindDedups(data_folder=path(\"sigs\"), output_folder=path(\"dups\"), config=config)()\nresult = ids(ExactDedupFilter(data_folder=path(\"dups\"), config=config), docs)\n",
+  "id": "OBS-0064"
+ },
+ {
+  "code": "from datatrove.pipeline.dedup.exact_dedup import ExactDedupConfig, ExactDedupSignature, ExactFindDedups, ExactDedupFilter, ExactDedupBuildIndex\nconfig = ExactDedupConfig(content_getter=lambda d: d.text)\nindex = [D(\"known one\", id=\"i1\"), D(\"known two\", id=\"i2\")]\ndocs = [D(\"known one\", id=\"1\"), D(\"fresh\", id=\"2\"), D(\"fresh\", id=\"3\"), D(\"known two\", id=\"4\")]\nExactDedupSignature(output_folder=path(\"isigs\"), config=config)(data=index)\nExactDedupBuildIndex(data_folder=path(\"isigs\"), output_folder=path(\"index\"), index_name=\"idx\", config=config)()\nExactDedupSignature(output_folder=path(\"sigs\"), config=config)(data=docs)\nExactFindDedups(data_folder=path(\"sigs\"), output_folder=path(\"dups\"), index_folder=path(\"index\"), config=config)()\nresult = ids(ExactDedupFilter(data_folder=path(\"dups\"), config=config), docs)\n",
+  "id": "OBS-0065"
+ },
+ {
+  "code": "from datatrove.pipeline.dedup.minhash import MinhashConfig, MinhashDedupSignature, MinhashDedupBuckets, MinhashDedupCluster, MinhashDedupFilter\nbase = \" \".join(\"token%d\" % i for i in range(120))\nnear = base.replace(\"token60\", \"changed\")\nother = \" \".join(\"other%d\" % i for i in range(120))\ndocs = [D(base, id=\"a\"), D(other, id=\"b\"), D(near, id=\"c\"), D(base, id=\"d\")]\nconfig = MinhashConfig(num_buckets=4, hashes_per_bucket=4)\nMinhashDedupSignature(output_folder=path(\"sigs\"), config=config)(data=docs)\nfor b in range(config.num_buckets):\n    MinhashDedupBuckets(input_folder=path(\"sigs\"), output_folder=path(\"buckets\"), config=config)(None, rank=b, world_size=config.num_buckets)\nMinhashDedupCluster(input_folder=path(\"buckets\"), output_folder=path(\"clusters\"), config=config)(None)\nkept = run(MinhashDedupFilter(input_folder=path(\"clusters\")), docs)\nresult = [[d[0] for d in kept], sorted(names(path(\"sigs\")))]\n",
+  "id": "OBS-0066"
+ },
+ {
+  "code": "from datatrove.pipeline.dedup.minhash import MinhashConfig, MinhashDedupSignature\nconfig = MinhashConfig()\nblock = MinhashDedupSignature(output_folder=path(\"sigs\"), config=config)\nsig = block.get_signature(block.get_shingles(\"the quick brown fox jumps over the lazy dog again and again\"))\nresult = [config.n_grams, config.num_buckets, config.hashes_per_bucket, config.seed, len(sig), [len(b) for b in sig], str(config)]\n",
+  "id": "OBS-0067"
+ },
+ {
+  "code": "from datatrove.pipeline.dedup.sentence_dedup import SentDedupConfig, SentenceDedupSignature, SentenceFindDedups, SentenceDedupFilter\nshared = \"The first shared sentence is here. The second shared sentence follows it. The third shared sentence ends it.\"\ndocs = [D(shared + \" Unique tail for document one.\", id=\"1\"), D(\"A completely different start. \" + shared, id=\"2\"),\n        D(\"Nothing in common here at all. Just some words. And more words.\", id=\"3\")]\nconfig = SentDedupConfig(min_doc_words=0, min_num_sentences=0)\nSentenceDedupSignature(output_folder=path(\"sigs\"), config=config)(data=docs)\nSentenceFindDedups(data_folder=path(\"sigs\"), output_folder=path(\"dups\"), config=config)()\nresult = run(SentenceDedupFilter(data_folder=path(\"dups\"), config=config), docs)\n",
+  "id": "OBS-0068"
+ },
+ {
+  "code": "from datatrove.pipeline.dedup.sentence_dedup import SentDedupConfig\nc0 = SentDedupConfig()\nresult = [c0.n_sentences, c0.split_sentences, c0.only_dedup_in_index, c0.min_doc_words, c0.min_num_sentences, c0.min_words_to_remove_span]\n",
+  "id": "OBS-0069"
+ },
+ {
+  "code": "from datatrove.pipeline.dedup.bloom_filter import BloomFilterConfig, SingleBloomFilter, get_optimal_k\ntext = \" \".join(\"word%d\" % i for i in range(60))\ndocs = [D(text, id=\"1\"), D(text, id=\"3\"), D(text + \" extra\", id=\"4\")]\nblock = SingleBloomFilter(output_folder=path(\"bf\"), config=BloomFilterConfig(m_bytes=2**12, expected_elements=500, n_grams=5))\nresult = [ids(block, docs), names(path(\"bf\")), get_optimal_k(2**15, 1000), BloomFilterConfig(m_bytes=8, k=3).m]\n",
+  "id": "OBS-0070"
+ },
+ {
+  "code": "from datatrove.pipeline.stats import DocStats\ndocs = run(DocStats(path(\"s\"), groups_to_compute=[\"summary\"]), [D(\"Hello World 123... ok!\", id=\"1\"), D(\"abc\u2026DEF\", id=\"2\")])\nresult = [{k: v for k, v in d[2].items() if k != \"white_space_ratio\"} for d in docs]\n",
+  "id": "OBS-0071"
+ },
+ {
+  "code": "from datatrove.pipeline.stats import LineStats\ntext = \"short\\n\" + \"x\" * 40 + \"\\n- bullet line.\\nshort\\n\\n\"\ndocs = run(LineStats(path(\"s\"), groups_to_compute=[\"summary\"]), [D(text, id=\"1\")])\ndocs2 = run(LineStats(path(\"s2\"), max_k_chars_per_line_tresholds=[5], min_k_chars_per_line_thresholds=[40], ignore_empty_lines=True, groups_to_compute=[\"summary\"]), [D(text, id=\"1\")])\nresult = [docs[0][2], docs2[0][2]]\n",
+  "id": "OBS-0072"
+ },
+ {
+  "code": "from datatrove.pipeline.stats import LineStats\nout = path(\"stats\")\ndocs = [D(\"one line.\\ntwo\", id=\"1\", url=\"https://www.nytimes.com/a\"), D(\"x\", id=\"2\", url=\"https://cnn.com/b\"), D(\"a\\nb\\nc\", id=\"3\", url=\"https://edition.cnn.com/c\")]\nrun(LineStats(out), docs, rank=4)\nfiles = tree(out)\nresult = [sorted(files), files[\"fqdn/n_lines/00004.json\"], files[\"suffix/n_lines/00004.json\"], files[\"summary/n_lines/00004.json\"], files[\"histogram/n_lines/00004.json\"]]\n",
+  "id": "OBS-0073"
+ },
+ {
+  "code": "from datatrove.pipeline.stats import DocStats, TopKConfig\nout = path(\"stats\")\ndocs = [D(\"aa\", id=\"1\", url=\"https://a.com/x\"), D(\"bbb\", id=\"2\", url=\"https://b.org/y\"), D(\"c\", id=\"3\", url=\"https://a.com/z\"),\n        D(\"dddd\", id=\"4\", url=\"https://c.net/q\")]\nrun(DocStats(out, groups_to_compute=[\"fqdn\", \"suffix\"], top_k_config=TopKConfig(top_k_groups=[\"fqdn\"], top_k=1)), docs)\nfiles = tree(out)\nresult = [files[\"fqdn/length/00000.json\"], files[\"suffix/length/00000.json\"]]\n",
+  "id": "OBS-0074"
+ },
+ {
+  "code": "from datatrove.pipeline.stats import WordStats\ndocs = run(WordStats(path(\"s\"), groups_to_compute=[\"summary\"]), [D(\"The Cat and THE dog are here.\\nA second LINE of words\", id=\"1\")])\nresult = docs[0][2]\n",
+  "id": "OBS-0075"
+ },
+ {
+  "code": "from datatrove.pipeline.stats import ParagraphStats\ntext = \"First paragraph here.\\n\\nSecond one is a bit longer than the first.\\n\\nFirst paragraph here.\\n\\n\\n\"\nresult = [run(ParagraphStats(path(\"s\"), groups_to_compute=[\"summary\"]), [D(text, id=\"1\")])[0][2],\n          run(ParagraphStats(path(\"t\"), short_paragraph_max_chars_threshold=[21], long_paragraph_max_chars_threshold=[42], groups_to_compute=[\"summary\"]), [D(text, id=\"1\")])[0][2]]\n",
+  "id": "OBS-0076"
+ },
+ {
+  "code": "from datatrove.pipeline.stats import SentenceStats\ntext = \"This is one. This is a much longer second sentence with many words in it! Short? Yes.\"\nresult = run(SentenceStats(path(\"s\"), groups_to_compute=[\"summary\"]), [D(text, id=\"1\")])[0][2]\n",
+  "id": "OBS-0077"
+ },
+ {
+  "code": "from datatrove.pipeline.stats.contamination_stats import WordsContaminationStats\nresult = run(WordsContaminationStats(path(\"s\"), words=[\"lorem\", \"dolor\"], groups_to_compute=[\"summary\"]),\n             [D(\"Lorem ipsum dolor sit amet dolor\", id=\"1\"), D(\"nothing here\", id=\"2\")])\n",
+  "id": "OBS-0078"
+ },
+ {
+  "code": "from datatrove.pipeline.stats import DocStats\nfrom datatrove.pipeline.stats.merger import StatsMerger, STATS_MERGED_NAME\nfrom datatrove.utils.stats import MetricStatsDict\ndocs = [D(\"aaaa\", id=\"1\", url=\"https://nytimes.com/x\"), D(\"bb\", id=\"2\", url=\"https://cnn.com/y\"), D(\"cccccc\", id=\"3\", url=\"https://nytimes.com/z\")]\nrun(DocStats(path(\"stats\"), groups_to_compute=[\"fqdn\", \"summary\"]), docs[:2], rank=0)\nrun(DocStats(path(\"stats\"), groups_to_compute=[\"fqdn\", \"summary\"]), docs[2:], rank=1)\nrun(StatsMerger(path(\"stats\"), path(\"merged\")), [])\nstats = MetricStatsDict.from_dict(content(path(\"merged\", \"fqdn\", \"length\", STATS_MERGED_NAME)))\nresult = [STATS_MERGED_NAME, sorted(n for n in names(path(\"merged\")) if \"white_space\" not in n), stats[\"nytimes.com\"].total, stats[\"nytimes.com\"].mean,\n          stats[\"cnn.com\"].mean, content(path(\"merged\", \"summary\", \"length\", \"metric.json\"))]\n",
+  "id": "OBS-0079"
+ },
+ {
+  "code": "from datatrove.utils.stats import MetricStats, MetricStatsDict\na = MetricStats(); [a.update(x) for x in (1, 2, 3, 4)]\nb = MetricStats(); b.update(10)\nm = a + b\nd = MetricStatsDict(); d[\"k\"] += 3; d[\"k\"] += 5; d[\"j\"] += 1\ne = d + MetricStatsDict(init={\"k\": MetricStats.from_dict(2)})\nresult = [a.total, a.n, a.mean, a.min, a.max, round(a.variance, 6), round(a.standard_deviation, 6), m.total, m.n, m.mean, m.min, m.max, round(m.variance, 6),\n          d.to_dict(), e.to_dict(), list(d.topk(1)), MetricStats.from_dict({\"total\": 6, \"n\": 3, \"mean\": 2.0}).n, MetricStats.from_dict(5).to_dict()]\n",
+  "id": "OBS-0080"
+ },
+ {
+  "code": "import sys\nfrom datatrove.executor import LocalPipelineExecutor\nfrom datatrove.pipeline.readers import JsonlReader\nfrom datatrove.pipeline.filters import LambdaFilter\nput(path(\"in\"), {\"a.jsonl\": jsonl({\"text\": \"a\", \"id\": \"1\"}, {\"text\": \"bbb\", \"id\": \"2\"}), \"b.jsonl\": jsonl({\"text\": \"cc\", \"id\": \"3\"})})\nLocalPipelineExecutor([JsonlReader(path(\"in\")), LambdaFilter(lambda d: len(d.text) > 1)], tasks=2, workers=1, logging_dir=path(\"logs\")).run()\nfrom datatrove.tools import merge_stats\nargv = sys.argv\nsys.argv = [\"merge_stats\", path(\"logs\", \"stats\"), \"--output\", path(\"merged.json\")]\ntry:\n    merge_stats.main()\nfinally:\n    sys.argv = argv\nmerged = content(path(\"merged.json\"))\nresult = [[step[\"name\"] for step in merged], [{k: v for k, v in step[\"stats\"].items() if k in (\"total\", \"dropped\", \"forwarded\", \"documents\", \"input_files\")} for step in merged]]\n",
+  "id": "OBS-0081"
+ },
+ {
+  "code": "from datatrove.executor import LocalPipelineExecutor\nfrom datatrove.pipeline.readers import JsonlReader\nfrom datatrove.pipeline.writers import JsonlWriter\nlogs = path(\"logs\")\nput(path(\"in\"), {\"a.jsonl\": jsonl({\"text\": \"a\", \"id\": \"1\"}), \"b.jsonl\": jsonl({\"text\": \"b\", \"id\": \"2\"})})\ndef tag(data, rank=0, world_size=1):\n    for doc in data:\n        doc.metadata = {\"seen_by\": \"%d/%d\" % (rank, world_size)}\n        yield doc\nLocalPipelineExecutor([JsonlReader(path(\"in\")), tag, JsonlWriter(path(\"out\"), compression=None)], tasks=2, workers=1, logging_dir=logs).run()\nresult = [names(logs), tree(path(\"out\")), content(path(\"logs\", \"executor.json\"))[\"tasks\"], content(path(\"logs\", \"executor.json\"))[\"world_size\"]]\n",
+  "id": "OBS-0082"
+ },
+ {
+  "code": "from datatrove.executor import LocalPipelineExecutor\ndef count(data, rank=0, world_size=1):\n    with open(path(\"calls.txt\"), \"a\") as handle:\n        handle.write(\"%d\\n\" % rank)\n    if data:\n        yield from data\nlogs = path(\"logs\")\nLocalPipelineExecutor([count], tasks=4, workers=1, logging_dir=logs, local_tasks=2, local_rank_offset=1).run()\nLocalPipelineExecutor([count], tasks=4, workers=1, logging_dir=logs).run()\nLocalPipelineExecutor([count], tasks=4, workers=1, logging_dir=logs).run()\nresult = [open(path(\"calls.txt\")).read().split(), names(path(\"logs\", \"completions\")),\n          raised(LocalPipelineExecutor, [count], tasks=2, local_tasks=2, local_rank_offset=1, logging_dir=path(\"l2\"))]\n",
+  "id": "OBS-0083"
+ },
+ {
+  "code": "from datatrove.executor import LocalPipelineExecutor\nfrom datatrove.pipeline.filters import LambdaFilter\nlogs = path(\"logs\")\nfirst = LocalPipelineExecutor([[D(\"x\", id=\"1\"), D(\"yy\", id=\"2\")], LambdaFilter(lambda d: len(d.text) > 1)], tasks=1, workers=1, logging_dir=path(\"dep\"))\nsecond = LocalPipelineExecutor([[D(\"z\", id=\"3\")]], tasks=1, workers=1, logging_dir=logs, depends=first)\nsecond.run()\nmerged = content(path(\"dep\", \"stats.json\"))\nresult = [names(path(\"dep\", \"completions\")), names(path(\"logs\", \"completions\")), [step[\"name\"] for step in merged], merged[0][\"stats\"],\n          [step[\"stats\"] for step in content(path(\"dep\", \"stats\", \"00000.json\"))]]\n",
+  "id": "OBS-0084"
+ },
+ {
+  "code": "from datatrove.pipeline.base import PipelineStep\nclass Upper(PipelineStep):\n    name = \"upper\"\n    type = \"custom\"\n    def run(self, data, rank=0, world_size=1):\n        for doc in data:\n            with self.track_time():\n                self.stat_update(\"chars\", value=len(doc.text))\n                self.stat_update(\"docs\", \"seen\")\n                doc.text = doc.text.upper()\n            self.update_doc_stats(doc)\n            yield doc\nblock = Upper()\nout = [view(d) for d in block([D(\"ab\", id=\"1\"), D(\"cde\", id=\"2\")])]\nstats = block.stats.stats.to_dict()\nresult = [out, stats, repr(block), block.stats.name]\n",
+  "id": "OBS-0085"
+ },
+ {
+  "code": "from datatrove.utils._import_utils import check_required_dependencies\nfrom datatrove.pipeline.base import PipelineStep\nclass Needs(PipelineStep):\n    name = \"needs\"\n    _requires_dependencies = [\"surely_not_installed_pkg_xyz\"]\n    def run(self, data, rank=0, world_size=1):\n        yield from data\nresult = [raised(Needs), raised(check_required_dependencies, \"step\", [\"surely_not_installed_pkg_xyz\"]),\n          check_required_dependencies(\"step\", [\"numpy\", (\"yaml\", \"pyyaml\")]), raised(check_required_dependencies, \"step\", [(\"yaml\", \"not-the-right-dist\")])]\n",
+  "id": "OBS-0086"
+ },
+ {
+  "code": "from datatrove.utils.batching import batched\nfrom datatrove.utils.hashing import HashConfig, create_hash_func\nh64, h32 = HashConfig(), HashConfig(precision=32)\nsha = create_hash_func(HashConfig(hash_fc=\"sha1\", precision=64))\nxx = create_hash_func(h64)\nresult = [[list(b) for b in batched(range(7), 3)], [list(b) for b in batched([], 2)], str(h64), str(h32), h32.max, h32.min, h64.struct_format, h32.np_descr,\n          sha(\"hello\"), sha(\"world\"), xx(\"hello\"), create_hash_func(h32)(\"hello\"), create_hash_func(HashConfig(hash_fc=\"sha1\", precision=32))(\"hello\")]\n",
+  "id": "OBS-0087"
+ },
+ {
+  "code": "import struct, numpy as np\nfrom datatrove.utils.binaryio import read_tuples_from_file, read_np_from_file\nwith open(path(\"t.bin\"), \"wb\") as handle:\n    for i in range(5):\n        handle.write(struct.pack(\"<QI\", 1000 + i, i))\nwith open(path(\"t.bin\"), \"rb\") as handle:\n    tuples = list(read_tuples_from_file(handle, \"Q\", \"I\", lines_to_buffer=2))\nwith open(path(\"t.bin\"), \"rb\") as handle:\n    arr = read_np_from_file(handle, np.dtype([(\"h\", \"<u8\"), (\"d\", \"<u4\")]), is_local_file=False)\nresult = [tuples, [[int(x[\"h\"]), int(x[\"d\"])] for x in arr]]\n",
+  "id": "OBS-0088"
+ },
+ {
+  "code": "from datatrove.utils.text import split_into_words, split_into_sentences, split_into_paragraphs, simplify_text, ngrams, TextNormConfig, PUNCTUATION_SET\ntext = \"Hello, World! This is   DataTrove 2024.\\n\\nSecond paragraph here.\"\nresult = [split_into_words(text), split_into_sentences(text), split_into_paragraphs(text), simplify_text(text),\n          simplify_text(text, TextNormConfig(lowercase=False, norm_numbers=False, remove_punctuation=False)), list(ngrams(\"abcd\", 2)), sorted(set(\".,!?\") & PUNCTUATION_SET)]\n",
+  "id": "OBS-0089"
+ },
+ {
+  "code": "from datatrove.utils.word_tokenizers import load_word_tokenizer, WhitespaceTokenizer\ntok = load_word_tokenizer(\"en\")\ntext = \"Dr. Smith went home. He slept!\"\nresult = [type(tok).__name__, tok.word_tokenize(text), tok.sent_tokenize(text), tok.span_tokenize(text), raised(load_word_tokenizer, \"not-a-language\"),\n          type(load_word_tokenizer(tok)).__name__, WhitespaceTokenizer().sent_tokenize(\"One. Two? Three\")]\n",
+  "id": "OBS-0090"
+ },
+ {
+  "code": "from datatrove.utils.logging import get_env_bool, get_random_str, add_task_logger, close_task_logger\nfrom datatrove.io import DataFolder\nos.environ[\"X_ON\"], os.environ[\"X_OFF\"] = \"Yes\", \"0\"\nlogfile = add_task_logger(DataFolder(path(\"logs\")), rank=3)\nfrom loguru import logger\nlogger.info(\"custom message\")\nclose_task_logger(logfile)\nlines = open(path(\"logs\", \"logs\", \"task_00003.log\")).read().splitlines()\nresult = [get_env_bool(\"X_ON\"), get_env_bool(\"X_OFF\"), get_env_bool(\"X_MISSING\", \"dflt\"), len(get_random_str()), len(get_random_str(9)),\n          names(path(\"logs\")), [line.split(\" - \", 1)[-1] for line in lines], [line.split(\" | \")[1].strip() for line in lines]]\n",
+  "id": "OBS-0091"
+ },
+ {
+  "code": "os.environ[\"DATATROVE_COLORIZE_LOG_FILES\"] = \"1\"\nfrom datatrove.utils.logging import add_task_logger, close_task_logger, DATATROVE_COLORIZE_LOG_FILES\nfrom datatrove.io import DataFolder\nfrom loguru import logger\nlogfile = add_task_logger(DataFolder(path(\"logs\")), rank=0)\nlogger.warning(\"colored message\")\nclose_task_logger(logfile)\nlines = open(path(\"logs\", \"logs\", \"task_00000.log\")).read().splitlines()\nresult = [DATATROVE_COLORIZE_LOG_FILES, [line.split(\" - \", 1)[-1] for line in lines]]\n",
+  "id": "OBS-0092"
+ }
+]

@@ -1,0 +1,38 @@
+{
+ "stage": "azcgrww0",
+ "account": "111111111111",
+ "region": "us-east-1",
+ "project": "atlas",
+ "network": {
+  "cidr": "10.104.0.0/16",
+  "maxAzs": 2,
+  "natGateways": 1
+ },
+ "artifactBuckets": {
+  "nkpwonj": {
+   "transitionDays": 45,
+   "noncurrentDays": 45
+  }
+ },
+ "stages": {
+  "tncz.7": {
+   "desiredCount": 2,
+   "cpu": 256,
+   "memoryMiB": 512,
+   "queueVisibilitySeconds": 65,
+   "listenerPriority": 5
+  }
+ },
+ "container": {
+  "image": "public.ecr.aws/docker/library/nginx:1.28",
+  "port": 8081,
+  "healthCheckPath": "/live/status",
+  "deregistrationSeconds": 10
+ },
+ "notificationEmails": [],
+ "eventRules": {},
+ "logRetentionDays": 14,
+ "queueRetentionDays": 2,
+ "notificationMemoryMiB": 128,
+ "notificationTimeoutSeconds": 8
+}

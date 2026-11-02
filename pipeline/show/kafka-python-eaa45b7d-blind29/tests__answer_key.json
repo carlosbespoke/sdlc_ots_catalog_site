@@ -1,0 +1,327 @@
+{
+  "repo": "kafka-python",
+  "workdir": "/workspace/repo",
+  "target_test": "",
+  "language": "python",
+  "test_cmd": "python -m pytest -p no:cacheprovider --color=no -o addopts= -p no:randomly --ignore=test/integration",
+  "baseline_failures": 0,
+  "weights": {
+    "repair": 0.5,
+    "report": 0.5
+  },
+  "run_tests_as": "agent",
+  "baseline_tests": 2728,
+  "sabotage_passes": 0,
+  "suite_seconds": 20,
+  "probe_sites": 8,
+  "probe_calls": 8,
+  "source_roots": [
+    "kafka"
+  ],
+  "causes": [
+    {
+      "file": "kafka/admin/_groups.py",
+      "function": "_async_delete_groups",
+      "qualname": "GroupAdminMixin._async_delete_groups",
+      "id": "cf374804",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/admin/test_admin_groups.py::TestFindCoordinatorBatched::test_delete_groups_uses_batched_lookup"
+      ]
+    },
+    {
+      "file": "kafka/net/compat.py",
+      "function": "least_loaded_node",
+      "qualname": "KafkaNetClient.least_loaded_node",
+      "id": "56ff56f6",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "test/net/test_compat.py::TestKafkaNetClientDelegation::test_least_loaded_node_before_bootstrap"
+      ]
+    },
+    {
+      "file": "kafka/producer/transaction_manager.py",
+      "function": "is_valid",
+      "qualname": "ProducerIdAndEpoch.is_valid",
+      "id": "0d84185f",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/producer/test_sender.py::test_run_once_gates_on_transactional_request",
+        "test/producer/test_transaction_manager_mock_broker.py::TestInitProducerIdHandlerMockBroker::test_idempotent_producer_init_then_bump"
+      ]
+    },
+    {
+      "file": "kafka/metrics/stats/avg.py",
+      "function": "combine",
+      "qualname": "Avg.combine",
+      "id": "db8ba02f",
+      "kind": "change_constant",
+      "breaks": [
+        "test/consumer/test_coordinator.py::test_join_group_async_returns_false_on_short_timeout_and_caches_task",
+        "test/test_metrics.py::test_simple_stats"
+      ]
+    },
+    {
+      "file": "kafka/net/sasl/msk.py",
+      "function": "receive",
+      "qualname": "SaslMechanismAwsMskIam.receive",
+      "id": "85698775",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/net/sasl/test_msk.py::test_aws_msk_iam_sasl_mechanism"
+      ]
+    },
+    {
+      "file": "kafka/partitioner/sticky.py",
+      "function": "_pick_sticky_locked",
+      "qualname": "StickyPartitioner._pick_sticky_locked",
+      "id": "036b3aca",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/producer/test_partitioner.py::TestStickyPartitioner::test_on_new_batch_rotation_avoids_prev_partition"
+      ]
+    },
+    {
+      "file": "kafka/net/backend/asyncio_backend.py",
+      "function": "call_at",
+      "qualname": "AsyncioBackend.call_at",
+      "id": "0aa4187e",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "test/net/backend/test_asyncio_backend.py::TestTimers::test_call_at_converts_monotonic"
+      ]
+    },
+    {
+      "file": "kafka/util.py",
+      "function": "timeout_secs",
+      "qualname": "Timer.timeout_secs",
+      "id": "157f9d4a",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/admin/test_admin_partitions.py::TestDeleteRecordsMockBroker::test_persistent_not_leader_reports_error_after_timeout",
+        "test/admin/test_admin_partitions.py::TestListPartitionOffsetsNotLeaderRetry::test_persistent_not_leader_raises_after_timeout"
+      ]
+    },
+    {
+      "file": "kafka/protocol/admin/topics.py",
+      "function": "encode",
+      "qualname": "DeleteTopicsRequest.encode",
+      "id": "f8a44b24",
+      "kind": "change_constant",
+      "breaks": [
+        "test/protocol/admin/test_protocol_admin.py::test_delete_topics_request_roundtrip[6]"
+      ]
+    },
+    {
+      "file": "kafka/metrics/metrics.py",
+      "function": "add_metric",
+      "qualname": "Metrics.add_metric",
+      "id": "699c35c0",
+      "kind": "swap_call_arguments",
+      "breaks": [
+        "test/test_metrics.py::test_remove_metric",
+        "test/test_metrics.py::test_reporter"
+      ]
+    },
+    {
+      "file": "kafka/record/memory_records.py",
+      "function": "__init__",
+      "qualname": "MemoryRecordsBuilder.__init__",
+      "id": "734882a4",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/consumer/test_coordinator.py::test_join_group_async_returns_false_on_short_timeout_and_caches_task"
+      ]
+    },
+    {
+      "file": "kafka/consumer/subscription_state.py",
+      "function": "update_preferred_read_replica",
+      "qualname": "TopicPartitionState.update_preferred_read_replica",
+      "id": "dd229374",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "test/consumer/test_fetcher.py::TestKip392PreferredReadReplica::test_parse_fetched_data_negative_preferred_clears_cache",
+        "test/consumer/test_fetcher_mock_broker.py::TestKIP392RackAwareFetching::test_preferred_replica_negative_one_means_leader"
+      ]
+    },
+    {
+      "file": "kafka/coordinator/assignors/cooperative_sticky.py",
+      "function": "assign",
+      "qualname": "CooperativeStickyAssignor.assign",
+      "id": "f6563322",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/consumer/test_assignors.py::TestCooperativeStickyAssignor::test_assign_defers_moved_partitions",
+        "test/consumer/test_assignors.py::TestCooperativeStickyAssignor::test_assign_fresh_cluster_no_movements"
+      ]
+    },
+    {
+      "file": "kafka/coordinator/assignors/sticky/partition_movements.py",
+      "function": "_has_cycles",
+      "qualname": "PartitionMovements._has_cycles",
+      "id": "eeb38942",
+      "kind": "swap_call_arguments",
+      "breaks": [
+        "test/consumer/test_sticky_partition_movements.py::test_should_detect_non_sticky_assignment"
+      ]
+    },
+    {
+      "file": "kafka/admin/_partitions.py",
+      "function": "_async_delete_records",
+      "qualname": "PartitionAdminMixin._async_delete_records",
+      "id": "0b7ddfb2",
+      "kind": "change_constant",
+      "breaks": [
+        "test/admin/test_admin_partitions.py::TestDeleteRecordsMockBroker::test_partition_leader_id_disables_retry",
+        "test/admin/test_admin_partitions.py::TestDeleteRecordsMockBroker::test_persistent_not_leader_reports_error_after_timeout"
+      ]
+    },
+    {
+      "file": "kafka/net/compat.py",
+      "function": "in_flight_request_count",
+      "qualname": "KafkaNetClient.in_flight_request_count",
+      "id": "46a9ae74",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/net/test_compat.py::TestKafkaNetClientInFlight::test_in_flight_no_connection",
+        "test/net/test_compat.py::TestKafkaNetClientInFlight::test_in_flight_with_requests"
+      ]
+    },
+    {
+      "file": "kafka/producer/kafka.py",
+      "function": "__init__",
+      "qualname": "KafkaProducer.__init__",
+      "id": "af568f4c",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "test/producer/test_kip679_config.py::TestExplicitIdempotenceConflicts::test_acks_all_string_accepted"
+      ]
+    },
+    {
+      "file": "kafka/metrics/stats/histogram.py",
+      "function": "from_bin",
+      "qualname": "Histogram.ConstantBinScheme.from_bin",
+      "id": "fbe19049",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "test/test_metrics.py::test_percentiles"
+      ]
+    },
+    {
+      "file": "kafka/partitioner/sticky.py",
+      "function": "partition",
+      "qualname": "StickyPartitioner.partition",
+      "id": "6c0c853f",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/producer/test_partitioner.py::TestStickyPartitioner::test_null_key_sticks_until_on_new_batch",
+        "test/producer/test_partitioner.py::TestStickyPartitioner::test_per_topic_state_independent"
+      ]
+    },
+    {
+      "file": "kafka/net/backend/asyncio_backend.py",
+      "function": "_fail_pending_waiters",
+      "qualname": "AsyncioBackend._fail_pending_waiters",
+      "id": "16dd515c",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/net/backend/test_asyncio_backend.py::TestLifecycle::test_stop_fails_pending_run_waiters"
+      ]
+    },
+    {
+      "file": "kafka/cluster.py",
+      "function": "expand_to_canonical_bootstrap_hosts",
+      "qualname": "expand_to_canonical_bootstrap_hosts",
+      "id": "0de03828",
+      "kind": "swap_call_arguments",
+      "breaks": [
+        "test/net/test_manager.py::TestKafkaConnectionManagerConfig::test_client_dns_lookup_canonical_passthrough"
+      ]
+    },
+    {
+      "file": "kafka/metrics/metrics.py",
+      "function": "metric_name",
+      "qualname": "Metrics.metric_name",
+      "id": "1262c308",
+      "kind": "swap_call_arguments",
+      "breaks": [
+        "test/test_metrics.py::test_reporter"
+      ]
+    },
+    {
+      "file": "kafka/consumer/subscription_state.py",
+      "function": "subscribe",
+      "qualname": "SubscriptionState.subscribe",
+      "id": "b6a13491",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "test/consumer/test_subscription_state.py::test_type_error"
+      ]
+    },
+    {
+      "file": "kafka/coordinator/assignors/cooperative_sticky.py",
+      "function": "parse_member_metadata",
+      "qualname": "CooperativeStickyAssignor.parse_member_metadata",
+      "id": "3b8a942e",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "test/consumer/test_assignors.py::TestCooperativeStickyAssignor::test_assign_defers_moved_partitions",
+        "test/consumer/test_assignors.py::TestCooperativeStickyAssignor::test_parse_member_metadata_reads_owned_partitions"
+      ]
+    },
+    {
+      "file": "kafka/admin/_cluster.py",
+      "function": "_async_describe_features",
+      "qualname": "ClusterAdminMixin._async_describe_features",
+      "id": "05d616a9",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/admin/test_admin_cluster_features.py::TestDescribeFeaturesMockBroker::test_happy_path"
+      ]
+    },
+    {
+      "file": "kafka/net/connection.py",
+      "function": "close",
+      "qualname": "KafkaConnection.close",
+      "id": "090c8998",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/net/test_connection.py::TestKafkaConnectionClose::test_close_with_error_aborts"
+      ]
+    },
+    {
+      "file": "kafka/producer/kafka.py",
+      "function": "send",
+      "qualname": "KafkaProducer.send",
+      "id": "8f958855",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/producer/test_producer.py::test_send_keyed_skips_on_new_batch"
+      ]
+    },
+    {
+      "file": "kafka/net/backend/transport.py",
+      "function": "write",
+      "qualname": "KafkaTCPTransport.write",
+      "id": "2f7ea937",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "test/net/backend/test_transport.py::TestKafkaTCPTransport::test_write_after_close_raises"
+      ]
+    },
+    {
+      "file": "kafka/admin/_groups.py",
+      "function": "_remove_group_members_batch_request",
+      "qualname": "GroupAdminMixin._remove_group_members_batch_request",
+      "id": "50949508",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/admin/test_admin_groups.py::TestRemoveGroupMembersMockBroker::test_batch_request_fields"
+      ]
+    }
+  ],
+  "restored_paths": [
+    "test"
+  ],
+  "baseline_skipped": 0
+}

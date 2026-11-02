@@ -1,0 +1,1559 @@
+{
+ "schema": 1,
+ "modules": [
+  "network",
+  "data",
+  "compute",
+  "events",
+  "api"
+ ],
+ "ownership": {
+  "aws_vpc.application": "network",
+  "aws_security_group.service": "network",
+  "aws_vpc_security_group_egress_rule.service": "network",
+  "aws_kms_key.application": "data",
+  "aws_kms_alias.application": "data",
+  "aws_s3_bucket.terraform_state": "data",
+  "aws_s3_bucket_versioning.terraform_state": "data",
+  "aws_s3_bucket_server_side_encryption_configuration.terraform_state": "data",
+  "aws_s3_bucket_public_access_block.terraform_state": "data",
+  "aws_dynamodb_table.terraform_locks": "data",
+  "aws_dynamodb_table.single_table": "data",
+  "aws_sns_topic.service_events": "data",
+  "aws_iam_policy.api_gateway_logging": "data",
+  "aws_ssm_parameter.service": "data",
+  "aws_ssm_parameter.channel": "data",
+  "aws_iam_role.service": "compute",
+  "aws_sqs_queue.service": "compute",
+  "aws_iam_policy.service": "compute",
+  "aws_iam_role_policy_attachment.service": "compute",
+  "aws_cloudwatch_log_group.service": "compute",
+  "aws_lambda_function.service": "compute",
+  "aws_ssm_parameter.service_catalog": "compute",
+  "aws_ssm_parameter.service_registry": "compute",
+  "aws_sns_topic_subscription.service": "compute",
+  "aws_sqs_queue_policy.service": "compute",
+  "aws_cloudwatch_event_bus.application": "events",
+  "aws_sqs_queue.event_dlq": "events",
+  "aws_cloudwatch_event_rule.event": "events",
+  "aws_cloudwatch_event_target.event": "events",
+  "aws_lambda_permission.event": "events",
+  "aws_cloudwatch_metric_alarm.event_failed": "events",
+  "aws_cloudwatch_metric_alarm.service_errors": "events",
+  "aws_ssm_parameter.event": "events",
+  "aws_ssm_parameter.event_catalog": "events",
+  "aws_ssm_parameter.event_registry": "events",
+  "aws_iam_policy.event_rule_catalog": "events",
+  "aws_iam_policy.service_queue_catalog": "events",
+  "aws_sns_topic.channel": "events",
+  "aws_sqs_queue.channel": "events",
+  "aws_sns_topic_subscription.channel": "events",
+  "aws_sqs_queue_policy.channel": "events",
+  "aws_cloudwatch_event_rule.channel": "events",
+  "aws_cloudwatch_event_target.channel": "events",
+  "aws_cloudwatch_log_group.channel": "events",
+  "aws_cloudwatch_metric_alarm.channel_depth": "events",
+  "aws_ssm_parameter.channel_registry": "events",
+  "aws_iam_policy.all_channels_publish": "events",
+  "aws_iam_role.api_gateway": "api",
+  "aws_iam_role_policy_attachment.api_gateway_logging": "api",
+  "aws_api_gateway_account.application": "api",
+  "aws_api_gateway_rest_api.application": "api",
+  "aws_api_gateway_resource.operation": "api",
+  "aws_api_gateway_method.operation": "api",
+  "aws_api_gateway_integration.operation": "api",
+  "aws_api_gateway_method_response.operation": "api",
+  "aws_lambda_permission.api_operation": "api",
+  "aws_api_gateway_method_settings.operation": "api",
+  "aws_api_gateway_request_validator.operation": "api",
+  "aws_api_gateway_deployment.application": "api",
+  "aws_cloudwatch_log_group.api": "api",
+  "aws_api_gateway_stage.application": "api",
+  "aws_ssm_parameter.operation": "api",
+  "aws_ssm_parameter.operation_registry": "api",
+  "aws_iam_policy.channel_publish": "api"
+ },
+ "direct_modules": true,
+ "no_count": true,
+ "key_dimensions": {
+  "service": {
+   "variable": "services",
+   "keys": {
+    "aws_iam_role.service[0]": "vote-queue",
+    "aws_iam_role.service[1]": "publisher",
+    "aws_iam_role.service[2]": "poll-manager",
+    "aws_iam_role.service[3]": "results-reader",
+    "aws_iam_role.service[4]": "ballot-exporter",
+    "aws_sqs_queue.service[0]": "vote-queue",
+    "aws_sqs_queue.service[1]": "publisher",
+    "aws_sqs_queue.service[2]": "poll-manager",
+    "aws_sqs_queue.service[3]": "results-reader",
+    "aws_sqs_queue.service[4]": "ballot-exporter",
+    "aws_iam_policy.service[0]": "vote-queue",
+    "aws_iam_policy.service[1]": "publisher",
+    "aws_iam_policy.service[2]": "poll-manager",
+    "aws_iam_policy.service[3]": "results-reader",
+    "aws_iam_policy.service[4]": "ballot-exporter",
+    "aws_iam_role_policy_attachment.service[0]": "vote-queue",
+    "aws_iam_role_policy_attachment.service[1]": "publisher",
+    "aws_iam_role_policy_attachment.service[2]": "poll-manager",
+    "aws_iam_role_policy_attachment.service[3]": "results-reader",
+    "aws_iam_role_policy_attachment.service[4]": "ballot-exporter",
+    "aws_cloudwatch_log_group.service[0]": "vote-queue",
+    "aws_cloudwatch_log_group.service[1]": "publisher",
+    "aws_cloudwatch_log_group.service[2]": "poll-manager",
+    "aws_cloudwatch_log_group.service[3]": "results-reader",
+    "aws_cloudwatch_log_group.service[4]": "ballot-exporter",
+    "aws_lambda_function.service[0]": "vote-queue",
+    "aws_lambda_function.service[1]": "publisher",
+    "aws_lambda_function.service[2]": "poll-manager",
+    "aws_lambda_function.service[3]": "results-reader",
+    "aws_lambda_function.service[4]": "ballot-exporter",
+    "aws_ssm_parameter.service[0]": "vote-queue",
+    "aws_ssm_parameter.service[1]": "publisher",
+    "aws_ssm_parameter.service[2]": "poll-manager",
+    "aws_ssm_parameter.service[3]": "results-reader",
+    "aws_ssm_parameter.service[4]": "ballot-exporter",
+    "aws_sns_topic_subscription.service[0]": "vote-queue",
+    "aws_sns_topic_subscription.service[1]": "publisher",
+    "aws_sns_topic_subscription.service[2]": "poll-manager",
+    "aws_sns_topic_subscription.service[3]": "results-reader",
+    "aws_sns_topic_subscription.service[4]": "ballot-exporter",
+    "aws_sqs_queue_policy.service[0]": "vote-queue",
+    "aws_sqs_queue_policy.service[1]": "publisher",
+    "aws_sqs_queue_policy.service[2]": "poll-manager",
+    "aws_sqs_queue_policy.service[3]": "results-reader",
+    "aws_sqs_queue_policy.service[4]": "ballot-exporter",
+    "aws_security_group.service[0]": "vote-queue",
+    "aws_security_group.service[1]": "publisher",
+    "aws_security_group.service[2]": "poll-manager",
+    "aws_security_group.service[3]": "results-reader",
+    "aws_security_group.service[4]": "ballot-exporter",
+    "aws_vpc_security_group_egress_rule.service[0]": "vote-queue",
+    "aws_vpc_security_group_egress_rule.service[1]": "publisher",
+    "aws_vpc_security_group_egress_rule.service[2]": "poll-manager",
+    "aws_vpc_security_group_egress_rule.service[3]": "results-reader",
+    "aws_vpc_security_group_egress_rule.service[4]": "ballot-exporter",
+    "aws_cloudwatch_metric_alarm.service_errors[0]": "publisher",
+    "aws_cloudwatch_metric_alarm.service_errors[1]": "results-reader",
+    "aws_cloudwatch_metric_alarm.service_errors[2]": "poll-manager",
+    "aws_cloudwatch_metric_alarm.service_errors[3]": "ballot-exporter",
+    "aws_cloudwatch_metric_alarm.service_errors[4]": "vote-queue"
+   },
+   "add": {
+    "key": "tally-mirror",
+    "value": {
+     "memory_size": 704,
+     "timeout": 52,
+     "queue_retention_seconds": 432000,
+     "error_threshold": 8,
+     "egress_cidr": "10.24.26.0/24",
+     "egress_port": 7443
+    },
+    "created_values": [
+     {
+      "base": "aws_lambda_function.service",
+      "attr": "memory_size",
+      "value": 704
+     },
+     {
+      "base": "aws_lambda_function.service",
+      "attr": "timeout",
+      "value": 52
+     },
+     {
+      "base": "aws_sqs_queue.service",
+      "attr": "message_retention_seconds",
+      "value": 432000
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.service_errors",
+      "attr": "threshold",
+      "value": 8
+     },
+     {
+      "base": "aws_vpc_security_group_egress_rule.service",
+      "attr": "cidr_ipv4",
+      "value": "10.24.26.0/24"
+     },
+     {
+      "base": "aws_vpc_security_group_egress_rule.service",
+      "attr": "from_port",
+      "value": 7443
+     },
+     {
+      "base": "aws_vpc_security_group_egress_rule.service",
+      "attr": "to_port",
+      "value": 7443
+     },
+     {
+      "base": "aws_ssm_parameter.service",
+      "attr": "value",
+      "value": "{\"egress_cidr\":\"10.24.26.0/24\",\"egress_port\":7443,\"error_threshold\":8,\"memory_size\":704,\"queue_retention_seconds\":432000,\"service\":\"tally-mirror\",\"timeout\":52}"
+     }
+    ]
+   },
+   "remove": "vote-queue",
+   "allowed_updates": {
+    "aws_ssm_parameter.service_catalog": [
+     "value",
+     "insecure_value"
+    ],
+    "aws_ssm_parameter.service_registry": [
+     "value",
+     "insecure_value"
+    ],
+    "aws_iam_policy.service_queue_catalog": [
+     "policy"
+    ]
+   },
+   "required_updates": {
+    "aws_ssm_parameter.service_catalog": [
+     "value"
+    ],
+    "aws_ssm_parameter.service_registry": [
+     "value"
+    ],
+    "aws_iam_policy.service_queue_catalog": [
+     "policy"
+    ]
+   }
+  },
+  "event": {
+   "variable": "events",
+   "keys": {
+    "aws_sqs_queue.event_dlq[0]": "vote-failed",
+    "aws_sqs_queue.event_dlq[1]": "poll-modified",
+    "aws_sqs_queue.event_dlq[2]": "vote-counted",
+    "aws_sqs_queue.event_dlq[3]": "poll-published",
+    "aws_sqs_queue.event_dlq[4]": "results-exported",
+    "aws_cloudwatch_event_rule.event[0]": "vote-failed",
+    "aws_cloudwatch_event_rule.event[1]": "poll-modified",
+    "aws_cloudwatch_event_rule.event[2]": "vote-counted",
+    "aws_cloudwatch_event_rule.event[3]": "poll-published",
+    "aws_cloudwatch_event_rule.event[4]": "results-exported",
+    "aws_cloudwatch_event_target.event[0]": "vote-failed",
+    "aws_cloudwatch_event_target.event[1]": "poll-modified",
+    "aws_cloudwatch_event_target.event[2]": "vote-counted",
+    "aws_cloudwatch_event_target.event[3]": "poll-published",
+    "aws_cloudwatch_event_target.event[4]": "results-exported",
+    "aws_lambda_permission.event[0]": "vote-failed",
+    "aws_lambda_permission.event[1]": "poll-modified",
+    "aws_lambda_permission.event[2]": "vote-counted",
+    "aws_lambda_permission.event[3]": "poll-published",
+    "aws_lambda_permission.event[4]": "results-exported",
+    "aws_ssm_parameter.event[0]": "vote-failed",
+    "aws_ssm_parameter.event[1]": "poll-modified",
+    "aws_ssm_parameter.event[2]": "vote-counted",
+    "aws_ssm_parameter.event[3]": "poll-published",
+    "aws_ssm_parameter.event[4]": "results-exported",
+    "aws_cloudwatch_metric_alarm.event_failed[0]": "poll-modified",
+    "aws_cloudwatch_metric_alarm.event_failed[1]": "results-exported",
+    "aws_cloudwatch_metric_alarm.event_failed[2]": "vote-counted",
+    "aws_cloudwatch_metric_alarm.event_failed[3]": "poll-published",
+    "aws_cloudwatch_metric_alarm.event_failed[4]": "vote-failed"
+   },
+   "add": {
+    "key": "moderation-expired",
+    "value": {
+     "detail_type": "ModerationExpired",
+     "target_service": "results-reader",
+     "alarm_threshold": 7,
+     "dlq_retention_seconds": 432000,
+     "maximum_event_age_seconds": 5400,
+     "maximum_retry_attempts": 6
+    },
+    "created_values": [
+     {
+      "base": "aws_cloudwatch_event_rule.event",
+      "attr": "event_pattern",
+      "value": "{\"detail-type\":[\"ModerationExpired\"],\"source\":[\"pseudopoll.prod\"]}"
+     },
+     {
+      "base": "aws_lambda_permission.event",
+      "attr": "function_name",
+      "value": "pseudopoll-prod-results-reader"
+     },
+     {
+      "base": "aws_cloudwatch_event_target.event",
+      "attr": "arn",
+      "value": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-results-reader"
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.event_failed",
+      "attr": "threshold",
+      "value": 7
+     },
+     {
+      "base": "aws_sqs_queue.event_dlq",
+      "attr": "message_retention_seconds",
+      "value": 432000
+     },
+     {
+      "base": "aws_cloudwatch_event_target.event",
+      "attr": "retry_policy",
+      "value": [
+       {
+        "maximum_event_age_in_seconds": 5400,
+        "maximum_retry_attempts": 6
+       }
+      ]
+     },
+     {
+      "base": "aws_ssm_parameter.event",
+      "attr": "value",
+      "value": "{\"alarm_threshold\":7,\"detail_type\":\"ModerationExpired\",\"dlq_retention_seconds\":432000,\"event\":\"moderation-expired\",\"maximum_event_age_seconds\":5400,\"maximum_retry_attempts\":6,\"target_service\":\"results-reader\"}"
+     }
+    ]
+   },
+   "remove": "vote-failed",
+   "allowed_updates": {
+    "aws_ssm_parameter.event_catalog": [
+     "value",
+     "insecure_value"
+    ],
+    "aws_ssm_parameter.event_registry": [
+     "value",
+     "insecure_value"
+    ],
+    "aws_iam_policy.event_rule_catalog": [
+     "policy"
+    ]
+   },
+   "required_updates": {
+    "aws_ssm_parameter.event_catalog": [
+     "value"
+    ],
+    "aws_ssm_parameter.event_registry": [
+     "value"
+    ],
+    "aws_iam_policy.event_rule_catalog": [
+     "policy"
+    ]
+   }
+  },
+  "operation": {
+   "variable": "operations",
+   "keys": {
+    "aws_api_gateway_resource.operation[0]": "archive-poll",
+    "aws_api_gateway_resource.operation[1]": "create-poll",
+    "aws_api_gateway_resource.operation[2]": "my-polls",
+    "aws_api_gateway_resource.operation[3]": "get-poll",
+    "aws_api_gateway_resource.operation[4]": "update-poll-duration",
+    "aws_api_gateway_resource.operation[5]": "list-results",
+    "aws_api_gateway_resource.operation[6]": "export-results",
+    "aws_api_gateway_method.operation[0]": "archive-poll",
+    "aws_api_gateway_method.operation[1]": "create-poll",
+    "aws_api_gateway_method.operation[2]": "my-polls",
+    "aws_api_gateway_method.operation[3]": "get-poll",
+    "aws_api_gateway_method.operation[4]": "update-poll-duration",
+    "aws_api_gateway_method.operation[5]": "list-results",
+    "aws_api_gateway_method.operation[6]": "export-results",
+    "aws_api_gateway_integration.operation[0]": "archive-poll",
+    "aws_api_gateway_integration.operation[1]": "create-poll",
+    "aws_api_gateway_integration.operation[2]": "my-polls",
+    "aws_api_gateway_integration.operation[3]": "get-poll",
+    "aws_api_gateway_integration.operation[4]": "update-poll-duration",
+    "aws_api_gateway_integration.operation[5]": "list-results",
+    "aws_api_gateway_integration.operation[6]": "export-results",
+    "aws_api_gateway_method_response.operation[0]": "archive-poll",
+    "aws_api_gateway_method_response.operation[1]": "create-poll",
+    "aws_api_gateway_method_response.operation[2]": "my-polls",
+    "aws_api_gateway_method_response.operation[3]": "get-poll",
+    "aws_api_gateway_method_response.operation[4]": "update-poll-duration",
+    "aws_api_gateway_method_response.operation[5]": "list-results",
+    "aws_api_gateway_method_response.operation[6]": "export-results",
+    "aws_lambda_permission.api_operation[0]": "archive-poll",
+    "aws_lambda_permission.api_operation[1]": "create-poll",
+    "aws_lambda_permission.api_operation[2]": "my-polls",
+    "aws_lambda_permission.api_operation[3]": "get-poll",
+    "aws_lambda_permission.api_operation[4]": "update-poll-duration",
+    "aws_lambda_permission.api_operation[5]": "list-results",
+    "aws_lambda_permission.api_operation[6]": "export-results",
+    "aws_api_gateway_method_settings.operation[0]": "archive-poll",
+    "aws_api_gateway_method_settings.operation[1]": "create-poll",
+    "aws_api_gateway_method_settings.operation[2]": "my-polls",
+    "aws_api_gateway_method_settings.operation[3]": "get-poll",
+    "aws_api_gateway_method_settings.operation[4]": "update-poll-duration",
+    "aws_api_gateway_method_settings.operation[5]": "list-results",
+    "aws_api_gateway_method_settings.operation[6]": "export-results",
+    "aws_ssm_parameter.operation[0]": "archive-poll",
+    "aws_ssm_parameter.operation[1]": "create-poll",
+    "aws_ssm_parameter.operation[2]": "my-polls",
+    "aws_ssm_parameter.operation[3]": "get-poll",
+    "aws_ssm_parameter.operation[4]": "update-poll-duration",
+    "aws_ssm_parameter.operation[5]": "list-results",
+    "aws_ssm_parameter.operation[6]": "export-results",
+    "aws_api_gateway_request_validator.operation[0]": "get-poll",
+    "aws_api_gateway_request_validator.operation[1]": "list-results",
+    "aws_api_gateway_request_validator.operation[2]": "update-poll-duration",
+    "aws_api_gateway_request_validator.operation[3]": "archive-poll",
+    "aws_api_gateway_request_validator.operation[4]": "export-results",
+    "aws_api_gateway_request_validator.operation[5]": "my-polls",
+    "aws_api_gateway_request_validator.operation[6]": "create-poll"
+   },
+   "add": {
+    "key": "download-audit",
+    "value": {
+     "path_part": "audit-download",
+     "http_method": "PUT",
+     "target_service": "ballot-exporter",
+     "validate_body": true,
+     "burst_limit": 65,
+     "rate_limit": 25
+    },
+    "created_values": [
+     {
+      "base": "aws_api_gateway_resource.operation",
+      "attr": "path_part",
+      "value": "audit-download"
+     },
+     {
+      "base": "aws_api_gateway_method.operation",
+      "attr": "http_method",
+      "value": "PUT"
+     },
+     {
+      "base": "aws_api_gateway_integration.operation",
+      "attr": "http_method",
+      "value": "PUT"
+     },
+     {
+      "base": "aws_api_gateway_integration.operation",
+      "attr": "uri",
+      "value": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-ballot-exporter/invocations"
+     },
+     {
+      "base": "aws_api_gateway_method_response.operation",
+      "attr": "http_method",
+      "value": "PUT"
+     },
+     {
+      "base": "aws_api_gateway_method_settings.operation",
+      "attr": "method_path",
+      "value": "audit-download/PUT"
+     },
+     {
+      "base": "aws_lambda_permission.api_operation",
+      "attr": "function_name",
+      "value": "pseudopoll-prod-ballot-exporter"
+     },
+     {
+      "base": "aws_api_gateway_request_validator.operation",
+      "attr": "validate_request_body",
+      "value": true
+     },
+     {
+      "base": "aws_api_gateway_method_settings.operation",
+      "attr": "settings",
+      "value": [
+       {
+        "logging_level": "INFO",
+        "metrics_enabled": true,
+        "throttling_burst_limit": 65,
+        "throttling_rate_limit": 25
+       }
+      ]
+     },
+     {
+      "base": "aws_ssm_parameter.operation",
+      "attr": "value",
+      "value": "{\"burst_limit\":65,\"http_method\":\"PUT\",\"operation\":\"download-audit\",\"path_part\":\"audit-download\",\"rate_limit\":25,\"target_service\":\"ballot-exporter\",\"validate_body\":true}"
+     }
+    ]
+   },
+   "remove": "archive-poll",
+   "allowed_updates": {
+    "aws_api_gateway_rest_api.application": [
+     "description"
+    ],
+    "aws_ssm_parameter.operation_registry": [
+     "value",
+     "insecure_value"
+    ]
+   },
+   "required_updates": {
+    "aws_api_gateway_rest_api.application": [
+     "description"
+    ],
+    "aws_ssm_parameter.operation_registry": [
+     "value"
+    ]
+   }
+  },
+  "channel": {
+   "variable": "channels",
+   "keys": {
+    "aws_sns_topic.channel[0]": "moderator-feed",
+    "aws_sns_topic.channel[1]": "public-results",
+    "aws_sns_topic.channel[2]": "audit-archive",
+    "aws_sns_topic.channel[3]": "owner-alerts",
+    "aws_sqs_queue.channel[0]": "moderator-feed",
+    "aws_sqs_queue.channel[1]": "public-results",
+    "aws_sqs_queue.channel[2]": "audit-archive",
+    "aws_sqs_queue.channel[3]": "owner-alerts",
+    "aws_sns_topic_subscription.channel[0]": "moderator-feed",
+    "aws_sns_topic_subscription.channel[1]": "public-results",
+    "aws_sns_topic_subscription.channel[2]": "audit-archive",
+    "aws_sns_topic_subscription.channel[3]": "owner-alerts",
+    "aws_sqs_queue_policy.channel[0]": "moderator-feed",
+    "aws_sqs_queue_policy.channel[1]": "public-results",
+    "aws_sqs_queue_policy.channel[2]": "audit-archive",
+    "aws_sqs_queue_policy.channel[3]": "owner-alerts",
+    "aws_cloudwatch_event_rule.channel[0]": "moderator-feed",
+    "aws_cloudwatch_event_rule.channel[1]": "public-results",
+    "aws_cloudwatch_event_rule.channel[2]": "audit-archive",
+    "aws_cloudwatch_event_rule.channel[3]": "owner-alerts",
+    "aws_cloudwatch_event_target.channel[0]": "moderator-feed",
+    "aws_cloudwatch_event_target.channel[1]": "public-results",
+    "aws_cloudwatch_event_target.channel[2]": "audit-archive",
+    "aws_cloudwatch_event_target.channel[3]": "owner-alerts",
+    "aws_cloudwatch_log_group.channel[0]": "moderator-feed",
+    "aws_cloudwatch_log_group.channel[1]": "public-results",
+    "aws_cloudwatch_log_group.channel[2]": "audit-archive",
+    "aws_cloudwatch_log_group.channel[3]": "owner-alerts",
+    "aws_ssm_parameter.channel[0]": "moderator-feed",
+    "aws_ssm_parameter.channel[1]": "public-results",
+    "aws_ssm_parameter.channel[2]": "audit-archive",
+    "aws_ssm_parameter.channel[3]": "owner-alerts",
+    "aws_iam_policy.channel_publish[0]": "moderator-feed",
+    "aws_iam_policy.channel_publish[1]": "public-results",
+    "aws_iam_policy.channel_publish[2]": "audit-archive",
+    "aws_iam_policy.channel_publish[3]": "owner-alerts",
+    "aws_cloudwatch_metric_alarm.channel_depth[0]": "public-results",
+    "aws_cloudwatch_metric_alarm.channel_depth[1]": "owner-alerts",
+    "aws_cloudwatch_metric_alarm.channel_depth[2]": "audit-archive",
+    "aws_cloudwatch_metric_alarm.channel_depth[3]": "moderator-feed"
+   },
+   "add": {
+    "key": "compliance-digest",
+    "value": {
+     "detail_type": "ComplianceDigestReady",
+     "visibility_timeout_seconds": 105,
+     "message_retention_seconds": 518400,
+     "delivery_delay_seconds": 7,
+     "alarm_threshold": 35,
+     "evaluation_periods": 5
+    },
+    "created_values": [
+     {
+      "base": "aws_cloudwatch_event_rule.channel",
+      "attr": "event_pattern",
+      "value": "{\"detail-type\":[\"ComplianceDigestReady\"],\"source\":[\"pseudopoll.prod\"]}"
+     },
+     {
+      "base": "aws_sqs_queue.channel",
+      "attr": "visibility_timeout_seconds",
+      "value": 105
+     },
+     {
+      "base": "aws_sqs_queue.channel",
+      "attr": "message_retention_seconds",
+      "value": 518400
+     },
+     {
+      "base": "aws_sqs_queue.channel",
+      "attr": "delay_seconds",
+      "value": 7
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.channel_depth",
+      "attr": "threshold",
+      "value": 35
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.channel_depth",
+      "attr": "evaluation_periods",
+      "value": 5
+     },
+     {
+      "base": "aws_ssm_parameter.channel",
+      "attr": "value",
+      "value": "{\"alarm_threshold\":35,\"channel\":\"compliance-digest\",\"delivery_delay_seconds\":7,\"detail_type\":\"ComplianceDigestReady\",\"evaluation_periods\":5,\"message_retention_seconds\":518400,\"visibility_timeout_seconds\":105}"
+     }
+    ]
+   },
+   "remove": "moderator-feed",
+   "allowed_updates": {
+    "aws_ssm_parameter.channel_registry": [
+     "value",
+     "insecure_value"
+    ],
+    "aws_iam_policy.all_channels_publish": [
+     "policy"
+    ]
+   },
+   "required_updates": {
+    "aws_ssm_parameter.channel_registry": [
+     "value"
+    ],
+    "aws_iam_policy.all_channels_publish": [
+     "policy"
+    ]
+   }
+  }
+ },
+ "variables": {
+  "project": {
+   "default": "pseudopoll",
+   "type": "string"
+  },
+  "environment": {
+   "default": "prod",
+   "type": "string"
+  },
+  "services": {
+   "default": {
+    "vote-queue": {
+     "memory_size": 512,
+     "timeout": 45,
+     "queue_retention_seconds": 345600,
+     "error_threshold": 2,
+     "egress_cidr": "10.24.16.0/24",
+     "egress_port": 443
+    },
+    "publisher": {
+     "memory_size": 384,
+     "timeout": 30,
+     "queue_retention_seconds": 259200,
+     "error_threshold": 4,
+     "egress_cidr": "10.24.18.0/24",
+     "egress_port": 8443
+    },
+    "poll-manager": {
+     "memory_size": 768,
+     "timeout": 60,
+     "queue_retention_seconds": 604800,
+     "error_threshold": 1,
+     "egress_cidr": "10.24.20.0/24",
+     "egress_port": 5432
+    },
+    "results-reader": {
+     "memory_size": 448,
+     "timeout": 35,
+     "queue_retention_seconds": 172800,
+     "error_threshold": 6,
+     "egress_cidr": "10.24.22.0/24",
+     "egress_port": 443
+    },
+    "ballot-exporter": {
+     "memory_size": 640,
+     "timeout": 75,
+     "queue_retention_seconds": 1209600,
+     "error_threshold": 3,
+     "egress_cidr": "10.24.24.0/24",
+     "egress_port": 9443
+    }
+   },
+   "type": "map(object({ memory_size = number, timeout = number, queue_retention_seconds = number, error_threshold = number, egress_cidr = string, egress_port = number }))"
+  },
+  "events": {
+   "default": {
+    "vote-failed": {
+     "detail_type": "VoteFailed",
+     "target_service": "publisher",
+     "alarm_threshold": 1,
+     "dlq_retention_seconds": 1209600,
+     "maximum_event_age_seconds": 3600,
+     "maximum_retry_attempts": 2
+    },
+    "poll-modified": {
+     "detail_type": "PollModified",
+     "target_service": "publisher",
+     "alarm_threshold": 5,
+     "dlq_retention_seconds": 604800,
+     "maximum_event_age_seconds": 1800,
+     "maximum_retry_attempts": 4
+    },
+    "vote-counted": {
+     "detail_type": "VoteCounted",
+     "target_service": "publisher",
+     "alarm_threshold": 10,
+     "dlq_retention_seconds": 345600,
+     "maximum_event_age_seconds": 7200,
+     "maximum_retry_attempts": 1
+    },
+    "poll-published": {
+     "detail_type": "PollPublished",
+     "target_service": "results-reader",
+     "alarm_threshold": 3,
+     "dlq_retention_seconds": 259200,
+     "maximum_event_age_seconds": 2400,
+     "maximum_retry_attempts": 3
+    },
+    "results-exported": {
+     "detail_type": "ResultsExported",
+     "target_service": "ballot-exporter",
+     "alarm_threshold": 2,
+     "dlq_retention_seconds": 172800,
+     "maximum_event_age_seconds": 900,
+     "maximum_retry_attempts": 5
+    }
+   },
+   "type": "map(object({ detail_type = string, target_service = string, alarm_threshold = number, dlq_retention_seconds = number, maximum_event_age_seconds = number, maximum_retry_attempts = number }))"
+  },
+  "operations": {
+   "default": {
+    "archive-poll": {
+     "path_part": "archive-poll",
+     "http_method": "PATCH",
+     "target_service": "poll-manager",
+     "validate_body": true,
+     "burst_limit": 80,
+     "rate_limit": 40
+    },
+    "create-poll": {
+     "path_part": "create-poll",
+     "http_method": "POST",
+     "target_service": "poll-manager",
+     "validate_body": true,
+     "burst_limit": 120,
+     "rate_limit": 60
+    },
+    "my-polls": {
+     "path_part": "my-polls",
+     "http_method": "GET",
+     "target_service": "poll-manager",
+     "validate_body": false,
+     "burst_limit": 100,
+     "rate_limit": 50
+    },
+    "get-poll": {
+     "path_part": "get-poll",
+     "http_method": "GET",
+     "target_service": "poll-manager",
+     "validate_body": false,
+     "burst_limit": 150,
+     "rate_limit": 75
+    },
+    "update-poll-duration": {
+     "path_part": "update-poll-duration",
+     "http_method": "PATCH",
+     "target_service": "poll-manager",
+     "validate_body": true,
+     "burst_limit": 70,
+     "rate_limit": 35
+    },
+    "list-results": {
+     "path_part": "results",
+     "http_method": "GET",
+     "target_service": "results-reader",
+     "validate_body": false,
+     "burst_limit": 200,
+     "rate_limit": 100
+    },
+    "export-results": {
+     "path_part": "results-export",
+     "http_method": "POST",
+     "target_service": "ballot-exporter",
+     "validate_body": true,
+     "burst_limit": 40,
+     "rate_limit": 20
+    }
+   },
+   "type": "map(object({ path_part = string, http_method = string, target_service = string, validate_body = bool, burst_limit = number, rate_limit = number }))"
+  },
+  "channels": {
+   "default": {
+    "moderator-feed": {
+     "detail_type": "ModerationRequired",
+     "visibility_timeout_seconds": 45,
+     "message_retention_seconds": 345600,
+     "delivery_delay_seconds": 0,
+     "alarm_threshold": 50,
+     "evaluation_periods": 2
+    },
+    "public-results": {
+     "detail_type": "ResultsPublished",
+     "visibility_timeout_seconds": 60,
+     "message_retention_seconds": 604800,
+     "delivery_delay_seconds": 3,
+     "alarm_threshold": 100,
+     "evaluation_periods": 3
+    },
+    "audit-archive": {
+     "detail_type": "AuditRecorded",
+     "visibility_timeout_seconds": 120,
+     "message_retention_seconds": 1209600,
+     "delivery_delay_seconds": 5,
+     "alarm_threshold": 5,
+     "evaluation_periods": 1
+    },
+    "owner-alerts": {
+     "detail_type": "OwnerAttentionRequired",
+     "visibility_timeout_seconds": 75,
+     "message_retention_seconds": 259200,
+     "delivery_delay_seconds": 1,
+     "alarm_threshold": 20,
+     "evaluation_periods": 4
+    }
+   },
+   "type": "map(object({ detail_type = string, visibility_timeout_seconds = number, message_retention_seconds = number, delivery_delay_seconds = number, alarm_threshold = number, evaluation_periods = number }))"
+  },
+  "tags": {
+   "default": {
+    "Owner": "platform-team",
+    "CostCenter": "cc-7421",
+    "ManagedBy": "terraform"
+   },
+   "type": "map(string)"
+  },
+  "log_retention_days": {
+   "default": 30,
+   "type": "number"
+  },
+  "service_queue_visibility_timeout": {
+   "default": 90,
+   "type": "number"
+  },
+  "event_queue_visibility_timeout": {
+   "default": 90,
+   "type": "number"
+  },
+  "alarm_period_seconds": {
+   "default": 300,
+   "type": "number"
+  },
+  "lambda_runtime": {
+   "default": "python3.12",
+   "type": "string"
+  },
+  "lambda_handler": {
+   "default": "index.handler",
+   "type": "string"
+  },
+  "lambda_architectures": {
+   "default": [
+    "x86_64"
+   ],
+   "type": "list(string)"
+  },
+  "kms_deletion_window_days": {
+   "default": 30,
+   "type": "number"
+  },
+  "kms_rotation_enabled": {
+   "default": true,
+   "type": "bool"
+  },
+  "state_bucket_force_destroy": {
+   "default": true,
+   "type": "bool"
+  },
+  "api_metrics_enabled": {
+   "default": true,
+   "type": "bool"
+  },
+  "api_logging_level": {
+   "default": "INFO",
+   "type": "string"
+  },
+  "api_throttling_burst_limit": {
+   "default": 0,
+   "type": "number"
+  },
+  "api_throttling_rate_limit": {
+   "default": 0,
+   "type": "number"
+  },
+  "queue_receive_wait_seconds": {
+   "default": 0,
+   "type": "number"
+  }
+ },
+ "probes": [
+  {
+   "name": "add_service",
+   "kind": "key_add",
+   "dimension": "service",
+   "reference_outputs": {
+    "rest_api_id": {
+     "after": "4qrqchybno",
+     "unknown": false
+    },
+    "rest_api_stage_name": {
+     "after": "prod",
+     "unknown": false
+    },
+    "single_table_name": {
+     "after": "pseudopoll-prod-single-table",
+     "unknown": false
+    },
+    "state_bucket_name": {
+     "after": "pseudopoll-prod-tf-state-7421",
+     "unknown": false
+    },
+    "vpc_id": {
+     "after": "vpc-ad8e42440590f7bcb",
+     "unknown": false
+    },
+    "service_function_arns": {
+     "after": {
+      "ballot-exporter": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-ballot-exporter",
+      "poll-manager": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-poll-manager",
+      "publisher": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-publisher",
+      "results-reader": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-results-reader",
+      "vote-queue": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-vote-queue"
+     },
+     "unknown": {
+      "tally-mirror": true
+     }
+    },
+    "service_queue_urls": {
+     "after": {
+      "ballot-exporter": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-ballot-exporter",
+      "poll-manager": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-manager",
+      "publisher": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-publisher",
+      "results-reader": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-results-reader",
+      "vote-queue": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-vote-queue"
+     },
+     "unknown": {
+      "tally-mirror": true
+     }
+    },
+    "service_security_group_ids": {
+     "after": {
+      "ballot-exporter": "sg-812dda01dbb84cf91",
+      "poll-manager": "sg-c998022065b16f608",
+      "publisher": "sg-e5d1dfb9862609314",
+      "results-reader": "sg-853ad9aa85e9f7374",
+      "vote-queue": "sg-1fce928d585d4dfa3"
+     },
+     "unknown": {
+      "tally-mirror": true
+     }
+    },
+    "event_rule_arns": {
+     "after": {
+      "poll-modified": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-modified",
+      "poll-published": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-published",
+      "results-exported": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-results-exported",
+      "vote-counted": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-counted",
+      "vote-failed": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-failed"
+     },
+     "unknown": false
+    },
+    "event_dlq_urls": {
+     "after": {
+      "poll-modified": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-modified-dlq",
+      "poll-published": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-published-dlq",
+      "results-exported": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-results-exported-dlq",
+      "vote-counted": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-vote-counted-dlq",
+      "vote-failed": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-vote-failed-dlq"
+     },
+     "unknown": false
+    },
+    "operation_resource_ids": {
+     "after": {
+      "archive-poll": "0ijs6vyc8x",
+      "create-poll": "o2rff0neqc",
+      "export-results": "pjlmyrh4wi",
+      "get-poll": "8nspzjrhxi",
+      "list-results": "fup0jc3rex",
+      "my-polls": "jdfc2djekh",
+      "update-poll-duration": "poqjr25mgy"
+     },
+     "unknown": false
+    },
+    "channel_topic_arns": {
+     "after": {
+      "audit-archive": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-audit-archive",
+      "moderator-feed": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-moderator-feed",
+      "owner-alerts": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-owner-alerts",
+      "public-results": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-public-results"
+     },
+     "unknown": false
+    },
+    "channel_queue_urls": {
+     "after": {
+      "audit-archive": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-audit-archive-channel",
+      "moderator-feed": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-moderator-feed-channel",
+      "owner-alerts": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-owner-alerts-channel",
+      "public-results": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-public-results-channel"
+     },
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_ssm_parameter.service_catalog": {
+     "value": {
+      "after": "vote-queue,publisher,poll-manager,results-reader,ballot-exporter,tally-mirror",
+      "unknown": null,
+      "filled": {
+       "after": "vote-queue,publisher,poll-manager,results-reader,ballot-exporter,tally-mirror",
+       "unknown": null
+      }
+     },
+     "insecure_value": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": null,
+       "unknown": true
+      }
+     }
+    },
+    "aws_ssm_parameter.service_registry": {
+     "value": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"primary\":\"vote-queue\",\"queue_arns\":[\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-vote-queue\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-publisher\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-poll-manager\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-results-reader\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-ballot-exporter\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-tally-mirror\"],\"security_groups\":[\"sg-1fce928d585d4dfa3\",\"sg-e5d1dfb9862609314\",\"sg-c998022065b16f608\",\"sg-853ad9aa85e9f7374\",\"sg-812dda01dbb84cf91\",\"sg-927c5f655efe0b0e4\"],\"services\":[\"vote-queue\",\"publisher\",\"poll-manager\",\"results-reader\",\"ballot-exporter\",\"tally-mirror\"]}",
+       "unknown": null
+      }
+     },
+     "insecure_value": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": null,
+       "unknown": true
+      }
+     }
+    },
+    "aws_iam_policy.service_queue_catalog": {
+     "policy": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"Statement\":[{\"Action\":[\"sqs:GetQueueAttributes\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-vote-queue\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-publisher\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-poll-manager\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-results-reader\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-ballot-exporter\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-tally-mirror\"]}],\"Version\":\"2012-10-17\"}",
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_service",
+   "kind": "key_remove",
+   "dimension": "service",
+   "reference_outputs": {
+    "rest_api_id": {
+     "after": "4qrqchybno",
+     "unknown": false
+    },
+    "rest_api_stage_name": {
+     "after": "prod",
+     "unknown": false
+    },
+    "single_table_name": {
+     "after": "pseudopoll-prod-single-table",
+     "unknown": false
+    },
+    "state_bucket_name": {
+     "after": "pseudopoll-prod-tf-state-7421",
+     "unknown": false
+    },
+    "vpc_id": {
+     "after": "vpc-ad8e42440590f7bcb",
+     "unknown": false
+    },
+    "service_function_arns": {
+     "after": {
+      "ballot-exporter": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-ballot-exporter",
+      "poll-manager": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-poll-manager",
+      "publisher": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-publisher",
+      "results-reader": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-results-reader"
+     },
+     "unknown": false
+    },
+    "service_queue_urls": {
+     "after": {
+      "ballot-exporter": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-ballot-exporter",
+      "poll-manager": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-manager",
+      "publisher": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-publisher",
+      "results-reader": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-results-reader"
+     },
+     "unknown": false
+    },
+    "service_security_group_ids": {
+     "after": {
+      "ballot-exporter": "sg-812dda01dbb84cf91",
+      "poll-manager": "sg-c998022065b16f608",
+      "publisher": "sg-e5d1dfb9862609314",
+      "results-reader": "sg-853ad9aa85e9f7374"
+     },
+     "unknown": false
+    },
+    "event_rule_arns": {
+     "after": {
+      "poll-modified": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-modified",
+      "poll-published": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-published",
+      "results-exported": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-results-exported",
+      "vote-counted": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-counted",
+      "vote-failed": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-failed"
+     },
+     "unknown": false
+    },
+    "event_dlq_urls": {
+     "after": {
+      "poll-modified": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-modified-dlq",
+      "poll-published": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-published-dlq",
+      "results-exported": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-results-exported-dlq",
+      "vote-counted": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-vote-counted-dlq",
+      "vote-failed": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-vote-failed-dlq"
+     },
+     "unknown": false
+    },
+    "operation_resource_ids": {
+     "after": {
+      "archive-poll": "0ijs6vyc8x",
+      "create-poll": "o2rff0neqc",
+      "export-results": "pjlmyrh4wi",
+      "get-poll": "8nspzjrhxi",
+      "list-results": "fup0jc3rex",
+      "my-polls": "jdfc2djekh",
+      "update-poll-duration": "poqjr25mgy"
+     },
+     "unknown": false
+    },
+    "channel_topic_arns": {
+     "after": {
+      "audit-archive": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-audit-archive",
+      "moderator-feed": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-moderator-feed",
+      "owner-alerts": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-owner-alerts",
+      "public-results": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-public-results"
+     },
+     "unknown": false
+    },
+    "channel_queue_urls": {
+     "after": {
+      "audit-archive": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-audit-archive-channel",
+      "moderator-feed": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-moderator-feed-channel",
+      "owner-alerts": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-owner-alerts-channel",
+      "public-results": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-public-results-channel"
+     },
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_ssm_parameter.service_catalog": {
+     "value": {
+      "after": "publisher,poll-manager,results-reader,ballot-exporter",
+      "unknown": null
+     },
+     "insecure_value": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_ssm_parameter.service_registry": {
+     "value": {
+      "after": "{\"primary\":\"publisher\",\"queue_arns\":[\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-publisher\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-poll-manager\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-results-reader\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-ballot-exporter\"],\"security_groups\":[\"sg-e5d1dfb9862609314\",\"sg-c998022065b16f608\",\"sg-853ad9aa85e9f7374\",\"sg-812dda01dbb84cf91\"],\"services\":[\"publisher\",\"poll-manager\",\"results-reader\",\"ballot-exporter\"]}",
+      "unknown": null
+     },
+     "insecure_value": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_iam_policy.service_queue_catalog": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"sqs:GetQueueAttributes\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-publisher\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-poll-manager\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-results-reader\",\"arn:aws:sqs:us-east-1:123456789012:pseudopoll-prod-ballot-exporter\"]}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "add_event",
+   "kind": "key_add",
+   "dimension": "event",
+   "reference_outputs": {
+    "rest_api_id": {
+     "after": "4qrqchybno",
+     "unknown": false
+    },
+    "rest_api_stage_name": {
+     "after": "prod",
+     "unknown": false
+    },
+    "single_table_name": {
+     "after": "pseudopoll-prod-single-table",
+     "unknown": false
+    },
+    "state_bucket_name": {
+     "after": "pseudopoll-prod-tf-state-7421",
+     "unknown": false
+    },
+    "vpc_id": {
+     "after": "vpc-ad8e42440590f7bcb",
+     "unknown": false
+    },
+    "service_function_arns": {
+     "after": {
+      "ballot-exporter": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-ballot-exporter",
+      "poll-manager": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-poll-manager",
+      "publisher": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-publisher",
+      "results-reader": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-results-reader",
+      "vote-queue": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-vote-queue"
+     },
+     "unknown": false
+    },
+    "service_queue_urls": {
+     "after": {
+      "ballot-exporter": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-ballot-exporter",
+      "poll-manager": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-manager",
+      "publisher": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-publisher",
+      "results-reader": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-results-reader",
+      "vote-queue": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-vote-queue"
+     },
+     "unknown": false
+    },
+    "service_security_group_ids": {
+     "after": {
+      "ballot-exporter": "sg-812dda01dbb84cf91",
+      "poll-manager": "sg-c998022065b16f608",
+      "publisher": "sg-e5d1dfb9862609314",
+      "results-reader": "sg-853ad9aa85e9f7374",
+      "vote-queue": "sg-1fce928d585d4dfa3"
+     },
+     "unknown": false
+    },
+    "event_rule_arns": {
+     "after": {
+      "poll-modified": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-modified",
+      "poll-published": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-published",
+      "results-exported": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-results-exported",
+      "vote-counted": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-counted",
+      "vote-failed": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-failed"
+     },
+     "unknown": {
+      "moderation-expired": true
+     }
+    },
+    "event_dlq_urls": {
+     "after": {
+      "poll-modified": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-modified-dlq",
+      "poll-published": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-published-dlq",
+      "results-exported": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-results-exported-dlq",
+      "vote-counted": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-vote-counted-dlq",
+      "vote-failed": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-vote-failed-dlq"
+     },
+     "unknown": {
+      "moderation-expired": true
+     }
+    },
+    "operation_resource_ids": {
+     "after": {
+      "archive-poll": "0ijs6vyc8x",
+      "create-poll": "o2rff0neqc",
+      "export-results": "pjlmyrh4wi",
+      "get-poll": "8nspzjrhxi",
+      "list-results": "fup0jc3rex",
+      "my-polls": "jdfc2djekh",
+      "update-poll-duration": "poqjr25mgy"
+     },
+     "unknown": false
+    },
+    "channel_topic_arns": {
+     "after": {
+      "audit-archive": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-audit-archive",
+      "moderator-feed": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-moderator-feed",
+      "owner-alerts": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-owner-alerts",
+      "public-results": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-public-results"
+     },
+     "unknown": false
+    },
+    "channel_queue_urls": {
+     "after": {
+      "audit-archive": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-audit-archive-channel",
+      "moderator-feed": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-moderator-feed-channel",
+      "owner-alerts": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-owner-alerts-channel",
+      "public-results": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-public-results-channel"
+     },
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_ssm_parameter.event_catalog": {
+     "value": {
+      "after": "vote-failed,poll-modified,vote-counted,poll-published,results-exported,moderation-expired",
+      "unknown": null,
+      "filled": {
+       "after": "vote-failed,poll-modified,vote-counted,poll-published,results-exported,moderation-expired",
+       "unknown": null
+      }
+     },
+     "insecure_value": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": null,
+       "unknown": true
+      }
+     }
+    },
+    "aws_ssm_parameter.event_registry": {
+     "value": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"events\":[\"vote-failed\",\"poll-modified\",\"vote-counted\",\"poll-published\",\"results-exported\",\"moderation-expired\"],\"primary\":\"vote-failed\",\"rules\":[\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-failed\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-modified\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-counted\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-published\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-results-exported\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-moderation-expired\"]}",
+       "unknown": null
+      }
+     },
+     "insecure_value": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": null,
+       "unknown": true
+      }
+     }
+    },
+    "aws_iam_policy.event_rule_catalog": {
+     "policy": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"Statement\":[{\"Action\":[\"events:DescribeRule\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-failed\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-modified\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-counted\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-published\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-results-exported\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-moderation-expired\"]}],\"Version\":\"2012-10-17\"}",
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_event",
+   "kind": "key_remove",
+   "dimension": "event",
+   "reference_outputs": {
+    "rest_api_id": {
+     "after": "4qrqchybno",
+     "unknown": false
+    },
+    "rest_api_stage_name": {
+     "after": "prod",
+     "unknown": false
+    },
+    "single_table_name": {
+     "after": "pseudopoll-prod-single-table",
+     "unknown": false
+    },
+    "state_bucket_name": {
+     "after": "pseudopoll-prod-tf-state-7421",
+     "unknown": false
+    },
+    "vpc_id": {
+     "after": "vpc-ad8e42440590f7bcb",
+     "unknown": false
+    },
+    "service_function_arns": {
+     "after": {
+      "ballot-exporter": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-ballot-exporter",
+      "poll-manager": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-poll-manager",
+      "publisher": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-publisher",
+      "results-reader": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-results-reader",
+      "vote-queue": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-vote-queue"
+     },
+     "unknown": false
+    },
+    "service_queue_urls": {
+     "after": {
+      "ballot-exporter": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-ballot-exporter",
+      "poll-manager": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-manager",
+      "publisher": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-publisher",
+      "results-reader": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-results-reader",
+      "vote-queue": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-vote-queue"
+     },
+     "unknown": false
+    },
+    "service_security_group_ids": {
+     "after": {
+      "ballot-exporter": "sg-812dda01dbb84cf91",
+      "poll-manager": "sg-c998022065b16f608",
+      "publisher": "sg-e5d1dfb9862609314",
+      "results-reader": "sg-853ad9aa85e9f7374",
+      "vote-queue": "sg-1fce928d585d4dfa3"
+     },
+     "unknown": false
+    },
+    "event_rule_arns": {
+     "after": {
+      "poll-modified": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-modified",
+      "poll-published": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-published",
+      "results-exported": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-results-exported",
+      "vote-counted": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-counted"
+     },
+     "unknown": false
+    },
+    "event_dlq_urls": {
+     "after": {
+      "poll-modified": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-modified-dlq",
+      "poll-published": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-published-dlq",
+      "results-exported": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-results-exported-dlq",
+      "vote-counted": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-vote-counted-dlq"
+     },
+     "unknown": false
+    },
+    "operation_resource_ids": {
+     "after": {
+      "archive-poll": "0ijs6vyc8x",
+      "create-poll": "o2rff0neqc",
+      "export-results": "pjlmyrh4wi",
+      "get-poll": "8nspzjrhxi",
+      "list-results": "fup0jc3rex",
+      "my-polls": "jdfc2djekh",
+      "update-poll-duration": "poqjr25mgy"
+     },
+     "unknown": false
+    },
+    "channel_topic_arns": {
+     "after": {
+      "audit-archive": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-audit-archive",
+      "moderator-feed": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-moderator-feed",
+      "owner-alerts": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-owner-alerts",
+      "public-results": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-public-results"
+     },
+     "unknown": false
+    },
+    "channel_queue_urls": {
+     "after": {
+      "audit-archive": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-audit-archive-channel",
+      "moderator-feed": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-moderator-feed-channel",
+      "owner-alerts": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-owner-alerts-channel",
+      "public-results": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-public-results-channel"
+     },
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_ssm_parameter.event_catalog": {
+     "value": {
+      "after": "poll-modified,vote-counted,poll-published,results-exported",
+      "unknown": null
+     },
+     "insecure_value": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_ssm_parameter.event_registry": {
+     "value": {
+      "after": "{\"events\":[\"poll-modified\",\"vote-counted\",\"poll-published\",\"results-exported\"],\"primary\":\"poll-modified\",\"rules\":[\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-modified\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-counted\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-published\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-results-exported\"]}",
+      "unknown": null
+     },
+     "insecure_value": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_iam_policy.event_rule_catalog": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"events:DescribeRule\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-modified\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-counted\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-published\",\"arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-results-exported\"]}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "add_operation",
+   "kind": "key_add",
+   "dimension": "operation",
+   "reference_outputs": {
+    "rest_api_id": {
+     "after": "4qrqchybno",
+     "unknown": false
+    },
+    "rest_api_stage_name": {
+     "after": "prod",
+     "unknown": false
+    },
+    "single_table_name": {
+     "after": "pseudopoll-prod-single-table",
+     "unknown": false
+    },
+    "state_bucket_name": {
+     "after": "pseudopoll-prod-tf-state-7421",
+     "unknown": false
+    },
+    "vpc_id": {
+     "after": "vpc-ad8e42440590f7bcb",
+     "unknown": false
+    },
+    "service_function_arns": {
+     "after": {
+      "ballot-exporter": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-ballot-exporter",
+      "poll-manager": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-poll-manager",
+      "publisher": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-publisher",
+      "results-reader": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-results-reader",
+      "vote-queue": "arn:aws:lambda:us-east-1:123456789012:function:pseudopoll-prod-vote-queue"
+     },
+     "unknown": false
+    },
+    "service_queue_urls": {
+     "after": {
+      "ballot-exporter": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-ballot-exporter",
+      "poll-manager": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-manager",
+      "publisher": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-publisher",
+      "results-reader": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-results-reader",
+      "vote-queue": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-vote-queue"
+     },
+     "unknown": false
+    },
+    "service_security_group_ids": {
+     "after": {
+      "ballot-exporter": "sg-812dda01dbb84cf91",
+      "poll-manager": "sg-c998022065b16f608",
+      "publisher": "sg-e5d1dfb9862609314",
+      "results-reader": "sg-853ad9aa85e9f7374",
+      "vote-queue": "sg-1fce928d585d4dfa3"
+     },
+     "unknown": false
+    },
+    "event_rule_arns": {
+     "after": {
+      "poll-modified": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-modified",
+      "poll-published": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-poll-published",
+      "results-exported": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-results-exported",
+      "vote-counted": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-counted",
+      "vote-failed": "arn:aws:events:us-east-1:123456789012:rule/pseudopoll-prod-events/pseudopoll-prod-vote-failed"
+     },
+     "unknown": false
+    },
+    "event_dlq_urls": {
+     "after": {
+      "poll-modified": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-modified-dlq",
+      "poll-published": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-poll-published-dlq",
+      "results-exported": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-results-exported-dlq",
+      "vote-counted": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-vote-counted-dlq",
+      "vote-failed": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-vote-failed-dlq"
+     },
+     "unknown": false
+    },
+    "operation_resource_ids": {
+     "after": {
+      "archive-poll": "0ijs6vyc8x",
+      "create-poll": "o2rff0neqc",
+      "export-results": "pjlmyrh4wi",
+      "get-poll": "8nspzjrhxi",
+      "list-results": "fup0jc3rex",
+      "my-polls": "jdfc2djekh",
+      "update-poll-duration": "poqjr25mgy"
+     },
+     "unknown": {
+      "download-audit": true
+     }
+    },
+    "channel_topic_arns": {
+     "after": {
+      "audit-archive": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-audit-archive",
+      "moderator-feed": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-moderator-feed",
+      "owner-alerts": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-owner-alerts",
+      "public-results": "arn:aws:sns:us-east-1:123456789012:pseudopoll-prod-public-results"
+     },
+     "unknown": false
+    },
+    "channel_queue_urls": {
+     "after": {
+      "audit-archive": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-audit-archive-channel",
+      "moderator-feed": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-moderator-feed-channel",
+      "owner-alerts": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-owner-alerts-channel",
+      "public-results": "http://127.0.0.1:5000/123456789012/pseudopoll-prod-public-results-channel"
+     },
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_api_g

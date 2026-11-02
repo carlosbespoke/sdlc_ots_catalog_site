@@ -1,0 +1,38 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/minab-secured-loan-origination"
+description = ""
+authors = []
+keywords = []
+
+[metadata]
+task_id = "minab-secured-loan-origination"
+display_title = "Secured Loan Origination with Application Superseding"
+repository_url = "https://github.com/openfinova/minab-banking.git"
+base_commit_hash = "ea1d817dc3cca12bd47fb790dbed5e4d91e0ed30"
+language = "java"
+category = "feature_request"
+
+[verifier]
+environment_mode = "shared"
+timeout_sec = 3600
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached ea1d817dc3cca12bd47fb790dbed5e4d91e0ed30 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+
+[agent]
+user = "agent"
+timeout_sec = 21600
+
+[environment]
+allow_internet = false
+network_mode = "no-network"
+build_timeout_sec = 3600
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

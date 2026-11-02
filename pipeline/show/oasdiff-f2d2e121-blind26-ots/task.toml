@@ -1,0 +1,60 @@
+schema_version = "1.3"
+artifacts = ["/logs/artifacts"]
+
+[task]
+name = "bespokelabsai/oasdiff-26f-e1ff5c13"
+description = "The oasdiff repository at a pinned commit has had 26 one-line faults injected across unrelated areas of its behaviour, and the test suite has been removed from the tree. The agent receives only the faulted sources and a user-level report of the misbehaviour: missing or wrong entries when comparing two API documents, garbled report wording and numbering, broken rendering in several output shapes, a summary that under-counts, a rules listing without severities, over-eager suppression from an ignore file, silent acceptance of a malformed command-line entry, and a document check that has stopped producing findings. It must localize each fault from behaviour alone, repair the behaviour, and name the faulted functions."
+authors = []
+keywords = ["diagnosis", "root-cause", "fault-chain", "go", "go test"]
+
+[metadata]
+task_id = "oasdiff-26f-e1ff5c13"
+display_title = "oasdiff: wrong answers all over the comparison output, to be diagnosed without a test suite"
+display_description = "The oasdiff repository at a pinned commit has had 26 one-line faults injected across unrelated areas of its behaviour, and the test suite has been removed from the tree. The agent receives only the faulted sources and a user-level report of the misbehaviour: missing or wrong entries when comparing two API documents, garbled report wording and numbering, broken rendering in several output shapes, a summary that under-counts, a rules listing without severities, over-eager suppression from an ignore file, silent acceptance of a malformed command-line entry, and a document check that has stopped producing findings. It must localize each fault from behaviour alone, repair the behaviour, and name the faulted functions."
+category = "bugfix"
+difficulty = "hard"
+language = "go"
+repository_url = "https://github.com/oasdiff/oasdiff.git"
+base_commit_hash = "f2d2e1211a88f119a7eda535161e0a10d3f429e6"
+target_test = ""
+fault_count = 26
+fault_files = "checker/check_api_deprecation.go;checker/check_new_request_non_path_default_parameter.go;checker/check_request_parameter_became_nullable.go;checker/check_request_parameter_list_of_types_changed.go;checker/check_request_parameters_min_set.go;checker/check_request_property_default_value_changed.go;checker/check_request_property_max_length_set.go;checker/check_request_property_x_extensible_enum_value_removed.go;checker/check_response_discriminator_updated.go;checker/check_response_property_max_length_unset.go;checker/component_change.go;diff/license_diff.go;diff/modified_subschemas.go;diff/one_of_wrapping_diff.go;diff/tags_diff.go;formatters/format_json.go;formatters/format_junit.go;internal/checks_changelog.go;internal/diff.go;internal/open_review.go;validate/lint_type_format_mismatch.go"
+fault_ids = "28ea0acb,60bbfced,3e62ff92,ce6047e7,4305f14a,92646771,5f919edb,0e3e3e8a,5e9ad715,498c4452,3b2bbd4c,472ec4da,dc2dff97,e250cabc,be1c803d,f2bb679e,1d69e791,9fa7b8d4,1d0bad9f,f7380785,8edddd6f,d2c46129,2a5c9255,cefc4cec,0853960d,b06084d0"
+why_hard = "26 edits across 21 files, one per function, and the repository's own suite is the only thing that shows them"
+generated_by = "voyager-diagnosis-pipeline"
+
+# Dual-container (separate) verifier, which the Voyager OTS spec requires of every task
+# (2026-09-29). Grading runs in its OWN container, built from tests/Dockerfile: the same
+# environment/Dockerfile the agent's image comes from, plus root-owned /tests layers the
+# agent image never holds. Nothing the agent did at run time reaches that container except
+# what the collect command below hands over - /logs/artifacts/worktree.tgz (the working
+# tree without .git) and /logs/artifacts/rca.json - and tests/grade.py adopts only source
+# files out of the archive. So the agent's .git, its venv, its home directory, its
+# processes and anything it planted outside the source roots never meet the grader. The
+# grader still runs as root (user below) and drops to the agent account for every suite run
+# (answer_key run_tests_as = "agent"). No [verifier.environment] block: Harbor then gives
+# the verifier a fresh copy of [environment] below, so one declaration governs both
+# containers' network, cpus, memory and storage.
+[verifier]
+environment_mode = "separate"
+user = "root"
+timeout_sec = 2520.0
+[[verifier.collect]]
+command = "bash -c 'mkdir -p /logs/artifacts && cd /workspace/repo && tar czf /logs/artifacts/worktree.tgz --exclude=./.git . ; cp -f /app/rca.json /logs/artifacts/rca.json 2>/dev/null || true'"
+service = "main"
+timeout_sec = 300
+
+# The solving agent's own budget, per language. Horizon applies it as written, with no
+# multiplier. AGENT_TIMEOUT_SEC holds the numbers and the reason.
+[agent]
+timeout_sec = 21600.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+os = "linux"
+workdir = "/workspace/repo"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

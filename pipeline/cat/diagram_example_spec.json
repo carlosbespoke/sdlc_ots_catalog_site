@@ -1,0 +1,6 @@
+[{"slug":"proto","name_key":"x","title":"Rebuild a Bazel BUILD-file generator from its behavior alone",
+"problem":"Only a compiled tool and its user docs exist;\nthe source code is not available",
+"receives":[{"label":"Reference tool\n(run it, cannot read it)","icon":"binary-tree"},{"label":"User documentation\n(4 reference pages)","icon":"book"},{"label":"Go, Rust and C/C++ toolchains","icon":"terminal-2"}],
+"job":["Run the reference on test inputs","Infer the rules it applies","Write a new implementation","Compare outputs side by side"],
+"deliver":[{"label":"Source project + compile.sh\nthat builds ./executable"}],
+"check":[{"label":"Hidden behavior tests\n(outputs, exit codes, files)","icon":"test-pipe"},{"label":"Must match the reference\non every test","icon":"scale"}]}]

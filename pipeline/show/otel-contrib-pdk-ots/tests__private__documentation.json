@@ -1,0 +1,1053 @@
+{
+ "comments": "off",
+ "format": "spec-drift-doc-sequence-v3",
+ "modules": {
+  "instrumentation/opentelemetry-instrumentation-aiohttp-client/src/opentelemetry/instrumentation/aiohttp_client/__init__.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "32416ac409b8ebc454afca38342066c46142a5bd4f8ba9f6b2df7f066523781b",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "1f6ee67c8a230bb2da1295b32f7743eeaae0bb9f09a52dee8f7d77b9d3931b0b",
+     [
+      "create_trace_config"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "334d51d0feda99bbb19da39e955ebc6b453c0f0231cdd75afe41d2adb100075a",
+     [
+      "_instrument"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "f5f500e59078eed6b7cf31b8fcf4a34dbf7c0da9b7fd1bfbacb2369657bfd5a7",
+     [
+      "_uninstrument"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "b90093654df532538983eda059f245f70f34e5b95b277416e7de1cabb59f4f84",
+     [
+      "_uninstrument_session"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "d5594400ac33694c54a5539ebe5fa3bb1aacd793da3a843b5cabcf9fc9139837",
+     [
+      "AioHttpClientInstrumentor"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "b1e936324633aa09546309915f2582fc6dd5acd692600495eda1492aa44b1f9b",
+     [
+      "AioHttpClientInstrumentor._instrument"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "8bed8b104dcb63731bdb5f27cd758ffd767687c2dbf1753a4182e02bcb1cbe33",
+     [
+      "AioHttpClientInstrumentor.uninstrument_session"
+     ]
+    ]
+   ]
+  },
+  "instrumentation/opentelemetry-instrumentation-aiohttp-client/src/opentelemetry/instrumentation/aiohttp_client/package.py": {
+   "comments": {},
+   "entries": []
+  },
+  "instrumentation/opentelemetry-instrumentation-aiohttp-client/src/opentelemetry/instrumentation/aiohttp_client/version.py": {
+   "comments": {},
+   "entries": []
+  },
+  "instrumentation/opentelemetry-instrumentation-httpx/src/opentelemetry/instrumentation/httpx/__init__.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "1ceca9f7b81e4826c65dd1cd8743864e7a72aa6d4e7928900c1ade222cb098b0",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "602229e562a60c0d6d7ed9a4dcefad0a51cfe89491e556befd539aebf93cfd2f",
+     [
+      "_apply_response_client_attributes_to_metrics"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "2aa7575a76c3bf1d3e6e83f1c64840806f7cbf02c0336295f54c51fbaec9c4c7",
+     [
+      "_SyncOpenTelemetryTransportBase"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "f8952f3d6ae84e987cb8c7b761821858674e223dd0e507fbb71035cca60a1a6d",
+     [
+      "_SyncOpenTelemetryTransportBase.handle_request"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "6b00dd6f5f08b534adcbc8e6bdebb407a2ce726bd08db870c388a09cfaec868c",
+     [
+      "_AsyncOpenTelemetryTransportBase"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "f8952f3d6ae84e987cb8c7b761821858674e223dd0e507fbb71035cca60a1a6d",
+     [
+      "_AsyncOpenTelemetryTransportBase.handle_async_request"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "d46c6887d523f47ad2b997eceeae6f98cc6211fcfb298fa06b349d3c3cca0ffe",
+     [
+      "_BaseHTTPXClientInstrumentor"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "2461bb61e5e51c4e6f5870cfdd9ca468ab8677da2802d825ddf75b58bc6a03aa",
+     [
+      "_BaseHTTPXClientInstrumentor._instrument"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "dd2e897fa49ee4c2671ea64e70dea1246b5e37d955ffa184a2630cc2dcc8ff95",
+     [
+      "_BaseHTTPXClientInstrumentor.instrument_client"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "d955196256aa44fc0153b3ad1d1d339dc3db1616d0105fb6facf41135f96f36e",
+     [
+      "_BaseHTTPXClientInstrumentor.uninstrument_client"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "29fd5e28b4e813f8ceb2f0af4f594953bc1bcfedac0f3c96442aa8e7d144d253",
+     [
+      "SyncOpenTelemetryTransport"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "4d9214a01d5e3a10dcb62f4918f20a51b419bff734416d409b43762ecf5d9623",
+     [
+      "AsyncOpenTelemetryTransport"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "7e9fa02fab77efb5528ebba109aa47c438633097686fc9cb87af9a861c389778",
+     [
+      "HTTPXClientInstrumentor"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "6d235a4a6ea9b66ffb695ba49d00144fcc2b304cebc97e4ae1245cab47e5b4a7",
+     [
+      "SyncOpenTelemetryTransportHttpx2"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "b905b43562d5b33859f0e0669bf5eb20b481d2aea2313231cbc13b6fdf3a925c",
+     [
+      "AsyncOpenTelemetryTransportHttpx2"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "527237f2f2b22fb6eb360ed32fa7ccc601af27b4e101f6aba10c209cae155d09",
+     [
+      "HTTPX2ClientInstrumentor"
+     ]
+    ]
+   ]
+  },
+  "instrumentation/opentelemetry-instrumentation-httpx/src/opentelemetry/instrumentation/httpx/package.py": {
+   "comments": {},
+   "entries": []
+  },
+  "instrumentation/opentelemetry-instrumentation-httpx/src/opentelemetry/instrumentation/httpx/version.py": {
+   "comments": {},
+   "entries": []
+  },
+  "instrumentation/opentelemetry-instrumentation-requests/src/opentelemetry/instrumentation/requests/__init__.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "b3827a14e6d8364725a9bafde8562358f42fe1034a3a1fc8a32f4d261a76bae6",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "5fba5d85a106d20a49f1193a397a7324ab7d9f40d66765b588cf0b98a412b5f7",
+     [
+      "_instrument"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "0b0ba1c5d91517f940b50a1b34890dfaa1d1facd2850cdc15743c921561530be",
+     [
+      "_uninstrument"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "b91f386935d881c96a71ce47eb6082d861a172bffccce1cc1772d913c3267924",
+     [
+      "get_default_span_name"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "055cda7c301519311b65138f8819601509a12ef8ce5a6a0cddbe66c9cdff7866",
+     [
+      "RequestsInstrumentor"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "64630f897c0b16d1561268a5822aac9971ffc0199ce90f6cca98c88ae9e39ff7",
+     [
+      "RequestsInstrumentor._instrument"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "9136a33729997b9a561c19aeaf597eb0c9b106c6177685db5910aefead6ebd5a",
+     [
+      "RequestsInstrumentor.uninstrument_session"
+     ]
+    ]
+   ]
+  },
+  "instrumentation/opentelemetry-instrumentation-requests/src/opentelemetry/instrumentation/requests/package.py": {
+   "comments": {},
+   "entries": []
+  },
+  "instrumentation/opentelemetry-instrumentation-requests/src/opentelemetry/instrumentation/requests/version.py": {
+   "comments": {},
+   "entries": []
+  },
+  "instrumentation/opentelemetry-instrumentation-urllib/src/opentelemetry/instrumentation/urllib/__init__.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "833cf16afb67c912db01a8d45df44551b5ab96f37316f34c845b62db60951d9a",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "e3dbd052076800d314c583f3c8050410271bce4dffa46a2799ca7645376e7539",
+     [
+      "URLLibInstrumentor"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "199c567e8d9293eca4e71a74150499a448bcf75124f3cc72454dc3a409b1a007",
+     [
+      "URLLibInstrumentor._instrument"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "6312829cd3631fadb89ffc6c0fc28978a54da72b7680197f20d2299cea9944b2",
+     [
+      "URLLibInstrumentor.uninstrument_opener"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "511e76e454943c77a644ec909ef27e4d5cd0fdc8b24c9ddf42380d5ba6499aba",
+     [
+      "_instrument"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "112a7147202a9847e03daf1d3f79e7374263420e24e15bf8a4b1a448953f0fc6",
+     [
+      "_uninstrument"
+     ]
+    ]
+   ]
+  },
+  "instrumentation/opentelemetry-instrumentation-urllib/src/opentelemetry/instrumentation/urllib/package.py": {
+   "comments": {},
+   "entries": []
+  },
+  "instrumentation/opentelemetry-instrumentation-urllib/src/opentelemetry/instrumentation/urllib/version.py": {
+   "comments": {},
+   "entries": []
+  },
+  "instrumentation/opentelemetry-instrumentation-urllib3/src/opentelemetry/instrumentation/urllib3/__init__.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "9587c692ba0ac605fde2596b744ec2beed9a8886d2f7c3784978f2c4a150f897",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "44e5495102b3a79954c751e9d91c804d74a30f4c3396300714f898f918ac22f1",
+     [
+      "RequestInfo"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "a845dc0590a3719de7600183848dbd6dada1ba1b4991e73d714b90da69d970d7",
+     [
+      "URLLib3Instrumentor._instrument"
+     ]
+    ]
+   ]
+  },
+  "instrumentation/opentelemetry-instrumentation-urllib3/src/opentelemetry/instrumentation/urllib3/package.py": {
+   "comments": {},
+   "entries": []
+  },
+  "instrumentation/opentelemetry-instrumentation-urllib3/src/opentelemetry/instrumentation/urllib3/version.py": {
+   "comments": {},
+   "entries": []
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/_labeler/__init__.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "f7b9d4a4e4c6e2fa895c18962561d4796996cd87a2bad381ed77428f3434a6e4",
+     [
+      "<module>"
+     ]
+    ]
+   ]
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/_labeler/_internal/__init__.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "c0cfbd24420dd02dd79ab949f4fe8c1306cfe5ff5d025bd273028132bb43c5d5",
+     [
+      "Labeler"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "b32c008e1b709011a82215f1a60a1e4148850bf1527885122595b0518b13157e",
+     [
+      "Labeler.__init__"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "a660545ec8039c91cbaf7966d0685ce8bbed04f63b68bed0924789de74399a20",
+     [
+      "Labeler.add"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "faf0115d55e0fda477be4e067272b8ba071985b84950a910189a81645f55099c",
+     [
+      "Labeler.add_attributes"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "4aef9983998fe9836a110f7cd9341c658505489ae22de82b53f70a93ead9a4f5",
+     [
+      "Labeler.get_attributes"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "65487a64c1d90cd747225fdec43686bec49b4843e794003840d0c457923031a9",
+     [
+      "_attach_context_value"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "2dd3b5eb57b6de7bf0d2c2f4ab9e649584d699d16c438156e17e4bbd5555a254",
+     [
+      "get_labeler"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "42b0829e51f27212a329a1fb09d2b9bc9be3c6441974f6f9540b57a464b369b9",
+     [
+      "set_labeler"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "c6ee2e13ee24093392c9ee7ead823531ca7dcd63a30508a6131ef3fe21f34611",
+     [
+      "clear_labeler"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "ef8a7051d8ea39dd632dbeff4edb424fcb1ba0df9d3e397ff410868a2d590282",
+     [
+      "get_labeler_attributes"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "885f0bdf2f731b82c0f77f8f6806be1a648050fb8ed2013148fa65345a326c41",
+     [
+      "enrich_metric_attributes"
+     ]
+    ]
+   ]
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/_semconv.py": {
+   "comments": {},
+   "entries": [
+    [
+     "function",
+     1,
+     "ebc8d8c1961ae282cefd00fc6f2ce457104852c5085e2dd5952c9f499b90207f",
+     [
+      "_get_semconv_opt_in_modes"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "fa7ab410957eff622d5571879a4a109ab9cd47b3d0cb980860e3aec9e5ec2796",
+     [
+      "_get_schema_url"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "05e142ba9eb67f765e68b9760ea7959ffa0999c8a4fd7f036c91e98a8b5f0faa",
+     [
+      "_get_schema_version_for_opt_in_mode"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "bdc45c0e0c2acf204110d446d5178873bc6039616ba0fdb648d2bed9d8abab4a",
+     [
+      "_get_schema_url_for_signal_types"
+     ]
+    ]
+   ]
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/auto_instrumentation/__init__.py": {
+   "comments": {},
+   "entries": [
+    [
+     "function",
+     1,
+     "d15acfdda4f90dabfd5f06424cc7cd3b6a08211977b26856246200c49898aaaf",
+     [
+      "initialize"
+     ]
+    ]
+   ]
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/auto_instrumentation/_load.py": {
+   "comments": {},
+   "entries": []
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/auto_instrumentation/sitecustomize.py": {
+   "comments": {},
+   "entries": []
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/bootstrap.py": {
+   "comments": {},
+   "entries": [
+    [
+     "function",
+     1,
+     "52296377071e3018833add7c3dad86574be758fd21a6a53e3e800b0f689357b5",
+     [
+      "_pip_check"
+     ]
+    ]
+   ]
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/bootstrap_gen.py": {
+   "comments": {},
+   "entries": []
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/cidict.py": {
+   "comments": {},
+   "entries": []
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/dependencies.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "fca1a452420d3c57b7260c72cea86ce39b509bfde94db15eb91f77e8b9fb71f1",
+     [
+      "DependencyConflict"
+     ]
+    ]
+   ]
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/distro.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "94f2957b6a950f1b7cddfac6cfc1a96e5349478b30cdab9564a9bfe9cb51e04c",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "e42587a5fe9617a9ea37119df38fe9aebfffa0e503e4a0e60873a38894963ec5",
+     [
+      "BaseDistro"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "a9bdd3f5710cb7439b17e4086a69a376687d7c523c53af8cb3df234062891ddd",
+     [
+      "BaseDistro._configure"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "a9bdd3f5710cb7439b17e4086a69a376687d7c523c53af8cb3df234062891ddd",
+     [
+      "BaseDistro.configure"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "cc499751b3669c420a53e59dc5ca76f307394d8fe21399fafb39fdc0a6cefbbe",
+     [
+      "BaseDistro.load_instrumentor"
+     ]
+    ]
+   ]
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/environment_variables.py": {
+   "comments": {},
+   "entries": [
+    [
+     "string",
+     0,
+     "db44270f8a8bead5f1fc4c03a7ae7ef2c5341cc3bd05294e4de592bdf6e7caf4",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "string",
+     0,
+     "ba0ad4f816669d9bf77e71bab72b943efae720567fb491f1b12d033ae5a3f909",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "string",
+     0,
+     "53d5c6dd591142448f3daf7cc0f373cbb83b27f57067aab5c14dc02ec144d9fd",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "string",
+     0,
+     "06ec5c5a19c819e800f409b052a566b01212cadf6741a361ab5f428c8ddafe25",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "string",
+     0,
+     "ba6c4817c93a5808f663652b7538d06ac8d859d07ff2dd1012640b5ebd3815de",
+     [
+      "<module>"
+     ]
+    ]
+   ]
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/instrumentor.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "334b13f3b40bc5c743cb1fba52fb6ad00db8ad417460af587e3483fed2372d09",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "ffd90e7cf395a0e419833b121e6a6ac4910db93339e343c57ae939a2b3b117c9",
+     [
+      "BaseInstrumentor"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "6f79ca7652fecce5f4d9d71c6adcb698524432ab2ad5fa99007ac503bc3cecfc",
+     [
+      "BaseInstrumentor.instrumentation_dependencies"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "be6810d9f45f8f1de8b7d3a166f0361082ef1d116bc5fc3ce7573f22b9a38892",
+     [
+      "BaseInstrumentor._instrument"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "528b886ce59006d06fe5d86726a92923a54d110286f03a9057b8202dcfcab44d",
+     [
+      "BaseInstrumentor._uninstrument"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "c05b96a2ed3b92f24bf05e4b5a860f768af5d717cea6481f7c239ec9f04c6519",
+     [
+      "BaseInstrumentor.instrument"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "83b2c221f136c791c13346ad1b3259787375ee5cf7394d0b1397610ae71813ff",
+     [
+      "BaseInstrumentor.uninstrument"
+     ]
+    ]
+   ]
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/log_utils.py": {
+   "comments": {},
+   "entries": [
+    [
+     "function",
+     1,
+     "1053a44ceb9e7cd216d1a650e8a99c679c7493949336f0e146cf8073be30da87",
+     [
+      "std_to_otel"
+     ]
+    ]
+   ]
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/propagators.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "be7b9762a93df43c8df0da8e55a8c61fe9604aca28283cae943b0d8a33ae4d3d",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "d555888136fd1740034722bb2292bb0fa131e6ea264e5e8af5a6f867f17cf89b",
+     [
+      "Setter.set"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "b0dca01e216e93961c6d41af0b9ef3f0fb167334d36bbc3e0222423d426d1ddf",
+     [
+      "FuncSetter"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "0f33fc0894118e6dd7425082fcb8930134d6e7656b155a123f09b3d09048c59c",
+     [
+      "ResponsePropagator.inject"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "06973b8f360c8b06307192c28948db3327ea795e9aa4244b18aba6f8f85c689e",
+     [
+      "TraceResponsePropagator"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "0f33fc0894118e6dd7425082fcb8930134d6e7656b155a123f09b3d09048c59c",
+     [
+      "TraceResponsePropagator.inject"
+     ]
+    ]
+   ]
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/sqlcommenter_utils.py": {
+   "comments": {},
+   "entries": [
+    [
+     "function",
+     1,
+     "062c683b9f3438e421be92934c0a221073a539490795c9c9818cfe63395c2b30",
+     [
+      "_add_sql_comment"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "c11fe9f60a55dff375128394cf999ce67a76bac20b79f3fbcfde4f7ace1926d7",
+     [
+      "_generate_sql_comment"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "e885014775db9b8c0a071014933b9aecee76a72bda5c88c35258bd5d249cb108",
+     [
+      "_add_framework_tags"
+     ]
+    ]
+   ]
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/utils.py": {
+   "comments": {},
+   "entries": [
+    [
+     "function",
+     1,
+     "27306428c2c59cf8e75577ddf0d64dd394cd125dd985c9446d1189fd47d5e620",
+     [
+      "http_status_to_status_code"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "71129783bc9761f5c0a0a5b2ad284067ad0ed9c470fd5bb7805c1c216585e879",
+     [
+      "unwrap"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "98b1f8505cef68aa8fac559aad5f84237e3b56705cea0aac2e074fca0d3e212d",
+     [
+      "_start_internal_or_server_span"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "49725b19542e51927492f734b3db7b7f17acb6aefffafcc7dacab8a49e6e3f26",
+     [
+      "_get_opentelemetry_values"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "2e4f87e175dd0c3bddcde90a0b19cf6aafc9a98b5120639971cf9bb1689d207c",
+     [
+      "_suppress_instrumentation"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "375a7269d96df24d0eb46667aed7d77e998c07a51b0c6f3b81e08a7b2124183d",
+     [
+      "suppress_instrumentation"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "3d5ffad0f8f8e3e7f258523b65fb539c339bb3a64ad4505933b49aeb3e72ab95",
+     [
+      "suppress_http_instrumentation"
+     ]
+    ]
+   ]
+  },
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/version.py": {
+   "comments": {},
+   "entries": []
+  },
+  "util/opentelemetry-util-http/src/opentelemetry/util/http/__init__.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "cc7e697f4e988c7bf9fc80e4082725956c218d61080f0db895ec6d6b7859ab2e",
+     [
+      "ExcludeList"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "752ec3308d519eae7864b2d1123341118c539ec07eb2ca07e84f6056942bbe44",
+     [
+      "SanitizeValue"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "bf0bddf8b50c8975f9a445ea079dd1d6acde188a3dda39413d638063f6c87224",
+     [
+      "parse_excluded_urls"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "bc2192ab1520e66ee7100c4963e913991508a7562724383a17891f66844d14c9",
+     [
+      "remove_url_credentials"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "ffbec603b485a24fc91b55f4ad71e8c195270ca7b0af89e4cd40650aa3e1ef5f",
+     [
+      "get_custom_header_attributes"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "ea6b297dee82a150d54cc495e8105d2b53431986745e138ae3d8f89e2a465c77",
+     [
+      "redact_query_parameters"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "c705c23ee97e97c00a54208ba5fdaaeb052b6279a38c811c12c23f2d24ccb2aa",
+     [
+      "redact_url"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "e5d549ba424ebe3738410f2c1ed5628c7b5de94e3018636a590ce767c22a6368",
+     [
+      "normalize_user_agent"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "919eccab3068d3ec2eb71436f68e69c1b66a261c79b120c1ab41c8934d626502",
+     [
+      "detect_synthetic_user_agent"
+     ]
+    ]
+   ]
+  },
+  "util/opentelemetry-util-http/src/opentelemetry/util/http/constants.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "abdd977562f04774bc0f7c8dc4cfc9d1efb0d02c20922f9a7c21ed2e99ead5b1",
+     [
+      "<module>"
+     ]
+    ]
+   ]
+  },
+  "util/opentelemetry-util-http/src/opentelemetry/util/http/httplib.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "52a2e5dfe1b07ea6a1183ac9ed1f232abd58cd5e1cbddd93923bff17e5d10d5d",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "a37f1214cd0954fb3b3e650c59124d3ebe72ec537bc574c274ff8a0dbd68ad36",
+     [
+      "HttpClientInstrumentor._instrument"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "d8f158227811a487ec1509105a85b76396c43692ae85fe20184b0e03d49ef01c",
+     [
+      "trysetip"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "20f7985c0f2ba0192ebad77a965c7a78b93ae31ad2227c457efb195a9a5d36c6",
+     [
+      "instrument_connect"
+     ]
+    ]
+   ]
+  },
+  "util/opentelemetry-util-http/src/opentelemetry/util/http/version.py": {
+   "comments": {},
+   "entries": []
+  }
+ },
+ "pages": {
+  "docs/instrumentation/aiohttp_client/aiohttp_client.rst": "3ed11c6031e784465d33926ec5d9ef5c034eb9d83b881a45d0ce9c77e9f699a6",
+  "docs/instrumentation/base/instrumentation.rst": "59843da93a90fd4f4bdff9d506e079a8933afe245e7d08d570d7a63ce18e801d",
+  "docs/instrumentation/base/instrumentor.rst": "f188b244be501c4336f884ff62ed36a03faba7cbef2d4feed7b63ff8fe5c851f",
+  "docs/instrumentation/httpx/httpx.rst": "c3ff5159f9f42cdb6d48471002480203bc86621a2417a908b086c39d99f5b422",
+  "docs/instrumentation/requests/requests.rst": "05fe650dbdde5d215741386003af80043ec130b9ccf43d5e9a9217d207f6fee9",
+  "docs/instrumentation/urllib/urllib3.rst": "c062bf60062595759cc891845908bf6d6f8ed023f5add30de580e354fb18e99c",
+  "docs/instrumentation/urllib3/urllib3.rst": "d081b86d5cd138fc7e1e0a56660146d088b08697f21621e2578a0c250bf419ba",
+  "instrumentation/opentelemetry-instrumentation-aiohttp-client/README.rst": "6196f2095cfa9895a732e44aff2791e8409cac9acd527b67421dd4d5108febfc",
+  "instrumentation/opentelemetry-instrumentation-aiohttp-client/src/opentelemetry/instrumentation/aiohttp_client/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "instrumentation/opentelemetry-instrumentation-httpx/README.rst": "d75182c428091a6e4552a2a726fc99f1526ee080036b5529b23521d927dd2e5c",
+  "instrumentation/opentelemetry-instrumentation-httpx/src/opentelemetry/instrumentation/httpx/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "instrumentation/opentelemetry-instrumentation-requests/README.rst": "7c5d15d43250ee09b170e70d0ca824e0c78a02bc12b073ab57498658a540a77f",
+  "instrumentation/opentelemetry-instrumentation-requests/src/opentelemetry/instrumentation/requests/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "instrumentation/opentelemetry-instrumentation-urllib/README.rst": "76f16bf6593bb7a19d924aff24434b28313831a7b45060075b47e9c83be6124e",
+  "instrumentation/opentelemetry-instrumentation-urllib/src/opentelemetry/instrumentation/urllib/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "instrumentation/opentelemetry-instrumentation-urllib3/README.rst": "96e203e628ce646ae9003c74cb133b3744565e7856fdbc3a0055d163d111b3b2",
+  "opentelemetry-instrumentation/README.rst": "3e32fdfd262be5c7f6a5cac881d100ded4865fdcf5b9c6661080b99d62efd4bf",
+  "opentelemetry-instrumentation/src/opentelemetry/instrumentation/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "util/opentelemetry-util-http/README.rst": "f58c696894fd1823c4cc7df69fb2657c74bac81fb64e432cc8bbc8a8e44e6132",
+  "util/opentelemetry-util-http/src/opentelemetry/util/http/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+ }
+}

@@ -1,0 +1,68 @@
+{
+  "config": "payments/deploy.star",
+  "revision": "abe345ccbb11",
+  "env": "prod",
+  "services": [
+    {
+      "name": "gateway",
+      "args": [
+        "--log-format=json",
+        "--metrics-addr=:9102",
+        "--shutdown-grace=20s",
+        "--proxy-protocol",
+        "--listen=:8443"
+      ],
+      "cpu": "1000m",
+      "replicas": 8,
+      "canary_percent": 0
+    },
+    {
+      "name": "ledger",
+      "args": [
+        "--log-format=json",
+        "--metrics-addr=:9102",
+        "--shutdown-grace=20s",
+        "--listen=:8090"
+      ],
+      "cpu": "0m",
+      "replicas": 6,
+      "canary_percent": 0
+    },
+    {
+      "name": "notifier",
+      "args": [
+        "--log-format=json",
+        "--metrics-addr=:9102",
+        "--shutdown-grace=20s",
+        "--listen=:8090"
+      ],
+      "cpu": "0m",
+      "replicas": 2,
+      "canary_percent": 0
+    },
+    {
+      "name": "payouts",
+      "args": [
+        "--log-format=json",
+        "--metrics-addr=:9102",
+        "--shutdown-grace=20s",
+        "--listen=:8090"
+      ],
+      "cpu": "0m",
+      "replicas": 4,
+      "canary_percent": 0
+    },
+    {
+      "name": "reconcile",
+      "args": [
+        "--log-format=json",
+        "--metrics-addr=:9102",
+        "--shutdown-grace=5m",
+        "--listen=:8095"
+      ],
+      "cpu": "2000m",
+      "replicas": 2,
+      "canary_percent": 0
+    }
+  ]
+}

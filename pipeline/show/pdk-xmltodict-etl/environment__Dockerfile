@@ -1,0 +1,36 @@
+# environment/Dockerfile for a Python ETL / parser task. FILL the values marked FILL, and pin the
+# Docker Hub mirror (mirror.gcr.io/library/<image>), never Docker Hub itself, so anyone can rebuild the
+# task; the digest is Docker Hub's (docker buildx imagetools inspect python:<version>-slim-bookworm).
+FROM mirror.gcr.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+
+ARG REPO_URL=https://github.com/martinblech/xmltodict.git
+ARG BASE_COMMIT=6e29fba282e68631034dd2722a413b4e35276584
+ENV CI=1 PIP_DISABLE_PIP_VERSION_CHECK=1 PYTHONDONTWRITEBYTECODE=1
+
+# tmux and asciinema are required by Harbor's solver agent.
+RUN set -eu; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+      tmux asciinema bash build-essential ca-certificates curl file git jq less procps vim-tiny; \
+    rm -rf /var/lib/apt/lists/*
+
+# The repository at the base commit only: one commit, no remote, no reflog, so no later history
+# is reachable.
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" \
+    && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD \
+    && test "$(git -C /app rev-parse HEAD)" = "$BASE_COMMIT" \
+    && git -C /app remote remove origin && rm -f /app/.git/FETCH_HEAD \
+    && git -C /app reflog expire --expire=now --all && git -C /app gc -q --prune=now
+
+# The repository's own environment, outside /app (so it stays out of the repository), from its
+# without a reinstall. If the change adds a new top-level module that the editable install cannot import,
+RUN set -eu; python -m venv /opt/venv; \
+    /opt/venv/bin/pip install -q -e "/app[test]" --config-settings editable_mode=compat; \
+    true
+ENV PATH=/opt/venv/bin:$PATH
+
+# Sample data (environment/data/), outside /app so it stays out of the repository.
+COPY data/ /data/
+
+CMD ["/bin/bash"]

@@ -1,0 +1,10 @@
+FROM golang:1.25-bookworm@sha256:3b4a11519ad929d1e1d261a12cff056f0c85b735253d7d861346b9c6f8b36437
+ARG REPO_URL=https://github.com/ThreeDotsLabs/wild-workouts-go-ddd-example.git
+ARG BASE_COMMIT=8ecfcdf05b1462c4757bd2dcac9086c78e9f7791
+ENV CI=1 GOMODCACHE=/opt/gomod GOTOOLCHAIN=local GOFLAGS=-mod=readonly
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tmux asciinema bash ca-certificates curl git jq less lsof netcat-openbsd procps python3 vim-tiny openjdk-17-jre-headless nodejs npm && rm -rf /var/lib/apt/lists/*
+RUN npm install -g firebase-tools@10.9.2 && mkdir -p /opt/firestore && printf '{"emulators":{"firestore":{"host":"127.0.0.1","port":8787},"hub":{"host":"127.0.0.1","port":4400},"ui":{"enabled":false}}}\n' > /opt/firestore/firebase.json && cd /opt/firestore && firebase setup:emulators:firestore --project threedotslabs-wildworkouts
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD && test "$(git rev-parse HEAD)" = "$BASE_COMMIT"
+RUN cd /app && printf 'go 1.25.0\nuse (\n /app/internal/common\n /app/internal/trainings\n /app/internal/trainer\n /app/internal/users\n)\n' > /tmp/sd.work && GOWORK=/tmp/sd.work go mod download && GOWORK=/tmp/sd.work go build ./internal/trainings ./internal/trainer ./internal/users && chmod -R a+rX /opt/gomod
+CMD ["/bin/bash"]

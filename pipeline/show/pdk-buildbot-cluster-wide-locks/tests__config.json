@@ -1,0 +1,34 @@
+{
+  "base_commit": "4afe651739f357213839320ae43bf6164b9add6b",
+  "f2p_node_ids": [
+    "test_cluster_locks.TestClusterLocks.test_exclusive_between_masters",
+    "test_cluster_locks.TestClusterLocks.test_lock_listing",
+    "test_cluster_locks.TestClusterLocks.test_counting_and_exclusive",
+    "test_cluster_locks.TestClusterLocks.test_counting_units",
+    "test_cluster_locks.TestClusterLocks.test_step_level_locks",
+    "test_cluster_locks.TestClusterLocks.test_fifo_across_masters",
+    "test_cluster_locks.TestClusterLocks.test_killed_holder_recovers",
+    "test_cluster_locks.TestClusterLocks.test_frozen_holder_fenced",
+    "test_cluster_locks.TestClusterLocks.test_live_holder_keeps_lock",
+    "test_cluster_locks.TestClusterLocks.test_exclusive_blocks_counting",
+    "test_cluster_locks.TestClusterLocks.test_lock_scoped_to_database"
+  ],
+  "p2p_node_ids": [
+    "test_cluster_locks.TestClusterLocks.test_guard_existing_masters",
+    "test_cluster_locks.TestClusterLocks.test_single_master_releases_waiter",
+    "test_cluster_locks.TestClusterLocks.test_worker_lock_unchanged"
+  ],
+  "gated_p2p_node_ids": [
+    "test_cluster_locks.TestClusterLocks.test_guard_existing_masters",
+    "test_cluster_locks.TestClusterLocks.test_single_master_releases_waiter",
+    "test_cluster_locks.TestClusterLocks.test_worker_lock_unchanged"
+  ],
+  "p2p_gating": "guards",
+  "grade": {
+    "format": "junit",
+    "tool_label": "pytest",
+    "reports": [
+      "/logs/verifier/new.xml"
+    ]
+  }
+}

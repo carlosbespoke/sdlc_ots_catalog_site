@@ -1,0 +1,34 @@
+{
+ "motivation": {
+  "problems": "The performance engineer in this catalog is asked to make existing code cheaper in time or memory without changing what it does. The tasks show two shapes. One is a library workload with a stated symptom and a fixed set of entry points: fasthttp-cookie-parsing-optimization, fasthttp-zstd-decompression-optimization and fasthttp-servefs-optimization in Go, and the perf-optimization tasks for astropy, numpy, sklearn and sympy in Python, which point to scripts in /app/perf_workloads. The other is a bug-report style description of a slow path with a target such as several times faster, as in pdk-xray-core-348, pdk-gonja-parse-speed-v5 and pdk-go-mysql-server-1272. In both, the engineer must find where the unnecessary work is, avoid special-casing the visible benchmark, and keep correctness, public APIs and existing tests intact. The work is mostly profiling and reading before editing.",
+  "how_tasks_exemplify": "Tasks give the agent a repository at /app in an offline container with a baseline commit. The instruction lists behavior that must be preserved and limits where code may change. Hidden verifier code restores its own workloads and tests, then runs the baseline and the candidate with different inputs. In the fasthttp zstd task correctness is a hard gate, and speed and allocation counts are compared across ten launches per side with a statistical test, with a small-body control that may not regress. Several tasks require a written research and plan file before any edit. The result is a binary reward.",
+  "prompt_patterns": [
+   "A title 'Reduce X overhead', a description of the slow component, a list of workload scripts or a benchmark command, then Requirements and Grading sections. Examples: sklearn-perf-optimization and fasthttp-zstd-decompression-optimization.",
+   "A short problem report in prose with a quantified goal such as an order-of-magnitude speedup on a described statement mix. Example: pdk-go-mysql-server-1272.",
+   "A request that lists the exact public functions whose behavior must be preserved and where edits may be made. Example: fasthttp-cookie-parsing-optimization.",
+   "A closing paragraph requiring a research and planning document to be written before any code edit. Example: pdk-xray-core-348."
+  ],
+  "open_questions": [
+   "Only one of the 14 tasks was provided with files. Do the Python perf-optimization tasks use the same verifier design with ten launches and a permutation test as the fasthttp zstd task?",
+   "task.toml for the provided task says the difficulty is a target and that the draft was not rollout-calibrated. What are the calibrated pass rates?",
+   "The measure.json status field reads horizon_candidate_local. Is the shipped verifier the same as this local candidate?",
+   "The pdk tasks state goals such as an order-of-magnitude speedup, but the grading thresholds were not provided. How is speed scored there?"
+  ]
+ },
+ "tasks": [
+  {
+   "name": "fasthttp-zstd-decompression-optimization",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image golang 1.25.14 bookworm\"] --> B[\"fasthttp source in /app from a source tarball\"]\n  B --> C[\"Single baseline commit, tree hash checked\"]\n  A --> D[\"Users agent and verifier, offline GOPROXY off\"]\n  E[\"Instruction.md with requirements and grading rules\"] --> F[\"Agent session as user agent\"]\n  C --> F\n  F --> G[\"RESEARCH_AND_PLANNING.md written first\"]\n  F --> H[\"Own benchmark run with go test -bench -benchmem\"]\n  G --> I[\"Edits to zstd.go, optional root package helper files\"]\n  H --> I\n  I --> J[\"Verifier restores workloads and scans the source\"]\n  J --> K[\"Ten launches each for baseline and candidate, timing and malloc counts\"]\n  K --> L[\"Reward 1 or 0 in /logs/verifier\"]",
+   "environment_facts": [
+    "Base image golang:1.25.14-bookworm pinned by digest, with GOTOOLCHAIN=local, GOMAXPROCS=2 and GOPROXY=off (environment/Dockerfile).",
+    "The fasthttp source is unpacked into /app from source.tar.gz, then reduced to one baseline commit; a copy is kept in /opt/baseline and its tree hash is checked (environment/Dockerfile).",
+    "The image adds a source scanner and a Landlock exec helper built from files under /opt/fasthttp-runtime, and creates users agent and verifier (environment/Dockerfile).",
+    "The agent has no network access and 2 CPUs with 4096 MB memory; the agent timeout is 10800 seconds (task.toml).",
+    "The verifier runs in the same container, switches to uid 1001 for grading, and compares 10 launches per implementation on 256 inputs per workload (tests/test.sh, tests/opt/measure.json).",
+    "The instruction states that the grade is binary and that the production edit belongs in zstd.go (instruction.md)."
+   ],
+   "workflow": "A performance engineer receives a report that decompressing large zstd bodies in an HTTP library wastes time and allocations. The engineer must find the avoidable work in the existing path, write a benchmark because none exists, and cut cost without changing output, limits or errors. The input is untrusted, so the fix cannot trust sizes declared by the compressed data.",
+   "prompt_pattern": "A performance brief that names the public functions affected and the symptom, asks the engineer to write their own benchmark, lists behavior to preserve and file and import limits, states the grading thresholds, and requires a written plan before any edit."
+  }
+ ]
+}

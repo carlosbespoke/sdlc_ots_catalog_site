@@ -1,0 +1,51 @@
+# tests/Dockerfile for a TypeScript/Node task: the same base and dependencies as
+# environment/Dockerfile (keep the two in step), the grader's own client modules, and the
+# unprivileged user the submission runs as. FILL the values marked FILL.
+FROM node:22-bookworm@sha256:0e5f906573693feaa1e21057ebdcfdb5bd5021f050b2dc7c9deceb629c7da2a8
+
+# FILL: the repository and the base commit.
+ARG REPO_URL=https://github.com/actualbudget/actual.git
+ARG BASE_COMMIT=832f43da6c85e3c60878c667e5b793dd51fa39dc
+ENV CI=1 npm_config_update_notifier=false npm_config_fund=false npm_config_audit=false
+
+RUN set -eu; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+      bash ca-certificates curl git jq less lsof netcat-openbsd procps python3 vim-tiny \
+      sqlite3; \
+    rm -rf /var/lib/apt/lists/*
+
+
+ENV COREPACK_HOME=/opt/sd-corepack
+RUN mkdir -p /opt/sd-corepack && corepack enable && corepack prepare yarn@4.17.1 --activate && chmod -R a+rX /opt/sd-corepack
+RUN useradd --create-home --uid 1500 sdapp && install -d -o sdapp -g sdapp /app
+USER sdapp
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" \
+    && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD \
+    && test "$(git -C /app rev-parse HEAD)" = "$BASE_COMMIT"
+RUN set -eu; yarn install --immutable; yarn workspace @actual-app/crdt build && yarn workspace @actual-app/core build && yarn workspace @actual-app/sync-server build && yarn workspace @actual-app/api build
+USER root
+RUN git config --system --add safe.directory /app
+
+# The grader's client libraries: root-owned, outside the repository, lifecycle scripts disabled.
+COPY grader-node/ /opt/sd-grader-node/
+RUN set -eu; cd /opt/sd-grader-node; npm ci --ignore-scripts --omit=dev; chmod -R go-w /opt/sd-grader-node
+
+COPY grader.py /tests/grader.py
+COPY config.json /tests/config.json
+COPY test.patch /tests/test.patch
+COPY test.sh /tests/test.sh
+RUN chmod +x /tests/test.sh
+
+# Check the staged hidden suite parses, then restore the tree.
+RUN set -eu; \
+    git -C /app apply --whitespace=nowarn /tests/test.patch; \
+    GRADE_DIR=/tmp/warm bash /app/test.sh stage; \
+    GRADE_DIR=/tmp/warm bash /tmp/warm/test.sh build-tests; \
+    rm -rf /tmp/warm; \
+    git -C /app apply -R --whitespace=nowarn /tests/test.patch; \
+    git -C /app clean -qfd -- tests; \
+    test -z "$(git -C /app status --porcelain)"
+
+CMD ["/bin/bash"]

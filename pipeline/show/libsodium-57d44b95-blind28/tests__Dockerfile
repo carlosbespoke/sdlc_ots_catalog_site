@@ -1,0 +1,322 @@
+FROM --platform=linux/amd64 ubuntu@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3
+
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 SOURCE_DATE_EPOCH=0
+
+# Packages from the "regular" and "other-comp" Linux jobs in .github/workflows/ci.yml
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        libtool \
+        autoconf \
+        automake \
+        pkg-config \
+        make \
+        git \
+        ca-certificates \
+        curl \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN git config --system --add safe.directory '*'
+
+RUN mkdir -p /workspace/repo \
+    && cd /workspace/repo \
+    && git init -q \
+    && git remote add origin https://github.com/jedisct1/libsodium.git \
+    && git fetch --depth 1 origin 57d44b954969b859ce8cf6aeeabb06ef28e65548 \
+    && git checkout -q FETCH_HEAD \
+    && git submodule update --init --recursive --depth 1
+
+WORKDIR /workspace/repo
+
+# ci.yml: "Autogen" step runs ./autogen.sh -s. -b keeps it from fetching config.guess
+# and config.sub over the network; automake --add-missing installs them anyway.
+RUN ./autogen.sh -s -b
+
+# ci.yml: "other-comp" job, env CPPFLAGS="-DDEV_MODE=1" ./configure --disable-dependency-tracking
+RUN env CPPFLAGS="-DDEV_MODE=1" ./configure --disable-dependency-tracking
+
+RUN make -j"$(nproc)"
+
+# Link the check programs at build time, so the offline test run only executes them.
+RUN make -j"$(nproc)" check TESTS=
+
+LABEL org.opencontainers.image.source="https://github.com/jedisct1/libsodium" \
+      org.opencontainers.image.revision="57d44b954969b859ce8cf6aeeabb06ef28e65548" \
+      io.srcpilot.language="c" \
+      io.srcpilot.build_system="autotools" \
+      io.srcpilot.test_framework="automake-tests" \
+      io.srcpilot.results_format="tap"
+
+# ==========================================================================
+# Task layers. Everything above comes from the candidate pool unchanged.
+# ==========================================================================
+USER root
+
+# harbor's terminus_2 rollout agent starts a tmux session INSIDE this image, and since
+# 2026-08-31 the eval fleet no longer provides the binary itself — an image without
+# tmux fails every rollout at setup ("Failed to start tmux session", 15/15 measured).
+# Before {copies} so the apt layer caches across tasks sharing a pool image; apt's
+# file timestamps land outside /workspace/repo, so the flattening below is unaffected.
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends tmux \
+    && rm -rf /var/lib/apt/lists/*
+# THE UNPRIVILEGED ACCOUNT, when the pool image did not make one. Every graded suite run
+# drops to it (`setpriv --reuid agent` in the grader) and this image ends on USER agent,
+# so an image without it cannot start a rollout at all, never mind grade one. Almost every
+# pool Dockerfile creates it; the C sourcing generation does not -- `id agent` in both C
+# pilot images answers "no such user" -- and this is cheaper than a pool regeneration and
+# correct for every language. Conditional, so an image that already has the account keeps
+# the uid and home directory the pool gave it. No fixed uid: ubuntu:24.04 already has a
+# user at 1000, and failing the build over a taken uid would be a worse answer than a
+# different number.
+RUN id -u agent >/dev/null 2>&1 || useradd -m -s /bin/bash agent
+# The grader is Python whatever the repository is, and tests/Dockerfile starts from this
+# Dockerfile, so a pool image that ships none (a Go image is Debian with the toolchain)
+# gets the base image's python3 here, root-owned under /usr/bin, which is the interpreter
+# test.sh resolves on its trusted PATH. Here rather than in the verifier layers because
+# the build's own gates run their scans with python3 inside the agent image too. Before
+# {copies} for the same caching reason as tmux.
+# THE PROBE ASKS THE TRUSTED PATH, NOT THIS BUILD'S PATH. The pool image sets
+# `ENV PATH=/opt/venv/bin:$PATH` and chowns /opt/venv to the agent, so a bare
+# `command -v python3` answers with the AGENT'S interpreter and skips the install - while
+# test.sh runs with PATH=/usr/local/bin:/usr/bin:/bin precisely to keep that venv off the
+# search path, and would then find no python3 at all and grade nothing. Ask the same three
+# directories test.sh will, and re-assert after the install so an image that still has no
+# python3 on that path fails the BUILD rather than every rollout's grading.
+RUN set -eu; \
+    if ! PATH=/usr/local/bin:/usr/bin:/bin command -v python3 >/dev/null 2>&1; then \
+        apt-get update -qq \
+        && apt-get install -y -qq --no-install-recommends python3 \
+        && rm -rf /var/lib/apt/lists/*; \
+    fi; \
+    PATH=/usr/local/bin:/usr/bin:/bin command -v python3 >/dev/null
+COPY faults/fault0_aead_aegis256.c /workspace/repo/src/libsodium/crypto_aead/aegis256/aead_aegis256.c
+COPY faults/fault1_aead_aes256gcm_aesni.c /workspace/repo/src/libsodium/crypto_aead/aes256gcm/aesni/aead_aes256gcm_aesni.c
+COPY faults/fault2_aead_chacha20poly1305.c /workspace/repo/src/libsodium/crypto_aead/chacha20poly1305/aead_chacha20poly1305.c
+COPY faults/fault3_aead_xchacha20poly1305.c /workspace/repo/src/libsodium/crypto_aead/xchacha20poly1305/aead_xchacha20poly1305.c
+COPY faults/fault4_core_ed25519.c /workspace/repo/src/libsodium/crypto_core/ed25519/core_ed25519.c
+COPY faults/fault5_core_h2c.c /workspace/repo/src/libsodium/crypto_core/ed25519/core_h2c.c
+COPY faults/fault6_ed25519_ref10.c /workspace/repo/src/libsodium/crypto_core/ed25519/ref10/ed25519_ref10.c
+COPY faults/fault7_blake2b-ref.c /workspace/repo/src/libsodium/crypto_generichash/blake2b/ref/blake2b-ref.c
+COPY faults/fault8_generichash_blake2b.c /workspace/repo/src/libsodium/crypto_generichash/blake2b/ref/generichash_blake2b.c
+COPY faults/fault9_ipcrypt_aesni.c /workspace/repo/src/libsodium/crypto_ipcrypt/ipcrypt_aesni.c
+COPY faults/fault10_kem_mlkem768_ref.c /workspace/repo/src/libsodium/crypto_kem/mlkem768/ref/kem_mlkem768_ref.c
+COPY faults/fault11_argon2-encoding.c /workspace/repo/src/libsodium/crypto_pwhash/argon2/argon2-encoding.c
+COPY faults/fault12_pwhash_argon2i.c /workspace/repo/src/libsodium/crypto_pwhash/argon2/pwhash_argon2i.c
+COPY faults/fault13_crypto_scrypt-common.c /workspace/repo/src/libsodium/crypto_pwhash/scryptsalsa208sha256/crypto_scrypt-common.c
+COPY faults/fault14_pwhash_scryptsalsa208sha256.c /workspace/repo/src/libsodium/crypto_pwhash/scryptsalsa208sha256/pwhash_scryptsalsa208sha256.c
+COPY faults/fault15_pwhash_scryptsalsa208sha256_sse.c /workspace/repo/src/libsodium/crypto_pwhash/scryptsalsa208sha256/sse/pwhash_scryptsalsa208sha256_sse.c
+COPY faults/fault16_scalarmult_ed25519_ref10.c /workspace/repo/src/libsodium/crypto_scalarmult/ed25519/ref10/scalarmult_ed25519_ref10.c
+COPY faults/fault17_secretstream_xchacha20poly1305.c /workspace/repo/src/libsodium/crypto_secretstream/xchacha20poly1305/secretstream_xchacha20poly1305.c
+COPY faults/fault18_shorthash_siphashx24_ref.c /workspace/repo/src/libsodium/crypto_shorthash/siphash24/ref/shorthash_siphashx24_ref.c
+COPY faults/fault19_open.c /workspace/repo/src/libsodium/crypto_sign/ed25519/ref10/open.c
+COPY faults/fault20_shake128_ref.c /workspace/repo/src/libsodium/crypto_xof/shake128/ref/shake128_ref.c
+COPY faults/fault21_shake256_ref.c /workspace/repo/src/libsodium/crypto_xof/shake256/ref/shake256_ref.c
+COPY faults/fault22_turboshake128_ref.c /workspace/repo/src/libsodium/crypto_xof/turboshake128/ref/turboshake128_ref.c
+COPY faults/fault23_codecs.c /workspace/repo/src/libsodium/sodium/codecs.c
+COPY faults/fault24_core.c /workspace/repo/src/libsodium/sodium/core.c
+
+# The C test suite is hidden by stubbing its sources and removing its other
+# files, keeping the Makefiles make reads. Automake builds test programs only for
+# `make check`, so the agent's own `make` still builds the library. The grader
+# restores the real files, so the verifier builds and grades the whole suite.
+RUN set -eu; \
+    cd /workspace/repo; \
+    printf '/* hidden: graded separately */\n' > test/default/aead_aegis128l.c; \
+    printf '/* hidden: graded separately */\n' > test/default/aead_aegis256.c; \
+    printf '/* hidden: graded separately */\n' > test/default/aead_aes256gcm.c; \
+    printf '/* hidden: graded separately */\n' > test/default/aead_aes256gcm2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/aead_chacha20poly1305.c; \
+    printf '/* hidden: graded separately */\n' > test/default/aead_chacha20poly13052.c; \
+    printf '/* hidden: graded separately */\n' > test/default/aead_xchacha20poly1305.c; \
+    printf '/* hidden: graded separately */\n' > test/default/auth.c; \
+    printf '/* hidden: graded separately */\n' > test/default/auth2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/auth3.c; \
+    printf '/* hidden: graded separately */\n' > test/default/auth5.c; \
+    printf '/* hidden: graded separately */\n' > test/default/auth6.c; \
+    printf '/* hidden: graded separately */\n' > test/default/auth7.c; \
+    printf '/* hidden: graded separately */\n' > test/default/box.c; \
+    printf '/* hidden: graded separately */\n' > test/default/box2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/box7.c; \
+    printf '/* hidden: graded separately */\n' > test/default/box8.c; \
+    printf '/* hidden: graded separately */\n' > test/default/box_easy.c; \
+    printf '/* hidden: graded separately */\n' > test/default/box_easy2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/box_seal.c; \
+    printf '/* hidden: graded separately */\n' > test/default/box_seed.c; \
+    printf '/* hidden: graded separately */\n' > test/default/chacha20.c; \
+    printf '/* hidden: graded separately */\n' > test/default/cmptest.h; \
+    printf '/* hidden: graded separately */\n' > test/default/codecs.c; \
+    printf '/* hidden: graded separately */\n' > test/default/codecs2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/codecs3.c; \
+    printf '/* hidden: graded separately */\n' > test/default/core1.c; \
+    printf '/* hidden: graded separately */\n' > test/default/core2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/core3.c; \
+    printf '/* hidden: graded separately */\n' > test/default/core4.c; \
+    printf '/* hidden: graded separately */\n' > test/default/core5.c; \
+    printf '/* hidden: graded separately */\n' > test/default/core6.c; \
+    printf '/* hidden: graded separately */\n' > test/default/core_ed25519.c; \
+    printf '/* hidden: graded separately */\n' > test/default/core_ed25519_h2c.c; \
+    printf '/* hidden: graded separately */\n' > test/default/core_keccak1600.c; \
+    printf '/* hidden: graded separately */\n' > test/default/core_ristretto255.c; \
+    printf '/* hidden: graded separately */\n' > test/default/core_ristretto255_h2c.c; \
+    printf '/* hidden: graded separately */\n' > test/default/ed25519_convert.c; \
+    printf '/* hidden: graded separately */\n' > test/default/generichash.c; \
+    printf '/* hidden: graded separately */\n' > test/default/generichash2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/generichash3.c; \
+    printf '/* hidden: graded separately */\n' > test/default/hash.c; \
+    printf '/* hidden: graded separately */\n' > test/default/hash3.c; \
+    printf '/* hidden: graded separately */\n' > test/default/hash_sha3256.c; \
+    printf '/* hidden: graded separately */\n' > test/default/hash_sha3512.c; \
+    printf '/* hidden: graded separately */\n' > test/default/ipcrypt.c; \
+    printf '/* hidden: graded separately */\n' > test/default/kdf.c; \
+    printf '/* hidden: graded separately */\n' > test/default/kdf_hkdf.c; \
+    printf '/* hidden: graded separately */\n' > test/default/kdf_hkdf2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/kdf_hkdf3.c; \
+    printf '/* hidden: graded separately */\n' > test/default/kdf_hkdf4.c; \
+    printf '/* hidden: graded separately */\n' > test/default/kem.c; \
+    printf '/* hidden: graded separately */\n' > test/default/kem_mlkem768.c; \
+    printf '/* hidden: graded separately */\n' > test/default/kem_xwing.c; \
+    printf '/* hidden: graded separately */\n' > test/default/keygen.c; \
+    printf '/* hidden: graded separately */\n' > test/default/kx.c; \
+    printf '/* hidden: graded separately */\n' > test/default/metamorphic.c; \
+    printf '/* hidden: graded separately */\n' > test/default/misuse.c; \
+    printf '/* hidden: graded separately */\n' > test/default/onetimeauth.c; \
+    printf '/* hidden: graded separately */\n' > test/default/onetimeauth2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/onetimeauth7.c; \
+    printf '/* hidden: graded separately */\n' > test/default/pwhash_argon2i.c; \
+    printf '/* hidden: graded separately */\n' > test/default/pwhash_argon2id.c; \
+    printf '/* hidden: graded separately */\n' > test/default/pwhash_argon2id2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/pwhash_scrypt.c; \
+    printf '/* hidden: graded separately */\n' > test/default/pwhash_scrypt_ll.c; \
+    printf '/* hidden: graded separately */\n' > test/default/randombytes.c; \
+    printf '/* hidden: graded separately */\n' > test/default/scalarmult.c; \
+    printf '/* hidden: graded separately */\n' > test/default/scalarmult2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/scalarmult5.c; \
+    printf '/* hidden: graded separately */\n' > test/default/scalarmult6.c; \
+    printf '/* hidden: graded separately */\n' > test/default/scalarmult7.c; \
+    printf '/* hidden: graded separately */\n' > test/default/scalarmult8.c; \
+    printf '/* hidden: graded separately */\n' > test/default/scalarmult_ed25519.c; \
+    printf '/* hidden: graded separately */\n' > test/default/scalarmult_ristretto255.c; \
+    printf '/* hidden: graded separately */\n' > test/default/secretbox.c; \
+    printf '/* hidden: graded separately */\n' > test/default/secretbox2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/secretbox7.c; \
+    printf '/* hidden: graded separately */\n' > test/default/secretbox8.c; \
+    printf '/* hidden: graded separately */\n' > test/default/secretbox_easy.c; \
+    printf '/* hidden: graded separately */\n' > test/default/secretbox_easy2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/secretstream_xchacha20poly1305.c; \
+    printf '/* hidden: graded separately */\n' > test/default/shorthash.c; \
+    printf '/* hidden: graded separately */\n' > test/default/sign.c; \
+    printf '/* hidden: graded separately */\n' > test/default/sign2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/siphashx24.c; \
+    printf '/* hidden: graded separately */\n' > test/default/sodium_core.c; \
+    printf '/* hidden: graded separately */\n' > test/default/sodium_utils.c; \
+    printf '/* hidden: graded separately */\n' > test/default/sodium_utils2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/sodium_utils3.c; \
+    printf '/* hidden: graded separately */\n' > test/default/sodium_utils4.c; \
+    printf '/* hidden: graded separately */\n' > test/default/sodium_version.c; \
+    printf '/* hidden: graded separately */\n' > test/default/stream.c; \
+    printf '/* hidden: graded separately */\n' > test/default/stream2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/stream3.c; \
+    printf '/* hidden: graded separately */\n' > test/default/stream4.c; \
+    printf '/* hidden: graded separately */\n' > test/default/stream5.c; \
+    printf '/* hidden: graded separately */\n' > test/default/stream6.c; \
+    printf '/* hidden: graded separately */\n' > test/default/verify1.c; \
+    printf '/* hidden: graded separately */\n' > test/default/xchacha20.c; \
+    printf '/* hidden: graded separately */\n' > test/default/xof2.c; \
+    printf '/* hidden: graded separately */\n' > test/default/xof_shake128.c; \
+    printf '/* hidden: graded separately */\n' > test/default/xof_shake256.c; \
+    printf '/* hidden: graded separately */\n' > test/default/xof_turboshake128.c; \
+    printf '/* hidden: graded separately */\n' > test/default/xof_turboshake256.c; \
+    printf '/* hidden: graded separately */\n' > test/quirks/quirks.h; \
+    find /workspace/repo/test -type f ! -name Makefile ! -name Makefile.in ! -name Makefile.am ! -name GNUmakefile ! -name '*.mk' ! -path '*/.deps/*' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -delete 2>/dev/null || true; \
+    make -C . -j "$(nproc)" >/dev/null
+
+
+# ==========================================================================
+# C: nothing compiled from the pristine tree may survive into this image.
+# ==========================================================================
+# The pool image built . from the checkout as it came from upstream, and the
+# faults were injected after that, so every object and every test binary in there was
+# compiled from the code the agent is being asked to reconstruct: `objdump -d` on one of
+# them gives the original function back. They also make the fault INVISIBLE, because the
+# flattening below gives the faulted source the same modification time as its own object
+# and every build system reads that as up to date. `--target clean` removes exactly what
+# the build produced and leaves the configuration alone, so the grader can still build.
+# The other spellings are for a generator CMake does not drive; the check below is what
+# decides whether any of them worked.
+#
+# THE CHECK HERE IS NARROWER THAN GATE 9'S ON PURPOSE. This one looks for object files by
+# extension: it is a cheap assertion that `clean` actually ran, it fails the docker build
+# outright, and a build failure is not waivable. Gate 9 asks the real question - is there
+# any ELF or ar archive left under the workdir, whatever it is called - and it is a gate,
+# so a repository that legitimately ships a binary fixture can be waived past it by a
+# person with `--allow go-cache-leak`. Making this one as strict as the gate would move
+# that judgement into a Dockerfile, where nobody can overrule it.
+RUN set -eu; \
+    cd /workspace/repo; \
+    cmake --build . --target clean >/dev/null 2>&1 \
+        || ninja -C . -t clean >/dev/null 2>&1 \
+        || make -C . clean >/dev/null 2>&1 \
+        || true; \
+    rm -rf /root/.ccache /home/agent/.ccache "${CCACHE_DIR:-/nonexistent-ccache}"; \
+    left="$(find /workspace/repo -type f \( -name '*.o' -o -name '*.a' -o -name '*.lo' \
+                 -o -name '*.obj' -o -name '*.gch' \) 2>/dev/null | head -n 1)"; \
+    if [ -n "$left" ]; then \
+        echo "the build tree still holds $left after the purge, so the image carries \
+code compiled from the tree before the faults" >&2; \
+        exit 1; \
+    fi
+
+# Every injected file carries the time it was copied in, and every other file carries the
+# time the pool image was built. One find sorted by modification time therefore names the
+# edited files and nothing else, which is the entire search. Flatten them all.
+# The same applies to the file mode, and this one has to be ASSIGNED rather than
+# subtracted. COPY brings the build context's permissions with it, and the pool image's
+# own files are 0644, so an injected file arrives with whatever the build box's umask gave
+# it. `chmod g-w,o-w` was enough while that was 0664 — the usual umask 002 — because the
+# only difference was a bit to take away. falconry/falcon on the 2026-09-11 pool fleet ran
+# on a box with umask 077: the files arrived 0600, subtracting write bits cannot put a
+# read bit back, and `gate_standout` refused the build with "on disk, file mode separates
+# the faulted files from every other .py file in the tree: they carry [384]", which is
+# 0600. Dropping faults and rebuilding could not have helped — every injected file arrives
+# 0600 whichever faults are cut — so the mode is set outright: 0755 for directories and
+# for files that are already executable, 0644 for every other file. The tree then flattens
+# to the same modes whatever the box's umask was, and the execute bits scripts need
+# survive. The g-w,o-w sweep stays as a backstop for anything neither find matched.
+# And so does the owner. COPY writes as root while the pool image left the tree to agent,
+# so the six arrive root owned. Nothing on disk shows it, because the chown below puts the
+# whole tree back to agent, but `git add` runs before that chown and caches the owner it
+# saw: `git ls-files --debug` then reports uid 0 for the injected files and uid 1000 for
+# every other one. Chown here, before the snapshot, so the index has nothing to tell.
+RUN find /workspace/repo -exec touch -h -d "2001-01-01T00:00:00Z" {} + 2>/dev/null || true;     find /workspace/repo -type d -exec chmod 0755 {} + 2>/dev/null || true;     find /workspace/repo -type f -perm -u+x -exec chmod 0755 {} + 2>/dev/null || true;     find /workspace/repo -type f ! -perm -u+x -exec chmod 0644 {} + 2>/dev/null || true;     chmod -R g-w,o-w /workspace/repo 2>/dev/null || true;     chown -R agent:agent /workspace/repo 2>/dev/null || true
+
+RUN set -eux; \
+    rm -rf /workspace/repo/.git; \
+    git init -q /workspace/repo; \
+    git -C /workspace/repo config user.name "task"; \
+    git -C /workspace/repo config user.email "task@example.invalid"; \
+    git -C /workspace/repo config core.pager cat; \
+    git config --global --add safe.directory /workspace/repo; \
+    git -C /workspace/repo add -A; \
+    git -C /workspace/repo commit -q -m "state at task start"; \
+    test "$(git -C /workspace/repo rev-list --count HEAD)" = "1"
+
+RUN mkdir -p /app && chown -R agent:agent /workspace/repo /app 2>/dev/null || true
+
+# git otherwise opens a pager, which costs the agent turns escaping it.
+ENV GIT_PAGER=cat
+ENV PAGER=cat
+
+WORKDIR /workspace/repo
+USER agent
+
+
+# ==========================================================================
+# Verifier-only layers. None of this exists in the agent image.
+# ==========================================================================
+USER root
+COPY test.sh grade.py answer_key.json repo_tests.tgz /tests/
+COPY originals /tests/originals
+COPY faulty /tests/faulty
+COPY probes /tests/probes
+RUN chown -R root:root /tests \
+ && chmod 700 /tests /tests/test.sh /tests/grade.py \
+ && chmod 600 /tests/answer_key.json

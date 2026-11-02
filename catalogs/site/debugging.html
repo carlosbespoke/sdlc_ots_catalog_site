@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light"><title>Diagnosis, Debugging, and Bug Fixing | Bespoke Labs</title>
+<link rel="icon" href="data:,"><link rel="stylesheet" href="site.css"><script src="site.js" defer></script></head>
+<body id="top"><a class="skip" href="#content">Skip to content</a>
+<header class="band"><div class="band-in"><a class="brand" href="index.html"><img src="assets/bespoke-labs-logo.svg" alt="Bespoke Labs" width="162"></a>
+<span class="div" aria-hidden="true">/</span><div class="crumb"><a href="index.html">OTS catalogs</a> / Diagnosis, Debugging, and Bug Fixing</div></div></header>
+<main id="content" tabindex="-1"><article id="catalog-content">
+<header class="hero"><h1 id="diagnosis-debugging-and-bug-fixing">Diagnosis, Debugging, and Bug Fixing</h1><div class="hero-meta" aria-hidden="true"></div></header>
+<div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,342 tasks">1,342</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="435 tasks">435</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="56 tasks">56</span></a><a href="debugging.html" aria-current="page"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="378 tasks">378</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="120 tasks">120</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="300 tasks">300</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="36 tasks">36</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#example-tasks-from-the-shortlist">Example tasks from the shortlist</a><a class="level-3" href="#example-1-frontend-ui-state-typescript">Example 1: Frontend &amp; UI state (TypeScript)</a><a class="level-3" href="#example-2-parser-security-hardening-c">Example 2: Parser security hardening (C)</a><a class="level-3" href="#example-3-machine-learning-mlops-python">Example 3: Machine learning &amp; MLOps (Python)</a></nav></aside>
+<div class="reading">
+<h2 id="why-this-catalog">Why this catalog</h2>
+<h3 id="problems-engineers-face">Problems engineers face</h3>
+<p>Engineers who maintain libraries and backends are handed behaviour that is wrong in many small places and have to find the causes without a safety net. In the diagnosis tasks the repository has lost its tests and a block of symptoms describes many unrelated failures at once. In the spec-drift tasks the code still runs but contradicts its own README and docstrings. A third pattern is a single production symptom with a hidden root cause. Across all three, the engineer must reproduce the symptom, localize the faulty function, repair it without breaking neighbouring behaviour, and in many tasks say where the defect was.</p>
+<h3 id="how-the-tasks-reproduce-them">How the tasks reproduce them</h3>
+<p>Each task ships a pinned checkout of a real open-source project, with network disabled at run time and the tests removed or stubbed in the agent's tree. The prompt gives symptoms or a documentation scope but not the location of the faults. The diagnosis tasks ask for <code>/app/rca.json</code> listing file and function per edit, and a separate verifier container restores hidden tests and compares the report to an answer key. The spec-drift tasks keep the documentation as the authority and forbid editing it; the grader runs sealed cases as an unprivileged user and checks that the documentation is unchanged. Rewards combine fail-to-pass repairs with pass-to-pass regressions. Stated fault counts range from 4 in one task to 30 in several blind tasks.</p>
+<h3 id="typical-prompts">Typical prompts</h3>
+<ul>
+<li>A first-person list of observed symptoms with a stated number of undocumented edits and a request for <code>/app/rca.json</code>.</li>
+<li>Symptom paragraphs grouped by feature with no file or function named, ending in a fix-and-report request.</li>
+<li>A repository description with an explicit in-scope and out-of-scope file list and the rule that documentation is authoritative and must not be edited.</li>
+<li>A short generic request to restore documented behaviour in a repository, with the docs location given.</li>
+<li>A single bug report written from a production symptom, with no pointer to the faulty module.</li>
+</ul>
+<h2 id="domain-breakdown">Domain breakdown</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Share of tasks by domain</h4></div><div class="fig-box"><img src="assets/debugging_domain.svg" alt="Share of tasks by domain" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Domain</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Sub-domain</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr class="group-header">
+<td><strong>Scientific &amp; ML software</strong></td>
+<td></td>
+<td class="numeric"><strong>25.4%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>AI agents &amp; retrieval, Machine learning &amp; MLOps, Statistics &amp; numerical methods, Scientific computing, Medical imaging &amp; healthcare, Geospatial, Graph algorithms</td>
+<td class="numeric">25.4%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Languages &amp; developer tooling</strong></td>
+<td></td>
+<td class="numeric"><strong>18.0%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>CLI tooling, API tooling, Compilers &amp; language runtimes, General-purpose utility libraries, Logic programming, Data structures</td>
+<td class="numeric">18.0%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Applications &amp; business domains</strong></td>
+<td></td>
+<td class="numeric"><strong>14.3%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Web applications, Frontend &amp; UI state, Media processing, Web crawling, Collaborative documents, Payments &amp; banking, Education tooling, Spreadsheets</td>
+<td class="numeric">14.3%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Data engineering &amp; databases</strong></td>
+<td></td>
+<td class="numeric"><strong>12.7%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Data formats &amp; serialization, Data validation, Databases &amp; storage engines, Data pipelines &amp; ETL, SQL tooling, Analytics engineering</td>
+<td class="numeric">12.7%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Systems, hardware &amp; accelerators</strong></td>
+<td></td>
+<td class="numeric"><strong>9.0%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Networking &amp; HTTP, IoT &amp; smart home, Compression &amp; data integrity, Filesystems, Memory management, Emulators</td>
+<td class="numeric">9.0%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Security</strong></td>
+<td></td>
+<td class="numeric"><strong>5.8%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Secrets &amp; access control, Cloud security &amp; compliance, Cryptography &amp; secure protocols, Parser security hardening, Secret scanning</td>
+<td class="numeric">5.8%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Cloud infrastructure &amp; IaC</strong></td>
+<td></td>
+<td class="numeric"><strong>4.5%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Cloud infra: containers &amp; self-hosted platforms, Configuration management, Cloud infra: serverless &amp; event-driven</td>
+<td class="numeric">4.5%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Observability &amp; reliability</strong></td>
+<td></td>
+<td class="numeric"><strong>4.2%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Monitoring &amp; observability, Rate limiting</td>
+<td class="numeric">4.2%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Distributed systems &amp; coordination</strong></td>
+<td></td>
+<td class="numeric"><strong>4.0%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Messaging &amp; event streaming, Calendaring &amp; recurrence, Blockchain, Job scheduling, Workflow automation</td>
+<td class="numeric">4.0%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Build, release &amp; supply chain</strong></td>
+<td></td>
+<td class="numeric"><strong>2.1%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Software supply chain, Build systems, CI/CD</td>
+<td class="numeric">2.1%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="language-and-seniority">Language and seniority</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Primary language and seniority</h4></div><div class="fig-box"><img src="assets/debugging_metadata.svg" alt="Primary language and seniority" /></div></figure><h3 id="primary-language">Primary language</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Primary language</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python</td>
+<td class="numeric">59.3%</td>
+</tr>
+<tr>
+<td>Go</td>
+<td class="numeric">28.6%</td>
+</tr>
+<tr>
+<td>C</td>
+<td class="numeric">6.1%</td>
+</tr>
+<tr>
+<td>Rust</td>
+<td class="numeric">3.4%</td>
+</tr>
+<tr>
+<td>TypeScript</td>
+<td class="numeric">2.6%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="seniority">Seniority</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Seniority</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Senior</td>
+<td class="numeric">97.9%</td>
+</tr>
+<tr>
+<td>Mid-Senior</td>
+<td class="numeric">2.1%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="model-pass-rates-across-the-catalog">Model pass rates across the catalog</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 0%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 20-80%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 100%</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">37%</td>
+<td class="numeric">51%</td>
+<td class="numeric">26%</td>
+<td class="numeric">15%</td>
+</tr>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">4%</td>
+<td class="numeric">76%</td>
+<td class="numeric">0%</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>z-ai/glm-5.3</td>
+<td class="numeric">0%</td>
+<td class="numeric">98%</td>
+<td class="numeric">0%</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">80%</td>
+<td class="numeric">13%</td>
+<td class="numeric">13%</td>
+<td class="numeric">73%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/debugging_per_task.svg" alt="Per-task pass rate by model" /></div></figure><h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
+<p>A task's turn count is the average over its runs. A task is long horizon when that average is 200 or more turns.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Measure</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Average turn count</td>
+<td class="numeric">395.5</td>
+</tr>
+<tr>
+<td>Median turn count</td>
+<td class="numeric">413.8</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>35 to 998</td>
+</tr>
+<tr>
+<td>Long-horizon tasks (200+ turns)</td>
+<td>80% of tasks</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Turns per task</h4></div><div class="fig-box"><img src="assets/debugging_turns.svg" alt="Turns per task" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of tasks</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean turns</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% with 200+ turns</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">71%</td>
+<td class="numeric">392.7</td>
+<td class="numeric">78%</td>
+</tr>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">18%</td>
+<td class="numeric">524.0</td>
+<td class="numeric">80%</td>
+</tr>
+<tr>
+<td>z-ai/glm-5.3</td>
+<td class="numeric">14%</td>
+<td class="numeric">207.3</td>
+<td class="numeric">41%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">4%</td>
+<td class="numeric">221.0</td>
+<td class="numeric">40%</td>
+</tr>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">1%</td>
+<td class="numeric">38.8</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>qwen/qwen3.8-max-0902</td>
+<td class="numeric">1%</td>
+<td class="numeric">61.2</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>moonshotai/kimi-k3.1-pro</td>
+<td>&lt;1%</td>
+<td class="numeric">27.0</td>
+<td class="numeric">0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="example-tasks-from-the-shortlist">Example tasks from the shortlist</h2>
+<nav class="task-chips" data-ui aria-label="Example tasks"><a href="#example-1-frontend-ui-state-typescript">Example 1: Frontend &amp; UI state (TypeScript)</a><a href="#example-2-parser-security-hardening-c">Example 2: Parser security hardening (C)</a><a href="#example-3-machine-learning-mlops-python">Example 3: Machine learning &amp; MLOps (Python)</a></nav>
+<h3 id="example-1-frontend-ui-state-typescript">Example 1: Frontend &amp; UI state (TypeScript)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Diagnosis, Debugging, and Bug Fixing</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Applications &amp; business domains</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Frontend &amp; UI state</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>TypeScript</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>552 (z-ai/glm-5.3-flash)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A short brief naming the repository and the documentation in scope, stating that documentation wins over code, forbidding doc edits and API changes, and giving no list of the drifted behaviors.</p>
+<h4 id="prompt">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>The repository at <code>/workdir</code> is TanStack Form, a TypeScript library for managing form state and validation across UI frameworks.</p>
+<p>Fix all implementation drift from the documentation in this repository.
+The @tanstack/form-core subsystem is specified by the API reference under docs/reference and the documentation comments in packages/form-core/src.</p>
+<p>Where the code and the documentation disagree about runtime behavior, the documentation is the
+authority: change the implementation so that it does what the documentation says, and do not edit
+or delete documentation to make a disagreement go away. The documentation is those pages and the
+JSDoc comments, including their examples; in-package code comments are only supporting
+evidence, and when a comment conflicts with the documentation, follow the documentation.</p>
+<p>The repository is at <code>/workdir</code>. The environment runs TypeScript on Node.js 24 with the repository's dependencies
+installed, and has no network access. Keep the public API stable and keep every behavior that
+already matches its documentation working exactly as it does now.</p>
+</div>
+</details>
+<h4 id="pass-rates">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">40%</td>
+<td class="numeric">0.40</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-debugging-ex1.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work">How it maps to the work</h4>
+<p>A library maintainer finds that the runtime behavior of the form state and validation core has diverged from its published API reference and JSDoc examples. The engineer reads the reference pages, compares each documented behavior with what the code does, and corrects the implementation without editing the docs or changing the public API. Behavior that already matches the documentation has to stay as it is.</p>
+<h3 id="example-2-parser-security-hardening-c">Example 2: Parser security hardening (C)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Diagnosis, Debugging, and Bug Fixing</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Security</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Parser security hardening</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>C</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>183 (google/gemini-4-argon), 27 (moonshotai/kimi-k3.1-pro), 66 (qwen/qwen3.8-max-0902), 165 (z-ai/glm-5.3-flash)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: Four prose symptom reports written from the caller's point of view, with no file or function named, followed by a request to fix them and list the responsible functions in <code>rca.json</code>.</p>
+<h4 id="prompt-2">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<h5 id="libexpat-diagnosing-four-real-defects-without-a-test-suite">libexpat: diagnosing four real defects without a test suite</h5>
+<p>I set a maximum tolerated amplification factor and an activation threshold on a parser, then created a child parser for external entity content and handed that child a lone parameter entity declaration longer than the threshold I had chosen. Parsing came back successful every time; no limit breach was ever reported, however far below the length of the declaration I pushed the threshold.</p>
+<p>I registered a comment handler that records the comment text and then asks the parser to stop, parsed a document whose element content references an entity that in turn expands to two further levels of nested entities, and looped calling resume until parsing finished. The recorded comments stopped partway: the text following the innermost entity reference, including the trailing comments of the two enclosing entities and the material after them, never arrived.</p>
+<p>After feeding the parser one short chunk in a non-final call, I prepared to feed it a next chunk whose length is close to the largest value a signed int can hold. The parser agreed to take it and gave me room for it, instead of refusing with an out-of-memory indication, although a request that large cannot be met.</p>
+<p>I fed the parser a document whose declaration carries a version pseudo-attribute with nothing at all between the quotes. The parser took it without complaint and carried on to the root element, instead of stopping and reporting an error about the declaration.</p>
+<p>There are four separate defects in the source of libexpat behind the behaviour above,
+each in a different function. This checkout has no test suite.</p>
+<p>Fix the behaviour described above.</p>
+<p>Record the functions that contain those defects in <code>/app/rca.json</code>, one entry each:</p>
+<pre tabindex="0"><code class="language-json">{
+  &quot;causes&quot;: [
+    {
+      &quot;file&quot;: &quot;expat/lib/xmlrole.c&quot;,
+      &quot;function&quot;: &quot;enclosing_function_name&quot;
+    }
+  ]
+}
+</code></pre>
+<p><code>file</code> is the path of the file relative to the repository root, written exactly as it
+appears in the tree. A file inside a directory keeps its directory prefix: the example
+above is <code>expat/lib/xmlrole.c</code>, not <code>xmlrole.c</code>. An absolute path, or a path with a <code>..</code>
+segment, does not name a file in the repository and counts as a wrong entry.</p>
+<p><code>function</code> is the name of the C function whose code is wrong: the function a fix of that
+defect belongs in. A function defined through a macro may be named by the name the macro
+expands to or by the name passed to the macro. Name every function one of the defects is
+in, and only those, once each: a second entry for a function another entry already names,
+or an entry for a function that holds none of the defects, counts as a wrong entry. Where
+you wrote your fix does not matter: if you worked around a defect from a caller or from a
+helper of your own, name the function that holds the wrong code rather than the one you
+changed. If you suspect a function but found nothing wrong in it, leave it out.</p>
+</div>
+</details>
+<h4 id="pass-rates-2">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">80%</td>
+<td class="numeric">0.76</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">100%</td>
+<td class="numeric">0.78</td>
+</tr>
+<tr>
+<td>moonshotai/kimi-k3.1-pro</td>
+<td class="numeric">0%</td>
+<td class="numeric">0.00</td>
+</tr>
+<tr>
+<td>qwen/qwen3.8-max-0902</td>
+<td class="numeric">0%</td>
+<td class="numeric">0.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-2">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-debugging-ex2.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work-2">How it maps to the work</h4>
+<p>An engineer on a parser library receives user reports of wrong behaviour through the public C API: a missing amplification-limit report, dropped comments after a suspended parse, an oversized buffer request accepted, and an empty version pseudo-attribute accepted. The source has no tests, so the engineer reproduces each symptom, finds the faulty function, repairs it and records which function held each defect. This is the blind multi-bug diagnosis family, built from four real upstream bugs.</p>
+<h3 id="example-3-machine-learning-mlops-python">Example 3: Machine learning &amp; MLOps (Python)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Diagnosis, Debugging, and Bug Fixing</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Scientific &amp; ML software</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Machine learning &amp; MLOps</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Python</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Mid-Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>35 (x-ai/grok-4.7)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A production complaint written as a ticket (diverged runs sort first in a sweep CSV while the live view shows NaN), with no module named, asking for a source-level fix, a regression test and a root-cause note in <code>rca.json</code>.</p>
+<h4 id="prompt-3">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p><strong>Diverged runs come out on top of our sweep CSV</strong></p>
+<p>We run our hyperparameter sweeps in local mode with the CSVWriter plugin and pick the winner by
+sorting swanlab_runs.csv on the final val/loss. The runs that blew up near the end (loss going to
+NaN in the last epochs) show up in that CSV with a val/loss of 0.0, so they sort straight to the
+top. We only caught it because last week's &quot;best&quot; learning rate turned out to have diverged. In
+<code>swanlab watch</code> the same runs do end in NaN, like they should.</p>
+<p>The checkout is in /workdir. Could you track down where this actually goes wrong and fix it
+there? Please include a regression test, somewhere under tests/ (say tests/test_repro.py), that
+fails on the current code because of this problem (a real test failure, not an import error) and
+passes once it's fixed. Test the reported behaviour, not your patch: it should still pass if the
+bug gets fixed some other correct way, so no asserting on source text or on helpers only your fix
+has. It should run on its own from a clean checkout with just your test files added.</p>
+<p>I doubt I'm the only one hitting this. Anything else that goes through that code is probably
+wrong too, so please fix it at the source rather than special-casing my input. The fix belongs in
+the library itself, not in the tests. CI runs the full test suite on every change, so it
+shouldn't break anything else.</p>
+<p>When you're done, leave a short root-cause note at /workdir/rca.json:</p>
+<pre tabindex="0"><code class="language-json">{
+  &quot;root_causes&quot;: [{&quot;file&quot;: &quot;path/from/repo/root.py&quot;, &quot;function&quot;: &quot;Class.method&quot;}],
+  &quot;reproducer&quot;: &quot;tests/test_repro.py&quot;
+}
+</code></pre>
+<p><code>root_causes</code> lists the function(s) where the problem actually starts (one or more), not where it
+shows up: the file relative to the repo root and the name as <code>function</code> or <code>Class.method</code>. Don't
+pad the list with functions that only pass the bad value along; extra entries count against the
+note. <code>reproducer</code> is the repo-relative path of your regression test.</p>
+</div>
+</details>
+<h4 id="pass-rates-3">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">0%</td>
+<td class="numeric">0.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-3">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-debugging-ex3.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work-3">How it maps to the work</h4>
+<p>A machine learning engineer maintains an experiment tracker and receives a complaint that diverged sweep runs rank first in the exported CSV. The engineer has to follow the NaN from the CSV plugin back to where the value is lost, repair it in the library so every consumer is fixed, add a regression test, and write down where the defect starts. The work mirrors an incident ticket against a shared tool.</p>
+
+<footer class="page-footer" data-ui><a class="back-top" href="#top">Back to top ↑</a><nav class="page-nav" aria-label="Previous and next catalogs"><a rel="prev" href="system-design.html"><small>Previous</small>System design</a><a rel="next" href="feature-implementation.html"><small>Next</small>Feature implementation</a></nav>
+<p class="footer-word">Bespoke Labs · Task catalogs</p></footer></div></div></article></main>
+</body></html>

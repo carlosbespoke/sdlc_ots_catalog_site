@@ -1,0 +1,6223 @@
+{
+ "programbench": {
+  "copies_removed": 0,
+  "turns": {
+   "capped": 61,
+   "tasks_with_turns": 81,
+   "runs": 356,
+   "mean_of_task_means": 692.4796884185773,
+   "median_of_task_means": 713.1666666666666,
+   "long_horizon_tasks": 81,
+   "threshold": 200,
+   "task_means": [
+    431.0,
+    739.4,
+    807.2,
+    724.6666666666666,
+    658.3333333333334,
+    829.4,
+    301.2857142857143,
+    635.1666666666666,
+    449.0,
+    761.2,
+    488.0,
+    697.6,
+    733.6,
+    337.3333333333333,
+    651.8571428571429,
+    774.1666666666666,
+    853.8,
+    528.3333333333334,
+    696.25,
+    608.0,
+    999.75,
+    685.0,
+    728.8,
+    796.75,
+    971.75,
+    773.2,
+    630.3333333333334,
+    529.0,
+    586.2,
+    700.25,
+    919.6666666666666,
+    553.2,
+    870.75,
+    967.0,
+    603.6,
+    694.0,
+    394.5,
+    799.0,
+    755.2,
+    511.5,
+    621.8571428571429,
+    928.2,
+    823.0,
+    367.0,
+    642.2,
+    551.75,
+    377.4,
+    774.5,
+    517.3333333333334,
+    750.0,
+    448.0,
+    725.6,
+    713.1666666666666,
+    814.0,
+    594.2,
+    706.5714285714286,
+    987.25,
+    735.25,
+    782.25,
+    448.3333333333333,
+    668.4,
+    299.3333333333333,
+    676.25,
+    523.0,
+    521.2,
+    975.3333333333334,
+    738.0,
+    805.6,
+    843.6666666666666,
+    785.0,
+    784.0,
+    542.3333333333334,
+    958.0,
+    670.75,
+    922.25,
+    776.0,
+    867.5,
+    991.0,
+    939.3333333333334,
+    760.3333333333334,
+    560.6666666666666
+   ],
+   "max_task_mean": 999.75,
+   "min_task_mean": 299.3333333333333,
+   "by_model": [
+    {
+     "codename": "steppe",
+     "model": "z-ai/glm-5.3-flash",
+     "runs": 337,
+     "tasks": 81,
+     "mean": 713.2848664688428,
+     "runs_200_plus": 319
+    },
+    {
+     "codename": "umbra",
+     "model": "google/gemini-4-argon",
+     "runs": 19,
+     "tasks": 10,
+     "mean": 319.5263157894737,
+     "runs_200_plus": 15
+    }
+   ]
+  },
+  "title": "ProgramBench",
+  "tasks": 435,
+  "shortlist": 7,
+  "batches": [
+   [
+    "alpharecon-programbench-upgrade",
+    353
+   ],
+   [
+    "programbench-reimplementation-ots",
+    82
+   ]
+  ],
+  "final_parts": [
+   [
+    "ProgramBench repo upgrade",
+    353
+   ],
+   [
+    "ProgramBench reimplementation",
+    82
+   ]
+  ],
+  "evaluated_tasks": 81,
+  "super_groups": 8,
+  "folded": {
+   "Distributed systems & coordination": "Applications & business domains"
+  },
+  "categories": 43,
+  "domain": [
+   {
+    "super_group": "Languages & developer tooling",
+    "tasks": 210,
+    "pct": 48.3,
+    "shortlist": 2,
+    "categories": [
+     {
+      "category": "Compilers & language runtimes",
+      "tasks": 117,
+      "pct": 26.9,
+      "shortlist": 1
+     },
+     {
+      "category": "CLI tooling",
+      "tasks": 62,
+      "pct": 14.3,
+      "shortlist": 0
+     },
+     {
+      "category": "API tooling",
+      "tasks": 23,
+      "pct": 5.3,
+      "shortlist": 1
+     },
+     {
+      "category": "Logic programming",
+      "tasks": 5,
+      "pct": 1.1,
+      "shortlist": 0
+     },
+     {
+      "category": "Text & NLP processing",
+      "tasks": 3,
+      "pct": 0.7,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Applications & business domains",
+    "tasks": 61,
+    "pct": 14.0,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "Media processing",
+      "tasks": 43,
+      "pct": 9.9,
+      "shortlist": 1
+     },
+     {
+      "category": "Fonts & text rendering",
+      "tasks": 5,
+      "pct": 1.1,
+      "shortlist": 0
+     },
+     {
+      "category": "Web applications",
+      "tasks": 4,
+      "pct": 0.9,
+      "shortlist": 0
+     },
+     {
+      "category": "Games & game engines",
+      "tasks": 3,
+      "pct": 0.7,
+      "shortlist": 0
+     },
+     {
+      "category": "Payments & banking",
+      "tasks": 2,
+      "pct": 0.5,
+      "shortlist": 0
+     },
+     {
+      "category": "Calendaring & recurrence",
+      "tasks": 2,
+      "pct": 0.5,
+      "shortlist": 0
+     },
+     {
+      "category": "Web crawling",
+      "tasks": 1,
+      "pct": 0.2,
+      "shortlist": 0
+     },
+     {
+      "category": "Frontend & UI state",
+      "tasks": 1,
+      "pct": 0.2,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Scientific & ML software",
+    "tasks": 42,
+    "pct": 9.7,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "Scientific computing",
+      "tasks": 25,
+      "pct": 5.7,
+      "shortlist": 0
+     },
+     {
+      "category": "Geospatial",
+      "tasks": 6,
+      "pct": 1.4,
+      "shortlist": 0
+     },
+     {
+      "category": "Machine learning & MLOps",
+      "tasks": 3,
+      "pct": 0.7,
+      "shortlist": 0
+     },
+     {
+      "category": "CAD / CAM",
+      "tasks": 3,
+      "pct": 0.7,
+      "shortlist": 0
+     },
+     {
+      "category": "Graph algorithms",
+      "tasks": 3,
+      "pct": 0.7,
+      "shortlist": 0
+     },
+     {
+      "category": "AI agents & retrieval",
+      "tasks": 1,
+      "pct": 0.2,
+      "shortlist": 0
+     },
+     {
+      "category": "Probabilistic data structures",
+      "tasks": 1,
+      "pct": 0.2,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Systems, hardware & accelerators",
+    "tasks": 39,
+    "pct": 9.0,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "Compression & data integrity",
+      "tasks": 24,
+      "pct": 5.5,
+      "shortlist": 1
+     },
+     {
+      "category": "Filesystems",
+      "tasks": 4,
+      "pct": 0.9,
+      "shortlist": 0
+     },
+     {
+      "category": "Networking & HTTP",
+      "tasks": 4,
+      "pct": 0.9,
+      "shortlist": 0
+     },
+     {
+      "category": "Hardware RTL",
+      "tasks": 3,
+      "pct": 0.7,
+      "shortlist": 0
+     },
+     {
+      "category": "IoT & smart home",
+      "tasks": 2,
+      "pct": 0.5,
+      "shortlist": 0
+     },
+     {
+      "category": "Emulators",
+      "tasks": 1,
+      "pct": 0.2,
+      "shortlist": 0
+     },
+     {
+      "category": "Memory management",
+      "tasks": 1,
+      "pct": 0.2,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Data engineering & databases",
+    "tasks": 37,
+    "pct": 8.5,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "Data formats & serialization",
+      "tasks": 27,
+      "pct": 6.2,
+      "shortlist": 0
+     },
+     {
+      "category": "Databases & storage engines",
+      "tasks": 5,
+      "pct": 1.1,
+      "shortlist": 0
+     },
+     {
+      "category": "SQL tooling",
+      "tasks": 4,
+      "pct": 0.9,
+      "shortlist": 0
+     },
+     {
+      "category": "Data validation",
+      "tasks": 1,
+      "pct": 0.2,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Security",
+    "tasks": 20,
+    "pct": 4.6,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "Binary analysis",
+      "tasks": 7,
+      "pct": 1.6,
+      "shortlist": 0
+     },
+     {
+      "category": "Cryptography & secure protocols",
+      "tasks": 4,
+      "pct": 0.9,
+      "shortlist": 0
+     },
+     {
+      "category": "Secrets & access control",
+      "tasks": 3,
+      "pct": 0.7,
+      "shortlist": 0
+     },
+     {
+      "category": "Secret scanning",
+      "tasks": 2,
+      "pct": 0.5,
+      "shortlist": 1
+     },
+     {
+      "category": "Parser security hardening",
+      "tasks": 2,
+      "pct": 0.5,
+      "shortlist": 0
+     },
+     {
+      "category": "Cloud security & compliance",
+      "tasks": 2,
+      "pct": 0.5,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Build, release & supply chain",
+    "tasks": 14,
+    "pct": 3.2,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "Build systems",
+      "tasks": 11,
+      "pct": 2.5,
+      "shortlist": 1
+     },
+     {
+      "category": "CI/CD",
+      "tasks": 2,
+      "pct": 0.5,
+      "shortlist": 0
+     },
+     {
+      "category": "Software supply chain",
+      "tasks": 1,
+      "pct": 0.2,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Cloud infrastructure & IaC",
+    "tasks": 12,
+    "pct": 2.8,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "Configuration management",
+      "tasks": 7,
+      "pct": 1.6,
+      "shortlist": 1
+     },
+     {
+      "category": "Cloud infra: containers & self-hosted platforms",
+      "tasks": 4,
+      "pct": 0.9,
+      "shortlist": 0
+     },
+     {
+      "category": "Cloud infra: AWS platform stacks",
+      "tasks": 1,
+      "pct": 0.2,
+      "shortlist": 0
+     }
+    ]
+   }
+  ],
+  "language": [
+   {
+    "value": "Rust",
+    "tasks": 114,
+    "pct": 26.2,
+    "shortlist": 0
+   },
+   {
+    "value": "Go",
+    "tasks": 98,
+    "pct": 22.5,
+    "shortlist": 0
+   },
+   {
+    "value": "Agent's choice",
+    "tasks": 82,
+    "pct": 18.9,
+    "shortlist": 7
+   },
+   {
+    "value": "C++",
+    "tasks": 71,
+    "pct": 16.3,
+    "shortlist": 0
+   },
+   {
+    "value": "C",
+    "tasks": 70,
+    "pct": 16.1,
+    "shortlist": 0
+   }
+  ],
+  "role": [
+   {
+    "value": "Compiler / Language Engineer",
+    "tasks": 116,
+    "pct": 26.7,
+    "shortlist": 1
+   },
+   {
+    "value": "Developer Tools Engineer",
+    "tasks": 89,
+    "pct": 20.5,
+    "shortlist": 1
+   },
+   {
+    "value": "Library / Backend Engineer",
+    "tasks": 44,
+    "pct": 10.1,
+    "shortlist": 0
+   },
+   {
+    "value": "Media Software Engineer",
+    "tasks": 43,
+    "pct": 9.9,
+    "shortlist": 1
+   },
+   {
+    "value": "Research Software Engineer",
+    "tasks": 33,
+    "pct": 7.6,
+    "shortlist": 0
+   },
+   {
+    "value": "Systems Engineer",
+    "tasks": 30,
+    "pct": 6.9,
+    "shortlist": 1
+   },
+   {
+    "value": "Security Engineer",
+    "tasks": 19,
+    "pct": 4.4,
+    "shortlist": 1
+   },
+   {
+    "value": "Build & Release Engineer",
+    "tasks": 13,
+    "pct": 3.0,
+    "shortlist": 1
+   },
+   {
+    "value": "Platform Engineer",
+    "tasks": 13,
+    "pct": 3.0,
+    "shortlist": 1
+   },
+   {
+    "value": "Database Engineer",
+    "tasks": 9,
+    "pct": 2.1,
+    "shortlist": 0
+   },
+   {
+    "value": "Embedded / IoT Engineer",
+    "tasks": 5,
+    "pct": 1.1,
+    "shortlist": 0
+   },
+   {
+    "value": "ML / AI Engineer",
+    "tasks": 4,
+    "pct": 0.9,
+    "shortlist": 0
+   },
+   {
+    "value": "Backend Engineer",
+    "tasks": 4,
+    "pct": 0.9,
+    "shortlist": 0
+   },
+   {
+    "value": "Game Developer",
+    "tasks": 3,
+    "pct": 0.7,
+    "shortlist": 0
+   },
+   {
+    "value": "Hardware Engineer",
+    "tasks": 3,
+    "pct": 0.7,
+    "shortlist": 0
+   },
+   {
+    "value": "Full-stack Engineer",
+    "tasks": 3,
+    "pct": 0.7,
+    "shortlist": 0
+   },
+   {
+    "value": "Cloud Security Engineer",
+    "tasks": 2,
+    "pct": 0.5,
+    "shortlist": 0
+   },
+   {
+    "value": "Data Engineer",
+    "tasks": 1,
+    "pct": 0.2,
+    "shortlist": 0
+   },
+   {
+    "value": "SRE",
+    "tasks": 1,
+    "pct": 0.2,
+    "shortlist": 0
+   }
+  ],
+  "seniority": [
+   {
+    "value": "Senior",
+    "tasks": 353,
+    "pct": 81.1,
+    "shortlist": 0
+   },
+   {
+    "value": "Staff+",
+    "tasks": 82,
+    "pct": 18.9,
+    "shortlist": 7
+   }
+  ],
+  "models": [
+   {
+    "codename": "steppe",
+    "model": "z-ai/glm-5.3-flash",
+    "tasks": 81,
+    "rollouts": 419,
+    "graded": 337,
+    "passed": 21,
+    "pass_rate": 0.06231454005934718,
+    "error_rate": 0.1957040572792363,
+    "tasks_graded": 81,
+    "tasks_0": 69,
+    "tasks_100": 0,
+    "tasks_20_80": 12,
+    "per_task_rates": [
+     0.2,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.4,
+     0.6,
+     0.25,
+     0.0,
+     0.8,
+     0.0,
+     0.0,
+     0.0,
+     0.3333333333333333,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.25,
+     0.2,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.25,
+     0.25,
+     0.0,
+     0.0,
+     0.6,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.6666666666666666,
+     0.0
+    ]
+   },
+   {
+    "codename": "umbra",
+    "model": "google/gemini-4-argon",
+    "tasks": 10,
+    "rollouts": 23,
+    "graded": 19,
+    "passed": 12,
+    "pass_rate": 0.631578947368421,
+    "error_rate": 0.17391304347826086,
+    "tasks_graded": 10,
+    "tasks_0": 1,
+    "tasks_100": 4,
+    "tasks_20_80": 5,
+    "per_task_rates": [
+     0.5,
+     1.0,
+     0.0,
+     0.5,
+     0.5,
+     1.0,
+     1.0,
+     0.5,
+     1.0,
+     0.5
+    ]
+   }
+  ],
+  "showcase": [
+   {
+    "turns": {
+     "runs": 5,
+     "mean": 697.6,
+     "min": 69,
+     "max": 1000,
+     "by_model": {
+      "steppe": 697.6
+     }
+    },
+    "name": "bazel-contrib__bazel-gazelle.ed9d0f2",
+    "id": "129bb829-bc97-4eec-9be9-614c8564aa24",
+    "rank": 18,
+    "batch": "programbench-reimplementation-ots",
+    "final": "ProgramBench reimplementation",
+    "super_group": "Build, release & supply chain",
+    "category": "Build systems",
+    "language": "Agent's choice",
+    "role": "Build & Release Engineer",
+    "seniority": "Staff+",
+    "shape": "Rebuild a program from its binary",
+    "models": [
+     {
+      "codename": "steppe",
+      "model": "z-ai/glm-5.3-flash",
+      "rollouts": 5,
+      "graded": 5,
+      "passed": 0,
+      "errors": 0,
+      "score_sum": 0.652482269503546,
+      "pass_rate": 0.0,
+      "error_rate": 0.0,
+      "avg_score": 0.13049645390070921
+     }
+    ]
+   },
+   {
+    "turns": {
+     "runs": 7,
+     "mean": 301.2857142857143,
+     "min": 82,
+     "max": 471,
+     "by_model": {
+      "umbra": 87.5,
+      "steppe": 386.8
+     }
+    },
+    "name": "burntsushi__rust-snappy.29fcab5",
+    "id": "133ca0ad-f9fd-4b74-b0dc-3b5075849c21",
+    "rank": 38,
+    "batch": "programbench-reimplementation-ots",
+    "final": "ProgramBench reimplementation",
+    "super_group": "Systems, hardware & accelerators",
+    "category": "Compression & data integrity",
+    "language": "Agent's choice",
+    "role": "Systems Engineer",
+    "seniority": "Staff+",
+    "shape": "Rebuild a program from its binary",
+    "models": [
+     {
+      "codename": "steppe",
+      "model": "z-ai/glm-5.3-flash",
+      "rollouts": 5,
+      "graded": 5,
+      "passed": 3,
+      "errors": 0,
+      "score_sum": 2.8732394366197185,
+      "pass_rate": 0.6,
+      "error_rate": 0.0,
+      "avg_score": 0.5746478873239437
+     },
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 2,
+      "graded": 2,
+      "passed": 1,
+      "errors": 0,
+      "score_sum": 1.0,
+      "pass_rate": 0.5,
+      "error_rate": 0.0,
+      "avg_score": 0.5
+     }
+    ]
+   },
+   {
+    "turns": {
+     "runs": 7,
+     "mean": 608.0,
+     "min": 135,
+     "max": 1000,
+     "by_model": {
+      "umbra": 188.5,
+      "steppe": 775.8
+     }
+    },
+    "name": "gabotechs__graphqxl.e14bc28",
+    "id": "9ce2db2d-1c27-433a-a872-d56581b68e46",
+    "rank": 53,
+    "batch": "programbench-reimplementation-ots",
+    "final": "ProgramBench reimplementation",
+    "super_group": "Languages & developer tooling",
+    "category": "API tooling",
+    "language": "Agent's choice",
+    "role": "Developer Tools Engineer",
+    "seniority": "Staff+",
+    "shape": "Rebuild a program from its binary",
+    "models": [
+     {
+      "codename": "steppe",
+      "model": "z-ai/glm-5.3-flash",
+      "rollouts": 5,
+      "graded": 5,
+      "passed": 1,
+      "errors": 0,
+      "score_sum": 0.5833333333333334,
+      "pass_rate": 0.2,
+      "error_rate": 0.0,
+      "avg_score": 0.11666666666666667
+     },
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 2,
+      "graded": 2,
+      "passed": 1,
+      "errors": 0,
+      "score_sum": 0.825,
+      "pass_rate": 0.5,
+      "error_rate": 0.0,
+      "avg_score": 0.4125
+     }
+    ]
+   }
+  ]
+ },
+ "system-design": {
+  "copies_removed": 0,
+  "turns": {
+   "capped": 23,
+   "tasks_with_turns": 56,
+   "runs": 382,
+   "mean_of_task_means": 475.9160443722944,
+   "median_of_task_means": 464.27777777777777,
+   "long_horizon_tasks": 51,
+   "threshold": 200,
+   "task_means": [
+    163.55555555555554,
+    947.5,
+    666.25,
+    109.9090909090909,
+    649.0,
+    538.5,
+    665.75,
+    404.5,
+    326.0,
+    694.75,
+    692.25,
+    258.1666666666667,
+    873.25,
+    154.0,
+    255.0,
+    580.0909090909091,
+    635.5,
+    846.2222222222222,
+    655.6,
+    588.0,
+    553.5555555555555,
+    375.0,
+    694.5,
+    257.6666666666667,
+    376.22222222222223,
+    553.5454545454545,
+    546.25,
+    502.1666666666667,
+    295.25,
+    817.5,
+    351.6666666666667,
+    353.1,
+    461.1111111111111,
+    337.3333333333333,
+    404.6363636363636,
+    757.5,
+    478.25,
+    338.5833333333333,
+    183.25,
+    334.0,
+    245.75,
+    295.3333333333333,
+    467.44444444444446,
+    533.5,
+    556.3333333333334,
+    106.83333333333333,
+    295.0,
+    310.0,
+    328.8888888888889,
+    492.0,
+    246.83333333333334,
+    439.5,
+    359.5,
+    603.1666666666666,
+    765.0,
+    931.3333333333334
+   ],
+   "max_task_mean": 947.5,
+   "min_task_mean": 106.83333333333333,
+   "by_model": [
+    {
+     "codename": "steppe",
+     "model": "z-ai/glm-5.3-flash",
+     "runs": 230,
+     "tasks": 47,
+     "mean": 559.0782608695653,
+     "runs_200_plus": 213
+    },
+    {
+     "codename": "kittiwake",
+     "model": "google/gemini-3.8-flash",
+     "runs": 77,
+     "tasks": 11,
+     "mean": 281.31168831168833,
+     "runs_200_plus": 45
+    },
+    {
+     "codename": "umbra",
+     "model": "google/gemini-4-argon",
+     "runs": 75,
+     "tasks": 15,
+     "mean": 349.8933333333333,
+     "runs_200_plus": 66
+    }
+   ]
+  },
+  "title": "System design",
+  "tasks": 56,
+  "shortlist": 9,
+  "batches": [
+   [
+    "system-design-harsh-xai",
+    34
+   ],
+   [
+    "alpharecon-deepswe-binary",
+    11
+   ],
+   [
+    "system-design-cohere-ots",
+    9
+   ],
+   [
+    "deepswe-salvage-cohere",
+    2
+   ]
+  ],
+  "final_parts": [
+   [
+    "System design",
+    42
+   ],
+   [
+    "Fault tolerance",
+    14
+   ]
+  ],
+  "evaluated_tasks": 56,
+  "super_groups": 10,
+  "folded": {},
+  "categories": 19,
+  "domain": [
+   {
+    "super_group": "Applications & business domains",
+    "tasks": 26,
+    "pct": 46.4,
+    "shortlist": 4,
+    "categories": [
+     {
+      "category": "Web applications",
+      "tasks": 17,
+      "pct": 30.4,
+      "shortlist": 2
+     },
+     {
+      "category": "Payments & banking",
+      "tasks": 4,
+      "pct": 7.1,
+      "shortlist": 0
+     },
+     {
+      "category": "Collaborative documents",
+      "tasks": 3,
+      "pct": 5.4,
+      "shortlist": 1
+     },
+     {
+      "category": "Media processing",
+      "tasks": 2,
+      "pct": 3.6,
+      "shortlist": 1
+     }
+    ]
+   },
+   {
+    "super_group": "Distributed systems & coordination",
+    "tasks": 7,
+    "pct": 12.5,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "Workflow automation",
+      "tasks": 3,
+      "pct": 5.4,
+      "shortlist": 1
+     },
+     {
+      "category": "Messaging & event streaming",
+      "tasks": 3,
+      "pct": 5.4,
+      "shortlist": 0
+     },
+     {
+      "category": "Job scheduling",
+      "tasks": 1,
+      "pct": 1.8,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Observability & reliability",
+    "tasks": 5,
+    "pct": 8.9,
+    "shortlist": 2,
+    "categories": [
+     {
+      "category": "Monitoring & observability",
+      "tasks": 5,
+      "pct": 8.9,
+      "shortlist": 2
+     }
+    ]
+   },
+   {
+    "super_group": "Scientific & ML software",
+    "tasks": 4,
+    "pct": 7.1,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "AI agents & retrieval",
+      "tasks": 2,
+      "pct": 3.6,
+      "shortlist": 0
+     },
+     {
+      "category": "Graph algorithms",
+      "tasks": 1,
+      "pct": 1.8,
+      "shortlist": 0
+     },
+     {
+      "category": "Medical imaging & healthcare",
+      "tasks": 1,
+      "pct": 1.8,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Build, release & supply chain",
+    "tasks": 4,
+    "pct": 7.1,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "CI/CD",
+      "tasks": 3,
+      "pct": 5.4,
+      "shortlist": 1
+     },
+     {
+      "category": "Software supply chain",
+      "tasks": 1,
+      "pct": 1.8,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Security",
+    "tasks": 3,
+    "pct": 5.4,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "Secrets & access control",
+      "tasks": 3,
+      "pct": 5.4,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Systems, hardware & accelerators",
+    "tasks": 2,
+    "pct": 3.6,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "IoT & smart home",
+      "tasks": 1,
+      "pct": 1.8,
+      "shortlist": 0
+     },
+     {
+      "category": "Filesystems",
+      "tasks": 1,
+      "pct": 1.8,
+      "shortlist": 1
+     }
+    ]
+   },
+   {
+    "super_group": "Cloud infrastructure & IaC",
+    "tasks": 2,
+    "pct": 3.6,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "Cloud infra: containers & self-hosted platforms",
+      "tasks": 2,
+      "pct": 3.6,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Data engineering & databases",
+    "tasks": 2,
+    "pct": 3.6,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "Data pipelines & ETL",
+      "tasks": 2,
+      "pct": 3.6,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Languages & developer tooling",
+    "tasks": 1,
+    "pct": 1.8,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "API tooling",
+      "tasks": 1,
+      "pct": 1.8,
+      "shortlist": 0
+     }
+    ]
+   }
+  ],
+  "language": [
+   {
+    "value": "Go",
+    "tasks": 17,
+    "pct": 30.4,
+    "shortlist": 3
+   },
+   {
+    "value": "Python",
+    "tasks": 16,
+    "pct": 28.6,
+    "shortlist": 2
+   },
+   {
+    "value": "C#",
+    "tasks": 12,
+    "pct": 21.4,
+    "shortlist": 1
+   },
+   {
+    "value": "TypeScript",
+    "tasks": 11,
+    "pct": 19.6,
+    "shortlist": 3
+   }
+  ],
+  "role": [
+   {
+    "value": "Distributed Systems Engineer",
+    "tasks": 43,
+    "pct": 76.8,
+    "shortlist": 8
+   },
+   {
+    "value": "Backend Engineer",
+    "tasks": 4,
+    "pct": 7.1,
+    "shortlist": 0
+   },
+   {
+    "value": "Library / Backend Engineer",
+    "tasks": 2,
+    "pct": 3.6,
+    "shortlist": 0
+   },
+   {
+    "value": "ML / AI Engineer",
+    "tasks": 2,
+    "pct": 3.6,
+    "shortlist": 0
+   },
+   {
+    "value": "Platform Engineer",
+    "tasks": 2,
+    "pct": 3.6,
+    "shortlist": 0
+   },
+   {
+    "value": "Security Engineer",
+    "tasks": 1,
+    "pct": 1.8,
+    "shortlist": 0
+   },
+   {
+    "value": "Data Engineer",
+    "tasks": 1,
+    "pct": 1.8,
+    "shortlist": 0
+   },
+   {
+    "value": "Systems Engineer",
+    "tasks": 1,
+    "pct": 1.8,
+    "shortlist": 1
+   }
+  ],
+  "seniority": [
+   {
+    "value": "Staff+",
+    "tasks": 56,
+    "pct": 100.0,
+    "shortlist": 9
+   }
+  ],
+  "models": [
+   {
+    "codename": "steppe",
+    "model": "z-ai/glm-5.3-flash",
+    "tasks": 47,
+    "rollouts": 245,
+    "graded": 229,
+    "passed": 81,
+    "pass_rate": 0.3537117903930131,
+    "error_rate": 0.061224489795918366,
+    "tasks_graded": 47,
+    "tasks_0": 7,
+    "tasks_100": 1,
+    "tasks_20_80": 34,
+    "per_task_rates": [
+     0.75,
+     0.25,
+     0.5,
+     0.5,
+     0.5,
+     0.25,
+     0.5,
+     0.125,
+     0.625,
+     0.0,
+     0.3333333333333333,
+     0.5,
+     0.0,
+     0.6,
+     0.25,
+     0.0,
+     1.0,
+     0.75,
+     0.25,
+     0.16666666666666666,
+     0.75,
+     0.5,
+     0.0,
+     0.6666666666666666,
+     0.5,
+     0.2,
+     0.0,
+     0.25,
+     0.3333333333333333,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.25,
+     0.25,
+     0.75,
+     0.5,
+     0.25,
+     0.75,
+     0.2,
+     0.75,
+     0.25,
+     0.25,
+     0.75,
+     0.25,
+     0.25,
+     0.14285714285714285,
+     0.125
+    ]
+   },
+   {
+    "codename": "kittiwake",
+    "model": "google/gemini-3.8-flash",
+    "tasks": 11,
+    "rollouts": 78,
+    "graded": 77,
+    "passed": 1,
+    "pass_rate": 0.012987012987012988,
+    "error_rate": 0.01282051282051282,
+    "tasks_graded": 11,
+    "tasks_0": 10,
+    "tasks_100": 0,
+    "tasks_20_80": 0,
+    "per_task_rates": [
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "codename": "umbra",
+    "model": "google/gemini-4-argon",
+    "tasks": 15,
+    "rollouts": 75,
+    "graded": 75,
+    "passed": 33,
+    "pass_rate": 0.44,
+    "error_rate": 0.0,
+    "tasks_graded": 15,
+    "tasks_0": 5,
+    "tasks_100": 3,
+    "tasks_20_80": 7,
+    "per_task_rates": [
+     0.8,
+     0.2,
+     0.0,
+     0.0,
+     0.2,
+     0.2,
+     1.0,
+     0.8,
+     0.0,
+     0.0,
+     1.0,
+     1.0,
+     0.8,
+     0.0,
+     0.6
+    ]
+   }
+  ],
+  "showcase": [
+   {
+    "turns": {
+     "runs": 6,
+     "mean": 556.3333333333334,
+     "min": 181,
+     "max": 1000,
+     "by_model": {
+      "steppe": 556.3333333333334
+     }
+    },
+    "name": "pdk-grist-fenced-doc-worker-failover",
+    "id": "bd56c0ed-f28e-4641-8648-8d7934be7a0a",
+    "rank": 2,
+    "batch": "system-design-harsh-xai",
+    "final": "System design",
+    "super_group": "Applications & business domains",
+    "category": "Collaborative documents",
+    "language": "TypeScript",
+    "role": "Distributed Systems Engineer",
+    "seniority": "Staff+",
+    "shape": "Failure-proofing",
+    "models": [
+     {
+      "codename": "steppe",
+      "model": "z-ai/glm-5.3-flash",
+      "rollouts": 8,
+      "graded": 5,
+      "passed": 1,
+      "errors": 2,
+      "score_sum": 1.6,
+      "pass_rate": 0.2,
+      "error_rate": 0.25,
+      "avg_score": 0.2
+     }
+    ]
+   },
+   {
+    "turns": {
+     "runs": 4,
+     "mean": 295.0,
+     "min": 181,
+     "max": 426,
+     "by_model": {
+      "steppe": 295.0
+     }
+    },
+    "name": "tests-half-go-diskfs-crash-recoverable-fat-metadata-62a2",
+    "id": "34a41da3-5c02-4af8-b398-672afe0dc837",
+    "rank": 27,
+    "batch": "deepswe-salvage-cohere",
+    "final": "Fault tolerance",
+    "super_group": "Systems, hardware & accelerators",
+    "category": "Filesystems",
+    "language": "Go",
+    "role": "Systems Engineer",
+    "seniority": "Staff+",
+    "shape": "Failure-proofing",
+    "models": [
+     {
+      "codename": "steppe",
+      "model": "z-ai/glm-5.3-flash",
+      "rollouts": 4,
+      "graded": 4,
+      "passed": 3,
+      "errors": 0,
+      "score_sum": 3.0,
+      "pass_rate": 0.75,
+      "error_rate": 0.0,
+      "avg_score": 0.75
+     }
+    ]
+   },
+   {
+    "turns": {
+     "runs": 9,
+     "mean": 310.0,
+     "min": 98,
+     "max": 638,
+     "by_model": {
+      "umbra": 251.6,
+      "steppe": 383.0
+     }
+    },
+    "name": "pdk-immich-hard-storage-quota-holds",
+    "id": "90593628-b5e5-47de-afdf-27aca82a1959",
+    "rank": 3,
+    "batch": "system-design-harsh-xai",
+    "final": "System design",
+    "super_group": "Applications & business domains",
+    "category": "Media processing",
+    "language": "TypeScript",
+    "role": "Distributed Systems Engineer",
+    "seniority": "Staff+",
+    "shape": "Failure-proofing",
+    "models": [
+     {
+      "codename": "steppe",
+      "model": "z-ai/glm-5.3-flash",
+      "rollouts": 5,
+      "graded": 4,
+      "passed": 1,
+      "errors": 1,
+      "score_sum": 1.25,
+      "pass_rate": 0.25,
+      "error_rate": 0.2,
+      "avg_score": 0.25
+     },
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 5,
+      "graded": 5,
+      "passed": 4,
+      "errors": 0,
+      "score_sum": 4.0,
+      "pass_rate": 0.8,
+      "error_rate": 0.0,
+      "avg_score": 0.8
+     }
+    ]
+   }
+  ]
+ },
+ "debugging": {
+  "copies_removed": 59,
+  "turns": {
+   "capped": 578,
+   "tasks_with_turns": 372,
+   "runs": 2200,
+   "mean_of_task_means": 395.5096427914976,
+   "median_of_task_means": 413.8333333333333,
+   "long_horizon_tasks": 296,
+   "threshold": 200,
+   "task_means": [
+    499.8,
+    583.1666666666666,
+    388.0,
+    110.0,
+    859.1666666666666,
+    190.0,
+    210.83333333333334,
+    147.83333333333334,
+    905.8333333333334,
+    781.8,
+    108.33333333333333,
+    281.6666666666667,
+    217.16666666666666,
+    237.16666666666666,
+    333.5833333333333,
+    96.5,
+    265.8333333333333,
+    315.0,
+    686.6,
+    202.4,
+    648.0,
+    440.1666666666667,
+    264.6666666666667,
+    500.0,
+    254.2,
+    200.33333333333334,
+    129.33333333333334,
+    79.18181818181819,
+    295.3333333333333,
+    315.3333333333333,
+    165.5,
+    214.75,
+    428.3333333333333,
+    433.1666666666667,
+    181.0,
+    760.6666666666666,
+    906.1666666666666,
+    195.0,
+    187.66666666666666,
+    414.8333333333333,
+    459.8,
+    323.2857142857143,
+    500.0,
+    599.5,
+    220.33333333333334,
+    142.44444444444446,
+    266.6666666666667,
+    202.0,
+    90.0,
+    500.0,
+    369.4,
+    164.33333333333334,
+    350.0,
+    288.25,
+    392.1666666666667,
+    859.0,
+    259.6666666666667,
+    252.0,
+    293.5,
+    158.16666666666666,
+    244.16666666666666,
+    177.5,
+    500.0,
+    281.6666666666667,
+    489.2,
+    162.23076923076923,
+    339.1666666666667,
+    91.66666666666667,
+    34.75,
+    323.5,
+    918.0,
+    483.4,
+    334.0,
+    500.0,
+    480.8,
+    500.0,
+    500.0,
+    406.0,
+    980.1666666666666,
+    500.0,
+    469.1666666666667,
+    443.1666666666667,
+    330.25,
+    500.0,
+    192.83333333333334,
+    179.16666666666666,
+    500.0,
+    663.0,
+    197.33333333333334,
+    238.33333333333334,
+    543.0,
+    238.6,
+    342.3333333333333,
+    498.4,
+    284.8333333333333,
+    723.6,
+    188.33333333333334,
+    584.0,
+    200.66666666666666,
+    127.5,
+    500.0,
+    500.0,
+    500.0,
+    142.83333333333334,
+    120.33333333333333,
+    336.1666666666667,
+    236.66666666666666,
+    286.1666666666667,
+    453.0,
+    178.33333333333334,
+    286.4,
+    104.33333333333333,
+    500.0,
+    500.0,
+    295.0,
+    342.4,
+    397.14285714285717,
+    500.0,
+    283.8333333333333,
+    500.0,
+    153.16666666666666,
+    473.6,
+    500.0,
+    500.0,
+    590.6666666666666,
+    103.83333333333333,
+    223.83333333333334,
+    431.8,
+    500.0,
+    500.0,
+    310.1666666666667,
+    189.83333333333334,
+    118.5,
+    654.6666666666666,
+    333.2,
+    291.5,
+    101.83333333333333,
+    485.6,
+    375.0,
+    407.2,
+    500.0,
+    377.5,
+    306.3333333333333,
+    95.16666666666667,
+    446.42857142857144,
+    683.1666666666666,
+    185.5,
+    500.0,
+    925.8,
+    207.0,
+    298.0,
+    252.16666666666666,
+    42.75,
+    500.0,
+    573.1666666666666,
+    422.0,
+    602.0,
+    500.0,
+    303.6666666666667,
+    500.0,
+    598.0,
+    646.6,
+    490.6,
+    55.5,
+    492.4,
+    261.5,
+    165.0,
+    207.4,
+    115.0,
+    474.8,
+    500.0,
+    684.3333333333334,
+    123.66666666666667,
+    424.0,
+    965.0,
+    967.3333333333334,
+    500.0,
+    448.4,
+    187.66666666666666,
+    114.66666666666667,
+    622.4,
+    454.4,
+    374.8333333333333,
+    500.0,
+    49.833333333333336,
+    412.8333333333333,
+    122.5,
+    339.3333333333333,
+    474.4,
+    488.0,
+    500.0,
+    500.0,
+    212.5,
+    500.0,
+    674.8,
+    500.0,
+    500.0,
+    500.0,
+    312.6666666666667,
+    296.6,
+    138.5,
+    111.33333333333333,
+    431.4,
+    218.33333333333334,
+    500.0,
+    500.0,
+    265.3333333333333,
+    336.2,
+    267.2,
+    500.0,
+    521.3333333333334,
+    233.5,
+    259.8,
+    476.2,
+    137.5,
+    176.0,
+    119.83333333333333,
+    182.33333333333334,
+    895.6666666666666,
+    809.8333333333334,
+    507.2,
+    619.6,
+    206.66666666666666,
+    741.1666666666666,
+    115.5,
+    395.0,
+    453.2,
+    271.5,
+    493.6,
+    500.0,
+    642.6,
+    295.5,
+    108.83333333333333,
+    443.6,
+    555.7,
+    318.8333333333333,
+    500.0,
+    452.4,
+    363.0,
+    200.42857142857142,
+    419.6666666666667,
+    151.83333333333334,
+    500.0,
+    86.16666666666667,
+    111.83333333333333,
+    164.16666666666666,
+    171.5,
+    231.5,
+    626.4,
+    216.83333333333334,
+    116.5,
+    477.8,
+    483.6,
+    236.16666666666666,
+    552.4,
+    273.6,
+    500.0,
+    197.8,
+    450.0,
+    365.6,
+    465.8,
+    929.8333333333334,
+    285.7142857142857,
+    500.0,
+    652.3333333333334,
+    94.0,
+    186.66666666666666,
+    500.0,
+    415.0833333333333,
+    500.0,
+    500.0,
+    261.3333333333333,
+    500.0,
+    858.6,
+    376.57142857142856,
+    301.6666666666667,
+    183.0,
+    421.1666666666667,
+    91.33333333333333,
+    500.0,
+    522.8333333333334,
+    450.2,
+    196.5,
+    297.375,
+    163.0,
+    500.0,
+    472.0,
+    418.0,
+    500.0,
+    484.5,
+    494.2,
+    500.0,
+    500.0,
+    695.0,
+    809.0,
+    863.8,
+    998.5,
+    394.6666666666667,
+    234.16666666666666,
+    231.33333333333334,
+    370.1666666666667,
+    111.16666666666667,
+    489.8333333333333,
+    754.6,
+    453.0,
+    419.6,
+    481.8,
+    500.0,
+    500.0,
+    454.4,
+    497.6,
+    118.33333333333333,
+    500.0,
+    461.6,
+    500.0,
+    368.8333333333333,
+    378.0,
+    165.4,
+    393.0,
+    258.1666666666667,
+    188.33333333333334,
+    500.0,
+    142.83333333333334,
+    506.9166666666667,
+    223.83333333333334,
+    559.0,
+    650.2,
+    370.375,
+    421.2,
+    190.2,
+    223.83333333333334,
+    763.3333333333334,
+    994.8,
+    500.0,
+    201.66666666666666,
+    500.0,
+    500.0,
+    104.16666666666667,
+    176.5,
+    709.6,
+    391.0,
+    389.14285714285717,
+    688.6,
+    336.4,
+    437.14285714285717,
+    457.0,
+    500.0,
+    498.2,
+    364.14285714285717,
+    699.8,
+    117.8,
+    544.1428571428571,
+    592.2857142857143,
+    338.5,
+    500.0,
+    194.33333333333334,
+    459.2,
+    500.0,
+    677.6,
+    428.6,
+    349.57142857142856,
+    654.5,
+    324.3333333333333,
+    734.8181818181819,
+    230.83333333333334,
+    422.1666666666667,
+    465.4,
+    622.4285714285714,
+    231.66666666666666,
+    149.5,
+    890.0,
+    491.8333333333333
+   ],
+   "max_task_mean": 998.5,
+   "min_task_mean": 34.75,
+   "by_model": [
+    {
+     "codename": "steppe",
+     "model": "z-ai/glm-5.3-flash",
+     "runs": 1426,
+     "tasks": 263,
+     "mean": 392.67040673211784,
+     "runs_200_plus": 1112
+    },
+    {
+     "codename": "kittiwake",
+     "model": "google/gemini-3.8-flash",
+     "runs": 417,
+     "tasks": 68,
+     "mean": 524.0263788968825,
+     "runs_200_plus": 334
+    },
+    {
+     "codename": "cipher-prime",
+     "model": "z-ai/glm-5.3",
+     "runs": 306,
+     "tasks": 51,
+     "mean": 207.26470588235293,
+     "runs_200_plus": 125
+    },
+    {
+     "codename": "umbra",
+     "model": "google/gemini-4-argon",
+     "runs": 30,
+     "tasks": 15,
+     "mean": 221.03333333333333,
+     "runs_200_plus": 12
+    },
+    {
+     "codename": "astrolabe",
+     "model": "x-ai/grok-4.7",
+     "runs": 16,
+     "tasks": 2,
+     "mean": 38.75,
+     "runs_200_plus": 0
+    },
+    {
+     "codename": "forge",
+     "model": "qwen/qwen3.8-max-0902",
+     "runs": 4,
+     "tasks": 2,
+     "mean": 61.25,
+     "runs_200_plus": 0
+    },
+    {
+     "codename": "ecliptic",
+     "model": "moonshotai/kimi-k3.1-pro",
+     "runs": 1,
+     "tasks": 1,
+     "mean": 27.0,
+     "runs_200_plus": 0
+    }
+   ]
+  },
+  "title": "Diagnosis, Debugging, and Bug Fixing",
+  "tasks": 378,
+  "shortlist": 34,
+  "batches": [
+   [
+    "specdrift-ots",
+    144
+   ],
+   [
+    "alpharecon-diagnosis-ots",
+    107
+   ],
+   [
+    "alpharecon-spec-drift-exp",
+    51
+   ],
+   [
+    "alpharecon-diagnosis",
+    50
+   ],
+   [
+    "alpharecon-specdrift-kartik",
+    18
+   ],
+   [
+    "rca-xai-ots",
+    8
+   ]
+  ],
+  "final_parts": [
+   [
+    "Diagnosis, Debugging, and Bug Fixing",
+    378
+   ]
+  ],
+  "evaluated_tasks": 372,
+  "super_groups": 10,
+  "folded": {},
+  "categories": 51,
+  "domain": [
+   {
+    "super_group": "Scientific & ML software",
+    "tasks": 96,
+    "pct": 25.4,
+    "shortlist": 9,
+    "categories": [
+     {
+      "category": "AI agents & retrieval",
+      "tasks": 37,
+      "pct": 9.8,
+      "shortlist": 1
+     },
+     {
+      "category": "Machine learning & MLOps",
+      "tasks": 26,
+      "pct": 6.9,
+      "shortlist": 2
+     },
+     {
+      "category": "Statistics & numerical methods",
+      "tasks": 14,
+      "pct": 3.7,
+      "shortlist": 3
+     },
+     {
+      "category": "Scientific computing",
+      "tasks": 10,
+      "pct": 2.6,
+      "shortlist": 0
+     },
+     {
+      "category": "Medical imaging & healthcare",
+      "tasks": 3,
+      "pct": 0.8,
+      "shortlist": 2
+     },
+     {
+      "category": "Geospatial",
+      "tasks": 3,
+      "pct": 0.8,
+      "shortlist": 1
+     },
+     {
+      "category": "Graph algorithms",
+      "tasks": 3,
+      "pct": 0.8,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Languages & developer tooling",
+    "tasks": 68,
+    "pct": 18.0,
+    "shortlist": 5,
+    "categories": [
+     {
+      "category": "CLI tooling",
+      "tasks": 33,
+      "pct": 8.7,
+      "shortlist": 0
+     },
+     {
+      "category": "API tooling",
+      "tasks": 15,
+      "pct": 4.0,
+      "shortlist": 1
+     },
+     {
+      "category": "Compilers & language runtimes",
+      "tasks": 10,
+      "pct": 2.6,
+      "shortlist": 3
+     },
+     {
+      "category": "General-purpose utility libraries",
+      "tasks": 7,
+      "pct": 1.9,
+      "shortlist": 0
+     },
+     {
+      "category": "Logic programming",
+      "tasks": 2,
+      "pct": 0.5,
+      "shortlist": 1
+     },
+     {
+      "category": "Data structures",
+      "tasks": 1,
+      "pct": 0.3,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Applications & business domains",
+    "tasks": 54,
+    "pct": 14.3,
+    "shortlist": 6,
+    "categories": [
+     {
+      "category": "Web applications",
+      "tasks": 25,
+      "pct": 6.6,
+      "shortlist": 0
+     },
+     {
+      "category": "Frontend & UI state",
+      "tasks": 11,
+      "pct": 2.9,
+      "shortlist": 1
+     },
+     {
+      "category": "Media processing",
+      "tasks": 6,
+      "pct": 1.6,
+      "shortlist": 1
+     },
+     {
+      "category": "Web crawling",
+      "tasks": 4,
+      "pct": 1.1,
+      "shortlist": 1
+     },
+     {
+      "category": "Collaborative documents",
+      "tasks": 4,
+      "pct": 1.1,
+      "shortlist": 1
+     },
+     {
+      "category": "Payments & banking",
+      "tasks": 2,
+      "pct": 0.5,
+      "shortlist": 1
+     },
+     {
+      "category": "Education tooling",
+      "tasks": 1,
+      "pct": 0.3,
+      "shortlist": 1
+     },
+     {
+      "category": "Spreadsheets",
+      "tasks": 1,
+      "pct": 0.3,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Data engineering & databases",
+    "tasks": 48,
+    "pct": 12.7,
+    "shortlist": 5,
+    "categories": [
+     {
+      "category": "Data formats & serialization",
+      "tasks": 13,
+      "pct": 3.4,
+      "shortlist": 2
+     },
+     {
+      "category": "Data validation",
+      "tasks": 11,
+      "pct": 2.9,
+      "shortlist": 0
+     },
+     {
+      "category": "Databases & storage engines",
+      "tasks": 10,
+      "pct": 2.6,
+      "shortlist": 1
+     },
+     {
+      "category": "Data pipelines & ETL",
+      "tasks": 7,
+      "pct": 1.9,
+      "shortlist": 1
+     },
+     {
+      "category": "SQL tooling",
+      "tasks": 6,
+      "pct": 1.6,
+      "shortlist": 1
+     },
+     {
+      "category": "Analytics engineering",
+      "tasks": 1,
+      "pct": 0.3,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Systems, hardware & accelerators",
+    "tasks": 34,
+    "pct": 9.0,
+    "shortlist": 2,
+    "categories": [
+     {
+      "category": "Networking & HTTP",
+      "tasks": 20,
+      "pct": 5.3,
+      "shortlist": 0
+     },
+     {
+      "category": "IoT & smart home",
+      "tasks": 6,
+      "pct": 1.6,
+      "shortlist": 1
+     },
+     {
+      "category": "Compression & data integrity",
+      "tasks": 3,
+      "pct": 0.8,
+      "shortlist": 0
+     },
+     {
+      "category": "Filesystems",
+      "tasks": 2,
+      "pct": 0.5,
+      "shortlist": 0
+     },
+     {
+      "category": "Memory management",
+      "tasks": 2,
+      "pct": 0.5,
+      "shortlist": 1
+     },
+     {
+      "category": "Emulators",
+      "tasks": 1,
+      "pct": 0.3,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Security",
+    "tasks": 22,
+    "pct": 5.8,
+    "shortlist": 2,
+    "categories": [
+     {
+      "category": "Secrets & access control",
+      "tasks": 9,
+      "pct": 2.4,
+      "shortlist": 0
+     },
+     {
+      "category": "Cloud security & compliance",
+      "tasks": 5,
+      "pct": 1.3,
+      "shortlist": 0
+     },
+     {
+      "category": "Cryptography & secure protocols",
+      "tasks": 4,
+      "pct": 1.1,
+      "shortlist": 1
+     },
+     {
+      "category": "Parser security hardening",
+      "tasks": 3,
+      "pct": 0.8,
+      "shortlist": 1
+     },
+     {
+      "category": "Secret scanning",
+      "tasks": 1,
+      "pct": 0.3,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Cloud infrastructure & IaC",
+    "tasks": 17,
+    "pct": 4.5,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "Cloud infra: containers & self-hosted platforms",
+      "tasks": 10,
+      "pct": 2.6,
+      "shortlist": 0
+     },
+     {
+      "category": "Configuration management",
+      "tasks": 6,
+      "pct": 1.6,
+      "shortlist": 0
+     },
+     {
+      "category": "Cloud infra: serverless & event-driven",
+      "tasks": 1,
+      "pct": 0.3,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Observability & reliability",
+    "tasks": 16,
+    "pct": 4.2,
+    "shortlist": 2,
+    "categories": [
+     {
+      "category": "Monitoring & observability",
+      "tasks": 15,
+      "pct": 4.0,
+      "shortlist": 1
+     },
+     {
+      "category": "Rate limiting",
+      "tasks": 1,
+      "pct": 0.3,
+      "shortlist": 1
+     }
+    ]
+   },
+   {
+    "super_group": "Distributed systems & coordination",
+    "tasks": 15,
+    "pct": 4.0,
+    "shortlist": 2,
+    "categories": [
+     {
+      "category": "Messaging & event streaming",
+      "tasks": 6,
+      "pct": 1.6,
+      "shortlist": 1
+     },
+     {
+      "category": "Calendaring & recurrence",
+      "tasks": 6,
+      "pct": 1.6,
+      "shortlist": 0
+     },
+     {
+      "category": "Blockchain",
+      "tasks": 1,
+      "pct": 0.3,
+      "shortlist": 0
+     },
+     {
+      "category": "Job scheduling",
+      "tasks": 1,
+      "pct": 0.3,
+      "shortlist": 1
+     },
+     {
+      "category": "Workflow automation",
+      "tasks": 1,
+      "pct": 0.3,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Build, release & supply chain",
+    "tasks": 8,
+    "pct": 2.1,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "Software supply chain",
+      "tasks": 4,
+      "pct": 1.1,
+      "shortlist": 1
+     },
+     {
+      "category": "Build systems",
+      "tasks": 3,
+      "pct": 0.8,
+      "shortlist": 0
+     },
+     {
+      "category": "CI/CD",
+      "tasks": 1,
+      "pct": 0.3,
+      "shortlist": 0
+     }
+    ]
+   }
+  ],
+  "language": [
+   {
+    "value": "Python",
+    "tasks": 224,
+    "pct": 59.3,
+    "shortlist": 18
+   },
+   {
+    "value": "Go",
+    "tasks": 108,
+    "pct": 28.6,
+    "shortlist": 10
+   },
+   {
+    "value": "C",
+    "tasks": 23,
+    "pct": 6.1,
+    "shortlist": 3
+   },
+   {
+    "value": "Rust",
+    "tasks": 13,
+    "pct": 3.4,
+    "shortlist": 2
+   },
+   {
+    "value": "TypeScript",
+    "tasks": 10,
+    "pct": 2.6,
+    "shortlist": 1
+   }
+  ],
+  "role": [
+   {
+    "value": "Library / Backend Engineer",
+    "tasks": 71,
+    "pct": 18.8,
+    "shortlist": 5
+   },
+   {
+    "value": "ML / AI Engineer",
+    "tasks": 55,
+    "pct": 14.6,
+    "shortlist": 3
+   },
+   {
+    "value": "Developer Tools Engineer",
+    "tasks": 38,
+    "pct": 10.1,
+    "shortlist": 0
+   },
+   {
+    "value": "Backend Engineer",
+    "tasks": 37,
+    "pct": 9.8,
+    "shortlist": 6
+   },
+   {
+    "value": "Research Software Engineer",
+    "tasks": 26,
+    "pct": 6.9,
+    "shortlist": 4
+   },
+   {
+    "value": "Platform Engineer",
+    "tasks": 22,
+    "pct": 5.8,
+    "shortlist": 2
+   },
+   {
+    "value": "Systems Engineer",
+    "tasks": 22,
+    "pct": 5.8,
+    "shortlist": 2
+   },
+   {
+    "value": "Security Engineer",
+    "tasks": 17,
+    "pct": 4.5,
+    "shortlist": 1
+   },
+   {
+    "value": "Full-stack Engineer",
+    "tasks": 13,
+    "pct": 3.4,
+    "shortlist": 0
+   },
+   {
+    "value": "Data Scientist",
+    "tasks": 12,
+    "pct": 3.2,
+    "shortlist": 1
+   },
+   {
+    "value": "Compiler / Language Engineer",
+    "tasks": 11,
+    "pct": 2.9,
+    "shortlist": 3
+   },
+   {
+    "value": "Observability Engineer",
+    "tasks": 10,
+    "pct": 2.6,
+    "shortlist": 1
+   },
+   {
+    "value": "Database Engineer",
+    "tasks": 7,
+    "pct": 1.9,
+    "shortlist": 1
+   },
+   {
+    "value": "Data Engineer",
+    "tasks": 7,
+    "pct": 1.9,
+    "shortlist": 1
+   },
+   {
+    "value": "Frontend Engineer",
+    "tasks": 7,
+    "pct": 1.9,
+    "shortlist": 1
+   },
+   {
+    "value": "Embedded / IoT Engineer",
+    "tasks": 7,
+    "pct": 1.9,
+    "shortlist": 1
+   },
+   {
+    "value": "Build & Release Engineer",
+    "tasks": 6,
+    "pct": 1.6,
+    "shortlist": 1
+   },
+   {
+    "value": "Media Software Engineer",
+    "tasks": 6,
+    "pct": 1.6,
+    "shortlist": 1
+   },
+   {
+    "value": "Cloud Security Engineer",
+    "tasks": 3,
+    "pct": 0.8,
+    "shortlist": 0
+   },
+   {
+    "value": "Analytics Engineer",
+    "tasks": 1,
+    "pct": 0.3,
+    "shortlist": 0
+   }
+  ],
+  "seniority": [
+   {
+    "value": "Senior",
+    "tasks": 370,
+    "pct": 97.9,
+    "shortlist": 27
+   },
+   {
+    "value": "Mid\u2013Senior",
+    "tasks": 8,
+    "pct": 2.1,
+    "shortlist": 7
+   }
+  ],
+  "models": [
+   {
+    "codename": "steppe",
+    "model": "z-ai/glm-5.3-flash",
+    "tasks": 264,
+    "rollouts": 1500,
+    "graded": 1426,
+    "passed": 529,
+    "pass_rate": 0.3709677419354839,
+    "error_rate": 0.04933333333333333,
+    "tasks_graded": 263,
+    "tasks_0": 133,
+    "tasks_100": 40,
+    "tasks_20_80": 69,
+    "per_task_rates": [
+     0.0,
+     0.3333333333333333,
+     1.0,
+     0.2,
+     0.8333333333333334,
+     0.0,
+     1.0,
+     0.6666666666666666,
+     0.0,
+     0.8,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     0.6666666666666666,
+     0.625,
+     0.5,
+     0.6666666666666666,
+     1.0,
+     0.0,
+     0.8571428571428571,
+     0.0,
+     0.3333333333333333,
+     0.8,
+     0.6666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.25,
+     1.0,
+     0.8333333333333334,
+     0.8333333333333334,
+     0.8333333333333334,
+     0.6,
+     0.5,
+     0.0,
+     0.6923076923076923,
+     0.0,
+     0.4,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.6666666666666666,
+     0.0,
+     0.0,
+     0.2,
+     0.0,
+     0.0,
+     0.2,
+     0.0,
+     0.0,
+     0.2,
+     0.8333333333333334,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.4,
+     0.0,
+     0.0,
+     0.6,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.8333333333333334,
+     0.6,
+     0.6666666666666666,
+     0.8,
+     0.8333333333333334,
+     0.6,
+     0.0,
+     1.0,
+     0.0,
+     1.0,
+     0.2,
+     0.0,
+     1.0,
+     0.0,
+     0.6,
+     0.0,
+     0.8333333333333334,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     1.0,
+     0.4,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.2,
+     0.8333333333333334,
+     0.0,
+     0.2,
+     0.8333333333333334,
+     0.2,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.8,
+     1.0,
+     1.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.8333333333333334,
+     0.0,
+     1.0,
+     0.8,
+     0.6666666666666666,
+     1.0,
+     0.0,
+     0.2,
+     1.0,
+     1.0,
+     0.4,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.2,
+     0.6666666666666666,
+     0.0,
+     0.5,
+     0.0,
+     0.0,
+     0.0,
+     0.2857142857142857,
+     0.8333333333333334,
+     0.6666666666666666,
+     0.0,
+     1.0,
+     0.8333333333333334,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.8333333333333334,
+     0.4,
+     1.0,
+     0.0,
+     0.8,
+     0.5,
+     0.0,
+     0.0,
+     0.7142857142857143,
+     0.0,
+     0.8333333333333334,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.2,
+     0.5,
+     0.8333333333333334,
+     0.0,
+     0.0,
+     0.0,
+     0.2,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.6666666666666666,
+     0.3333333333333333,
+     0.0,
+     0.6666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.2,
+     0.6666666666666666,
+     0.0,
+     0.6,
+     0.0,
+     0.8333333333333334,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.8333333333333334,
+     0.2,
+     0.8,
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     0.8333333333333334,
+     0.0,
+     0.6,
+     0.2,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.2,
+     0.0,
+     0.2,
+     0.8,
+     0.6,
+     0.4,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.2,
+     0.2,
+     1.0,
+     0.0,
+     0.6666666666666666,
+     0.8333333333333334,
+     0.0,
+     0.5714285714285714,
+     0.0,
+     0.6666666666666666
+    ]
+   },
+   {
+    "codename": "kittiwake",
+    "model": "google/gemini-3.8-flash",
+    "tasks": 68,
+    "rollouts": 483,
+    "graded": 417,
+    "passed": 16,
+    "pass_rate": 0.03836930455635491,
+    "error_rate": 0.13664596273291926,
+    "tasks_graded": 68,
+    "tasks_0": 52,
+    "tasks_100": 0,
+    "tasks_20_80": 0,
+    "per_task_rates": [
+     0.0,
+     0.16666666666666666,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.16666666666666666,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.16666666666666666,
+     0.14285714285714285,
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.0,
+     0.16666666666666666,
+     0.0
+    ]
+   },
+   {
+    "codename": "cipher-prime",
+    "model": "z-ai/glm-5.3",
+    "tasks": 51,
+    "rollouts": 307,
+    "graded": 306,
+    "passed": 1,
+    "pass_rate": 0.0032679738562091504,
+    "error_rate": 0.003257328990228013,
+    "tasks_graded": 51,
+    "tasks_0": 50,
+    "tasks_100": 0,
+    "tasks_20_80": 0,
+    "per_task_rates": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "codename": "umbra",
+    "model": "google/gemini-4-argon",
+    "tasks": 15,
+    "rollouts": 30,
+    "graded": 30,
+    "passed": 24,
+    "pass_rate": 0.8,
+    "error_rate": 0.0,
+    "tasks_graded": 15,
+    "tasks_0": 2,
+    "tasks_100": 11,
+    "tasks_20_80": 2,
+    "per_task_rates": [
+     0.5,
+     1.0,
+     1.0,
+     1.0,
+     0.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     0.0,
+     1.0,
+     1.0,
+     1.0,
+     0.5
+    ]
+   },
+   {
+    "codename": "astrolabe",
+    "model": "x-ai/grok-4.7",
+    "tasks": 2,
+    "rollouts": 16,
+    "graded": 16,
+    "passed": 0,
+    "pass_rate": 0.0,
+    "error_rate": 0.0,
+    "tasks_graded": 2,
+    "tasks_0": 2,
+    "tasks_100": 0,
+    "tasks_20_80": 0,
+    "per_task_rates": [
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "codename": "forge",
+    "model": "qwen/qwen3.8-max-0902",
+    "tasks": 2,
+    "rollouts": 4,
+    "graded": 4,
+    "passed": 0,
+    "pass_rate": 0.0,
+    "error_rate": 0.0,
+    "tasks_graded": 2,
+    "tasks_0": 2,
+    "tasks_100": 0,
+    "tasks_20_80": 0,
+    "per_task_rates": [
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "codename": "ecliptic",
+    "model": "moonshotai/kimi-k3.1-pro",
+    "tasks": 1,
+    "rollouts": 1,
+    "graded": 1,
+    "passed": 0,
+    "pass_rate": 0.0,
+    "error_rate": 0.0,
+    "tasks_graded": 1,
+    "tasks_0": 1,
+    "tasks_100": 0,
+    "tasks_20_80": 0,
+    "per_task_rates": [
+     0.0
+    ]
+   }
+  ],
+  "showcase": [
+   {
+    "turns": {
+     "runs": 5,
+     "mean": 552.4,
+     "min": 369,
+     "max": 1000,
+     "by_model": {
+      "steppe": 552.4
+     }
+    },
+    "name": "form-pipeline-ots",
+    "id": "9d8ad40e-4abc-4199-bd44-f1dbc74d228a",
+    "rank": 79,
+    "batch": "specdrift-ots",
+    "final": "Diagnosis, Debugging, and Bug Fixing",
+    "super_group": "Applications & business domains",
+    "category": "Frontend & UI state",
+    "language": "TypeScript",
+    "role": "Frontend Engineer",
+    "seniority": "Senior",
+    "shape": "Docs-vs-code drift repair",
+    "models": [
+     {
+      "codename": "steppe",
+      "model": "z-ai/glm-5.3-flash",
+      "rollouts": 5,
+      "graded": 5,
+      "passed": 2,
+      "errors": 0,
+      "score_sum": 2.0,
+      "pass_rate": 0.4,
+      "error_rate": 0.0,
+      "avg_score": 0.4
+     }
+    ]
+   },
+   {
+    "turns": {
+     "runs": 9,
+     "mean": 142.44444444444446,
+     "min": 27,
+     "max": 286,
+     "by_model": {
+      "umbra": 183.0,
+      "ecliptic": 27.0,
+      "forge": 66.0,
+      "steppe": 164.6
+     }
+    },
+    "name": "libexpat-realbug-a",
+    "id": "37b4ed05-5e7d-470a-bd06-a90ea69a5e7f",
+    "rank": 10,
+    "batch": "alpharecon-diagnosis-ots",
+    "final": "Diagnosis, Debugging, and Bug Fixing",
+    "super_group": "Security",
+    "category": "Parser security hardening",
+    "language": "C",
+    "role": "Systems Engineer",
+    "seniority": "Senior",
+    "shape": "Multi-bug diagnosis & fault localization",
+    "models": [
+     {
+      "codename": "steppe",
+      "model": "z-ai/glm-5.3-flash",
+      "rollouts": 5,
+      "graded": 5,
+      "passed": 4,
+      "errors": 0,
+      "score_sum": 3.7812,
+      "pass_rate": 0.8,
+      "error_rate": 0.0,
+      "avg_score": 0.75624
+     },
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 2,
+      "graded": 2,
+      "passed": 2,
+      "errors": 0,
+      "score_sum": 1.5624,
+      "pass_rate": 1.0,
+      "error_rate": 0.0,
+      "avg_score": 0.7812
+     },
+     {
+      "codename": "ecliptic",
+      "model": "moonshotai/kimi-k3.1-pro",
+      "rollouts": 1,
+      "graded": 1,
+      "passed": 0,
+      "errors": 0,
+      "score_sum": 0.0,
+      "pass_rate": 0.0,
+      "error_rate": 0.0,
+      "avg_score": 0.0
+     },
+     {
+      "codename": "forge",
+      "model": "qwen/qwen3.8-max-0902",
+      "rollouts": 1,
+      "graded": 1,
+      "passed": 0,
+      "errors": 0,
+      "score_sum": 0.0,
+      "pass_rate": 0.0,
+      "error_rate": 0.0,
+      "avg_score": 0.0
+     }
+    ]
+   },
+   {
+    "turns": {
+     "runs": 8,
+     "mean": 34.75,
+     "min": 26,
+     "max": 46,
+     "by_model": {
+      "astrolabe": 34.75
+     }
+    },
+    "name": "swanlab-nanpair",
+    "id": "f45a8ae3-11f1-4916-81db-571133805383",
+    "rank": 78,
+    "batch": "rca-xai-ots",
+    "final": "Diagnosis, Debugging, and Bug Fixing",
+    "super_group": "Scientific & ML software",
+    "category": "Machine learning & MLOps",
+    "language": "Python",
+    "role": "ML / AI Engineer",
+    "seniority": "Mid\u2013Senior",
+    "shape": "On-call root cause analysis",
+    "models": [
+     {
+      "codename": "astrolabe",
+      "model": "x-ai/grok-4.7",
+      "rollouts": 8,
+      "graded": 8,
+      "passed": 0,
+      "errors": 0,
+      "score_sum": 0.0,
+      "pass_rate": 0.0,
+      "error_rate": 0.0,
+      "avg_score": 0.0
+     }
+    ]
+   }
+  ]
+ },
+ "feature-implementation": {
+  "copies_removed": 3,
+  "turns": {
+   "capped": 41,
+   "tasks_with_turns": 116,
+   "runs": 807,
+   "mean_of_task_means": 344.68201961296535,
+   "median_of_task_means": 328.9166666666667,
+   "long_horizon_tasks": 84,
+   "threshold": 200,
+   "task_means": [
+    256.75,
+    500.0,
+    737.5,
+    92.5,
+    321.6666666666667,
+    127.36363636363636,
+    826.5,
+    109.81818181818181,
+    111.47058823529412,
+    202.0,
+    442.1666666666667,
+    494.8333333333333,
+    549.5,
+    137.625,
+    261.75,
+    442.1666666666667,
+    432.6666666666667,
+    498.8333333333333,
+    313.3333333333333,
+    461.3333333333333,
+    160.5,
+    160.625,
+    526.1666666666666,
+    401.6666666666667,
+    299.25,
+    131.25,
+    140.6,
+    242.33333333333334,
+    689.1666666666666,
+    433.8333333333333,
+    91.8,
+    483.125,
+    240.91666666666666,
+    157.25,
+    139.33333333333334,
+    376.3333333333333,
+    281.1666666666667,
+    955.5,
+    559.0,
+    97.33333333333333,
+    538.5,
+    219.0,
+    104.25,
+    261.5,
+    542.0,
+    250.75,
+    112.33333333333333,
+    297.5833333333333,
+    292.3333333333333,
+    192.66666666666666,
+    349.6666666666667,
+    365.9166666666667,
+    336.1666666666667,
+    133.5,
+    925.8333333333334,
+    579.6666666666666,
+    136.16666666666666,
+    566.1666666666666,
+    871.5,
+    177.0,
+    177.77777777777777,
+    519.6666666666666,
+    298.8333333333333,
+    124.33333333333333,
+    399.3333333333333,
+    244.33333333333334,
+    394.1666666666667,
+    275.75,
+    496.6666666666667,
+    152.08333333333334,
+    439.6666666666667,
+    462.875,
+    215.5,
+    164.75,
+    619.0,
+    166.9090909090909,
+    419.0,
+    186.375,
+    200.33333333333334,
+    285.6666666666667,
+    142.16666666666666,
+    344.5,
+    202.27272727272728,
+    132.72727272727272,
+    461.25,
+    139.25,
+    204.125,
+    533.6666666666666,
+    420.25,
+    431.8333333333333,
+    204.16666666666666,
+    582.5,
+    605.6666666666666,
+    390.1666666666667,
+    440.75,
+    348.5,
+    377.6666666666667,
+    125.5,
+    250.66666666666666,
+    442.6666666666667,
+    358.5,
+    511.5,
+    590.1666666666666,
+    494.6666666666667,
+    169.0,
+    225.5,
+    251.125,
+    137.33333333333334,
+    475.5,
+    410.5,
+    384.8333333333333,
+    438.25,
+    435.5,
+    174.75,
+    415.25,
+    348.0
+   ],
+   "max_task_mean": 955.5,
+   "min_task_mean": 91.8,
+   "by_model": [
+    {
+     "codename": "kittiwake",
+     "model": "google/gemini-3.8-flash",
+     "runs": 635,
+     "tasks": 99,
+     "mean": 345.1732283464567,
+     "runs_200_plus": 434
+    },
+    {
+     "codename": "steppe",
+     "model": "z-ai/glm-5.3-flash",
+     "runs": 148,
+     "tasks": 29,
+     "mean": 300.5878378378378,
+     "runs_200_plus": 98
+    },
+    {
+     "codename": "umbra",
+     "model": "google/gemini-4-argon",
+     "runs": 20,
+     "tasks": 10,
+     "mean": 255.5,
+     "runs_200_plus": 15
+    },
+    {
+     "codename": "lumen-pro",
+     "model": "claude-opus-5-5",
+     "runs": 4,
+     "tasks": 2,
+     "mean": 55.0,
+     "runs_200_plus": 0
+    }
+   ]
+  },
+  "title": "Feature implementation",
+  "tasks": 120,
+  "shortlist": 2,
+  "batches": [
+   [
+    "alpharecon-deepswe-binary",
+    100
+   ],
+   [
+    "deepswe-salvage-cohere",
+    8
+   ],
+   [
+    "cohere-feature-implementation-new",
+    6
+   ],
+   [
+    "alpharecon-blueprint-tasks",
+    3
+   ],
+   [
+    "cohere-tests-half-alt-2026-10-08-go",
+    1
+   ],
+   [
+    "cohere-tests-quarter-2026-10-08-go",
+    1
+   ],
+   [
+    "cohere-final100-adjust2-2026-10-10-go",
+    1
+   ]
+  ],
+  "final_parts": [
+   [
+    "Feature implementation",
+    120
+   ]
+  ],
+  "evaluated_tasks": 119,
+  "super_groups": 9,
+  "folded": {
+   "Build, release & supply chain": "Languages & developer tooling"
+  },
+  "categories": 27,
+  "domain": [
+   {
+    "super_group": "Languages & developer tooling",
+    "tasks": 26,
+    "pct": 21.7,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "CLI tooling",
+      "tasks": 14,
+      "pct": 11.7,
+      "shortlist": 0
+     },
+     {
+      "category": "Compilers & language runtimes",
+      "tasks": 7,
+      "pct": 5.8,
+      "shortlist": 0
+     },
+     {
+      "category": "API tooling",
+      "tasks": 4,
+      "pct": 3.3,
+      "shortlist": 0
+     },
+     {
+      "category": "CI/CD",
+      "tasks": 1,
+      "pct": 0.8,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Applications & business domains",
+    "tasks": 21,
+    "pct": 17.5,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "Web applications",
+      "tasks": 9,
+      "pct": 7.5,
+      "shortlist": 0
+     },
+     {
+      "category": "Media processing",
+      "tasks": 7,
+      "pct": 5.8,
+      "shortlist": 0
+     },
+     {
+      "category": "Payments & banking",
+      "tasks": 2,
+      "pct": 1.7,
+      "shortlist": 1
+     },
+     {
+      "category": "Frontend & UI state",
+      "tasks": 1,
+      "pct": 0.8,
+      "shortlist": 0
+     },
+     {
+      "category": "Collaborative documents",
+      "tasks": 1,
+      "pct": 0.8,
+      "shortlist": 0
+     },
+     {
+      "category": "Web crawling",
+      "tasks": 1,
+      "pct": 0.8,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Systems, hardware & accelerators",
+    "tasks": 20,
+    "pct": 16.7,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "Networking & HTTP",
+      "tasks": 16,
+      "pct": 13.3,
+      "shortlist": 0
+     },
+     {
+      "category": "IoT & smart home",
+      "tasks": 4,
+      "pct": 3.3,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Data engineering & databases",
+    "tasks": 16,
+    "pct": 13.3,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "Data formats & serialization",
+      "tasks": 9,
+      "pct": 7.5,
+      "shortlist": 0
+     },
+     {
+      "category": "Databases & storage engines",
+      "tasks": 5,
+      "pct": 4.2,
+      "shortlist": 1
+     },
+     {
+      "category": "Data pipelines & ETL",
+      "tasks": 1,
+      "pct": 0.8,
+      "shortlist": 0
+     },
+     {
+      "category": "SQL tooling",
+      "tasks": 1,
+      "pct": 0.8,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Scientific & ML software",
+    "tasks": 13,
+    "pct": 10.8,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "Machine learning & MLOps",
+      "tasks": 6,
+      "pct": 5.0,
+      "shortlist": 0
+     },
+     {
+      "category": "AI agents & retrieval",
+      "tasks": 5,
+      "pct": 4.2,
+      "shortlist": 0
+     },
+     {
+      "category": "Statistics & numerical methods",
+      "tasks": 1,
+      "pct": 0.8,
+      "shortlist": 0
+     },
+     {
+      "category": "Geospatial",
+      "tasks": 1,
+      "pct": 0.8,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Cloud infrastructure & IaC",
+    "tasks": 10,
+    "pct": 8.3,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "Cloud infra: containers & self-hosted platforms",
+      "tasks": 7,
+      "pct": 5.8,
+      "shortlist": 0
+     },
+     {
+      "category": "Configuration management",
+      "tasks": 3,
+      "pct": 2.5,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Security",
+    "tasks": 7,
+    "pct": 5.8,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "Cryptography & secure protocols",
+      "tasks": 4,
+      "pct": 3.3,
+      "shortlist": 0
+     },
+     {
+      "category": "Secrets & access control",
+      "tasks": 3,
+      "pct": 2.5,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Observability & reliability",
+    "tasks": 4,
+    "pct": 3.3,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "Monitoring & observability",
+      "tasks": 4,
+      "pct": 3.3,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Distributed systems & coordination",
+    "tasks": 3,
+    "pct": 2.5,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "Messaging & event streaming",
+      "tasks": 2,
+      "pct": 1.7,
+      "shortlist": 0
+     },
+     {
+      "category": "Calendaring & recurrence",
+      "tasks": 1,
+      "pct": 0.8,
+      "shortlist": 0
+     }
+    ]
+   }
+  ],
+  "language": [
+   {
+    "value": "Go",
+    "tasks": 86,
+    "pct": 71.7,
+    "shortlist": 1
+   },
+   {
+    "value": "Python",
+    "tasks": 32,
+    "pct": 26.7,
+    "shortlist": 0
+   },
+   {
+    "value": "C#",
+    "tasks": 1,
+    "pct": 0.8,
+    "shortlist": 0
+   },
+   {
+    "value": "Java",
+    "tasks": 1,
+    "pct": 0.8,
+    "shortlist": 1
+   }
+  ],
+  "role": [
+   {
+    "value": "Library / Backend Engineer",
+    "tasks": 30,
+    "pct": 25.0,
+    "shortlist": 0
+   },
+   {
+    "value": "Developer Tools Engineer",
+    "tasks": 15,
+    "pct": 12.5,
+    "shortlist": 0
+   },
+   {
+    "value": "ML / AI Engineer",
+    "tasks": 10,
+    "pct": 8.3,
+    "shortlist": 0
+   },
+   {
+    "value": "Backend Engineer",
+    "tasks": 9,
+    "pct": 7.5,
+    "shortlist": 1
+   },
+   {
+    "value": "Systems Engineer",
+    "tasks": 9,
+    "pct": 7.5,
+    "shortlist": 0
+   },
+   {
+    "value": "Security Engineer",
+    "tasks": 8,
+    "pct": 6.7,
+    "shortlist": 0
+   },
+   {
+    "value": "Platform Engineer",
+    "tasks": 7,
+    "pct": 5.8,
+    "shortlist": 0
+   },
+   {
+    "value": "Media Software Engineer",
+    "tasks": 7,
+    "pct": 5.8,
+    "shortlist": 0
+   },
+   {
+    "value": "Compiler / Language Engineer",
+    "tasks": 6,
+    "pct": 5.0,
+    "shortlist": 0
+   },
+   {
+    "value": "Database Engineer",
+    "tasks": 6,
+    "pct": 5.0,
+    "shortlist": 1
+   },
+   {
+    "value": "Observability Engineer",
+    "tasks": 4,
+    "pct": 3.3,
+    "shortlist": 0
+   },
+   {
+    "value": "Full-stack Engineer",
+    "tasks": 3,
+    "pct": 2.5,
+    "shortlist": 0
+   },
+   {
+    "value": "Embedded / IoT Engineer",
+    "tasks": 2,
+    "pct": 1.7,
+    "shortlist": 0
+   },
+   {
+    "value": "Build & Release Engineer",
+    "tasks": 1,
+    "pct": 0.8,
+    "shortlist": 0
+   },
+   {
+    "value": "Frontend Engineer",
+    "tasks": 1,
+    "pct": 0.8,
+    "shortlist": 0
+   },
+   {
+    "value": "Research Software Engineer",
+    "tasks": 1,
+    "pct": 0.8,
+    "shortlist": 0
+   },
+   {
+    "value": "Data Engineer",
+    "tasks": 1,
+    "pct": 0.8,
+    "shortlist": 0
+   }
+  ],
+  "seniority": [
+   {
+    "value": "Senior",
+    "tasks": 117,
+    "pct": 97.5,
+    "shortlist": 2
+   },
+   {
+    "value": "Staff+",
+    "tasks": 3,
+    "pct": 2.5,
+    "shortlist": 0
+   }
+  ],
+  "models": [
+   {
+    "codename": "kittiwake",
+    "model": "google/gemini-3.8-flash",
+    "tasks": 102,
+    "rollouts": 703,
+    "graded": 635,
+    "passed": 2,
+    "pass_rate": 0.0031496062992125984,
+    "error_rate": 0.09672830725462304,
+    "tasks_graded": 99,
+    "tasks_0": 97,
+    "tasks_100": 0,
+    "tasks_20_80": 0,
+    "per_task_rates": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.09090909090909091,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "codename": "steppe",
+    "model": "z-ai/glm-5.3-flash",
+    "tasks": 29,
+    "rollouts": 155,
+    "graded": 148,
+    "passed": 34,
+    "pass_rate": 0.22972972972972974,
+    "error_rate": 0.04516129032258064,
+    "tasks_graded": 29,
+    "tasks_0": 15,
+    "tasks_100": 0,
+    "tasks_20_80": 14,
+    "per_task_rates": [
+     0.75,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.75,
+     0.4,
+     0.0,
+     0.0,
+     0.75,
+     0.5,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.75,
+     0.0,
+     0.0,
+     0.0,
+     0.25,
+     0.75,
+     0.0,
+     0.25,
+     0.5,
+     0.75,
+     0.5,
+     0.75,
+     0.75
+    ]
+   },
+   {
+    "codename": "umbra",
+    "model": "google/gemini-4-argon",
+    "tasks": 10,
+    "rollouts": 21,
+    "graded": 20,
+    "passed": 5,
+    "pass_rate": 0.25,
+    "error_rate": 0.047619047619047616,
+    "tasks_graded": 10,
+    "tasks_0": 7,
+    "tasks_100": 2,
+    "tasks_20_80": 1,
+    "per_task_rates": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.5,
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   {
+    "codename": "lumen-pro",
+    "model": "claude-opus-5-5",
+    "tasks": 2,
+    "rollouts": 4,
+    "graded": 4,
+    "passed": 1,
+    "pass_rate": 0.25,
+    "error_rate": 0.0,
+    "tasks_graded": 2,
+    "tasks_0": 1,
+    "tasks_100": 0,
+    "tasks_20_80": 1,
+    "per_task_rates": [
+     0.5,
+     0.0
+    ]
+   }
+  ],
+  "showcase": [
+   {
+    "turns": {
+     "runs": 10,
+     "mean": 140.6,
+     "min": 47,
+     "max": 208,
+     "by_model": {
+      "umbra": 174.0,
+      "lumen-pro": 60.0,
+      "kittiwake": 156.33333333333334
+     }
+    },
+    "name": "minab-secured-loan-origination",
+    "id": "3adfbd0a-0ddf-4bd7-ae19-fd50f52178b2",
+    "rank": 34,
+    "batch": "alpharecon-blueprint-tasks",
+    "final": "Feature implementation",
+    "super_group": "Applications & business domains",
+    "category": "Payments & banking",
+    "language": "Java",
+    "role": "Backend Engineer",
+    "seniority": "Senior",
+    "shape": "Feature development across several PRs",
+    "models": [
+     {
+      "codename": "kittiwake",
+      "model": "google/gemini-3.8-flash",
+      "rollouts": 6,
+      "graded": 6,
+      "passed": 0,
+      "errors": 0,
+      "score_sum": 0.0,
+      "pass_rate": 0.0,
+      "error_rate": 0.0,
+      "avg_score": 0.0
+     },
+     {
+      "codename": "lumen-pro",
+      "model": "claude-opus-5-5",
+      "rollouts": 2,
+      "graded": 2,
+      "passed": 0,
+      "errors": 0,
+      "score_sum": 0.0,
+      "pass_rate": 0.0,
+      "error_rate": 0.0,
+      "avg_score": 0.0
+     },
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 2,
+      "graded": 2,
+      "passed": 2,
+      "errors": 0,
+      "score_sum": 2.0,
+      "pass_rate": 1.0,
+      "error_rate": 0.0,
+      "avg_score": 1.0
+     }
+    ]
+   },
+   {
+    "turns": {
+     "runs": 6,
+     "mean": 200.33333333333334,
+     "min": 63,
+     "max": 338,
+     "by_model": {
+      "umbra": 76.0,
+      "steppe": 262.5
+     }
+    },
+    "name": "memdb-txn",
+    "id": "7d7a4473-78b3-4471-8fc3-a844298d8adb",
+    "rank": 67,
+    "batch": "cohere-feature-implementation-new",
+    "final": "Feature implementation",
+    "super_group": "Data engineering & databases",
+    "category": "Databases & storage engines",
+    "language": "Go",
+    "role": "Database Engineer",
+    "seniority": "Senior",
+    "shape": "Feature development across several PRs",
+    "models": [
+     {
+      "codename": "steppe",
+      "model": "z-ai/glm-5.3-flash",
+      "rollouts": 4,
+      "graded": 4,
+      "passed": 0,
+      "errors": 0,
+      "score_sum": 0.0,
+      "pass_rate": 0.0,
+      "error_rate": 0.0,
+      "avg_score": 0.0
+     },
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 2,
+      "graded": 2,
+      "passed": 1,
+      "errors": 0,
+      "score_sum": 1.0,
+      "pass_rate": 0.5,
+      "error_rate": 0.0,
+      "avg_score": 0.5
+     }
+    ]
+   }
+  ]
+ },
+ "infrastructure-as-code": {
+  "copies_removed": 5,
+  "turns": {
+   "capped": 0,
+   "tasks_with_turns": 299,
+   "runs": 1720,
+   "mean_of_task_means": 112.61697121434973,
+   "median_of_task_means": 109.0,
+   "long_horizon_tasks": 9,
+   "threshold": 200,
+   "task_means": [
+    73.0,
+    120.2,
+    74.4,
+    98.6,
+    158.0,
+    144.2,
+    70.0,
+    90.0,
+    119.8,
+    52.57142857142857,
+    255.88888888888889,
+    109.2,
+    271.2,
+    89.5,
+    99.8,
+    87.8,
+    152.0,
+    121.4,
+    143.42857142857142,
+    97.35714285714286,
+    79.2,
+    97.6,
+    91.6,
+    213.4,
+    198.8,
+    63.0,
+    66.0,
+    112.0,
+    236.4,
+    119.85714285714286,
+    177.8,
+    86.28571428571429,
+    104.8,
+    109.2,
+    229.6,
+    207.0,
+    96.0,
+    87.0,
+    111.8,
+    86.4,
+    87.8,
+    100.0,
+    55.42857142857143,
+    115.6,
+    74.6,
+    122.8,
+    89.0,
+    75.28571428571429,
+    113.33333333333333,
+    131.25,
+    110.06666666666666,
+    114.57142857142857,
+    138.25,
+    95.6,
+    95.6,
+    93.25,
+    171.66666666666666,
+    111.0,
+    126.28571428571429,
+    71.6,
+    92.4,
+    180.8,
+    164.0,
+    130.2,
+    115.6,
+    119.8,
+    86.6,
+    70.5,
+    136.2,
+    71.75,
+    115.0,
+    109.0,
+    131.2,
+    72.66666666666667,
+    124.0,
+    73.8,
+    120.25,
+    84.0,
+    155.66666666666666,
+    70.85714285714286,
+    117.83333333333333,
+    136.6,
+    117.21428571428571,
+    62.6,
+    177.2,
+    91.2,
+    91.5,
+    87.88888888888889,
+    163.6,
+    47.8,
+    81.8,
+    117.8,
+    132.0,
+    115.2,
+    57.285714285714285,
+    96.4,
+    62.6,
+    143.5,
+    77.4,
+    140.83333333333334,
+    77.8,
+    163.2,
+    186.4,
+    127.75,
+    96.0,
+    53.0,
+    147.8,
+    170.8,
+    117.6,
+    136.0,
+    65.2,
+    84.85714285714286,
+    121.4,
+    102.8,
+    140.16666666666666,
+    72.6,
+    104.0,
+    110.8,
+    84.2,
+    85.2,
+    90.4,
+    53.8,
+    70.6,
+    137.2,
+    171.0,
+    100.6,
+    72.8,
+    56.8,
+    134.0,
+    73.4,
+    132.5,
+    118.0,
+    172.66666666666666,
+    148.4,
+    109.8,
+    120.4,
+    92.8,
+    79.4,
+    96.4,
+    109.2,
+    85.4,
+    137.0,
+    121.2,
+    85.0,
+    93.6,
+    88.2,
+    108.4,
+    101.8,
+    104.4,
+    122.0,
+    155.2,
+    105.6,
+    82.6,
+    97.4,
+    90.8,
+    142.8,
+    83.0,
+    77.63636363636364,
+    117.2,
+    184.2,
+    132.5,
+    172.2,
+    107.8,
+    174.8,
+    82.4,
+    139.6,
+    199.9,
+    183.0,
+    110.0,
+    62.0,
+    111.0,
+    78.0,
+    130.8,
+    104.4,
+    97.6,
+    148.2,
+    127.5,
+    91.0,
+    117.0,
+    109.6,
+    78.8,
+    165.4,
+    110.2,
+    93.4,
+    78.8,
+    109.2,
+    168.8,
+    117.4,
+    81.4,
+    157.5,
+    100.6,
+    93.0,
+    62.4,
+    124.6,
+    105.2,
+    97.8,
+    106.2,
+    105.4,
+    134.0,
+    154.4,
+    66.6,
+    80.3,
+    115.125,
+    117.0,
+    113.6,
+    140.6,
+    109.2,
+    145.33333333333334,
+    117.0,
+    80.8,
+    102.2,
+    107.8,
+    70.2,
+    95.2,
+    209.2,
+    151.0,
+    113.625,
+    114.2,
+    88.6,
+    65.8,
+    64.8,
+    72.0,
+    152.2,
+    215.2,
+    125.06666666666666,
+    164.36363636363637,
+    101.0,
+    107.0,
+    142.8,
+    74.0,
+    126.2,
+    103.2,
+    154.25,
+    96.4,
+    120.8,
+    92.6,
+    123.14285714285714,
+    95.8,
+    123.6,
+    85.85714285714286,
+    110.4,
+    192.75,
+    134.4,
+    112.2,
+    66.5,
+    210.7,
+    107.4,
+    100.5,
+    146.0,
+    151.8,
+    102.0,
+    121.0,
+    97.5,
+    136.6,
+    73.77777777777777,
+    56.2,
+    70.0,
+    140.2,
+    117.66666666666667,
+    138.2,
+    76.0,
+    106.0,
+    102.125,
+    53.0,
+    81.14285714285714,
+    71.8,
+    167.0,
+    92.2,
+    115.25,
+    110.4,
+    131.11764705882354,
+    73.2,
+    80.0,
+    110.8,
+    69.2,
+    67.66666666666667,
+    93.71428571428571,
+    68.0,
+    132.8,
+    133.8,
+    171.0,
+    80.6,
+    114.0,
+    81.6,
+    115.6,
+    112.2,
+    110.6,
+    39.0,
+    145.2,
+    124.0,
+    80.0,
+    101.4,
+    91.6,
+    102.8,
+    99.4,
+    158.4,
+    154.6,
+    93.2,
+    100.0
+   ],
+   "max_task_mean": 271.2,
+   "min_task_mean": 39.0,
+   "by_model": [
+    {
+     "codename": "steppe",
+     "model": "z-ai/glm-5.3-flash",
+     "runs": 1586,
+     "tasks": 292,
+     "mean": 115.8858764186633,
+     "runs_200_plus": 163
+    },
+    {
+     "codename": "astrolabe",
+     "model": "x-ai/grok-4.7",
+     "runs": 55,
+     "tasks": 7,
+     "mean": 105.83636363636364,
+     "runs_200_plus": 0
+    },
+    {
+     "codename": "umbra",
+     "model": "google/gemini-4-argon",
+     "runs": 40,
+     "tasks": 20,
+     "mean": 74.6,
+     "runs_200_plus": 2
+    },
+    {
+     "codename": "kittiwake",
+     "model": "google/gemini-3.8-flash",
+     "runs": 21,
+     "tasks": 7,
+     "mean": 156.76190476190476,
+     "runs_200_plus": 5
+    },
+    {
+     "codename": "meridian",
+     "model": "gpt-6-astra",
+     "runs": 7,
+     "tasks": 7,
+     "mean": 41.0,
+     "runs_200_plus": 0
+    },
+    {
+     "codename": "lumen-pro",
+     "model": "claude-opus-5-5",
+     "runs": 7,
+     "tasks": 7,
+     "mean": 45.714285714285715,
+     "runs_200_plus": 0
+    },
+    {
+     "codename": "crossbill",
+     "model": "meta/muse-wonder",
+     "runs": 4,
+     "tasks": 1,
+     "mean": 165.0,
+     "runs_200_plus": 0
+    }
+   ]
+  },
+  "title": "Infrastructure as code",
+  "tasks": 300,
+  "shortlist": 16,
+  "batches": [
+   [
+    "IaC-ots",
+    293
+   ],
+   [
+    "SRE-xai-ots",
+    7
+   ]
+  ],
+  "final_parts": [
+   [
+    "Infrastructure as code",
+    300
+   ]
+  ],
+  "evaluated_tasks": 299,
+  "super_groups": 2,
+  "folded": {},
+  "categories": 4,
+  "domain": [
+   {
+    "super_group": "Cloud infrastructure & IaC",
+    "tasks": 297,
+    "pct": 99.0,
+    "shortlist": 13,
+    "categories": [
+     {
+      "category": "Cloud infra: AWS platform stacks",
+      "tasks": 176,
+      "pct": 58.7,
+      "shortlist": 7
+     },
+     {
+      "category": "Cloud infra: containers & self-hosted platforms",
+      "tasks": 85,
+      "pct": 28.3,
+      "shortlist": 4
+     },
+     {
+      "category": "Cloud infra: serverless & event-driven",
+      "tasks": 36,
+      "pct": 12.0,
+      "shortlist": 2
+     }
+    ]
+   },
+   {
+    "super_group": "Security",
+    "tasks": 3,
+    "pct": 1.0,
+    "shortlist": 3,
+    "categories": [
+     {
+      "category": "Cloud security & compliance",
+      "tasks": 3,
+      "pct": 1.0,
+      "shortlist": 3
+     }
+    ]
+   }
+  ],
+  "language": [
+   {
+    "value": "HCL (Terraform)",
+    "tasks": 296,
+    "pct": 98.7,
+    "shortlist": 12
+   },
+   {
+    "value": "TypeScript",
+    "tasks": 3,
+    "pct": 1.0,
+    "shortlist": 3
+   },
+   {
+    "value": "Python",
+    "tasks": 1,
+    "pct": 0.3,
+    "shortlist": 1
+   }
+  ],
+  "role": [
+   {
+    "value": "Platform Engineer",
+    "tasks": 297,
+    "pct": 99.0,
+    "shortlist": 13
+   },
+   {
+    "value": "Cloud Security Engineer",
+    "tasks": 3,
+    "pct": 1.0,
+    "shortlist": 3
+   }
+  ],
+  "seniority": [
+   {
+    "value": "Senior",
+    "tasks": 300,
+    "pct": 100.0,
+    "shortlist": 16
+   }
+  ],
+  "models": [
+   {
+    "codename": "steppe",
+    "model": "z-ai/glm-5.3-flash",
+    "tasks": 292,
+    "rollouts": 1627,
+    "graded": 1586,
+    "passed": 1003,
+    "pass_rate": 0.6324085750315258,
+    "error_rate": 0.02519975414874001,
+    "tasks_graded": 292,
+    "tasks_0": 9,
+    "tasks_100": 22,
+    "tasks_20_80": 259,
+    "per_task_rates": [
+     0.4,
+     0.4,
+     0.4,
+     0.8,
+     0.8,
+     0.4,
+     0.8,
+     0.6,
+     0.6,
+     0.8,
+     0.5555555555555556,
+     0.6,
+     0.8,
+     0.6666666666666666,
+     0.8,
+     0.8,
+     0.75,
+     0.8,
+     0.8,
+     0.35714285714285715,
+     0.8,
+     0.6,
+     0.6,
+     0.6,
+     0.6,
+     0.75,
+     0.75,
+     0.6,
+     0.8,
+     0.42857142857142855,
+     0.8,
+     0.6,
+     0.6,
+     1.0,
+     0.8,
+     0.8,
+     0.6,
+     0.8,
+     0.6,
+     0.6,
+     0.8,
+     0.8,
+     0.8,
+     0.6,
+     0.2,
+     0.8,
+     0.6,
+     0.6,
+     0.26666666666666666,
+     0.375,
+     0.2857142857142857,
+     0.5,
+     0.6,
+     0.6,
+     0.75,
+     0.5555555555555556,
+     0.8,
+     0.42857142857142855,
+     0.8,
+     0.6,
+     0.4,
+     0.4,
+     0.6,
+     0.8,
+     0.6,
+     0.4,
+     0.75,
+     0.4,
+     0.75,
+     0.8,
+     0.25,
+     0.4,
+     0.5,
+     1.0,
+     0.6,
+     0.75,
+     0.8,
+     0.6666666666666666,
+     0.6,
+     0.5,
+     0.8,
+     0.3333333333333333,
+     0.8,
+     0.6,
+     0.6,
+     0.75,
+     0.6,
+     0.8,
+     0.6,
+     0.0,
+     0.8,
+     0.8,
+     1.0,
+     0.8,
+     0.6,
+     0.5,
+     0.8,
+     1.0,
+     0.8,
+     0.4,
+     0.8,
+     1.0,
+     0.8,
+     0.8,
+     0.6,
+     0.8,
+     0.8,
+     0.75,
+     0.2,
+     0.4,
+     0.8,
+     0.75,
+     0.8,
+     0.42857142857142855,
+     0.6,
+     0.6,
+     0.6,
+     0.8,
+     0.8,
+     0.8,
+     0.8,
+     0.8333333333333334,
+     0.8,
+     0.8,
+     0.6,
+     0.0,
+     0.4,
+     0.1875,
+     0.75,
+     0.4444444444444444,
+     0.4,
+     1.0,
+     0.6,
+     0.4,
+     0.8,
+     0.8,
+     0.8,
+     0.4,
+     0.8,
+     1.0,
+     0.6,
+     0.8,
+     0.6,
+     0.4,
+     0.8,
+     0.6,
+     0.6,
+     0.8,
+     0.8,
+     1.0,
+     0.8,
+     1.0,
+     0.8,
+     0.8,
+     0.45454545454545453,
+     0.8,
+     0.6,
+     0.4,
+     1.0,
+     0.6,
+     0.8,
+     0.8,
+     0.8,
+     0.4,
+     0.5714285714285714,
+     0.4,
+     1.0,
+     0.8,
+     0.8,
+     0.8,
+     0.8,
+     0.6,
+     0.8,
+     0.5,
+     0.8,
+     0.8,
+     0.6,
+     0.0,
+     0.6,
+     0.8,
+     1.0,
+     0.6,
+     0.6,
+     0.4,
+     0.8,
+     0.6666666666666666,
+     0.6,
+     0.42857142857142855,
+     0.8,
+     0.8,
+     0.8,
+     0.0,
+     0.6,
+     0.8,
+     0.8,
+     0.8,
+     0.6,
+     0.0,
+     0.375,
+     0.8,
+     0.8,
+     0.8,
+     0.8,
+     0.2,
+     0.6,
+     0.6,
+     0.8,
+     0.8,
+     0.8,
+     0.0,
+     0.8,
+     0.6,
+     0.8,
+     0.8,
+     0.6,
+     0.8,
+     0.8,
+     0.6,
+     1.0,
+     0.26666666666666666,
+     0.36363636363636365,
+     0.8,
+     1.0,
+     0.8,
+     0.8,
+     0.6,
+     0.8,
+     0.4166666666666667,
+     0.8,
+     0.8,
+     0.8,
+     0.8,
+     0.8,
+     0.4,
+     0.8,
+     0.8,
+     1.0,
+     0.8,
+     0.8,
+     0.75,
+     0.4,
+     1.0,
+     0.0,
+     0.8,
+     0.8,
+     1.0,
+     0.8,
+     0.5,
+     0.4,
+     0.5555555555555556,
+     0.4,
+     0.6,
+     0.8,
+     0.3333333333333333,
+     0.6,
+     0.8,
+     0.75,
+     1.0,
+     0.0,
+     0.8,
+     0.5,
+     0.8,
+     0.75,
+     0.6,
+     0.8,
+     0.6,
+     0.4,
+     0.8,
+     0.0,
+     0.4,
+     0.6,
+     0.6,
+     0.8,
+     1.0,
+     0.4,
+     0.8,
+     0.8,
+     0.6,
+     1.0,
+     0.6,
+     0.75,
+     0.6,
+     1.0,
+     0.75,
+     0.6,
+     0.8,
+     0.8,
+     1.0,
+     0.6,
+     0.6,
+     0.6,
+     0.8
+    ]
+   },
+   {
+    "codename": "umbra",
+    "model": "google/gemini-4-argon",
+    "tasks": 20,
+    "rollouts": 80,
+    "graded": 40,
+    "passed": 31,
+    "pass_rate": 0.775,
+    "error_rate": 0.5,
+    "tasks_graded": 20,
+    "tasks_0": 3,
+    "tasks_100": 14,
+    "tasks_20_80": 3,
+    "per_task_rates": [
+     1.0,
+     0.5,
+     1.0,
+     1.0,
+     1.0,
+     0.5,
+     1.0,
+     1.0,
+     1.0,
+     0.0,
+     1.0,
+     1.0,
+     0.0,
+     1.0,
+     1.0,
+     1.0,
+     0.0,
+     1.0,
+     0.5,
+     1.0
+    ]
+   },
+   {
+    "codename": "astrolabe",
+    "model": "x-ai/grok-4.7",
+    "tasks": 7,
+    "rollouts": 56,
+    "graded": 55,
+    "passed": 29,
+    "pass_rate": 0.5272727272727272,
+    "error_rate": 0.017857142857142856,
+    "tasks_graded": 7,
+    "tasks_0": 0,
+    "tasks_100": 0,
+    "tasks_20_80": 4,
+    "per_task_rates": [
+     0.125,
+     0.14285714285714285,
+     0.5,
+     0.625,
+     0.625,
+     0.75,
+     0.875
+    ]
+   },
+   {
+    "codename": "kittiwake",
+    "model": "google/gemini-3.8-flash",
+    "tasks": 7,
+    "rollouts": 43,
+    "graded": 21,
+    "passed": 15,
+    "pass_rate": 0.7142857142857143,
+    "error_rate": 0.5116279069767442,
+    "tasks_graded": 7,
+    "tasks_0": 1,
+    "tasks_100": 3,
+    "tasks_20_80": 3,
+    "per_task_rates": [
+     0.6666666666666666,
+     0.6666666666666666,
+     1.0,
+     1.0,
+     1.0,
+     0.6666666666666666,
+     0.0
+    ]
+   },
+   {
+    "codename": "lumen-pro",
+    "model": "claude-opus-5-5",
+    "tasks": 7,
+    "rollouts": 15,
+    "graded": 7,
+    "passed": 6,
+    "pass_rate": 0.8571428571428571,
+    "error_rate": 0.5333333333333333,
+    "tasks_graded": 7,
+    "tasks_0": 1,
+    "tasks_100": 6,
+    "tasks_20_80": 0,
+    "per_task_rates": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     0.0
+    ]
+   },
+   {
+    "codename": "meridian",
+    "model": "gpt-6-astra",
+    "tasks": 7,
+    "rollouts": 14,
+    "graded": 7,
+    "passed": 7,
+    "pass_rate": 1.0,
+    "error_rate": 0.5,
+    "tasks_graded": 7,
+    "tasks_0": 0,
+    "tasks_100": 7,
+    "tasks_20_80": 0,
+    "per_task_rates": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   {
+    "codename": "crossbill",
+    "model": "meta/muse-wonder",
+    "tasks": 1,
+    "rollouts": 8,
+    "graded": 4,
+    "passed": 4,
+    "pass_rate": 1.0,
+    "error_rate": 0.5,
+    "tasks_graded": 1,
+    "tasks_0": 0,
+    "tasks_100": 1,
+    "tasks_20_80": 0,
+    "per_task_rates": [
+     1.0
+    ]
+   }
+  ],
+  "showcase": [
+   {
+    "turns": {
+     "runs": 7,
+     "mean": 84.85714285714286,
+     "min": 44,
+     "max": 118,
+     "by_model": {
+      "umbra": 46.5,
+      "steppe": 100.2
+     }
+    },
+    "name": "terraform-dual-ipv6-k8s-module-refactor",
+    "id": "cdc09435-aa80-4d26-bf7c-237ef49e66c0",
+    "rank": 29,
+    "batch": "IaC-ots",
+    "final": "Infrastructure as code",
+    "super_group": "Cloud infrastructure & IaC",
+    "category": "Cloud infra: containers & self-hosted platforms",
+    "language": "HCL (Terraform)",
+    "role": "Platform Engineer",
+    "seniority": "Senior",
+    "shape": "State-preserving IaC change",
+    "models": [
+     {
+      "codename": "steppe",
+      "model": "z-ai/glm-5.3-flash",
+      "rollouts": 5,
+      "graded": 5,
+      "passed": 2,
+      "errors": 0,
+      "score_sum": 2.0,
+      "pass_rate": 0.4,
+      "error_rate": 0.0,
+      "avg_score": 0.4
+     },
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 4,
+      "graded": 2,
+      "passed": 0,
+      "errors": 2,
+      "score_sum": 0.0,
+      "pass_rate": 0.0,
+      "error_rate": 0.5,
+      "avg_score": 0.0
+     }
+    ]
+   },
+   {
+    "turns": {
+     "runs": 15,
+     "mean": 110.06666666666666,
+     "min": 39,
+     "max": 242,
+     "by_model": {
+      "umbra": 89.0,
+      "kittiwake": 209.66666666666666,
+      "meridian": 68.0,
+      "lumen-pro": 39.0,
+      "astrolabe": 92.125
+     }
+    },
+    "name": "pulumi-atlasgrid-ecs-ts-migration",
+    "id": "1d03a45f-997c-4d63-b9cf-60894746cdd8",
+    "rank": 44,
+    "batch": "SRE-xai-ots",
+    "final": "Infrastructure as code",
+    "super_group": "Cloud infrastructure & IaC",
+    "category": "Cloud infra: containers & self-hosted platforms",
+    "language": "TypeScript",
+    "role": "Platform Engineer",
+    "seniority": "Senior",
+    "shape": "State-preserving IaC change",
+    "models": [
+     {
+      "codename": "astrolabe",
+      "model": "x-ai/grok-4.7",
+      "rollouts": 8,
+      "graded": 8,
+      "passed": 1,
+      "errors": 0,
+      "score_sum": 1.0,
+      "pass_rate": 0.125,
+      "error_rate": 0.0,
+      "avg_score": 0.125
+     },
+     {
+      "codename": "kittiwake",
+      "model": "google/gemini-3.8-flash",
+      "rollouts": 6,
+      "graded": 3,
+      "passed": 2,
+      "errors": 3,
+      "score_sum": 4.0,
+      "pass_rate": 0.6666666666666666,
+      "error_rate": 0.5,
+      "avg_score": 0.6666666666666666
+     },
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 4,
+      "graded": 2,
+      "passed": 1,
+      "errors": 2,
+      "score_sum": 2.0,
+      "pass_rate": 0.5,
+      "error_rate": 0.5,
+      "avg_score": 0.5
+     },
+     {
+      "codename": "lumen-pro",
+      "model": "claude-opus-5-5",
+      "rollouts": 2,
+      "graded": 1,
+      "passed": 1,
+      "errors": 1,
+      "score_sum": 2.0,
+      "pass_rate": 1.0,
+      "error_rate": 0.5,
+      "avg_score": 1.0
+     },
+     {
+      "codename": "meridian",
+      "model": "gpt-6-astra",
+      "rollouts": 2,
+      "graded": 1,
+      "passed": 1,
+      "errors": 1,
+      "score_sum": 2.0,
+      "pass_rate": 1.0,
+      "error_rate": 0.5,
+      "avg_score": 1.0
+     }
+    ]
+   },
+   {
+    "turns": {
+     "runs": 10,
+     "mean": 121.4,
+     "min": 84,
+     "max": 175,
+     "by_model": {
+      "umbra": 145.0,
+      "astrolabe": 115.5
+     }
+    },
+    "name": "cdk-accelerator-platform-ts-componentize",
+    "id": "e16aaa95-b7b5-4056-ba10-ea5347541e00",
+    "rank": 25,
+    "batch": "SRE-xai-ots",
+    "final": "Infrastructure as code",
+    "super_group": "Cloud infrastructure & IaC",
+    "category": "Cloud infra: AWS platform stacks",
+    "language": "TypeScript",
+    "role": "Platform Engineer",
+    "seniority": "Senior",
+    "shape": "State-preserving IaC change",
+    "models": [
+     {
+      "codename": "astrolabe",
+      "model": "x-ai/grok-4.7",
+      "rollouts": 8,
+      "graded": 8,
+      "passed": 4,
+      "errors": 0,
+      "score_sum": 4.0,
+      "pass_rate": 0.5,
+      "error_rate": 0.0,
+      "avg_score": 0.5
+     },
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 4,
+      "graded": 2,
+      "passed": 2,
+      "errors": 2,
+      "score_sum": 4.0,
+      "pass_rate": 1.0,
+      "error_rate": 0.5,
+      "avg_score": 1.0
+     }
+    ]
+   }
+  ]
+ },
+ "data-engineering": {
+  "copies_removed": 0,
+  "turns": {
+   "capped": 0,
+   "tasks_with_turns": 17,
+   "runs": 170,
+   "mean_of_task_means": 98.59411764705882,
+   "median_of_task_means": 90.4,
+   "long_horizon_tasks": 0,
+   "threshold": 200,
+   "task_means": [
+    67.6,
+    85.0,
+    55.6,
+    120.6,
+    112.1,
+    125.5,
+    67.2,
+    96.3,
+    90.4,
+    152.1,
+    135.6,
+    75.6,
+    188.2,
+    49.6,
+    120.7,
+    51.2,
+    82.8
+   ],
+   "max_task_mean": 188.2,
+   "min_task_mean": 49.6,
+   "by_model": [
+    {
+     "codename": "astrolabe",
+     "model": "x-ai/grok-4.7",
+     "runs": 136,
+     "tasks": 17,
+     "mean": 79.88235294117646,
+     "runs_200_plus": 1
+    },
+    {
+     "codename": "umbra",
+     "model": "google/gemini-4-argon",
+     "runs": 34,
+     "tasks": 17,
+     "mean": 173.44117647058823,
+     "runs_200_plus": 12
+    }
+   ]
+  },
+  "title": "Data engineering",
+  "tasks": 17,
+  "shortlist": 10,
+  "batches": [
+   [
+    "data-processing-xai-ots",
+    17
+   ]
+  ],
+  "final_parts": [
+   [
+    "Data engineering",
+    17
+   ]
+  ],
+  "evaluated_tasks": 17,
+  "super_groups": 3,
+  "folded": {},
+  "categories": 8,
+  "domain": [
+   {
+    "super_group": "Data engineering & databases",
+    "tasks": 14,
+    "pct": 82.4,
+    "shortlist": 8,
+    "categories": [
+     {
+      "category": "Data pipelines & ETL",
+      "tasks": 4,
+      "pct": 23.5,
+      "shortlist": 1
+     },
+     {
+      "category": "Analytics engineering",
+      "tasks": 3,
+      "pct": 17.6,
+      "shortlist": 3
+     },
+     {
+      "category": "Databases & storage engines",
+      "tasks": 3,
+      "pct": 17.6,
+      "shortlist": 2
+     },
+     {
+      "category": "Data validation",
+      "tasks": 2,
+      "pct": 11.8,
+      "shortlist": 1
+     },
+     {
+      "category": "Data formats & serialization",
+      "tasks": 2,
+      "pct": 11.8,
+      "shortlist": 1
+     }
+    ]
+   },
+   {
+    "super_group": "Scientific & ML software",
+    "tasks": 2,
+    "pct": 11.8,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "Scientific computing",
+      "tasks": 1,
+      "pct": 5.9,
+      "shortlist": 0
+     },
+     {
+      "category": "Sports analytics",
+      "tasks": 1,
+      "pct": 5.9,
+      "shortlist": 1
+     }
+    ]
+   },
+   {
+    "super_group": "Applications & business domains",
+    "tasks": 1,
+    "pct": 5.9,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "Payments & banking",
+      "tasks": 1,
+      "pct": 5.9,
+      "shortlist": 1
+     }
+    ]
+   }
+  ],
+  "language": [
+   {
+    "value": "Python",
+    "tasks": 15,
+    "pct": 88.2,
+    "shortlist": 8
+   },
+   {
+    "value": "SQL",
+    "tasks": 2,
+    "pct": 11.8,
+    "shortlist": 2
+   }
+  ],
+  "role": [
+   {
+    "value": "Data Engineer",
+    "tasks": 15,
+    "pct": 88.2,
+    "shortlist": 8
+   },
+   {
+    "value": "Analytics Engineer",
+    "tasks": 2,
+    "pct": 11.8,
+    "shortlist": 2
+   }
+  ],
+  "seniority": [
+   {
+    "value": "Mid\u2013Senior",
+    "tasks": 17,
+    "pct": 100.0,
+    "shortlist": 10
+   }
+  ],
+  "models": [
+   {
+    "codename": "astrolabe",
+    "model": "x-ai/grok-4.7",
+    "tasks": 17,
+    "rollouts": 136,
+    "graded": 136,
+    "passed": 68,
+    "pass_rate": 0.5,
+    "error_rate": 0.0,
+    "tasks_graded": 17,
+    "tasks_0": 0,
+    "tasks_100": 0,
+    "tasks_20_80": 11,
+    "per_task_rates": [
+     0.875,
+     0.375,
+     0.25,
+     0.625,
+     0.375,
+     0.875,
+     0.875,
+     0.75,
+     0.875,
+     0.25,
+     0.375,
+     0.375,
+     0.125,
+     0.375,
+     0.125,
+     0.5,
+     0.5
+    ]
+   },
+   {
+    "codename": "umbra",
+    "model": "google/gemini-4-argon",
+    "tasks": 17,
+    "rollouts": 68,
+    "graded": 34,
+    "passed": 25,
+    "pass_rate": 0.7352941176470589,
+    "error_rate": 0.5,
+    "tasks_graded": 17,
+    "tasks_0": 4,
+    "tasks_100": 12,
+    "tasks_20_80": 1,
+    "per_task_rates": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     0.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     0.5,
+     0.0
+    ]
+   }
+  ],
+  "showcase": [
+   {
+    "turns": {
+     "runs": 10,
+     "mean": 135.6,
+     "min": 74,
+     "max": 250,
+     "by_model": {
+      "umbra": 247.5,
+      "astrolabe": 107.625
+     }
+    },
+    "name": "pdk-etlplus-pipeline",
+    "id": "18becaa6-defa-4fc9-8d28-b81093068c1c",
+    "rank": 81,
+    "batch": "data-processing-xai-ots",
+    "final": "Data engineering",
+    "super_group": "Data engineering & databases",
+    "category": "Data pipelines & ETL",
+    "language": "Python",
+    "role": "Data Engineer",
+    "seniority": "Mid\u2013Senior",
+    "shape": "Data pipeline repair / extension",
+    "models": [
+     {
+      "codename": "astrolabe",
+      "model": "x-ai/grok-4.7",
+      "rollouts": 8,
+      "graded": 8,
+      "passed": 3,
+      "errors": 0,
+      "score_sum": 3.0,
+      "pass_rate": 0.375,
+      "error_rate": 0.0,
+      "avg_score": 0.375
+     },
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 4,
+      "graded": 2,
+      "passed": 0,
+      "errors": 2,
+      "score_sum": 0.0,
+      "pass_rate": 0.0,
+      "error_rate": 0.5,
+      "avg_score": 0.0
+     }
+    ]
+   },
+   {
+    "turns": {
+     "runs": 10,
+     "mean": 49.6,
+     "min": 28,
+     "max": 95,
+     "by_model": {
+      "umbra": 91.5,
+      "astrolabe": 39.125
+     }
+    },
+    "name": "pdk-databallpy-dataframe",
+    "id": "3e32174a-2492-43c7-8dd3-cf7f651e8e39",
+    "rank": 15,
+    "batch": "data-processing-xai-ots",
+    "final": "Data engineering",
+    "super_group": "Scientific & ML software",
+    "category": "Sports analytics",
+    "language": "Python",
+    "role": "Data Engineer",
+    "seniority": "Mid\u2013Senior",
+    "shape": "Data pipeline repair / extension",
+    "models": [
+     {
+      "codename": "astrolabe",
+      "model": "x-ai/grok-4.7",
+      "rollouts": 8,
+      "graded": 8,
+      "passed": 3,
+      "errors": 0,
+      "score_sum": 3.0,
+      "pass_rate": 0.375,
+      "error_rate": 0.0,
+      "avg_score": 0.375
+     },
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 4,
+      "graded": 2,
+      "passed": 2,
+      "errors": 2,
+      "score_sum": 4.0,
+      "pass_rate": 1.0,
+      "error_rate": 0.5,
+      "avg_score": 1.0
+     }
+    ]
+   },
+   {
+    "turns": {
+     "runs": 10,
+     "mean": 51.2,
+     "min": 28,
+     "max": 85,
+     "by_model": {
+      "umbra": 84.0,
+      "astrolabe": 43.0
+     }
+    },
+    "name": "pdk-xmltodict-etl",
+    "id": "e0173185-2e57-4689-9f1f-6949ea74b692",
+    "rank": 7,
+    "batch": "data-processing-xai-ots",
+    "final": "Data engineering",
+    "super_group": "Data engineering & databases",
+    "category": "Data formats & serialization",
+    "language": "Python",
+    "role": "Data Engineer",
+    "seniority": "Mid\u2013Senior",
+    "shape": "Data pipeline repair / extension",
+    "models": [
+     {
+      "codename": "astrolabe",
+      "model": "x-ai/grok-4.7",
+      "rollouts": 8,
+      "graded": 8,
+      "passed": 4,
+      "errors": 0,
+      "score_sum": 4.0,
+      "pass_rate": 0.5,
+      "error_rate": 0.0,
+      "avg_score": 0.5
+     },
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 4,
+      "graded": 2,
+      "passed": 1,
+      "errors": 2,
+      "score_sum": 2.0,
+      "pass_rate": 0.5,
+      "error_rate": 0.5,
+      "avg_score": 0.5
+     }
+    ]
+   }
+  ]
+ },
+ "migration": {
+  "copies_removed": 0,
+  "turns": {
+   "capped": 22,
+   "tasks_with_turns": 36,
+   "runs": 297,
+   "mean_of_task_means": 320.74017857142854,
+   "median_of_task_means": 335.4375,
+   "long_horizon_tasks": 26,
+   "threshold": 200,
+   "task_means": [
+    413.9,
+    163.625,
+    104.375,
+    165.6,
+    126.875,
+    132.25,
+    557.25,
+    214.5,
+    266.75,
+    341.0,
+    240.75,
+    600.0,
+    557.4285714285714,
+    404.375,
+    600.0,
+    455.5,
+    154.7,
+    402.6,
+    490.75,
+    378.125,
+    530.75,
+    249.8,
+    132.375,
+    329.875,
+    389.75,
+    224.25,
+    272.25,
+    145.14285714285714,
+    600.0,
+    119.4,
+    98.9,
+    402.25,
+    353.625,
+    351.875,
+    222.25,
+    353.8
+   ],
+   "max_task_mean": 600.0,
+   "min_task_mean": 98.9,
+   "by_model": [
+    {
+     "codename": "astrolabe",
+     "model": "x-ai/grok-4.7",
+     "runs": 253,
+     "tasks": 32,
+     "mean": 287.45849802371544,
+     "runs_200_plus": 132
+    },
+    {
+     "codename": "umbra",
+     "model": "google/gemini-4-argon",
+     "runs": 24,
+     "tasks": 12,
+     "mean": 293.9166666666667,
+     "runs_200_plus": 19
+    },
+    {
+     "codename": "steppe",
+     "model": "z-ai/glm-5.3-flash",
+     "runs": 20,
+     "tasks": 4,
+     "mean": 600.0,
+     "runs_200_plus": 20
+    }
+   ]
+  },
+  "title": "Migration",
+  "tasks": 36,
+  "shortlist": 7,
+  "batches": [
+   [
+    "migration-xai-ots",
+    32
+   ],
+   [
+    "migration-ots",
+    4
+   ]
+  ],
+  "final_parts": [
+   [
+    "Migration",
+    36
+   ]
+  ],
+  "evaluated_tasks": 36,
+  "super_groups": 6,
+  "folded": {},
+  "categories": 14,
+  "domain": [
+   {
+    "super_group": "Languages & developer tooling",
+    "tasks": 13,
+    "pct": 36.1,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "Compilers & language runtimes",
+      "tasks": 7,
+      "pct": 19.4,
+      "shortlist": 0
+     },
+     {
+      "category": "CLI tooling",
+      "tasks": 4,
+      "pct": 11.1,
+      "shortlist": 1
+     },
+     {
+      "category": "Text & NLP processing",
+      "tasks": 1,
+      "pct": 2.8,
+      "shortlist": 0
+     },
+     {
+      "category": "Data structures",
+      "tasks": 1,
+      "pct": 2.8,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Applications & business domains",
+    "tasks": 10,
+    "pct": 27.8,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "Media processing",
+      "tasks": 7,
+      "pct": 19.4,
+      "shortlist": 0
+     },
+     {
+      "category": "Collaborative documents",
+      "tasks": 2,
+      "pct": 5.6,
+      "shortlist": 0
+     },
+     {
+      "category": "Games & game engines",
+      "tasks": 1,
+      "pct": 2.8,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Scientific & ML software",
+    "tasks": 8,
+    "pct": 22.2,
+    "shortlist": 4,
+    "categories": [
+     {
+      "category": "Statistics & numerical methods",
+      "tasks": 4,
+      "pct": 11.1,
+      "shortlist": 2
+     },
+     {
+      "category": "Graph algorithms",
+      "tasks": 2,
+      "pct": 5.6,
+      "shortlist": 1
+     },
+     {
+      "category": "Scientific computing",
+      "tasks": 1,
+      "pct": 2.8,
+      "shortlist": 0
+     },
+     {
+      "category": "Probabilistic data structures",
+      "tasks": 1,
+      "pct": 2.8,
+      "shortlist": 1
+     }
+    ]
+   },
+   {
+    "super_group": "Data engineering & databases",
+    "tasks": 3,
+    "pct": 8.3,
+    "shortlist": 0,
+    "categories": [
+     {
+      "category": "Data formats & serialization",
+      "tasks": 3,
+      "pct": 8.3,
+      "shortlist": 0
+     }
+    ]
+   },
+   {
+    "super_group": "Distributed systems & coordination",
+    "tasks": 1,
+    "pct": 2.8,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "Calendaring & recurrence",
+      "tasks": 1,
+      "pct": 2.8,
+      "shortlist": 1
+     }
+    ]
+   },
+   {
+    "super_group": "Build, release & supply chain",
+    "tasks": 1,
+    "pct": 2.8,
+    "shortlist": 1,
+    "categories": [
+     {
+      "category": "Software supply chain",
+      "tasks": 1,
+      "pct": 2.8,
+      "shortlist": 1
+     }
+    ]
+   }
+  ],
+  "language": [
+   {
+    "value": "Go",
+    "tasks": 32,
+    "pct": 88.9,
+    "shortlist": 7
+   },
+   {
+    "value": "C++",
+    "tasks": 4,
+    "pct": 11.1,
+    "shortlist": 0
+   }
+  ],
+  "role": [
+   {
+    "value": "Library / Backend Engineer",
+    "tasks": 11,
+    "pct": 30.6,
+    "shortlist": 3
+   },
+   {
+    "value": "Compiler / Language Engineer",
+    "tasks": 7,
+    "pct": 19.4,
+    "shortlist": 0
+   },
+   {
+    "value": "Media Software Engineer",
+    "tasks": 7,
+    "pct": 19.4,
+    "shortlist": 0
+   },
+   {
+    "value": "Research Software Engineer",
+    "tasks": 5,
+    "pct": 13.9,
+    "shortlist": 2
+   },
+   {
+    "value": "Developer Tools Engineer",
+    "tasks": 4,
+    "pct": 11.1,
+    "shortlist": 1
+   },
+   {
+    "value": "Game Developer",
+    "tasks": 1,
+    "pct": 2.8,
+    "shortlist": 0
+   },
+   {
+    "value": "Build & Release Engineer",
+    "tasks": 1,
+    "pct": 2.8,
+    "shortlist": 1
+   }
+  ],
+  "seniority": [
+   {
+    "value": "Senior",
+    "tasks": 36,
+    "pct": 100.0,
+    "shortlist": 7
+   }
+  ],
+  "models": [
+   {
+    "codename": "astrolabe",
+    "model": "x-ai/grok-4.7",
+    "tasks": 32,
+    "rollouts": 256,
+    "graded": 253,
+    "passed": 102,
+    "pass_rate": 0.4031620553359684,
+    "error_rate": 0.01171875,
+    "tasks_graded": 32,
+    "tasks_0": 3,
+    "tasks_100": 0,
+    "tasks_20_80": 21,
+    "per_task_rates": [
+     0.375,
+     0.25,
+     0.125,
+     0.375,
+     0.5,
+     0.125,
+     0.375,
+     0.375,
+     0.125,
+     0.5,
+     0.875,
+     0.375,
+     0.5,
+     0.625,
+     0.5,
+     0.125,
+     0.0,
+     0.875,
+     0.25,
+     0.0,
+     0.75,
+     0.125,
+     0.5,
+     0.875,
+     0.5714285714285714,
+     0.625,
+     0.25,
+     0.625,
+     0.0,
+     0.5,
+     0.375,
+     0.375
+    ]
+   },
+   {
+    "codename": "umbra",
+    "model": "google/gemini-4-argon",
+    "tasks": 12,
+    "rollouts": 24,
+    "graded": 24,
+    "passed": 12,
+    "pass_rate": 0.5,
+    "error_rate": 0.0,
+    "tasks_graded": 12,
+    "tasks_0": 4,
+    "tasks_100": 4,
+    "tasks_20_80": 4,
+    "per_task_rates": [
+     0.5,
+     0.0,
+     0.5,
+     1.0,
+     0.5,
+     1.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.5,
+     1.0
+    ]
+   },
+   {
+    "codename": "steppe",
+    "model": "z-ai/glm-5.3-flash",
+    "tasks": 4,
+    "rollouts": 20,
+    "graded": 20,
+    "passed": 7,
+    "pass_rate": 0.35,
+    "error_rate": 0.0,
+    "tasks_graded": 4,
+    "tasks_0": 0,
+    "tasks_100": 0,
+    "tasks_20_80": 4,
+    "per_task_rates": [
+     0.4,
+     0.4,
+     0.2,
+     0.4
+    ]
+   }
+  ],
+  "showcase": [
+   {
+    "turns": {
+     "runs": 10,
+     "mean": 413.9,
+     "min": 186,
+     "max": 1000,
+     "by_model": {
+      "umbra": 305.5,
+      "astrolabe": 441.0
+     }
+    },
+    "name": "kookyleo--dagre-rs-xai",
+    "id": "fb4d2aa1-8776-48a1-b719-f72c8dd38dc9",
+    "rank": 63,
+    "batch": "migration-xai-ots",
+    "final": "Migration",
+    "super_group": "Scientific & ML software",
+    "category": "Graph algorithms",
+    "language": "Go",
+    "role": "Library / Backend Engineer",
+    "seniority": "Senior",
+    "shape": "Evolve a repo from one release to the next",
+    "models": [
+     {
+      "codename": "astrolabe",
+      "model": "x-ai/grok-4.7",
+      "rollouts": 8,
+      "graded": 8,
+      "passed": 3,
+      "errors": 0,
+      "score_sum": 3.0,
+      "pass_rate": 0.375,
+      "error_rate": 0.0,
+      "avg_score": 0.375
+     },
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 2,
+      "graded": 2,
+      "passed": 1,
+      "errors": 0,
+      "score_sum": 1.0,
+      "pass_rate": 0.5,
+      "error_rate": 0.0,
+      "avg_score": 0.5
+     }
+    ]
+   },
+   {
+    "turns": {
+     "runs": 8,
+     "mean": 351.875,
+     "min": 148,
+     "max": 599,
+     "by_model": {
+      "astrolabe": 351.875
+     }
+    },
+    "name": "java--nscuro--versatile--versatile-core-xai",
+    "id": "bca79f0b-cd72-4ee2-8902-c8282db0b0b5",
+    "rank": 85,
+    "batch": "migration-xai-ots",
+    "final": "Migration",
+    "super_group": "Build, release & supply chain",
+    "category": "Software supply chain",
+    "language": "Go",
+    "role": "Build & Release Engineer",
+    "seniority": "Senior",
+    "shape": "Evolve a repo from one release to the next",
+    "models": [
+     {
+      "codename": "astrolabe",
+      "model": "x-ai/grok-4.7",
+      "rollouts": 8,
+      "graded": 8,
+      "passed": 4,
+      "errors": 0,
+      "score_sum": 4.0,
+      "pass_rate": 0.5,
+      "error_rate": 0.0,
+      "avg_score": 0.5
+     }
+    ]
+   },
+   {
+    "turns": {
+     "runs": 10,
+     "mean": 154.7,
+     "min": 122,
+     "max": 283,
+     "by_model": {
+      "umbra": 214.5,
+      "astrolabe": 139.75
+     }
+    },
+    "name": "java--argparse4j--argparse4j--main-xai",
+    "id": "7e3b1b27-71e9-4d16-be71-6416635a8026",
+    "rank": 83,
+    "batch": "migration-xai-ots",
+    "final": "Migration",
+    "super_group": "Languages & developer tooling",
+    "category": "CLI tooling",
+    "language": "Go",
+    "role": "Developer Tools Engineer",
+    "seniority": "Senior",
+    "shape": "Evolve a repo from one release to the next",
+    "models": [
+     {
+      "codename": "astrolabe",
+      "model": "x-ai/grok-4.7",
+      "rollouts": 8,
+      "graded": 8,
+      "passed": 5,
+      "errors": 0,
+      "score_sum": 5.0,
+      "pass_rate": 0.625,
+      "error_rate": 0.0,
+      "avg_score": 0.625
+     },
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 2,
+      "graded": 2,
+      "passed": 2,
+      "errors": 0,
+      "score_sum": 2.0,
+      "pass_rate": 1.0,
+      "error_rate": 0.0,
+      "avg_score": 1.0
+     }
+    ]
+   }
+  ]
+ }
+}

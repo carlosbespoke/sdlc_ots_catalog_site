@@ -1,0 +1,29 @@
+services:
+  main:
+    networks: [internal]
+    depends_on:
+      postgres: {condition: service_healthy}
+      s3: {condition: service_healthy}
+    environment:
+      Database__Type: PostgreSql
+      Database__ConnectionString: "Host=postgres;Port=5432;Database=sd;Username=app;Password=app"
+      Storage__Type: AwsS3
+      Storage__Endpoint: "http://s3:4566"
+      Storage__ForcePathStyle: "true"
+      Storage__Bucket: packages
+      Storage__AccessKey: test
+      Storage__SecretKey: test
+  postgres:
+    networks: [internal]
+    image: postgres:16@sha256:ca0bd484cb98bf4b24eb1010e73fb3fcbd6714d240fbc1a10eea5b7dbecb641d
+    environment: {POSTGRES_PASSWORD: postgres}
+    healthcheck: {test: ["CMD-SHELL", "pg_isready -U postgres -h 127.0.0.1"], interval: 2s, timeout: 5s, retries: 60}
+  s3:
+    networks:
+      internal:
+        aliases: [packages.s3]
+    image: localstack/localstack:4.2@sha256:b5a68908bafbb56468bb1dd6ea0d0d333149c084c63e84a8de95d9059ad7e96d
+    environment: {SERVICES: s3, EAGER_SERVICE_LOADING: "1"}
+    healthcheck: {test: ["CMD", "curl", "-fs", "http://localhost:4566/_localstack/health"], interval: 3s, timeout: 5s, retries: 60}
+networks:
+  internal: {internal: true}

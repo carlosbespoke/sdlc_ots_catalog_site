@@ -1,0 +1,69 @@
+# syntax=docker/dockerfile:1
+# --- Toolchain (verbatim in environment/Dockerfile and tests/Dockerfile) ---
+# From the voyager artifact dstl__Stone-Soup.50e965aa (pinned digest, Python 3.11).
+FROM --platform=linux/amd64 python@sha256:2e32f7d302adc1c37428355c1e646897c0c53f4fd60b6a551245fb90ee129f91
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_INPUT=1 PIP_NO_CACHE_DIR=1 \
+    PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONHASHSEED=0 \
+    VIRTUAL_ENV=/opt/venv PATH=/opt/venv/bin:$PATH SOURCE_DATE_EPOCH=0
+RUN apt-get update -qq \
+    && apt-get install -y -qq --no-install-recommends build-essential ca-certificates curl gfortran git \
+       libfreetype6-dev libhdf5-dev libjpeg-dev libopenblas-dev libpng-dev pkg-config zlib1g-dev tzdata \
+    && rm -rf /var/lib/apt/lists/*
+# --- Agent harness prerequisites ---
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
+        asciinema ca-certificates git tmux \
+    && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man
+RUN command -v git && command -v tmux && tmux -V \
+    && tmux -L harbor-build-smoke new-session -d -s smoke 'sleep 30' \
+    && tmux -L harbor-build-smoke has-session -t smoke \
+    && tmux -L harbor-build-smoke kill-server
+RUN printf 'export PYTHONDONTWRITEBYTECODE=1 PYTHONHASHSEED=0 VIRTUAL_ENV=/opt/venv PATH=/opt/venv/bin:$PATH\n' \
+    > /etc/profile.d/00-venv.sh && chmod 0644 /etc/profile.d/00-venv.sh
+# Root-owned venv with the runtime and test dependencies pinned to the voyager image's freeze
+# (the project itself is never installed here).
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/pip install -q pip==25.2 setuptools==80.9.0 wheel==0.45.1 setuptools-scm==9.2.2 \
+    && /opt/venv/bin/pip install -q \
+       absl-py==2.5.0 alabaster==1.0.0 babel==2.18.0 branca==0.8.2 certifi==2026.7.22 \
+       charset-normalizer==3.5.2 confluent-kafka==2.16.0 contourpy==1.3.3 coverage==7.16.2 \
+       cycler==0.12.1 docutils==0.22.4 flake8==7.4.1 folium==0.20.0 fonttools==4.66.1 \
+       graphviz==0.21 h5py==3.16.0 idna==3.20 imagesize==2.0.1 immutabledict==4.3.1 \
+       iniconfig==2.3.1 Jinja2==3.1.6 kiwisolver==1.5.1 MarkupSafe==3.0.4 matplotlib==3.11.2 \
+       mccabe==0.7.0 narwhals==2.26.0 networkx==3.6.1 numpy==2.4.6 ordered-set==4.1.0 \
+       ortools==9.15.6755 packaging==26.3 pandas==3.0.6 pillow==12.3.0 plotly==7.1.0 \
+       pluggy==1.6.0 protobuf==6.33.6 pycodestyle==2.15.0 pydot==4.0.1 pyflakes==4.0.3 \
+       Pygments==2.21.0 pymap3d==3.2.0 pyparsing==3.3.3 pytest==9.1.1 pytest-cov==7.1.0 \
+       pytest-remotedata==0.4.2 pytest-skip-slow==1.1.0 pytest-timeout==2.4.0 \
+       python-dateutil==2.9.0.post0 requests==2.34.2 roman-numerals==4.1.0 rtree==1.4.1 \
+       ruamel.yaml==0.19.1 scipy==1.17.1 six==1.17.0 snowballstemmer==3.1.1 Sphinx==9.0.4 \
+       sphinx-gallery==0.22.1 sphinx_rtd_theme==3.1.0 sphinxcontrib-applehelp==2.0.0 \
+       sphinxcontrib-devhelp==2.0.0 sphinxcontrib-htmlhelp==2.1.0 sphinxcontrib-jquery==4.1 \
+       sphinxcontrib-jsmath==1.0.1 sphinxcontrib-qthelp==2.0.0 \
+       sphinxcontrib-serializinghtml==2.0.0 typing_extensions==4.16.0 urllib3==2.8.0 utm==0.9.0 \
+       xyzservices==2026.9.1 \
+    && find /opt/venv -name __pycache__ -prune -exec rm -rf {} +
+RUN useradd -m -u 1000 -s /bin/bash agent
+
+# --- rca:source begin (rendered by `rca regen` from rca-task.json; verbatim in tests/Dockerfile) ---
+ARG RCA_REPOSITORY=https://github.com/dstl/Stone-Soup.git
+ARG RCA_COMMIT=50e965aa15ec63d1d3eb13bb275639d136d8557b
+RUN git init -q /workdir && cd /workdir \
+    && git fetch -q --depth 1 "$RCA_REPOSITORY" "$RCA_COMMIT" \
+    && git checkout -q FETCH_HEAD \
+    && test "$(git rev-parse HEAD)" = "$RCA_COMMIT" \
+    && rm -rf .git .github docs/make.bat
+COPY faults/ /workdir/
+# --- rca:source end ---
+
+# --- Verifier ---
+# The project is never installed here: grade.py --prepare writes a .pth that points the venv at
+# /workdir for candidate children only (every root interpreter runs with -I -S -B).
+RUN mkdir -p /opt/rca && mv /workdir /opt/rca/pristine && mkdir -p /workdir /logs/verifier
+COPY . /tests
+RUN rm -f /tests/Dockerfile \
+    && chown -R root:root /tests /opt/rca \
+    && chmod -R go-rwx /tests /opt/rca
+RUN /opt/venv/bin/python -I -S -B /tests/grade.py --prepare
+WORKDIR /workdir
+CMD ["sh", "-c", "sleep infinity"]

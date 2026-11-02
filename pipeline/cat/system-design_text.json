@@ -1,0 +1,139 @@
+{
+ "motivation": {
+  "problems": "Engineers in this catalog work on services where several processes share state and any of them can stop at any moment. The tasks show five recurring problems. First, duplicate effects after retries or worker restarts, as in pdk-zulip-outgoing-webhook-delivery, pdk-elsa-external-callbacks-exactly-once and wechatpy-replay-safe-callback-consumption. Second, lost notifications when a broker or cache is down after the database commit, as in pdk-fitnet-contract-pass-offer-pipeline and kwatch-durable-insight-delivery-outbox. Third, stale writers that return after takeover, as in throttled-py-fenced-expiring-store-leases and restic-conditional-backend-writes. Fourth, limits and counters that hold in one process but not across instances, as in pdk-pulpcore-domain-storage-quota and eshop-catalog-order-stock-reservations. Fifth, partial state after a crash, as in go-diskfs-crash-recoverable-fat-metadata-62a2 and pdk-gitea-oci-chunked-upload-cluster. The cluster tasks are system design; the single-component tasks are fault tolerance. Most specs also require that existing behaviour keeps working during the change, so a fix that blocks all writes does not pass. Time bounds such as 45 seconds after recovery turn vague reliability goals into testable ones.",
+  "how_tasks_exemplify": "Each task pins a real open source repository at a base commit and gives the agent a short written spec with time bounds, such as recovery within 45 seconds. Cluster tasks supply databases, caches or brokers locally or through a compose file, and the instruction says the agent runs separate processes for each role. Docker is unavailable inside the agent container, so the agent starts local services itself. The agent produces a patch to the repository. The verifier runs in a separate environment, applies the patch and hidden tests, and kills or pauses processes and services to check the stated behaviour. The tests also check that existing behaviour listed in a keep-working section still passes.",
+  "prompt_patterns": [
+   "A production symptom with its mechanism, then a bulleted list of measurable requirements with time limits, as in pdk-immich-hard-storage-quota-holds.",
+   "A missing capability stated in the form 'X cannot do Y', followed by dense behavioural paragraphs, as in restic-conditional-backend-writes.",
+   "A story-style problem report from a team, then 'To close this out' requirements, as in eshop-catalog-order-stock-reservations.",
+   "A requirements list plus an explicit list of exported names and signatures to implement, as in tests-half-go-diskfs-crash-recoverable-fat-metadata-62a2.",
+   "A closing environment paragraph giving the repo path, service start commands, build command and the note that Docker is unavailable, as in pdk-grist-fenced-doc-worker-failover."
+  ],
+  "open_questions": [
+   "Hidden tests and graders were not described here, so how failures are injected (kill, pause, network cut) in each task is UNKNOWN beyond what the instruction states.",
+   "The agent environment has no Docker, yet environment/docker-compose.yaml exists for grist and immich. It is unclear whether the agent container gets those services through compose or starts local copies; diagrams show them as services.",
+   "For wild-workouts, cortex, buildbot, dialogporten and aodh no compose file is in the files, so the location of PostgreSQL, Redis and RabbitMQ (local to the container or sidecar) is inferred from the instruction and Dockerfile.",
+   "Whether the 217 tasks should be split into system design (multi-instance) and fault tolerance (single component) in the catalog is not stated; the sample split here is by reading each instruction.",
+   "Batch names (system-design-cohere-ots, alpharecon-deepswe-binary) suggest different authoring pipelines; their grading format was not inspected."
+  ]
+ },
+ "tasks": [
+  {
+   "name": "pdk-activepieces-exactly-once-webhook-runs",
+   "environment_mermaid": "flowchart LR\nA[\"node:22-bookworm image with bun 1.4.0\"] --> B[\"Repo at /app, Activepieces pinned commit\"]\nB --> C[\"Built api, worker, engine and webhook, http, store pieces\"]\nD[\"Local PostgreSQL, started by sudo service\"] --> E[\"API process\"]\nF[\"Local Redis, started by sudo service\"] --> E\nF --> G[\"Worker process\"]\nC --> E\nC --> G\nE <--> G\nH[\"Instruction with webhook and RPC requirements\"] --> I[\"Agent edits source in /app\"]\nI --> J[\"model.patch from git diff\"]\nJ --> K[\"Hidden tests in tests/ via grader.py\"]\nK --> L[\"Reward in /logs/verifier\"]",
+   "environment_facts": [
+    "Base image node:22-bookworm with bun copied from oven/bun:1.4.0-debian (environment/Dockerfile)",
+    "PostgreSQL and redis-server are installed in the image and started with sudo service; Docker is unavailable to the agent (environment/Dockerfile, instruction.md)",
+    "Repository is cloned at base commit f69620859abdc8c691f46b680786f34328992f2e and the api, worker, engine and three piece packages are prebuilt (environment/Dockerfile)",
+    "API and worker run as separate processes; the agent has no internet (instruction.md, task.toml)",
+    "The verifier runs in a separate environment, applies the agent's patch and hidden tests, and uses a node grader package (task.toml, tests/Dockerfile, tests/test.sh)"
+   ],
+   "workflow": "A maintainer of a workflow product receives reports that payment and GitHub webhook flows run actions twice after sender retries, worker resubmission and worker death. The engineer must add idempotency across API instances, make the worker RPC replay safe, and make run recovery skip finished actions. The work also covers a Redis outage window.",
+   "prompt_pattern": "A production symptom (duplicate action runs) followed by measurable requirements with time bounds, a keep-working list, and build and service start commands."
+  },
+  {
+   "name": "pdk-grist-fenced-doc-worker-failover",
+   "environment_mermaid": "flowchart LR\nA[\"node:22-bookworm image\"] --> B[\"Grist repo at /app, pinned commit\"]\nB --> C[\"Home server process GRIST_SERVERS=home\"]\nB --> D[\"Doc worker processes GRIST_SERVERS=docs\"]\nE[\"postgres:16-alpine service\"] --> C\nF[\"redis:7-alpine service\"] --> C\nF --> D\nG[\"rustfs S3 store, versioned\"] --> D\nC <--> D\nH[\"Python venv for the sandbox\"] --> D\nI[\"Instruction with lease and fencing requirements\"] --> J[\"Agent edits source in /app\"]\nJ --> K[\"model.patch\"]\nK --> L[\"Hidden tests in tests/ via grader.py\"]",
+   "environment_facts": [
+    "Base image node:22-bookworm; repo cloned at base commit 7a510f93bf2f0f9c9ca008a0474954ee1167dc82 and built with yarn (environment/Dockerfile)",
+    "environment/docker-compose.yaml starts postgres:16-alpine, redis:7-alpine and rustfs on an internal network, with REDIS_URL, TYPEORM_* and GRIST_DOCS_S3_* set for the main container",
+    "Home and doc workers are separate processes selected by GRIST_SERVERS (instruction.md)",
+    "A Python venv at /opt/grist-python holds the sandbox requirements (environment/Dockerfile)",
+    "Verifier environment_mode is separate and the patch is collected as model.patch (task.toml)"
+   ],
+   "workflow": "An engineer operating a multi-worker document service has a stopped worker that keeps its Redis assignments, so requests hang, and a naive reassignment would let the old worker overwrite edits on resume. The engineer must add lease-based takeover and fence the stale worker at the websocket, state publication and upload paths.",
+   "prompt_pattern": "A failure scenario described as current behaviour, then outcome requirements with a configured lease value, followed by a keep-working paragraph and a setup paragraph."
+  },
+  {
+   "name": "pdk-immich-hard-storage-quota-holds",
+   "environment_mermaid": "flowchart LR\nA[\"Immich base-server-prod image\"] --> B[\"Repo at /app, pinned commit, built with pnpm\"]\nB --> C[\"api worker\"]\nB --> D[\"microservices worker\"]\nE[\"Postgres 14 with VectorChord\"] --> C\nE --> D\nF[\"Redis 7 for queues\"] --> C\nF --> D\nG[\"Shared /data media volume\"] --> C\nG --> D\nH[\"Instruction with quota and abort requirements\"] --> I[\"Agent edits source in /app\"]\nI --> J[\"model.patch\"]\nJ --> K[\"Hidden tests in tests/ via grader.py\"]",
+   "environment_facts": [
+    "Base image ghcr.io/immich-app/base-server-prod; repo cloned at base commit 116a9436ad1f8164d9dee904551e5067d724be99 and built with pnpm (environment/Dockerfile)",
+    "environment/docker-compose.yaml defines postgres with VectorChord, redis:7-alpine and a shared media volume mounted at /data, on an internal network",
+    "api and microservices run as separate workers through IMMICH_WORKERS_INCLUDE; Docker is unavailable in the agent container (instruction.md)",
+    "Database and Redis connection settings are passed as DB_* and REDIS_HOSTNAME environment variables (environment/docker-compose.yaml)",
+    "Tests have their own compose file and a node grader package (tests/docker-compose.yaml, tests/grader-node/package.json)"
+   ],
+   "workflow": "An engineer on a media platform finds that concurrent uploads each pass a quota check against stale usage and that a killed API leaves partial files. The task is to turn the quota into a hard limit that counts streaming bytes across processes, reclaims space after aborts and process death, and releases usage once on deletion.",
+   "prompt_pattern": "A race condition described from the mechanism, then a bulleted list of behavioural requirements with time limits, and a closing environment paragraph with build command."
+  },
+  {
+   "name": "pdk-wild-workouts-consistent-scheduling-v3",
+   "environment_mermaid": "flowchart LR\nA[\"golang:1.25-bookworm image\"] --> B[\"Go workspace at /app, pinned commit\"]\nB --> C[\"trainings service, two instances\"]\nB --> D[\"trainer service, two instances\"]\nB --> E[\"users service, two instances\"]\nF[\"Firestore emulator in /opt/firestore\"] --> C\nF --> D\nF --> E\nC <--> D\nC <--> E\nG[\"Build with GOWORK and GOPROXY=off\"] --> B\nH[\"Instruction with booking consistency rules\"] --> I[\"Agent edits Go source\"]\nI --> J[\"Hidden tests in tests/ via grader.py\"]",
+   "environment_facts": [
+    "Base image golang:1.25-bookworm with Java 17 and Node installed (environment/Dockerfile)",
+    "Repository is ThreeDotsLabs/wild-workouts-go-ddd-example at base commit 8ecfcdf05b1462c4757bd2dcac9086c78e9f7791 (task.toml)",
+    "The Firestore emulator runs offline from /opt/firestore on 127.0.0.1:8787, with MOCK_AUTH=true and GRPC_NO_TLS=1 (instruction.md)",
+    "Docker is unavailable in the container; Go builds use GOWORK=/tmp/sd.work and GOPROXY=off (instruction.md)",
+    "Verifier environment_mode is separate and uses tests/grader.py (task.toml, tests/test.sh)"
+   ],
+   "workflow": "An engineer on a three-service booking system sees a training saved and a credit spent before the trainer confirms the hour. They must make schedule, cancel and reschedule atomic across services, add operation-ID and owner-keyed idempotency over gRPC, and make crashed or partitioned requests resolve to a complete outcome or no change.",
+   "prompt_pattern": "A defect narrative in one paragraph, then one dense paragraph of consistency invariants with exact field names and numbers, then build and emulator commands."
+  },
+  {
+   "name": "pdk-cortex-parquet-reconvert-generations",
+   "environment_mermaid": "flowchart LR\nA[\"golang:1.27-bookworm image\"] --> B[\"Cortex repo at /app, vendored deps\"]\nB --> C[\"cortex binary built to /tmp/cortex\"]\nD[\"Fixture block /app/fixture/tenant-a, v2 marker, 3 shards\"] --> E[\"Writable filesystem bucket\"]\nC --> F[\"Compactor and converter\"]\nC --> G[\"Parquet querier and store-gateway\"]\nF --> E\nG --> E\nE --> H[\"Bucket index\"]\nI[\"Instruction with generation rules\"] --> J[\"Agent edits source in /app\"]\nJ --> K[\"Hidden tests in tests/ via grader.py\"]",
+   "environment_facts": [
+    "Base image golang:1.27-bookworm with GOPROXY=off and GOFLAGS=-mod=vendor (environment/Dockerfile)",
+    "Repository is cortexproject/cortex at base commit 7f57b4129c61ce778616f75ae66ac09cf3bedd6a (task.toml)",
+    "A six-series block at /app/fixture/tenant-a with a v2 marker and three legacy Parquet shards is copied into a filesystem bucket by the agent (instruction.md)",
+    "The binary is built with CGO_ENABLED=0 go build -mod=vendor -o /tmp/cortex ./cmd/cortex (instruction.md)",
+    "Verifier environment_mode is separate; the patch is collected as model.patch (task.toml)"
+   ],
+   "workflow": "An engineer maintaining a metrics store changes sort columns or shard sizing and finds that existing Parquet blocks keep their old layout, while rewriting in place would break readers holding old snapshots. They must publish immutable generations, keep legacy files for previous-release readers, fence stale converters, and garbage collect superseded data.",
+   "prompt_pattern": "A limitation of current behaviour with the reason in-place rewrite is unsafe, then a bulleted spec with timing bounds, and a fixture and build paragraph."
+  },
+  {
+   "name": "pdk-buildbot-cluster-wide-locks",
+   "environment_mermaid": "flowchart LR\nA[\"python:3.12-slim-bookworm image\"] --> B[\"Buildbot repo at /app, .venv\"]\nC[\"Local PostgreSQL, started by sudo service\"] --> D[\"Buildbot master 1\"]\nC --> E[\"Buildbot master 2\"]\nB --> D\nB --> E\nD <--> E\nF[\"Workers running locked builds\"] --> D\nF --> E\nG[\"Instruction with lock requirements\"] --> H[\"Agent edits source in /app\"]\nH --> I[\"Patch collected by the verifier\"]\nI --> J[\"Hidden tests in tests/ via grader.py\"]",
+   "environment_facts": [
+    "Base image python:3.12-slim-bookworm; Python runs from /app/.venv/bin/python (environment/Dockerfile, instruction.md)",
+    "Repository is buildbot/buildbot at base commit 4afe651739f357213839320ae43bf6164b9add6b (task.toml)",
+    "PostgreSQL is installed and started with sudo service postgresql start; development URL is postgresql://postgres:postgres@localhost/postgres (environment/Dockerfile, instruction.md)",
+    "Masters use mq: simple and share one database (instruction.md)",
+    "Verifier environment_mode is separate and uses its own isolated PostgreSQL credentials (task.toml, instruction.md)"
+   ],
+   "workflow": "An engineer running several Buildbot masters on one database finds that MasterLock only limits work inside one process, so protected steps overlap. They must move lock state into PostgreSQL, preserve FIFO ordering across masters, expire holds of killed or frozen masters, and expose a new locks REST endpoint.",
+   "prompt_pattern": "A goal statement followed by numbered requirements with time bounds and an API shape, a compatibility section, and an environment section."
+  },
+  {
+   "name": "tests-half-go-diskfs-crash-recoverable-fat-metadata-62a2",
+   "environment_mermaid": "flowchart LR\nA[\"golang image pinned by digest\"] --> B[\"go-diskfs repo at /app, pinned commit\"]\nC[\"Tools on path: gdb, strace, tmux, build-essential\"] --> B\nD[\"Instruction with exported API list\"] --> E[\"Agent edits Go source\"]\nB --> E\nE --> F[\"fat12 package: transactions and recovery\"]\nE --> G[\"disk and sync packages: RecoverFAT, CopyFileSystemAtomic\"]\nH[\"Test patch from environment/tests-only.patch\"] --> I[\"Hidden acceptance tests in tests/\"]\nF --> I\nG --> I\nI --> J[\"Reward from grader.py\"]",
+   "environment_facts": [
+    "Base image is golang pinned by sha256 digest (environment/Dockerfile)",
+    "Repository is diskfs/go-diskfs at base commit 5ec1662c401c4ab58904983f283244fc1b3fd4c6 (task.toml)",
+    "gdb, strace, tmux and build-essential are installed; no services are started (environment/Dockerfile)",
+    "Verifier environment_mode is shared, with tests applied from a test patch (task.toml, _files.json)",
+    "The instruction lists required exported types and functions in the fat12, disk and sync packages (instruction.md)"
+   ],
+   "workflow": "An engineer maintaining a filesystem library needs FAT12, FAT16 and FAT32 metadata changes to survive a crash. They must add transactions with rollback and idempotent recovery, validate records against partition geometry, and make tree copying publish one recoverable result.",
+   "prompt_pattern": "A capability gap stated in one sentence, dense behavioural requirements, then an explicit list of exported names and signatures the solution must provide."
+  },
+  {
+   "name": "pdk-dialogporten-ordered-dialog-subscriptions",
+   "environment_mermaid": "flowchart LR\nA[\"dotnet sdk 10.0.401 image\"] --> B[\"Dialogporten repo at /app, pinned commit\"]\nC[\"Local PostgreSQL, app user\"] --> D[\"WebApi processes, several\"]\nE[\"Local Redis\"] --> D\nE --> F[\"GraphQL instances, several\"]\nC --> F\nD --> F\nG[\"In-memory MassTransit transport and local Altinn stand-ins\"] --> D\nH[\"Instruction with sequence and resume rules\"] --> I[\"Agent edits source in /app\"]\nI --> J[\"Hidden tests in tests/ via grader.py\"]",
+   "environment_facts": [
+    "Base image mcr.microsoft.com/dotnet/sdk:10.0.401 pinned by digest (environment/Dockerfile)",
+    "Repository is digdir/dialogporten at base commit 18b3a4dee4af29ffe92103b0e263a9c7349131af (task.toml)",
+    "PostgreSQL and Redis are local and started with sudo service; database user is app:app (instruction.md)",
+    "Development configuration enables local Altinn stand-ins and the in-memory MassTransit transport (instruction.md)",
+    "Build command is dotnet build Digdir.Domain.Dialogporten.slnx -p:NuGetAudit=false; Docker is unavailable (instruction.md)"
+   ],
+   "workflow": "An engineer on a public-sector dialog platform finds that a committed write can lose its subscription notification when Redis fails. They must make notifications durable with a per-dialog sequence, keep order across writers and GraphQL instances, survive Redis and PostgreSQL outages, and add a resume cursor.",
+   "prompt_pattern": "A reliability gap in an existing GraphQL subscription, followed by one long paragraph of ordering, outage and resume requirements with time bounds, then setup commands."
+  },
+  {
+   "name": "pdk-aodh-alarm-transition-fencing",
+   "environment_mermaid": "flowchart LR\nA[\"python:3.12-slim-bookworm image\"] --> B[\"Aodh repo at /app, .venv\"]\nC[\"PostgreSQL database\"] --> D[\"aodh-api\"]\nC --> E[\"aodh-evaluator\"]\nC --> F[\"aodh-notifier, two instances\"]\nG[\"Redis with tooz coordination\"] --> E\nH[\"RabbitMQ\"] --> E\nH --> F\nF --> I[\"REST webhook receivers\"]\nJ[\"Instruction with transition rules\"] --> K[\"Agent edits source in /app\"]\nK --> L[\"Hidden tests in tests/ via grader.py\"]",
+   "environment_facts": [
+    "Base image python:3.12-slim-bookworm; executables are /app/.venv/bin/aodh-api, aodh-evaluator and aodh-notifier (environment/Dockerfile, instruction.md)",
+    "Repository is openstack/aodh at base commit 6299ebe3a88f05552a37eb6105db69efd4897884 (task.toml)",
+    "The instruction states that PostgreSQL, Redis coordination and RabbitMQ are available; the Dockerfile installs rabbitmq-server and redis-server (instruction.md, environment/Dockerfile)",
+    "Evaluator, API and two notifier instances must work against one database (instruction.md)",
+    "Verifier environment_mode is separate; the patch is collected as model.patch (task.toml)"
+   ],
+   "workflow": "An engineer on a monitoring service finds that alarm state changes commit independently of webhook delivery and that evaluators can overwrite each other after a handover. They must add per-alarm sequences, fence stale evaluators, and store pending actions atomically so ordered delivery survives broker, webhook and notifier failures.",
+   "prompt_pattern": "A subsystem described by what it does wrong today, then dense paragraphs of ordering, fencing and delivery rules with time bounds, and an explicit out-of-scope list."
+  }
+ ]
+}

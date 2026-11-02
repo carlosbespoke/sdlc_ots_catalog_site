@@ -1,0 +1,39 @@
+{
+  "format": "rca-task",
+  "version": 1,
+  "source": {
+    "repository": "https://github.com/perber/leafwiki.git",
+    "commit": "8ecfa7d6e9fcd078f45ac3872bb0204f899c53ee",
+    "voyager": "perber__leafwiki.8ecfa7d6"
+  },
+  "language": "go",
+  "test_command": "go test ./...",
+  "strip": [
+    ".github",
+    "AGENTS.md",
+    "CLAUDE.md"
+  ],
+  "omit_tests": {
+    "globs": [
+      "**/*_test.go",
+      "**/testdata/"
+    ],
+    "keep": []
+  },
+  "overlay": {
+    "path": "faults",
+    "files": {
+      "internal/core/tree/node_store.go": "fa1a5ae8434ca341b694f7c5471c3de25ff3cb039933cd8cd7438e46b036d371"
+    },
+    "removed": [],
+    "executable": []
+  },
+  "trees": {
+    "algorithm": "spec-drift-tree-v1",
+    "pristine": "8ae9e091fd93fd4a31aab4889cc20fdd059837f9ab607291bd609fdceb89da90",
+    "solver": "49ab31c979cb601a83987a186bb6ece47cf257aee992bc92d7f066aa08a78beb"
+  },
+  "workspace": {
+    "root": "/workdir"
+  }
+}

@@ -1,0 +1,322 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 2400,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "c4ae116b0049a9e0f8daf9a0fa2f25de72495459d6d80e6559d64f4b83158693",
+  "documentation.json": "4d26e047deb2f84af3b3ed604a123de2486f91152fda00d6ba05171a9ef8358d",
+  "driver.py": "5522f3fb9972482296955097c48254c84f66ff63cb03999c6ff4e77d6fa2e179",
+  "expected.json": "c124e43cb5755ff9ee80fba0a54abd1930bacb822a58609a6ac6c80c2fa066ec"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "GROUP-F2P-TEXT-STUB-DEFAULT",
+    "kind": "f2p",
+    "requirement": "ClearSolutions' text stub (the text that replaces written solutions) defaults to YOUR ANSWER HERE (student_version.rst).",
+    "tests": [
+     "OBS-0001",
+     "OBS-0002"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-STUB-INDENTATION",
+    "kind": "f2p",
+    "requirement": "The code stub that replaces a solution region is indented, line by line, to the indentation of the solution delimiter (student_version.rst example).",
+    "tests": [
+     "OBS-0003",
+     "OBS-0004"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-WHOLE-CELL-STUB",
+    "kind": "f2p",
+    "requirement": "Without solution delimiters, the whole contents of a solution cell are replaced by the code stub in a code cell and by the text stub in a Markdown cell (student_version.rst).",
+    "tests": [
+     "OBS-0005",
+     "OBS-0006"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-HIDDEN-TESTS-REMOVED",
+    "kind": "f2p",
+    "requirement": "Hidden tests wrapped in BEGIN HIDDEN TESTS / END HIDDEN TESTS delimiters are removed from the released cell, whatever the comment characters (student_version.rst examples).",
+    "tests": [
+     "OBS-0007",
+     "OBS-0008"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-HEADER-FOOTER",
+    "kind": "f2p",
+    "requirement": "IncludeHeaderFooter prepends the header notebook's cells and appends the footer notebook's cells (advanced.rst).",
+    "tests": [
+     "OBS-0009",
+     "OBS-0010"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-MANUAL-PRECEDENCE",
+    "kind": "f2p",
+    "requirement": "A manual grade always takes precedence over the autograde: when both are set the grade's score is the manual score (faq.rst, Grade.score), and notebook and assignment totals follow it.",
+    "tests": [
+     "OBS-0011",
+     "OBS-0012"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-RERUN-NEEDS-MANUAL",
+    "kind": "f2p",
+    "requirement": "Rerunning the autograder over a problem that already has a manual grade, when the autograder produces a grade as well, marks the problem as needing manual grade (faq.rst).",
+    "tests": [
+     "OBS-0013",
+     "OBS-0014"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-LATE-PENALTY-DEFAULT",
+    "kind": "f2p",
+    "requirement": "By default no late penalty is assigned (late-plugin.rst, faq.rst); lateness is still computed.",
+    "tests": [
+     "OBS-0015",
+     "OBS-0016"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-LATENESS-WITH-EXTENSION",
+    "kind": "f2p",
+    "requirement": "A submission's lateness is measured against its due date including any extension (SubmittedAssignment.total_seconds_late / duedate).",
+    "tests": [
+     "OBS-0017",
+     "OBS-0018"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-EXTENSIONS-REPLACE",
+    "kind": "f2p",
+    "requirement": "Extensions do not stack: granting another extension replaces the previous one (Gradebook.grant_extension).",
+    "tests": [
+     "OBS-0019",
+     "OBS-0020"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-DEFAULT-CODE-STUB",
+    "kind": "p2p",
+    "requirement": "student_version.rst: a solution region between BEGIN SOLUTION / END SOLUTION delimiters is replaced by the default Python code stub, whatever the number of comment characters.",
+    "tests": [
+     "OBS-0021",
+     "OBS-0022"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-CUSTOM-DELIMITERS",
+    "kind": "p2p",
+    "requirement": "student_version.rst Changing the defaults: begin/end solution delimiters and per-language code stubs are configurable, so notebooks of different languages share one configuration; the text stub is configurable.",
+    "tests": [
+     "OBS-0023",
+     "OBS-0024"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-HIDDEN-TEST-DELIMITERS",
+    "kind": "p2p",
+    "requirement": "student_version.rst: the hidden-test delimiters default to BEGIN HIDDEN TESTS / END HIDDEN TESTS and are configurable; cells without hidden tests are released unchanged.",
+    "tests": [
+     "OBS-0025",
+     "OBS-0026"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-METADATA-POINTS",
+    "kind": "p2p",
+    "requirement": "metadata.rst: the cell metadata lives under metadata.nbgrader; the number of points must be greater than or equal to zero.",
+    "tests": [
+     "OBS-0027"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-CHECKSUM-CELL-TYPE",
+    "kind": "p2p",
+    "requirement": "metadata.rst: generating the student version adds a checksum of the cell's contents, used to determine whether the student has edited the cell, and the original cell_type.",
+    "tests": [
+     "OBS-0028",
+     "OBS-0029"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-GENERATE-ASSIGNMENT",
+    "kind": "p2p",
+    "requirement": "student_version.rst / high_level_api.rst: generate_assignment writes the release version (solution regions replaced by the code stub, tests kept) and records the assignment and its graded cells in the gradebook; metadata.rst: checksum and cell_type are added.",
+    "tests": [
+     "OBS-0030",
+     "OBS-0031"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-AUTOGRADE",
+    "kind": "p2p",
+    "requirement": "faq.rst / high_level_api.rst: autograde executes the submission with NBGRADER_EXECUTION set to 'autograde', scores passing test cells with their points and failing ones with zero, restores edited read-only test cells and flags written answers for manual grading.",
+    "tests": [
+     "OBS-0032",
+     "OBS-0033"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-CLEAR-OUTPUT",
+    "kind": "p2p",
+    "requirement": "advanced.rst: ClearOutput clears the outputs of all cells.",
+    "tests": [
+     "OBS-0034"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-NBCONVERT-WORKFLOW",
+    "kind": "p2p",
+    "requirement": "advanced.rst Using nbgrader preprocessors: ClearSolutions can be added to an nbconvert exporter's preprocessors through c.Exporter.preprocessors.",
+    "tests": [
+     "OBS-0035"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-AUTOTEST",
+    "kind": "p2p",
+    "requirement": "advanced.rst Automatic test code generation: an ### AUTOTEST directive is replaced, using the autotests.yml templates of the kernel, by the setup code, one check per test template of the expression's type (with the normalized expression and its value in the source notebook) and the success code.",
+    "tests": [
+     "OBS-0036"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-EXTRACT-GRADES",
+    "kind": "p2p",
+    "requirement": "advanced.rst Getting information from the database (extract_grades.py): looping over gb.assignments and gb.students, find_submission raises MissingEntry for a student who submitted nothing, and the submission score and assignment max_score give the CSV values.",
+    "tests": [
+     "OBS-0037"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-LATENESS-RECORDED",
+    "kind": "p2p",
+    "requirement": "faq.rst How does nbgrader handle late assignments: submission timestamps are recorded and total_seconds_late gives how late a submission is (zero when on time).",
+    "tests": [
+     "OBS-0038",
+     "OBS-0039"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-EXTENSION-SINGLE",
+    "kind": "p2p",
+    "requirement": "Gradebook.grant_extension: one extension moves the submission's due date; calling it without any time arguments removes the extension.",
+    "tests": [
+     "OBS-0040"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-SINGLE-SCORE",
+    "kind": "p2p",
+    "requirement": "faq.rst / Grade.score: with only an autograder score or only a manual score that value is the score; with neither the score is zero; totals sum the grades.",
+    "tests": [
+     "OBS-0041"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-AUTOGRADE-SAVES",
+    "kind": "p2p",
+    "requirement": "faq.rst: rerunning the autograder never overwrites manual grades; a first autograde of an autograded test cell records its score without asking for manual grading.",
+    "tests": [
+     "OBS-0042"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-LATE-ZERO",
+    "kind": "p2p",
+    "requirement": "late-plugin.rst Predefined methods: penalty_method 'zero' assigns a penalty equal to the score, so a late notebook's overall score becomes zero.",
+    "tests": [
+     "OBS-0043",
+     "OBS-0044"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-LATE-CUSTOM-PLUGIN",
+    "kind": "p2p",
+    "requirement": "late-plugin.rst Creating a plugin: a BasePlugin subclass named by AssignLatePenalties.plugin_class (the late.SubMarks example, 1 point per hour late) decides the penalty.",
+    "tests": [
+     "OBS-0045"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-ZIP-EXTRACT",
+    "kind": "p2p",
+    "requirement": "zipcollect-plugin.rst Extractor plugin: archives are extracted into their own sub-directory of the extracted directory and non-archive files are copied.",
+    "tests": [
+     "OBS-0046"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-FILENAME-COLLECTOR",
+    "kind": "p2p",
+    "requirement": "zipcollect-plugin.rst FileNameCollector plugin: the named-group regular expression gives student_id, file_id and optionally timestamp, and None means the file is skipped.",
+    "tests": [
+     "OBS-0047"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-EXPORT-PLUGIN",
+    "kind": "p2p",
+    "requirement": "export-plugin.rst: a grade exporter inherits from nbgrader.plugins.ExportPlugin and implements export; the base method must be overridden.",
+    "tests": [
+     "OBS-0048"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COURSE-DIRECTORY",
+    "kind": "p2p",
+    "requirement": "philosophy.rst How to structure course files: paths follow {course_directory}/{nbgrader_step}/{student_id}/{assignment_id}; autograde reads 'submitted' and writes 'autograded'.",
+    "tests": [
+     "OBS-0049"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-GRADEBOOK-STUDENTS",
+    "kind": "p2p",
+    "requirement": "gradebook.rst: add_student / find_student / update_or_create_student (update an existing student, create a new one) / remove_student.",
+    "tests": [
+     "OBS-0050"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-GRADEBOOK-ASSIGNMENTS",
+    "kind": "p2p",
+    "requirement": "gradebook.rst / models.rst: assignments, notebooks and grade cells; an assignment's max score adds up its notebooks' grade cells, split into code and written scores.",
+    "tests": [
+     "OBS-0051"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-NEEDS-MANUAL-FLAG",
+    "kind": "p2p",
+    "requirement": "models.rst: a grade needs manual grading by default, and a submitted notebook needs manual grading when any of its grades does.",
+    "tests": [
+     "OBS-0052",
+     "OBS-0053"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-DATABASE-UPGRADE",
+    "kind": "p2p",
+    "requirement": "database.rst: the gradebook schema is migrated with alembic; upgrading a current gradebook database to the head revision succeeds and keeps its data.",
+    "tests": [
+     "OBS-0054"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   }
+  ]
+ }
+}

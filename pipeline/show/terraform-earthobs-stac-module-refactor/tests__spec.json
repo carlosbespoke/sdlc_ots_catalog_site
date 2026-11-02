@@ -1,0 +1,1866 @@
+{
+ "schema": 1,
+ "modules": [
+  "network",
+  "data",
+  "services"
+ ],
+ "direct_modules": true,
+ "no_count": true,
+ "ownership": {
+  "aws_vpc.main": "network",
+  "aws_internet_gateway.main": "network",
+  "aws_subnet.public": "network",
+  "aws_subnet.workbench": "network",
+  "aws_eip.nat": "network",
+  "aws_nat_gateway.main": "network",
+  "aws_route_table.public": "network",
+  "aws_route_table.workbench": "network",
+  "aws_route.workbench_nat": "network",
+  "aws_route_table_association.public": "network",
+  "aws_route_table_association.workbench": "network",
+  "aws_vpc_endpoint.s3": "network",
+  "aws_vpc_endpoint_route_table_association.s3": "network",
+  "aws_ssm_parameter.workbench_subnet": "network",
+  "aws_ssm_parameter.workbench_profile": "network",
+  "aws_launch_template.primary_workbench": "network",
+  "aws_cloudwatch_log_group.vpc_flow": "network",
+  "aws_iam_role.vpc_flow": "network",
+  "aws_iam_role_policy.vpc_flow": "network",
+  "aws_flow_log.main": "network",
+  "aws_kms_key.data": "data",
+  "aws_kms_alias.data": "data",
+  "aws_s3_bucket.data": "data",
+  "aws_s3_bucket_ownership_controls.data": "data",
+  "aws_s3_bucket_public_access_block.data": "data",
+  "aws_s3_bucket_versioning.data": "data",
+  "aws_s3_bucket_server_side_encryption_configuration.data": "data",
+  "aws_s3_bucket_policy.data": "data",
+  "aws_iam_policy.data_consumer": "data",
+  "aws_kms_key.efs": "data",
+  "aws_kms_alias.efs": "data",
+  "aws_efs_file_system.pgstac": "data",
+  "aws_security_group.efs": "data",
+  "aws_security_group_rule.efs_self": "data",
+  "aws_security_group_rule.efs_egress": "data",
+  "aws_efs_mount_target.pgstac": "data",
+  "aws_iam_policy.efs_consumer": "data",
+  "aws_s3_object.stage_marker": "data",
+  "aws_sqs_queue.stage_dlq": "data",
+  "aws_sqs_queue.stage": "data",
+  "aws_sns_topic.stage": "data",
+  "aws_sns_topic_subscription.stage_queue": "data",
+  "aws_sqs_queue_policy.stage": "data",
+  "aws_cloudwatch_log_group.stage": "data",
+  "aws_cloudwatch_metric_alarm.stage_backlog": "data",
+  "aws_ssm_parameter.pipeline_order": "data",
+  "aws_ssm_parameter.primary_stage_queue": "data",
+  "aws_ssm_parameter.stage_config": "data",
+  "aws_ssm_parameter.pipeline_manifest": "data",
+  "aws_ecr_repository.service": "services",
+  "aws_ecr_lifecycle_policy.service": "services",
+  "aws_ecr_repository_policy.service": "services",
+  "aws_ecs_cluster.service": "services",
+  "aws_security_group.service_lb": "services",
+  "aws_security_group_rule.service_lb_self": "services",
+  "aws_security_group_rule.service_lb_egress": "services",
+  "aws_security_group.service": "services",
+  "aws_security_group_rule.service_self": "services",
+  "aws_security_group_rule.service_from_lb": "services",
+  "aws_security_group_rule.service_egress": "services",
+  "aws_security_group_rule.pgstac_efs": "services",
+  "aws_lb.service": "services",
+  "aws_lb_target_group.service": "services",
+  "aws_lb_listener.service": "services",
+  "aws_iam_role.task_execution": "services",
+  "aws_iam_role_policy_attachment.task_execution": "services",
+  "aws_iam_role.task": "services",
+  "aws_iam_role_policy.pipeline_access": "services",
+  "aws_cloudwatch_log_group.service": "services",
+  "aws_secretsmanager_secret.service": "services",
+  "aws_secretsmanager_secret_version.service": "services",
+  "aws_ecs_task_definition.service": "services",
+  "aws_ssm_parameter.workbench_bootstrap": "network",
+  "aws_ssm_parameter.workbench_manifest": "network",
+  "aws_ssm_parameter.diagnostics_workbench": "network",
+  "aws_ssm_parameter.stage_runtime": "data",
+  "aws_ssm_parameter.pipeline_routes": "data",
+  "aws_ssm_parameter.replay_stage_queue": "data"
+ },
+ "key_dimensions": {
+  "az": {
+   "variable": "availability_zones",
+   "keys": {
+    "aws_subnet.public[0]": "us-east-1c",
+    "aws_subnet.public[1]": "us-east-1a",
+    "aws_subnet.public[2]": "us-east-1b",
+    "aws_subnet.workbench[0]": "us-east-1c",
+    "aws_subnet.workbench[1]": "us-east-1a",
+    "aws_subnet.workbench[2]": "us-east-1b",
+    "aws_eip.nat[0]": "us-east-1c",
+    "aws_eip.nat[1]": "us-east-1a",
+    "aws_eip.nat[2]": "us-east-1b",
+    "aws_nat_gateway.main[0]": "us-east-1c",
+    "aws_nat_gateway.main[1]": "us-east-1a",
+    "aws_nat_gateway.main[2]": "us-east-1b",
+    "aws_route_table.workbench[0]": "us-east-1c",
+    "aws_route_table.workbench[1]": "us-east-1a",
+    "aws_route_table.workbench[2]": "us-east-1b",
+    "aws_route.workbench_nat[0]": "us-east-1c",
+    "aws_route.workbench_nat[1]": "us-east-1a",
+    "aws_route.workbench_nat[2]": "us-east-1b",
+    "aws_route_table_association.public[0]": "us-east-1c",
+    "aws_route_table_association.public[1]": "us-east-1a",
+    "aws_route_table_association.public[2]": "us-east-1b",
+    "aws_route_table_association.workbench[0]": "us-east-1c",
+    "aws_route_table_association.workbench[1]": "us-east-1a",
+    "aws_route_table_association.workbench[2]": "us-east-1b",
+    "aws_efs_mount_target.pgstac[0]": "us-east-1a",
+    "aws_efs_mount_target.pgstac[1]": "us-east-1b",
+    "aws_efs_mount_target.pgstac[2]": "us-east-1c",
+    "aws_vpc_endpoint_route_table_association.s3[0]": "us-east-1b",
+    "aws_vpc_endpoint_route_table_association.s3[1]": "us-east-1c",
+    "aws_vpc_endpoint_route_table_association.s3[2]": "us-east-1a",
+    "aws_vpc_endpoint_route_table_association.s3[3]": null,
+    "aws_ssm_parameter.workbench_profile[0]": "us-east-1c",
+    "aws_ssm_parameter.workbench_profile[1]": "us-east-1a",
+    "aws_ssm_parameter.workbench_profile[2]": "us-east-1b",
+    "aws_ssm_parameter.workbench_bootstrap[0]": "us-east-1c",
+    "aws_ssm_parameter.workbench_bootstrap[1]": "us-east-1a",
+    "aws_ssm_parameter.workbench_bootstrap[2]": "us-east-1b"
+   },
+   "add": {
+    "key": "us-east-1f",
+    "value": {
+     "public_cidr": "10.1.96.0/20",
+     "workload_cidr": "10.1.224.0/20",
+     "route_priority": 5,
+     "instance_type": "m7i.large",
+     "root_volume_gb": 160,
+     "bootstrap_channel": "candidate",
+     "maintenance_window": "mon-0400",
+     "telemetry_port": 4327,
+     "diagnostics": false
+    },
+    "alternates": [
+     {
+      "public_cidr": "10.1.112.0/20",
+      "workload_cidr": "10.1.240.0/20",
+      "route_priority": 3,
+      "instance_type": "c6i.large",
+      "root_volume_gb": 140,
+      "bootstrap_channel": "beta",
+      "maintenance_window": "sat-0500",
+      "telemetry_port": 4328,
+      "diagnostics": false
+     }
+    ],
+    "created_values": [
+     {
+      "base": "aws_subnet.public",
+      "attr": "availability_zone",
+      "value": "us-east-1f"
+     },
+     {
+      "base": "aws_subnet.workbench",
+      "attr": "availability_zone",
+      "value": "us-east-1f"
+     },
+     {
+      "base": "aws_subnet.public",
+      "attr": "cidr_block",
+      "value": "10.1.96.0/20"
+     },
+     {
+      "base": "aws_subnet.workbench",
+      "attr": "cidr_block",
+      "value": "10.1.224.0/20"
+     },
+     {
+      "base": "aws_route_table.workbench",
+      "attr": "tags",
+      "value": {
+       "Name": "earthobs-sandbox-workbench-rt-us-east-1f",
+       "Tier": "workbench",
+       "AvailabilityZone": "us-east-1f",
+       "RoutePriority": "5",
+       "WorkbenchInstanceType": "m7i.large",
+       "WorkbenchRootVolumeGB": "160",
+       "BootstrapChannel": "candidate",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal",
+       "MaintenanceWindow": "mon-0400",
+       "TelemetryPort": "4327"
+      }
+     },
+     {
+      "base": "aws_route_table.workbench",
+      "attr": "tags_all",
+      "value": {
+       "Name": "earthobs-sandbox-workbench-rt-us-east-1f",
+       "Tier": "workbench",
+       "AvailabilityZone": "us-east-1f",
+       "RoutePriority": "5",
+       "WorkbenchInstanceType": "m7i.large",
+       "WorkbenchRootVolumeGB": "160",
+       "BootstrapChannel": "candidate",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal",
+       "MaintenanceWindow": "mon-0400",
+       "TelemetryPort": "4327"
+      }
+     },
+     {
+      "base": "aws_subnet.workbench",
+      "attr": "tags",
+      "value": {
+       "Name": "earthobs-sandbox-workbench-us-east-1f",
+       "Tier": "workbench",
+       "AvailabilityZone": "us-east-1f",
+       "WorkbenchInstanceType": "m7i.large",
+       "WorkbenchRootVolumeGB": "160",
+       "BootstrapChannel": "candidate",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal",
+       "MaintenanceWindow": "mon-0400",
+       "TelemetryPort": "4327"
+      }
+     },
+     {
+      "base": "aws_subnet.workbench",
+      "attr": "tags_all",
+      "value": {
+       "Name": "earthobs-sandbox-workbench-us-east-1f",
+       "Tier": "workbench",
+       "AvailabilityZone": "us-east-1f",
+       "WorkbenchInstanceType": "m7i.large",
+       "WorkbenchRootVolumeGB": "160",
+       "BootstrapChannel": "candidate",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal",
+       "MaintenanceWindow": "mon-0400",
+       "TelemetryPort": "4327"
+      }
+     },
+     {
+      "base": "aws_ssm_parameter.workbench_profile",
+      "attr": "value",
+      "value": "{\"availability_zone\":\"us-east-1f\",\"bootstrap_channel\":\"candidate\",\"diagnostics\":false,\"environment\":\"sandbox\",\"instance_type\":\"m7i.large\",\"maintenance_window\":\"mon-0400\",\"project\":\"earthobs\",\"public_cidr\":\"10.1.96.0/20\",\"root_volume_gb\":160,\"route_priority\":5,\"telemetry_port\":4327,\"workload_cidr\":\"10.1.224.0/20\"}"
+     },
+     {
+      "base": "aws_ssm_parameter.workbench_bootstrap",
+      "attr": "value",
+      "value": "{\"availability_zone\":\"us-east-1f\",\"bootstrap_channel\":\"candidate\",\"diagnostics\":false,\"environment\":\"sandbox\",\"maintenance_window\":\"mon-0400\",\"profile_name\":\"/earthobs/sandbox/network/workbenches/us-east-1f/profile\",\"project\":\"earthobs\",\"telemetry_port\":4327}"
+     }
+    ]
+   },
+   "remove": "us-east-1c",
+   "allowed_updates": {
+    "aws_lb.service[0]": [
+     "subnet_mapping",
+     "subnets"
+    ],
+    "aws_lb.service[1]": [
+     "subnet_mapping",
+     "subnets"
+    ],
+    "aws_ssm_parameter.workbench_subnet": [
+     "value"
+    ],
+    "aws_launch_template.primary_workbench": [
+     "block_device_mappings",
+     "instance_type",
+     "tag_specifications",
+     "user_data"
+    ],
+    "aws_ssm_parameter.workbench_manifest": [
+     "value"
+    ],
+    "aws_ssm_parameter.diagnostics_workbench": [
+     "value"
+    ]
+   },
+   "required_updates": {
+    "aws_lb.service[0]": [
+     "subnets"
+    ],
+    "aws_lb.service[1]": [
+     "subnets"
+    ],
+    "aws_ssm_parameter.workbench_subnet": [
+     "value"
+    ],
+    "aws_launch_template.primary_workbench": [
+     "block_device_mappings",
+     "instance_type",
+     "tag_specifications",
+     "user_data"
+    ],
+    "aws_ssm_parameter.workbench_manifest": [
+     "value"
+    ]
+   }
+  },
+  "stage": {
+   "variable": "processing_stages",
+   "keys": {
+    "aws_s3_object.stage_marker[0]": "refined",
+    "aws_s3_object.stage_marker[1]": "raw",
+    "aws_s3_object.stage_marker[2]": "catalog",
+    "aws_s3_object.stage_marker[3]": "clean",
+    "aws_sqs_queue.stage_dlq[0]": "refined",
+    "aws_sqs_queue.stage_dlq[1]": "raw",
+    "aws_sqs_queue.stage_dlq[2]": "catalog",
+    "aws_sqs_queue.stage_dlq[3]": "clean",
+    "aws_sqs_queue.stage[0]": "refined",
+    "aws_sqs_queue.stage[1]": "raw",
+    "aws_sqs_queue.stage[2]": "catalog",
+    "aws_sqs_queue.stage[3]": "clean",
+    "aws_sns_topic.stage[0]": "refined",
+    "aws_sns_topic.stage[1]": "raw",
+    "aws_sns_topic.stage[2]": "catalog",
+    "aws_sns_topic.stage[3]": "clean",
+    "aws_sns_topic_subscription.stage_queue[0]": "refined",
+    "aws_sns_topic_subscription.stage_queue[1]": "raw",
+    "aws_sns_topic_subscription.stage_queue[2]": "catalog",
+    "aws_sns_topic_subscription.stage_queue[3]": "clean",
+    "aws_sqs_queue_policy.stage[0]": "refined",
+    "aws_sqs_queue_policy.stage[1]": "raw",
+    "aws_sqs_queue_policy.stage[2]": "catalog",
+    "aws_sqs_queue_policy.stage[3]": "clean",
+    "aws_cloudwatch_log_group.stage[0]": "refined",
+    "aws_cloudwatch_log_group.stage[1]": "raw",
+    "aws_cloudwatch_log_group.stage[2]": "catalog",
+    "aws_cloudwatch_log_group.stage[3]": "clean",
+    "aws_cloudwatch_metric_alarm.stage_backlog[0]": "refined",
+    "aws_cloudwatch_metric_alarm.stage_backlog[1]": "raw",
+    "aws_cloudwatch_metric_alarm.stage_backlog[2]": "catalog",
+    "aws_cloudwatch_metric_alarm.stage_backlog[3]": "clean",
+    "aws_ssm_parameter.stage_config[0]": "refined",
+    "aws_ssm_parameter.stage_config[1]": "raw",
+    "aws_ssm_parameter.stage_config[2]": "catalog",
+    "aws_ssm_parameter.stage_config[3]": "clean",
+    "aws_ssm_parameter.stage_runtime[0]": "refined",
+    "aws_ssm_parameter.stage_runtime[1]": "raw",
+    "aws_ssm_parameter.stage_runtime[2]": "catalog",
+    "aws_ssm_parameter.stage_runtime[3]": "clean"
+   },
+   "add": {
+    "key": "reindex-v2",
+    "value": {
+     "priority": 5,
+     "visibility_timeout_seconds": 150,
+     "message_retention_seconds": 777600,
+     "delivery_delay_seconds": 30,
+     "backlog_threshold": 225,
+     "archive_prefix": "replay/reindex-v2",
+     "receive_wait_seconds": 7,
+     "alarm_evaluation_periods": 6,
+     "severity": "notice",
+     "retry_limit": 12,
+     "batch_size": 15,
+     "routing_class": "backfill",
+     "replay_source": false
+    },
+    "alternates": [
+     {
+      "priority": 3,
+      "visibility_timeout_seconds": 210,
+      "message_retention_seconds": 864000,
+      "delivery_delay_seconds": 20,
+      "backlog_threshold": 325,
+      "archive_prefix": "recovery",
+      "receive_wait_seconds": 11,
+      "alarm_evaluation_periods": 8,
+      "severity": "warning",
+      "retry_limit": 14,
+      "batch_size": 30,
+      "routing_class": "recovery",
+      "replay_source": false
+     }
+    ],
+    "created_values": [
+     {
+      "base": "aws_sqs_queue.stage",
+      "attr": "visibility_timeout_seconds",
+      "value": 150
+     },
+     {
+      "base": "aws_sqs_queue.stage",
+      "attr": "message_retention_seconds",
+      "value": 777600
+     },
+     {
+      "base": "aws_sqs_queue.stage",
+      "attr": "delay_seconds",
+      "value": 30
+     },
+     {
+      "base": "aws_sqs_queue.stage_dlq",
+      "attr": "message_retention_seconds",
+      "value": 777600
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.stage_backlog",
+      "attr": "threshold",
+      "value": 225
+     },
+     {
+      "base": "aws_cloudwatch_log_group.stage",
+      "attr": "tags",
+      "value": {
+       "Name": "earthobs-sandbox-reindex-v2-pipeline",
+       "Stage": "reindex-v2",
+       "Priority": "5",
+       "Severity": "notice",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal",
+       "RetryLimit": "12",
+       "BatchSize": "15",
+       "RoutingClass": "backfill"
+      }
+     },
+     {
+      "base": "aws_cloudwatch_log_group.stage",
+      "attr": "tags_all",
+      "value": {
+       "Name": "earthobs-sandbox-reindex-v2-pipeline",
+       "Stage": "reindex-v2",
+       "Priority": "5",
+       "Severity": "notice",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal",
+       "RetryLimit": "12",
+       "BatchSize": "15",
+       "RoutingClass": "backfill"
+      }
+     },
+     {
+      "base": "aws_s3_object.stage_marker",
+      "attr": "key",
+      "value": "earthobs/sandbox/replay/reindex-v2/.keep"
+     },
+     {
+      "base": "aws_sqs_queue.stage",
+      "attr": "receive_wait_time_seconds",
+      "value": 7
+     },
+     {
+      "base": "aws_sqs_queue.stage_dlq",
+      "attr": "receive_wait_time_seconds",
+      "value": 7
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.stage_backlog",
+      "attr": "evaluation_periods",
+      "value": 6
+     },
+     {
+      "base": "aws_sqs_queue.stage",
+      "attr": "tags",
+      "value": {
+       "Name": "earthobs-sandbox-reindex-v2",
+       "Stage": "reindex-v2",
+       "ReceiveWaitSeconds": "7",
+       "ArchivePrefix": "replay/reindex-v2",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal",
+       "RetryLimit": "12",
+       "BatchSize": "15",
+       "RoutingClass": "backfill"
+      }
+     },
+     {
+      "base": "aws_sqs_queue.stage",
+      "attr": "tags_all",
+      "value": {
+       "Name": "earthobs-sandbox-reindex-v2",
+       "Stage": "reindex-v2",
+       "ReceiveWaitSeconds": "7",
+       "ArchivePrefix": "replay/reindex-v2",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal",
+       "RetryLimit": "12",
+       "BatchSize": "15",
+       "RoutingClass": "backfill"
+      }
+     },
+     {
+      "base": "aws_sns_topic.stage",
+      "attr": "tags",
+      "value": {
+       "Name": "earthobs-sandbox-reindex-v2",
+       "Stage": "reindex-v2",
+       "Severity": "notice",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal",
+       "RoutingClass": "backfill"
+      }
+     },
+     {
+      "base": "aws_sns_topic.stage",
+      "attr": "tags_all",
+      "value": {
+       "Name": "earthobs-sandbox-reindex-v2",
+       "Stage": "reindex-v2",
+       "Severity": "notice",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal",
+       "RoutingClass": "backfill"
+      }
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.stage_backlog",
+      "attr": "tags",
+      "value": {
+       "Name": "earthobs-sandbox-reindex-v2-backlog",
+       "Stage": "reindex-v2",
+       "Severity": "notice",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal"
+      }
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.stage_backlog",
+      "attr": "tags_all",
+      "value": {
+       "Name": "earthobs-sandbox-reindex-v2-backlog",
+       "Stage": "reindex-v2",
+       "Severity": "notice",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal"
+      }
+     },
+     {
+      "base": "aws_ssm_parameter.stage_config",
+      "attr": "value",
+      "value": "{\"alarm_evaluation_periods\":6,\"archive_prefix\":\"replay/reindex-v2\",\"backlog_threshold\":225,\"batch_size\":15,\"delivery_delay_seconds\":30,\"environment\":\"sandbox\",\"message_retention_seconds\":777600,\"priority\":5,\"project\":\"earthobs\",\"queue_name\":\"earthobs-sandbox-reindex-v2\",\"receive_wait_seconds\":7,\"replay_source\":false,\"retry_limit\":12,\"routing_class\":\"backfill\",\"severity\":\"notice\",\"stage\":\"reindex-v2\",\"topic_name\":\"earthobs-sandbox-reindex-v2\",\"visibility_timeout_seconds\":150}"
+     },
+     {
+      "base": "aws_ssm_parameter.stage_config",
+      "attr": "tags",
+      "value": {
+       "Name": "earthobs-sandbox-reindex-v2-config",
+       "Stage": "reindex-v2",
+       "Severity": "notice",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal"
+      }
+     },
+     {
+      "base": "aws_ssm_parameter.stage_config",
+      "attr": "tags_all",
+      "value": {
+       "Name": "earthobs-sandbox-reindex-v2-config",
+       "Stage": "reindex-v2",
+       "Severity": "notice",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal"
+      }
+     },
+     {
+      "base": "aws_ssm_parameter.stage_runtime",
+      "attr": "value",
+      "value": "{\"batch_size\":15,\"config_name\":\"/earthobs/sandbox/pipeline/reindex-v2/config\",\"environment\":\"sandbox\",\"project\":\"earthobs\",\"queue_name\":\"earthobs-sandbox-reindex-v2\",\"replay_source\":false,\"retry_limit\":12,\"routing_class\":\"backfill\",\"stage\":\"reindex-v2\",\"topic_name\":\"earthobs-sandbox-reindex-v2\"}"
+     },
+     {
+      "base": "aws_ssm_parameter.stage_runtime",
+      "attr": "tags",
+      "value": {
+       "Name": "earthobs-sandbox-reindex-v2-runtime",
+       "Stage": "reindex-v2",
+       "RoutingClass": "backfill",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal"
+      }
+     },
+     {
+      "base": "aws_ssm_parameter.stage_runtime",
+      "attr": "tags_all",
+      "value": {
+       "Name": "earthobs-sandbox-reindex-v2-runtime",
+       "Stage": "reindex-v2",
+       "RoutingClass": "backfill",
+       "Project": "earthobs",
+       "Environment": "sandbox",
+       "Owner": "geospatial-platform",
+       "CostCenter": "cc-4821",
+       "ManagedBy": "terraform",
+       "Compliance": "internal"
+      }
+     }
+    ]
+   },
+   "remove": "refined",
+   "allowed_updates": {
+    "aws_iam_role_policy.pipeline_access[0]": [
+     "policy"
+    ],
+    "aws_iam_role_policy.pipeline_access[1]": [
+     "policy"
+    ],
+    "aws_ssm_parameter.pipeline_order": [
+     "value"
+    ],
+    "aws_ssm_parameter.primary_stage_queue": [
+     "value"
+    ],
+    "aws_s3_bucket_policy.data": [
+     "policy"
+    ],
+    "aws_iam_policy.data_consumer": [
+     "policy"
+    ],
+    "aws_ssm_parameter.pipeline_manifest": [
+     "value"
+    ],
+    "aws_ssm_parameter.pipeline_routes": [
+     "value"
+    ],
+    "aws_ssm_parameter.replay_stage_queue": [
+     "value"
+    ]
+   },
+   "required_updates": {
+    "aws_iam_role_policy.pipeline_access[0]": [
+     "policy"
+    ],
+    "aws_iam_role_policy.pipeline_access[1]": [
+     "policy"
+    ],
+    "aws_ssm_parameter.pipeline_order": [
+     "value"
+    ],
+    "aws_ssm_parameter.primary_stage_queue": [
+     "value"
+    ],
+    "aws_s3_bucket_policy.data": [
+     "policy"
+    ],
+    "aws_iam_policy.data_consumer": [
+     "policy"
+    ],
+    "aws_ssm_parameter.pipeline_manifest": [
+     "value"
+    ],
+    "aws_ssm_parameter.pipeline_routes": [
+     "value"
+    ]
+   }
+  }
+ },
+ "variables": {
+  "project": {
+   "default": "earthobs",
+   "type": "string"
+  },
+  "environment": {
+   "default": "sandbox",
+   "type": "string"
+  },
+  "vpc_cidr": {
+   "default": "10.1.0.0/16",
+   "type": "string"
+  },
+  "availability_zones": {
+   "default": {
+    "us-east-1c": {
+     "public_cidr": "10.1.32.0/20",
+     "workload_cidr": "10.1.160.0/20",
+     "route_priority": 10,
+     "instance_type": "t3.large",
+     "root_volume_gb": 80,
+     "bootstrap_channel": "stable",
+     "maintenance_window": "sun-0200",
+     "telemetry_port": 4317,
+     "diagnostics": true
+    },
+    "us-east-1a": {
+     "public_cidr": "10.1.0.0/20",
+     "workload_cidr": "10.1.128.0/20",
+     "route_priority": 30,
+     "instance_type": "m6i.large",
+     "root_volume_gb": 100,
+     "bootstrap_channel": "preview",
+     "maintenance_window": "wed-0100",
+     "telemetry_port": 4318,
+     "diagnostics": false
+    },
+    "us-east-1b": {
+     "public_cidr": "10.1.16.0/20",
+     "workload_cidr": "10.1.144.0/20",
+     "route_priority": 20,
+     "instance_type": "t3.xlarge",
+     "root_volume_gb": 120,
+     "bootstrap_channel": "stable",
+     "maintenance_window": "fri-0300",
+     "telemetry_port": 4319,
+     "diagnostics": false
+    }
+   },
+   "type": "map(object({ public_cidr = string, workload_cidr = string, route_priority = number, instance_type = string, root_volume_gb = number, bootstrap_channel = string, maintenance_window = string, telemetry_port = number, diagnostics = bool }))"
+  },
+  "processing_stages": {
+   "default": {
+    "refined": {
+     "priority": 10,
+     "visibility_timeout_seconds": 180,
+     "message_retention_seconds": 604800,
+     "delivery_delay_seconds": 0,
+     "backlog_threshold": 150,
+     "archive_prefix": "curated/refined",
+     "receive_wait_seconds": 4,
+     "alarm_evaluation_periods": 3,
+     "severity": "warning",
+     "retry_limit": 6,
+     "batch_size": 25,
+     "routing_class": "curation",
+     "replay_source": true
+    },
+    "raw": {
+     "priority": 30,
+     "visibility_timeout_seconds": 90,
+     "message_retention_seconds": 345600,
+     "delivery_delay_seconds": 15,
+     "backlog_threshold": 500,
+     "archive_prefix": "landing/raw",
+     "receive_wait_seconds": 6,
+     "alarm_evaluation_periods": 2,
+     "severity": "critical",
+     "retry_limit": 10,
+     "batch_size": 10,
+     "routing_class": "ingest",
+     "replay_source": false
+    },
+    "catalog": {
+     "priority": 40,
+     "visibility_timeout_seconds": 240,
+     "message_retention_seconds": 1209600,
+     "delivery_delay_seconds": 5,
+     "backlog_threshold": 75,
+     "archive_prefix": "index/catalog",
+     "receive_wait_seconds": 3,
+     "alarm_evaluation_periods": 4,
+     "severity": "info",
+     "retry_limit": 4,
+     "batch_size": 50,
+     "routing_class": "search",
+     "replay_source": false
+    },
+    "clean": {
+     "priority": 20,
+     "visibility_timeout_seconds": 120,
+     "message_retention_seconds": 432000,
+     "delivery_delay_seconds": 10,
+     "backlog_threshold": 250,
+     "archive_prefix": "normalized/clean",
+     "receive_wait_seconds": 5,
+     "alarm_evaluation_periods": 5,
+     "severity": "warning",
+     "retry_limit": 8,
+     "batch_size": 20,
+     "routing_class": "quality",
+     "replay_source": false
+    }
+   },
+   "type": "map(object({ priority = number, visibility_timeout_seconds = number, message_retention_seconds = number, delivery_delay_seconds = number, backlog_threshold = number, archive_prefix = string, receive_wait_seconds = number, alarm_evaluation_periods = number, severity = string, retry_limit = number, batch_size = number, routing_class = string, replay_source = bool }))"
+  },
+  "tags": {
+   "default": {
+    "Owner": "geospatial-platform",
+    "CostCenter": "cc-4821",
+    "ManagedBy": "terraform",
+    "Compliance": "internal"
+   },
+   "type": "map(string)"
+  },
+  "service_cpu": {
+   "default": 1024,
+   "type": "number"
+  },
+  "service_memory": {
+   "default": 2048,
+   "type": "number"
+  },
+  "log_retention_days": {
+   "default": 30,
+   "type": "number"
+  },
+  "efs_throughput_mode": {
+   "default": "bursting",
+   "type": "string"
+  },
+  "flow_log_aggregation_interval": {
+   "default": 600,
+   "type": "number"
+  },
+  "kms_deletion_window_days": {
+   "default": 30,
+   "type": "number"
+  },
+  "alarm_period_seconds": {
+   "default": 300,
+   "type": "number"
+  },
+  "lb_health_check_interval": {
+   "default": 60,
+   "type": "number"
+  }
+ },
+ "probes": [
+  {
+   "name": "add_az",
+   "kind": "key_add",
+   "dimension": "az",
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-b6f9c77a7f96dfb1b",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-361bf51a109f79606",
+      "us-east-1b": "subnet-efa71c26c17a495aa",
+      "us-east-1c": "subnet-1e05b188b05745997"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "workbench_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-4ee3f8711aa5c88e5",
+      "us-east-1b": "subnet-279dc7ac52820ac6a",
+      "us-east-1c": "subnet-6d5f8be6c53d36b64"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "workbench_profile_parameter_names": {
+     "after": {
+      "us-east-1a": "/earthobs/sandbox/network/workbenches/us-east-1a/profile",
+      "us-east-1b": "/earthobs/sandbox/network/workbenches/us-east-1b/profile",
+      "us-east-1c": "/earthobs/sandbox/network/workbenches/us-east-1c/profile",
+      "us-east-1f": "/earthobs/sandbox/network/workbenches/us-east-1f/profile"
+     },
+     "unknown": false
+    },
+    "primary_workbench_launch_template_id": {
+     "after": "lt-bd4e96f34eb579deb",
+     "unknown": false
+    },
+    "efs_mount_target_ids": {
+     "after": {
+      "us-east-1a": "fsmt-44c8f7bd",
+      "us-east-1b": "fsmt-fbb98614",
+      "us-east-1c": "fsmt-5cbf0994"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "stage_queue_urls": {
+     "after": {
+      "catalog": "http://127.0.0.1:5000/123456789012/earthobs-sandbox-catalog",
+      "clean": "http://127.0.0.1:5000/123456789012/earthobs-sandbox-clean",
+      "raw": "http://127.0.0.1:5000/123456789012/earthobs-sandbox-raw",
+      "refined": "http://127.0.0.1:5000/123456789012/earthobs-sandbox-refined"
+     },
+     "unknown": false
+    },
+    "stage_topic_arns": {
+     "after": {
+      "catalog": "arn:aws:sns:us-east-1:123456789012:earthobs-sandbox-catalog",
+      "clean": "arn:aws:sns:us-east-1:123456789012:earthobs-sandbox-clean",
+      "raw": "arn:aws:sns:us-east-1:123456789012:earthobs-sandbox-raw",
+      "refined": "arn:aws:sns:us-east-1:123456789012:earthobs-sandbox-refined"
+     },
+     "unknown": false
+    },
+    "stage_config_parameter_names": {
+     "after": {
+      "catalog": "/earthobs/sandbox/pipeline/catalog/config",
+      "clean": "/earthobs/sandbox/pipeline/clean/config",
+      "raw": "/earthobs/sandbox/pipeline/raw/config",
+      "refined": "/earthobs/sandbox/pipeline/refined/config"
+     },
+     "unknown": false
+    },
+    "stage_backlog_alarm_arns": {
+     "after": {
+      "catalog": "arn:aws:cloudwatch:us-east-1:123456789012:alarm:earthobs-sandbox-catalog-backlog",
+      "clean": "arn:aws:cloudwatch:us-east-1:123456789012:alarm:earthobs-sandbox-clean-backlog",
+      "raw": "arn:aws:cloudwatch:us-east-1:123456789012:alarm:earthobs-sandbox-raw-backlog",
+      "refined": "arn:aws:cloudwatch:us-east-1:123456789012:alarm:earthobs-sandbox-refined-backlog"
+     },
+     "unknown": false
+    },
+    "pipeline_manifest_parameter_name": {
+     "after": "/earthobs/sandbox/pipeline/manifest",
+     "unknown": false
+    },
+    "data_bucket_name": {
+     "after": "earthobs-sandbox-data-8644",
+     "unknown": false
+    },
+    "pgstac_efs_id": {
+     "after": "fs-8db15e00",
+     "unknown": false
+    },
+    "stacapi_load_balancer_dns": {
+     "after": "earthobs-sandbox-stacapi-1.us-east-1.elb.amazonaws.com",
+     "unknown": false
+    },
+    "pgstac_task_role_arn": {
+     "after": "arn:aws:iam::123456789012:role/earthobs-sandbox-pgstac-task",
+     "unknown": false
+    },
+    "pipeline_order_parameter_name": {
+     "after": "/earthobs/sandbox/pipeline/order",
+     "unknown": false
+    },
+    "workbench_bootstrap_parameter_names": {
+     "after": {
+      "us-east-1a": "/earthobs/sandbox/network/workbenches/us-east-1a/bootstrap",
+      "us-east-1b": "/earthobs/sandbox/network/workbenches/us-east-1b/bootstrap",
+      "us-east-1c": "/earthobs/sandbox/network/workbenches/us-east-1c/bootstrap",
+      "us-east-1f": "/earthobs/sandbox/network/workbenches/us-east-1f/bootstrap"
+     },
+     "unknown": false
+    },
+    "workbench_manifest_parameter_name": {
+     "after": "/earthobs/sandbox/network/workbench-manifest",
+     "unknown": false
+    },
+    "diagnostics_workbench_parameter_name": {
+     "after": "/earthobs/sandbox/network/diagnostics-workbench",
+     "unknown": false
+    },
+    "stage_runtime_parameter_names": {
+     "after": {
+      "catalog": "/earthobs/sandbox/pipeline/catalog/runtime",
+      "clean": "/earthobs/sandbox/pipeline/clean/runtime",
+      "raw": "/earthobs/sandbox/pipeline/raw/runtime",
+      "refined": "/earthobs/sandbox/pipeline/refined/runtime"
+     },
+     "unknown": false
+    },
+    "pipeline_routes_parameter_name": {
+     "after": "/earthobs/sandbox/pipeline/routes",
+     "unknown": false
+    },
+    "replay_stage_queue_parameter_name": {
+     "after": "/earthobs/sandbox/pipeline/replay-stage-queue",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_lb.service[0]": {
+     "subnet_mapping": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": null,
+       "unknown": true
+      }
+     },
+     "subnets": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-279dc7ac52820ac6a",
+        "subnet-4ee3f8711aa5c88e5",
+        "subnet-6d5f8be6c53d36b64",
+        "subnet-974258ad86454ed30"
+       ],
+       "unknown": [
+        false,
+        false,
+        false,
+        false
+       ]
+      }
+     }
+    },
+    "aws_lb.service[1]": {
+     "subnet_mapping": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": null,
+       "unknown": true
+      }
+     },
+     "subnets": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-279dc7ac52820ac6a",
+        "subnet-4ee3f8711aa5c88e5",
+        "subnet-6d5f8be6c53d36b64",
+        "subnet-974258ad86454ed30"
+       ],
+       "unknown": [
+        false,
+        false,
+        false,
+        false
+       ]
+      }
+     }
+    },
+    "aws_ssm_parameter.workbench_subnet": {
+     "value": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "subnet-974258ad86454ed30",
+       "unknown": null
+      }
+     }
+    },
+    "aws_launch_template.primary_workbench": {
+     "block_device_mappings": {
+      "after": [
+       {
+        "device_name": "/dev/xvda",
+        "ebs": [
+         {
+          "delete_on_termination": "",
+          "encrypted": "",
+          "iops": 0,
+          "kms_key_id": "",
+          "snapshot_id": "",
+          "throughput": 0,
+          "volume_initialization_rate": 0,
+          "volume_size": 160,
+          "volume_type": "gp3"
+         }
+        ],
+        "no_device": "",
+        "virtual_name": ""
+       }
+      ],
+      "unknown": [
+       {
+        "ebs": [
+         {}
+        ]
+       }
+      ],
+      "filled": {
+       "after": [
+        {
+         "device_name": "/dev/xvda",
+         "ebs": [
+          {
+           "delete_on_termination": "",
+           "encrypted": "",
+           "iops": 0,
+           "kms_key_id": "",
+           "snapshot_id": "",
+           "throughput": 0,
+           "volume_initialization_rate": 0,
+           "volume_size": 160,
+           "volume_type": "gp3"
+          }
+         ],
+         "no_device": "",
+         "virtual_name": ""
+        }
+       ],
+       "unknown": [
+        {
+         "ebs": [
+          {}
+         ]
+        }
+       ]
+      }
+     },
+     "instance_type": {
+      "after": "m7i.large",
+      "unknown": null,
+      "filled": {
+       "after": "m7i.large",
+       "unknown": null
+      }
+     },
+     "tag_specifications": {
+      "after": [
+       {
+        "resource_type": "instance",
+        "tags": {
+         "AvailabilityZone": "us-east-1f",
+         "Compliance": "internal",
+         "CostCenter": "cc-4821",
+         "Environment": "sandbox",
+         "ManagedBy": "terraform",
+         "Name": "earthobs-sandbox-primary-workbench",
+         "Owner": "geospatial-platform",
+         "Project": "earthobs"
+        }
+       }
+      ],
+      "unknown": [
+       {
+        "tags": {}
+       }
+      ],
+      "filled": {
+       "after": [
+        {
+         "resource_type": "instance",
+         "tags": {
+          "AvailabilityZone": "us-east-1f",
+          "Compliance": "internal",
+          "CostCenter": "cc-4821",
+          "Environment": "sandbox",
+          "ManagedBy": "terraform",
+          "Name": "earthobs-sandbox-primary-workbench",
+          "Owner": "geospatial-platform",
+          "Project": "earthobs"
+         }
+        }
+       ],
+       "unknown": [
+        {
+         "tags": {}
+        }
+       ]
+      }
+     },
+     "user_data": {
+      "after": "IyEvYmluL3NoClBST0pFQ1Q9ZWFydGhvYnMKRU5WSVJPTk1FTlQ9c2FuZGJveApBVkFJTEFCSUxJVFlfWk9ORT11cy1lYXN0LTFmCldPUktMT0FEX0NJRFI9MTAuMS4yMjQuMC8yMApST1VURV9QUklPUklUWT01CkJPT1RTVFJBUF9DSEFOTkVMPWNhbmRpZGF0ZQpNQUlOVEVOQU5DRV9XSU5ET1c9bW9uLTA0MDAKVEVMRU1FVFJZX1BPUlQ9NDMyNwo=",
+      "unknown": null,
+      "filled": {
+       "after": "IyEvYmluL3NoClBST0pFQ1Q9ZWFydGhvYnMKRU5WSVJPTk1FTlQ9c2FuZGJveApBVkFJTEFCSUxJVFlfWk9ORT11cy1lYXN0LTFmCldPUktMT0FEX0NJRFI9MTAuMS4yMjQuMC8yMApST1VURV9QUklPUklUWT01CkJPT1RTVFJBUF9DSEFOTkVMPWNhbmRpZGF0ZQpNQUlOVEVOQU5DRV9XSU5ET1c9bW9uLTA0MDAKVEVMRU1FVFJZX1BPUlQ9NDMyNwo=",
+       "unknown": null
+      }
+     }
+    },
+    "aws_ssm_parameter.workbench_manifest": {
+     "value": {
+      "after": "[{\"availability_zone\":\"us-east-1f\",\"bootstrap_channel\":\"candidate\",\"bootstrap_name\":\"/earthobs/sandbox/network/workbenches/us-east-1f/bootstrap\",\"instance_type\":\"m7i.large\",\"maintenance_window\":\"mon-0400\",\"profile_name\":\"/earthobs/sandbox/network/workbenches/us-east-1f/profile\",\"public_cidr\":\"10.1.96.0/20\",\"root_volume_gb\":160,\"route_priority\":5,\"telemetry_port\":4327,\"workload_cidr\":\"10.1.224.0/20\"},{\"availability_zone\":\"us-east-1c\",\"bootstrap_channel\":\"stable\",\"bootstrap_name\":\"/earthobs/sandbox/network/workbenches/us-east-1c/bootstrap\",\"instance_type\":\"t3.large\",\"maintenance_window\":\"sun-0200\",\"profile_name\":\"/earthobs/sandbox/network/workbenches/us-east-1c/profile\",\"public_cidr\":\"10.1.32.0/20\",\"root_volume_gb\":80,\"route_priority\":10,\"telemetry_port\":4317,\"workload_cidr\":\"10.1.160.0/20\"},{\"availability_zone\":\"us-east-1b\",\"bootstrap_channel\":\"stable\",\"bootstrap_name\":\"/earthobs/sandbox/network/workbenches/us-east-1b/bootstrap\",\"instance_type\":\"t3.xlarge\",\"maintenance_window\":\"fri-0300\",\"profile_name\":\"/earthobs/sandbox/network/workbenches/us-east-1b/profile\",\"public_cidr\":\"10.1.16.0/20\",\"root_volume_gb\":120,\"route_priority\":20,\"telemetry_port\":4319,\"workload_cidr\":\"10.1.144.0/20\"},{\"availability_zone\":\"us-east-1a\",\"bootstrap_channel\":\"preview\",\"bootstrap_name\":\"/earthobs/sandbox/network/workbenches/us-east-1a/bootstrap\",\"instance_type\":\"m6i.large\",\"maintenance_window\":\"wed-0100\",\"profile_name\":\"/earthobs/sandbox/network/workbenches/us-east-1a/profile\",\"public_cidr\":\"10.1.0.0/20\",\"root_volume_gb\":100,\"route_priority\":30,\"telemetry_port\":4318,\"workload_cidr\":\"10.1.128.0/20\"}]",
+      "unknown": null,
+      "filled": {
+       "after": "[{\"availability_zone\":\"us-east-1f\",\"bootstrap_channel\":\"candidate\",\"bootstrap_name\":\"/earthobs/sandbox/network/workbenches/us-east-1f/bootstrap\",\"instance_type\":\"m7i.large\",\"maintenance_window\":\"mon-0400\",\"profile_name\":\"/earthobs/sandbox/network/workbenches/us-east-1f/profile\",\"public_cidr\":\"10.1.96.0/20\",\"root_volume_gb\":160,\"route_priority\":5,\"telemetry_port\":4327,\"workload_cidr\":\"10.1.224.0/20\"},{\"availability_zone\":\"us-east-1c\",\"bootstrap_channel\":\"stable\",\"bootstrap_name\":\"/earthobs/sandbox/network/workbenches/us-east-1c/bootstrap\",\"instance_type\":\"t3.large\",\"maintenance_window\":\"sun-0200\",\"profile_name\":\"/earthobs/sandbox/network/workbenches/us-east-1c/profile\",\"public_cidr\":\"10.1.32.0/20\",\"root_volume_gb\":80,\"route_priority\":10,\"telemetry_port\":4317,\"workload_cidr\":\"10.1.160.0/20\"},{\"availability_zone\":\"us-east-1b\",\"bootstrap_channel\":\"stable\",\"bootstrap_name\":\"/earthobs/sandbox/network/workbenches/us-east-1b/bootstrap\",\"instance_type\":\"t3.xlarge\",\"maintenance_window\":\"fri-0300\",\"profile_name\":\"/earthobs/sandbox/network/workbenches/us-east-1b/profile\",\"public_cidr\":\"10.1.16.0/20\",\"root_volume_gb\":120,\"route_priority\":20,\"telemetry_port\":4319,\"workload_cidr\":\"10.1.144.0/20\"},{\"availability_zone\":\"us-east-1a\",\"bootstrap_channel\":\"preview\",\"bootstrap_name\":\"/earthobs/sandbox/network/workbenches/us-east-1a/bootstrap\",\"instance_type\":\"m6i.large\",\"maintenance_window\":\"wed-0100\",\"profile_name\":\"/earthobs/sandbox/network/workbenches/us-east-1a/profile\",\"public_cidr\":\"10.1.0.0/20\",\"root_volume_gb\":100,\"route_priority\":30,\"telemetry_port\":4318,\"workload_cidr\":\"10.1.128.0/20\"}]",
+       "unknown": null
+      }
+     }
+    },
+    "aws_ssm_parameter.diagnostics_workbench": {
+     "value": {
+      "after": "/earthobs/sandbox/network/workbenches/us-east-1c/bootstrap",
+      "unknown": null,
+      "filled": {
+       "after": "/earthobs/sandbox/network/workbenches/us-east-1c/bootstrap",
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_az",
+   "kind": "key_remove",
+   "dimension": "az",
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-b6f9c77a7f96dfb1b",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-361bf51a109f79606",
+      "us-east-1b": "subnet-efa71c26c17a495aa"
+     },
+     "unknown": false
+    },
+    "workbench_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-4ee3f8711aa5c88e5",
+      "us-east-1b": "subnet-279dc7ac52820ac6a"
+     },
+     "unknown": false
+    },
+    "workbench_profile_parameter_names": {
+     "after": {
+      "us-east-1a": "/earthobs/sandbox/network/workbenches/us-east-1a/profile",
+      "us-east-1b": "/earthobs/sandbox/network/workbenches/us-east-1b/profile"
+     },
+     "unknown": false
+    },
+    "primary_workbench_launch_template_id": {
+     "after": "lt-bd4e96f34eb579deb",
+     "unknown": false
+    },
+    "efs_mount_target_ids": {
+     "after": {
+      "us-east-1a": "fsmt-44c8f7bd",
+      "us-east-1b": "fsmt-fbb98614"
+     },
+     "unknown": false
+    },
+    "stage_queue_urls": {
+     "after": {
+      "catalog": "http://127.0.0.1:5000/123456789012/earthobs-sandbox-catalog",
+      "clean": "http://127.0.0.1:5000/123456789012/earthobs-sandbox-clean",
+      "raw": "http://127.0.0.1:5000/123456789012/earthobs-sandbox-raw",
+      "refined": "http://127.0.0.1:5000/123456789012/earthobs-sandbox-refined"
+     },
+     "unknown": false
+    },
+    "stage_topic_arns": {
+     "after": {
+      "catalog": "arn:aws:sns:us-east-1:123456789012:earthobs-sandbox-catalog",
+      "clean": "arn:aws:sns:us-east-1:123456789012:earthobs-sandbox-clean",
+      "raw": "arn:aws:sns:us-east-1:123456789012:earthobs-sandbox-raw",
+      "refined": "arn:aws:sns:us-east-1:123456789012:earthobs-sandbox-refined"
+     },
+     "unknown": false
+    },
+    "stage_config_parameter_names": {
+     "after": {
+      "catalog": "/earthobs/sandbox/pipeline/catalog/config",
+      "clean": "/earthobs/sandbox/pipeline/clean/config",
+      "raw": "/earthobs/sandbox/pipeline/raw/config",
+      "refined": "/earthobs/sandbox/pipeline/refined/config"
+     },
+     "unknown": false
+    },
+    "stage_backlog_alarm_arns": {
+     "after": {
+      "catalog": "arn:aws:cloudwatch:us-east-1:123456789012:alarm:earthobs-sandbox-catalog-backlog",
+      "clean": "arn:aws:cloudwatch:us-east-1:123456789012:alarm:earthobs-sandbox-clean-backlog",
+      "raw": "arn:aws:cloudwatch:us-east-1:123456789012:alarm:earthobs-sandbox-raw-backlog",
+      "refined": "arn:aws:cloudwatch:us-east-1:123456789012:alarm:earthobs-sandbox-refined-backlog"
+     },
+     "unknown": false
+    },
+    "pipeline_manifest_parameter_name": {
+     "after": "/earthobs/sandbox/pipeline/manifest",
+     "unknown": false
+    },
+    "data_bucket_name": {
+     "after": "earthobs-sandbox-data-8644",
+     "unknown": false
+    },
+    "pgstac_efs_id": {
+     "after": "fs-8db15e00",
+     "unknown": false
+    },
+    "stacapi_load_balancer_dns": {
+     "after": "earthobs-sandbox-stacapi-1.us-east-1.elb.amazonaws.com",
+     "unknown": false
+    },
+    "pgstac_task_role_arn": {
+     "after": "arn:aws:iam::123456789012:role/earthobs-sandbox-pgstac-task",
+     "unknown": false
+    },
+    "pipeline_order_parameter_name": {
+     "after": "/earthobs/sandbox/pipeline/order",
+     "unknown": false
+    },
+    "workbench_bootstrap_parameter_names": {
+     "after": {
+      "us-east-1a": "/earthobs/sandbox/network/workbenches/us-east-1a/bootstrap",
+      "us-east-1b": "/earthobs/sandbox/network/workbenches/us-east-1b/bootstrap"
+     },
+     "unknown": false
+    },
+    "workbench_manifest_parameter_name": {
+     "after": "/earthobs/sandbox/network/workbench-manifest",
+     "unknown": false
+    },
+    "diagnostics_workbench_parameter_name": {
+     "after": "/earthobs/sandbox/network/diagnostics-workbench",
+     "unknown": false
+    },
+    "stage_runtime_parameter_names": {
+     "after": {
+      "catalog": "/earthobs/sandbox/pipeline/catalog/runtime",
+      "clean": "/earthobs/sandbox/pipeline/clean/runtime",
+      "raw": "/earthobs/sandbox/pipeline/raw/runtime",
+      "refined": "/earthobs/sandbox/pipeline/refined/runtime"
+     },
+     "unknown": false
+    },
+    "pipeline_routes_parameter_name": {
+     "after": "/earthobs/sandbox/pipeline/routes",
+     "unknown": false
+    },
+    "replay_stage_queue_parameter_name": {
+     "after": "/earthobs/sandbox/pipeline/replay-stage-queue",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_lb.service[0]": {
+     "subnet_mapping": {
+      "after": null,
+      "unknown": true
+     },
+     "subnets": {
+      "after": [
+       "subnet-279dc7ac52820ac6a",
+       "subnet-4ee3f8711aa5c88e5"
+      ],
+      "unknown": [
+       false,
+       false
+      ]
+     }
+    },
+    "aws_lb.service[1]": {
+     "subnet_mapping": {
+      "after": null,
+      "unknown": true
+     },
+     "subnets": {
+      "after": [
+       "subnet-279dc7ac52820ac6a",
+       "subnet-4ee3f8711aa5c88e5"
+      ],
+      "unknown": [
+       false,
+       false
+      ]
+     }
+    },
+    "aws_ssm_parameter.workbench_subnet": {
+     "value": {
+      "after": "subnet-279dc7ac52820ac6a",
+      "unknown": null
+     }
+    },
+    "aws_launch_template.primary_workbench": {
+     "block_device_mappings": {
+      "after": [
+       {
+        "device_name": "/dev/xvda",
+        "ebs": [
+         {
+          "delete_on_termination": "",
+          "encrypted": "",
+          "iops": 0,
+          "kms_key_id": "",
+          "snapshot_id": "",
+          "throughput": 0,
+          "volume_initialization_rate": 0,
+          "volume_size": 120,
+          "volume_type": "gp3"
+         }
+        ],
+        "no_device": "",
+        "virtual_name": ""
+       }
+      ],
+      "unknown": [
+       {
+        "ebs": [
+         {}
+        ]
+       }
+      ]
+     },
+     "instance_type": {
+      "after": "t3.xlarge",
+      "unknown": null
+     },
+     "tag_specifications": {
+      "after": [
+       {
+        "resource_type": "instance",
+        "tags": {
+         "AvailabilityZone": "us-east-1b",
+         "Compliance": "internal",
+         "CostCenter": "cc-4821",
+         "Environment": "sandbox",
+         "ManagedBy": "terraform",
+         "Name": "earthobs-sandbox-primary-workbench",
+         "Owner": "geospatial-platform",
+         "Project": "earthobs"
+        }
+       }
+      ],
+      "unknown": [
+       {
+        "tags": {}
+       }
+      ]
+     },
+     "user_data": {
+      "after": "IyEvYmluL3NoClBST0pFQ1Q9ZWFydGhvYnMKRU5WSVJPTk1FTlQ9c2FuZGJveApBVkFJTEFCSUxJVFlfWk9ORT11cy1lYXN0LTFiCldPUktMT0FEX0NJRFI9MTAuMS4xNDQuMC8yMApST1VURV9QUklPUklUWT0yMApCT09UU1RSQVBfQ0hBTk5FTD1zdGFibGUKTUFJTlRFTkFOQ0VfV0lORE9XPWZyaS0wMzAwClRFTEVNRVRSWV9QT1JUPTQzMTkK",
+      "unknown": null
+     }
+    },
+    "aws_ssm_parameter.workbench_manifest": {
+     "value": {
+      "after": "[{\"availability_zone\":\"us-east-1b\",\"bootstrap_channel\":\"stable\",\"bootstrap_name\":\"/earthobs/sandbox/network/workbenches/us-east-1b/bootstrap\",\"instance_type\":\"t3.xlarge\",\"maintenance_window\":\"fri-0300\",\"profile_name\":\"/earthobs/sandbox/network/workbenches/us-east-1b/profile\",\"public_cidr\":\"10.1.16.0/20\",\"root_volume_gb\":120,\"route_priority\":20,\"telemetry_port\":4319,\"workload_cidr\":\"10.1.144.0/20\"},{\"availability_zone\":\"us-east-1a\",\"bootstrap_channel\":\"preview\",\"bootstrap_name\":\"/earthobs/sandbox/network/workbenches/us-east-1a/bootstrap\",\"instance_type\":\"m6i.large\",\"maintenance_window\":\"wed-0100\",\"profile_name\":\"/earthobs/sandbox/network/workbenches/us-east-1a/profile\",\"public_cidr\":\"10.1.0.0/20\",\"root_volume_gb\":100,\"route_priority\":30,\"telemetry_port\":4318,\"workload_cidr\":\"10.1.128.0/20\"}]",
+      "unknown": null
+     }
+    },
+    "aws_ssm_parameter.diagnostics_workbench": {
+     "value": {
+      "after": "/earthobs/sandbox/network/workbenches/us-east-1a/bootstrap",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "update_az",
+   "kind": "key_update",
+   "dimension": "az",
+   "updates": {
+    "us-east-1c": {
+     "public_cidr": "10.1.48.0/20",
+     "workload_cidr": "10.1.176.0/20",
+     "route_priority": 30,
+     "instance_type": "c6i.large",
+     "root_volume_gb": 90,
+     "bootstrap_channel": "canary",
+     "maintenance_window": "tue-0600",
+     "telemetry_port": 4417,
+     "diagnostics": false
+    },
+    "us-east-1a": {
+     "public_cidr": "10.1.64.0/20",
+     "workload_cidr": "10.1.192.0/20",
+     "route_priority": 10,
+     "instance_type": "m7i.xlarge",
+     "root_volume_gb": 140,
+     "bootstrap_channel": "stable",
+     "maintenance_window": "thu-0700",
+     "telemetry_port": 4418,
+     "diagnostics": true
+    },
+    "us-east-1b": {
+     "public_cidr": "10.1.80.0/20",
+     "workload_cidr": "10.1.208.0/20",
+     "route_priority": 25,
+     "instance_type": "t3.2xlarge",
+     "root_volume_gb": 180,
+     "bootstrap_channel": "preview",
+     "maintenance_window": "sat-0800",
+     "telemetry_port": 4419,
+     "diagnostics": true
+    }
+   },
+   "expect": [
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.public",
+     "attr": "cidr_block",
+     "value": "10.1.48.0/20"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.workbench",
+     "attr": "cidr_block",
+     "value": "10.1.176.0/20"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_route_table.workbench",
+     "attr": "tags.RoutePriority",
+     "value": "30"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.public",
+     "attr": "cidr_block",
+     "value": "10.1.64.0/20"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.workbench",
+     "attr": "cidr_block",
+     "value": "10.1.192.0/20"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_route_table.workbench",
+     "attr": "tags.RoutePriority",
+     "value": "10"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.public",
+     "attr": "cidr_block",
+     "value": "10.1.80.0/20"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.workbench",
+     "attr": "cidr_block",
+     "value": "10.1.208.0/20"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_route_table.workbench",
+     "attr": "tags.RoutePriority",
+     "value": "25"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.WorkbenchInstanceType",
+     "value": "c6i.large"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_route_table.workbench",
+     "attr": "tags.WorkbenchRootVolumeGB",
+     "value": "90"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.WorkbenchInstanceType",
+     "value": "m7i.xlarge"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_route_table.workbench",
+     "attr": "tags.WorkbenchRootVolumeGB",
+     "value": "140"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.WorkbenchInstanceType",
+     "value": "t3.2xlarge"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_route_table.workbench",
+     "attr": "tags.WorkbenchRootVolumeGB",
+     "value": "180"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.WorkbenchRootVolumeGB",
+     "value": "90"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.BootstrapChannel",
+     "value": "canary"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_route_table.workbench",
+     "attr": "tags.WorkbenchInstanceType",
+     "value": "c6i.large"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_route_table.workbench",
+     "attr": "tags.BootstrapChannel",
+     "value": "canary"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.WorkbenchRootVolumeGB",
+     "value": "140"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.BootstrapChannel",
+     "value": "stable"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_route_table.workbench",
+     "attr": "tags.WorkbenchInstanceType",
+     "value": "m7i.xlarge"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_route_table.workbench",
+     "attr": "tags.BootstrapChannel",
+     "value": "stable"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.WorkbenchRootVolumeGB",
+     "value": "180"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.BootstrapChannel",
+     "value": "preview"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_route_table.workbench",
+     "attr": "tags.WorkbenchInstanceType",
+     "value": "t3.2xlarge"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_route_table.workbench",
+     "attr": "tags.BootstrapChannel",
+     "value": "preview"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.MaintenanceWindow",
+     "value": "tue-0600"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.TelemetryPort",
+     "value": "4417"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_ssm_parameter.workbench_bootstrap",
+     "attr": "value",
+     "value": "{\"availability_zone\":\"us-east-1c\",\"bootstrap_channel\":\"canary\",\"diagnostics\":false,\"environment\":\"sandbox\",\"maintenance_window\":\"tue-0600\",\"profile_name\":\"/earthobs/sandbox/network/workbenches/us-east-1c/profile\",\"project\":\"earthobs\",\"telemetry_port\":4417}"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.MaintenanceWindow",
+     "value": "thu-0700"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.TelemetryPort",
+     "value": "4418"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_ssm_parameter.workbench_bootstrap",
+     "attr": "value",
+     "value": "{\"availability_zone\":\"us-east-1a\",\"bootstrap_channel\":\"stable\",\"diagnostics\":true,\"environment\":\"sandbox\",\"maintenance_window\":\"thu-0700\",\"profile_name\":\"/earthobs/sandbox/network/workbenches/us-east-1a/profile\",\"project\":\"earthobs\",\"telemetry_port\":4418}"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.MaintenanceWindow",
+     "value": "sat-0800"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.workbench",
+     "attr": "tags.TelemetryPort",
+     "value": "4419"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_ssm_parameter.workbench_bootstrap",
+     "attr": "value",
+     "value": "{\"availability_zone\":\"us-east-1b\",\"bootstrap_channel\":\"preview\",\"diagnostics\":true,\"environment\":\"sandbox\",\"maintenance_window\":\"sat-0800\",\"profile_name\":\"/earthobs/sandbox/network/workbenches/us-east-1b/profile\",\"project\":\"earthobs\",\"telemetry_port\":4419}"
+    }
+   ],
+   "may_change": [
+    {
+     "base": "aws_subnet.workbench",
+     "attr": "tags"
+    },
+    {
+     "base": "aws_subnet.workbench",
+     "attr": "tags_all"
+    },
+    {
+     "base": "aws_route_table.workbench",
+     "attr": "tags"
+    },
+    {
+     "base": "aws_route_table.workbench",
+     "attr": "tags_all"
+    },
+    {
+     "base": "aws_ssm_parameter.workbench_profile",
+     "attr": "value"
+    },
+    {
+     "base": "aws_ssm_parameter.workbench_bootstrap",
+     "attr": "value"
+    }
+   ],
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-b6f9c77a7f96dfb1b",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {},
+     "unknown": {
+      "us-east-1a": true,
+      "us-east-1b": true,
+      "us-east-1c": true
+     }
+    },
+    "workbench_subnet_ids": {
+     "after": {},
+     "unknown": {
+      "us-east-1a": true,
+      "us-east-1b": true,
+      "us-east-1c": true
+     }
+    },
+    "workbench_profile_parameter_names": {
+     "after": {
+      "us-east-1a": "/earthobs/sandbox/network/workbenches/us-east-1a/profile",
+      "us-east-1b": "/earthobs/sandbox/network/workbenches/us-east-1b/profile",
+      "us-east-1c": "/earthobs/sandbox/network/workbenches/us-east-1c/profile"
+     },
+     "unknown": false
+    },
+    "primary_workbench_launch_template_id": {
+     "after": "lt-bd4e96f34eb579deb",
+     "unknown": false
+    },
+    "efs_mount_target_ids": {
+     "after": {},
+     "unknown": {
+      "us-east-1a": true,
+      "us-east-1b": true,
+      "us-east-1c": true
+     }
+    },
+    "stage_queue_urls": {
+     "after": {
+      "catalog": "http://127.0.0.1:5000/123456789012/earthobs-sandbox-catalog",
+      "clean": "http://127.0.0.1:5000/123456789012/earthobs-sandbox-clean",
+      "raw": "http://127.0.0.1:5000/123456789012/earthobs-sandbox-raw",
+      "refined": "http://127.0.0.1:5000/123456789012/earthobs-sandbox-refined"
+     },
+     "unknown": false
+    },
+    "stage_topic_arns": {
+     "after": {
+      "catalog": "arn:aws:sns:us-east-1:123456789012:earthobs-sandbox-catalog",
+      "clean": "arn:aws:sns:us-east-1:123456789012:earthobs-sandbox-clean",
+      "raw": "arn:aws:sns:us-east-1:123456789012:earthobs-sandbox-raw",
+      "refined": "arn:aws:sns:us-east-1:123456789012:earthobs-sandbox-refined"
+     },
+     "unknown": false
+    },
+    "stage_config_parameter_names": {
+     "after": {
+      "catalog": "/earthobs/sandbox/pipeline/catalog/config",
+      "clean": "/earthobs/sandbox/pipeline/clean/config",
+      "raw": "/earthobs/sandbox/pipeline/raw/config",
+      "refined": "/earthobs/sandbox/pipeline/refined/config"
+     },
+     "unknown": false
+    },
+    "stage_backlog_alarm_arns": {
+     "after": {
+      "catalog": "arn:aws:cloudwatch:us-east-1:123456789012:alarm:earthobs-sandbox-catalog-backlog",
+      "clean": "arn:aws:cloudwatch:us-east-1:123456789012:alarm:earthobs-sandbox-clean-backlog",
+      "raw": "arn:aws:cloudwatch:us-east-1:123456789012:alarm:earthobs-sandbox-raw-backlog",
+      "refined": "arn:aws:cloudwatch:us-east-1:123456789012:alarm:earthobs-sandbox-refined-backlog"
+     },
+     "unknown": false
+    },
+    "pipeline_manifest_parameter_name": {
+     "after": "/earthobs/sandbox/pipeline/manifest",
+     "unknown": false
+    },
+    "data_bucket_name": {
+     "after": "earthobs-sandbox-data-8644",
+     "unknown": false
+    },
+    "pgstac_efs_id": {
+     "after": "fs-8db15e00",
+     "unknown": false
+    },
+    "stacapi_load_balancer_dns": {
+     "after": "earthobs-sandbox-stacapi-1.us-east-1.elb.amazonaws.com",
+     "unknown": false
+    },
+    "pgstac_task_role_arn": {
+     "after": "arn:aws:iam::123456789012:role/earthobs-sandbox-pgstac-task",
+     "unknown": false
+    },
+    "pipeline_order_parameter_name": {
+     "after": "/earthobs/sandbox/pipeline/order",
+     "unknown": false
+    },
+    "workbench_bootstrap_parameter_names": {
+     "after": {
+      "us-east-1a": "/earthobs/sandbox/network/workbenches/us-east-1a/bootstrap",
+      "us-east-1b": "/earthobs/sandbox/network/workbenches/us-east-1b/bootstrap",
+      "us-east-1c": "/earthobs/sandbox/network/workbenches/us-east-1c/bootstrap"
+     },
+     "unknown": false
+    

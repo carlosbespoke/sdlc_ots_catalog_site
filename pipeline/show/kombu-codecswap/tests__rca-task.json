@@ -1,0 +1,43 @@
+{
+  "format": "rca-task",
+  "version": 1,
+  "source": {
+    "repository": "https://github.com/celery/kombu.git",
+    "commit": "af3a333745b436605c66a2bfe29239a215520ace",
+    "voyager": "celery__kombu.af3a3337"
+  },
+  "language": "python",
+  "test_command": "python -m pytest -p no:cacheprovider --color=no -q t/unit",
+  "strip": [
+    ".github",
+    "AGENTS.md",
+    "CLAUDE.md"
+  ],
+  "omit_tests": {
+    "globs": [
+      "/t/",
+      "**/tests/",
+      "**/test_*.py",
+      "**/*_test.py",
+      "**/conftest.py"
+    ],
+    "keep": []
+  },
+  "overlay": {
+    "path": "faults",
+    "files": {
+      "kombu/messaging.py": "af271266c46275fc5c5e769f59ef25c301d20b2bbf748ab7cc170c88df906a98",
+      "kombu/serialization.py": "b1c34dc89acf3cf19646b29b02780f98be0fe9a51332b408238424d785ad4113"
+    },
+    "removed": [],
+    "executable": []
+  },
+  "trees": {
+    "algorithm": "spec-drift-tree-v1",
+    "pristine": "f3392684e45f4fb1fb27dbb745744de341e932a9efdb0417e2b3978a9f24b09a",
+    "solver": "6905143036ea9990825436e0ee658528a690a07904f67647430fec0307414d11"
+  },
+  "workspace": {
+    "root": "/workdir"
+  }
+}

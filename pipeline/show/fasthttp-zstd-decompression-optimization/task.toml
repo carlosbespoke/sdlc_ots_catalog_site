@@ -1,0 +1,35 @@
+version = "1.0"
+
+# Retain the final checkout for evidence; verification uses this same container.
+artifacts = ["/app"]
+
+[metadata]
+author_name = "Avinash Arjavalingam"
+author_email = "avinash@bespokelabs.ai"
+# Target difficulty only. This draft has not been rollout-calibrated.
+difficulty = "hard"
+category = "performance_optimization"
+tags = ["optimization", "go", "http", "zstd", "compression", "allocations"]
+
+[verifier]
+timeout_sec = 2400
+environment_mode = "shared"
+# Only the immutable phase-transition wrapper runs as root. It stops residual
+# agent processes, seals inputs/logs, then runs all grading as uid 1001.
+user = "root"
+
+[verifier.env]
+# Runs before Harbor's shell opens its stdout log, which an agent may poison.
+BASH_ENV = "/opt/fasthttp-runtime/enter-verifier.sh"
+
+[agent]
+timeout_sec = 10800
+user = "agent"
+
+[environment]
+build_timeout_sec = 1200
+cpus = 2
+gpus = 0
+memory_mb = 4096
+storage_mb = 8192
+network_mode = "no-network"

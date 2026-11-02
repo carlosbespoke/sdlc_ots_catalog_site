@@ -1,0 +1,19 @@
+FROM ghcr.io/immich-app/base-server-prod:202610021601@sha256:bd94134f812c8231e9e997076f1db1e006fb0df5463e343b3e93286bd517abe8
+ARG BASE_COMMIT=116a9436ad1f8164d9dee904551e5067d724be99
+ENV CI=1 COREPACK_ENABLE_DOWNLOAD_PROMPT=0 PNPM_HOME=/home/agent/.local/share/pnpm PATH=/home/agent/.local/share/pnpm:$PATH
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tmux asciinema git sudo python3 postgresql-client curl ca-certificates procps && rm -rf /var/lib/apt/lists/* && npm install -g corepack@latest && corepack enable pnpm
+RUN useradd -m -s /bin/bash agent && install -d -o agent -g agent /app /data && git config --system --add safe.directory /app
+USER agent
+WORKDIR /app
+RUN git init -q && git remote add origin https://github.com/immich-app/immich.git && git fetch -q --depth 1 origin "$BASE_COMMIT" && git checkout -q --detach FETCH_HEAD && test "$(git rev-parse HEAD)" = "$BASE_COMMIT"
+RUN pnpm install --frozen-lockfile && pnpm --filter @immich/sdk build && pnpm --filter @immich/plugin-sdk build && pnpm --filter immich build
+USER root
+RUN useradd --create-home --uid 1500 sdapp && install -d -o sdapp -g sdapp /logs /logs/artifacts && chown sdapp:sdapp /data && chmod 755 /app
+COPY grader-node/ /opt/sd-grader-node/
+RUN cd /opt/sd-grader-node && npm ci --ignore-scripts --omit=dev && chmod -R go-w /opt/sd-grader-node
+COPY grader.py /tests/grader.py
+COPY config.json /tests/config.json
+COPY test.patch /tests/test.patch
+COPY test.sh /tests/test.sh
+RUN chmod 700 /tests && chmod +x /tests/test.sh && git -C /app apply --whitespace=nowarn /tests/test.patch && GRADE_DIR=/tmp/warm bash /app/test.sh stage && GRADE_DIR=/tmp/warm bash /tmp/warm/test.sh build-tests && rm -rf /tmp/warm && git -C /app apply -R --whitespace=nowarn /tests/test.patch && git -C /app clean -qfd -- tests && test -z "$(git -C /app status --porcelain)"
+CMD ["/bin/bash"]

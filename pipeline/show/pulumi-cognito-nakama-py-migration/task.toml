@@ -1,0 +1,49 @@
+schema_version = "1.4"
+
+[[artifacts]]
+source = "/workspace/pulumi"
+exclude = [".git", "__pycache__", ".venv", "venv", "node_modules", ".pulumi"]
+
+[metadata]
+difficulty = "hard"
+category = "Infrastructure as Code"
+tags = ["iac", "pulumi", "terraform", "python", "aws", "migrate"]
+expert_time_estimate_minutes = 420
+display_description = "Port a 257-resource, six-module Terraform AWS stack spanning 14 services and four interacting key maps to a Pulumi Python program with matching components, configuration, outputs, collector order, and priority selections, so production previews cleanly and every hidden change plans as Terraform would"
+source_repository = "aws-samples/sample-dual-token-auth-nakama-cognito"
+source_commit = "88a621cf09270984e4887fcb55f3f83c272b62b0"
+source_license = "MIT-0"
+language = "python"
+pulumi_version = "3.267.0"
+pulumi_aws_version = "6.83.0"
+terraform_version = "1.16.4"
+aws_provider_version = "5.100.0"
+grading = "1 if every gate and all 40 checks pass, else 0 (every scenario is required): the gates (the program must run unprivileged and offline, plan no changes against the production stack and against a copy with every generated ID swapped, register no banned option or lookup, and export the Terraform outputs) and the checks (39 configuration changes and the drift revert, including configurations the statement does not show: adding or removing an availability zone, an API route, an asynchronous service or a game mode; changing the settings of existing availability zones, API routes, asynchronous services or game modes; renaming the project or the environment; replace shared tags, dropping and adding keys; re-address the VPC and change shared network logging settings; change Cognito, task sizing, and image retention settings; change load-balancer lifecycle, health-check, and alarm settings; change API routes and game modes together; change asynchronous services while renaming the environment; change availability-zone settings and shared tags together; or reverting the drift); each check compares planned operations, planned resource state and stack outputs with the reference port of the Terraform configuration"
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[verifier]
+timeout_sec = 7200.0
+environment_mode = "separate"
+network_mode = "no-network"
+user = "root"
+
+[verifier.environment]
+build_timeout_sec = 1800.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 10240
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 1800.0
+memory_mb = 8192
+cpus = 4
+storage_mb = 20480
+network_mode = "no-network"
+workdir = "/workspace/pulumi"
+gpus = 0
+mcp_servers = []

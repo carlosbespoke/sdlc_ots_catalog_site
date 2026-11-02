@@ -1,0 +1,46 @@
+schema_version = "1.4"
+
+[[artifacts]]
+source = "/workspace/infra"
+exclude = [".terraform", ".git", "*.tfstate", "*.tfstate.backup", "*.tfplan"]
+
+[metadata]
+difficulty = "hard"
+category = "Infrastructure as Code"
+tags = ["iac", "terraform", "aws", "policy-as-code", "opa", "conftest", "remediation"]
+expert_time_estimate_minutes = 360
+display_description = "Bring a 270-resource production Terraform AWS stack into compliance with a CI policy pack and 8 deploy-stage guardrails while making the team's exceptions register exact: waive only the findings that cannot be fixed without replacing a production resource, fix the rest in place, and clean the stale entries; hidden generality probes on the stack's collections and inputs"
+source_repository = ""
+source_commit = ""
+source_license = ""
+terraform_version = "1.16.4"
+aws_provider_version = "5.100.0"
+grading = "binary: 1 only when every gate (static bans and protected files, offline init/validate/plan against the verifier's pristine state, in-place updates only, allowed new resource types, allowed update arguments, unchanged variables, the verifier's own copy of the policy pack, 8 deploy-stage guardrails the solver's CI does not run) and all 8 generality probes (each with hidden variants) pass, else 0"
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[verifier]
+timeout_sec = 3600.0
+environment_mode = "separate"
+network_mode = "no-network"
+user = "root"
+
+[verifier.environment]
+build_timeout_sec = 1800.0
+cpus = 2
+memory_mb = 4096
+storage_mb = 10240
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 1800.0
+memory_mb = 8192
+cpus = 4
+storage_mb = 20480
+network_mode = "no-network"
+workdir = "/workspace/infra"
+gpus = 0
+mcp_servers = []

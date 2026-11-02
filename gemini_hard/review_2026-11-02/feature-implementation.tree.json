@@ -1,0 +1,570 @@
+{
+ "id": "D",
+ "type": "doc",
+ "title": "Feature implementation",
+ "children": [
+  {
+   "id": "D.S1",
+   "type": "section",
+   "title": "Executive summary",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S1.B1",
+     "type": "block",
+     "text": "| KPI cards: 101 Tasks |<div class=\"kpi\"><div class=\"kpi-value\">11%</div><div class=\"kpi-label\">Gemini 4 Argon pass rate</div></div><div class=\"kpi\"><div class=\"kpi-value\">0%</div><div class=\"kpi-labe"
+    },
+    {
+     "id": "D.S1.P1",
+     "type": "paragraph",
+     "children": [
+      {
+       "id": "D.S1.P1.s1",
+       "type": "sentence",
+       "text": "Each task asks the agent to add a capability to an existing open-source library or service, specified the way a series of pull requests would be, while every existing behaviour keeps working."
+      },
+      {
+       "id": "D.S1.P1.s2",
+       "type": "sentence",
+       "text": "The data pipeline tasks extend data libraries so pipelines keep producing correct results after an upstream format or schema change."
+      },
+      {
+       "id": "D.S1.P1.s3",
+       "type": "sentence",
+       "text": "Hidden tests check the new behaviour and the old behaviour together."
+      }
+     ]
+    },
+    {
+     "id": "D.S1.P2",
+     "type": "paragraph",
+     "children": [
+      {
+       "id": "D.S1.P2.s1",
+       "type": "sentence",
+       "text": "Gemini 4 Argon passes 11% of its runs on these tasks, and it fails every run on 85% of the tasks."
+      },
+      {
+       "id": "D.S1.P2.s2",
+       "type": "sentence",
+       "text": "Gemini 3.8 Flash passes 0%, and it fails every run on 98% of the tasks."
+      },
+      {
+       "id": "D.S1.P2.s3",
+       "type": "sentence",
+       "text": "The main languages are Go (68%), Python (32%) and C# (1%)."
+      },
+      {
+       "id": "D.S1.P2.B1",
+       "type": "block",
+       "text": "| Domain | What the tasks do | % of catalog |\n|---|---|---:|\n| Languages & developer tooling | Add features to command-line tools, compilers and API tooling. | 22% |\n| Systems, hardware & accelerators"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "D.S2",
+   "type": "section",
+   "title": "Why this catalog",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S2.S1",
+     "type": "section",
+     "title": "Problems engineers face",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S2.S1.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S2.S1.P1.s1",
+         "type": "sentence",
+         "text": "Maintainers add a capability that runs through many code paths of an unfamiliar library or service, while existing callers must see no change."
+        },
+        {
+         "id": "D.S2.S1.P1.s2",
+         "type": "sentence",
+         "text": "Typical requests add an opt-in mode or policy, keep information the library currently drops, or make a subsystem safe under concurrency and failure."
+        },
+        {
+         "id": "D.S2.S1.P1.s3",
+         "type": "sentence",
+         "text": "Data engineers face a related problem: after an upstream format or schema change, a pipeline keeps running but produces wrong results, and the library has to handle the new data while old inputs still work."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "D.S2.S2",
+     "type": "section",
+     "title": "How the tasks reproduce them",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S2.S2.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S2.S2.P1.s1",
+         "type": "sentence",
+         "text": "Each task pins an open-source repository, mostly Go or Python, in an offline container and gives a written specification of the new behaviour, with the public types and functions to deliver."
+        },
+        {
+         "id": "D.S2.S2.P1.s2",
+         "type": "sentence",
+         "text": "The agent's edits are collected as a diff against the base commit."
+        },
+        {
+         "id": "D.S2.S2.P1.s3",
+         "type": "sentence",
+         "text": "After the session, hidden acceptance tests check the new behaviour and the project's existing tests check that nothing else changed."
+        },
+        {
+         "id": "D.S2.S2.P1.s4",
+         "type": "sentence",
+         "text": "The data pipeline tasks also provide sample inputs in `/data`."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "D.S2.S3",
+     "type": "section",
+     "title": "Typical prompts",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S2.S3.L1",
+       "type": "list",
+       "children": [
+        {
+         "id": "D.S2.S3.L1.i1",
+         "type": "item",
+         "text": "A capability gap stated as \"X cannot Y\", then dense paragraphs on the behaviour to add and the behaviour to preserve."
+        },
+        {
+         "id": "D.S2.S3.L1.i2",
+         "type": "item",
+         "text": "A bullet list of required exported names, constants and signatures, with a research and plan file due before any code change."
+        },
+        {
+         "id": "D.S2.S3.L1.i3",
+         "type": "item",
+         "text": "A first-person data problem after an upstream change, with sample files in `/data` and a request to keep existing results unchanged."
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "D.S3",
+   "type": "section",
+   "title": "Domain breakdown",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S3.B1",
+     "type": "block",
+     "text": "![Share of tasks by domain](assets/feature-implementation_domain.svg)"
+    }
+   ]
+  },
+  {
+   "id": "D.S4",
+   "type": "section",
+   "title": "Language and seniority",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S4.B1",
+     "type": "block",
+     "text": "![Primary language and seniority](assets/feature-implementation_metadata.svg)"
+    },
+    {
+     "id": "D.S4.S1",
+     "type": "section",
+     "title": "Primary language",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S4.S1.B1",
+       "type": "block",
+       "text": "| Primary language | % of catalog |\n|---|---:|\n| Go | 67.6% |\n| Python | 31.5% |\n| C# | 0.9% |"
+      }
+     ]
+    },
+    {
+     "id": "D.S4.S2",
+     "type": "section",
+     "title": "Seniority",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S4.S2.B1",
+       "type": "block",
+       "text": "| Seniority | % of catalog |\n|---|---:|\n| Senior | 92.6% |\n| Mid-Senior | 4.6% |\n| Staff+ | 2.8% |"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "D.S5",
+   "type": "section",
+   "title": "Gemini pass rates across the catalog",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S5.B1",
+     "type": "block",
+     "text": "| Model | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |\n|---|---:|---:|---:|---:|\n| google/gemini-4-argon | 11% | 85% | 15% | 0% |\n| google/gemini-3.8-flash | 0% | 98% | 0% | 0% |"
+    },
+    {
+     "id": "D.S5.B2",
+     "type": "block",
+     "text": "![Per-task pass rate by Gemini model](assets/feature-implementation_per_task.svg)"
+    }
+   ]
+  },
+  {
+   "id": "D.S6",
+   "type": "section",
+   "title": "Turn counts and long-horizon tasks",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S6.P1",
+     "type": "paragraph",
+     "children": [
+      {
+       "id": "D.S6.P1.s1",
+       "type": "sentence",
+       "text": "A task's turn count is the average over its Gemini runs."
+      },
+      {
+       "id": "D.S6.P1.s2",
+       "type": "sentence",
+       "text": "A task is long horizon when that average is 200 or more turns."
+      },
+      {
+       "id": "D.S6.P1.B1",
+       "type": "block",
+       "text": "| Measure | Value |\n|---|---:|\n| Average turn count | 347.9 |\n| Median turn count | 321.7 |\n| Range | 79 to 956 |\n| Long-horizon tasks (200+ turns) | 72% of tasks |"
+      },
+      {
+       "id": "D.S6.P1.B2",
+       "type": "block",
+       "text": "![Turns per task](assets/feature-implementation_turns.svg)"
+      },
+      {
+       "id": "D.S6.P1.B3",
+       "type": "block",
+       "text": "| Model | % of tasks | Mean turns | % with 200+ turns |\n|---|---:|---:|---:|\n| google/gemini-3.8-flash | 94% | 345.5 | 69% |\n| google/gemini-4-argon | 13% | 229.6 | 63% |"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "D.S7",
+   "type": "section",
+   "title": "Example tasks from the shortlist",
+   "level": 2,
+   "children": [
+    {
+     "id": "D.S7.P1",
+     "type": "paragraph",
+     "children": [
+      {
+       "id": "D.S7.P1.s1",
+       "type": "sentence",
+       "text": "These examples are attached samples."
+      },
+      {
+       "id": "D.S7.P1.s2",
+       "type": "sentence",
+       "text": "All of them come from the shortlist and have Gemini runs that pass at most half the time."
+      }
+     ]
+    },
+    {
+     "id": "D.S7.S1",
+     "type": "section",
+     "title": "Example 1: Data formats & serialization (Python)",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S7.S1.B1",
+       "type": "block",
+       "text": "| Field | Value |\n|---|---|\n| Sample | Attached sample |\n| Final category | Data engineering |\n| Domain | Data pipelines |\n| Sub-domain | Data formats & serialization |\n| Language | Python |\n| Seniori"
+      },
+      {
+       "id": "D.S7.S1.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S7.S1.P1.s1",
+         "type": "sentence",
+         "text": "Prompt shape: A feature request for a widely used library, written as a list of behaviors per option with compatibility constraints for existing behavior."
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S1.S1",
+       "type": "section",
+       "title": "Prompt",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S1.S1.B1",
+         "type": "block",
+         "text": "| [verbatim task prompt omitted: task content, not authored text] |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S1.S2",
+       "type": "section",
+       "title": "Pass rates",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S1.S2.B1",
+         "type": "block",
+         "text": "| Model | Pass rate | Mean score |\n|---|---:|---:|\n| google/gemini-4-argon | 50% | 0.50 |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S1.S3",
+       "type": "section",
+       "title": "Environment",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S1.S3.B1",
+         "type": "block",
+         "text": "![How the task works](assets/env-feature-implementation-ex1.svg)"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S1.S4",
+       "type": "section",
+       "title": "How it maps to the work",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S1.S4.P1",
+         "type": "paragraph",
+         "children": [
+          {
+           "id": "D.S7.S1.S4.P1.s1",
+           "type": "sentence",
+           "text": "A data engineer ingests partner XML that now carries explicit nulls and whitespace that matters."
+          },
+          {
+           "id": "D.S7.S1.S4.P1.s2",
+           "type": "sentence",
+           "text": "They extend a parser and writer with opt-in options, keep defaults unchanged and make a document round trip without losing null positions."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "D.S7.S2",
+     "type": "section",
+     "title": "Example 2: Databases & storage engines (Python)",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S7.S2.B1",
+       "type": "block",
+       "text": "| Field | Value |\n|---|---|\n| Sample | Attached sample |\n| Final category | Data engineering |\n| Domain | Data pipelines |\n| Sub-domain | Databases & storage engines |\n| Language | Python |\n| Seniorit"
+      },
+      {
+       "id": "D.S7.S2.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S7.S2.P1.s1",
+         "type": "sentence",
+         "text": "Prompt shape: A production symptom with several schema change causes, then a list of invariants the migration must satisfy including idempotence and error cases."
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S2.S1",
+       "type": "section",
+       "title": "Prompt",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S2.S1.B1",
+         "type": "block",
+         "text": "| [verbatim task prompt omitted: task content, not authored text] |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S2.S2",
+       "type": "section",
+       "title": "Pass rates",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S2.S2.B1",
+         "type": "block",
+         "text": "| Model | Pass rate | Mean score |\n|---|---:|---:|\n| google/gemini-4-argon | 0% | 0.00 |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S2.S3",
+       "type": "section",
+       "title": "Environment",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S2.S3.B1",
+         "type": "block",
+         "text": "![How the task works](assets/env-pdk-sqlite-history-json-schema.svg)"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S2.S4",
+       "type": "section",
+       "title": "How it maps to the work",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S2.S4.P1",
+         "type": "paragraph",
+         "children": [
+          {
+           "id": "D.S7.S2.S4.P1.s1",
+           "type": "sentence",
+           "text": "A data engineer owns audit history for SQLite tables whose schema later changed through ALTER TABLE."
+          },
+          {
+           "id": "D.S7.S2.S4.P1.s2",
+           "type": "sentence",
+           "text": "They must repair the stored history in an upgrade path so restore and history queries work again, with a safe dry run and no change on a second run."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "D.S7.S3",
+     "type": "section",
+     "title": "Example 3: Data pipelines & ETL (Python)",
+     "level": 3,
+     "children": [
+      {
+       "id": "D.S7.S3.B1",
+       "type": "block",
+       "text": "| Field | Value |\n|---|---|\n| Sample | Attached sample |\n| Final category | Data engineering |\n| Domain | Data pipelines |\n| Sub-domain | Data pipelines & ETL |\n| Language | Python |\n| Seniority | Mid"
+      },
+      {
+       "id": "D.S7.S3.P1",
+       "type": "paragraph",
+       "children": [
+        {
+         "id": "D.S7.S3.P1.s1",
+         "type": "sentence",
+         "text": "Prompt shape: An export format switch with a failing command given verbatim and an equivalence requirement between two input formats."
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S3.S1",
+       "type": "section",
+       "title": "Prompt",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S3.S1.B1",
+         "type": "block",
+         "text": "| [verbatim task prompt omitted: task content, not authored text] |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S3.S2",
+       "type": "section",
+       "title": "Pass rates",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S3.S2.B1",
+         "type": "block",
+         "text": "| Model | Pass rate | Mean score |\n|---|---:|---:|\n| google/gemini-4-argon | 0% | 0.00 |"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S3.S3",
+       "type": "section",
+       "title": "Environment",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S3.S3.B1",
+         "type": "block",
+         "text": "![How the task works](assets/env-feature-implementation-ex3.svg)"
+        }
+       ]
+      },
+      {
+       "id": "D.S7.S3.S4",
+       "type": "section",
+       "title": "How it maps to the work",
+       "level": 4,
+       "children": [
+        {
+         "id": "D.S7.S3.S4.P1",
+         "type": "paragraph",
+         "children": [
+          {
+           "id": "D.S7.S3.S4.P1.s1",
+           "type": "sentence",
+           "text": "A data engineer's nightly pipeline switched its export from JSON to CSV, so validation fails and totals are wrong."
+          },
+          {
+           "id": "D.S7.S3.S4.P1.s2",
+           "type": "sentence",
+           "text": "They fix the library so a CSV source gives the same records and results as JSON, including CSV written by an earlier job."
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "counts": {
+  "doc": 1,
+  "section": 27,
+  "block": 23,
+  "paragraph": 12,
+  "sentence": 26,
+  "list": 1,
+  "item": 3
+ }
+}

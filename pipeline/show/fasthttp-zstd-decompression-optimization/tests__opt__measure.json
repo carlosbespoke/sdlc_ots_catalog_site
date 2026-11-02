@@ -1,0 +1,31 @@
+{
+  "status": "horizon_candidate_local",
+  "gomaxprocs": 2,
+  "benchmark_gomaxprocs": 1,
+  "launches": 10,
+  "max_full_cohort_retries": 1,
+  "benchtime": "256x",
+  "measured_inputs_per_workload": 256,
+  "evidence_channel": "restored_harness_jsonl_not_stdout",
+  "optimized_workloads": [
+    "BenchmarkZstdOptAppendWithFrameSize",
+    "BenchmarkZstdOptRequestBodyUnzstd",
+    "BenchmarkZstdOptWriteFreshBuffer"
+  ],
+  "control_workload": "BenchmarkZstdOptSmallBodyControl",
+  "min_allocation_recovery": 0.75,
+  "allocation_rate": "raw_mallocs_divided_by_measured_inputs",
+  "allocation_estimator": "median_of_dominant_raw_malloc_cluster",
+  "allocation_cluster_tolerance_raw_mallocs": 1,
+  "allocation_cluster_relative_tolerance": 0.01,
+  "allocation_min_cluster_samples": 9,
+  "max_optimized_time_ratio": 0.85,
+  "workload_max_time_ratio": {
+    "BenchmarkZstdOptWriteFreshBuffer": 0.9
+  },
+  "timing_statistical_test": "exact_one_sided_mann_whitney_permutation",
+  "time_significance_alpha": 0.05,
+  "max_control_time_ratio": 1.2,
+  "full_upstream_suite_verified": true,
+  "excluded_test": "(TestDialerGetDialFunc|TestDialerGetDialFuncForTLSNoProxy)"
+}

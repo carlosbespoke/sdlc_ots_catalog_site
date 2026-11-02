@@ -1,0 +1,29 @@
+FROM python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+ARG REPO_URL=https://github.com/buildbot/buildbot.git
+ARG BASE_COMMIT=4afe651739f357213839320ae43bf6164b9add6b
+ENV CI=1 PIP_DISABLE_PIP_VERSION_CHECK=1 PYTHONDONTWRITEBYTECODE=1
+RUN set -eu; apt-get update; DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+    tmux asciinema bash sudo build-essential ca-certificates curl git jq less lsof netcat-openbsd procps vim-tiny postgresql postgresql-client libpq-dev; \
+    rm -rf /var/lib/apt/lists/*
+RUN set -eu; service postgresql start; su postgres -c "psql -v ON_ERROR_STOP=1 -c \"ALTER USER postgres PASSWORD 'postgres'\""; service postgresql stop
+RUN set -eu; useradd -m -s /bin/bash agent; install -d -o agent -g agent /app /logs /logs/artifacts; \
+    git config --system --add safe.directory /app; \
+    printf '%s\n' '#!/bin/sh' \
+      'case "$1" in ""|-*|.*|*/*) echo "usage: service <name> start|stop|restart|status" >&2; exit 2 ;; esac' \
+      'case "$2" in start|stop|restart|status) ;; *) echo "usage: service <name> start|stop|restart|status" >&2; exit 2 ;; esac' \
+      '[ "$#" -eq 2 ] && [ -x "/etc/init.d/$1" ] || { echo "no service $1" >&2; exit 2; }' \
+      'exec /usr/sbin/service "$1" "$2"' > /usr/local/sbin/service; \
+    chmod 755 /usr/local/sbin/service; \
+    printf '%s\n' 'agent ALL=(root) NOPASSWD: /usr/local/sbin/service' > /etc/sudoers.d/agent-services; chmod 440 /etc/sudoers.d/agent-services
+USER agent
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" && \
+    git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD && \
+    test "$(git -C /app rev-parse HEAD)" = "$BASE_COMMIT"
+RUN python -m venv /app/.venv && /app/.venv/bin/pip install -q --upgrade pip && \
+    /app/.venv/bin/pip install -q -e /app/master -e /app/worker -e /app/www/base 'psycopg[binary]==3.2.3' \
+      'pytest==8.3.4' 'setuptools>=80' 'parameterized==0.9.0' 'txrequests' 'pypugjs' 'lz4' 'Markdown' 'service_identity' && \
+    mkdir -p /app/www/base/buildbot_www/static && cp /app/www/base/index.html /app/www/base/buildbot_www/static/index.html
+ENV PATH=/app/.venv/bin:$PATH
+USER root
+CMD ["/bin/bash"]

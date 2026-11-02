@@ -1,0 +1,44 @@
+# pion/dtls: 29 injected faults to find without a test suite
+
+This library lets two programs agree on keys over an unreliable datagram link and then exchange application data privately over it. Nothing about the wire format changed and nothing about the callers changed, yet sessions that used to open now fail outright, traffic that used to flow is dropped, and messages that used to be written out and read back unchanged no longer survive the trip. The repository has received 29 separate undocumented edits.
+
+Choosing what to allow, before anything is sent, already goes wrong. Asking for a top wire-format version of 1.3 while allowing only older-generation encryption choices should settle the permitted span on the older version, and allowing only newest-generation choices should settle it on the newest; both instead come back with the span untouched. Pairing older-generation encryption choices with a key-agreement group only the newest version can use is accepted rather than refused for leaving no version the two ends share. When an unrecognised encryption choice is named, the refusal handed back does not compare equal to the refusal built for that same identifier, though it does match refusals built for different ones. Picking the shared-secret-only encryption choice that pairs block chaining with the 256-bit digest breaks a link in two independent ways: its key material is prepared at the wrong length, and once prepared it claims it is not ready yet, while claiming it is ready before it is prepared. The counter-mode shared-secret choice and the one that adds a fresh key exchange still open a link fine.
+
+Opening a session with both ends pinned to the newest wire format now fails from the very first reply. The side that opens refuses the answering side's first reply instead of accepting it, so the full exchange, the case where the opening side's final batch arrives twice, and the case where the answering side closes with a bare receipt all fail or hang; reading a retry request and remembering which key-agreement group was picked fails the same way, and the running digest of the exchange never reaches its expected content. The answering half of the hybrid post-quantum key-agreement group is produced wrongly — its public and private parts come back with lengths other than the documented ones, and the shared secret each side derives from the other's part no longer agrees — so nothing that selects that group can agree on keys. A side that opens with exactly one key-agreement group allowed builds its opening hello with no key share in it at all and remembers no private part for the group, while one left free to offer several groups still emits a share. When a peer advertises which signature schemes it accepts, the receiver ends up remembering a different list than the one that was sent, though the list of key-agreement groups in the same hello is remembered faithfully. And a caller-supplied final check on the agreed details no longer stops anything: when that check rejects what it is shown, setup completes regardless, both where the peer presented a certificate and where it did not.
+
+On older-generation links, picking up a session that both sides already hold in their store now aborts on the answering side instead of adopting the stored identifier and secret; opening a brand-new session and writing it to the store afterwards still works. Ordinary traffic over an open link is unreliable too: bulk transfers and back-and-forth request-and-reply exchanges fail, because a peer's shutdown notice is no longer recognised for what it is while unrelated notices are treated as if they were it. Asking an open link to hand back key bytes derived for an outer purpose is inverted with respect to readiness: before the sending epoch has advanced the call hands back bytes instead of reporting that setup is still under way, and once the epoch has advanced the same call reports setup under way instead of returning the ten bytes. Protected packets that arrive report a counter differing from the one sealed into them when the number sits some distance ahead of the last one seen, and a side that opens and is then fed a reply offering a version it cannot speak no longer answers with the refusal packet it should.
+
+Asking to be recognised by a short label that later packets carry is mishandled in both directions. A side that receives an opening hello offering a non-empty label ends up with nothing remembered for the peer, although it does still note that an offer was made; the absent and empty-offer cases look right, and the same loss happens when the offer is repeated after a cookie round. On the side that opens, when a caller hook adds a label option to the outgoing hello after falling back to the older generation, the hello goes out carrying that option twice instead of once, for both an empty and a one-byte label. The later message that hands a peer further labels refuses to encode when its usage field holds the immediate value — the three-byte form with an empty list cannot be produced — yet a usage byte of 2 encodes happily; decoding is inverted the same way, rejecting the immediate value and accepting the 2.
+
+Several advertised options and messages no longer survive being written and read back. The empty marker offering to accept data sent ahead of completion, and the empty marker offering to authenticate after setup, both encode to an empty payload and then fail to decode it. The advertisement listing which ways of using a secret known to both ends in advance are supported is rejected on decode even when its declared count agrees with the bytes that follow. A freshly issued session ticket carrying a size-limit option does not come back equal to what went in, the option being decoded as a different kind, while key-update and label-bearing later messages round trip unchanged. An opening hello built with a 256-byte prior-session identifier is now encoded without complaint instead of being refused as too long. A decrypted body consisting only of its real type byte with nothing after it is refused, where it should yield empty content and no padding. And the single-byte body of the message announcing the switch to encrypted writing now accepts the byte 0x00 without reporting anything wrong.
+
+Finally, the bookkeeping for resending and for confirming receipt is off. When a resend delay has already grown to 45 seconds, the next backoff step returns a fraction of a second rather than the one-minute ceiling; growing from one second to two, and the case where backoff is switched off, are unaffected. After sending two packets that together cover one message sequence, confirming the first and then asking which byte ranges of that sequence are still outstanding returns the range already confirmed instead of the one still missing, and a confirmation naming no packets at all is not reported as carrying nothing new. Asking whether moving into the answering side's later sending round needs arriving traffic held back answers yes even when the peer's epoch has already been raised to the protected one, though the answers before the epoch is raised are as expected; and re-sending that same round after the epoch is up repeats the one-time drain of queued packets, so the drain runs twice for a single round.
+
+It worked before a set of undocumented edits to the source of dtls. The repository has
+no test suite to run: finding out what is wrong, and convincing yourself you have fixed
+it, is part of the task.
+
+Restore the behavior described above.
+
+Record the functions that contain those edits in `/app/rca.json`, one entry each:
+
+```json
+{
+  "causes": [
+    {
+      "file": "certificate.go",
+      "function": "enclosing_function_name"
+    }
+  ]
+}
+```
+
+`function` is the function name. A class prefix is ignored if you include one. When an
+edit sits inside a function nested in another function, either name is accepted. Name
+every function one of the undocumented edits is in, and only those. Where you wrote the
+fix does not matter: if you restored the behavior from a caller or from a helper of your
+own, name the function the edit is in rather than the one you wrote. If you suspect a
+function but found no edit in it, leave it out.
+
+
+Before you edit any code, write your research and your plan to /app/RESEARCH_AND_PLANNING.md. Cover what you learned about the existing code and the constraints that shape the change, then how you intend to carry it out and why, including how you will know it works. Be concrete - the files, names and decisions specific to this codebase, not generalities. Complete the document before you touch any code: it is the record of your up-front investigation and decisions, and it should not be rewritten to match whatever the implementation turns into afterwards. Once it is done, implement the plan.

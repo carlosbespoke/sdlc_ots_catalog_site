@@ -1,0 +1,39 @@
+vars: {d2-config: {layout-engine: elk; pad: 20}}
+direction: down
+classes: {
+  zone: {style: {fill: "#fbf9f4"; stroke: "#11484e"; stroke-width: 1; font-color: "#446b6e"; border-radius: 0; font-size: 13; bold: false}}
+  item: {style: {fill: "#ffffff"; stroke: "#cfcac2"; font-color: "#11484e"; border-radius: 2; font-size: 13; bold: false}}
+  step: {style: {fill: "#ffffff"; stroke: "#11484e"; font-color: "#11484e"; border-radius: 12; font-size: 13; bold: false}}
+  goal: {style: {fill: "#11484e"; stroke: "#11484e"; font-color: "#ffffff"; border-radius: 2; font-size: 13; bold: true}}
+  check: {style: {fill: "#d4e8e3"; stroke: "#1f6f6a"; font-color: "#11484e"; border-radius: 2; font-size: 13; bold: false}}
+  problem: {style: {fill: "#fdecea"; stroke: "#f44029"; font-color: "#c83220"; border-radius: 2; font-size: 13; stroke-dash: 3; bold: false}}
+}
+(** -> **)[*].style: {stroke: "#11484e"; font-color: "#625f5d"; font-size: 12; stroke-width: 1}
+
+title: "Rebuild a Bazel BUILD-file generator from its behavior alone" {near: top-left; shape: text; style: {font-size: 18; font-color: "#11484e"; bold: true}}
+problem: "Only a compiled tool and its user docs exist;\nthe source code is not available" {class: problem; icon: /private/tmp/claude-502/-Users-carlos-code-sdlc-final-samples/aea3879a-4aa2-43de-8a41-3a000a1b1db3/scratchpad/d2/icons/tb-alert-triangle.svg; icon.near: center-left; width: 520}
+gets: "What the agent receives" {class: zone; direction: right
+  r0: "Reference tool\n(run it, cannot read it)" {class: item; icon: /private/tmp/claude-502/-Users-carlos-code-sdlc-final-samples/aea3879a-4aa2-43de-8a41-3a000a1b1db3/scratchpad/d2/icons/tb-binary-tree.svg; icon.near: center-left; width: 230}
+  r1: "User documentation\n(4 reference pages)" {class: item; icon: /private/tmp/claude-502/-Users-carlos-code-sdlc-final-samples/aea3879a-4aa2-43de-8a41-3a000a1b1db3/scratchpad/d2/icons/tb-book.svg; icon.near: center-left; width: 230}
+  r2: "Go, Rust and C/C++ toolchains" {class: item; icon: /private/tmp/claude-502/-Users-carlos-code-sdlc-final-samples/aea3879a-4aa2-43de-8a41-3a000a1b1db3/scratchpad/d2/icons/tb-terminal-2.svg; icon.near: center-left; width: 230}
+}
+job: "The agent's job" {class: zone; direction: right
+  j0: "1. Run the reference on test inputs" {class: step}
+  j1: "2. Infer the rules it applies" {class: step}
+  j0 -> j1
+  j2: "3. Write a new implementation" {class: step}
+  j1 -> j2
+  j3: "4. Compare outputs side by side" {class: step}
+  j2 -> j3
+}
+out: "Deliverable" {class: zone; direction: right
+  d0: "Source project + compile.sh\nthat builds ./executable" {class: goal}
+}
+verify: "How it is checked" {class: zone; direction: right
+  c0: "Hidden behavior tests\n(outputs, exit codes, files)" {class: check; icon: /private/tmp/claude-502/-Users-carlos-code-sdlc-final-samples/aea3879a-4aa2-43de-8a41-3a000a1b1db3/scratchpad/d2/icons/tb-test-pipe.svg; icon.near: center-left; width: 230}
+  c1: "Must match the reference\non every test" {class: check; icon: /private/tmp/claude-502/-Users-carlos-code-sdlc-final-samples/aea3879a-4aa2-43de-8a41-3a000a1b1db3/scratchpad/d2/icons/tb-scale.svg; icon.near: center-left; width: 230}
+}
+problem -> gets
+gets -> job: "read"
+job -> out: "produce"
+out -> verify: "graded"

@@ -1,0 +1,63 @@
+# environment/Dockerfile for a C# task. The agent's container: the repository at the base commit,
+# its services installed (single-container tasks) and every package restored, so it builds offline.
+# Pin the base image by digest.
+FROM mcr.microsoft.com/dotnet/sdk:9.0.306@sha256:81f6d622fe21ed9d31375167f62a3538ff4d6835f9d5e6da9c2defa8a84b7687
+
+# FILL: the repository and the base commit.
+ARG REPO_URL=https://github.com/bagetter/BaGetter.git
+ARG BASE_COMMIT=02b6706e404f42da6ef693fa6c15049622e07279
+ENV CI=1 \
+    DOTNET_CLI_TELEMETRY_OPTOUT=1 \
+    DOTNET_NOLOGO=1 \
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
+    NUGET_PACKAGES=/opt/nuget/packages \
+    PATH=/opt/dotnet-tools:$PATH
+
+# tmux and asciinema are required by Harbor's solver agent. FILL: the services the task needs
+# (single-container tasks); drop them for compose tasks.
+RUN set -eu; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      tmux asciinema bash sudo ca-certificates curl git jq less lsof netcat-openbsd procps python3 vim-tiny \
+      postgresql-client python3-pip; \
+    rm -rf /var/lib/apt/lists/*
+
+
+# The solver runs as the unprivileged user "agent" (task.toml: [agent] user = "agent"). agent is
+# created before the repository is fetched, and fetches, installs and builds it (USER agent below),
+# so it owns every file without a chown pass: a `chown -R` in its own layer copies the whole tree
+# (16 minutes and twice the image size on a large monorepo). It may start the image's services with
+# sudo, since they need root: only /usr/local/sbin/service, which takes one installed service name
+# and start, stop, restart or status (plain /usr/sbin/service runs a path such as ../../tmp/x as
+# root). The image's default user is root again at the end; switch back to root (USER root) only for
+# steps that need it, such as apt-get.
+RUN set -eu; \
+    useradd -m -s /bin/bash agent; \
+    install -d -o agent -g agent /app /logs /logs/artifacts /opt/nuget /opt/dotnet-tools; \
+    git config --system --add safe.directory /app; \
+    printf '%s\n' '#!/bin/sh' \
+      'case "$1" in ""|-*|.*|*/*) echo "usage: service <name> start|stop|restart|status" >&2; exit 2 ;; esac' \
+      'case "$2" in start|stop|restart|status) ;; *) echo "usage: service <name> start|stop|restart|status" >&2; exit 2 ;; esac' \
+      '[ "$#" -eq 2 ] && [ -x "/etc/init.d/$1" ] || { echo "no service $1" >&2; exit 2; }' \
+      'exec /usr/sbin/service "$1" "$2"' > /usr/local/sbin/service; \
+    chmod 755 /usr/local/sbin/service; \
+    echo 'agent ALL=(root) NOPASSWD: /usr/local/sbin/service' > /etc/sudoers.d/agent-services; \
+    chmod 440 /etc/sudoers.d/agent-services
+USER agent
+
+WORKDIR /app
+# The repository at exactly the base commit, with no other history.
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" \
+    && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD \
+    && test "$(git -C /app rev-parse HEAD)" = "$BASE_COMMIT"
+
+
+# Restore and build everything the agent and the grader build, so both work offline.
+RUN set -eu; \
+    for p in src/BaGetter tests/BaGetter.Core.Tests tests/BaGetter.Web.Tests tests/BaGetter.Protocol.Tests; do \
+      dotnet build "$p" -c Debug -v q -nologo -p:NuGetAudit=false; \
+    done; \
+    chmod -R a+rX /opt/nuget                                         # FILL: the project list
+
+USER root
+CMD ["/bin/bash"]

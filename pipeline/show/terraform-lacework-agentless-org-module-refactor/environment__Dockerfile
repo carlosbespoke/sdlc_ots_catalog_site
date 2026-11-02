@@ -1,0 +1,58 @@
+# Agent image: the flat legacy stack in /workspace/infra with its recorded state, an offline terraform +
+# provider mirror, and conftest for the repository's CI guardrail policies. No network at run time, no AWS
+# credentials, and nothing from the verifier (no reference solution, no pristine state, no grader).
+FROM debian:bookworm-slim@sha256:3783cc01769c7b2b1b83a5c5ad96c815348e28ed7da68e2e3687004faa906251
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      asciinema bash ca-certificates curl git jq less procps python3 tmux unzip vim-tiny \
+ && rm -rf /var/lib/apt/lists/*
+
+# Shared tooling layer, identical in the agent image (environment/Dockerfile) and the verifier image
+# (tests/Dockerfile): pinned terraform, the providers of the lock file in an unpacked filesystem mirror, conftest.
+ARG TERRAFORM_VERSION=1.16.4
+ARG TERRAFORM_SHA256=dc94af0eef1147718ad7c8daea792ed199e3e0492eec180d0adafa2a65a879df
+ARG CONFTEST_VERSION=0.70.1
+ARG CONFTEST_SHA256=613d124b8f6c1f3cee890491f7ab19114cca5a2102ca47cb2e6c35b4c23f9c8a
+RUN set -eux; \
+    curl -fsSLo /tmp/terraform.zip "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip"; \
+    echo "${TERRAFORM_SHA256}  /tmp/terraform.zip" | sha256sum -c -; \
+    unzip -q /tmp/terraform.zip -d /usr/local/bin; \
+    rm -f /tmp/terraform.zip; \
+    mkdir -p /opt/terraform/mirror/registry.terraform.io/hashicorp/aws/5.100.0/linux_amd64; curl -fsSLo /tmp/p.zip https://releases.hashicorp.com/terraform-provider-aws/5.100.0/terraform-provider-aws_5.100.0_linux_amd64.zip; echo "1589a2266af699cbd5d80737a0fe02e54ec9cf2ca54e7e00ac51c7359056f274  /tmp/p.zip" | sha256sum -c -; unzip -q /tmp/p.zip -d /opt/terraform/mirror/registry.terraform.io/hashicorp/aws/5.100.0/linux_amd64; rm -f /tmp/p.zip; \
+    chmod -R a+rX /opt/terraform; \
+    curl -fsSLo /tmp/conftest.tgz "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz"; \
+    echo "${CONFTEST_SHA256}  /tmp/conftest.tgz" | sha256sum -c -; \
+    tar -xzf /tmp/conftest.tgz -C /usr/local/bin conftest; \
+    rm -f /tmp/conftest.tgz; \
+    terraform version; conftest --version
+COPY terraformrc /etc/terraformrc
+ENV TF_CLI_CONFIG_FILE=/etc/terraformrc \
+    CHECKPOINT_DISABLE=1 \
+    AWS_EC2_METADATA_DISABLED=true
+
+RUN groupadd --gid 1001 agent \
+ && useradd --uid 1001 --gid 1001 --create-home --shell /bin/bash agent \
+ && git config --system user.name "Cloud Security Platform" \
+ && git config --system user.email "cloud-security@example.com" \
+ && git config --system init.defaultBranch main \
+ && git config --system --add safe.directory /workspace/infra
+
+COPY --chown=agent:agent infra/ /workspace/infra/
+
+# The repository as the team has it: one commit, initialised against the offline mirror, and a clean plan.
+RUN su agent -c 'set -e; cd /workspace/infra; chmod +x scripts/ci-plan.sh; \
+      git init -q; git add -A; git commit -q -m "lacework agentless org production stack"; \
+      terraform init -input=false -no-color >/dev/null; \
+      terraform plan -refresh=false -input=false -lock=false -no-color -detailed-exitcode >/dev/null' \
+ && tmux -V \
+ && su agent -c 'tmux new-session -d -s smoke "sleep 2" && tmux kill-server'
+
+# No AWS access: provider calls go to a dead loopback proxy so they fail at once instead of hanging on DNS and retries.
+ENV HTTPS_PROXY=http://127.0.0.1:9 \
+    HTTP_PROXY=http://127.0.0.1:9 \
+    https_proxy=http://127.0.0.1:9 \
+    http_proxy=http://127.0.0.1:9
+
+WORKDIR /workspace/infra

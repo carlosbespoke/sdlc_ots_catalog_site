@@ -1,0 +1,74 @@
+FROM maven:3.9-eclipse-temurin-25@sha256:dd8e01b3be719853578c07b57ff8d9bbbbfe746f802226f05b19689420815221
+
+ARG UPSTREAM_COMMIT=3ab41c1e746eaac2019e877215d6027adecf78bb
+ARG BASE_COMMIT=ea1d817dc3cca12bd47fb790dbed5e4d91e0ed30
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    MAVEN_OPTS="-Xmx1536m" \
+    MAVEN_ARGS="-ntp"
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends bash ca-certificates git less procps python3 tmux util-linux \
+    && rm -rf /var/lib/apt/lists/*
+RUN id -u agent >/dev/null 2>&1 || useradd -m -s /bin/bash agent; id -u agent >/dev/null
+
+# Repository at the pinned upstream commit, plus the secured-origination data layer
+# (request DTO, origination columns, audit entity, supersede queries) and the
+# persistence fixes that let an APPROVED loan account be stored at all.
+WORKDIR /app
+RUN git init -q . && git remote add origin https://github.com/openfinova/minab-banking.git \
+    && git fetch -q --depth 1 origin "$UPSTREAM_COMMIT" && git checkout -q FETCH_HEAD \
+    && test "$(git rev-parse HEAD)" = "$UPSTREAM_COMMIT"
+COPY setup.patch /tmp/setup.patch
+RUN git apply --whitespace=nowarn /tmp/setup.patch && rm /tmp/setup.patch \
+    && rm -rf .git && git init -q -b main . && git add -A \
+    && GIT_AUTHOR_NAME="OpenFinova" GIT_AUTHOR_EMAIL="dev@openfinova.com" GIT_AUTHOR_DATE="2026-05-02T10:00:00+0000" \
+       GIT_COMMITTER_NAME="OpenFinova" GIT_COMMITTER_EMAIL="dev@openfinova.com" GIT_COMMITTER_DATE="2026-05-02T10:00:00+0000" \
+       git commit -q -m "OpenFinova core banking" \
+    && echo "base commit: $(git rev-parse HEAD)"
+RUN test "$(git rev-parse HEAD)" = "$BASE_COMMIT"
+
+# Maven: fetch every dependency and plugin once, online, into a root-owned repository
+# (/opt/m2), by really building the reactor and really running the loan-service tests.
+# Then prove the same loan-service test run works offline, without the mirror.
+# The online downloads go through Google's mirror of Maven Central, because
+# repo.maven.apache.org answers shared build hosts with HTTP 429. The mirror keeps the
+# id "central", so the cached artifacts resolve offline under the default settings.
+ARG CENTRAL_MIRROR=https://maven-central.storage-download.googleapis.com/maven2
+RUN printf '%s\n' '<settings><mirrors><mirror>' '  <id>central</id><mirrorOf>central</mirrorOf>' \
+         "  <url>$CENTRAL_MIRROR</url>" '</mirror></mirrors></settings>' > /tmp/build-settings.xml \
+    && mvn -B -s /tmp/build-settings.xml -Dmaven.repo.local=/opt/m2/repository -DskipTests package \
+    && mvn -B -s /tmp/build-settings.xml -Dmaven.repo.local=/opt/m2/repository -pl loan/loan-service -am test \
+    && rm /tmp/build-settings.xml \
+    && mvn -B -o -Dmaven.repo.local=/opt/m2/repository -pl loan/loan-service -am test \
+    && mvn -B -o -Dmaven.repo.local=/opt/m2/repository -Dmaven.compiler.proc=none \
+         -Dsurefire.failIfNoSpecifiedTests=false -Dtest='com.openfinova.banking.loan.service.*Test' \
+         -DforkCount=1 -pl loan/loan-service -am test \
+    && git clean -ffdxq && test -z "$(git status --porcelain)"
+
+# The agent's own copy of the repository and the Maven wrapper distribution, with
+# Maven set to offline (there is no network at run time).
+RUN mkdir -p /home/agent/.m2 && cp -a /opt/m2/repository /home/agent/.m2/repository \
+    && printf '%s\n' '<settings>' '  <localRepository>/home/agent/.m2/repository</localRepository>' \
+         '  <offline>true</offline>' '</settings>' > /home/agent/.m2/settings.xml \
+    && chown -R agent:agent /home/agent/.m2 \
+    && su agent -s /bin/bash -c "cd /app && MVNW_REPOURL=$CENTRAL_MIRROR ./mvnw -q -v >/dev/null" \
+    && su agent -s /bin/bash -c 'cd /app && . <(sed -n "/^hash_string()/,/^}/p" mvnw) \
+         && url=$(sed -n "s/^distributionUrl=//p" .mvn/wrapper/maven-wrapper.properties | tr -d "\r") \
+         && name=${url##*/} && name=${name%.*} && name=${name%-bin} \
+         && d=$HOME/.m2/wrapper/dists/$name && want=$d/$(hash_string "$url") \
+         && got=$(ls -d "$d"/*) && { [ "$got" = "$want" ] || mv "$got" "$want"; }' \
+    && su agent -s /bin/bash -c 'cd /app && MVNW_VERBOSE=true ./mvnw -v' | grep -q "found existing MAVEN_HOME" \
+    && test -z "$(git status --porcelain)"
+
+# The verifier's own copy of the base repository and Maven settings: root-owned, so
+# nothing done in /app or in the agent's home during a session can change them.
+RUN mkdir -p /opt/verifier && cp -a /app/.git /opt/verifier/git \
+    && printf '%s\n' '<settings>' '  <localRepository>/opt/m2/repository</localRepository>' \
+         '  <offline>true</offline>' '</settings>' > /opt/verifier/settings.xml \
+    && chown -R root:root /opt/verifier /opt/m2 && chmod -R go-w /opt/verifier /opt/m2 \
+    && test "$(GIT_DIR=/opt/verifier/git git rev-parse HEAD)" = "$BASE_COMMIT"
+RUN chown -R agent:agent /app && git config --system --add safe.directory /app \
+    && [ "$(stat -c '%U' /app)" = "agent" ]
+ENTRYPOINT []
+CMD ["bash"]

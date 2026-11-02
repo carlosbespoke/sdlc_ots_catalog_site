@@ -1,0 +1,12 @@
+FROM golang:1.25-bookworm
+RUN apt-get update && apt-get install -y --no-install-recommends git python3 ca-certificates tmux asciinema && rm -rf /var/lib/apt/lists/*
+RUN ln -sf /usr/local/go/bin/go /usr/local/bin/go && ln -sf /usr/local/go/bin/gofmt /usr/local/bin/gofmt
+ENV GOTOOLCHAIN=local CGO_ENABLED=0 GOFLAGS=-mod=mod GOTELEMETRY=off GOPATH=/go GOMODCACHE=/go/pkg/mod
+COPY repo/ /app/
+WORKDIR /app
+RUN cd /app && GOPROXY=https://proxy.golang.org,direct go mod download all && (go build ./... || echo 'fb warm-up: go build ./... reported errors (above)') && for p in $(go list ./...); do go test -c -vet=off -o /dev/null "$p" || echo "fb warm-up: $p does not compile with this image's Go"; done
+ENV GOPROXY=off
+COPY spec/ /tests/spec/
+COPY manifest.json fb_grader.py test.sh /tests/
+RUN chmod -R go-rwx /tests && chmod 755 /tests /tests/test.sh
+CMD ["bash"]

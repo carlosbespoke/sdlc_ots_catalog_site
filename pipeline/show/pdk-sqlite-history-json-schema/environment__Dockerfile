@@ -1,0 +1,37 @@
+# Development container: the repository at the base commit, its test environment in /opt/venv and
+# a sample database in /data. The base image is an official image through Google's public Docker Hub
+# mirror, pinned by digest.
+FROM mirror.gcr.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+
+ARG REPO_URL=https://github.com/simonw/sqlite-history-json.git
+ARG BASE_COMMIT=53e66b2791a1ccc2efd19c1e24de9fd5afcc343b
+ENV CI=1 PIP_DISABLE_PIP_VERSION_CHECK=1 PYTHONDONTWRITEBYTECODE=1
+
+# tmux and asciinema are required by Harbor's solver agent.
+RUN set -eu; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+      tmux asciinema bash build-essential ca-certificates curl file git jq less procps vim-tiny sqlite3; \
+    rm -rf /var/lib/apt/lists/*
+
+# The repository at the base commit only: one commit, no remote, no reflog, so no later history
+# is reachable.
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" \
+    && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD \
+    && test "$(git -C /app rev-parse HEAD)" = "$BASE_COMMIT" \
+    && git -C /app remote remove origin && rm -f /app/.git/FETCH_HEAD \
+    && git -C /app reflog expire --expire=now --all && git -C /app gc -q --prune=now
+
+# The repository's own environment, outside /app. The package has no runtime dependencies; its dev
+# group is pytest; setuptools lets `pip install --no-build-isolation -e /app` run offline. Installed
+# editable, so changes under /app apply without a reinstall.
+RUN set -eu; python -m venv /opt/venv; \
+    /opt/venv/bin/pip install -q pytest==9.0.3 setuptools==80.9.0; \
+    /opt/venv/bin/pip install -q -e /app --no-deps
+ENV PATH=/opt/venv/bin:$PATH
+
+# Sample data, outside /app so it stays out of the repository.
+COPY data/ /data/
+
+CMD ["/bin/bash"]

@@ -1,0 +1,490 @@
+{
+  "schema": 1,
+  "generator": {
+    "file": "build_task.py",
+    "git_revision": "329d78dfb8012d91673e087d12beee97c7c9ebd5",
+    "uncommitted": false,
+    "sha256": "0564a1cd834d02898825c17e722ca573cc6e1c822b58ead8b6018bd490e9701d",
+    "written_by_build": true
+  },
+  "grader_sha256": "ad459a137f8fd8a1ef5505407cd5d672331ae2e4af998514e443d064c37fa983",
+  "grader_template": "a0eb45c96a3235207542e3ac11e0bcdc1030a98a5394e82e979ffafb4038f4cf",
+  "grader_template_commit": "9c1eaf84360910b07455a39981ad92af1cd93b7d",
+  "args": {
+    "ids": "b42b509b,3f2266a8,b743e76f,67fa5360,6c41f1ee,bd819b75,c7e6e233,f4ec2ca7,3a37f92f,3a7bd5c6,9e15ad5b,8705d962,84eb4057,a9ae7539,715470a0,b64956c2,395c25cc",
+    "test": "",
+    "repo": "isa-l",
+    "repo_url": "https://github.com/intel/isa-l.git",
+    "commit": "ebcec1aea3239108a67cc6309aaaeed6211fed89",
+    "base_image": "diagvgen-base-intel__isa-l-ebcec1ae",
+    "workdir": "/workspace/repo",
+    "test_cmd": "cmake --build build -j 8 && ctest --test-dir build --output-junit /workspace/repo/results.xml --output-on-failure",
+    "language": "c",
+    "baseline_failures": 0,
+    "source_roots": [
+      "crc",
+      "erasure_code",
+      "igzip",
+      "raid"
+    ],
+    "hide_tests": true,
+    "symptom": "The repository has received 17 separate undocumented edits.\n\nThis library is used to pack a buffer into fewer bytes and get the original back, to boil a\nbuffer down to a short value a reader can use to tell it arrived intact, and to spread\nstored bytes over several pieces so the original survives losing some of them. All three\nnow hand back wrong answers for material they used to handle.\n\nPacking a buffer and then unpacking it no longer returns what went in. At the cheapest\nsetting the result matches until the very end, where bytes near the tail come back wrong,\nas if a single byte had been picked up one step out of order. Where more effort is spent\nspotting repeated runs and pointing back at earlier copies of them, the restored output\ninstead diverges in the middle of long repeated stretches and contains bytes that were\nnever in the input, and material whose repeat sits a long way from its earlier occurrence\ncomes back with the repeated stretch copied from the wrong place. Other buffers pack into\nsomething that cannot be unpacked at all, reporting corruption instead of returning bytes,\nand larger inputs, for which the packer works out its own symbol tables instead of reusing\na fixed set, likewise produce output that is rejected or that restores into garbage.\n\nHow the caller drives the work matters as much as the setting. Handing over a whole buffer\nin one self-contained call, with the result written into an area the caller supplied, comes\nback with a failure status or with an output length that disagrees with the bytes actually\nwritten. Feeding the same material a piece at a time and marking the last piece as the end\nnever reaches completion: the call returns with the input consumed, the stream unterminated\nand the output short. Asking part-way through for whatever has been produced so far leaves\nit equally stuck, with no usable prefix handed back and no further progress on later calls.\n\nGoing the other way under the same drip feed, handing over only a few bytes of input per\ncall, returns an error or stops with part of the material missing, and a descriptive field\nnear the front of the stream that happens to span one of those call boundaries comes back\ntruncated or mangled. Asking only what the opening description of an enveloped stream says,\nwhen it carries an optional extra field, hands back extra bytes taken from the wrong place\nand with the wrong length, and the signal that the caller's area for that field was too\nsmall is raised for the wrong sizes.\n\nBoiling a buffer down to a short value for checking is off too. Among the 32-bit variants,\none goes wrong on essentially any input longer than a single byte, and another returns\nvalues unlike the reference too. Two of the 64-bit variants are wrong as well: the value\nhanded back for a buffer matches the reference for neither of them, whether the bytes are\npassed in one call or in pieces.\n\nSpreading stored bytes over extra pieces so loss can be survived is wrong in several ways.\nComputing the pair of extra pieces that protect a set of stored ones yields a second extra\npiece that fails verification against the material it was computed from. Preparing the\nlookup used to multiply a run of bytes by a single coefficient and then applying it gives\nwrong products for some coefficients, so anything written out with those coefficients\ncannot be rebuilt afterwards. Computing redundancy for one particular number of\nsimultaneous outputs leaves those outputs filled with wrong bytes, and recovering lost\nmaterial from them fails.",
+    "drop_paths": "",
+    "title": "isa-l: locating 17 injected faults without a test suite",
+    "description": "A pinned checkout of the intel/isa-l library has had seventeen single-line edits applied across its sources, and the test suite has been removed. Compression and expansion no longer round-trip, chunked streaming and flushing stall, header parsing returns the wrong bytes, several checksum routines disagree with their reference values, and parity and redundancy generation produce blocks that fail verification and cannot be used for recovery. The task is to diagnose each misbehaviour from the observable symptoms alone, repair the behaviour, and name the functions that were altered.",
+    "allow": ""
+  },
+  "base_dockerfile_sha256": "fdf10fa775ca5ab021cf8a1bca367ce40e8210d0b71a854d01053303acf8c278",
+  "base_dockerfile_text": "FROM --platform=linux/amd64 ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3\nENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 SOURCE_DATE_EPOCH=0\nRUN apt-get update && apt-get install -y --no-install-recommends \\\n    build-essential cmake git ca-certificates pkg-config nasm zlib1g-dev \\\n    && rm -rf /var/lib/apt/lists/*\nRUN git config --system --add safe.directory '*'\nRUN mkdir -p /workspace/repo && cd /workspace/repo \\\n    && git init -q && git remote add origin https://github.com/intel/isa-l.git \\\n    && git fetch --depth 1 -q origin ebcec1aea3239108a67cc6309aaaeed6211fed89 \\\n    && git checkout -q FETCH_HEAD \\\n    && git submodule update --init --recursive --depth 1\nWORKDIR /workspace/repo\nRUN cmake -S . -B build -DCMAKE_BUILD_TYPE=Release\nRUN cmake --build build --parallel 4\nLABEL repo=\"intel/isa-l\" revision=\"ebcec1aea3239108a67cc6309aaaeed6211fed89\" language=\"c\"",
+  "faults": [
+    {
+      "drop": null,
+      "breaks": [
+        "igzip_wrapper_hdr_test"
+      ],
+      "id": "b42b509b",
+      "kind": "swap_call_arguments",
+      "path": "igzip/igzip_inflate.c",
+      "func": "isal_read_gzip_header",
+      "line": 2018,
+      "before": "buffer_header_copy(state, count, gz_hdr->extra, gz_hdr->extra_buf_len,\n                                                 offset, ISAL_EXTRA_OVERFLOW)",
+      "after": "buffer_header_copy(state, offset, gz_hdr->extra, gz_hdr->extra_buf_len,\n                                                 count, ISAL_EXTRA_OVERFLOW)",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "igzip_rand_test"
+      ],
+      "id": "3f2266a8",
+      "kind": "swap_adjacent_statements",
+      "path": "igzip/igzip_icf_base.c",
+      "func": "isal_deflate_icf_finish_hash_map_base",
+      "line": 335,
+      "before": "literal = *next_in;\n                get_lit_icf_code(literal & 0xFF, &code);",
+      "after": "get_lit_icf_code(literal & 0xFF, &code);\n                literal = *next_in;",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "igzip_rand_test"
+      ],
+      "id": "b743e76f",
+      "kind": "wrong_variable",
+      "path": "igzip/igzip_icf_body.c",
+      "func": "compress_icf_map_g",
+      "line": 155,
+      "before": "matches_next",
+      "after": "matches_start",
+      "crashes": true,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "pq_check_test"
+      ],
+      "id": "67fa5360",
+      "kind": "named_constant_swap",
+      "path": "raid/raid_base.c",
+      "func": "pq_gen_base",
+      "line": 60,
+      "before": "(q & bit7) >> 7",
+      "after": "(q & notbit0) >> 7",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "erasure_code_test",
+        "gf_vect_mul_test"
+      ],
+      "id": "6c41f1ee",
+      "kind": "wrong_variable",
+      "path": "erasure_code/ec_base.c",
+      "func": "gf_vect_mul_init_base",
+      "line": 200,
+      "before": "c18 & 0x80",
+      "after": "c8 & 0x80",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "crc64_funcs_test"
+      ],
+      "id": "bd819b75",
+      "kind": "change_constant",
+      "path": "crc/crc64_base.c",
+      "func": "crc64_jones_norm_base",
+      "line": 638,
+      "before": "0",
+      "after": "1",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "igzip_rand_test"
+      ],
+      "id": "c7e6e233",
+      "kind": "change_constant",
+      "path": "igzip/flatten_ll.c",
+      "func": "flatten_ll",
+      "line": 14,
+      "before": "268",
+      "after": "269",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "igzip_rand_test"
+      ],
+      "id": "f4ec2ca7",
+      "kind": "wrong_variable",
+      "path": "igzip/igzip.c",
+      "func": "isal_deflate_stateless",
+      "line": 1446,
+      "before": "avail_out",
+      "after": "total_out",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "erasure_code_test"
+      ],
+      "id": "3a37f92f",
+      "kind": "tighten_condition",
+      "path": "erasure_code/ec_highlevel_func.c",
+      "func": "ec_encode_data_avx2",
+      "line": 246,
+      "before": "        case 5:\n                gf_5vect_dot_prod_avx2(len, k, g_tbls, data, coding);\n                break;\n",
+      "after": "",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "crc32_funcs_test"
+      ],
+      "id": "3a7bd5c6",
+      "kind": "change_constant",
+      "path": "crc/crc_base.c",
+      "func": "crc32_ieee_base",
+      "line": 227,
+      "before": "24",
+      "after": "25",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "igzip_rand_test"
+      ],
+      "id": "9e15ad5b",
+      "kind": "wrong_variable",
+      "path": "igzip/huff_codes.c",
+      "func": "create_packed_dist_table",
+      "line": 1289,
+      "before": "extra_bits < (1 << extra_bits_count)",
+      "after": "gain_extra_bits < (1 << extra_bits_count)",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "igzip_rand_test",
+        "igzip_wrapper_hdr_test"
+      ],
+      "id": "8705d962",
+      "kind": "swap_adjacent_statements",
+      "path": "igzip/igzip_inflate.c",
+      "func": "fixed_size_read",
+      "line": 1775,
+      "before": "tmp_in_size += state->avail_in;\n                state->tmp_in_size = tmp_in_size;",
+      "after": "state->tmp_in_size = tmp_in_size;\n                tmp_in_size += state->avail_in;",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "igzip_rand_test"
+      ],
+      "id": "84eb4057",
+      "kind": "tighten_condition",
+      "path": "igzip/igzip_icf_body.c",
+      "func": "icf_body_next_state",
+      "line": 247,
+      "before": "        else if (stream->avail_in <= ISAL_LOOK_AHEAD &&\n                 (stream->end_of_stream || stream->flush != NO_FLUSH))\n                state->state = ZSTATE_FLUSH_READ_BUFFER;\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "crc64_funcs_test"
+      ],
+      "id": "a9ae7539",
+      "kind": "change_constant",
+      "path": "crc/crc64_base.c",
+      "func": "crc64_jones_refl_base",
+      "line": 625,
+      "before": "0",
+      "after": "1",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "igzip_rand_test"
+      ],
+      "id": "715470a0",
+      "kind": "tighten_condition",
+      "path": "igzip/igzip.c",
+      "func": "flush_icf_block",
+      "line": 219,
+      "before": "                else if (stream->avail_in == 0 && stream->flush != NO_FLUSH)\n                        state->state = ZSTATE_SYNC_FLUSH;\n                else\n                        state->state = ZSTATE_NEW_HDR;\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "crc32_funcs_test"
+      ],
+      "id": "b64956c2",
+      "kind": "wrong_variable",
+      "path": "crc/crc_base.c",
+      "func": "crc32_iscsi_base",
+      "line": 216,
+      "before": "crc >> 8",
+      "after": "crc_init >> 8",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "igzip_rand_test"
+      ],
+      "id": "395c25cc",
+      "kind": "swap_adjacent_statements",
+      "path": "igzip/huff_codes.c",
+      "func": "gen_huff_code_lens",
+      "line": 935,
+      "before": "root_node = build_huff_tree(heap_space, heap_size, root_node);\n\n        end_node = fix_code_lens(heap_space, root_node, bl_count, max_code_len);",
+      "after": "end_node = fix_code_lens(heap_space, root_node, bl_count, max_code_len);\n\n        root_node = build_huff_tree(heap_space, heap_size, root_node);",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    }
+  ],
+  "baseline_failing_names": [],
+  "causes": [
+    {
+      "file": "igzip/igzip_inflate.c",
+      "function": "isal_read_gzip_header",
+      "qualname": "isal_read_gzip_header",
+      "id": "b42b509b",
+      "kind": "swap_call_arguments",
+      "breaks": [
+        "igzip_wrapper_hdr_test"
+      ]
+    },
+    {
+      "file": "igzip/igzip_icf_base.c",
+      "function": "isal_deflate_icf_finish_hash_map_base",
+      "qualname": "isal_deflate_icf_finish_hash_map_base",
+      "id": "3f2266a8",
+      "kind": "swap_adjacent_statements",
+      "breaks": [
+        "igzip_rand_test"
+      ]
+    },
+    {
+      "file": "igzip/igzip_icf_body.c",
+      "function": "compress_icf_map_g",
+      "qualname": "compress_icf_map_g",
+      "id": "b743e76f",
+      "kind": "wrong_variable",
+      "breaks": [
+        "igzip_rand_test"
+      ]
+    },
+    {
+      "file": "raid/raid_base.c",
+      "function": "pq_gen_base",
+      "qualname": "pq_gen_base",
+      "id": "67fa5360",
+      "kind": "named_constant_swap",
+      "breaks": [
+        "pq_check_test"
+      ]
+    },
+    {
+      "file": "erasure_code/ec_base.c",
+      "function": "gf_vect_mul_init_base",
+      "qualname": "gf_vect_mul_init_base",
+      "id": "6c41f1ee",
+      "kind": "wrong_variable",
+      "breaks": [
+        "erasure_code_test",
+        "gf_vect_mul_test"
+      ]
+    },
+    {
+      "file": "crc/crc64_base.c",
+      "function": "crc64_jones_norm_base",
+      "qualname": "crc64_jones_norm_base",
+      "id": "bd819b75",
+      "kind": "change_constant",
+      "breaks": [
+        "crc64_funcs_test"
+      ]
+    },
+    {
+      "file": "igzip/flatten_ll.c",
+      "function": "flatten_ll",
+      "qualname": "flatten_ll",
+      "id": "c7e6e233",
+      "kind": "change_constant",
+      "breaks": [
+        "igzip_rand_test"
+      ]
+    },
+    {
+      "file": "igzip/igzip.c",
+      "function": "isal_deflate_stateless",
+      "qualname": "isal_deflate_stateless",
+      "id": "f4ec2ca7",
+      "kind": "wrong_variable",
+      "breaks": [
+        "igzip_rand_test"
+      ]
+    },
+    {
+      "file": "erasure_code/ec_highlevel_func.c",
+      "function": "ec_encode_data_avx2",
+      "qualname": "ec_encode_data_avx2",
+      "id": "3a37f92f",
+      "kind": "tighten_condition",
+      "breaks": [
+        "erasure_code_test"
+      ]
+    },
+    {
+      "file": "crc/crc_base.c",
+      "function": "crc32_ieee_base",
+      "qualname": "crc32_ieee_base",
+      "id": "3a7bd5c6",
+      "kind": "change_constant",
+      "breaks": [
+        "crc32_funcs_test"
+      ]
+    },
+    {
+      "file": "igzip/huff_codes.c",
+      "function": "create_packed_dist_table",
+      "qualname": "create_packed_dist_table",
+      "id": "9e15ad5b",
+      "kind": "wrong_variable",
+      "breaks": [
+        "igzip_rand_test"
+      ]
+    },
+    {
+      "file": "igzip/igzip_inflate.c",
+      "function": "fixed_size_read",
+      "qualname": "fixed_size_read",
+      "id": "8705d962",
+      "kind": "swap_adjacent_statements",
+      "breaks": [
+        "igzip_rand_test",
+        "igzip_wrapper_hdr_test"
+      ]
+    },
+    {
+      "file": "igzip/igzip_icf_body.c",
+      "function": "icf_body_next_state",
+      "qualname": "icf_body_next_state",
+      "id": "84eb4057",
+      "kind": "tighten_condition",
+      "breaks": [
+        "igzip_rand_test"
+      ]
+    },
+    {
+      "file": "crc/crc64_base.c",
+      "function": "crc64_jones_refl_base",
+      "qualname": "crc64_jones_refl_base",
+      "id": "a9ae7539",
+      "kind": "change_constant",
+      "breaks": [
+        "crc64_funcs_test"
+      ]
+    },
+    {
+      "file": "igzip/igzip.c",
+      "function": "flush_icf_block",
+      "qualname": "flush_icf_block",
+      "id": "715470a0",
+      "kind": "tighten_condition",
+      "breaks": [
+        "igzip_rand_test"
+      ]
+    },
+    {
+      "file": "crc/crc_base.c",
+      "function": "crc32_iscsi_base",
+      "qualname": "crc32_iscsi_base",
+      "id": "b64956c2",
+      "kind": "wrong_variable",
+      "breaks": [
+        "crc32_funcs_test"
+      ]
+    },
+    {
+      "file": "igzip/huff_codes.c",
+      "function": "gen_huff_code_lens",
+      "qualname": "gen_huff_code_lens",
+      "id": "395c25cc",
+      "kind": "swap_adjacent_statements",
+      "breaks": [
+        "igzip_rand_test"
+      ]
+    }
+  ],
+  "formatter_pass": {
+    "tool": null,
+    "formatted": [],
+    "raw": [
+      "crc/crc64_base.c",
+      "crc/crc_base.c",
+      "erasure_code/ec_base.c",
+      "erasure_code/ec_highlevel_func.c",
+      "igzip/flatten_ll.c",
+      "igzip/huff_codes.c",
+      "igzip/igzip.c",
+      "igzip/igzip_icf_base.c",
+      "igzip/igzip_icf_body.c",
+      "igzip/igzip_inflate.c",
+      "raid/raid_base.c"
+    ]
+  },
+  "rebuild": "python3 build_task.py --faults-file <this file> --ids <args.ids> and the rest of args above; --base-dockerfile can be written out of base_dockerfile_text",
+  "baseline_failures": 0
+}

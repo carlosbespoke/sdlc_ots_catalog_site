@@ -1,0 +1,435 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 2400,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "934954413453b72936417ad7077a5279e8da8562c66ad27c6ad68b21f464f631",
+  "documentation.json": "48201a0d3e4e5c54edb56831c17b1a253bced0a399b34c82c87d5a65b973d6fc",
+  "driver.py": "cbd22039dc4e29e898d4766b28b58e277f6028ec322a589a8814644f702ea452",
+  "expected.json": "91cb6d3fba6961bbc01f8ef94a5ca89225e509174996e4ea9416a5d64071f8b5"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "GROUP-0001",
+    "kind": "f2p",
+    "requirement": "Scheduler.enqueue_request returns true for accepted requests and false for duplicates. dont_filter bypasses duplicate filtering (without recording the bypassed request as seen). Default RFPDupeFilter identity uses canonical URL, method and body, ignoring headers and fragments; verbatim_url preserves URL spelling including fragments. BaseDupeFilter does not reject duplicates. With no JOBDIR, requests use memory queues. Higher request priority is served first throughout draining; equal-priority ordinary requests use LIFO by default or FIFO when configured. Start requests use a separate FIFO lane by default, after ordinary requests of equal priority; SCHEDULER_START_MEMORY_QUEUE=None disables this separation. Accepted requests increment total and memory enqueue statistics; returned requests increment corresponding dequeue statistics, while empty reads return None without incrementing them. len reports pending requests and has_pending_requests reports whether any remain. The normal open/close lifecycle initializes and releases the scheduler.",
+    "tests": [
+     "OBS-0001",
+     "OBS-0002"
+    ]
+   },
+   {
+    "id": "GROUP-0002",
+    "kind": "f2p",
+    "requirement": "Scheduler.enqueue_request returns true for accepted requests and false for duplicates. dont_filter bypasses duplicate filtering (without recording the bypassed request as seen). Default RFPDupeFilter identity uses canonical URL, method and body, ignoring headers and fragments; verbatim_url preserves URL spelling including fragments. BaseDupeFilter does not reject duplicates. With no JOBDIR, requests use memory queues. Higher request priority is served first throughout draining; equal-priority ordinary requests use LIFO by default or FIFO when configured. Start requests use a separate FIFO lane by default, after ordinary requests of equal priority; SCHEDULER_START_MEMORY_QUEUE=None disables this separation. Accepted requests increment total and memory enqueue statistics; returned requests increment corresponding dequeue statistics, while empty reads return None without incrementing them. len reports pending requests and has_pending_requests reports whether any remain. The normal open/close lifecycle initializes and releases the scheduler.",
+    "tests": [
+     "OBS-0003"
+    ]
+   },
+   {
+    "id": "GROUP-0003",
+    "kind": "f2p",
+    "requirement": "Scheduler.enqueue_request returns true for accepted requests and false for duplicates. dont_filter bypasses duplicate filtering (without recording the bypassed request as seen). Default RFPDupeFilter identity uses canonical URL, method and body, ignoring headers and fragments; verbatim_url preserves URL spelling including fragments. BaseDupeFilter does not reject duplicates. With no JOBDIR, requests use memory queues. Higher request priority is served first throughout draining; equal-priority ordinary requests use LIFO by default or FIFO when configured. Start requests use a separate FIFO lane by default, after ordinary requests of equal priority; SCHEDULER_START_MEMORY_QUEUE=None disables this separation. Accepted requests increment total and memory enqueue statistics; returned requests increment corresponding dequeue statistics, while empty reads return None without incrementing them. len reports pending requests and has_pending_requests reports whether any remain. The normal open/close lifecycle initializes and releases the scheduler.",
+    "tests": [
+     "OBS-0004",
+     "OBS-0005"
+    ]
+   },
+   {
+    "id": "GROUP-0004",
+    "kind": "f2p",
+    "requirement": "Scheduler.enqueue_request returns true for accepted requests and false for duplicates. dont_filter bypasses duplicate filtering (without recording the bypassed request as seen). Default RFPDupeFilter identity uses canonical URL, method and body, ignoring headers and fragments; verbatim_url preserves URL spelling including fragments. BaseDupeFilter does not reject duplicates. With no JOBDIR, requests use memory queues. Higher request priority is served first throughout draining; equal-priority ordinary requests use LIFO by default or FIFO when configured. Start requests use a separate FIFO lane by default, after ordinary requests of equal priority; SCHEDULER_START_MEMORY_QUEUE=None disables this separation. Accepted requests increment total and memory enqueue statistics; returned requests increment corresponding dequeue statistics, while empty reads return None without incrementing them. len reports pending requests and has_pending_requests reports whether any remain. The normal open/close lifecycle initializes and releases the scheduler.",
+    "tests": [
+     "OBS-0006",
+     "OBS-0007"
+    ]
+   },
+   {
+    "id": "GROUP-0005",
+    "kind": "p2p",
+    "requirement": "Scheduler.enqueue_request returns true for accepted requests and false for duplicates. dont_filter bypasses duplicate filtering (without recording the bypassed request as seen). Default RFPDupeFilter identity uses canonical URL, method and body, ignoring headers and fragments; verbatim_url preserves URL spelling including fragments. BaseDupeFilter does not reject duplicates. With no JOBDIR, requests use memory queues. Higher request priority is served first throughout draining; equal-priority ordinary requests use LIFO by default or FIFO when configured. Start requests use a separate FIFO lane by default, after ordinary requests of equal priority; SCHEDULER_START_MEMORY_QUEUE=None disables this separation. Accepted requests increment total and memory enqueue statistics; returned requests increment corresponding dequeue statistics, while empty reads return None without incrementing them. len reports pending requests and has_pending_requests reports whether any remain. The normal open/close lifecycle initializes and releases the scheduler.",
+    "tests": [
+     "OBS-0008",
+     "OBS-0009",
+     "OBS-0010",
+     "OBS-0011"
+    ]
+   },
+   {
+    "id": "GROUP-0006",
+    "kind": "p2p",
+    "requirement": "Scheduler.enqueue_request returns true for accepted requests and false for duplicates. dont_filter bypasses duplicate filtering (without recording the bypassed request as seen). Default RFPDupeFilter identity uses canonical URL, method and body, ignoring headers and fragments; verbatim_url preserves URL spelling including fragments. BaseDupeFilter does not reject duplicates. With no JOBDIR, requests use memory queues. Higher request priority is served first throughout draining; equal-priority ordinary requests use LIFO by default or FIFO when configured. Start requests use a separate FIFO lane by default, after ordinary requests of equal priority; SCHEDULER_START_MEMORY_QUEUE=None disables this separation. Accepted requests increment total and memory enqueue statistics; returned requests increment corresponding dequeue statistics, while empty reads return None without incrementing them. len reports pending requests and has_pending_requests reports whether any remain. The normal open/close lifecycle initializes and releases the scheduler.",
+    "tests": [
+     "OBS-0012",
+     "OBS-0013",
+     "OBS-0014",
+     "OBS-0015",
+     "OBS-0016"
+    ]
+   },
+   {
+    "id": "GROUP-0007",
+    "kind": "p2p",
+    "requirement": "Scheduler.enqueue_request returns true for accepted requests and false for duplicates. dont_filter bypasses duplicate filtering (without recording the bypassed request as seen). Default RFPDupeFilter identity uses canonical URL, method and body, ignoring headers and fragments; verbatim_url preserves URL spelling including fragments. BaseDupeFilter does not reject duplicates. With no JOBDIR, requests use memory queues. Higher request priority is served first throughout draining; equal-priority ordinary requests use LIFO by default or FIFO when configured. Start requests use a separate FIFO lane by default, after ordinary requests of equal priority; SCHEDULER_START_MEMORY_QUEUE=None disables this separation. Accepted requests increment total and memory enqueue statistics; returned requests increment corresponding dequeue statistics, while empty reads return None without incrementing them. len reports pending requests and has_pending_requests reports whether any remain. The normal open/close lifecycle initializes and releases the scheduler.",
+    "tests": [
+     "OBS-0017",
+     "OBS-0018",
+     "OBS-0019",
+     "OBS-0020",
+     "OBS-0021",
+     "OBS-0022",
+     "OBS-0023",
+     "OBS-0024"
+    ]
+   },
+   {
+    "id": "GROUP-COV-REQUEST-BASICS",
+    "kind": "p2p",
+    "requirement": "Request arguments, defaults and attributes behave as request-response.rst documents.",
+    "tests": [
+     "OBS-0025",
+     "OBS-0026",
+     "OBS-0027",
+     "OBS-0028",
+     "OBS-0029",
+     "OBS-0030"
+    ]
+   },
+   {
+    "id": "GROUP-COV-REQUEST-COPY",
+    "kind": "p2p",
+    "requirement": "Request.copy() and replace() copy members and shallow-copy meta and cb_kwargs as documented.",
+    "tests": [
+     "OBS-0031",
+     "OBS-0032",
+     "OBS-0033",
+     "OBS-0034"
+    ]
+   },
+   {
+    "id": "GROUP-COV-REQUEST-DICT-CURL",
+    "kind": "p2p",
+    "requirement": "Request.to_dict/request_from_dict, from_curl/to_curl and NO_CALLBACK behave as documented.",
+    "tests": [
+     "OBS-0035",
+     "OBS-0036",
+     "OBS-0037",
+     "OBS-0038",
+     "OBS-0039",
+     "OBS-0040"
+    ]
+   },
+   {
+    "id": "GROUP-COV-FINGERPRINT",
+    "kind": "p2p",
+    "requirement": "fingerprint() and RequestFingerprinter: bytes, method/body/include_headers, verbatim_url and REQUEST_FINGERPRINTER_CLASS.",
+    "tests": [
+     "OBS-0041",
+     "OBS-0042",
+     "OBS-0043"
+    ]
+   },
+   {
+    "id": "GROUP-COV-FORM-JSON-REQUEST",
+    "kind": "p2p",
+    "requirement": "FormRequest formdata and JsonRequest data/dumps_kwargs/headers behave as documented.",
+    "tests": [
+     "OBS-0044",
+     "OBS-0045",
+     "OBS-0046",
+     "OBS-0047",
+     "OBS-0048"
+    ]
+   },
+   {
+    "id": "GROUP-COV-RESPONSE",
+    "kind": "p2p",
+    "requirement": "Response arguments, attributes, copy/replace, urljoin, follow and follow_all behave as documented.",
+    "tests": [
+     "OBS-0049",
+     "OBS-0050",
+     "OBS-0051",
+     "OBS-0052",
+     "OBS-0053",
+     "OBS-0054"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TEXT-RESPONSE",
+    "kind": "p2p",
+    "requirement": "TextResponse/HtmlResponse/XmlResponse encoding, text, selectors, json(), urljoin and follow behave as documented.",
+    "tests": [
+     "OBS-0055",
+     "OBS-0056",
+     "OBS-0057",
+     "OBS-0058",
+     "OBS-0059",
+     "OBS-0060",
+     "OBS-0061"
+    ]
+   },
+   {
+    "id": "GROUP-COV-HEADERS",
+    "kind": "p2p",
+    "requirement": "Headers is a case-insensitive multi-value dictionary as documented.",
+    "tests": [
+     "OBS-0062",
+     "OBS-0063",
+     "OBS-0064"
+    ]
+   },
+   {
+    "id": "GROUP-COV-JOBDIR",
+    "kind": "p2p",
+    "requirement": "With JOBDIR the scheduler persists requests and seen fingerprints and resumes them; unserializable requests stay in memory.",
+    "tests": [
+     "OBS-0065",
+     "OBS-0066",
+     "OBS-0067",
+     "OBS-0068",
+     "OBS-0069"
+    ]
+   },
+   {
+    "id": "GROUP-COV-QUEUES",
+    "kind": "p2p",
+    "requirement": "Scheduler queues (memory/disk, FIFO/LIFO) and ScrapyPriorityQueue order, persist and resume requests as documented.",
+    "tests": [
+     "OBS-0070",
+     "OBS-0071",
+     "OBS-0072"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DUPEFILTER",
+    "kind": "p2p",
+    "requirement": "RFPDupeFilter and BaseDupeFilter filter duplicates as documented, including requests.seen persistence.",
+    "tests": [
+     "OBS-0073",
+     "OBS-0074",
+     "OBS-0075",
+     "OBS-0076"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SPIDER-STATE",
+    "kind": "p2p",
+    "requirement": "The SpiderState extension saves and loads spider.state in the job directory.",
+    "tests": [
+     "OBS-0077",
+     "OBS-0078"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AUTOTHROTTLE",
+    "kind": "p2p",
+    "requirement": "AutoThrottle enables, starts and adjusts download delays as autothrottle.rst documents.",
+    "tests": [
+     "OBS-0079",
+     "OBS-0080",
+     "OBS-0081"
+    ]
+   },
+   {
+    "id": "GROUP-COV-EXCEPTIONS",
+    "kind": "p2p",
+    "requirement": "Scrapy exceptions carry their documented attributes and are raised where documented.",
+    "tests": [
+     "OBS-0082",
+     "OBS-0083",
+     "OBS-0084"
+    ]
+   },
+   {
+    "id": "GROUP-COV-URL-UTILS",
+    "kind": "p2p",
+    "requirement": "scrapy.utils.url helpers behave as their docstrings state.",
+    "tests": [
+     "OBS-0085",
+     "OBS-0086",
+     "OBS-0087"
+    ]
+   },
+   {
+    "id": "GROUP-COV-RESPONSE-REQUEST-UTILS",
+    "kind": "p2p",
+    "requirement": "scrapy.utils.response and scrapy.utils.request helpers behave as their docstrings state.",
+    "tests": [
+     "OBS-0088",
+     "OBS-0089"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SMW-DEPTH",
+    "kind": "p2p",
+    "requirement": "DepthMiddleware tracks depth, enforces DEPTH_LIMIT, adjusts priority by DEPTH_PRIORITY and honours depth_reset.",
+    "tests": [
+     "OBS-0090",
+     "OBS-0091",
+     "OBS-0092",
+     "OBS-0093",
+     "OBS-0094"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SMW-HTTPERROR",
+    "kind": "p2p",
+    "requirement": "HttpErrorMiddleware filters non-2xx responses unless allowed by settings, spider attribute or request meta.",
+    "tests": [
+     "OBS-0095",
+     "OBS-0096",
+     "OBS-0097",
+     "OBS-0098"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SMW-REFERER",
+    "kind": "p2p",
+    "requirement": "RefererMiddleware populates Referer according to REFERRER_POLICY, meta, the response header and the policy classes.",
+    "tests": [
+     "OBS-0099",
+     "OBS-0100",
+     "OBS-0101",
+     "OBS-0102",
+     "OBS-0103"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SMW-OTHER",
+    "kind": "p2p",
+    "requirement": "UrlLength, Start, MetaCopyDetection and BaseSpiderMiddleware behave as documented.",
+    "tests": [
+     "OBS-0104",
+     "OBS-0105",
+     "OBS-0106",
+     "OBS-0107"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DMW-COOKIES",
+    "kind": "p2p",
+    "requirement": "CookiesMiddleware sends and stores cookies, supports cookiejar sessions, dont_merge_cookies and COOKIES_ENABLED as documented.",
+    "tests": [
+     "OBS-0108",
+     "OBS-0109",
+     "OBS-0110",
+     "OBS-0111",
+     "OBS-0112"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DMW-HEADERS-TIMEOUT-UA-STATS",
+    "kind": "p2p",
+    "requirement": "DefaultHeaders, DownloadTimeout, UserAgent and DownloaderStats middlewares behave as documented.",
+    "tests": [
+     "OBS-0113",
+     "OBS-0114",
+     "OBS-0115",
+     "OBS-0116"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DMW-HTTPAUTH",
+    "kind": "p2p",
+    "requirement": "HttpAuthMiddleware adds Basic auth from settings or request meta only for the configured domain.",
+    "tests": [
+     "OBS-0117",
+     "OBS-0118",
+     "OBS-0119"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DMW-HTTPCACHE",
+    "kind": "p2p",
+    "requirement": "HttpCacheMiddleware, its policies and the filesystem storage cache responses as documented.",
+    "tests": [
+     "OBS-0120",
+     "OBS-0121",
+     "OBS-0122",
+     "OBS-0123",
+     "OBS-0124"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DMW-COMPRESSION",
+    "kind": "p2p",
+    "requirement": "HttpCompressionMiddleware decodes gzip/deflate/br responses and honours COMPRESSION_ENABLED.",
+    "tests": [
+     "OBS-0125",
+     "OBS-0126"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DMW-PROXY",
+    "kind": "p2p",
+    "requirement": "HttpProxyMiddleware sets proxies from request meta and environment variables as documented.",
+    "tests": [
+     "OBS-0127",
+     "OBS-0128",
+     "OBS-0129"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DMW-OFFSITE",
+    "kind": "p2p",
+    "requirement": "OffsiteMiddleware filters requests outside allowed_domains, honours allow_offsite and should_follow.",
+    "tests": [
+     "OBS-0130",
+     "OBS-0131",
+     "OBS-0132"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DMW-REDIRECT",
+    "kind": "p2p",
+    "requirement": "RedirectMiddleware follows redirects, records redirect_urls/reasons, honours REDIRECT_MAX_TIMES and opt-outs.",
+    "tests": [
+     "OBS-0133",
+     "OBS-0134",
+     "OBS-0135",
+     "OBS-0136"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DMW-METAREFRESH",
+    "kind": "p2p",
+    "requirement": "MetaRefreshMiddleware follows meta refresh as documented, honouring its settings and dont_redirect.",
+    "tests": [
+     "OBS-0137",
+     "OBS-0138"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DMW-RETRY",
+    "kind": "p2p",
+    "requirement": "RetryMiddleware and get_retry_request retry as documented (codes, exceptions, limits, priority, opt-outs).",
+    "tests": [
+     "OBS-0139",
+     "OBS-0140",
+     "OBS-0141",
+     "OBS-0142",
+     "OBS-0143"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DMW-ROBOTSTXT",
+    "kind": "p2p",
+    "requirement": "RobotsTxtMiddleware obeys robots.txt with the documented user agent selection and parsers.",
+    "tests": [
+     "OBS-0144",
+     "OBS-0145",
+     "OBS-0146"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,1318 @@
+{
+ "config_namespace": "cats-vs-dogs",
+ "encryption_salt": "v1:FIBSH3X2uvE=:v1:mUZV1MzzApUQCL2h:bOuFAkTWL8sdw+mmAFmvKgCpeGsXpg==",
+ "entry_point": "index.ts",
+ "expected_file": "expected.json.gz",
+ "family": "tf2pulumi",
+ "family_version": 1,
+ "fresh_salt": "e292470ed4bb2a79",
+ "language": "typescript",
+ "node": "/opt/node/bin/node",
+ "node_modules": "/opt/pulumi-node/node_modules",
+ "owned_files": {
+  "Pulumi.dev.yaml": "config:\n  aws:region: us-east-1\n  aws:s3UsePathStyle: \"true\"\n  aws:skipCredentialsValidation: \"true\"\n  aws:skipMetadataApiCheck: \"true\"\n  aws:skipRegionValidation: \"true\"\n  aws:skipRequestingAccountId: \"true\"\nencryptionsalt: v1:FIBSH3X2uvE=:v1:mUZV1MzzApUQCL2h:bOuFAkTWL8sdw+mmAFmvKgCpeGsXpg==\n",
+  "Pulumi.yaml": "name: cats-vs-dogs\ndescription: cats-versus-dogs development application platform, migrated from Terraform\nruntime: nodejs\n",
+  "package.json": "{\n  \"name\": \"cats-vs-dogs\",\n  \"private\": true,\n  \"dependencies\": {\n    \"@pulumi/aws\": \"6.83.0\",\n    \"@pulumi/pulumi\": \"3.267.0\"\n  },\n  \"devDependencies\": {\n    \"@types/node\": \"22.20.5\",\n    \"ts-node\": \"10.9.2\",\n    \"typescript\": \"5.9.3\"\n  }\n}\n",
+  "tsconfig.json": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"target\": \"es2020\",\n    \"module\": \"commonjs\",\n    \"moduleResolution\": \"node\",\n    \"esModuleInterop\": true,\n    \"skipLibCheck\": true,\n    \"forceConsistentCasingInFileNames\": true,\n    \"noImplicitReturns\": true,\n    \"noFallthroughCasesInSwitch\": true,\n    \"noEmit\": true,\n    \"types\": [\"node\"]\n  },\n  \"include\": [\"**/*.ts\"],\n  \"exclude\": [\"node_modules\"]\n}\n"
+ },
+ "parallel": 3,
+ "passphrase": "cats-vs-dogs-dev",
+ "pasted_tokens": [
+  "024bac343f87d7ecf",
+  "0656f07dbb2b4f604",
+  "0a569608266ba394e",
+  "10.0.1.200",
+  "10.0.2.32",
+  "10.0.3.154",
+  "1060862455",
+  "1077758212",
+  "123456789012",
+  "167508971a605f718",
+  "1755113201",
+  "185d96d03e444bc72",
+  "1925991450",
+  "1a4f2d9f67df68049",
+  "1d2dcc72d32f0dec3",
+  "1f3917ad00ae60dd3",
+  "2037769453",
+  "2154875062",
+  "2446325552",
+  "2723eef2be7cf451f",
+  "2731957304",
+  "2fc00cd734bc54514",
+  "308d4187c2281f38",
+  "319717068",
+  "32169612c21c2394f",
+  "3228081818",
+  "339873313",
+  "3638586737",
+  "3a894f3e917a56270",
+  "3c4c76d3544312857",
+  "3c835be7eb5a15a03",
+  "41eb56c6-2767-4101-8a38-662b4dfcd940",
+  "4280409115",
+  "42c5a1993c30d0d4",
+  "439db15cfee80ae82",
+  "45139641",
+  "46421d399a8f51c70",
+  "499428085dbde4b9a",
+  "49d08f08-2b34-4f2c-838b-f6f633249cb0",
+  "4a0eb52ee45accddd",
+  "4a99f0ddd923a3f52",
+  "4b737a707bdf7bf97",
+  "4d79a4220a176ca0d",
+  "4dfc4318669d5336f",
+  "4f913930fca5f8508",
+  "4fb296f0ef9c76af4",
+  "525eacb24ea822193",
+  "53f9fdfb6aab9a2f8",
+  "54.161.253.175",
+  "54.168.236.186",
+  "54.179.23.151",
+  "56d86b3e3279359ab",
+  "5761d6aae385690b7",
+  "5773b1c394ad75c4",
+  "57e2a6352cbf9fcc7",
+  "5809a38819f642fa",
+  "5aee4154ce8882f97",
+  "5d606f283ed4dfbbd",
+  "5dca7e14cf448530",
+  "60086374145aa6861",
+  "61347601d816467be",
+  "6570832937064c899",
+  "65c7411347ede24ca",
+  "65d58a67507abda0",
+  "65d6fb8a147a21a7d",
+  "7431097fa23322c75",
+  "746773444",
+  "7758527ff86673e68",
+  "7af6307f652ae4d2f",
+  "7da5e5d24b4eadd6b",
+  "81263e59dedba3b4d",
+  "830da3da96472a279",
+  "8333c5b7bf083a543",
+  "8dace4d0c522d2994",
+  "8fb00cfd8e2edc6af",
+  "9011ab6f5f30e8be2",
+  "9379b3ae604237ac6",
+  "93cddacc82724997d",
+  "93eb21dfc3f42e180",
+  "97128d0dfabce337",
+  "9772b33b9166ce463",
+  "9c092260-c24a-4ba9-88d5-f6b7fd93fc1b",
+  "9eb8cab50591566b5",
+  "9ef51902c3360e034",
+  "AROARZPUZDIKDEBGNNKFA",
+  "AROARZPUZDIKDVHKECLUR",
+  "AROARZPUZDIKHJ3I6A7BR",
+  "AROARZPUZDIKJW5HP7DAG",
+  "AROARZPUZDIKOVJP55VPN",
+  "a00e186e8f97511d3",
+  "a73a8c1e6df695735",
+  "a855b553beb098be6",
+  "a9ea7cbeef02dc1d3",
+  "aa3e978d4c458db30",
+  "aa657edec8fa2bd4e",
+  "ab56f35199d943d4c",
+  "ababfc027a5d4592",
+  "acl-8333c5b7bf083a543",
+  "acl-9379b3ae604237ac6",
+  "acl-c1c77770e594f4c28",
+  "acl-eebaccea174fc5b9c",
+  "b03138c14f70cf49a",
+  "b11a12b7827597b8e",
+  "b655bf7697d8f6611",
+  "b726143a5715d3f3a",
+  "bbd18c2dea9acb804",
+  "be4275577f2a0c47b",
+  "c06f9ad886a335f4f",
+  "c1c77770e594f4c28",
+  "c59b4d1653017bf15",
+  "c80b0d778e1fad147",
+  "cd2ed2b404e44fe5a",
+  "cf12d0e5aa5d12953",
+  "d2886798c1c8a890d",
+  "d3a1a6fa13c59f4f2",
+  "dc2156774289434d6",
+  "e1ef371e141fd3eda",
+  "e3458e589ec7391d1",
+  "e677a8f23077dc20a",
+  "ec2-10-0-1-200",
+  "ec2-10-0-2-32",
+  "ec2-10-0-3-154",
+  "ec2-54-161-253-175",
+  "ec2-54-168-236-186",
+  "ec2-54-179-23-151",
+  "ed1285bce01f6636d",
+  "eebaccea174fc5b9c",
+  "ef552b911d5b18802",
+  "efe2e1e10968ac19d",
+  "eipalloc-1a4f2d9f67df68049",
+  "eipalloc-1f3917ad00ae60dd3",
+  "eipalloc-ef552b911d5b18802",
+  "eipassoc-0656f07dbb2b4f604",
+  "eipassoc-aa3e978d4c458db30",
+  "eipassoc-b03138c14f70cf49a",
+  "eni-024bac343f87d7ecf",
+  "eni-185d96d03e444bc72",
+  "eni-2fc00cd734bc54514",
+  "eni-32169612c21c2394f",
+  "eni-4a0eb52ee45accddd",
+  "eni-525eacb24ea822193",
+  "eni-61347601d816467be",
+  "eni-65c7411347ede24ca",
+  "eni-7758527ff86673e68",
+  "eni-bbd18c2dea9acb804",
+  "eni-be4275577f2a0c47b",
+  "eni-cd2ed2b404e44fe5a",
+  "eni-d3a1a6fa13c59f4f2",
+  "eni-fd2f5c2304cf4007b",
+  "eni-fdbe7f73532476f25",
+  "f514c865058dec60a",
+  "f983897ce3c3f28ba",
+  "fd2f5c2304cf4007b",
+  "fdbe7f73532476f25",
+  "ff3571fb380dbfdff",
+  "ffb3f69755ef915ac",
+  "fl-57e2a6352cbf9fcc7",
+  "igw-ed1285bce01f6636d",
+  "nat-4a99f0ddd923a3f52",
+  "nat-5761d6aae385690b7",
+  "nat-6570832937064c899",
+  "petarena-dev-alb-1",
+  "petarena-dev-alb-1.us-east-1.elb.amazonaws.com",
+  "pl-830da3da96472a279",
+  "rtb-4b737a707bdf7bf97",
+  "rtb-4dfc4318669d5336f",
+  "rtb-4fb296f0ef9c76af4",
+  "rtb-7431097fa23322c75",
+  "rtb-9eb8cab50591566b5",
+  "rtb-c06f9ad886a335f4f",
+  "rtb-d2886798c1c8a890d",
+  "rtb-dc2156774289434d6",
+  "rtbassoc-0a569608266ba394e",
+  "rtbassoc-3c835be7eb5a15a03",
+  "rtbassoc-439db15cfee80ae82",
+  "rtbassoc-46421d399a8f51c70",
+  "rtbassoc-5d606f283ed4dfbbd",
+  "rtbassoc-93cddacc82724997d",
+  "rtbassoc-9772b33b9166ce463",
+  "rtbassoc-a9ea7cbeef02dc1d3",
+  "rtbassoc-e677a8f23077dc20a",
+  "sg-1d2dcc72d32f0dec3",
+  "sg-3a894f3e917a56270",
+  "sg-4d79a4220a176ca0d",
+  "sg-65d6fb8a147a21a7d",
+  "sg-8dace4d0c522d2994",
+  "sg-a73a8c1e6df695735",
+  "sg-aa657edec8fa2bd4e",
+  "sg-cf12d0e5aa5d12953",
+  "sg-f514c865058dec60a",
+  "sgr-3c4c76d3544312857",
+  "sgr-4f913930fca5f8508",
+  "sgr-56d86b3e3279359ab",
+  "sgr-5aee4154ce8882f97",
+  "sgr-60086374145aa6861",
+  "sgr-7da5e5d24b4eadd6b",
+  "sgr-8fb00cfd8e2edc6af",
+  "sgr-93eb21dfc3f42e180",
+  "sgr-9ef51902c3360e034",
+  "sgr-a855b553beb098be6",
+  "sgr-ab56f35199d943d4c",
+  "sgr-b11a12b7827597b8e",
+  "sgr-c59b4d1653017bf15",
+  "sgr-c80b0d778e1fad147",
+  "sgr-efe2e1e10968ac19d",
+  "sgrule-1060862455",
+  "sgrule-1077758212",
+  "sgrule-1755113201",
+  "sgrule-1925991450",
+  "sgrule-2037769453",
+  "sgrule-2154875062",
+  "sgrule-2446325552",
+  "sgrule-2731957304",
+  "sgrule-319717068",
+  "sgrule-3228081818",
+  "sgrule-339873313",
+  "sgrule-3638586737",
+  "sgrule-4280409115",
+  "sgrule-45139641",
+  "sgrule-746773444",
+  "subnet-167508971a605f718",
+  "subnet-7af6307f652ae4d2f",
+  "subnet-81263e59dedba3b4d",
+  "subnet-9011ab6f5f30e8be2",
+  "subnet-a00e186e8f97511d3",
+  "subnet-b726143a5715d3f3a",
+  "subnet-e1ef371e141fd3eda",
+  "subnet-e3458e589ec7391d1",
+  "subnet-f983897ce3c3f28ba",
+  "vpc-b655bf7697d8f6611",
+  "vpce-2723eef2be7cf451f",
+  "vpce-499428085dbde4b9a",
+  "vpce-53f9fdfb6aab9a2f8",
+  "vpce-ff3571fb380dbfdff",
+  "vpce-ffb3f69755ef915ac"
+ ],
+ "preview_timeout": 300,
+ "probes": [
+  {
+   "config": {
+    "availability_zones": {
+     "us-east-1a": {
+      "acl_rule_number": 130,
+      "isolate_cidr": "10.0.103.0/24",
+      "private_cidr": "10.0.48.0/20",
+      "public_cidr": "10.0.3.0/24"
+     },
+     "us-east-1c": {
+      "acl_rule_number": 110,
+      "isolate_cidr": "10.0.101.0/24",
+      "private_cidr": "10.0.16.0/20",
+      "public_cidr": "10.0.1.0/24"
+     },
+     "us-east-1d": {
+      "acl_rule_number": 120,
+      "isolate_cidr": "10.0.102.0/24",
+      "private_cidr": "10.0.32.0/20",
+      "public_cidr": "10.0.2.0/24"
+     },
+     "us-east-1f": {
+      "acl_rule_number": 140,
+      "isolate_cidr": "10.0.104.0/24",
+      "private_cidr": "10.0.64.0/20",
+      "public_cidr": "10.0.4.0/24"
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_add",
+   "name": "add_az",
+   "title": "add an availability zone that sorts last"
+  },
+  {
+   "config": {
+    "availability_zones": {
+     "us-east-1a": {
+      "acl_rule_number": 130,
+      "isolate_cidr": "10.0.103.0/24",
+      "private_cidr": "10.0.48.0/20",
+      "public_cidr": "10.0.3.0/24"
+     },
+     "us-east-1d": {
+      "acl_rule_number": 120,
+      "isolate_cidr": "10.0.102.0/24",
+      "private_cidr": "10.0.32.0/20",
+      "public_cidr": "10.0.2.0/24"
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_remove",
+   "name": "remove_az",
+   "title": "remove the primary availability zone key"
+  },
+  {
+   "config": {
+    "availability_zones": {
+     "us-east-1a": {
+      "acl_rule_number": 230,
+      "isolate_cidr": "10.0.113.0/24",
+      "private_cidr": "10.0.112.0/20",
+      "public_cidr": "10.0.13.0/24"
+     },
+     "us-east-1c": {
+      "acl_rule_number": 210,
+      "isolate_cidr": "10.0.111.0/24",
+      "private_cidr": "10.0.80.0/20",
+      "public_cidr": "10.0.11.0/24"
+     },
+     "us-east-1d": {
+      "acl_rule_number": 220,
+      "isolate_cidr": "10.0.112.0/24",
+      "private_cidr": "10.0.96.0/20",
+      "public_cidr": "10.0.12.0/24"
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_update",
+   "name": "update_az",
+   "title": "change every setting of all availability zones"
+  },
+  {
+   "config": {
+    "services": {
+     "cats": {
+      "cpu": 256,
+      "data_classification": "restricted-cats",
+      "data_expiry_days": 60,
+      "error_pattern": "CAT_ERROR",
+      "health_path": "/cats/",
+      "memory": 512,
+      "path": "/cats*",
+      "port": 8082,
+      "priority": 10,
+      "queue_delay": 3,
+      "queue_visibility": 30
+     },
+     "dispatch-violet": {
+      "cpu": 256,
+      "data_classification": "restricted-dispatch-violet",
+      "data_expiry_days": 60,
+      "error_pattern": "CAT_ERROR",
+      "health_path": "/dispatch-violet/",
+      "memory": 512,
+      "path": "/dispatch-violet*",
+      "port": 8082,
+      "priority": 40,
+      "queue_delay": 3,
+      "queue_visibility": 30
+     },
+     "dogs": {
+      "cpu": 256,
+      "data_classification": "restricted-dogs",
+      "data_expiry_days": 45,
+      "error_pattern": "DOG_ERROR",
+      "health_path": "/dogs/",
+      "memory": 512,
+      "path": "/dogs*",
+      "port": 8081,
+      "priority": 20,
+      "queue_delay": 1,
+      "queue_visibility": 45
+     },
+     "web": {
+      "cpu": 512,
+      "data_classification": "public-web",
+      "data_expiry_days": 30,
+      "error_pattern": "WEB_ERROR",
+      "health_path": "/",
+      "memory": 1024,
+      "path": "/*",
+      "port": 8080,
+      "priority": 30,
+      "queue_delay": 2,
+      "queue_visibility": 60
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_add",
+   "name": "add_service",
+   "title": "add an irregularly named service"
+  },
+  {
+   "config": {
+    "services": {
+     "cats": {
+      "cpu": 256,
+      "data_classification": "restricted-cats",
+      "data_expiry_days": 60,
+      "error_pattern": "CAT_ERROR",
+      "health_path": "/cats/",
+      "memory": 512,
+      "path": "/cats*",
+      "port": 8082,
+      "priority": 10,
+      "queue_delay": 3,
+      "queue_visibility": 30
+     },
+     "web": {
+      "cpu": 512,
+      "data_classification": "public-web",
+      "data_expiry_days": 30,
+      "error_pattern": "WEB_ERROR",
+      "health_path": "/",
+      "memory": 1024,
+      "path": "/*",
+      "port": 8080,
+      "priority": 30,
+      "queue_delay": 2,
+      "queue_visibility": 60
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_remove",
+   "name": "remove_service",
+   "title": "remove the dogs service selected by the primary parameter"
+  },
+  {
+   "config": {
+    "services": {
+     "cats": {
+      "cpu": 512,
+      "data_classification": "confidential-cats",
+      "data_expiry_days": 61,
+      "error_pattern": "FELINE_FAILURE",
+      "health_path": "/feline/",
+      "memory": 1024,
+      "path": "/feline*",
+      "port": 8182,
+      "priority": 11,
+      "queue_delay": 13,
+      "queue_visibility": 31
+     },
+     "dogs": {
+      "cpu": 512,
+      "data_classification": "confidential-dogs",
+      "data_expiry_days": 46,
+      "error_pattern": "CANINE_FAILURE",
+      "health_path": "/canine/",
+      "memory": 1024,
+      "path": "/canine*",
+      "port": 8181,
+      "priority": 21,
+      "queue_delay": 11,
+      "queue_visibility": 46
+     },
+     "web": {
+      "cpu": 1024,
+      "data_classification": "public-site",
+      "data_expiry_days": 31,
+      "error_pattern": "FRONTEND_FAILURE",
+      "health_path": "/ready/",
+      "memory": 2048,
+      "path": "/home*",
+      "port": 8180,
+      "priority": 31,
+      "queue_delay": 12,
+      "queue_visibility": 61
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_update",
+   "name": "update_service",
+   "title": "change every field of every service"
+  },
+  {
+   "config": {
+    "integrations": {
+     "api": {
+      "parameter_suffix": "api",
+      "port": 443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 40,
+      "service_suffix": "ecr.api"
+     },
+     "kms": {
+      "parameter_suffix": "encryption",
+      "port": 8443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 30,
+      "service_suffix": "kms"
+     },
+     "logs": {
+      "parameter_suffix": "logging",
+      "port": 443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 10,
+      "service_suffix": "logs"
+     },
+     "registry": {
+      "parameter_suffix": "registry",
+      "port": 443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 20,
+      "service_suffix": "ecr.dkr"
+     },
+     "vault-amber": {
+      "parameter_suffix": "credential-cache-v7",
+      "port": 9443,
+      "private_dns_enabled": true,
+      "rejection_threshold": 73,
+      "service_suffix": "secretsmanager"
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_add",
+   "name": "add_integration",
+   "title": "add a private integration with a hyphenated key"
+  },
+  {
+   "config": {
+    "integrations": {
+     "api": {
+      "parameter_suffix": "api",
+      "port": 443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 40,
+      "service_suffix": "ecr.api"
+     },
+     "kms": {
+      "parameter_suffix": "encryption",
+      "port": 8443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 30,
+      "service_suffix": "kms"
+     },
+     "registry": {
+      "parameter_suffix": "registry",
+      "port": 443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 20,
+      "service_suffix": "ecr.dkr"
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_remove",
+   "name": "remove_integration",
+   "title": "remove the logs integration selected by the primary parameter"
+  },
+  {
+   "config": {
+    "integrations": {
+     "api": {
+      "parameter_suffix": "api-v2",
+      "port": 9446,
+      "private_dns_enabled": true,
+      "rejection_threshold": 140,
+      "service_suffix": "execute-api"
+     },
+     "kms": {
+      "parameter_suffix": "crypto-v2",
+      "port": 9445,
+      "private_dns_enabled": true,
+      "rejection_threshold": 130,
+      "service_suffix": "kms-fips"
+     },
+     "logs": {
+      "parameter_suffix": "logs-v2",
+      "port": 9443,
+      "private_dns_enabled": true,
+      "rejection_threshold": 110,
+      "service_suffix": "monitoring"
+     },
+     "registry": {
+      "parameter_suffix": "registry-v2",
+      "port": 9444,
+      "private_dns_enabled": true,
+      "rejection_threshold": 120,
+      "service_suffix": "ecr.api"
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_update",
+   "name": "update_integration",
+   "title": "change every field of every private integration"
+  },
+  {
+   "config": {
+    "project": "petvote"
+   },
+   "core": true,
+   "kind": "rename",
+   "name": "rename_project",
+   "title": "rename the project"
+  },
+  {
+   "config": {
+    "environment": "production"
+   },
+   "core": true,
+   "kind": "rename",
+   "name": "rename_environment",
+   "title": "rename the environment"
+  },
+  {
+   "config": {
+    "tags": {
+     "Compliance": "pci",
+     "Environment": "shadow-env",
+     "Owner": "probe-owner",
+     "Project": "shadow-project"
+    }
+   },
+   "core": true,
+   "kind": "tags",
+   "name": "tags",
+   "title": "replace shared tags with dropped, added, and colliding keys"
+  },
+  {
+   "config": {
+    "availability_zones": {
+     "us-east-1a": {
+      "acl_rule_number": 330,
+      "isolate_cidr": "10.99.103.0/24",
+      "private_cidr": "10.99.48.0/20",
+      "public_cidr": "10.99.3.0/24"
+     },
+     "us-east-1c": {
+      "acl_rule_number": 310,
+      "isolate_cidr": "10.99.101.0/24",
+      "private_cidr": "10.99.16.0/20",
+      "public_cidr": "10.99.1.0/24"
+     },
+     "us-east-1d": {
+      "acl_rule_number": 320,
+      "isolate_cidr": "10.99.102.0/24",
+      "private_cidr": "10.99.32.0/20",
+      "public_cidr": "10.99.2.0/24"
+     }
+    },
+    "vpc_cidr": "10.99.0.0/16"
+   },
+   "core": true,
+   "kind": "set",
+   "name": "network_addressing",
+   "title": "re-address the VPC and every subnet consistently"
+  },
+  {
+   "config": {
+    "flow_log_max_aggregation_interval": 60,
+    "flow_log_retention_days": 30
+   },
+   "core": true,
+   "kind": "set",
+   "name": "flow_log_settings",
+   "title": "change VPC flow-log retention and aggregation"
+  },
+  {
+   "config": {
+    "dynamodb_point_in_time_recovery": false,
+    "ecr_image_limit": 35,
+    "ecr_scan_on_push": false,
+    "kms_deletion_window_days": 20,
+    "kms_rotation_enabled": false
+   },
+   "core": true,
+   "kind": "set",
+   "name": "platform_settings",
+   "title": "change KMS, repository, and DynamoDB settings"
+  },
+  {
+   "config": {
+    "dlq_message_retention_seconds": 604800,
+    "health_check_interval_seconds": 15,
+    "healthy_threshold": 2,
+    "queue_message_retention_seconds": 172800,
+    "service_log_retention_days": 30,
+    "unhealthy_threshold": 4
+   },
+   "core": true,
+   "kind": "set",
+   "name": "service_settings",
+   "title": "change service logging, queue retention, and health checks"
+  },
+  {
+   "config": {
+    "backlog_alarm_period_seconds": 120,
+    "backlog_alarm_threshold": 250,
+    "backlog_evaluation_periods": 3,
+    "error_alarm_period_seconds": 60,
+    "error_alarm_threshold": 10,
+    "error_evaluation_periods": 2
+   },
+   "core": true,
+   "kind": "set",
+   "name": "alarm_settings",
+   "title": "change backlog and error alarm thresholds, periods, and evaluations"
+  },
+  {
+   "core": true,
+   "kind": "drift",
+   "name": "drift",
+   "state": "drift-drift.json",
+   "title": "revert production drift across networking, logs, repositories, queues, and alarms"
+  },
+  {
+   "config": {
+    "availability_zones": {
+     "us-east-1a": {
+      "acl_rule_number": 130,
+      "isolate_cidr": "10.0.103.0/24",
+      "private_cidr": "10.0.48.0/20",
+      "public_cidr": "10.0.3.0/24"
+     },
+     "us-east-1c": {
+      "acl_rule_number": 110,
+      "isolate_cidr": "10.0.101.0/24",
+      "private_cidr": "10.0.16.0/20",
+      "public_cidr": "10.0.1.0/24"
+     },
+     "us-east-1d": {
+      "acl_rule_number": 120,
+      "isolate_cidr": "10.0.102.0/24",
+      "private_cidr": "10.0.32.0/20",
+      "public_cidr": "10.0.2.0/24"
+     },
+     "us-east-1e": {
+      "acl_rule_number": 150,
+      "isolate_cidr": "10.0.105.0/24",
+      "private_cidr": "10.0.80.0/20",
+      "public_cidr": "10.0.5.0/24"
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_add",
+   "name": "add_az_fresh",
+   "title": "add an availability zone that sorts last (unseen values)",
+   "variable": "availability_zones",
+   "variant_of": "add_az"
+  },
+  {
+   "config": {
+    "availability_zones": {
+     "us-east-1a": {
+      "acl_rule_number": 130,
+      "isolate_cidr": "10.0.103.0/24",
+      "private_cidr": "10.0.48.0/20",
+      "public_cidr": "10.0.3.0/24"
+     },
+     "us-east-1c": {
+      "acl_rule_number": 110,
+      "isolate_cidr": "10.0.101.0/24",
+      "private_cidr": "10.0.16.0/20",
+      "public_cidr": "10.0.1.0/24"
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_remove",
+   "name": "remove_az_fresh",
+   "title": "remove the primary availability zone key (unseen values)",
+   "variable": "availability_zones",
+   "variant_of": "remove_az"
+  },
+  {
+   "config": {
+    "services": {
+     "cats": {
+      "cpu": 256,
+      "data_classification": "restricted-cats",
+      "data_expiry_days": 60,
+      "error_pattern": "CAT_ERROR",
+      "health_path": "/cats/",
+      "memory": 512,
+      "path": "/cats*",
+      "port": 8082,
+      "priority": 10,
+      "queue_delay": 3,
+      "queue_visibility": 30
+     },
+     "dcxoigzm-jiexco": {
+      "cpu": 512,
+      "data_classification": "confidential-dispatch",
+      "data_expiry_days": 75,
+      "error_pattern": "DISPATCH_FAILURE",
+      "health_path": "/dispatch-ready/",
+      "memory": 1024,
+      "path": "/dispatch-alt*",
+      "port": 8188,
+      "priority": 41,
+      "queue_delay": 4,
+      "queue_visibility": 50
+     },
+     "dogs": {
+      "cpu": 256,
+      "data_classification": "restricted-dogs",
+      "data_expiry_days": 45,
+      "error_pattern": "DOG_ERROR",
+      "health_path": "/dogs/",
+      "memory": 512,
+      "path": "/dogs*",
+      "port": 8081,
+      "priority": 20,
+      "queue_delay": 1,
+      "queue_visibility": 45
+     },
+     "web": {
+      "cpu": 512,
+      "data_classification": "public-web",
+      "data_expiry_days": 30,
+      "error_pattern": "WEB_ERROR",
+      "health_path": "/",
+      "memory": 1024,
+      "path": "/*",
+      "port": 8080,
+      "priority": 30,
+      "queue_delay": 2,
+      "queue_visibility": 60
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_add",
+   "name": "add_service_fresh",
+   "title": "add an irregularly named service (unseen values)",
+   "variable": "services",
+   "variant_of": "add_service"
+  },
+  {
+   "config": {
+    "services": {
+     "cats": {
+      "cpu": 256,
+      "data_classification": "restricted-cats",
+      "data_expiry_days": 60,
+      "error_pattern": "CAT_ERROR",
+      "health_path": "/cats/",
+      "memory": 512,
+      "path": "/cats*",
+      "port": 8082,
+      "priority": 10,
+      "queue_delay": 3,
+      "queue_visibility": 30
+     },
+     "dogs": {
+      "cpu": 256,
+      "data_classification": "restricted-dogs",
+      "data_expiry_days": 45,
+      "error_pattern": "DOG_ERROR",
+      "health_path": "/dogs/",
+      "memory": 512,
+      "path": "/dogs*",
+      "port": 8081,
+      "priority": 20,
+      "queue_delay": 1,
+      "queue_visibility": 45
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_remove",
+   "name": "remove_service_fresh",
+   "title": "remove the dogs service selected by the primary parameter (unseen values)",
+   "variable": "services",
+   "variant_of": "remove_service"
+  },
+  {
+   "config": {
+    "integrations": {
+     "api": {
+      "parameter_suffix": "api",
+      "port": 443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 40,
+      "service_suffix": "ecr.api"
+     },
+     "kms": {
+      "parameter_suffix": "encryption",
+      "port": 8443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 30,
+      "service_suffix": "kms"
+     },
+     "logs": {
+      "parameter_suffix": "logging",
+      "port": 443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 10,
+      "service_suffix": "logs"
+     },
+     "registry": {
+      "parameter_suffix": "registry",
+      "port": 443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 20,
+      "service_suffix": "ecr.dkr"
+     },
+     "rigym-nvjnf": {
+      "parameter_suffix": "systems-cache-v9",
+      "port": 10443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 87,
+      "service_suffix": "ssm"
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_add",
+   "name": "add_integration_fresh",
+   "title": "add a private integration with a hyphenated key (unseen values)",
+   "variable": "integrations",
+   "variant_of": "add_integration"
+  },
+  {
+   "config": {
+    "integrations": {
+     "api": {
+      "parameter_suffix": "api",
+      "port": 443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 40,
+      "service_suffix": "ecr.api"
+     },
+     "kms": {
+      "parameter_suffix": "encryption",
+      "port": 8443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 30,
+      "service_suffix": "kms"
+     },
+     "logs": {
+      "parameter_suffix": "logging",
+      "port": 443,
+      "private_dns_enabled": false,
+      "rejection_threshold": 10,
+      "service_suffix": "logs"
+     }
+    }
+   },
+   "core": true,
+   "kind": "key_remove",
+   "name": "remove_integration_fresh",
+   "title": "remove the logs integration selected by the primary parameter (unseen values)",
+   "variable": "integrations",
+   "variant_of": "remove_integration"
+  },
+  {
+   "config": {
+    "project": "pbkwabp"
+   },
+   "core": true,
+   "kind": "rename",
+   "name": "rename_project_fresh",
+   "title": "rename the project (unseen values)",
+   "variable": "project",
+   "variant_of": "rename_project"
+  },
+  {
+   "config": {
+    "environment": "siihepcbiw"
+   },
+   "core": true,
+   "kind": "rename",
+   "name": "rename_environment_fresh",
+   "title": "rename the environment (unseen values)",
+   "variable": "environment",
+   "variant_of": "rename_environment"
+  },
+  {
+   "config": {
+    "tags": {
+     "Compliance": "xxj",
+     "Environment": "qtbuic-uui",
+     "Owner": "selii-ufzea",
+     "Project": "ahmetm-qpnplxx"
+    }
+   },
+   "core": true,
+   "kind": "tags",
+   "name": "tags_fresh",
+   "title": "replace shared tags with dropped, added, and colliding keys (unseen values)",
+   "variable": "tags",
+   "variant_of": "tags"
+  },
+  {
+   "config": {
+    "availability_zones": {
+     "us-east-1a": {
+      "acl_rule_number": 430,
+      "isolate_cidr": "10.88.103.0/24",
+      "private_cidr": "10.88.48.0/20",
+      "public_cidr": "10.88.3.0/24"
+     },
+     "us-east-1c": {
+      "acl_rule_number": 410,
+      "isolate_cidr": "10.88.101.0/24",
+      "private_cidr": "10.88.16.0/20",
+      "public_cidr": "10.88.1.0/24"
+     },
+     "us-east-1d": {
+      "acl_rule_number": 420,
+      "isolate_cidr": "10.88.102.0/24",
+      "private_cidr": "10.88.32.0/20",
+      "public_cidr": "10.88.2.0/24"
+     }
+    },
+    "vpc_cidr": "10.88.0.0/16"
+   },
+   "core": true,
+   "kind": "set",
+   "name": "network_addressing_alt",
+   "title": "re-address the VPC and every subnet consistently (other values)",
+   "variable": null,
+   "variant_of": "network_addressing"
+  },
+  {
+   "config": {
+    "flow_log_max_aggregation_interval": 600,
+    "flow_log_retention_days": 60
+   },
+   "core": true,
+   "kind": "set",
+   "name": "flow_log_settings_alt",
+   "title": "change VPC flow-log retention and aggregation (other values)",
+   "variable": null,
+   "variant_of": "flow_log_settings"
+  },
+  {
+   "config": {
+    "dynamodb_point_in_time_recovery": true,
+    "ecr_image_limit": 42,
+    "ecr_scan_on_push": true,
+    "kms_deletion_window_days": 21,
+    "kms_rotation_enabled": true
+   },
+   "core": true,
+   "kind": "set",
+   "name": "platform_settings_alt",
+   "title": "change KMS, repository, and DynamoDB settings (other values)",
+   "variable": null,
+   "variant_of": "platform_settings"
+  },
+  {
+   "config": {
+    "dlq_message_retention_seconds": 864000,
+    "health_check_interval_seconds": 20,
+    "healthy_threshold": 4,
+    "queue_message_retention_seconds": 259200,
+    "service_log_retention_days": 60,
+    "unhealthy_threshold": 5
+   },
+   "core": true,
+   "kind": "set",
+   "name": "service_settings_alt",
+   "title": "change service logging, queue retention, and health checks (other values)",
+   "variable": null,
+   "variant_of": "service_settings"
+  },
+  {
+   "config": {
+    "backlog_alarm_period_seconds": 300,
+    "backlog_alarm_threshold": 175,
+    "backlog_evaluation_periods": 4,
+    "error_alarm_period_seconds": 120,
+    "error_alarm_threshold": 12,
+    "error_evaluation_periods": 3
+   },
+   "core": true,
+   "kind": "set",
+   "name": "alarm_settings_alt",
+   "title": "change backlog and error alarm thresholds, periods, and evaluations (other values)",
+   "variable": null,
+   "variant_of": "alarm_settings"
+  }
+ ],
+ "project": "cats-vs-dogs",
+ "pulumi_home": "/root/.pulumi",
+ "python": "/usr/local/bin/python3",
+ "remap_tokens": 132,
+ "remapped_state": "remapped.json",
+ "stack": "dev",
+ "stack_config": {
+  "aws:region": "us-east-1",
+  "aws:s3UsePathStyle": "true",
+  "aws:skipCredentialsValidation": "true",
+  "aws:skipMetadataApiCheck": "true",
+  "aws:skipRegionValidation": "true",
+  "aws:skipRequestingAccountId": "true"
+ },
+ "state_file": "pristine.json",
+ "submission_dir": "/workspace/pulumi",
+ "tsc": "/opt/pulumi-node/node_modules/typescript/bin/tsc",
+ "typecheck_timeout": 600,
+ "urns": [
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:cloudwatch/logGroup:LogGroup::vpc_flow_logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:cloudwatch/metricAlarm:MetricAlarm::endpoint_rejections-api",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:cloudwatch/metricAlarm:MetricAlarm::endpoint_rejections-kms",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:cloudwatch/metricAlarm:MetricAlarm::endpoint_rejections-logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:cloudwatch/metricAlarm:MetricAlarm::endpoint_rejections-registry",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/eip:Eip::nat-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/eip:Eip::nat-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/eip:Eip::nat-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/flowLog:FlowLog::vpc",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/internetGateway:InternetGateway::igw",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/natGateway:NatGateway::nat-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/natGateway:NatGateway::nat-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/natGateway:NatGateway::nat-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/networkAcl:NetworkAcl::zone-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/networkAcl:NetworkAcl::zone-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/networkAcl:NetworkAcl::zone-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/networkAclRule:NetworkAclRule::isolate_ingress-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/networkAclRule:NetworkAclRule::isolate_ingress-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/networkAclRule:NetworkAclRule::isolate_ingress-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/networkAclRule:NetworkAclRule::private_ingress-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/networkAclRule:NetworkAclRule::private_ingress-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/networkAclRule:NetworkAclRule::private_ingress-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/networkAclRule:NetworkAclRule::public_ingress-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/networkAclRule:NetworkAclRule::public_ingress-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/networkAclRule:NetworkAclRule::public_ingress-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/route:Route::private_nat-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/route:Route::private_nat-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/route:Route::private_nat-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/route:Route::public_igw",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTable:RouteTable::isolate-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTable:RouteTable::isolate-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTable:RouteTable::isolate-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTable:RouteTable::private-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTable:RouteTable::private-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTable:RouteTable::private-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTable:RouteTable::public",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTableAssociation:RouteTableAssociation::isolate-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTableAssociation:RouteTableAssociation::isolate-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTableAssociation:RouteTableAssociation::isolate-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTableAssociation:RouteTableAssociation::private-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTableAssociation:RouteTableAssociation::private-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTableAssociation:RouteTableAssociation::private-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTableAssociation:RouteTableAssociation::public-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTableAssociation:RouteTableAssociation::public-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/routeTableAssociation:RouteTableAssociation::public-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/securityGroup:SecurityGroup::vpce-api",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/securityGroup:SecurityGroup::vpce-kms",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/securityGroup:SecurityGroup::vpce-logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/securityGroup:SecurityGroup::vpce-registry",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/securityGroupRule:SecurityGroupRule::vpce_https-api",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/securityGroupRule:SecurityGroupRule::vpce_https-kms",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/securityGroupRule:SecurityGroupRule::vpce_https-logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/securityGroupRule:SecurityGroupRule::vpce_https-registry",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/subnet:Subnet::isolate-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/subnet:Subnet::isolate-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/subnet:Subnet::isolate-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/subnet:Subnet::private-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/subnet:Subnet::private-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/subnet:Subnet::private-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/subnet:Subnet::public-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/subnet:Subnet::public-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/subnet:Subnet::public-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/vpc:Vpc::vpc",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/vpcEndpoint:VpcEndpoint::interface-api",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/vpcEndpoint:VpcEndpoint::interface-kms",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/vpcEndpoint:VpcEndpoint::interface-logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/vpcEndpoint:VpcEndpoint::interface-registry",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/vpcEndpoint:VpcEndpoint::s3",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/vpcEndpointRouteTableAssociation:VpcEndpointRouteTableAssociation::s3_az-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/vpcEndpointRouteTableAssociation:VpcEndpointRouteTableAssociation::s3_az-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/vpcEndpointRouteTableAssociation:VpcEndpointRouteTableAssociation::s3_az-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ec2/vpcEndpointRouteTableAssociation:VpcEndpointRouteTableAssociation::s3_public",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:iam/role:Role::vpc_flow_logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:iam/rolePolicy:RolePolicy::vpc_flow_logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ssm/parameter:Parameter::az-us-east-1a",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ssm/parameter:Parameter::az-us-east-1c",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ssm/parameter:Parameter::az-us-east-1d",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ssm/parameter:Parameter::az_inventory",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ssm/parameter:Parameter::endpoint-api",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ssm/parameter:Parameter::endpoint-kms",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ssm/parameter:Parameter::endpoint-logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ssm/parameter:Parameter::endpoint-registry",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ssm/parameter:Parameter::endpoint_catalog",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ssm/parameter:Parameter::primary_az",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network$aws:ssm/parameter:Parameter::primary_endpoint",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Network::network",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:cloudwatch/logMetricFilter:LogMetricFilter::service_errors-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:cloudwatch/logMetricFilter:LogMetricFilter::service_errors-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:cloudwatch/logMetricFilter:LogMetricFilter::service_errors-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:cloudwatch/metricAlarm:MetricAlarm::service_backlog-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:cloudwatch/metricAlarm:MetricAlarm::service_backlog-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:cloudwatch/metricAlarm:MetricAlarm::service_backlog-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:cloudwatch/metricAlarm:MetricAlarm::service_dlq-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:cloudwatch/metricAlarm:MetricAlarm::service_dlq-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:cloudwatch/metricAlarm:MetricAlarm::service_dlq-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:cloudwatch/metricAlarm:MetricAlarm::service_errors-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:cloudwatch/metricAlarm:MetricAlarm::service_errors-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:cloudwatch/metricAlarm:MetricAlarm::service_errors-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:sns/topic:Topic::service-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:sns/topic:Topic::service-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:sns/topic:Topic::service-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:ssm/parameter:Parameter::service_alert-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:ssm/parameter:Parameter::service_alert-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:ssm/parameter:Parameter::service_alert-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability$aws:ssm/parameter:Parameter::service_catalog",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Observability::observability",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:dynamodb/table:Table::service-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:dynamodb/table:Table::service-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:dynamodb/table:Table::service-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:ecr/lifecyclePolicy:LifecyclePolicy::service-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:ecr/lifecyclePolicy:LifecyclePolicy::service-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:ecr/lifecyclePolicy:LifecyclePolicy::service-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:ecr/repository:Repository::service-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:ecr/repository:Repository::service-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:ecr/repository:Repository::service-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:ecs/cluster:Cluster::cluster",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:iam/role:Role::task_exec",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:iam/rolePolicy:RolePolicy::task_exec_repositories",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:iam/rolePolicyAttachment:RolePolicyAttachment::task_exec_managed",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:kms/alias:Alias::shared-ecr",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:kms/alias:Alias::shared-logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:kms/alias:Alias::shared-s3",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:kms/key:Key::shared-ecr",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:kms/key:Key::shared-logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:kms/key:Key::shared-s3",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketLifecycleConfigurationV2:BucketLifecycleConfigurationV2::service_data-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketLifecycleConfigurationV2:BucketLifecycleConfigurationV2::service_data-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketLifecycleConfigurationV2:BucketLifecycleConfigurationV2::service_data-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketOwnershipControls:BucketOwnershipControls::alb_logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketPolicy:BucketPolicy::alb_logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketPublicAccessBlock:BucketPublicAccessBlock::alb_logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketPublicAccessBlock:BucketPublicAccessBlock::service_data-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketPublicAccessBlock:BucketPublicAccessBlock::service_data-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketPublicAccessBlock:BucketPublicAccessBlock::service_data-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketServerSideEncryptionConfigurationV2:BucketServerSideEncryptionConfigurationV2::alb_logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketServerSideEncryptionConfigurationV2:BucketServerSideEncryptionConfigurationV2::service_data-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketServerSideEncryptionConfigurationV2:BucketServerSideEncryptionConfigurationV2::service_data-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketServerSideEncryptionConfigurationV2:BucketServerSideEncryptionConfigurationV2::service_data-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketV2:BucketV2::alb_logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketV2:BucketV2::service_data-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketV2:BucketV2::service_data-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketV2:BucketV2::service_data-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketVersioningV2:BucketVersioningV2::alb_logs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketVersioningV2:BucketVersioningV2::service_data-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketVersioningV2:BucketVersioningV2::service_data-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:s3/bucketVersioningV2:BucketVersioningV2::service_data-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:ssm/parameter:Parameter::service_bucket-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:ssm/parameter:Parameter::service_bucket-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform$aws:ssm/parameter:Parameter::service_bucket-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Platform::platform",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:cloudwatch/logGroup:LogGroup::log_router-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:cloudwatch/logGroup:LogGroup::log_router-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:cloudwatch/logGroup:LogGroup::log_router-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:cloudwatch/logGroup:LogGroup::service-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:cloudwatch/logGroup:LogGroup::service-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:cloudwatch/logGroup:LogGroup::service-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroup:SecurityGroup::alb",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroup:SecurityGroup::service-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroup:SecurityGroup::service-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroup:SecurityGroup::service-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroupRule:SecurityGroupRule::alb_ingress-http",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroupRule:SecurityGroupRule::alb_ingress-https",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroupRule:SecurityGroupRule::alb_service-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroupRule:SecurityGroupRule::alb_service-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroupRule:SecurityGroupRule::alb_service-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroupRule:SecurityGroupRule::alb_service_egress-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroupRule:SecurityGroupRule::alb_service_egress-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroupRule:SecurityGroupRule::alb_service_egress-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroupRule:SecurityGroupRule::service_https-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroupRule:SecurityGroupRule::service_https-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ec2/securityGroupRule:SecurityGroupRule::service_https-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ecs/taskDefinition:TaskDefinition::service-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ecs/taskDefinition:TaskDefinition::service-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ecs/taskDefinition:TaskDefinition::service-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:iam/role:Role::task-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:iam/role:Role::task-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:iam/role:Role::task-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:iam/rolePolicy:RolePolicy::task-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:iam/rolePolicy:RolePolicy::task-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:iam/rolePolicy:RolePolicy::task-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:lb/listener:Listener::http",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:lb/listenerRule:ListenerRule::service-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:lb/listenerRule:ListenerRule::service-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:lb/listenerRule:ListenerRule::service-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:lb/loadBalancer:LoadBalancer::alb",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:lb/targetGroup:TargetGroup::service-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:lb/targetGroup:TargetGroup::service-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:lb/targetGroup:TargetGroup::service-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:sqs/queue:Queue::dead_letter-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:sqs/queue:Queue::dead_letter-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:sqs/queue:Queue::dead_letter-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:sqs/queue:Queue::service-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:sqs/queue:Queue::service-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:sqs/queue:Queue::service-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:sqs/queuePolicy:QueuePolicy::service-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:sqs/queuePolicy:QueuePolicy::service-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:sqs/queuePolicy:QueuePolicy::service-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ssm/parameter:Parameter::primary_service",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ssm/parameter:Parameter::service_runtime-cats",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ssm/parameter:Parameter::service_runtime-dogs",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services$aws:ssm/parameter:Parameter::service_runtime-web",
+  "urn:pulumi:dev::cats-vs-dogs::cats:modules:Services::services",
+  "urn:pulumi:dev::cats-vs-dogs::pulumi:pulumi:Stack::cats-vs-dogs-dev"
+ ],
+ "worst_case_seconds": 4560
+}

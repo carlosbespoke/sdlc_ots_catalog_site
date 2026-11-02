@@ -1,0 +1,1773 @@
+{
+ "family": "terraform-policy-remediation",
+ "task": "csyeapp-production",
+ "artifact_dir": "/workspace/infra",
+ "pristine_state": "pristine.tfstate",
+ "lock_file": "terraform.lock.hcl",
+ "policies": "policies",
+ "conftest": {
+  "namespaces": "all"
+ },
+ "protected": {
+  "trusted_dir": "trusted",
+  "files": [
+   "providers.tf",
+   "versions.tf",
+   "scripts/ci-plan.sh"
+  ],
+  "trees": [
+   "policies"
+  ]
+ },
+ "banned_files": [
+  "conftest.toml"
+ ],
+ "frozen_variables": {
+  "app_ami_id": "ami-0a1b2c3d4e5f67890",
+  "app_instance_type": "t2.small",
+  "app_port": 8080,
+  "availability_zones": {
+   "us-east-1a": {
+    "database_cidr": "10.20.32.0/24",
+    "private_cidr": "10.20.16.0/24",
+    "public_cidr": "10.20.0.0/24"
+   },
+   "us-east-1b": {
+    "database_cidr": "10.20.33.0/24",
+    "private_cidr": "10.20.17.0/24",
+    "public_cidr": "10.20.1.0/24"
+   },
+   "us-east-1c": {
+    "database_cidr": "10.20.34.0/24",
+    "private_cidr": "10.20.18.0/24",
+    "public_cidr": "10.20.2.0/24"
+   }
+  },
+  "buckets": {
+   "audit": {
+    "alarm_gib": 1000,
+    "classification": "restricted",
+    "expiration_days": 2555,
+    "owner": "risk-engineering",
+    "transition_days": 60
+   },
+   "lambda": {
+    "alarm_gib": 25,
+    "classification": "internal",
+    "expiration_days": 180,
+    "owner": "integration-platform",
+    "transition_days": 45
+   },
+   "uploads": {
+    "alarm_gib": 500,
+    "classification": "internal",
+    "expiration_days": 365,
+    "owner": "application-platform",
+    "transition_days": 30
+   }
+  },
+  "channels": {
+   "audit": {
+    "age_threshold": 1800,
+    "depth_threshold": 250,
+    "error_threshold": 2,
+    "function_timeout": 45,
+    "log_retention_days": 400,
+    "memory_size": 512,
+    "owner": "risk-engineering",
+    "read_capacity": 20,
+    "retention_seconds": 604800,
+    "visibility_timeout": 90,
+    "write_capacity": 15
+   },
+   "email": {
+    "age_threshold": 900,
+    "depth_threshold": 150,
+    "error_threshold": 4,
+    "function_timeout": 35,
+    "log_retention_days": 120,
+    "memory_size": 256,
+    "owner": "customer-messaging",
+    "read_capacity": 12,
+    "retention_seconds": 259200,
+    "visibility_timeout": 60,
+    "write_capacity": 12
+   },
+   "push": {
+    "age_threshold": 1200,
+    "depth_threshold": 175,
+    "error_threshold": 8,
+    "function_timeout": 40,
+    "log_retention_days": 150,
+    "memory_size": 384,
+    "owner": "mobile-platform",
+    "read_capacity": 15,
+    "retention_seconds": 432000,
+    "visibility_timeout": 50,
+    "write_capacity": 18
+   },
+   "sms": {
+    "age_threshold": 750,
+    "depth_threshold": 125,
+    "error_threshold": 6,
+    "function_timeout": 25,
+    "log_retention_days": null,
+    "memory_size": 320,
+    "owner": "communications",
+    "read_capacity": 8,
+    "retention_seconds": 172800,
+    "visibility_timeout": 70,
+    "write_capacity": 8
+   },
+   "webhook": {
+    "age_threshold": 600,
+    "depth_threshold": 100,
+    "error_threshold": 5,
+    "function_timeout": 30,
+    "log_retention_days": null,
+    "memory_size": 256,
+    "owner": "integration-platform",
+    "read_capacity": 10,
+    "retention_seconds": 345600,
+    "visibility_timeout": 45,
+    "write_capacity": 10
+   }
+  },
+  "db_allocated_storage": 40,
+  "db_backup_retention_days": 7,
+  "db_instance_class": "db.t3.small",
+  "db_max_allocated_storage": 120,
+  "db_max_connections": 500,
+  "environment": "prod",
+  "flow_log_aggregation_interval": 600,
+  "health_check_healthy_threshold": 2,
+  "health_check_interval": 30,
+  "health_check_path": "/healthz",
+  "health_check_unhealthy_threshold": 3,
+  "lb_idle_timeout": 60,
+  "log_retention_days": 30,
+  "project": "csyeapp",
+  "root_volume_size": 25,
+  "tags": {
+   "CostCenter": "cc-6225",
+   "ManagedBy": "terraform",
+   "Owner": "cloud-platform",
+   "Repository": "aws-infrastructure"
+  },
+  "target_deregistration_delay": 30,
+  "vpc_cidr": "10.20.0.0/16"
+ },
+ "protected_variables": {
+  "app_ami_id": {
+   "default": "ami-0a1b2c3d4e5f67890",
+   "type": "${string}"
+  },
+  "app_instance_type": {
+   "default": "t2.small",
+   "type": "${string}",
+   "validation": [
+    {
+     "condition": "${can(regex(\"^(t2|t3|t3a|m6i|m7i|c6i|c7i|r6i)\\\\.[a-z0-9]+$\", var.app_instance_type))}",
+     "error_message": "The application type must use an approved family or a legacy t2 size that has a direct t3 migration."
+    }
+   ]
+  },
+  "app_port": {
+   "default": 8080,
+   "type": "${number}"
+  },
+  "availability_zones": {
+   "default": {
+    "us-east-1a": {
+     "database_cidr": "10.20.32.0/24",
+     "private_cidr": "10.20.16.0/24",
+     "public_cidr": "10.20.0.0/24"
+    },
+    "us-east-1b": {
+     "database_cidr": "10.20.33.0/24",
+     "private_cidr": "10.20.17.0/24",
+     "public_cidr": "10.20.1.0/24"
+    },
+    "us-east-1c": {
+     "database_cidr": "10.20.34.0/24",
+     "private_cidr": "10.20.18.0/24",
+     "public_cidr": "10.20.2.0/24"
+    }
+   },
+   "type": "${map(object({\n    public_cidr   = string\n    private_cidr  = string\n    database_cidr = string\n  }))}",
+   "validation": [
+    {
+     "condition": "${length(var.availability_zones) >= 2 && alltrue(flatten([\n      for zone, config in var.availability_zones : [\n        can(cidrnetmask(config.public_cidr)),\n        can(cidrnetmask(config.private_cidr)),\n        can(cidrnetmask(config.database_cidr)),\n        startswith(zone, \"us-east-1\"),\n      ]\n    ]))}",
+     "error_message": "At least two us-east-1 availability zones with valid public, private and database IPv4 CIDRs are required."
+    }
+   ]
+  },
+  "buckets": {
+   "default": {
+    "audit": {
+     "alarm_gib": 1000,
+     "classification": "restricted",
+     "expiration_days": 2555,
+     "owner": "risk-engineering",
+     "transition_days": 60
+    },
+    "lambda": {
+     "alarm_gib": 25,
+     "classification": "internal",
+     "expiration_days": 180,
+     "owner": "integration-platform",
+     "transition_days": 45
+    },
+    "uploads": {
+     "alarm_gib": 500,
+     "classification": "internal",
+     "expiration_days": 365,
+     "owner": "application-platform",
+     "transition_days": 30
+    }
+   },
+   "type": "${map(object({\n    classification  = string\n    owner           = string\n    transition_days = number\n    expiration_days = number\n    alarm_gib       = number\n  }))}",
+   "validation": [
+    {
+     "condition": "${length(var.buckets) > 0 && alltrue([\n      for name, bucket in var.buckets :\n      can(regex(\"^[a-z][a-z0-9-]*$\", name)) && contains([\"internal\", \"restricted\"], bucket.classification) &&\n      trimspace(bucket.owner) != \"\" && bucket.transition_days > 0 &&\n      bucket.expiration_days > bucket.transition_days && bucket.alarm_gib > 0\n    ])}",
+     "error_message": "Bucket purposes must be lower-case slugs; classification is internal or restricted, owner is non-empty, and retention and alarm values must be positive."
+    }
+   ]
+  },
+  "channels": {
+   "default": {
+    "audit": {
+     "age_threshold": 1800,
+     "depth_threshold": 250,
+     "error_threshold": 2,
+     "function_timeout": 45,
+     "log_retention_days": 400,
+     "memory_size": 512,
+     "owner": "risk-engineering",
+     "read_capacity": 20,
+     "retention_seconds": 604800,
+     "visibility_timeout": 90,
+     "write_capacity": 15
+    },
+    "email": {
+     "age_threshold": 900,
+     "depth_threshold": 150,
+     "error_threshold": 4,
+     "function_timeout": 35,
+     "log_retention_days": 120,
+     "memory_size": 256,
+     "owner": "customer-messaging",
+     "read_capacity": 12,
+     "retention_seconds": 259200,
+     "visibility_timeout": 60,
+     "write_capacity": 12
+    },
+    "push": {
+     "age_threshold": 1200,
+     "depth_threshold": 175,
+     "error_threshold": 8,
+     "function_timeout": 40,
+     "log_retention_days": 150,
+     "memory_size": 384,
+     "owner": "mobile-platform",
+     "read_capacity": 15,
+     "retention_seconds": 432000,
+     "visibility_timeout": 50,
+     "write_capacity": 18
+    },
+    "sms": {
+     "age_threshold": 750,
+     "depth_threshold": 125,
+     "error_threshold": 6,
+     "function_timeout": 25,
+     "log_retention_days": null,
+     "memory_size": 320,
+     "owner": "communications",
+     "read_capacity": 8,
+     "retention_seconds": 172800,
+     "visibility_timeout": 70,
+     "write_capacity": 8
+    },
+    "webhook": {
+     "age_threshold": 600,
+     "depth_threshold": 100,
+     "error_threshold": 5,
+     "function_timeout": 30,
+     "log_retention_days": null,
+     "memory_size": 256,
+     "owner": "integration-platform",
+     "read_capacity": 10,
+     "retention_seconds": 345600,
+     "visibility_timeout": 45,
+     "write_capacity": 10
+    }
+   },
+   "type": "${map(object({\n    visibility_timeout = number\n    retention_seconds  = number\n    depth_threshold    = number\n    age_threshold      = number\n    error_threshold    = number\n    memory_size        = number\n    function_timeout   = number\n    read_capacity      = number\n    write_capacity     = number\n    owner              = string\n    log_retention_days = optional(number)\n  }))}",
+   "validation": [
+    {
+     "condition": "${length(var.channels) > 0 && alltrue([\n      for name, channel in var.channels :\n      can(regex(\"^[a-z][a-z0-9-]*$\", name)) && trimspace(channel.owner) != \"\" &&\n      channel.visibility_timeout > 0 && channel.retention_seconds >= 60 &&\n      channel.depth_threshold >= 0 && channel.age_threshold >= 0 && channel.error_threshold >= 0 &&\n      channel.memory_size >= 128 && channel.function_timeout > 0 &&\n      channel.read_capacity > 0 && channel.write_capacity > 0 &&\n      (channel.log_retention_days == null ? true : channel.log_retention_days > 0)\n    ])}",
+     "error_message": "Channel names must be lower-case slugs; owners must be non-empty and every numeric setting must be positive (alarm thresholds may be zero)."
+    }
+   ]
+  },
+  "db_allocated_storage": {
+   "default": 40,
+   "type": "${number}"
+  },
+  "db_backup_retention_days": {
+   "default": 7,
+   "type": "${number}"
+  },
+  "db_instance_class": {
+   "default": "db.t3.small",
+   "type": "${string}"
+  },
+  "db_max_allocated_storage": {
+   "default": 120,
+   "type": "${number}"
+  },
+  "db_max_connections": {
+   "default": 500,
+   "type": "${number}"
+  },
+  "environment": {
+   "default": "prod",
+   "type": "${string}"
+  },
+  "flow_log_aggregation_interval": {
+   "default": 600,
+   "type": "${number}"
+  },
+  "health_check_healthy_threshold": {
+   "default": 2,
+   "type": "${number}"
+  },
+  "health_check_interval": {
+   "default": 30,
+   "type": "${number}"
+  },
+  "health_check_path": {
+   "default": "/healthz",
+   "type": "${string}"
+  },
+  "health_check_unhealthy_threshold": {
+   "default": 3,
+   "type": "${number}"
+  },
+  "lb_idle_timeout": {
+   "default": 60,
+   "type": "${number}"
+  },
+  "log_retention_days": {
+   "default": 30,
+   "type": "${number}"
+  },
+  "project": {
+   "default": "csyeapp",
+   "type": "${string}"
+  },
+  "root_volume_size": {
+   "default": 25,
+   "type": "${number}"
+  },
+  "tags": {
+   "default": {
+    "CostCenter": "cc-6225",
+    "ManagedBy": "terraform",
+    "Owner": "cloud-platform",
+    "Repository": "aws-infrastructure"
+   },
+   "type": "${map(string)}"
+  },
+  "target_deregistration_delay": {
+   "default": 30,
+   "type": "${number}"
+  },
+  "vpc_cidr": {
+   "default": "10.20.0.0/16",
+   "type": "${string}"
+  }
+ },
+ "allowed_creates": [
+  "aws_cloudwatch_log_group",
+  "aws_cloudwatch_metric_alarm",
+  "aws_flow_log",
+  "aws_kms_alias",
+  "aws_s3_bucket_lifecycle_configuration",
+  "aws_s3_bucket_logging",
+  "aws_s3_bucket_policy"
+ ],
+ "allowed_updates": {
+  "aws_cloudwatch_log_group": [
+   "retention_in_days"
+  ],
+  "aws_cloudwatch_metric_alarm": [
+   "actions_enabled",
+   "alarm_actions",
+   "insufficient_data_actions",
+   "ok_actions"
+  ],
+  "aws_db_instance": [
+   "apply_immediately",
+   "copy_tags_to_snapshot",
+   "enabled_cloudwatch_logs_exports",
+   "iam_database_authentication_enabled",
+   "iops",
+   "storage_throughput",
+   "storage_type"
+  ],
+  "aws_db_parameter_group": [
+   "tags",
+   "tags_all"
+  ],
+  "aws_dynamodb_table": [
+   "billing_mode",
+   "read_capacity",
+   "write_capacity"
+  ],
+  "aws_flow_log": [
+   "max_aggregation_interval",
+   "traffic_type"
+  ],
+  "aws_iam_policy": [
+   "policy"
+  ],
+  "aws_iam_role": [
+   "assume_role_policy",
+   "inline_policy",
+   "max_session_duration",
+   "permissions_boundary"
+  ],
+  "aws_iam_role_policy": [
+   "policy"
+  ],
+  "aws_kms_alias": [
+   "target_key_id"
+  ],
+  "aws_kms_key": [
+   "bypass_policy_lockout_safety_check",
+   "policy"
+  ],
+  "aws_lambda_function": [
+   "logging_config",
+   "tracing_config"
+  ],
+  "aws_launch_template": [
+   "block_device_mappings",
+   "default_version",
+   "instance_type",
+   "monitoring",
+   "tag_specifications",
+   "update_default_version"
+  ],
+  "aws_lb": [
+   "access_logs"
+  ],
+  "aws_lb_listener": [
+   "default_action"
+  ],
+  "aws_s3_bucket_lifecycle_configuration": [
+   "rule"
+  ]
+ },
+ "allowed_tag_keys": [
+  "CostCenter",
+  "DataClassification",
+  "Environment",
+  "Owner"
+ ],
+ "update_fallout": {
+  "aws_launch_template": [
+   "latest_version"
+  ]
+ },
+ "probes": [
+  {
+   "name": "add_notification_adapter",
+   "kind": "collection_add",
+   "var_file": "probes/add_notification_adapter.tfvars.json",
+   "state": "probes/add_notification_adapter.tfstate",
+   "expect": [
+    {
+     "kind": "input_relations",
+     "floor": 120,
+     "audit_floor": 400,
+     "cap": 731,
+     "prose": "owner, retention, bucket alarm, CostCenter and launch template instance type follow this probe's own inputs for every key"
+    }
+   ]
+  },
+  {
+   "name": "rotate_channel_roster",
+   "kind": "collection_change",
+   "var_file": "probes/rotate_channel_roster.tfvars.json",
+   "state": "probes/rotate_channel_roster.tfstate",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_lambda_function",
+      "address": "module\\.messaging\\.aws_lambda_function\\.channel\\[\\\"webhook\\\"\\]"
+     },
+     "path": "tags_all.Owner",
+     "equals": "edge-integrations",
+     "min_count": 1,
+     "prose": "the changed webhook entry's owner"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group",
+      "address": "module\\.messaging\\.aws_cloudwatch_log_group\\.channel\\[\\\"webhook\\\"\\]"
+     },
+     "path": "retention_in_days",
+     "equals": 120,
+     "min_count": 1,
+     "prose": "the pack minimum because webhook's changed retention is lower"
+    },
+    {
+     "kind": "input_relations",
+     "floor": 120,
+     "audit_floor": 400,
+     "cap": 731,
+     "prose": "owner, retention, bucket alarm, CostCenter and launch template instance type follow this probe's own inputs for every key"
+    }
+   ],
+   "allowed_destroys": [
+    "module.messaging.aws_cloudwatch_log_group.channel[\"audit\"]",
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_age[\"audit\"]",
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_depth[\"audit\"]",
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_errors[\"audit\"]",
+    "module.messaging.aws_dynamodb_table.channel[\"audit\"]",
+    "module.messaging.aws_lambda_function.channel[\"audit\"]",
+    "module.messaging.aws_lambda_permission.channel_sns[\"audit\"]",
+    "module.messaging.aws_sns_topic.channel[\"audit\"]",
+    "module.messaging.aws_sns_topic.channel_alert[\"audit\"]",
+    "module.messaging.aws_sns_topic_subscription.channel_alert_dlq[\"audit\"]",
+    "module.messaging.aws_sns_topic_subscription.channel_queue[\"audit\"]",
+    "module.messaging.aws_sqs_queue.channel[\"audit\"]",
+    "module.messaging.aws_sqs_queue.channel_dlq[\"audit\"]",
+    "module.messaging.aws_ssm_parameter.channel_config[\"audit\"]"
+   ],
+   "allowed_changes": {
+    "module.application.aws_iam_role_policy.application_access": [
+     "policy"
+    ],
+    "module.application.aws_iam_role_policy.channel_access": [
+     "policy"
+    ],
+    "module.application.aws_launch_template.application": [
+     "latest_version",
+     "user_data"
+    ],
+    "module.application.aws_ssm_parameter.application_topology": [
+     "insecure_value",
+     "value",
+     "version"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_depth[\"webhook\"]": [
+     "threshold"
+    ],
+    "module.messaging.aws_ssm_parameter.channel_config[\"webhook\"]": [
+     "insecure_value",
+     "value",
+     "version"
+    ]
+   }
+  },
+  {
+   "name": "add_records_store",
+   "kind": "collection_add",
+   "var_file": "probes/add_records_store.tfvars.json",
+   "state": "probes/add_records_store.tfstate",
+   "expect": [
+    {
+     "kind": "input_relations",
+     "floor": 120,
+     "audit_floor": 400,
+     "cap": 731,
+     "prose": "owner, retention, bucket alarm, CostCenter and launch template instance type follow this probe's own inputs for every key"
+    }
+   ]
+  },
+  {
+   "name": "retire_build_store",
+   "kind": "collection_change",
+   "var_file": "probes/retire_build_store.tfvars.json",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_s3_bucket",
+      "address": "module\\.data\\.aws_s3_bucket\\.bucket\\[\\\"uploads\\\"\\]"
+     },
+     "path": "tags_all.Owner",
+     "equals": "experience-delivery",
+     "min_count": 1,
+     "prose": "the changed uploads entry's owner"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_metric_alarm",
+      "address": "module\\.data\\.aws_cloudwatch_metric_alarm\\.bucket_size\\[\\\"uploads\\\"\\]"
+     },
+     "path": "threshold",
+     "equals": 665719930880,
+     "min_count": 1,
+     "prose": "the changed alarm_gib value converted to bytes"
+    },
+    {
+     "kind": "input_relations",
+     "floor": 120,
+     "audit_floor": 400,
+     "cap": 731,
+     "prose": "owner, retention, bucket alarm, CostCenter and launch template instance type follow this probe's own inputs for every key"
+    }
+   ],
+   "allowed_destroys": [
+    "module.application.aws_iam_role_policy.bucket_access[\"lambda\"]",
+    "module.data.aws_cloudwatch_metric_alarm.bucket_size[\"lambda\"]",
+    "module.data.aws_iam_role.bucket_access[\"lambda\"]",
+    "module.data.aws_s3_bucket.bucket[\"lambda\"]",
+    "module.data.aws_s3_bucket_lifecycle_configuration.bucket[\"lambda\"]",
+    "module.data.aws_s3_bucket_public_access_block.bucket[\"lambda\"]",
+    "module.data.aws_s3_bucket_server_side_encryption_configuration.bucket[\"lambda\"]",
+    "module.data.aws_s3_bucket_versioning.bucket[\"lambda\"]",
+    "module.data.aws_ssm_parameter.bucket_config[\"lambda\"]"
+   ],
+   "allowed_changes": {
+    "module.application.aws_iam_role_policy.application_access": [
+     "policy"
+    ],
+    "module.application.aws_launch_template.application": [
+     "latest_version",
+     "user_data"
+    ],
+    "module.application.aws_ssm_parameter.application_topology": [
+     "insecure_value",
+     "value",
+     "version"
+    ],
+    "module.data.aws_cloudwatch_metric_alarm.bucket_size[\"uploads\"]": [
+     "threshold"
+    ],
+    "module.data.aws_s3_bucket_lifecycle_configuration.bucket[\"uploads\"]": [
+     "rule"
+    ],
+    "module.data.aws_ssm_parameter.bucket_config[\"uploads\"]": [
+     "insecure_value",
+     "value",
+     "version"
+    ]
+   }
+  },
+  {
+   "name": "approved_runtime_inputs",
+   "kind": "variable",
+   "var_file": "probes/approved_runtime_inputs.tfvars.json",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group",
+      "address": "module\\.(network|application)\\.aws_cloudwatch_log_group"
+     },
+     "path": "retention_in_days",
+     "equals": 180,
+     "min_count": 2,
+     "prose": "the compliant root log_retention_days input"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group",
+      "address": "module\\.messaging\\.aws_cloudwatch_log_group\\.channel\\[\\\"(webhook|sms)\\\"\\]"
+     },
+     "path": "retention_in_days",
+     "equals": 180,
+     "min_count": 2,
+     "prose": "the root fallback for channel entries with null log_retention_days"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_launch_template"
+     },
+     "path": "instance_type",
+     "equals": "m7i.large",
+     "min_count": 1,
+     "prose": "the already-approved app_instance_type input"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_s3_bucket"
+     },
+     "path": "tags_all.CostCenter",
+     "equals": "CC-8154",
+     "min_count": 4,
+     "prose": "the already-conforming CostCenter input"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_lambda_function",
+      "address": "module\\.messaging\\.aws_lambda_function\\.channel\\[\"webhook\"\\]"
+     },
+     "path": "tags_all.Owner",
+     "equals": "integration-platform",
+     "min_count": 1,
+     "prose": "the webhook entry's owner on its Lambda function"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_lambda_function",
+      "address": "module\\.messaging\\.aws_lambda_function\\.channel\\[\"audit\"\\]"
+     },
+     "path": "tags_all.Owner",
+     "equals": "risk-engineering",
+     "min_count": 1,
+     "prose": "the audit entry's owner on its Lambda function"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_lambda_function",
+      "address": "module\\.messaging\\.aws_lambda_function\\.channel\\[\"email\"\\]"
+     },
+     "path": "tags_all.Owner",
+     "equals": "customer-messaging",
+     "min_count": 1,
+     "prose": "the email entry's owner on its Lambda function"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_lambda_function",
+      "address": "module\\.messaging\\.aws_lambda_function\\.channel\\[\"push\"\\]"
+     },
+     "path": "tags_all.Owner",
+     "equals": "mobile-platform",
+     "min_count": 1,
+     "prose": "the push entry's owner on its Lambda function"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_lambda_function",
+      "address": "module\\.messaging\\.aws_lambda_function\\.channel\\[\"sms\"\\]"
+     },
+     "path": "tags_all.Owner",
+     "equals": "communications",
+     "min_count": 1,
+     "prose": "the sms entry's owner on its Lambda function"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_s3_bucket",
+      "address": "module\\.data\\.aws_s3_bucket\\.bucket\\[\"uploads\"\\]"
+     },
+     "path": "tags_all.Owner",
+     "equals": "application-platform",
+     "min_count": 1,
+     "prose": "the uploads entry's owner on its bucket"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_s3_bucket",
+      "address": "module\\.data\\.aws_s3_bucket\\.bucket\\[\"lambda\"\\]"
+     },
+     "path": "tags_all.Owner",
+     "equals": "integration-platform",
+     "min_count": 1,
+     "prose": "the lambda entry's owner on its bucket"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_s3_bucket",
+      "address": "module\\.data\\.aws_s3_bucket\\.bucket\\[\"audit\"\\]"
+     },
+     "path": "tags_all.Owner",
+     "equals": "risk-engineering",
+     "min_count": 1,
+     "prose": "the audit entry's owner on its bucket"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group",
+      "address": "module\\.messaging\\.aws_cloudwatch_log_group\\.channel\\[\"email\"\\]"
+     },
+     "path": "retention_in_days",
+     "equals": 120,
+     "min_count": 1,
+     "prose": "the email channel's own log_retention_days (at least 120)"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group",
+      "address": "module\\.messaging\\.aws_cloudwatch_log_group\\.channel\\[\"push\"\\]"
+     },
+     "path": "retention_in_days",
+     "equals": 150,
+     "min_count": 1,
+     "prose": "the push channel's own log_retention_days (at least 120)"
+    },
+    {
+     "kind": "input_relations",
+     "floor": 120,
+     "audit_floor": 400,
+     "cap": 731,
+     "prose": "owner, retention, bucket alarm, CostCenter and launch template instance type follow this probe's own inputs for every key"
+    }
+   ],
+   "allowed_changes": {
+    "aws_iam_policy.permissions_boundary": [
+     "tags",
+     "tags_all"
+    ],
+    "aws_s3_bucket.access_logs": [
+     "tags",
+     "tags_all"
+    ],
+    "module.application.aws_cloudwatch_log_group.application": [
+     "retention_in_days",
+     "tags",
+     "tags_all"
+    ],
+    "module.application.aws_iam_instance_profile.application": [
+     "tags",
+     "tags_all"
+    ],
+    "module.application.aws_iam_role.application": [
+     "tags",
+     "tags_all"
+    ],
+    "module.application.aws_kms_key.ebs": [
+     "tags",
+     "tags_all"
+    ],
+    "module.application.aws_launch_template.application": [
+     "instance_type",
+     "latest_version",
+     "tag_specifications",
+     "tags",
+     "tags_all"
+    ],
+    "module.application.aws_lb.application": [
+     "tags",
+     "tags_all"
+    ],
+    "module.application.aws_lb_listener.application": [
+     "tags",
+     "tags_all"
+    ],
+    "module.application.aws_lb_target_group.application": [
+     "tags",
+     "tags_all"
+    ],
+    "module.application.aws_ssm_parameter.application_topology": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_cloudwatch_metric_alarm.bucket_size[\"audit\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_cloudwatch_metric_alarm.bucket_size[\"lambda\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_cloudwatch_metric_alarm.bucket_size[\"uploads\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_db_instance.database": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_db_subnet_group.database": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_iam_role.bucket_access[\"audit\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_iam_role.bucket_access[\"lambda\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_iam_role.bucket_access[\"uploads\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_kms_key.data": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_s3_bucket.bucket[\"audit\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_s3_bucket.bucket[\"lambda\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_s3_bucket.bucket[\"uploads\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_ssm_parameter.bucket_config[\"audit\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_ssm_parameter.bucket_config[\"lambda\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.data.aws_ssm_parameter.bucket_config[\"uploads\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_log_group.channel[\"audit\"]": [
+     "retention_in_days",
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_log_group.channel[\"email\"]": [
+     "retention_in_days",
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_log_group.channel[\"push\"]": [
+     "retention_in_days",
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_log_group.channel[\"sms\"]": [
+     "retention_in_days",
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_log_group.channel[\"webhook\"]": [
+     "retention_in_days",
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_age[\"audit\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_age[\"email\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_age[\"push\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_age[\"sms\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_age[\"webhook\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_depth[\"audit\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_depth[\"email\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_depth[\"push\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_depth[\"sms\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_depth[\"webhook\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_errors[\"audit\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_errors[\"email\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_errors[\"push\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_errors[\"sms\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_cloudwatch_metric_alarm.channel_errors[\"webhook\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_dynamodb_table.channel[\"audit\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_dynamodb_table.channel[\"email\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_dynamodb_table.channel[\"push\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_dynamodb_table.channel[\"sms\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_dynamodb_table.channel[\"webhook\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_iam_role.lambda": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_lambda_function.channel[\"audit\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_lambda_function.channel[\"email\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_lambda_function.channel[\"push\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_lambda_function.channel[\"sms\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_lambda_function.channel[\"webhook\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sns_topic.channel[\"audit\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sns_topic.channel[\"email\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sns_topic.channel[\"push\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sns_topic.channel[\"sms\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sns_topic.channel[\"webhook\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sns_topic.channel_alert[\"audit\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sns_topic.channel_alert[\"email\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sns_topic.channel_alert[\"push\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sns_topic.channel_alert[\"sms\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sns_topic.channel_alert[\"webhook\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sqs_queue.channel[\"audit\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sqs_queue.channel[\"email\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sqs_queue.channel[\"push\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sqs_queue.channel[\"sms\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sqs_queue.channel[\"webhook\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sqs_queue.channel_dlq[\"audit\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sqs_queue.channel_dlq[\"email\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sqs_queue.channel_dlq[\"push\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sqs_queue.channel_dlq[\"sms\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_sqs_queue.channel_dlq[\"webhook\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_ssm_parameter.channel_config[\"audit\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_ssm_parameter.channel_config[\"email\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_ssm_parameter.channel_config[\"push\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_ssm_parameter.channel_config[\"sms\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.messaging.aws_ssm_parameter.channel_config[\"webhook\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_cloudwatch_log_group.flow_logs": [
+     "retention_in_days",
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_eip.nat[\"us-east-1a\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_eip.nat[\"us-east-1b\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_eip.nat[\"us-east-1c\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_flow_log.this": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_iam_role.flow_logs": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_internet_gateway.this": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_nat_gateway.this[\"us-east-1a\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_nat_gateway.this[\"us-east-1b\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_nat_gateway.this[\"us-east-1c\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_network_acl.zone[\"us-east-1a\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_network_acl.zone[\"us-east-1b\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_network_acl.zone[\"us-east-1c\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_route_table.database": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_route_table.private[\"us-east-1a\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_route_table.private[\"us-east-1b\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_route_table.private[\"us-east-1c\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_route_table.public": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_ssm_parameter.az_network[\"us-east-1a\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_ssm_parameter.az_network[\"us-east-1b\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_ssm_parameter.az_network[\"us-east-1c\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_subnet.database[\"us-east-1a\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_subnet.database[\"us-east-1b\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_subnet.database[\"us-east-1c\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_subnet.private[\"us-east-1a\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_subnet.private[\"us-east-1b\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_subnet.private[\"us-east-1c\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_subnet.public[\"us-east-1a\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_subnet.public[\"us-east-1b\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_subnet.public[\"us-east-1c\"]": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_vpc.this": [
+     "tags",
+     "tags_all"
+    ],
+    "module.network.aws_vpc_endpoint.s3": [
+     "tags",
+     "tags_all"
+    ],
+    "module.security.aws_security_group.application": [
+     "tags",
+     "tags_all"
+    ],
+    "module.security.aws_security_group.database": [
+     "tags",
+     "tags_all"
+    ],
+    "module.security.aws_security_group.load_balancer": [
+     "tags",
+     "tags_all"
+    ]
+   }
+  },
+  {
+   "name": "legacy_runtime_inputs",
+   "kind": "variable",
+   "var_file": "probes/legacy_runtime_inputs.tfvars.json",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group",
+      "address": "module\\.(network|application)\\.aws_cloudwatch_log_group"
+     },
+     "path": "retention_in_days",
+     "equals": 120,
+     "min_count": 2,
+     "prose": "the pack's 120-day floor for a lower root input"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group",
+      "address": "module\\.messaging\\.aws_cloudwatch_log_group\\.channel\\[\\\"(webhook|sms)\\\"\\]"
+     },
+     "path": "retention_in_days",
+     "equals": 120,
+     "min_count": 2,
+     "prose": "the pack floor applied through the null channel fallback"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_launch_template"
+     },
+     "path": "instance_type",
+     "equals": "t3.medium",
+     "min_count": 1,
+     "prose": "the same size in the approved t3 family for a legacy t2 request"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group",
+      "address": "module\\.messaging\\.aws_cloudwatch_log_group\\.channel\\[\"email\"\\]"
+     },
+     "path": "retention_in_days",
+     "equals": 120,
+     "min_count": 1,
+     "prose": "the email channel's own log_retention_days (at least 120)"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_cloudwatch_log_group",
+      "address": "module\\.messaging\\.aws_cloudwatch_log_group\\.channel\\[\"push\"\\]"
+     },
+     "path": "retention_in_days",
+     "equals": 150,
+     "min_count": 1,
+     "prose": "the push channel's own log_retention_days (at least 120)"
+    },
+    {
+     "kind": "input_relations",
+     "floor": 120,
+     "audit_floor": 400,
+     "cap": 731,
+     "prose": "owner, retention, bucket alarm, CostCenter and launch template instance type follow this probe's own inputs for every key"
+    }
+   ],
+   "allowed_changes": {
+    "module.application.aws_cloudwatch_log_group.application": [
+     "retention_in_days"
+    ],
+    "module.application.aws_launch_template.application": [
+     "instance_type",
+     "latest_version"
+    ],
+    "module.messaging.aws_cloudwatch_log_group.channel[\"audit\"]": [
+     "retention_in_days"
+    ],
+    "module.messaging.aws_cloudwatch_log_group.channel[\"email\"]": [
+     "retention_in_days"
+    ],
+    "module.messaging.aws_cloudwatch_log_group.channel[\"push\"]": [
+     "retention_in_days"
+    ],
+    "module.messaging.aws_cloudwatch_log_group.channel[\"sms\"]": [
+     "retention_in_days"
+    ],
+    "module.messaging.aws_cloudwatch_log_group.channel[\"webhook\"]": [
+     "retention_in_days"
+    ],
+    "module.network.aws_cloudwatch_log_group.flow_logs": [
+     "retention_in_days"
+    ]
+   }
+  },
+  {
+   "name": "app_family_t3",
+   "kind": "variable",
+   "var_file": "probes/app_family_t3.tfvars.json",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_launch_template"
+     },
+     "path": "instance_type",
+     "equals": "t3.micro",
+     "min_count": 1,
+     "prose": "an app_instance_type of the approved t3 family, used as is"
+    },
+    {
+     "kind": "input_relations",
+     "floor": 120,
+     "audit_floor": 400,
+     "cap": 731,
+     "prose": "owner, retention, bucket alarm, CostCenter and launch template instance type follow this probe's own inputs for every key"
+    }
+   ],
+   "allowed_changes": {
+    "module.application.aws_launch_template.application": [
+     "instance_type",
+     "latest_version"
+    ]
+   }
+  },
+  {
+   "name": "app_family_t3a",
+   "kind": "variable",
+   "var_file": "probes/app_family_t3a.tfvars.json",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_launch_template"
+     },
+     "path": "instance_type",
+     "equals": "t3a.xlarge",
+     "min_count": 1,
+     "prose": "an app_instance_type of the approved t3a family, used as is"
+    },
+    {
+     "kind": "input_relations",
+     "floor": 120,
+     "audit_floor": 400,
+     "cap": 731,
+     "prose": "owner, retention, bucket alarm, CostCenter and launch template instance type follow this probe's own inputs for every key"
+    }
+   ],
+   "allowed_changes": {
+    "module.application.aws_launch_template.application": [
+     "instance_type",
+     "latest_version"
+    ]
+   }
+  },
+  {
+   "name": "app_family_m6i",
+   "kind": "variable",
+   "var_file": "probes/app_family_m6i.tfvars.json",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_launch_template"
+     },
+     "path": "instance_type",
+     "equals": "m6i.2xlarge",
+     "min_count": 1,
+     "prose": "an app_instance_type of the approved m6i family, used as is"
+    },
+    {
+     "kind": "input_relations",
+     "floor": 120,
+     "audit_floor": 400,
+     "cap": 731,
+     "prose": "owner, retention, bucket alarm, CostCenter and launch template instance type follow this probe's own inputs for every key"
+    }
+   ],
+   "allowed_changes": {
+    "module.application.aws_launch_template.application": [
+     "instance_type",
+     "latest_version"
+    ]
+   }
+  },
+  {
+   "name": "app_family_c6i",
+   "kind": "variable",
+   "var_file": "probes/app_family_c6i.tfvars.json",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_launch_template"
+     },
+     "path": "instance_type",
+     "equals": "c6i.large",
+     "min_count": 1,
+     "prose": "an app_instance_type of the approved c6i family, used as is"
+    },
+    {
+     "kind": "input_relations",
+     "floor": 120,
+     "audit_floor": 400,
+     "cap": 731,
+     "prose": "owner, retention, bucket alarm, CostCenter and launch template instance type follow this probe's own inputs for every key"
+    }
+   ],
+   "allowed_changes": {
+    "module.application.aws_launch_template.application": [
+     "instance_type",
+     "latest_version"
+    ]
+   }
+  },
+  {
+   "name": "app_family_c7i",
+   "kind": "variable",
+   "var_file": "probes/app_family_c7i.tfvars.json",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_launch_template"
+     },
+     "path": "instance_type",
+     "equals": "c7i.xlarge",
+     "min_count": 1,
+     "prose": "an app_instance_type of the approved c7i family, used as is"
+    },
+    {
+     "kind": "input_relations",
+     "floor": 120,
+     "audit_floor": 400,
+     "cap": 731,
+     "prose": "owner, retention, bucket alarm, CostCenter and launch template instance type follow this probe's own inputs for every key"
+    }
+   ],
+   "allowed_changes": {
+    "module.application.aws_launch_template.application": [
+     "instance_type",
+     "latest_version"
+    ]
+   }
+  },
+  {
+   "name": "app_family_r6i",
+   "kind": "variable",
+   "var_file": "probes/app_family_r6i.tfvars.json",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_launch_template"
+     },
+     "path": "instance_type",
+     "equals": "r6i.large",
+     "min_count": 1,
+     "prose": "an app_instance_type of the approved r6i family, used as is"
+    },
+    {
+     "kind": "input_relations",
+     "floor": 120,
+     "audit_floor": 400,
+     "cap": 731,
+     "prose": "owner, retention, bucket alarm, CostCenter and launch template instance type follow this probe's own inputs for every key"
+    }
+   ],
+   "allowed_changes": {
+    "module.application.aws_launch_template.application": [
+     "instance_type",
+     "latest_version"
+    ]
+   }
+  }
+ ],
+ "input_space": {
+  "prose": "app_instance_type planned at every value of its valid space: every approved family of EC2-006 and the legacy t2 family (which migrates to the same t3 size), each with its AWS sizes that the variable's validation accepts; each plan targets the launch template, must keep it in place, change only its instance type (and latest_version), give it the input (a t2 size as the same t3 size) and pass EC2-006",
+  "variable": "app_instance_type",
+  "families": [
+   "t3",
+   "t3a",
+   "m6i",
+   "m7i",
+   "c6i",
+   "c7i",
+   "r6i"
+  ],
+  "migrations": {
+   "t2": "t3"
+  },
+  "sizes": {
+   "t2": [
+    "nano",
+    "micro",
+    "small",
+    "medium",
+    "large",
+    "xlarge",
+    "2xlarge"
+   ],
+   "t3": [
+    "nano",
+    "micro",
+    "small",
+    "medium",
+    "large",
+    "xlarge",
+    "2xlarge"
+   ],
+   "t3a": [
+    "nano",
+    "micro",
+    "small",
+    "medium",
+    "large",
+    "xlarge",
+    "2xlarge"
+   ],
+   "m6i": [
+    "large",
+    "xlarge",
+    "2xlarge",
+    "4xlarge",
+    "8xlarge",
+    "12xlarge",
+    "16xlarge",
+    "24xlarge",
+    "32xlarge",
+    "metal"
+   ],
+   "m7i": [
+    "large",
+    "xlarge",
+    "2xlarge",
+    "4xlarge",
+    "8xlarge",
+    "12xlarge",
+    "16xlarge",
+    "24xlarge",
+    "48xlarge"
+   ],
+   "c6i": [
+    "large",
+    "xlarge",
+    "2xlarge",
+    "4xlarge",
+    "8xlarge",
+    "12xlarge",
+    "16xlarge",
+    "24xlarge",
+    "32xlarge",
+    "metal"
+   ],
+   "c7i": [
+    "large",
+    "xlarge",
+    "2xlarge",
+    "4xlarge",
+    "8xlarge",
+    "12xlarge",
+    "16xlarge",
+    "24xlarge",
+    "48xlarge"
+   ],
+   "r6i": [
+    "large",
+    "xlarge",
+    "2xlarge",
+    "4xlarge",
+    "8xlarge",
+    "12xlarge",
+    "16xlarge",
+    "24xlarge",
+    "32xlarge",
+    "metal"
+   ]
+  },
+  "target": "module.application.aws_launch_template.application",
+  "path": "instance_type",
+  "allowed_changes": [
+   "instance_type",
+   "latest_version"
+  ],
+  "namespaces": [
+   "rules.ec2_006"
+  ],
+  "parallel": 4
+ },
+ "generated_collection_probes": [
+  {
+   "name": "generated_channel_key",
+   "from": "add_notification_adapter",
+   "variable": "channels",
+   "key": "digestor",
+   "prose": "add_notification_adapter with its added channel renamed to a fresh key and its owner and log_retention_days redrawn; channel_config follows the redrawn entry under today's configuration",
+   "values": {
+    "owner": {
+     "slug": "team-"
+    },
+    "log_retention_days": {
+     "choices": [
+      null,
+      1,
+      3,
+      7,
+      14,
+      30,
+      45,
+      60,
+      90,
+      119,
+      120,
+      150,
+      180,
+      365,
+      400,
+      545,
+      731
+     ]
+    }
+   },
+   "allowed_changes": {
+    "module.messaging.aws_ssm_parameter.channel_config[\"{key}\"]": [
+     "insecure_value",
+     "value",
+     "version"
+    ]
+   }
+  },
+  {
+   "name": "generated_bucket_key",
+   "from": "add_records_store",
+   "variable": "buckets",
+   "key": "evidence-vault",
+   "prose": "add_records_store with its added bucket renamed to a fresh key and its owner and alarm_gib redrawn; bucket_config and the size alarm follow the redrawn entry under today's configuration",
+   "values": {
+    "owner": {
+     "slug": "team-"
+    },
+    "alarm_gib": {
+     "range": [
+      1,
+      4096
+     ]
+    }
+   },
+   "allowed_changes": {
+    "module.data.aws_cloudwatch_metric_alarm.bucket_size[\"{key}\"]": [
+     "threshold"
+    ],
+    "module.data.aws_ssm_parameter.bucket_config[\"{key}\"]": [
+     "insecure_value",
+     "value",
+     "version"
+    ]
+   }
+  }
+ ],
+ "scoring": {
+  "partial_credit": false
+ }
+}

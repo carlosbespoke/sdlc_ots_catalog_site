@@ -1,0 +1,754 @@
+{
+  "schema": 1,
+  "generator": {
+    "file": "build_task.py",
+    "git_revision": "78e8d7344e68a2839c7adaddd183d42fde0a23a7",
+    "uncommitted": false,
+    "sha256": "3bef90d515f1b5709abe42e08e65a7effba668126e7c8a91facd7ed46e914b32",
+    "written_by_build": true
+  },
+  "grader_sha256": "de4be0e4848fa18a5f095e6044829fb3b4035cab57c6f374382936963644807b",
+  "grader_template": "6de7f55556911e1ca4da10e31c661aa6838785d71f82de6f039e0b1659055c27",
+  "grader_template_commit": "a56fb2632f4336851ff10ff0a4bd1416b426d722",
+  "args": {
+    "ids": "cf374804,56ff56f6,0d84185f,db8ba02f,85698775,036b3aca,0aa4187e,157f9d4a,f8a44b24,699c35c0,734882a4,dd229374,f6563322,eeb38942,0b7ddfb2,46a9ae74,af568f4c,fbe19049,6c0c853f,16dd515c,0de03828,1262c308,b6a13491,3b8a942e,05d616a9,090c8998,8f958855,2f7ea937,50949508",
+    "test": "",
+    "repo": "kafka-python",
+    "repo_url": "https://github.com/dpkp/kafka-python.git",
+    "commit": "eaa45b7df23c75261ca43fdd24a8442586e4ada2",
+    "base_image": "diagvgen-base-dpkp__kafka-python-eaa45b7d",
+    "workdir": "/workspace/repo",
+    "test_cmd": "python -m pytest -p no:cacheprovider --color=no -o addopts= -p no:randomly --ignore=test/integration",
+    "language": "python",
+    "baseline_failures": 0,
+    "source_roots": [
+      "kafka"
+    ],
+    "hide_tests": true,
+    "planning_path": "/app/RESEARCH_AND_PLANNING.md",
+    "symptom": "This is the library an application leans on to hand messages to a broker and to read them back again, and it is getting both halves of that wrong now in a lot of small ways. The repository has received 29 separate undocumented edits. What follows is everything I have been able to observe from the outside, written up by what I was doing rather than by where I guess the problem lives.\n\nStarting with getting messages out. Building a publishing client that asks for duplicate suppression and gives its acknowledgement level as the spelled-out word is now refused as a contradictory setup, even though that word names exactly the level duplicate suppression requires; giving the same level as a number is what I have to do instead. Once a client is up, publishing a message that carries a key behaves as if it had none: the hook that tells the placement strategy to start a fresh batch fires, and the payload reaches the outgoing batch queue more than once for a single call. Keyless messages go wrong the other way \u2014 consecutive ones no longer stay on the shard chosen first, each call wanders somewhere else, and after I explicitly rotate the choice for one feed the pinned choice for an unrelated feed moves as well. When a rotation does happen it frequently lands back on the very shard it was told to move off, even with nine others free. And a client set up for duplicate suppression claims, before it has ever spoken to a broker, that it already holds a broker-issued publisher identity, so it never asks for one on the first turn of its outbound loop and pushes data instead; the identity never advances out of its initial condition, neither through setup nor through the later bump of its generation counter.\n\nOn the reading side, asking to follow feeds by handing in a single plain string where a sequence of feed names belongs is now quietly accepted instead of being refused as a type error, though a one-element list still works. When the broker answers a request for data with the marker meaning \"stop using the follower I suggested earlier and go back to the one in charge\", the earlier follower choice for that shard is not cleared and keeps being reported. Enlisting a reader in a cohort is troubled too: against a broker that deliberately holds an enlistment request open, a short-timeout attempt used to come back promptly with a negative answer and then wait on the already-outstanding attempt rather than issuing a second one, and that sequence now misbehaves. Two unrelated edits show through it \u2014 one in how a running average folds its very first value, which I come to below, and one in how a freshly built holder for outgoing message batches sets itself up when no publisher identity has been handed to it yet.\n\nWorking out which participant handles which slice of a feed is off in both directions. On a first-ever allotment, where nobody declares prior ownership of anything, the plan hands out fewer shards than the feed has and holds the rest back for no reason. When participants do declare prior ownership and the balanced outcome needs a shard to move from one of them to another, the first-round plan no longer withholds the moving shard. Part of that is that reading back what a participant declared when it enlisted reports it as owning nothing at all, even when it explicitly listed two shards; the feed names in the same payload still come back fine. Separately, the bookkeeping that answers whether a run of moves amounted to pointless shuffling now says yes after I move one shard from A to B and then a second one from B back to A.\n\nThe numbers the client reports about itself are wrong in several ways. After feeding the values zero through nine into one collector, the reported average comes back as 4.6 rather than 4.5 \u2014 one value too many has been folded in ahead of the samples \u2014 while the maximum, minimum, tally and rate over the same samples are all still right. Percentile readings are worse than merely skewed: feeding in zero through ninety-nine and asking for the quarter, half and three-quarter points gives numbers nowhere near twenty-five, fifty and seventy-five. Building a named identifier out of a name and a family name yields one with those two transposed, so the readout the client publishes ends up keyed under the wrong label, and registering a quantity under such an identifier attaches the identifier and the quantity to each other the wrong way round, so a published snapshot no longer holds the entries under the heading they were registered with, and detaching a registered entry by its identifier does not work either.\n\nDriving the broker from the management side brings its own complaints. Erasing two cohort ids in a single call should ask the broker exactly once which node owns both of them and then come back with a per-cohort result; that one pooled ownership question is no longer asked and the call does not return a result for each of them. Evicting participants from a cohort passes their ids and instance identifiers through untouched but drops the per-participant reason text at the version just below the newest, although that version carries the field. When I ask to discard messages up to a position and I pin the node to talk to, an answer saying that node is not the one in charge of the shard is retried anyway instead of being raised straight back to me. Worse, when the broker keeps answering that way, neither discarding messages nor listing the available positions of a shard ever gives up: with a two-hundred-millisecond request timeout configured, both calls simply keep going instead of eventually surfacing the error. Asking the broker to describe its capability flags gives back a mapping in which the settled generation number is no longer reported in the place it belongs. And turning the request that erases feed entries into bytes at the newest supported version and reading it straight back yields something other than what went in; the older versions still round-trip.\n\nFinally, the machinery underneath all that. Asking a freshly built client which node is carrying the lightest load, before it has learned about any brokers at all, now hands back a node rather than nothing. Asking how many requests are outstanding to a node answers zero for one with three of them in progress, and something other than zero for a name with no link at all. Tearing a broker link down with an error to pass along does not push that error to the byte stream underneath, which is never aborted. Pushing bytes into a byte stream that has already been torn down is quietly accepted instead of raising. Scheduling a callback for an absolute point ten milliseconds out on the steadily advancing clock the loop keeps never fires it, even after two seconds of waiting. Stopping the background loop while a caller on another thread is blocked on something that will never resolve leaves that caller hanging forever rather than releasing it with an error. Constructing the object that manages links to brokers with the host-lookup mode that turns the seed entries into their official names fails outright instead of simply keeping that setting. One more: in the token-based authentication exchange the outgoing opening payload is still produced, but a non-empty reply from the broker is refused \u2014 it is never stored, and the exchange is never reported as finished or authenticated.",
+    "drop_paths": "",
+    "title": "python-broker-client: repairing wide-ranging misbehaviour without a test suite",
+    "description": "A pinned checkout of a pure-Python client library for a distributed log broker has been altered by 29 one-line edits scattered across its publishing path, its reading and group-membership path, its measurement bookkeeping, its management calls and its low-level socket and event-loop plumbing. The checkout is delivered without any tests, so the agent must reproduce each misbehaviour from the prose report alone, localize it by reading and exercising the code, restore the intended behaviour with a minimal change, and finally name every function it repaired.",
+    "allow": ""
+  },
+  "base_dockerfile_sha256": "6a1c4a82a04832a965bbfb21484852b086833ce6432eb2c1ba15455689eb4ae3",
+  "base_dockerfile_text": "# Generated by voyager repo-pipeline. Reproduces dpkp/kafka-python@eaa45b7df23c75261ca43fdd24a8442586e4ada2\nFROM --platform=linux/amd64 python@sha256:2e32f7d302adc1c37428355c1e646897c0c53f4fd60b6a551245fb90ee129f91\nENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8\nENV PIP_DISABLE_PIP_VERSION_CHECK=1\nENV PIP_NO_INPUT=1\nENV PIP_NO_CACHE_DIR=1\nENV UV_NO_CACHE=1\nENV UV_PYTHON=/opt/venv/bin/python\nENV UV_PYTHON_DOWNLOADS=never\nENV PYTHONDONTWRITEBYTECODE=1\nENV PYTHONUNBUFFERED=1\nENV PYTHONHASHSEED=0\nENV VIRTUAL_ENV=/opt/venv\nENV PATH=/opt/venv/bin:$PATH\nENV SOURCE_DATE_EPOCH=0\nRUN echo REPOPIPELINE_STAGE=system_packages \\\n    && apt-get update -qq \\\n    && apt-get install -y -qq --no-install-recommends build-essential ca-certificates curl git pkg-config \\\n    && rm -rf /var/lib/apt/lists/*\n# Keep the toolchain visible to login shells (`bash -lc`), not just `ENV`:\n# /etc/profile rebuilds PATH and would otherwise discard the ENV entry.\nRUN printf 'export PIP_DISABLE_PIP_VERSION_CHECK=\"1\"\\nexport PIP_NO_INPUT=\"1\"\\nexport PIP_NO_CACHE_DIR=\"1\"\\nexport UV_NO_CACHE=\"1\"\\nexport UV_PYTHON=\"/opt/venv/bin/python\"\\nexport UV_PYTHON_DOWNLOADS=\"never\"\\nexport PYTHONDONTWRITEBYTECODE=\"1\"\\nexport PYTHONUNBUFFERED=\"1\"\\nexport PYTHONHASHSEED=\"0\"\\nexport VIRTUAL_ENV=\"/opt/venv\"\\nexport PATH=\"/opt/venv/bin:$PATH\"\\n' > /etc/profile.d/00-repopipeline.sh && chmod 0644 /etc/profile.d/00-repopipeline.sh\nRUN echo REPOPIPELINE_STAGE=venv \\\n    && python -m venv /opt/venv \\\n    && /opt/venv/bin/python -m pip install --no-cache-dir 'pip==25.2' 'setuptools==75.8.2' 'wheel==0.45.1'\nRUN useradd -m -u 1000 -s /bin/bash agent 2>/dev/null || true \\\n    && git config --system --add safe.directory /workspace/repo\nRUN echo REPOPIPELINE_STAGE=clone \\\n    && git init -q /workspace/repo \\\n    && cd /workspace/repo \\\n    && git remote add origin https://github.com/dpkp/kafka-python.git \\\n    && git fetch --depth 1 origin eaa45b7df23c75261ca43fdd24a8442586e4ada2 \\\n    && git checkout -q FETCH_HEAD \\\n    && git submodule update --init --recursive --depth 1 2>/dev/null || true\nWORKDIR /workspace/repo\nRUN echo REPOPIPELINE_STAGE=install \\\n    && pip install -e '.[testing]' \\\n    && { pip install -r requirements-dev.txt || true; } \\\n    && pip install pytest-timeout \\\n    && { python -c \"import pytest\" 2>/dev/null || pip install pytest==8.4.2 || uv pip install --python /opt/venv/bin/python pytest==8.4.2; } \\\n    && rm -rf /root/.cache /tmp/* /var/tmp/* \\\n    && chown -R agent:agent /workspace/repo /opt/venv 2>/dev/null || true\nLABEL org.opencontainers.image.source=\"https://github.com/dpkp/kafka-python\" \\\n      org.opencontainers.image.revision=\"eaa45b7df23c75261ca43fdd24a8442586e4ada2\" \\\n      io.voyager.repo=\"dpkp/kafka-python\" \\\n      io.voyager.language=\"python\" \\\n      io.voyager.toolchain=\"python3.11\" \\\n      io.voyager.test-command=\"python -m pytest -p no:cacheprovider --color=no -q\"",
+  "faults": [
+    {
+      "drop": null,
+      "breaks": [
+        "test/admin/test_admin_groups.py::TestFindCoordinatorBatched::test_delete_groups_uses_batched_lookup"
+      ],
+      "id": "cf374804",
+      "kind": "flip_comparison",
+      "path": "kafka/admin/_groups.py",
+      "func": "_async_delete_groups",
+      "line": 323,
+      "before": "group_coordinator_id is not None",
+      "after": "group_coordinator_id is None"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/net/test_compat.py::TestKafkaNetClientDelegation::test_least_loaded_node_before_bootstrap"
+      ],
+      "id": "56ff56f6",
+      "kind": "swap_boolean_operator",
+      "path": "kafka/net/compat.py",
+      "func": "least_loaded_node",
+      "line": 151,
+      "before": "node_id is None and bootstrap_fallback",
+      "after": "node_id is None or bootstrap_fallback"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/producer/test_sender.py::test_run_once_gates_on_transactional_request",
+        "test/producer/test_transaction_manager_mock_broker.py::TestInitProducerIdHandlerMockBroker::test_idempotent_producer_init_then_bump"
+      ],
+      "id": "0d84185f",
+      "kind": "flip_comparison",
+      "path": "kafka/producer/transaction_manager.py",
+      "func": "is_valid",
+      "line": 34,
+      "before": "NO_PRODUCER_ID < self.producer_id",
+      "after": "NO_PRODUCER_ID <= self.producer_id"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/consumer/test_coordinator.py::test_join_group_async_returns_false_on_short_timeout_and_caches_task",
+        "test/test_metrics.py::test_simple_stats"
+      ],
+      "id": "db8ba02f",
+      "kind": "change_constant",
+      "path": "kafka/metrics/stats/avg.py",
+      "func": "combine",
+      "line": 18,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/net/sasl/test_msk.py::test_aws_msk_iam_sasl_mechanism"
+      ],
+      "id": "85698775",
+      "kind": "flip_comparison",
+      "path": "kafka/net/sasl/msk.py",
+      "func": "receive",
+      "line": 56,
+      "before": "auth_bytes != b''",
+      "after": "auth_bytes == b''"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/producer/test_partitioner.py::TestStickyPartitioner::test_on_new_batch_rotation_avoids_prev_partition"
+      ],
+      "id": "036b3aca",
+      "kind": "flip_comparison",
+      "path": "kafka/partitioner/sticky.py",
+      "func": "_pick_sticky_locked",
+      "line": 100,
+      "before": "avoid is not None",
+      "after": "avoid is None"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/net/backend/test_asyncio_backend.py::TestTimers::test_call_at_converts_monotonic"
+      ],
+      "id": "0aa4187e",
+      "kind": "swap_arithmetic_operator",
+      "path": "kafka/net/backend/asyncio_backend.py",
+      "func": "call_at",
+      "line": 259,
+      "before": "when - time.monotonic()",
+      "after": "when + time.monotonic()"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/admin/test_admin_partitions.py::TestDeleteRecordsMockBroker::test_persistent_not_leader_reports_error_after_timeout",
+        "test/admin/test_admin_partitions.py::TestListPartitionOffsetsNotLeaderRetry::test_persistent_not_leader_raises_after_timeout"
+      ],
+      "id": "157f9d4a",
+      "kind": "flip_comparison",
+      "path": "kafka/util.py",
+      "func": "timeout_secs",
+      "line": 41,
+      "before": "timeout_ms is not None",
+      "after": "timeout_ms is None"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/protocol/admin/test_protocol_admin.py::test_delete_topics_request_roundtrip[6]"
+      ],
+      "id": "f8a44b24",
+      "kind": "change_constant",
+      "path": "kafka/protocol/admin/topics.py",
+      "func": "encode",
+      "line": 13,
+      "before": "5",
+      "after": "6"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/test_metrics.py::test_remove_metric",
+        "test/test_metrics.py::test_reporter"
+      ],
+      "id": "699c35c0",
+      "kind": "swap_call_arguments",
+      "path": "kafka/metrics/metrics.py",
+      "func": "add_metric",
+      "line": 194,
+      "before": "KafkaMetric(metric_name, measurable, config or self.config)",
+      "after": "KafkaMetric(measurable, metric_name, config or self.config)"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/consumer/test_coordinator.py::test_join_group_async_returns_false_on_short_timeout_and_caches_task"
+      ],
+      "id": "734882a4",
+      "kind": "flip_comparison",
+      "path": "kafka/record/memory_records.py",
+      "func": "__init__",
+      "line": 133,
+      "before": "producer_id != -1",
+      "after": "producer_id == -1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/consumer/test_fetcher.py::TestKip392PreferredReadReplica::test_parse_fetched_data_negative_preferred_clears_cache",
+        "test/consumer/test_fetcher_mock_broker.py::TestKIP392RackAwareFetching::test_preferred_replica_negative_one_means_leader"
+      ],
+      "id": "dd229374",
+      "kind": "swap_boolean_operator",
+      "path": "kafka/consumer/subscription_state.py",
+      "func": "update_preferred_read_replica",
+      "line": 687,
+      "before": "node_id is None or node_id < 0",
+      "after": "node_id is None and node_id < 0"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/consumer/test_assignors.py::TestCooperativeStickyAssignor::test_assign_defers_moved_partitions",
+        "test/consumer/test_assignors.py::TestCooperativeStickyAssignor::test_assign_fresh_cluster_no_movements"
+      ],
+      "id": "f6563322",
+      "kind": "flip_comparison",
+      "path": "kafka/coordinator/assignors/cooperative_sticky.py",
+      "func": "assign",
+      "line": 158,
+      "before": "current_owner is None",
+      "after": "current_owner is not None"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/consumer/test_sticky_partition_movements.py::test_should_detect_non_sticky_assignment"
+      ],
+      "id": "eeb38942",
+      "kind": "swap_call_arguments",
+      "path": "kafka/coordinator/assignors/sticky/partition_movements.py",
+      "func": "_has_cycles",
+      "line": 110,
+      "before": "self._is_subcycle(\n                path, cycles\n            )",
+      "after": "self._is_subcycle(\n                cycles, path\n            )"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/admin/test_admin_partitions.py::TestDeleteRecordsMockBroker::test_partition_leader_id_disables_retry",
+        "test/admin/test_admin_partitions.py::TestDeleteRecordsMockBroker::test_persistent_not_leader_reports_error_after_timeout"
+      ],
+      "id": "0b7ddfb2",
+      "kind": "change_constant",
+      "path": "kafka/admin/_partitions.py",
+      "func": "_async_delete_records",
+      "line": 181,
+      "before": "1",
+      "after": "2"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/net/test_compat.py::TestKafkaNetClientInFlight::test_in_flight_no_connection",
+        "test/net/test_compat.py::TestKafkaNetClientInFlight::test_in_flight_with_requests"
+      ],
+      "id": "46a9ae74",
+      "kind": "flip_comparison",
+      "path": "kafka/net/compat.py",
+      "func": "in_flight_request_count",
+      "line": 87,
+      "before": "conn is not None",
+      "after": "conn is None"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/producer/test_kip679_config.py::TestExplicitIdempotenceConflicts::test_acks_all_string_accepted"
+      ],
+      "id": "af568f4c",
+      "kind": "swap_boolean_operator",
+      "path": "kafka/producer/kafka.py",
+      "func": "__init__",
+      "line": 604,
+      "before": "user_set_acks and self.config['acks'] != -1",
+      "after": "user_set_acks or self.config['acks'] != -1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/test_metrics.py::test_percentiles"
+      ],
+      "id": "fbe19049",
+      "kind": "swap_arithmetic_operator",
+      "path": "kafka/metrics/stats/histogram.py",
+      "func": "from_bin",
+      "line": 63,
+      "before": "(b - 1) * self._bucket_width",
+      "after": "(b - 1) // self._bucket_width"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/producer/test_partitioner.py::TestStickyPartitioner::test_null_key_sticks_until_on_new_batch",
+        "test/producer/test_partitioner.py::TestStickyPartitioner::test_per_topic_state_independent"
+      ],
+      "id": "6c0c853f",
+      "kind": "flip_comparison",
+      "path": "kafka/partitioner/sticky.py",
+      "func": "partition",
+      "line": 61,
+      "before": "partition is not None",
+      "after": "partition is None"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/net/backend/test_asyncio_backend.py::TestLifecycle::test_stop_fails_pending_run_waiters"
+      ],
+      "id": "16dd515c",
+      "kind": "flip_comparison",
+      "path": "kafka/net/backend/asyncio_backend.py",
+      "func": "_fail_pending_waiters",
+      "line": 178,
+      "before": "state['exception'] is None",
+      "after": "state['exception'] is not None"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/net/test_manager.py::TestKafkaConnectionManagerConfig::test_client_dns_lookup_canonical_passthrough"
+      ],
+      "id": "0de03828",
+      "kind": "swap_call_arguments",
+      "path": "kafka/cluster.py",
+      "func": "expand_to_canonical_bootstrap_hosts",
+      "line": 755,
+      "before": "socket.getaddrinfo(\n                host, port, afi, socket.SOCK_STREAM, 0, socket.AI_CANONNAME)",
+      "after": "socket.getaddrinfo(\n                port, host, afi, socket.SOCK_STREAM, 0, socket.AI_CANONNAME)"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/test_metrics.py::test_reporter"
+      ],
+      "id": "1262c308",
+      "kind": "swap_call_arguments",
+      "path": "kafka/metrics/metrics.py",
+      "func": "metric_name",
+      "line": 102,
+      "before": "MetricName(name, group, description, combined_tags)",
+      "after": "MetricName(group, name, description, combined_tags)"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/consumer/test_subscription_state.py::test_type_error"
+      ],
+      "id": "b6a13491",
+      "kind": "swap_boolean_operator",
+      "path": "kafka/consumer/subscription_state.py",
+      "func": "subscribe",
+      "line": 139,
+      "before": "isinstance(topics, str) or not isinstance(topics, Sequence)",
+      "after": "isinstance(topics, str) and (not isinstance(topics, Sequence))"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/consumer/test_assignors.py::TestCooperativeStickyAssignor::test_assign_defers_moved_partitions",
+        "test/consumer/test_assignors.py::TestCooperativeStickyAssignor::test_parse_member_metadata_reads_owned_partitions"
+      ],
+      "id": "3b8a942e",
+      "kind": "swap_boolean_operator",
+      "path": "kafka/coordinator/assignors/cooperative_sticky.py",
+      "func": "parse_member_metadata",
+      "line": 102,
+      "before": "getattr(metadata, 'owned_partitions', None) or ()",
+      "after": "getattr(metadata, 'owned_partitions', None) and ()"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/admin/test_admin_cluster_features.py::TestDescribeFeaturesMockBroker::test_happy_path"
+      ],
+      "id": "05d616a9",
+      "kind": "flip_comparison",
+      "path": "kafka/admin/_cluster.py",
+      "func": "_async_describe_features",
+      "line": 245,
+      "before": "epoch is None",
+      "after": "epoch is not None"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/net/test_connection.py::TestKafkaConnectionClose::test_close_with_error_aborts"
+      ],
+      "id": "090c8998",
+      "kind": "flip_comparison",
+      "path": "kafka/net/connection.py",
+      "func": "close",
+      "line": 331,
+      "before": "error is None",
+      "after": "error is not None"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/producer/test_producer.py::test_send_keyed_skips_on_new_batch"
+      ],
+      "id": "8f958855",
+      "kind": "flip_comparison",
+      "path": "kafka/producer/kafka.py",
+      "func": "send",
+      "line": 997,
+      "before": "key_bytes is None",
+      "after": "key_bytes is not None"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/net/backend/test_transport.py::TestKafkaTCPTransport::test_write_after_close_raises"
+      ],
+      "id": "2f7ea937",
+      "kind": "swap_boolean_operator",
+      "path": "kafka/net/backend/transport.py",
+      "func": "write",
+      "line": 135,
+      "before": "not self._write or self._closed",
+      "after": "not self._write and self._closed"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "test/admin/test_admin_groups.py::TestRemoveGroupMembersMockBroker::test_batch_request_fields"
+      ],
+      "id": "50949508",
+      "kind": "flip_comparison",
+      "path": "kafka/admin/_groups.py",
+      "func": "_remove_group_members_batch_request",
+      "line": 608,
+      "before": "version >= 5",
+      "after": "version > 5"
+    }
+  ],
+  "causes": [
+    {
+      "file": "kafka/admin/_groups.py",
+      "function": "_async_delete_groups",
+      "qualname": "GroupAdminMixin._async_delete_groups",
+      "id": "cf374804",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/admin/test_admin_groups.py::TestFindCoordinatorBatched::test_delete_groups_uses_batched_lookup"
+      ]
+    },
+    {
+      "file": "kafka/net/compat.py",
+      "function": "least_loaded_node",
+      "qualname": "KafkaNetClient.least_loaded_node",
+      "id": "56ff56f6",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "test/net/test_compat.py::TestKafkaNetClientDelegation::test_least_loaded_node_before_bootstrap"
+      ]
+    },
+    {
+      "file": "kafka/producer/transaction_manager.py",
+      "function": "is_valid",
+      "qualname": "ProducerIdAndEpoch.is_valid",
+      "id": "0d84185f",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/producer/test_sender.py::test_run_once_gates_on_transactional_request",
+        "test/producer/test_transaction_manager_mock_broker.py::TestInitProducerIdHandlerMockBroker::test_idempotent_producer_init_then_bump"
+      ]
+    },
+    {
+      "file": "kafka/metrics/stats/avg.py",
+      "function": "combine",
+      "qualname": "Avg.combine",
+      "id": "db8ba02f",
+      "kind": "change_constant",
+      "breaks": [
+        "test/consumer/test_coordinator.py::test_join_group_async_returns_false_on_short_timeout_and_caches_task",
+        "test/test_metrics.py::test_simple_stats"
+      ]
+    },
+    {
+      "file": "kafka/net/sasl/msk.py",
+      "function": "receive",
+      "qualname": "SaslMechanismAwsMskIam.receive",
+      "id": "85698775",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/net/sasl/test_msk.py::test_aws_msk_iam_sasl_mechanism"
+      ]
+    },
+    {
+      "file": "kafka/partitioner/sticky.py",
+      "function": "_pick_sticky_locked",
+      "qualname": "StickyPartitioner._pick_sticky_locked",
+      "id": "036b3aca",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/producer/test_partitioner.py::TestStickyPartitioner::test_on_new_batch_rotation_avoids_prev_partition"
+      ]
+    },
+    {
+      "file": "kafka/net/backend/asyncio_backend.py",
+      "function": "call_at",
+      "qualname": "AsyncioBackend.call_at",
+      "id": "0aa4187e",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "test/net/backend/test_asyncio_backend.py::TestTimers::test_call_at_converts_monotonic"
+      ]
+    },
+    {
+      "file": "kafka/util.py",
+      "function": "timeout_secs",
+      "qualname": "Timer.timeout_secs",
+      "id": "157f9d4a",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/admin/test_admin_partitions.py::TestDeleteRecordsMockBroker::test_persistent_not_leader_reports_error_after_timeout",
+        "test/admin/test_admin_partitions.py::TestListPartitionOffsetsNotLeaderRetry::test_persistent_not_leader_raises_after_timeout"
+      ]
+    },
+    {
+      "file": "kafka/protocol/admin/topics.py",
+      "function": "encode",
+      "qualname": "DeleteTopicsRequest.encode",
+      "id": "f8a44b24",
+      "kind": "change_constant",
+      "breaks": [
+        "test/protocol/admin/test_protocol_admin.py::test_delete_topics_request_roundtrip[6]"
+      ]
+    },
+    {
+      "file": "kafka/metrics/metrics.py",
+      "function": "add_metric",
+      "qualname": "Metrics.add_metric",
+      "id": "699c35c0",
+      "kind": "swap_call_arguments",
+      "breaks": [
+        "test/test_metrics.py::test_remove_metric",
+        "test/test_metrics.py::test_reporter"
+      ]
+    },
+    {
+      "file": "kafka/record/memory_records.py",
+      "function": "__init__",
+      "qualname": "MemoryRecordsBuilder.__init__",
+      "id": "734882a4",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/consumer/test_coordinator.py::test_join_group_async_returns_false_on_short_timeout_and_caches_task"
+      ]
+    },
+    {
+      "file": "kafka/consumer/subscription_state.py",
+      "function": "update_preferred_read_replica",
+      "qualname": "TopicPartitionState.update_preferred_read_replica",
+      "id": "dd229374",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "test/consumer/test_fetcher.py::TestKip392PreferredReadReplica::test_parse_fetched_data_negative_preferred_clears_cache",
+        "test/consumer/test_fetcher_mock_broker.py::TestKIP392RackAwareFetching::test_preferred_replica_negative_one_means_leader"
+      ]
+    },
+    {
+      "file": "kafka/coordinator/assignors/cooperative_sticky.py",
+      "function": "assign",
+      "qualname": "CooperativeStickyAssignor.assign",
+      "id": "f6563322",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/consumer/test_assignors.py::TestCooperativeStickyAssignor::test_assign_defers_moved_partitions",
+        "test/consumer/test_assignors.py::TestCooperativeStickyAssignor::test_assign_fresh_cluster_no_movements"
+      ]
+    },
+    {
+      "file": "kafka/coordinator/assignors/sticky/partition_movements.py",
+      "function": "_has_cycles",
+      "qualname": "PartitionMovements._has_cycles",
+      "id": "eeb38942",
+      "kind": "swap_call_arguments",
+      "breaks": [
+        "test/consumer/test_sticky_partition_movements.py::test_should_detect_non_sticky_assignment"
+      ]
+    },
+    {
+      "file": "kafka/admin/_partitions.py",
+      "function": "_async_delete_records",
+      "qualname": "PartitionAdminMixin._async_delete_records",
+      "id": "0b7ddfb2",
+      "kind": "change_constant",
+      "breaks": [
+        "test/admin/test_admin_partitions.py::TestDeleteRecordsMockBroker::test_partition_leader_id_disables_retry",
+        "test/admin/test_admin_partitions.py::TestDeleteRecordsMockBroker::test_persistent_not_leader_reports_error_after_timeout"
+      ]
+    },
+    {
+      "file": "kafka/net/compat.py",
+      "function": "in_flight_request_count",
+      "qualname": "KafkaNetClient.in_flight_request_count",
+      "id": "46a9ae74",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/net/test_compat.py::TestKafkaNetClientInFlight::test_in_flight_no_connection",
+        "test/net/test_compat.py::TestKafkaNetClientInFlight::test_in_flight_with_requests"
+      ]
+    },
+    {
+      "file": "kafka/producer/kafka.py",
+      "function": "__init__",
+      "qualname": "KafkaProducer.__init__",
+      "id": "af568f4c",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "test/producer/test_kip679_config.py::TestExplicitIdempotenceConflicts::test_acks_all_string_accepted"
+      ]
+    },
+    {
+      "file": "kafka/metrics/stats/histogram.py",
+      "function": "from_bin",
+      "qualname": "Histogram.ConstantBinScheme.from_bin",
+      "id": "fbe19049",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "test/test_metrics.py::test_percentiles"
+      ]
+    },
+    {
+      "file": "kafka/partitioner/sticky.py",
+      "function": "partition",
+      "qualname": "StickyPartitioner.partition",
+      "id": "6c0c853f",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/producer/test_partitioner.py::TestStickyPartitioner::test_null_key_sticks_until_on_new_batch",
+        "test/producer/test_partitioner.py::TestStickyPartitioner::test_per_topic_state_independent"
+      ]
+    },
+    {
+      "file": "kafka/net/backend/asyncio_backend.py",
+      "function": "_fail_pending_waiters",
+      "qualname": "AsyncioBackend._fail_pending_waiters",
+      "id": "16dd515c",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/net/backend/test_asyncio_backend.py::TestLifecycle::test_stop_fails_pending_run_waiters"
+      ]
+    },
+    {
+      "file": "kafka/cluster.py",
+      "function": "expand_to_canonical_bootstrap_hosts",
+      "qualname": "expand_to_canonical_bootstrap_hosts",
+      "id": "0de03828",
+      "kind": "swap_call_arguments",
+      "breaks": [
+        "test/net/test_manager.py::TestKafkaConnectionManagerConfig::test_client_dns_lookup_canonical_passthrough"
+      ]
+    },
+    {
+      "file": "kafka/metrics/metrics.py",
+      "function": "metric_name",
+      "qualname": "Metrics.metric_name",
+      "id": "1262c308",
+      "kind": "swap_call_arguments",
+      "breaks": [
+        "test/test_metrics.py::test_reporter"
+      ]
+    },
+    {
+      "file": "kafka/consumer/subscription_state.py",
+      "function": "subscribe",
+      "qualname": "SubscriptionState.subscribe",
+      "id": "b6a13491",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "test/consumer/test_subscription_state.py::test_type_error"
+      ]
+    },
+    {
+      "file": "kafka/coordinator/assignors/cooperative_sticky.py",
+      "function": "parse_member_metadata",
+      "qualname": "CooperativeStickyAssignor.parse_member_metadata",
+      "id": "3b8a942e",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "test/consumer/test_assignors.py::TestCooperativeStickyAssignor::test_assign_defers_moved_partitions",
+        "test/consumer/test_assignors.py::TestCooperativeStickyAssignor::test_parse_member_metadata_reads_owned_partitions"
+      ]
+    },
+    {
+      "file": "kafka/admin/_cluster.py",
+      "function": "_async_describe_features",
+      "qualname": "ClusterAdminMixin._async_describe_features",
+      "id": "05d616a9",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/admin/test_admin_cluster_features.py::TestDescribeFeaturesMockBroker::test_happy_path"
+      ]
+    },
+    {
+      "file": "kafka/net/connection.py",
+      "function": "close",
+      "qualname": "KafkaConnection.close",
+      "id": "090c8998",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/net/test_connection.py::TestKafkaConnectionClose::test_close_with_error_aborts"
+      ]
+    },
+    {
+      "file": "kafka/producer/kafka.py",
+      "function": "send",
+      "qualname": "KafkaProducer.send",
+      "id": "8f958855",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/producer/test_producer.py::test_send_keyed_skips_on_new_batch"
+      ]
+    },
+    {
+      "file": "kafka/net/backend/transport.py",
+      "function": "write",
+      "qualname": "KafkaTCPTransport.write",
+      "id": "2f7ea937",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "test/net/backend/test_transport.py::TestKafkaTCPTransport::test_write_after_close_raises"
+      ]
+    },
+    {
+      "file": "kafka/admin/_groups.py",
+      "function": "_remove_group_members_batch_request",
+      "qualname": "GroupAdminMixin._remove_group_members_batch_request",
+      "id": "50949508",
+      "kind": "flip_comparison",
+      "breaks": [
+        "test/admin/test_admin_groups.py::TestRemoveGroupMembersMockBroker::test_batch_request_fields"
+      ]
+    }
+  ],
+  "formatter_pass": {
+    "why": "no formatter is declared in pyproject.toml, .pre-commit-config.yaml, setup.cfg or tox.ini, so nothing here can prove the faulted files match the shape of their neighbours",
+    "census": {
+      "source_roots": [
+        "kafka"
+      ],
+      "files": 244,
+      "checked": [
+        "ruff"
+      ],
+      "ran": [
+        "ruff"
+      ],
+      "exit_status": {
+        "ruff": 1
+      },
+      "would_reformat": {
+        "ruff": 239
+      },
+      "formatter_args": ""
+    },
+    "decision": "not-formatter-clean",
+    "evidence": "repository is not formatter-clean: ruff would reformat 239 of 244 files on the pristine tree under kafka, past the 21-file threshold either way, so a formatter run does not isolate the splice"
+  },
+  "rebuild": "python3 build_task.py --faults-file <this file> --ids <args.ids> and the rest of args above; --base-dockerfile can be written out of base_dockerfile_text",
+  "baseline_failures": 0
+}

@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light"><title>Feature implementation | Bespoke Labs</title>
+<link rel="icon" href="data:,"><link rel="stylesheet" href="site.css"><script src="site.js" defer></script></head>
+<body id="top"><a class="skip" href="#content">Skip to content</a>
+<header class="band"><div class="band-in"><a class="brand" href="index.html"><img src="assets/bespoke-labs-logo.svg" alt="Bespoke Labs" width="162"></a>
+<span class="div" aria-hidden="true">/</span><div class="crumb"><a href="index.html">OTS catalogs</a> / Feature implementation</div></div></header>
+<main id="content" tabindex="-1"><article id="catalog-content">
+<header class="hero"><h1 id="feature-implementation">Feature implementation</h1><div class="hero-meta" aria-hidden="true"></div></header>
+<div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,342 tasks">1,342</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="435 tasks">435</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="56 tasks">56</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="378 tasks">378</span></a><a href="feature-implementation.html" aria-current="page"><span>Feature implementation</span><span class="count" aria-label="120 tasks">120</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="300 tasks">300</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="36 tasks">36</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#example-tasks-from-the-shortlist">Example tasks from the shortlist</a><a class="level-3" href="#example-1-payments-banking-java">Example 1: Payments &amp; banking (Java)</a><a class="level-3" href="#example-2-databases-storage-engines-go">Example 2: Databases &amp; storage engines (Go)</a></nav></aside>
+<div class="reading">
+<h2 id="why-this-catalog">Why this catalog</h2>
+<h3 id="problems-engineers-face">Problems engineers face</h3>
+<p>Engineers in the catalog's main roles, such as library, backend and developer tools engineers, add a capability to an existing library or service and must leave unconfigured behavior unchanged. The tasks show four recurring patterns. One is an opt-in subsystem that spans many code paths with one shared model. A second is bounded or safe handling of untrusted input. A third is restoring stubbed functions that currently panic or throw. A fourth is concurrency and lifecycle correctness. Fixing a fail-open defect is also present in one task. Across all four, the engineer reads a large unfamiliar codebase, matches names and signatures given in the brief, and keeps existing tests passing.</p>
+<h3 id="how-the-tasks-reproduce-them">How the tasks reproduce them</h3>
+<p>Each task gives the agent a pinned repository inside an offline container and a written specification. The two provided tasks show the range. The Java example ships a pre-laid data layer and a Maven cache, and its instruction names methods, error types and a rollback rule. The Go example ships a library with panicking stubs and lists banned imports and calls. The agent's edits are collected as a <code>git diff</code> against a base commit. Grading runs hidden tests after the session, outside the agent's view, and for the minab task the verifier runs from a root-owned copy of the base repository so the session cannot alter it. Existing tests must also keep passing.</p>
+<h3 id="typical-prompts">Typical prompts</h3>
+<ul>
+<li>A capability gap stated as 'X cannot Y', then a list of exact type names, signatures and edge-case rules, ending with a clause to preserve behavior when the feature is unused. Example.</li>
+<li>A first-person request to restore methods that currently panic or throw 'not implemented', named by file. Example.</li>
+<li>A compact feature brief tied to one product area, with a final step that removes or replaces an old API. Example.</li>
+<li>A short imperative request with exposed API signatures and a constraint such as no new crates. Example.</li>
+<li>A security-flavored defect report that asks for a corrected behavior and a regression guarantee. Example.</li>
+</ul>
+<h2 id="domain-breakdown">Domain breakdown</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Share of tasks by domain</h4></div><div class="fig-box"><img src="assets/feature-implementation_domain.svg" alt="Share of tasks by domain" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Domain</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Sub-domain</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr class="group-header">
+<td><strong>Languages &amp; developer tooling</strong></td>
+<td></td>
+<td class="numeric"><strong>21.7%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>CLI tooling</td>
+<td class="numeric">11.7%</td>
+</tr>
+<tr>
+<td></td>
+<td>Compilers &amp; language runtimes, API tooling, CI/CD</td>
+<td class="numeric">10.0%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Applications &amp; business domains</strong></td>
+<td></td>
+<td class="numeric"><strong>17.5%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Web applications, Media processing, Payments &amp; banking, Frontend &amp; UI state, Collaborative documents, Web crawling</td>
+<td class="numeric">17.5%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Systems, hardware &amp; accelerators</strong></td>
+<td></td>
+<td class="numeric"><strong>16.7%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Networking &amp; HTTP</td>
+<td class="numeric">13.3%</td>
+</tr>
+<tr>
+<td></td>
+<td>IoT &amp; smart home</td>
+<td class="numeric">3.3%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Data engineering &amp; databases</strong></td>
+<td></td>
+<td class="numeric"><strong>13.3%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Data formats &amp; serialization, Databases &amp; storage engines, Data pipelines &amp; ETL, SQL tooling</td>
+<td class="numeric">13.3%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Scientific &amp; ML software</strong></td>
+<td></td>
+<td class="numeric"><strong>10.8%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Machine learning &amp; MLOps, AI agents &amp; retrieval, Statistics &amp; numerical methods, Geospatial</td>
+<td class="numeric">10.8%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Cloud infrastructure &amp; IaC</strong></td>
+<td></td>
+<td class="numeric"><strong>8.3%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Cloud infra: containers &amp; self-hosted platforms, Configuration management</td>
+<td class="numeric">8.3%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Security</strong></td>
+<td></td>
+<td class="numeric"><strong>5.8%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Cryptography &amp; secure protocols, Secrets &amp; access control</td>
+<td class="numeric">5.8%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Observability &amp; reliability</strong></td>
+<td></td>
+<td class="numeric"><strong>3.3%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Monitoring &amp; observability</td>
+<td class="numeric">3.3%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Distributed systems &amp; coordination</strong></td>
+<td></td>
+<td class="numeric"><strong>2.5%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Messaging &amp; event streaming, Calendaring &amp; recurrence</td>
+<td class="numeric">2.5%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="language-and-seniority">Language and seniority</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Primary language and seniority</h4></div><div class="fig-box"><img src="assets/feature-implementation_metadata.svg" alt="Primary language and seniority" /></div></figure><h3 id="primary-language">Primary language</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Primary language</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Go</td>
+<td class="numeric">71.7%</td>
+</tr>
+<tr>
+<td>Python</td>
+<td class="numeric">26.7%</td>
+</tr>
+<tr>
+<td>C#</td>
+<td class="numeric">0.8%</td>
+</tr>
+<tr>
+<td>Java</td>
+<td class="numeric">0.8%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="seniority">Seniority</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Seniority</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Senior</td>
+<td class="numeric">97.5%</td>
+</tr>
+<tr>
+<td>Staff+</td>
+<td class="numeric">2.5%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="model-pass-rates-across-the-catalog">Model pass rates across the catalog</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 0%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 20-80%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 100%</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">0%</td>
+<td class="numeric">98%</td>
+<td class="numeric">0%</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">23%</td>
+<td class="numeric">52%</td>
+<td class="numeric">48%</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">25%</td>
+<td class="numeric">70%</td>
+<td class="numeric">10%</td>
+<td class="numeric">20%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/feature-implementation_per_task.svg" alt="Per-task pass rate by model" /></div></figure><h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
+<p>A task's turn count is the average over its runs. A task is long horizon when that average is 200 or more turns.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Measure</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Average turn count</td>
+<td class="numeric">344.7</td>
+</tr>
+<tr>
+<td>Median turn count</td>
+<td class="numeric">328.9</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>92 to 956</td>
+</tr>
+<tr>
+<td>Long-horizon tasks (200+ turns)</td>
+<td>72% of tasks</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Turns per task</h4></div><div class="fig-box"><img src="assets/feature-implementation_turns.svg" alt="Turns per task" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of tasks</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean turns</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% with 200+ turns</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">85%</td>
+<td class="numeric">345.2</td>
+<td class="numeric">68%</td>
+</tr>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">25%</td>
+<td class="numeric">300.6</td>
+<td class="numeric">66%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">9%</td>
+<td class="numeric">255.5</td>
+<td class="numeric">75%</td>
+</tr>
+<tr>
+<td>claude-opus-5-5</td>
+<td class="numeric">2%</td>
+<td class="numeric">55.0</td>
+<td class="numeric">0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="example-tasks-from-the-shortlist">Example tasks from the shortlist</h2>
+<nav class="task-chips" data-ui aria-label="Example tasks"><a href="#example-1-payments-banking-java">Example 1: Payments &amp; banking (Java)</a><a href="#example-2-databases-storage-engines-go">Example 2: Databases &amp; storage engines (Go)</a></nav>
+<h3 id="example-1-payments-banking-java">Example 1: Payments &amp; banking (Java)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Feature implementation</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Applications &amp; business domains</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Payments &amp; banking</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Java</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>174 (google/gemini-4-argon), 60 (claude-opus-5-5), 156 (google/gemini-3.8-flash)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A dense feature specification that names the target service method, the exact fields and error types, a transactional rollback rule, and a final instruction to remove the old API while keeping existing tests green.</p>
+<h4 id="prompt">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>Loan accounts can still be opened bare: <code>LoanAccountService.createLoanAccount(UUID, String)</code>, behind <code>POST /api/v1/loan-accounts</code>, opens an account with no guarantors or collateral and leaves the borrower's other applications pending. Make <code>createSecuredLoanAccount(SecuredOriginationRequest)</code> the only way to open one.</p>
+<p>In one transaction it should:</p>
+<ul>
+<li>open the account from the approved application with today's checks and product terms (<code>IllegalArgumentException</code> on failure);</li>
+<li>attach every requested guarantor (customer, type, amount) and collateral item (all <code>CollateralRequest</code> details);</li>
+<li>set <code>territoryCode</code> and <code>originationReference</code> = <code>&lt;territoryCode&gt;/&lt;lead guarantor customer id&gt;/&lt;account number&gt;</code>, where the lead (<code>leadGuarantorCustomerId</code>) must be an <code>INDIVIDUAL</code> guarantor, or <code>CORPORATE</code> for a <code>corporateGroup</code>, else <code>IllegalArgumentException</code>;</li>
+<li>withdraw the borrower's other pending applications, or the group's (applicant plus <code>groupCustomerIds</code>), through <code>LoanApplicationService</code>, pointing them at the account and leaving everything else untouched;</li>
+<li>write one <code>LoanOriginationAudit</code> (application, analyst, territory, group flag, withdrawn count).</li>
+</ul>
+<p>A rejected request saves nothing.</p>
+<p>Then retire the bare path: remove <code>createLoanAccount(UUID, String)</code> and <code>LoanAccountCreateRequest</code>, and have <code>POST /api/v1/loan-accounts</code> take a <code>SecuredOriginationRequest</code> and still answer 201 with the account. All existing loan-service tests must pass (<code>mvn -pl loan/loan-service -am test</code>); don't edit the poms.</p>
+</div>
+</details>
+<h4 id="pass-rates">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">0%</td>
+<td class="numeric">0.00</td>
+</tr>
+<tr>
+<td>claude-opus-5-5</td>
+<td class="numeric">0%</td>
+<td class="numeric">0.00</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">100%</td>
+<td class="numeric">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-feature-implementation-ex1.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work">How it maps to the work</h4>
+<p>A backend engineer on a banking platform is asked to close a gap where loan accounts can be opened without guarantors or collateral. The work spans the service layer, the persistence calls, the audit record and the REST endpoint, and it requires removing an old entry point without breaking existing tests. The engineer reads the existing services and the pre-laid data layer, then makes the new path transactional and retires the old one.</p>
+<h3 id="example-2-databases-storage-engines-go">Example 2: Databases &amp; storage engines (Go)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Feature implementation</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Data engineering &amp; databases</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Databases &amp; storage engines</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Go</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>76 (google/gemini-4-argon), 262 (z-ai/glm-5.3-flash)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A first-person request to restore panicking methods in five named files, followed by a long list of banned packages and calls that the grader rejects outright.</p>
+<h4 id="prompt-2">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>I'm restoring transaction and query support in our copy of go-memdb so callers can update data, query snapshots, and watch query results for updates. Could you implement the methods that currently panic in the root <code>memdb</code> package? They live in <code>txn.go</code>, <code>memdb.go</code>, <code>index.go</code>, <code>filter.go</code>, and <code>watch.go</code>. The missing pieces cover transaction lifecycle, deletion, indexed queries and iteration, snapshots, deferred callbacks, filtering, and watch sets.</p>
+<p>The existing code, API comments, and <code>README.md</code> provide context for the restoration. A received value must wake <code>WatchCtx</code> just as a closed watched channel does. Please keep the restored public names and signatures unchanged, and retain <code>Txn.write</code> for package compatibility; private helper functions are up to you. I'll check the restored behavior alongside index and schema regressions. Submit text Go source changes without new symbolic links, binary Go diffs, or Go line-position directives (<code>//line</code> and <code>/*line</code>). Use Go filenames that produce unquoted, whitespace-free paths in Git diffs.</p>
+<p>In the non-test code you add, please avoid: new <code>init()</code> functions; the <code>syscall</code>, <code>golang.org/x/sys</code>, <code>os/exec</code>, <code>os/signal</code>, <code>plugin</code>, <code>embed</code>, <code>runtime/cgo</code>, <code>runtime/pprof</code>, <code>runtime/trace</code>, <code>testing</code> and <code>flag</code> packages, cgo, and <code>//go:linkname</code> or <code>//go:embed</code> directives; <code>os.Exit</code>, <code>os.StartProcess</code>, <code>os.FindProcess</code> and <code>runtime.Goexit</code>; reading <code>os.Args</code>, <code>os.Executable</code>, <code>/proc/self</code> or <code>runtime/debug</code> build info; caller or stack lookups (<code>runtime.Caller</code>, <code>Callers</code>, <code>CallersFrames</code>, <code>FuncForPC</code>, <code>Stack</code>, <code>debug.Stack</code>, <code>debug.PrintStack</code>, <code>log.Lshortfile</code>, <code>log.Llongfile</code>, and <code>AddSource</code> selectors or identifier keys); literal U+0016 or the text <code>\x16</code>; and printing test-runner lines such as <code>--- PASS</code>. These are rejected outright. Some checks read raw text and also match comments.</p>
+</div>
+</details>
+<h4 id="pass-rates-2">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">0%</td>
+<td class="numeric">0.00</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">50%</td>
+<td class="numeric">0.50</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-2">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-feature-implementation-ex2.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work-2">How it maps to the work</h4>
+<p>A database engineer restores a vendored in-memory database library whose transaction, query, snapshot, deferred callback, filter and watch methods have been stubbed to panic. The engineer reads the surviving code, the API comments and the README, implements the methods without changing public signatures, and keeps to strict rules about what the new code may import or call. The result is judged by a hidden spec suite that includes index and schema regressions.</p>
+
+<footer class="page-footer" data-ui><a class="back-top" href="#top">Back to top ↑</a><nav class="page-nav" aria-label="Previous and next catalogs"><a rel="prev" href="debugging.html"><small>Previous</small>Diagnosis, Debugging, and Bug Fixing</a><a rel="next" href="infrastructure-as-code.html"><small>Next</small>Infrastructure as code</a></nav>
+<p class="footer-word">Bespoke Labs · Task catalogs</p></footer></div></div></article></main>
+</body></html>

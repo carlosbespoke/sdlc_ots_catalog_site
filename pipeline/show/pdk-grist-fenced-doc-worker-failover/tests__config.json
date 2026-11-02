@@ -1,0 +1,26 @@
+{
+  "base_commit": "7a510f93bf2f0f9c9ca008a0474954ee1167dc82",
+  "f2p_node_ids": [
+    "hidden.document-worker lease and fencing.a delayed stale upload cannot replace the successor version",
+    "hidden.document-worker lease and fencing.flushed document survives lease takeover and accepts new owner edits",
+    "hidden.document-worker lease and fencing.two homes converge on one owner after the previous worker loses its lease"
+  ],
+  "p2p_node_ids": [
+    "hidden.document-worker lease and fencing.coordinated assignment move retains flushed edits",
+    "hidden.document-worker lease and fencing.healthy worker assignments stay stable and both workers receive documents",
+    "hidden.document-worker lease and fencing.an unchanged worker within its lease retains its assignment"
+  ],
+  "gated_p2p_node_ids": [
+    "hidden.document-worker lease and fencing.coordinated assignment move retains flushed edits",
+    "hidden.document-worker lease and fencing.healthy worker assignments stay stable and both workers receive documents",
+    "hidden.document-worker lease and fencing.an unchanged worker within its lease retains its assignment"
+  ],
+  "p2p_gating": "guards",
+  "grade": {
+    "format": "junit",
+    "tool_label": "node-test",
+    "reports": [
+      "/logs/verifier/new.xml"
+    ]
+  }
+}

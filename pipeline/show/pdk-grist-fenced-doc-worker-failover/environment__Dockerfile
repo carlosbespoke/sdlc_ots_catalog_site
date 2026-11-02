@@ -1,0 +1,15 @@
+FROM node:22-bookworm@sha256:0e5f906573693feaa1e21057ebdcfdb5bd5021f050b2dc7c9deceb629c7da2a8
+ARG REPO_URL=https://github.com/gristlabs/grist-core.git
+ARG BASE_COMMIT=7a510f93bf2f0f9c9ca008a0474954ee1167dc82
+ENV CI=1 GRIST_SKIP_EXT_AUTOSETUP=1 npm_config_update_notifier=false npm_config_fund=false npm_config_audit=false
+RUN set -eu; apt-get update; DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -o Acquire::Retries=5 tmux asciinema bash sudo ca-certificates curl git jq less lsof netcat-openbsd procps python3 python3-venv python3-pip vim-tiny postgresql-client; rm -rf /var/lib/apt/lists/*
+RUN set -eu; useradd -m -s /bin/bash agent; install -d -o agent -g agent /app /logs /logs/artifacts; git config --system --add safe.directory /app; printf '%s\n' '#!/bin/sh' 'case "$1" in ""|-*|.*|*/*) printf "bad service name\\n" >&2; exit 2;; esac' 'case "$2" in start|stop|restart|status) ;; *) exit 2;; esac' '[ "$#" -eq 2 ] && [ -x "/etc/init.d/$1" ] || exit 2' 'exec /usr/sbin/service "$1" "$2"' > /usr/local/sbin/service; chmod 755 /usr/local/sbin/service; printf '%s\n' 'agent ALL=(root) NOPASSWD: /usr/local/sbin/service' > /etc/sudoers.d/agent-services; chmod 440 /etc/sudoers.d/agent-services; corepack enable
+USER agent
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD && test "$(git -C /app rev-parse HEAD)" = "$BASE_COMMIT"
+RUN yarn install --frozen-lockfile --network-timeout 600000 && yarn run build
+USER root
+RUN python3 -m venv /opt/grist-python && /opt/grist-python/bin/pip install -r /app/sandbox/requirements.txt
+ENV PATH="/opt/grist-python/bin:${PATH}"
+RUN mkdir -p /tmp/sd-grist-docs && chown agent:agent /tmp/sd-grist-docs
+CMD ["/bin/bash"]

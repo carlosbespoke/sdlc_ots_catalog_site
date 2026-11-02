@@ -1,0 +1,61 @@
+FROM mirror.gcr.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+
+ARG REPO_URL=https://github.com/UniRate-API/dbt-unirate.git
+ARG BASE_COMMIT=aa03c2b92f0dc978f60cdbd5b2a32a155f909ae5
+ENV CI=1 PIP_DISABLE_PIP_VERSION_CHECK=1 PYTHONDONTWRITEBYTECODE=1 \
+    DBT_SEND_ANONYMOUS_USAGE_STATS=false DO_NOT_TRACK=1
+
+RUN set -eu; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+      bash build-essential ca-certificates curl file git jq less procps vim-tiny; \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" \
+    && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD \
+    && test "$(git -C /app rev-parse HEAD)" = "$BASE_COMMIT" \
+    && git -C /app remote remove origin && rm -f /app/.git/FETCH_HEAD
+# The same dependency install as environment/Dockerfile.
+RUN set -eu; python -m venv /opt/venv; \
+    /opt/venv/bin/pip install -q dbt-core==1.12.5 dbt-duckdb==1.11.0 duckdb==1.5.6; \
+    /opt/venv/bin/dbt --version; \
+    cd /app/integration_tests && /opt/venv/bin/dbt deps; \
+    chmod -R go-w /opt/venv; \
+    test -z "$(git -C /app status --porcelain)"
+
+# The base project's manifest from a `dbt build` of the pristine base commit, root-only: grading checks
+# that every base data test keeps its configuration and macros.
+ARG DP_DBT_PROJECT=integration_tests
+RUN set -eu; work=$(mktemp -d); \
+    profile=$(sed -n "s/^profile:[[:space:]]*['\"]\{0,1\}\([A-Za-z0-9_-]*\).*/\1/p" "/app/$DP_DBT_PROJECT/dbt_project.yml" | head -n 1); \
+    printf '%s:\n  target: dp\n  outputs:\n    dp:\n      type: duckdb\n      path: %s\n      threads: 1\n' \
+      "${profile:-default}" "'$work/base.duckdb'" > "$work/profiles.yml"; \
+    (cd "/app/$DP_DBT_PROJECT" && /opt/venv/bin/dbt build --profiles-dir "$work" \
+      --target-path "$work/target" --log-path "$work/logs" --no-use-colors >/dev/null) || true; \
+    test -s "$work/target/manifest.json"; \
+    install -d -m 700 /opt/dp-base; install -m 600 "$work/target/manifest.json" /opt/dp-base/manifest.json; \
+    rm -rf "$work"; test -z "$(git -C /app status --porcelain)"
+
+# The grader's interpreter: root-owned, outside the repository, never on the submission's path.
+COPY grader-requirements.txt /opt/dp-grader-requirements.txt
+RUN set -eu; python -m venv /opt/dp-grader-venv; \
+    /opt/dp-grader-venv/bin/pip install -q -r /opt/dp-grader-requirements.txt; \
+    chmod -R go-w /opt/dp-grader-venv
+
+COPY grader.py /tests/grader.py
+COPY config.json /tests/config.json
+COPY test.patch /tests/test.patch
+COPY test.sh /tests/test.sh
+RUN chmod +x /tests/test.sh && useradd --create-home --uid 1500 dpapp
+
+# Check the staged hidden suite compiles, then restore the tree.
+RUN set -eu; \
+    git -C /app apply --whitespace=nowarn /tests/test.patch; \
+    GRADE_DIR=/tmp/warm bash /app/test.sh stage; GRADE_DIR=/tmp/warm bash /tmp/warm/test.sh pin-base; \
+    GRADE_DIR=/tmp/warm bash /tmp/warm/test.sh build-tests; \
+    rm -rf /tmp/warm; \
+    git -C /app checkout -q -- .; git -C /app clean -qfd -- tests; \
+    test -z "$(git -C /app status --porcelain)"
+
+CMD ["/bin/bash"]

@@ -1,0 +1,196 @@
+FROM --platform=linux/amd64 ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 SOURCE_DATE_EPOCH=0
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential cmake ninja-build git ca-certificates pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+RUN git config --system --add safe.directory '*'
+RUN mkdir -p /workspace/repo && cd /workspace/repo \
+    && git init -q && git remote add origin https://github.com/bdwgc/bdwgc.git \
+    && git fetch --depth 1 -q origin 2547e33aa8123320dd8021ca3cea998075ede415 \
+    && git checkout -q FETCH_HEAD \
+    && git submodule update --init --recursive --depth 1
+WORKDIR /workspace/repo
+RUN cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release -Denable_cplusplus=on -Denable_gc_assertions=on -Denable_threads=on
+RUN cmake --build build --config Release --parallel 4
+LABEL repo="bdwgc/bdwgc" revision="2547e33aa8123320dd8021ca3cea998075ede415" language="c"
+
+# ==========================================================================
+# Task layers. Everything above comes from the candidate pool unchanged.
+# ==========================================================================
+USER root
+
+# harbor's terminus_2 rollout agent starts a tmux session INSIDE this image, and since
+# 2026-08-31 the eval fleet no longer provides the binary itself — an image without
+# tmux fails every rollout at setup ("Failed to start tmux session", 15/15 measured).
+# Before {copies} so the apt layer caches across tasks sharing a pool image; apt's
+# file timestamps land outside /workspace/repo, so the flattening below is unaffected.
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends tmux \
+    && rm -rf /var/lib/apt/lists/*
+# THE UNPRIVILEGED ACCOUNT, when the pool image did not make one. Every graded suite run
+# drops to it (`setpriv --reuid agent` in the grader) and this image ends on USER agent,
+# so an image without it cannot start a rollout at all, never mind grade one. Almost every
+# pool Dockerfile creates it; the C sourcing generation does not -- `id agent` in both C
+# pilot images answers "no such user" -- and this is cheaper than a pool regeneration and
+# correct for every language. Conditional, so an image that already has the account keeps
+# the uid and home directory the pool gave it. No fixed uid: ubuntu:24.04 already has a
+# user at 1000, and failing the build over a taken uid would be a worse answer than a
+# different number.
+RUN id -u agent >/dev/null 2>&1 || useradd -m -s /bin/bash agent
+# The grader is Python whatever the repository is, and tests/Dockerfile starts from this
+# Dockerfile, so a pool image that ships none (a Go image is Debian with the toolchain)
+# gets the base image's python3 here, root-owned under /usr/bin, which is the interpreter
+# test.sh resolves on its trusted PATH. Here rather than in the verifier layers because
+# the build's own gates run their scans with python3 inside the agent image too. Before
+# {copies} for the same caching reason as tmux.
+# THE PROBE ASKS THE TRUSTED PATH, NOT THIS BUILD'S PATH. The pool image sets
+# `ENV PATH=/opt/venv/bin:$PATH` and chowns /opt/venv to the agent, so a bare
+# `command -v python3` answers with the AGENT'S interpreter and skips the install - while
+# test.sh runs with PATH=/usr/local/bin:/usr/bin:/bin precisely to keep that venv off the
+# search path, and would then find no python3 at all and grade nothing. Ask the same three
+# directories test.sh will, and re-assert after the install so an image that still has no
+# python3 on that path fails the BUILD rather than every rollout's grading.
+RUN set -eu; \
+    if ! PATH=/usr/local/bin:/usr/bin:/bin command -v python3 >/dev/null 2>&1; then \
+        apt-get update -qq \
+        && apt-get install -y -qq --no-install-recommends python3 \
+        && rm -rf /var/lib/apt/lists/*; \
+    fi; \
+    PATH=/usr/local/bin:/usr/bin:/bin command -v python3 >/dev/null
+COPY faults/fault0_cordbscs.c /workspace/repo/cord/cordbscs.c
+COPY faults/fault1_cordprnt.c /workspace/repo/cord/cordprnt.c
+COPY faults/fault2_cordxtra.c /workspace/repo/cord/cordxtra.c
+COPY faults/fault3_dbg_mlc.c /workspace/repo/dbg_mlc.c
+COPY faults/fault4_dyn_load.c /workspace/repo/dyn_load.c
+COPY faults/fault5_fnlz_mlc.c /workspace/repo/fnlz_mlc.c
+COPY faults/fault6_gcj_mlc.c /workspace/repo/gcj_mlc.c
+COPY faults/fault7_malloc.c /workspace/repo/malloc.c
+COPY faults/fault8_mallocx.c /workspace/repo/mallocx.c
+COPY faults/fault9_mark.c /workspace/repo/mark.c
+COPY faults/fault10_misc.c /workspace/repo/misc.c
+COPY faults/fault11_os_dep.c /workspace/repo/os_dep.c
+COPY faults/fault12_pthread_start.c /workspace/repo/pthread_start.c
+COPY faults/fault13_pthread_stop_world.c /workspace/repo/pthread_stop_world.c
+COPY faults/fault14_pthread_support.c /workspace/repo/pthread_support.c
+COPY faults/fault15_ptr_chck.c /workspace/repo/ptr_chck.c
+COPY faults/fault16_reclaim.c /workspace/repo/reclaim.c
+COPY faults/fault17_typd_mlc.c /workspace/repo/typd_mlc.c
+
+# The C test suite is hidden by stubbing its sources and taking the test
+# executables out of the default build, rather than removing the suite, so the
+# agent's own `cmake --build build` still builds the library. The grader restores
+# the real sources and removes the marker, so the verifier builds and grades it.
+RUN set -eu; \
+    cd /workspace/repo; \
+    printf '/* hidden: graded separately */\n' > cord/tests/cordtest.c; \
+    printf '/* hidden: graded separately */\n' > cord/tests/de.c; \
+    printf '/* hidden: graded separately */\n' > cord/tests/de_cmds.h; \
+    printf '/* hidden: graded separately */\n' > cord/tests/de_win.c; \
+    printf '/* hidden: graded separately */\n' > cord/tests/de_win.h; \
+    printf '/* hidden: graded separately */\n' > tests/atomicops.c; \
+    printf '/* hidden: graded separately */\n' > tests/cpp.cc; \
+    printf '/* hidden: graded separately */\n' > tests/dbgfunc.c; \
+    printf '/* hidden: graded separately */\n' > tests/disclaim.c; \
+    printf '/* hidden: graded separately */\n' > tests/disclaim_bench.c; \
+    printf '/* hidden: graded separately */\n' > tests/gctest.c; \
+    printf '/* hidden: graded separately */\n' > tests/huge.c; \
+    printf '/* hidden: graded separately */\n' > tests/initfromthread.c; \
+    printf '/* hidden: graded separately */\n' > tests/leak.c; \
+    printf '/* hidden: graded separately */\n' > tests/middle.c; \
+    printf '/* hidden: graded separately */\n' > tests/realloc.c; \
+    printf '/* hidden: graded separately */\n' > tests/smash.c; \
+    printf '/* hidden: graded separately */\n' > tests/staticroots.c; \
+    printf '/* hidden: graded separately */\n' > tests/subthreadcreate.c; \
+    printf '/* hidden: graded separately */\n' > tests/threadkey.c; \
+    printf '/* hidden: graded separately */\n' > tests/threadleak.c; \
+    printf '/* hidden: graded separately */\n' > tests/trace.c; \
+    printf '/* hidden: graded separately */\n' > tests/tree.cc; \
+    printf '/* hidden: graded separately */\n' > tests/typed.c; \
+    printf '/* hidden: graded separately */\n' > tests/weakmap.c; \
+    find /workspace/repo/cord/tests -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -delete 2>/dev/null || true; \
+    find /workspace/repo/tests -type f ! -name 'CMakeLists.txt' ! -name '*.cmake' ! -name '*.c' ! -name '*.h' ! -name '*.cc' ! -name '*.cpp' ! -name '*.cxx' ! -name '*.hpp' ! -name '*.hh' -delete 2>/dev/null || true; \
+    cmake --build build --target clean >/dev/null 2>&1 || true; \
+    mkdir -p /opt; \
+    printf '%b' '# Written by build_task.py. Hides the repository'"'"'s test executables from the agent'"'"'s\n# default build so `cmake --build build` works with the test sources stubbed. The grader\n# removes the marker once it restores the real suite, so the verifier builds the tests.\nif(EXISTS "${CMAKE_BINARY_DIR}/.hide_tests.on")\n  set(_HIDE_TESTS atomicopstest;cordtest;cpptest;dbgfunctest;disclaim_bench;disclaimtest;gctest;hugetest;initfromthreadtest;leaktest;middletest;realloctest;smashtest;staticrootstest;subthreadcreatetest;threadkeytest;threadleaktest;treetest;typedtest;weakmaptest)\n  function(_hide_test_targets)\n    foreach(_t IN LISTS _HIDE_TESTS)\n      if(TARGET ${_t})\n        set_target_properties(${_t} PROPERTIES EXCLUDE_FROM_ALL TRUE)\n      endif()\n    endforeach()\n  endfunction()\n  cmake_language(DEFER CALL _hide_test_targets)\nendif()\n' > /opt/hide_tests.overlay.cmake
+RUN set -eu; \
+    cd /workspace/repo; \
+    touch build/.hide_tests.on; \
+    cmake -S /workspace/repo -B build -DCMAKE_PROJECT_INCLUDE=/opt/hide_tests.overlay.cmake >/dev/null; \
+    cmake --build build -j "$(nproc)" >/dev/null
+
+
+# ==========================================================================
+# C: nothing compiled from the pristine tree may survive into this image.
+# ==========================================================================
+# The pool image built build from the checkout as it came from upstream, and the
+# faults were injected after that, so every object and every test binary in there was
+# compiled from the code the agent is being asked to reconstruct: `objdump -d` on one of
+# them gives the original function back. They also make the fault INVISIBLE, because the
+# flattening below gives the faulted source the same modification time as its own object
+# and every build system reads that as up to date. `--target clean` removes exactly what
+# the build produced and leaves the configuration alone, so the grader can still build.
+# The other spellings are for a generator CMake does not drive; the check below is what
+# decides whether any of them worked.
+#
+# THE CHECK HERE IS NARROWER THAN GATE 9'S ON PURPOSE. This one looks for object files by
+# extension: it is a cheap assertion that `clean` actually ran, it fails the docker build
+# outright, and a build failure is not waivable. Gate 9 asks the real question - is there
+# any ELF or ar archive left under the workdir, whatever it is called - and it is a gate,
+# so a repository that legitimately ships a binary fixture can be waived past it by a
+# person with `--allow go-cache-leak`. Making this one as strict as the gate would move
+# that judgement into a Dockerfile, where nobody can overrule it.
+RUN set -eu; \
+    cd /workspace/repo; \
+    cmake --build build --target clean >/dev/null 2>&1 \
+        || ninja -C build -t clean >/dev/null 2>&1 \
+        || make -C build clean >/dev/null 2>&1 \
+        || true; \
+    rm -rf /root/.ccache /home/agent/.ccache "${CCACHE_DIR:-/nonexistent-ccache}"; \
+    left="$(find /workspace/repo -type f \( -name '*.o' -o -name '*.a' -o -name '*.lo' \
+                 -o -name '*.obj' -o -name '*.gch' \) 2>/dev/null | head -n 1)"; \
+    if [ -n "$left" ]; then \
+        echo "the build tree still holds $left after the purge, so the image carries \
+code compiled from the tree before the faults" >&2; \
+        exit 1; \
+    fi
+
+# Every injected file carries the time it was copied in, and every other file carries the
+# time the pool image was built. One find sorted by modification time therefore names the
+# edited files and nothing else, which is the entire search. Flatten them all.
+# The same applies to the file mode, and this one has to be ASSIGNED rather than
+# subtracted. COPY brings the build context's permissions with it, and the pool image's
+# own files are 0644, so an injected file arrives with whatever the build box's umask gave
+# it. `chmod g-w,o-w` was enough while that was 0664 — the usual umask 002 — because the
+# only difference was a bit to take away. falconry/falcon on the 2026-09-11 pool fleet ran
+# on a box with umask 077: the files arrived 0600, subtracting write bits cannot put a
+# read bit back, and `gate_standout` refused the build with "on disk, file mode separates
+# the faulted files from every other .py file in the tree: they carry [384]", which is
+# 0600. Dropping faults and rebuilding could not have helped — every injected file arrives
+# 0600 whichever faults are cut — so the mode is set outright: 0755 for directories and
+# for files that are already executable, 0644 for every other file. The tree then flattens
+# to the same modes whatever the box's umask was, and the execute bits scripts need
+# survive. The g-w,o-w sweep stays as a backstop for anything neither find matched.
+# And so does the owner. COPY writes as root while the pool image left the tree to agent,
+# so the six arrive root owned. Nothing on disk shows it, because the chown below puts the
+# whole tree back to agent, but `git add` runs before that chown and caches the owner it
+# saw: `git ls-files --debug` then reports uid 0 for the injected files and uid 1000 for
+# every other one. Chown here, before the snapshot, so the index has nothing to tell.
+RUN find /workspace/repo -exec touch -h -d "2001-01-01T00:00:00Z" {} + 2>/dev/null || true;     find /workspace/repo -type d -exec chmod 0755 {} + 2>/dev/null || true;     find /workspace/repo -type f -perm -u+x -exec chmod 0755 {} + 2>/dev/null || true;     find /workspace/repo -type f ! -perm -u+x -exec chmod 0644 {} + 2>/dev/null || true;     chmod -R g-w,o-w /workspace/repo 2>/dev/null || true;     chown -R agent:agent /workspace/repo 2>/dev/null || true
+
+RUN set -eux; \
+    rm -rf /workspace/repo/.git; \
+    git init -q /workspace/repo; \
+    git -C /workspace/repo config user.name "task"; \
+    git -C /workspace/repo config user.email "task@example.invalid"; \
+    git -C /workspace/repo config core.pager cat; \
+    git config --global --add safe.directory /workspace/repo; \
+    git -C /workspace/repo add -A; \
+    git -C /workspace/repo commit -q -m "state at task start"; \
+    test "$(git -C /workspace/repo rev-list --count HEAD)" = "1"
+
+RUN mkdir -p /app && chown -R agent:agent /workspace/repo /app 2>/dev/null || true
+
+# git otherwise opens a pager, which costs the agent turns escaping it.
+ENV GIT_PAGER=cat
+ENV PAGER=cat
+
+WORKDIR /workspace/repo
+USER agent

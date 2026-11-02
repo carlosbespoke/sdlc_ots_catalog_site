@@ -1,0 +1,462 @@
+[
+ {
+  "code": "result = observe({'callable': False, 'init': [[0], [3]], 'iterations': 1, 'op': 'lloyd', 'x': [[0], [2], [3], [8], [10], [12]]})\n",
+  "id": "OBS-0001"
+ },
+ {
+  "code": "result = observe({'callable': True, 'init': [[0], [3]], 'iterations': 2, 'op': 'lloyd', 'x': [[0], [2], [3], [8], [10], [12]]})\n",
+  "id": "OBS-0002"
+ },
+ {
+  "code": "result = observe({'callable': False, 'init': [[0], [3]], 'iterations': 50, 'op': 'lloyd', 'x': [[0], [2], [3], [8], [10], [12]]})\n",
+  "id": "OBS-0003"
+ },
+ {
+  "code": "result = observe({'callable': False, 'init': [[0], [9]], 'iterations': 1, 'op': 'lloyd', 'x': [[0], [1], [5], [9], [10], [14], [20]]})\n",
+  "id": "OBS-0004"
+ },
+ {
+  "code": "result = observe({'callable': True, 'init': [[0], [9]], 'iterations': 2, 'op': 'lloyd', 'x': [[0], [1], [5], [9], [10], [14], [20]]})\n",
+  "id": "OBS-0005"
+ },
+ {
+  "code": "result = observe({'callable': False, 'init': [[0], [9]], 'iterations': 50, 'op': 'lloyd', 'x': [[0], [1], [5], [9], [10], [14], [20]]})\n",
+  "id": "OBS-0006"
+ },
+ {
+  "code": "result = observe({'callable': False, 'init': [[-10, 1], [2, 5]], 'iterations': 1, 'op': 'lloyd', 'x': [[-10, 1], [-8, 3], [-5, 2], [2, 5], [6, 1], [10, 3]]})\n",
+  "id": "OBS-0007"
+ },
+ {
+  "code": "result = observe({'callable': True, 'init': [[-10, 1], [2, 5]], 'iterations': 2, 'op': 'lloyd', 'x': [[-10, 1], [-8, 3], [-5, 2], [2, 5], [6, 1], [10, 3]]})\n",
+  "id": "OBS-0008"
+ },
+ {
+  "code": "result = observe({'callable': False, 'init': [[-10, 1], [2, 5]], 'iterations': 50, 'op': 'lloyd', 'x': [[-10, 1], [-8, 3], [-5, 2], [2, 5], [6, 1], [10, 3]]})\n",
+  "id": "OBS-0009"
+ },
+ {
+  "code": "result = observe({'api': 'function', 'op': 'weighted_mean', 'weights': [2, 2, 2], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0010"
+ },
+ {
+  "code": "result = observe({'api': 'function', 'op': 'weighted_mean', 'weights': [1, 3, 2], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0011"
+ },
+ {
+  "code": "result = observe({'api': 'function', 'op': 'weighted_mean', 'weights': [0, 1, 0], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0012"
+ },
+ {
+  "code": "result = observe({'api': 'class', 'op': 'weighted_mean', 'weights': [1, 3, 2], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0013"
+ },
+ {
+  "code": "result = observe({'api': 'class', 'op': 'weighted_mean', 'weights': [0, 1, 0], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0014"
+ },
+ {
+  "code": "result = observe({'api': 'class', 'op': 'weighted_mean', 'weights': [0, 1, 2], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0015"
+ },
+ {
+  "code": "result = observe({'api': 'auto', 'op': 'weighted_mean', 'weights': [1, 3, 2], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0016"
+ },
+ {
+  "code": "result = observe({'api': 'auto', 'op': 'weighted_mean', 'weights': [0, 1, 0], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0017"
+ },
+ {
+  "code": "result = observe({'api': 'auto', 'op': 'weighted_mean', 'weights': [0, 1, 2], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0018"
+ },
+ {
+  "code": "result = observe({'api': 'explicit', 'op': 'weighted_mean', 'weights': [1, 3, 2], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0019"
+ },
+ {
+  "code": "result = observe({'api': 'explicit', 'op': 'weighted_mean', 'weights': [0, 1, 0], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0020"
+ },
+ {
+  "code": "result = observe({'api': 'explicit', 'op': 'weighted_mean', 'weights': [0, 1, 2], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0021"
+ },
+ {
+  "code": "result = observe({'api': 'function', 'op': 'weighted_mean', 'weights': [1, 3], 'x': [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]})\n",
+  "id": "OBS-0022"
+ },
+ {
+  "code": "result = observe({'callable': True, 'init': [[0], [10]], 'iterations': 0, 'op': 'lloyd', 'query': [[-1], [3], [9], [14]], 'x': [[0], [2], [10], [12]]})\n",
+  "id": "OBS-0023"
+ },
+ {
+  "code": "result = observe({'callable': False, 'init': [[0], [10]], 'iterations': 1, 'op': 'lloyd', 'query': [[-1], [3], [9], [14]], 'x': [[0], [2], [10], [12]]})\n",
+  "id": "OBS-0024"
+ },
+ {
+  "code": "result = observe({'callable': False, 'init': [[0], [10]], 'iterations': 50, 'op': 'lloyd', 'query': [[-1], [3], [9], [14]], 'x': [[0], [2], [10], [12]]})\n",
+  "id": "OBS-0025"
+ },
+ {
+  "code": "result = observe({'callable': True, 'init': [[7], [17]], 'iterations': 0, 'op': 'lloyd', 'query': [[6], [10], [16], [21]], 'x': [[7], [9], [17], [19]]})\n",
+  "id": "OBS-0026"
+ },
+ {
+  "code": "result = observe({'callable': False, 'init': [[7], [17]], 'iterations': 1, 'op': 'lloyd', 'query': [[6], [10], [16], [21]], 'x': [[7], [9], [17], [19]]})\n",
+  "id": "OBS-0027"
+ },
+ {
+  "code": "result = observe({'callable': False, 'init': [[7], [17]], 'iterations': 50, 'op': 'lloyd', 'query': [[6], [10], [16], [21]], 'x': [[7], [9], [17], [19]]})\n",
+  "id": "OBS-0028"
+ },
+ {
+  "code": "result = observe({'callable': True, 'init': [[-11], [-1]], 'iterations': 0, 'op': 'lloyd', 'query': [[-12], [-8], [-2], [3]], 'x': [[-11], [-9], [-1], [1]]})\n",
+  "id": "OBS-0029"
+ },
+ {
+  "code": "result = observe({'callable': False, 'init': [[-11], [-1]], 'iterations': 1, 'op': 'lloyd', 'query': [[-12], [-8], [-2], [3]], 'x': [[-11], [-9], [-1], [1]]})\n",
+  "id": "OBS-0030"
+ },
+ {
+  "code": "result = observe({'callable': False, 'init': [[-11], [-1]], 'iterations': 50, 'op': 'lloyd', 'query': [[-12], [-8], [-2], [3]], 'x': [[-11], [-9], [-1], [1]]})\n",
+  "id": "OBS-0031"
+ },
+ {
+  "code": "result = observe({'init': [[0], [10]], 'op': 'lloyd', 'tol': 0.001, 'x': [[0], [10]]})\n",
+  "id": "OBS-0032"
+ },
+ {
+  "code": "result = observe({'init': [[0], [10]], 'op': 'lloyd', 'tol': 100.0, 'x': [[0], [10]]})\n",
+  "id": "OBS-0033"
+ },
+ {
+  "code": "result = observe({'init': [[1, 2], [11, 6]], 'op': 'lloyd', 'tol': 0.001, 'x': [[0, 1], [2, 3], [10, 5], [12, 7]]})\n",
+  "id": "OBS-0034"
+ },
+ {
+  "code": "result = observe({'init': [[1, 2], [11, 6]], 'op': 'lloyd', 'tol': 100.0, 'x': [[0, 1], [2, 3], [10, 5], [12, 7]]})\n",
+  "id": "OBS-0035"
+ },
+ {
+  "code": "result = observe({'init': [[1], [9]], 'op': 'lloyd', 'tol': 0.001, 'x': [[1], [1], [9], [9]]})\n",
+  "id": "OBS-0036"
+ },
+ {
+  "code": "result = observe({'init': [[1], [9]], 'op': 'lloyd', 'tol': 100.0, 'x': [[1], [1], [9], [9]]})\n",
+  "id": "OBS-0037"
+ },
+ {
+  "code": "result = observe({'op': 'unfitted', 'x': [[0], [1]]})\n",
+  "id": "OBS-0038"
+ },
+ {
+  "code": "result = observe({'api': 'function', 'op': 'weighted_mean', 'weights': None, 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0039"
+ },
+ {
+  "code": "result = observe({'api': 'function', 'op': 'weighted_mean', 'weights': [1, 1, 1], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0040"
+ },
+ {
+  "code": "result = observe({'api': 'function', 'op': 'weighted_mean', 'weights': [0, 1, 2], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0041"
+ },
+ {
+  "code": "result = observe({'api': 'function', 'op': 'weighted_mean', 'x': [[4, 8]]})\n",
+  "id": "OBS-0042"
+ },
+ {
+  "code": "result = observe({'api': 'function', 'op': 'weighted_mean', 'x': [[0, 0], [0, 0], [0, 0]]})\n",
+  "id": "OBS-0043"
+ },
+ {
+  "code": "result = observe({'api': 'function', 'op': 'weighted_mean', 'x': [[-2, 4], [2, -4]]})\n",
+  "id": "OBS-0044"
+ },
+ {
+  "code": "result = observe({'api': 'class', 'op': 'weighted_mean', 'weights': None, 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0045"
+ },
+ {
+  "code": "result = observe({'api': 'class', 'op': 'weighted_mean', 'weights': [1, 1, 1], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0046"
+ },
+ {
+  "code": "result = observe({'api': 'class', 'op': 'weighted_mean', 'weights': [2, 2, 2], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0047"
+ },
+ {
+  "code": "result = observe({'api': 'class', 'op': 'weighted_mean', 'x': [[4, 8]]})\n",
+  "id": "OBS-0048"
+ },
+ {
+  "code": "result = observe({'api': 'class', 'op': 'weighted_mean', 'x': [[0, 0], [0, 0], [0, 0]]})\n",
+  "id": "OBS-0049"
+ },
+ {
+  "code": "result = observe({'api': 'class', 'op': 'weighted_mean', 'x': [[-2, 4], [2, -4]]})\n",
+  "id": "OBS-0050"
+ },
+ {
+  "code": "result = observe({'api': 'auto', 'op': 'weighted_mean', 'weights': None, 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0051"
+ },
+ {
+  "code": "result = observe({'api': 'auto', 'op': 'weighted_mean', 'weights': [1, 1, 1], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0052"
+ },
+ {
+  "code": "result = observe({'api': 'auto', 'op': 'weighted_mean', 'weights': [2, 2, 2], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0053"
+ },
+ {
+  "code": "result = observe({'api': 'auto', 'op': 'weighted_mean', 'x': [[4, 8]]})\n",
+  "id": "OBS-0054"
+ },
+ {
+  "code": "result = observe({'api': 'auto', 'op': 'weighted_mean', 'x': [[0, 0], [0, 0], [0, 0]]})\n",
+  "id": "OBS-0055"
+ },
+ {
+  "code": "result = observe({'api': 'auto', 'op': 'weighted_mean', 'x': [[-2, 4], [2, -4]]})\n",
+  "id": "OBS-0056"
+ },
+ {
+  "code": "result = observe({'api': 'explicit', 'op': 'weighted_mean', 'weights': None, 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0057"
+ },
+ {
+  "code": "result = observe({'api': 'explicit', 'op': 'weighted_mean', 'weights': [1, 1, 1], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0058"
+ },
+ {
+  "code": "result = observe({'api': 'explicit', 'op': 'weighted_mean', 'weights': [2, 2, 2], 'x': [[1, 2], [5, -2], [12, 8]]})\n",
+  "id": "OBS-0059"
+ },
+ {
+  "code": "result = observe({'api': 'explicit', 'op': 'weighted_mean', 'x': [[4, 8]]})\n",
+  "id": "OBS-0060"
+ },
+ {
+  "code": "result = observe({'api': 'explicit', 'op': 'weighted_mean', 'x': [[0, 0], [0, 0], [0, 0]]})\n",
+  "id": "OBS-0061"
+ },
+ {
+  "code": "result = observe({'api': 'explicit', 'op': 'weighted_mean', 'x': [[-2, 4], [2, -4]]})\n",
+  "id": "OBS-0062"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.kmedoids import RiemannianKMedoids\nsphere = Hypersphere(dim=2)\nX = gs.array([[1.0, 0, 0], [0.99, 0.141, 0], [0.99, 0, 0.141], [0, 0, 1.0], [0.141, 0, 0.99], [0, 0.141, 0.99]])\nX = X / gs.linalg.norm(X, axis=1)[:, None]\nmodel = RiemannianKMedoids(sphere, n_clusters=2)\nfitted = model.fit(X)\nlabels = np.asarray(model.labels_)\ncenters = np.asarray(model.cluster_centers_)\nmedoid_rows = sorted(int(np.argmin(np.linalg.norm(X - c, axis=1))) for c in centers)\n# Only initialization-independent facts are pinned (the medoids start from a random choice).\nresult = {'self': fitted is model, 'labels_in_range': bool(set(labels.tolist()) <= {0, 1}),\n          'centers_are_samples': all(float(np.min(np.linalg.norm(X - c, axis=1))) < 1e-12 for c in centers),\n          'predict': [bool(v) for v in np.asarray(model.predict(X)) == labels], 'n_centers': int(centers.shape[0])}\n",
+  "id": "OBS-0063"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.online_kmeans import OnlineKMeans\nsphere = Hypersphere(dim=2)\nX = gs.array([[1.0, 0, 0]] * 5 + [[0, 0, 1.0]] * 5)\nmodel = OnlineKMeans(sphere, n_clusters=2, max_iter=200)\nfitted = model.fit(X)\ncenters = np.asarray(model.cluster_centers_)\nresult = {'self': fitted is model, 'shape': list(centers.shape),\n          'on_sphere': bool(np.allclose(np.linalg.norm(centers, axis=1), 1.0)),\n          'n_labels': int(np.asarray(model.labels_).shape[0]),\n          'predict_shape': list(np.asarray(model.predict(X)).shape)}\n",
+  "id": "OBS-0064"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.knn import KNearestNeighborsClassifier\nsphere = Hypersphere(dim=2)\nX = gs.array([[1.0, 0, 0], [0.99, 0.141, 0], [0, 0, 1.0], [0, 0.141, 0.99]])\nX = X / gs.linalg.norm(X, axis=1)[:, None]\ny = np.array([0, 0, 1, 1])\nmodel = KNearestNeighborsClassifier(sphere, n_neighbors=1)\nfitted = model.fit(X, y)\nQ = gs.array([[0.98, 0.0, 0.2], [0.2, 0.0, 0.98]])\nQ = Q / gs.linalg.norm(Q, axis=1)[:, None]\nresult = {'self': fitted is model, 'predict': np.asarray(model.predict(Q)).tolist(),\n          'proba': np.round(np.asarray(model.predict_proba(Q)), 6).tolist()}\n",
+  "id": "OBS-0065"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.euclidean import Euclidean\nfrom geomstats.learning.knn import KNearestNeighborsClassifier\nspace = Euclidean(2)\nX = gs.array([[0.0, 0.0], [1.0, 0.0], [10.0, 0.0], [11.0, 0.0], [12.0, 0.0]])\ny = np.array([0, 0, 1, 1, 1])\nmodel = KNearestNeighborsClassifier(space, n_neighbors=3, weights='distance').fit(X, y)\nproba = np.asarray(model.predict_proba(gs.array([[0.5, 0.0], [3.0, 0.0]])))\nresult = {'predict': np.asarray(model.predict(gs.array([[0.5, 0.0], [3.0, 0.0]]))).tolist(), 'proba': np.round(proba, 6).tolist()}\n",
+  "id": "OBS-0066"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.spd_matrices import SPDMatrices\nfrom geomstats.learning.mdm import RiemannianMinimumDistanceToMean\nspd = SPDMatrices(2)\nX = gs.array([[[1.0, 0], [0, 1.0]], [[1.2, 0], [0, 1.2]], [[10.0, 0], [0, 10.0]], [[12.0, 0], [0, 12.0]]])\ny = np.array([0, 0, 1, 1])\nmodel = RiemannianMinimumDistanceToMean(spd)\nfitted = model.fit(X, y)\nQ = gs.array([[[1.1, 0], [0, 1.1]], [[11.0, 0], [0, 11.0]]])\nproba = np.asarray(model.predict_proba(Q))\nresult = {'self': fitted is model, 'classes': np.asarray(model.classes_).tolist(),\n          'means': np.round(np.asarray(model.mean_estimates_), 6).tolist(),\n          'predict': np.asarray(model.predict(Q)).tolist(), 'proba_rows_sum_to_one': bool(np.allclose(proba.sum(axis=1), 1.0)),\n          'proba_argmax': proba.argmax(axis=1).tolist(), 'transform_shape': list(np.asarray(model.transform(Q)).shape)}\n",
+  "id": "OBS-0067"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.kernel_density_estimation_classifier import KernelDensityEstimationClassifier\nfrom geomstats.learning.radial_kernel_functions import triangular_radial_kernel\nsphere = Hypersphere(dim=2)\nX = gs.array([[1.0, 0, 0], [0.99, 0.141, 0], [0, 0, 1.0], [0, 0.141, 0.99]])\nX = X / gs.linalg.norm(X, axis=1)[:, None]\ny = np.array([0, 0, 1, 1])\nmodel = KernelDensityEstimationClassifier(sphere, kernel=triangular_radial_kernel, bandwidth=1.0)\nfitted = model.fit(X, y)\nQ = gs.array([[0.98, 0.0, 0.2], [0.2, 0.0, 0.98]])\nQ = Q / gs.linalg.norm(Q, axis=1)[:, None]\nresult = {'self': fitted is model, 'predict': np.asarray(model.predict(Q)).tolist(),\n          'proba': np.round(np.asarray(model.predict_proba(Q)), 6).tolist()}\n",
+  "id": "OBS-0068"
+ },
+ {
+  "code": "\nimport geomstats.learning.radial_kernel_functions as k\nnames = ['uniform', 'triangular', 'parabolic', 'biweight', 'triweight', 'tricube', 'gaussian', 'cosine',\n         'logistic', 'sigmoid', 'bump', 'inverse_quadratic', 'inverse_multiquadric', 'laplacian']\nd = gs.array([0.0, 0.25, 0.5, 2.0])\nresult = {n: [round(float(v), 6) for v in np.asarray(getattr(k, n + '_radial_kernel')(d, bandwidth=1.0))] for n in names}\n",
+  "id": "OBS-0069"
+ },
+ {
+  "code": "\nimport geomstats.learning.radial_kernel_functions as k\nd = gs.array([0.5, 1.5])\nresult = {'triangular_bw2': [round(float(v), 6) for v in np.asarray(k.triangular_radial_kernel(d, bandwidth=2.0))],\n          'gaussian_bw2': [round(float(v), 6) for v in np.asarray(k.gaussian_radial_kernel(d, bandwidth=2.0))]}\n",
+  "id": "OBS-0070"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.euclidean import Euclidean\nfrom geomstats.learning.geometric_median import GeometricMedian\nspace = Euclidean(2)\nX = gs.array([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [100.0, 100.0], [1.0, 1.0]])\nmodel = GeometricMedian(space, max_iter=500)\nfitted = model.fit(X)\nest = np.asarray(model.estimate_)\nresult = {'self': fitted is model, 'estimate': np.round(est, 3).tolist(), 'robust': bool(np.linalg.norm(est) < 2.0)}\n",
+  "id": "OBS-0071"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.spd_matrices import SPDMatrices\nfrom geomstats.learning.geometric_median import GeometricMedian\nspd = SPDMatrices(2)\nX = gs.array([[[1.0, 0], [0, 1.0]], [[4.0, 0], [0, 4.0]], [[2.0, 0], [0, 2.0]]])\nest = np.asarray(GeometricMedian(spd).fit(X).estimate_)\nresult = {'estimate': np.round(est, 4).tolist(), 'belongs': bool(spd.belongs(gs.array(est)))}\n",
+  "id": "OBS-0072"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.euclidean import Euclidean\nfrom geomstats.learning.incremental_frechet_mean import IncrementalFrechetMean\nspace = Euclidean(2)\nX = gs.array([[0.0, 0.0], [2.0, 0.0], [4.0, 6.0]])\nmodel = IncrementalFrechetMean(space)\nfitted = model.fit(X)\nresult = {'self': fitted is model, 'estimate': numeric(model.estimate_)}\n",
+  "id": "OBS-0073"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.spd_matrices import SPDMatrices\nfrom geomstats.learning.incremental_frechet_mean import IncrementalFrechetMean\nspd = SPDMatrices(2)\nX = gs.array([[[1.0, 0], [0, 1.0]], [[4.0, 0], [0, 4.0]]])\nest = np.asarray(IncrementalFrechetMean(spd).fit(X).estimate_)\nresult = {'estimate': np.round(est, 6).tolist()}\n",
+  "id": "OBS-0074"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.preprocessing import ToTangentSpace\nsphere = Hypersphere(dim=2)\nbase = gs.array([0.0, 0.0, 1.0])\nX = gs.array([[0.0, 0.6, 0.8], [0.6, 0.0, 0.8]])\nmodel = ToTangentSpace(sphere)\nfitted = model.fit(X, base_point=base)\nT = np.asarray(model.transform(X))\nback = np.asarray(model.inverse_transform(gs.array(T)))\nresult = {'self': fitted is model, 'tangent': np.round(T, 6).tolist(), 'roundtrip': bool(np.allclose(back, np.asarray(X), atol=1e-6))}\n",
+  "id": "OBS-0075"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.spd_matrices import SPDMatrices\nfrom geomstats.learning.preprocessing import ToTangentSpace\nspd = SPDMatrices(2)\nX = gs.array([[[1.0, 0], [0, 1.0]], [[4.0, 0], [0, 4.0]]])\nmodel = ToTangentSpace(spd).fit(X)\nT = np.asarray(model.transform(X))\nresult = {'shape': list(T.shape), 'tangent': np.round(T, 6).tolist()}\n",
+  "id": "OBS-0076"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.riemannian_mean_shift import RiemannianMeanShift\nsphere = Hypersphere(dim=2)\nX = gs.array([[1.0, 0, 0], [0.99, 0.141, 0], [0, 0, 1.0], [0, 0.141, 0.99]])\nX = X / gs.linalg.norm(X, axis=1)[:, None]\nmodel = RiemannianMeanShift(sphere, bandwidth=0.5, n_clusters=2, tol=1e-3, max_iter=50)\nfitted = model.fit(X)\ncenters = np.asarray(model.cluster_centers_)\nlabels = np.asarray(model.predict(X))\nresult = {'self': fitted is model, 'shape': list(centers.shape), 'on_sphere': bool(np.allclose(np.linalg.norm(centers, axis=1), 1.0)),\n          'pairs': [bool(labels[0] == labels[1]), bool(labels[2] == labels[3])], 'split': bool(labels[0] != labels[2]),\n          'centers': np.round(sorted(centers.tolist()), 3).tolist()}\n",
+  "id": "OBS-0077"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.agglomerative_hierarchical_clustering import AgglomerativeHierarchicalClustering\nsphere = Hypersphere(dim=2)\nX = gs.array([[1.0, 0, 0], [0.99, 0.141, 0], [0, 0, 1.0], [0, 0.141, 0.99], [0.141, 0, 0.99]])\nX = X / gs.linalg.norm(X, axis=1)[:, None]\nmodel = AgglomerativeHierarchicalClustering(sphere, n_clusters=2, linkage='average')\nfitted = model.fit(X)\nlabels = np.asarray(model.labels_)\nresult = {'self': fitted is model, 'groups': [bool(labels[0] == labels[1]), bool(labels[2] == labels[3] == labels[4]), bool(labels[0] != labels[2])],\n          'n_clusters': int(model.n_clusters_), 'children_shape': list(np.asarray(model.children_).shape)}\n",
+  "id": "OBS-0078"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.special_orthogonal import SpecialOrthogonal\nfrom geomstats.learning.pca import TangentPCA\nso3 = SpecialOrthogonal(n=3, point_type=\"vector\")\ndata = so3.random_uniform(n_samples=10)\ntpca = TangentPCA(space=so3, n_components=2)\nfitted = tpca.fit(data)\nprojected = np.asarray(tpca.transform(data))\nresult = {'self': fitted is tpca, 'shape': list(projected.shape), 'n_components': int(tpca.n_components_)}\n",
+  "id": "OBS-0079"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.pca import TangentPCA\nsphere = Hypersphere(dim=2)\nbase = gs.array([0.0, 0.0, 1.0])\nX = sphere.metric.exp(gs.array([[0.3, 0.0, 0.0], [-0.3, 0.0, 0.0], [0.0, 0.05, 0.0], [0.0, -0.05, 0.0]]), base)\ntpca = TangentPCA(sphere, n_components=1).fit(X, base_point=base)\ncomp = np.asarray(tpca.components_)\nratio = np.asarray(tpca.explained_variance_ratio_)\nproj = np.asarray(tpca.transform(X))\nback = np.asarray(tpca.inverse_transform(gs.array(proj)))\nfit_proj = np.asarray(TangentPCA(sphere, n_components=1).fit_transform(X, base_point=base))\nresult = {'fit_transform_abs': np.round(np.abs(fit_proj), 6).tolist(), 'component_abs': np.round(np.abs(comp), 6).tolist(), 'ratio': np.round(ratio, 6).tolist(),\n          'proj_abs': np.round(np.abs(proj), 6).tolist(), 'back_on_sphere': bool(np.allclose(np.linalg.norm(back, axis=1), 1.0))}\n",
+  "id": "OBS-0080"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.frechet_mean import FrechetMean\nsphere = Hypersphere(dim=2)\nX = gs.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0]])\nmodel = FrechetMean(sphere)\nfitted = model.fit(X)\nresult = {'self': fitted is model, 'type': type(model).__name__, 'estimate': np.round(np.asarray(model.estimate_), 5).tolist()}\n",
+  "id": "OBS-0081"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.frechet_mean import FrechetMean\nsphere = Hypersphere(dim=2)\nX = gs.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])\nmodel = FrechetMean(sphere, method='adaptive')\nmodel.fit(X, weights=gs.array([1.0, 1.0, 2.0]))\nest = np.asarray(model.estimate_)\nresult = {'optimizer': type(model.optimizer_).__name__, 'estimate': np.round(est, 4).tolist(), 'on_sphere': bool(abs(np.linalg.norm(est) - 1.0) < 1e-6)}\n",
+  "id": "OBS-0082"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.spd_matrices import SPDMatrices\nfrom geomstats.learning.frechet_mean import FrechetMean\nspd = SPDMatrices(2)\nX = gs.array([[[1.0, 0], [0, 1.0]], [[4.0, 0], [0, 4.0]]])\nmodel = FrechetMean(spd).fit(X)\nresult = {'estimate': np.round(np.asarray(model.estimate_), 5).tolist()}\n",
+  "id": "OBS-0083"
+ },
+ {
+  "code": "\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.frechet_mean import variance\nsphere = Hypersphere(dim=2)\nbase = gs.array([0.0, 0.0, 1.0])\nX = gs.array([[1.0, 0.0, 0.0], [0.0, 0.6, 0.8]])\nresult = {'unweighted': round(float(variance(sphere, X, base)), 6),\n          'weighted': round(float(variance(sphere, X, base, weights=gs.array([1.0, 3.0]))), 6)}\n",
+  "id": "OBS-0084"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.frechet_mean import FrechetMean, CircleMean\ncircle = Hypersphere(dim=1)\nangles = np.array([0.1, 0.3, 0.5])\nX = gs.array(np.stack([np.cos(angles), np.sin(angles)], axis=1))\nmodel = FrechetMean(circle)\nfitted = model.fit(X)\nest = np.asarray(model.estimate_)\nresult = {'self': fitted is model, 'type': type(model).__name__, 'angle': round(float(np.arctan2(est[1], est[0])), 6)}\n",
+  "id": "OBS-0085"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.special_orthogonal import SpecialOrthogonal\nfrom geomstats.learning.exponential_barycenter import ExponentialBarycenter\nso3 = SpecialOrthogonal(n=3)\ndef rot(t):\n    return gs.array([[np.cos(t), -np.sin(t), 0.0], [np.sin(t), np.cos(t), 0.0], [0.0, 0.0, 1.0]])\nX = gs.stack([rot(0.2), rot(0.6)])\nmodel = ExponentialBarycenter(so3)\nfitted = model.fit(X)\nest = np.asarray(model.estimate_)\nresult = {'self': fitted is model, 'type': type(model).__name__, 'estimate': np.round(est, 5).tolist()}\n",
+  "id": "OBS-0086"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.special_orthogonal import SpecialOrthogonal\nfrom geomstats.learning.exponential_barycenter import ExponentialBarycenter\nso3 = SpecialOrthogonal(n=3)\ndef rot(t):\n    return gs.array([[np.cos(t), -np.sin(t), 0.0], [np.sin(t), np.cos(t), 0.0], [0.0, 0.0, 1.0]])\nX = gs.stack([rot(0.0), rot(0.9)])\nest = np.asarray(ExponentialBarycenter(so3).fit(X, weights=gs.array([2.0, 1.0])).estimate_)\nresult = {'angle': round(float(np.arctan2(est[1, 0], est[0, 0])), 5)}\n",
+  "id": "OBS-0087"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.mds import MDS, pairwise_dists\nsphere = Hypersphere(dim=2)\nX = gs.array([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])\nD = np.asarray(pairwise_dists(X, sphere.metric.dist))\nmodel = MDS(sphere, n_components=2, random_state=0)\nemb = np.asarray(model.fit_transform(X))\nE = np.linalg.norm(emb[:, None, :] - emb[None, :, :], axis=-1)\nresult = {'dists': np.round(D, 6).tolist(), 'shape': list(emb.shape), 'embedding_preserves_dists': bool(np.allclose(E, D, atol=1e-2))}\n",
+  "id": "OBS-0088"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.poincare_ball import PoincareBall\nfrom geomstats.learning.expectation_maximization import RiemannianEM\nball = PoincareBall(dim=2)\nX = gs.array([[0.5, 0.5], [0.52, 0.48], [0.48, 0.52], [-0.5, -0.5], [-0.52, -0.48], [-0.48, -0.52]])\nmodel = RiemannianEM(ball, n_gaussians=2, initialisation_method='random', max_iter=50)\nfitted = model.fit(X)\nmeans = np.asarray(model.means_)\nresult = {'self': fitted is model, 'means_shape': list(means.shape), 'variances_shape': list(np.asarray(model.variances_).shape),\n          'mixture_weights_sum': round(float(np.sum(np.asarray(model.mixture_coefficients_))), 6),\n          'means_sorted': np.round(sorted(means.tolist()), 2).tolist()}\n",
+  "id": "OBS-0089"
+ },
+ {
+  "code": "\nfrom geomstats.geometry.euclidean import Euclidean\nfrom geomstats.learning.euclidean import LinearRegression\nspace = Euclidean(2)\nX = gs.array([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]])\ny = gs.array([1.0, 3.0, 4.0, 6.0])\nmodel = LinearRegression(space)\nfitted = model.fit(X, y)\nresult = {'self': fitted is model, 'type': type(model).__name__, 'coef': np.round(np.asarray(model.coef_), 6).tolist(),\n          'intercept': round(float(model.intercept_), 6), 'predict': np.round(np.asarray(model.predict(gs.array([[2.0, 2.0]]))), 6).tolist()}\n",
+  "id": "OBS-0090"
+ },
+ {
+  "code": "\nfrom geomstats.geometry.euclidean import Euclidean\nfrom geomstats.geometry.matrices import Matrices\nfrom geomstats.learning.euclidean import LinearRegression\nspace = Euclidean(1)\nimage = Matrices(2, 2)\nX = gs.array([[0.0], [1.0], [2.0]])\nY = gs.array([[[1.0, 0.0], [0.0, 1.0]], [[2.0, 1.0], [0.0, 3.0]], [[3.0, 2.0], [0.0, 5.0]]])\nmodel = LinearRegression(space, image_space=image).fit(X, Y)\npred = np.asarray(model.predict(gs.array([[3.0]])))\nresult = {'type': type(model).__name__, 'predict': np.round(pred, 6).tolist(), 'score': round(float(model.score(X, Y)), 6)}\n",
+  "id": "OBS-0091"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.geodesic_regression import GeodesicRegression\nsphere = Hypersphere(dim=2)\nmodel = GeodesicRegression(sphere, center_X=False)\nmodel.intercept_ = gs.array([1.0, 0.0, 0.0])\nmodel.coef_ = gs.array([0.0, 0.5, 0.0])\nX = gs.array([0.0, 1.0, np.pi])\npred = np.asarray(model.predict(X))\nresult = {'predict': np.round(pred, 6).tolist(), 'score_self': round(float(model.score(X, gs.array(pred))), 6)}\n",
+  "id": "OBS-0092"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.euclidean import Euclidean\nfrom geomstats.learning.geodesic_regression import GeodesicRegression\nspace = Euclidean(2)\nmodel = GeodesicRegression(space, center_X=False)\nmodel.intercept_ = gs.array([1.0, 2.0])\nmodel.coef_ = gs.array([3.0, -1.0])\npred = np.asarray(model.predict(gs.array([0.0, 2.0])))\nresult = {'predict': np.round(pred, 6).tolist(), 'method': model.method}\n",
+  "id": "OBS-0093"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.wrapped_gaussian_process import WrappedGaussianProcess\nfrom sklearn.gaussian_process.kernels import RBF\nsphere = Hypersphere(dim=2)\nbase = gs.array([1.0, 0.0, 0.0])\ntangent = gs.array([0.0, 1.0, 0.0])\ndef prior(x):\n    return sphere.metric.exp(x * tangent, base)\nX = gs.array([[0.0], [0.5], [1.0]])\ny = sphere.metric.exp(X * gs.array([0.0, 1.0, 0.3]), base)\nmodel = WrappedGaussianProcess(sphere, prior=prior)\nmodel.set(kernel=RBF(length_scale=1.0), optimizer=None)\nfitted = model.fit(X, y)\npred = np.asarray(model.predict(gs.array([[0.25]])))\nresult = {'self': fitted is model, 'predict': np.round(pred, 5).tolist(), 'on_sphere': bool(np.allclose(np.linalg.norm(pred, axis=-1), 1.0))}\n",
+  "id": "OBS-0094"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.learning.kalman_filter import KalmanFilter, LocalizationLinear\nmodel = LocalizationLinear()\nkf = KalmanFilter(model)\nkf.state = gs.zeros(2)\nkf.initialize_covariances(gs.eye(2), gs.array([[0.01]]), gs.array([[0.1]]))\nkf.propagate(gs.array([0.5, 1.0]))\nstate_after_prop = np.asarray(kf.state)\ncov_after_prop = np.asarray(kf.covariance)\nkf.update(gs.array([0.4]))\nresult = {'propagated': np.round(state_after_prop, 6).tolist(), 'cov': np.round(cov_after_prop, 6).tolist(),\n          'updated': np.round(np.asarray(kf.state), 6).tolist(), 'updated_cov': np.round(np.asarray(kf.covariance), 6).tolist()}\n",
+  "id": "OBS-0095"
+ },
+ {
+  "code": "\nfrom geomstats.numerics.optimization import ScipyMinimize\nopt = ScipyMinimize(method='L-BFGS-B', save_result=True)\nres = opt.minimize(lambda x: float(np.sum((np.asarray(x) - np.array([1.0, -2.0])) ** 2)), gs.array([0.0, 0.0]))\nresult = {'x': np.round(np.asarray(res.x), 4).tolist(), 'success': bool(res.success), 'saved': opt.result_ is res}\n",
+  "id": "OBS-0096"
+ },
+ {
+  "code": "\nfrom geomstats.numerics.optimization import ScipyRoot, NewtonMethod\nfun = lambda x: gs.array([x[0] ** 2 - 4.0, x[1] - 1.0])\njac = lambda x: gs.array([[2.0 * x[0], 0.0], [0.0, 1.0]])\nres = ScipyRoot(method='hybr').root(fun, gs.array([1.0, 0.0]))\nnewton = NewtonMethod(atol=1e-10, max_iter=50).root(fun, gs.array([1.0, 0.0]), fun_jac=jac)\nresult = {'scipy_root': np.round(np.asarray(res.x), 6).tolist(), 'newton_root': np.round(np.asarray(newton.x), 6).tolist(),\n          'newton_success': bool(newton.success)}\n",
+  "id": "OBS-0097"
+ },
+ {
+  "code": "\nfrom geomstats.numerics.finite_differences import forward_difference, centered_difference, second_centered_difference\na = gs.array([0.0, 1.0, 4.0, 9.0, 16.0])\nresult = {'forward': np.round(np.asarray(forward_difference(a, delta=1.0)), 6).tolist(),\n          'centered': np.round(np.asarray(centered_difference(a, delta=1.0)), 6).tolist(),\n          'centered_endpoints': np.round(np.asarray(centered_difference(a, delta=1.0, endpoints=True)), 6).tolist(),\n          'second': np.round(np.asarray(second_centered_difference(a, delta=1.0)), 6).tolist(),\n          'forward_default_delta': np.round(np.asarray(forward_difference(a)), 6).tolist()}\n",
+  "id": "OBS-0098"
+ },
+ {
+  "code": "\nfrom geomstats.numerics.interpolation import UniformUnitIntervalLinearInterpolator, LinearInterpolator1D\ndata = gs.array([[0.0, 0.0], [1.0, 2.0], [3.0, 2.0]])\nu = UniformUnitIntervalLinearInterpolator(data, point_ndim=1)\nl = LinearInterpolator1D(gs.array([0.0, 0.2, 1.0]), data, point_ndim=1)\nt_eval = gs.array([0.0, 0.25, 0.5, 0.75, 1.0])\nresult = {'uniform': np.round(np.asarray(u(t_eval)), 6).tolist(), 'times': np.round(np.asarray(l(t_eval)), 6).tolist()}\n",
+  "id": "OBS-0099"
+ },
+ {
+  "code": "\nfrom geomstats.geometry.euclidean import Euclidean\nfrom geomstats.numerics.path import UniformlySampledPathEnergy, UniformlySampledDiscretePath\nspace = Euclidean(2)\npath = gs.array([[0.0, 0.0], [1.0, 0.0], [2.0, 0.0]])\nenergy = UniformlySampledPathEnergy(space)\ndiscrete = UniformlySampledDiscretePath(path)\nresult = {'energy': round(float(energy(path)), 6), 'per_time': np.round(np.asarray(energy.energy_per_time(path)), 6).tolist(),\n          'midpoint': np.round(np.asarray(discrete(gs.array([0.25, 0.5]))), 6).tolist()}\n",
+  "id": "OBS-0100"
+ },
+ {
+  "code": "\nfrom geomstats.numerics.ivp import GSIVPIntegrator, ScipySolveIVP\nforce = lambda state, t: -state\ninit = gs.array([1.0])\ngsi = GSIVPIntegrator(n_steps=100, step_type='rk4', save_result=True)\nr1 = gsi.integrate(force, init, end_time=1.0)\nsp = ScipySolveIVP(method='RK45', save_result=True)\nr2 = sp.integrate(force, init, end_time=1.0)\nr3 = sp.integrate_t(force, init, gs.array([0.5, 1.0]))\nresult = {'gs_last': round(float(np.asarray(r1.get_last_y()).ravel()[-1]), 4), 'scipy_last': round(float(np.asarray(r2.get_last_y()).ravel()[-1]), 3),\n          'scipy_t': np.round(np.asarray(r3.y).ravel(), 3).tolist(), 'saved': gsi.result_ is r1, 'step_types': gsi.step_type}\n",
+  "id": "OBS-0101"
+ },
+ {
+  "code": "\nfrom geomstats.geometry.euclidean import Euclidean\nfrom geomstats.numerics.geodesic import ExpODESolver\nfrom geomstats.numerics.ivp import GSIVPIntegrator, ScipySolveIVP\nspace = Euclidean(2)\nsolver = ExpODESolver(space, integrator=GSIVPIntegrator(n_steps=10, step_type='euler'))\nexp = np.asarray(solver.exp(gs.array([1.0, 2.0]), gs.array([0.5, 0.5])))\npath = ExpODESolver(space, integrator=ScipySolveIVP()).geodesic_ivp(gs.array([1.0, 2.0]), gs.array([0.5, 0.5]))\nresult = {'exp': np.round(exp, 6).tolist(), 'path': np.round(np.asarray(path(gs.array([0.0, 0.5]))), 6).tolist()}\n",
+  "id": "OBS-0102"
+ },
+ {
+  "code": "\nfrom geomstats.geometry.euclidean import Euclidean\nfrom geomstats.numerics.geodesic import LogODESolver, PathStraightening\nfrom geomstats.numerics.optimization import ScipyMinimize\nspace = Euclidean(2)\np, b = gs.array([2.0, 3.0]), gs.array([1.0, 1.0])\node = LogODESolver(space, n_nodes=5, use_jac=False)\npath = ode.geodesic_bvp(p, b)\nstraight = PathStraightening(space, n_nodes=5, optimizer=ScipyMinimize(method='L-BFGS-B'))\nresult = {'ode': np.round(np.asarray(ode.log(p, b)), 4).tolist(), 'mid': np.round(np.asarray(path(gs.array([0.5]))), 4).tolist(),\n          'straightening': np.round(np.asarray(straight.log(p, b)), 3).tolist()}\n",
+  "id": "OBS-0103"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.euclidean import Euclidean\nfrom geomstats.geometry.spd_matrices import SPDMatrices\nfrom geomstats.distributions.lognormal import LogNormal\ne = LogNormal(Euclidean(2), gs.array([-1.0, 1.0]), gs.eye(2) * 0.01)\nse = np.asarray(e.sample(4))\nspd = SPDMatrices(2)\ns = LogNormal(spd, 2.0 * gs.eye(2))\nss = np.asarray(s.sample(3))\nresult = {'euclid_type': type(e).__name__, 'euclid_shape': list(se.shape), 'euclid_positive': bool(np.all(se > 0)),\n          'euclid_log_mean': np.round(np.log(se).mean(axis=0), 1).tolist(),\n          'spd_type': type(s).__name__, 'spd_shape': list(ss.shape), 'spd_belongs': bool(np.all(np.asarray(spd.belongs(gs.array(ss)))))}\n",
+  "id": "OBS-0104"
+ },
+ {
+  "code": "\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.distributions.lognormal import LogNormal\ntry:\n    LogNormal(Hypersphere(2), gs.array([1.0, 0.0, 0.0]))\n    outcome = None\nexcept ValueError:\n    outcome = 'ValueError'\nresult = {'non_supported_space': outcome}\n",
+  "id": "OBS-0105"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.euclidean import Euclidean\nfrom geomstats.distributions.brownian_motion import BrownianMotion\nbm = BrownianMotion(Euclidean(dim=3))\npath = np.asarray(bm.sample_path(end_time=1.0, n_steps=50, initial_point=gs.array([0.0, 0.0, 0.0])))\nresult = {'shape': list(path.shape), 'starts_at_initial': bool(np.allclose(path[0], 0.0)),\n          'end': np.round(path[-1], 4).tolist()}\n",
+  "id": "OBS-0106"
+ },
+ {
+  "code": "\nimport geomstats.errors as errors\nfrom geomstats.geometry.hypersphere import Hypersphere\nout = {}\nfor name, call in [('integer', lambda: errors.check_integer(-1, 'n')), ('positive', lambda: errors.check_positive(0.0, 'p')),\n                   ('accepted', lambda: errors.check_parameter_accepted_values('c', 'mode', ['a', 'b'])),\n                   ('belongs', lambda: errors.check_belongs(gs.array([2.0, 0.0, 0.0]), Hypersphere(2))),\n                   ('shape', lambda: errors.check_point_shape(gs.array([1.0, 0.0]), Hypersphere(2)))]:\n    try:\n        call()\n        out[name] = None\n    except Exception as exc:\n        out[name] = type(exc).__name__\nok = []\nfor call in [lambda: errors.check_integer(3, 'n'), lambda: errors.check_positive(0.5, 'p'),\n             lambda: errors.check_parameter_accepted_values('a', 'mode', ['a', 'b']),\n             lambda: errors.check_belongs(gs.array([1.0, 0.0, 0.0]), Hypersphere(2))]:\n    call(); ok.append(True)\nout['valid_pass'] = ok\nout['shape_error_is_value_error'] = issubclass(errors.ShapeError, ValueError)\nout['suppressed_returns'] = bool(errors.check_point_shape(gs.array([1.0, 0.0]), Hypersphere(2), suppress_error=True))\nout['match_returns'] = bool(errors.check_point_shape(gs.array([1.0, 0.0, 0.0]), Hypersphere(2)))\nresult = out\n",
+  "id": "OBS-0107"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hyperboloid import Hyperboloid\nfrom geomstats.learning.pca import HyperbolicPlaneExactPGA, PGA\nspace = Hyperboloid(dim=2)\nbase = gs.array([1.0, 0.0, 0.0])\nX = space.metric.exp(gs.array([[0.0, 0.5, 0.0], [0.0, -0.5, 0.0], [0.0, 0.0, 0.05], [0.0, 0.0, -0.05]]), base)\nmodel = PGA(space, n_grid=100)\nfitted = model.fit(X)\ncomps = np.asarray(model.components_)\nresult = {'self': fitted is model, 'type': type(model).__name__, 'components_shape': list(comps.shape),\n          'components_abs': np.round(np.abs(comps), 2).tolist()}\n",
+  "id": "OBS-0108"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.metric_geometry.graph_space import GraphSpace\nfrom geomstats.learning.frechet_mean import FrechetMean\nfrom geomstats.learning.aac import AAC\nspace = GraphSpace(3)\nspace.equip_with_group_action()\nspace.equip_with_quotient()\nX = gs.array([[[0.0, 1.0, 0.0], [1.0, 0.0, 0.0], [0.0, 0.0, 0.0]], [[0.0, 0.0, 0.0], [0.0, 0.0, 1.0], [0.0, 1.0, 0.0]]])\nmodel = AAC(space, estimate='frechet_mean', max_iter=20)\nfitted = model.fit(X)\nresult = {'self': fitted is model, 'type': type(model).__name__, 'estimate_shape': list(np.asarray(model.estimate_).shape)}\n",
+  "id": "OBS-0109"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.metric_geometry.graph_space import GraphSpace\nfrom geomstats.learning.aac import AAC\nspace = GraphSpace(3)\nspace.equip_with_group_action()\nspace.equip_with_quotient()\nX = gs.array([[[0.0, 1.0, 0.0], [1.0, 0.0, 0.0], [0.0, 0.0, 0.0]], [[0.0, 2.0, 0.0], [2.0, 0.0, 0.0], [0.0, 0.0, 0.0]],\n              [[0.0, 3.0, 0.0], [3.0, 0.0, 0.0], [0.0, 0.0, 0.0]]])\npca = AAC(space, estimate='ggpca', n_components=1, max_iter=10)\npca.fit(X)\nreg = AAC(space, estimate='regression', max_iter=10)\ns = gs.array([[1.0], [2.0], [3.0]])\nreg.fit(s, X)\npred = np.asarray(reg.predict(gs.array([[4.0]])))\nresult = {'pca_type': type(pca).__name__, 'components_shape': list(np.asarray(pca.components_).shape),\n          'reg_type': type(reg).__name__, 'pred_shape': list(pred.shape), 'pred_max_edge': round(float(np.max(pred)), 3)}\n",
+  "id": "OBS-0110"
+ },
+ {
+  "code": "\nfrom geomstats.learning._template import TemplateEstimator, TemplateClassifier, TemplateTransformer\nX = np.array([[0.0, 0.0], [1.0, 1.0], [5.0, 5.0]])\ny = np.array([0, 0, 1])\nest = TemplateEstimator().fit(X, y)\nclf = TemplateClassifier().fit(X, y)\ntr = TemplateTransformer().fit(X)\nresult = {'estimator_predict': np.asarray(est.predict(X)).tolist(), 'classifier_predict': np.asarray(clf.predict(np.array([[4.0, 4.0], [0.5, 0.0]]))).tolist(),\n          'transform': np.round(np.asarray(tr.transform(X)), 6).tolist(), 'is_fitted': bool(est.is_fitted_)}\n",
+  "id": "OBS-0111"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.spd_matrices import SPDMatrices\nfrom geomstats.learning.frechet_mean import FrechetMean\nspd = SPDMatrices(2)\nX = gs.array([[[1.0, 0], [0, 1.0]], [[4.0, 0], [0, 4.0]], [[2.0, 0], [0, 2.0]]])\nmodel = FrechetMean(spd, method='sturms', sample_method='cyclic', max_iter=200)\nfitted = model.fit(X)\nresult = {'self': fitted is model, 'type': type(model).__name__, 'estimate': np.round(np.asarray(model.estimate_), 3).tolist()}\n",
+  "id": "OBS-0112"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.frechet_mean import FrechetMean\nsphere = Hypersphere(dim=2)\nX = gs.array([[[1.0, 0.0, 0.0], [0.0, 0.0, 1.0]], [[0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]])\nmodel = FrechetMean(sphere, method='batch')\nmodel.fit(X)\nest = np.asarray(model.estimate_)\nresult = {'optimizer': type(model.optimizer_).__name__, 'shape': list(est.shape), 'estimate': np.round(est, 4).tolist()}\n",
+  "id": "OBS-0113"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.discrete_curves import DiscreteCurvesStartingAtOrigin\nfrom geomstats.learning.frechet_mean import FrechetMean\ncurves = DiscreteCurvesStartingAtOrigin(ambient_dim=2, k_sampling_points=5)\nt = np.linspace(0.0, 1.0, 5)\nc1 = np.stack([t, 0.0 * t], axis=1)\nc2 = np.stack([t, 0.2 * t], axis=1)\nX = gs.array(np.stack([curves.projection(gs.array(c1)), curves.projection(gs.array(c2))]))\nmodel = FrechetMean(curves)\nmodel.fit(X)\nresult = {'type': type(model).__name__, 'shape': list(np.asarray(model.estimate_).shape), 'estimate': np.round(np.asarray(model.estimate_), 4).tolist()}\n",
+  "id": "OBS-0114"
+ },
+ {
+  "code": "np.random.seed(0); random.seed(0); gs.random.seed(0)\n\nfrom geomstats.geometry.hypersphere import Hypersphere\nfrom geomstats.learning.kmeans import RiemannianKMeans\nsphere = Hypersphere(dim=2)\nX = gs.array([[1.0, 0.0, 0.0], [0.99, 0.141, 0.0], [0.0, 0.0, 1.0], [0.0, 0.141, 0.99]])\nX = X / gs.linalg.norm(X, axis=1)[:, None]\nout = {}\nfor init in ['kmeans++']:\n    np.random.seed(1); gs.random.seed(1)\n    model = RiemannianKMeans(sphere, n_clusters=2, init=init, max_iter=5)\n    model.fit(X)\n    labels = np.asarray(model.labels_)\n    out[init] = {'pairs': [bool(labels[0] == labels[1]), bool(labels[2] == labels[3]), bool(labels[0] != labels[2])],\n                 'init_shape': list(np.asarray(model.init_cluster_centers_).shape),\n                 'inertia_finite': bool(np.isfinite(float(model.inertia_)))}\nresult = out\n",
+  "id": "OBS-0115"
+ }
+]

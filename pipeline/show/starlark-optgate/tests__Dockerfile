@@ -1,0 +1,45 @@
+# syntax=docker/dockerfile:1
+# Verifier image (tests/Dockerfile), format 1, Go. See verifier-dockerfile.txt.
+
+# --- Toolchain (verbatim from environment/Dockerfile) ---
+FROM --platform=linux/amd64 golang@sha256:e401dae1bf814e29204a8cb7915682e1780951e609ca0dd8865ee1937f510c48
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 \
+    GOTOOLCHAIN=local GOFLAGS=-buildvcs=false GOMODCACHE=/go/pkg/mod CGO_ENABLED=0
+# --- Agent harness prerequisites ---
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends \
+        asciinema ca-certificates git tmux \
+    && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man
+RUN command -v git && command -v tmux && tmux -V \
+    && tmux -L harbor-build-smoke new-session -d -s smoke 'sleep 30' \
+    && tmux -L harbor-build-smoke has-session -t smoke \
+    && tmux -L harbor-build-smoke kill-server
+RUN printf 'export PATH=/usr/local/go/bin:/go/bin:$PATH GOTOOLCHAIN=local GOFLAGS=-buildvcs=false\n' \
+    > /etc/profile.d/00-go.sh && chmod 0644 /etc/profile.d/00-go.sh
+RUN useradd -m -u 1000 -s /bin/bash agent
+
+# --- rca:source begin (rendered by `rca regen` from rca-task.json; verbatim in tests/Dockerfile) ---
+ARG RCA_REPOSITORY=https://github.com/google/starlark-go.git
+ARG RCA_COMMIT=5395d018f003e2a08bfbca6dcb2562acee700f62
+RUN git init -q /workdir && cd /workdir \
+    && git fetch -q --depth 1 "$RCA_REPOSITORY" "$RCA_COMMIT" \
+    && git checkout -q FETCH_HEAD \
+    && test "$(git rev-parse HEAD)" = "$RCA_COMMIT" \
+    && rm -rf .git .github CNAME
+COPY faults/ /workdir/
+# --- rca:source end ---
+
+# --- Verifier ---
+# The same module cache as the agent image (from the pristine tree), then offline. The grader is
+# stdlib Python run as python3 -I -S -B; install python3 here when the base image lacks it.
+RUN cd /workdir && go mod download && mkdir -p /go/pkg/mod && chmod -R a-w /go/pkg/mod
+ENV GOPROXY=off GOSUMDB=off GOFLAGS="-buildvcs=false -mod=readonly" GOMEMLIMIT=1GiB GOMAXPROCS=4
+RUN command -v python3 || (apt-get update -qq && apt-get install -y -qq --no-install-recommends python3 \
+        && rm -rf /var/lib/apt/lists/*)
+RUN mkdir -p /opt/rca && mv /workdir /opt/rca/pristine && mkdir -p /workdir /logs/verifier
+COPY . /tests
+RUN rm -f /tests/Dockerfile \
+    && chown -R root:root /tests /opt/rca \
+    && chmod -R go-rwx /tests /opt/rca
+RUN python3 -I -S -B /tests/grade.py --prepare
+WORKDIR /workdir
+CMD ["sh", "-c", "sleep infinity"]

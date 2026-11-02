@@ -1,0 +1,439 @@
+[
+ {
+  "code": "result = observe({'chunker': {'chunk_size': 4, 'overlap': 1}, 'op': 'chunk', 'sections': ['1,0', '0,1', '2,1']})\n",
+  "id": "OBS-0001"
+ },
+ {
+  "code": "result = observe({'chunker': {'chunk_size': 4, 'overlap': 1}, 'op': 'chunk', 'sections': ['abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde', 'z']})\n",
+  "id": "OBS-0002"
+ },
+ {
+  "code": "result = observe({'chunker': {'chunk_size': 4, 'overlap': 1}, 'op': 'chunk', 'sections': ['x', 'y']})\n",
+  "id": "OBS-0003"
+ },
+ {
+  "code": "result = observe({'docs': [{'document_metadata': {'level': 'doc', 'tenant': 'wrong2'}, 'id': 'a', 'metadata': {'level': 'chunk', 'tenant': 'wrong'}, 'texts': ['1,0']}], 'op': 'listing', 'scope': {'tenant': 'A'}})\n",
+  "id": "OBS-0004"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'scope': {'tenant': 'A', 'zone': 'west'}, 'texts': ['1,0']}, {'id': 'b', 'scope': {'tenant': 'B', 'zone': 'west'}, 'texts': ['2,0']}], 'op': 'listing', 'scope': {'tenant': 'A', 'zone': 'west'}})\n",
+  "id": "OBS-0005"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'large', 'texts': ['1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0', '1,0']}], 'op': 'listing'})\n",
+  "id": "OBS-0006"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'texts': ['1,0', '2,0', '3,0']}], 'op': 'retrieval', 'top_k': 8})\n",
+  "id": "OBS-0007"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'texts': ['1,0']}, {'id': 'b', 'texts': ['2,0']}], 'op': 'retrieval', 'score_threshold': 1})\n",
+  "id": "OBS-0008"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'texts': ['1,0', '0,2']}, {'id': 'b', 'texts': ['2,1']}], 'op': 'retrieval', 'queries': ['1,0', '0,1'], 'top_k': 8})\n",
+  "id": "OBS-0009"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'texts': ['1,3']}], 'op': 'retrieval', 'queries': ['1,0', '0,1']})\n",
+  "id": "OBS-0010"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'scope': {'tenant': 'A', 'zone': 'west'}, 'texts': ['1,0']}, {'id': 'b', 'scope': {'tenant': 'B', 'zone': 'west'}, 'texts': ['2,0']}, {'id': 'c', 'scope': {'tenant': 'A', 'zone': 'east'}, 'texts': ['3,0']}], 'op': 'retrieval', 'scope': {'tenant': 'A', 'zone': 'west'}})\n",
+  "id": "OBS-0011"
+ },
+ {
+  "code": "result = observe({'data': True, 'docs': [{'id': 'a', 'texts': ['2,1']}], 'multimodal': True, 'op': 'retrieval'})\n",
+  "id": "OBS-0012"
+ },
+ {
+  "code": "result = observe({'chunker': {'chunk_size': 4, 'overlap': 0}, 'op': 'chunk', 'sections': ['']})\n",
+  "id": "OBS-0013"
+ },
+ {
+  "code": "result = observe({'chunker': {'chunk_size': 4, 'overlap': 0}, 'op': 'chunk', 'sections': ['hello']})\n",
+  "id": "OBS-0014"
+ },
+ {
+  "code": "result = observe({'chunker': {'chunk_size': 4, 'overlap': 0}, 'op': 'chunk', 'sections': ['\u4e16\u754c']})\n",
+  "id": "OBS-0015"
+ },
+ {
+  "code": "result = observe({'chunker': {'chunk_size': 4, 'overlap': 0}, 'op': 'chunk', 'sections': ['abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc']})\n",
+  "id": "OBS-0016"
+ },
+ {
+  "code": "result = observe({'chunker': {'chunk_size': 4, 'overlap': 0}, 'op': 'chunk', 'sections': ['\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42\ud83d\ude42']})\n",
+  "id": "OBS-0017"
+ },
+ {
+  "code": "result = observe({'op': 'chunk', 'sections': ['aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa']})\n",
+  "id": "OBS-0018"
+ },
+ {
+  "code": "result = observe({'op': 'empty'})\n",
+  "id": "OBS-0019"
+ },
+ {
+  "code": "result = observe({'data': True, 'op': 'empty'})\n",
+  "id": "OBS-0020"
+ },
+ {
+  "code": "result = observe({'delete': 'a', 'docs': [{'document_metadata': {'title': 'A'}, 'id': 'a', 'metadata': {'page': 1}, 'texts': ['1,0']}], 'op': 'listing', 'scope': None})\n",
+  "id": "OBS-0021"
+ },
+ {
+  "code": "result = observe({'delete': 'a', 'docs': [{'document_metadata': {'title': 'A'}, 'id': 'a', 'metadata': {'page': 1}, 'texts': ['1,0']}], 'op': 'listing', 'scope': {}})\n",
+  "id": "OBS-0022"
+ },
+ {
+  "code": "result = observe({'delete': 'a', 'docs': [{'document_metadata': {'title': 'A'}, 'id': 'a', 'metadata': {'page': 1}, 'texts': ['1,0']}], 'op': 'listing', 'scope': {'tenant': 'A'}})\n",
+  "id": "OBS-0023"
+ },
+ {
+  "code": "result = observe({'docs': [], 'op': 'listing'})\n",
+  "id": "OBS-0024"
+ },
+ {
+  "code": "result = observe({'delete': 'absent', 'docs': [{'id': 'a', 'texts': ['1,0']}, {'id': 'b', 'texts': ['2,0']}], 'op': 'listing'})\n",
+  "id": "OBS-0025"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'bad', 'texts': ['1,0']}], 'missing': True, 'op': 'listing'})\n",
+  "id": "OBS-0026"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'texts': ['1,0']}, {'id': 'b', 'texts': ['2,0']}], 'op': 'retrieval', 'queries': ['1,0'], 'scope': None})\n",
+  "id": "OBS-0027"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'texts': ['1,0']}, {'id': 'b', 'texts': ['2,0']}], 'op': 'retrieval', 'queries': ['1,0'], 'scope': {}})\n",
+  "id": "OBS-0028"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'texts': ['1,0']}, {'id': 'b', 'texts': ['2,0']}], 'op': 'retrieval', 'queries': ['1,0'], 'scope': {'tenant': 'A'}})\n",
+  "id": "OBS-0029"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'texts': ['1,0']}, {'id': 'b', 'texts': ['2,0']}], 'op': 'retrieval', 'score_threshold': None})\n",
+  "id": "OBS-0030"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'texts': ['1,0']}, {'id': 'b', 'texts': ['2,0']}], 'op': 'retrieval', 'score_threshold': -1})\n",
+  "id": "OBS-0031"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'texts': ['1,0']}, {'id': 'b', 'texts': ['2,0']}], 'op': 'retrieval', 'score_threshold': 0})\n",
+  "id": "OBS-0032"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'texts': ['1,0']}, {'id': 'b', 'texts': ['2,0']}], 'op': 'retrieval', 'score_threshold': 1.5})\n",
+  "id": "OBS-0033"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'texts': ['1,0']}, {'id': 'b', 'texts': ['2,0']}], 'op': 'retrieval', 'score_threshold': 5})\n",
+  "id": "OBS-0034"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': '1', 'texts': ['1,0']}, {'id': '2', 'texts': ['2,0']}, {'id': '3', 'texts': ['3,0']}, {'id': '4', 'texts': ['4,0']}, {'id': '5', 'texts': ['5,0']}, {'id': '6', 'texts': ['6,0']}, {'id': '7', 'texts': ['7,0']}], 'op': 'retrieval', 'top_k': 1})\n",
+  "id": "OBS-0035"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': '1', 'texts': ['1,0']}, {'id': '2', 'texts': ['2,0']}, {'id': '3', 'texts': ['3,0']}, {'id': '4', 'texts': ['4,0']}, {'id': '5', 'texts': ['5,0']}, {'id': '6', 'texts': ['6,0']}, {'id': '7', 'texts': ['7,0']}], 'op': 'retrieval', 'top_k': 2})\n",
+  "id": "OBS-0036"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': '1', 'texts': ['1,0']}, {'id': '2', 'texts': ['2,0']}, {'id': '3', 'texts': ['3,0']}, {'id': '4', 'texts': ['4,0']}, {'id': '5', 'texts': ['5,0']}, {'id': '6', 'texts': ['6,0']}, {'id': '7', 'texts': ['7,0']}], 'op': 'retrieval', 'top_k': 5})\n",
+  "id": "OBS-0037"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': '1', 'texts': ['1,0']}, {'id': '2', 'texts': ['2,0']}, {'id': '3', 'texts': ['3,0']}, {'id': '4', 'texts': ['4,0']}, {'id': '5', 'texts': ['5,0']}, {'id': '6', 'texts': ['6,0']}, {'id': '7', 'texts': ['7,0']}], 'op': 'retrieval', 'top_k': 8})\n",
+  "id": "OBS-0038"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'texts': ['2,1']}], 'op': 'retrieval', 'text_blocks': True})\n",
+  "id": "OBS-0039"
+ },
+ {
+  "code": "result = observe({'data': True, 'docs': [{'id': 'a', 'texts': ['2,1']}], 'op': 'retrieval'})\n",
+  "id": "OBS-0040"
+ },
+ {
+  "code": "result = observe({'docs': [{'id': 'a', 'texts': ['2,1']}], 'op': 'retrieval', 'queries': ['1,0', '0,1']})\n",
+  "id": "OBS-0041"
+ },
+ {
+  "code": "p = TextParser()\ns = arun(p.parse('h\u00e9llo w\u00f6rld'.encode('utf-8'), 'a.txt'))\nresult = [len(s), s[0].content.text, s[0].source, s[0].metadata]\n",
+  "id": "OBS-0042"
+ },
+ {
+  "code": "p = TextParser(encoding='latin-1')\ns = arun(p.parse('caf\u00e9'.encode('latin-1'), 'b.md'))\nresult = [len(s), s[0].content.text, p.encoding, TextParser().encoding]\n",
+  "id": "OBS-0043"
+ },
+ {
+  "code": "path = _os.path.join(_os.getcwd(), 'note.txt')\nopen(path, 'wb').write('line one\\nline two'.encode('utf-8'))\ns = arun(TextParser().parse(path, 'note.txt'))\nr2 = arun(TextParser().parse('  not a file path, kept verbatim \\n', 'raw.txt'))\nresult = [s[0].content.text, r2[0].content.text, len(r2)]\n",
+  "id": "OBS-0044"
+ },
+ {
+  "code": "try:\n    arun(TextParser().parse(b'\\xff\\xfe\\xfa', 'bad.txt'))\n    result = 'no error'\nexcept ValueError:\n    result = 'ValueError'\n",
+  "id": "OBS-0045"
+ },
+ {
+  "code": "from agentscope.rag import TextParser as T\nresult = ['text/plain' in T.supported_media_types, 'text/markdown' in T.supported_media_types,\n          'application/json' in T.supported_media_types, '.txt' in T.supported_extensions(),\n          '.md' in T.supported_extensions(), all(e.startswith('.') for e in T.supported_extensions())]\n",
+  "id": "OBS-0046"
+ },
+ {
+  "code": "s = arun(PDFParser().parse(pdf_bytes(['first page text', 'second page text']), 'r.pdf'))\nresult = [len(s), [x.metadata for x in s], [x.source for x in s], 'first page' in s[0].content.text,\n          'second page' in s[1].content.text]\n",
+  "id": "OBS-0047"
+ },
+ {
+  "code": "s = arun(PDFParser().parse(pdf_bytes(['words here', '', 'more words']), 'gap.pdf'))\nresult = [len(s), [x.metadata['page'] for x in s], s[1].content.text.strip() == '']\n",
+  "id": "OBS-0048"
+ },
+ {
+  "code": "path = _os.path.join(_os.getcwd(), 'doc.pdf')\nopen(path, 'wb').write(pdf_bytes(['from a path']))\ns = arun(PDFParser().parse(path, 'doc.pdf'))\nresult = [len(s), 'from a path' in s[0].content.text, s[0].metadata]\n",
+  "id": "OBS-0049"
+ },
+ {
+  "code": "out = []\ntry:\n    arun(PDFParser().parse(_os.path.join(_os.getcwd(), 'missing.pdf'), 'missing.pdf'))\n    out.append('no error')\nexcept FileNotFoundError:\n    out.append('FileNotFoundError')\ntry:\n    arun(PDFParser().parse(b'this is not a pdf', 'bad.pdf'))\n    out.append('no error')\nexcept ValueError:\n    out.append('ValueError')\nresult = out + [PDFParser.supported_media_types, PDFParser.supported_extensions()]\n",
+  "id": "OBS-0050"
+ },
+ {
+  "code": "raw = png_bytes()\ns = arun(ImageParser().parse(raw, 'pic.png'))\nblock = s[0].content\nresult = [len(s), type(block).__name__, block.source.media_type, _b64.b64decode(block.source.data) == raw,\n          s[0].metadata, s[0].source]\n",
+  "id": "OBS-0051"
+ },
+ {
+  "code": "out = []\nfor fmt, name in (('JPEG', 'a.jpg'), ('GIF', 'a.gif'), ('BMP', 'a.bmp'), ('WEBP', 'a.webp')):\n    s = arun(ImageParser().parse(image_bytes(fmt), name))\n    out.append([s[0].content.source.media_type, s[0].metadata['media_type']])\nresult = out\n",
+  "id": "OBS-0052"
+ },
+ {
+  "code": "path = _os.path.join(_os.getcwd(), 'x.png')\nopen(path, 'wb').write(png_bytes())\ns = arun(ImageParser().parse(path, 'x.png'))\nresult = [len(s), s[0].content.source.media_type, sorted(ImageParser.supported_media_types),\n          '.png' in ImageParser.supported_extensions()]\n",
+  "id": "OBS-0053"
+ },
+ {
+  "code": "raw = docx_bytes([('p', 'Alpha paragraph'), ('p', 'Beta paragraph'), ('table', [['H1', 'H2'], ['a', 'b']]),\n                  ('p', 'Gamma paragraph')])\ns = arun(WordParser().parse(raw, 'w.docx'))\nt = texts(s)\nresult = [section_view(s), len(t), all(x in t[0] for x in ('Alpha paragraph', 'Beta paragraph', 'Gamma paragraph')),\n          '| H1 | H2 |' in t[0], t[0].index('Alpha') < t[0].index('| H1') < t[0].index('Gamma')]\n",
+  "id": "OBS-0054"
+ },
+ {
+  "code": "raw = docx_bytes([('p', 'Before table'), ('table', [['H1', 'H2'], ['a', 'b']]), ('p', 'After table')])\ns = arun(WordParser(separate_table=True).parse(raw, 'w.docx'))\nt = texts(s)\nresult = [len(s), 'Before table' in t[0], t[1].lstrip().startswith('| H1 | H2 |'), 'After table' in t[2],\n          [x.metadata for x in s]]\n",
+  "id": "OBS-0055"
+ },
+ {
+  "code": "import json\nraw = docx_bytes([('table', [['H1', 'H2'], ['a', 'b']])])\ns = arun(WordParser(table_format='json', separate_table=True).parse(raw, 'w.docx'))\ntext = s[0].content.text\nfirst, rest = text.split('\\n', 1)\nresult = [first.startswith('<system-info>'), first.endswith('</system-info>'), json.loads(rest)]\n",
+  "id": "OBS-0056"
+ },
+ {
+  "code": "raw = docx_bytes([('p', 'Text one'), ('image',), ('p', 'Text two')])\nwith_img = arun(WordParser().parse(raw, 'w.docx'))\nwithout = arun(WordParser(include_image=False).parse(raw, 'w.docx'))\nresult = [section_view(with_img), section_view(without)]\n",
+  "id": "OBS-0057"
+ },
+ {
+  "code": "try:\n    WordParser(table_format='csv')\n    result = 'no error'\nexcept ValueError:\n    result = ['ValueError', WordParser.supported_extensions()]\n",
+  "id": "OBS-0058"
+ },
+ {
+  "code": "raw = pptx_bytes([[('text', 'Slide one title')], [('text', 'Slide two body')]])\ns = arun(PPTParser().parse(raw, 'deck.pptx'))\nt = texts(s)\nresult = [section_view(s), t[0].startswith('<slide index=1>'), t[0].rstrip().endswith('</slide>'),\n          t[1].startswith('<slide index=2>'), 'Slide two body' in t[1]]\n",
+  "id": "OBS-0059"
+ },
+ {
+  "code": "raw = pptx_bytes([[('text', 'Only text')]])\ns = arun(PPTParser(slide_prefix=None, slide_suffix=None).parse(raw, 'deck.pptx'))\nresult = [len(s), s[0].content.text.strip(), '<slide' not in s[0].content.text]\n",
+  "id": "OBS-0060"
+ },
+ {
+  "code": "raw = pptx_bytes([[('text', 'Intro'), ('image',), ('text', 'Outro')]])\ns = arun(PPTParser().parse(raw, 'deck.pptx'))\ns2 = arun(PPTParser(include_image=False).parse(raw, 'deck.pptx'))\nresult = [section_view(s), section_view(s2)]\n",
+  "id": "OBS-0061"
+ },
+ {
+  "code": "raw = pptx_bytes([[('text', 'Lead'), ('table', [['K', 'V'], ['x', '1']])]])\nmerged = arun(PPTParser(slide_prefix=None, slide_suffix=None).parse(raw, 'deck.pptx'))\napart = arun(PPTParser(separate_table=True, slide_prefix=None, slide_suffix=None).parse(raw, 'deck.pptx'))\nresult = [len(merged), '| K | V |' in merged[0].content.text, len(apart),\n          any(x.content.text.lstrip().startswith('| K | V |') for x in apart)]\n",
+  "id": "OBS-0062"
+ },
+ {
+  "code": "out = []\ntry:\n    PPTParser(table_format='html')\n    out.append('no error')\nexcept ValueError:\n    out.append('ValueError')\ntry:\n    arun(PPTParser().parse(b'not a pptx', 'bad.pptx'))\n    out.append('no error')\nexcept ValueError:\n    out.append('ValueError')\nresult = out + [PPTParser.supported_extensions()]\n",
+  "id": "OBS-0063"
+ },
+ {
+  "code": "raw = xlsx_bytes({'Sales': [['Name', 'Qty'], ['apple', 3]], 'Staff': [['Who', 'Role'], ['Ann', 'dev']]})\ns = arun(ExcelParser().parse(raw, 'book.xlsx'))\nt = s[0].content.text\nresult = [len(s), s[0].metadata, 'Sales' in t, 'Staff' in t, 'apple' in t, 'Ann' in t, t.index('Sales') < t.index('Staff')]\n",
+  "id": "OBS-0064"
+ },
+ {
+  "code": "raw = xlsx_bytes({'Sales': [['Name', 'Qty'], ['apple', 3]], 'Staff': [['Who', 'Role'], ['Ann', 'dev']]})\ns = arun(ExcelParser(separate_sheet=True).parse(raw, 'book.xlsx'))\nresult = [len(s), [x.metadata for x in s], 'apple' in s[0].content.text, 'Ann' in s[1].content.text]\n",
+  "id": "OBS-0065"
+ },
+ {
+  "code": "raw = xlsx_bytes({'Data': [['Name', 'Qty'], ['pear', 7]]})\nplain = arun(ExcelParser(include_sheet_names=False).parse(raw, 'b.xlsx'))[0].content.text\ncoords = arun(ExcelParser(include_cell_coordinates=True).parse(raw, 'b.xlsx'))[0].content.text\nresult = ['Data' not in plain, 'pear' in plain, 'A1' in coords, 'B2' in coords]\n",
+  "id": "OBS-0066"
+ },
+ {
+  "code": "raw = xlsx_bytes({'Data': [['Name', 'Qty'], ['pear', 7]]})\nt = arun(ExcelParser(table_format='json', include_sheet_names=False).parse(raw, 'b.xlsx'))[0].content.text\nresult = ['pear' in t, '<system-info>' in t, '| Name' not in t]\n",
+  "id": "OBS-0067"
+ },
+ {
+  "code": "raw = xlsx_bytes({'Pics': [['Name', 'Qty'], ['fig', 1]]}, image_sheet='Pics')\ns = arun(ExcelParser(include_image=True, separate_sheet=True).parse(raw, 'b.xlsx'))\nout = [section_view(s)]\ntry:\n    ExcelParser(table_format='yaml')\n    out.append('no error')\nexcept ValueError:\n    out.append('ValueError')\nresult = out + [ExcelParser.supported_extensions()]\n",
+  "id": "OBS-0068"
+ },
+ {
+  "code": "from agentscope.rag import ParserBase\nclass P(ParserBase):\n    supported_media_types = ['application/pdf', 'image/jpeg']\n    async def parse(self, file, filename):\n        return [Section(content=TextBlock(text=str(file)), source=filename)]\ntry:\n    ParserBase()\n    abstract = 'instantiable'\nexcept TypeError:\n    abstract = 'TypeError'\next = P.supported_extensions()\nresult = [abstract, ext, ext == sorted(set(ext)), all(e.startswith('.') for e in ext),\n          arun(P().parse('x', 'f.bin'))[0].source]\n",
+  "id": "OBS-0069"
+ },
+ {
+  "code": "from agentscope.rag import ParserBase\nclass Q(ParserBase):\n    supported_media_types = ['application/x-no-such-type-zz']\n    async def parse(self, file, filename):\n        return []\nresult = Q.supported_extensions()\n",
+  "id": "OBS-0070"
+ },
+ {
+  "code": "s = Section(content=TextBlock(text='hi'), source='a.txt')\nc = Chunk(content=TextBlock(text='hi'), source='a.txt', chunk_index=0, total_chunks=1)\nresult = [s.metadata, c.metadata, c.chunk_index, c.total_chunks, s.content.text]\n",
+  "id": "OBS-0071"
+ },
+ {
+  "code": "from agentscope.message import Base64Source\nimg = DataBlock(source=Base64Source(media_type='image/png', data='YWJj'))\nsecs = [Section(content=TextBlock(text='alpha beta'), source='d.bin', metadata={'k': 1}),\n        Section(content=img, source='d.bin', metadata={'k': 2})]\nchunks = arun(ApproxTokenChunker(chunk_size=64, overlap=0).chunk(secs))\nresult = [len(chunks), [type(c.content).__name__ for c in chunks], [c.metadata for c in chunks],\n          chunks[-1].content.source.data, [c.source for c in chunks]]\n",
+  "id": "OBS-0072"
+ },
+ {
+  "code": "try:\n    Section(content='plain string', source='a')\n    result = 'accepted'\nexcept Exception as e:\n    result = type(e).__name__\n",
+  "id": "OBS-0073"
+ },
+ {
+  "code": "out = []\nfor kwargs in ({'chunk_size': 0}, {'chunk_size': -3}, {'chunk_size': 10, 'overlap': -1},\n               {'chunk_size': 10, 'overlap': 10}, {'chunk_size': 10, 'overlap': 12}):\n    try:\n        ApproxTokenChunker(**kwargs)\n        out.append('ok')\n    except ValueError:\n        out.append('ValueError')\nresult = out\n",
+  "id": "OBS-0074"
+ },
+ {
+  "code": "from agentscope.rag import ChunkerBase\nc = ApproxTokenChunker()\ntry:\n    ChunkerBase()\n    abstract = 'instantiable'\nexcept TypeError:\n    abstract = 'TypeError'\nresult = [c.chunk_size, c.overlap, abstract, arun(c.chunk([]))]\n",
+  "id": "OBS-0075"
+ },
+ {
+  "code": "chunks = arun(ApproxTokenChunker(chunk_size=100, overlap=10).chunk(\n    [Section(content=TextBlock(text='short text'), source='s.txt', metadata={'m': 'x'})]))\nresult = [len(chunks), chunks[0].content.text, chunks[0].chunk_index, chunks[0].total_chunks, chunks[0].metadata]\n",
+  "id": "OBS-0076"
+ },
+ {
+  "code": "from agentscope.rag import VectorRecord\ndef rec(doc, idx, vec, text, meta=None, total=1, src=None):\n    return VectorRecord(vector=vec, document_id=doc, chunk=Chunk(content=TextBlock(text=text),\n        source=src or (doc + '.txt'), chunk_index=idx, total_chunks=total, metadata=meta or {}))\n\nasync def go():\n    store = QdrantStore(location=':memory:')\n    before = store._client is None\n    async with store:\n        a = await store.has_collection('kb')\n        await store.create_collection('kb', dimensions=2)\n        b = await store.has_collection('kb')\n        await store.delete_collection('kb')\n        c = await store.has_collection('kb')\n    return [before, a, b, c, store._client is None]\nresult = arun(go())\n",
+  "id": "OBS-0077"
+ },
+ {
+  "code": "from agentscope.rag import VectorRecord\ndef rec(doc, idx, vec, text, meta=None, total=1, src=None):\n    return VectorRecord(vector=vec, document_id=doc, chunk=Chunk(content=TextBlock(text=text),\n        source=src or (doc + '.txt'), chunk_index=idx, total_chunks=total, metadata=meta or {}))\n\nasync def go():\n    async with QdrantStore(location=':memory:') as store:\n        await store.create_collection('kb', dimensions=2)\n        await store.insert('kb', [rec('d1', 0, [1.0, 0.0], 'east', {'lang': 'en'}, 2),\n                                  rec('d1', 1, [0.8, 0.6], 'north-east', {'lang': 'en'}, 2),\n                                  rec('d2', 0, [0.0, 1.0], 'north', {'lang': 'fr'})])\n        hits = await store.search('kb', [1.0, 0.0], top_k=2)\n        return [[h.document_id, h.chunk.chunk_index, h.chunk.content.text, h.chunk.metadata, h.chunk.total_chunks]\n                for h in hits] + [hits[0].score >= hits[1].score]\nresult = arun(go())\n",
+  "id": "OBS-0078"
+ },
+ {
+  "code": "from agentscope.rag import VectorRecord\ndef rec(doc, idx, vec, text, meta=None, total=1, src=None):\n    return VectorRecord(vector=vec, document_id=doc, chunk=Chunk(content=TextBlock(text=text),\n        source=src or (doc + '.txt'), chunk_index=idx, total_chunks=total, metadata=meta or {}))\n\nasync def go():\n    async with QdrantStore(location=':memory:') as store:\n        await store.create_collection('kb', dimensions=2)\n        await store.insert('kb', [rec('d1', 0, [1.0, 0.0], 'x', {'lang': 'en'}),\n                                  rec('d2', 0, [0.9, 0.1], 'y', {'lang': 'fr'})])\n        only_fr = await store.search('kb', [1.0, 0.0], top_k=5, metadata_filter={'lang': 'fr'})\n        listed = await store.list_documents('kb', metadata_filter={'lang': 'en'})\n        await store.delete('kb', 'd1')\n        after = await store.list_documents('kb')\n        return [[h.document_id for h in only_fr], [d.document_id for d in listed],\n                sorted(d.document_id for d in after)]\nresult = arun(go())\n",
+  "id": "OBS-0079"
+ },
+ {
+  "code": "from agentscope.rag import VectorRecord\ndef rec(doc, idx, vec, text, meta=None, total=1, src=None):\n    return VectorRecord(vector=vec, document_id=doc, chunk=Chunk(content=TextBlock(text=text),\n        source=src or (doc + '.txt'), chunk_index=idx, total_chunks=total, metadata=meta or {}))\n\nasync def go():\n    async with QdrantStore(location=':memory:') as store:\n        await store.create_collection('kb', dimensions=2)\n        await store.insert('kb', [rec('d1', i, [1.0, float(i)], 't%d' % i, {'p': i}, 3, 'one.pdf') for i in range(3)])\n        docs = await store.list_documents('kb')\n        return [[d.document_id, d.chunk_count, d.source] for d in docs]\nresult = arun(go())\n",
+  "id": "OBS-0080"
+ },
+ {
+  "code": "async def go():\n    out = []\n    for distance in ('Cosine', 'Dot', 'Euclid'):\n        async with QdrantStore(location=':memory:', distance=distance) as store:\n            await store.create_collection('kb', dimensions=2)\n            out.append(await store.has_collection('kb'))\n    return out\nresult = arun(go())\n",
+  "id": "OBS-0081"
+ },
+ {
+  "code": "from agentscope.rag import VectorRecord\ndef rec(doc, idx, vec, text, meta=None, total=1, src=None):\n    return VectorRecord(vector=vec, document_id=doc, chunk=Chunk(content=TextBlock(text=text),\n        source=src or (doc + '.txt'), chunk_index=idx, total_chunks=total, metadata=meta or {}))\n\nfrom agentscope.rag import MilvusLiteStore\nasync def go():\n    store = MilvusLiteStore(uri=_os.path.join(_os.getcwd(), 'm.db'))\n    async with store:\n        a = await store.has_collection('kb')\n        await store.create_collection('kb', dimensions=2)\n        b = await store.has_collection('kb')\n        await store.insert('kb', [rec('d1', 0, [1.0, 0.0], 'east', {'lang': 'en'}, 2),\n                                  rec('d1', 1, [0.7, 0.7], 'ne', {'lang': 'en'}, 2),\n                                  rec('d2', 0, [0.0, 1.0], 'north', {'lang': 'fr'})])\n        hits = await store.search('kb', [1.0, 0.0], top_k=2)\n        fr = await store.search('kb', [1.0, 0.0], top_k=5, metadata_filter={'lang': 'fr'})\n        docs = await store.list_documents('kb')\n        await store.delete('kb', 'd1')\n        after = await store.list_documents('kb')\n        await store.delete_collection('kb')\n        c = await store.has_collection('kb')\n    return [a, b, [(h.document_id, h.chunk.chunk_index, h.chunk.content.text) for h in hits],\n            [h.document_id for h in fr], sorted((d.document_id, d.chunk_count, d.source) for d in docs),\n            [d.document_id for d in after], c]\nresult = arun(go())\n",
+  "id": "OBS-0082"
+ },
+ {
+  "code": "from agentscope.rag import ElasticsearchStore\nout = []\nfor n in (0, 10001, -5):\n    try:\n        ElasticsearchStore('http://localhost:9200', num_candidates=n)\n        out.append('ok')\n    except ValueError:\n        out.append('ValueError')\nstore = ElasticsearchStore('http://localhost:9200')\nout.append(store._client is None)\nclient = store.get_client()\nout.append(client is store.get_client())\narun(store.__aexit__(None, None, None))\nout.append(store._client is None)\nresult = out\n",
+  "id": "OBS-0083"
+ },
+ {
+  "code": "from agentscope.rag import VectorRecord\ndef rec(doc, idx, vec, text, meta=None, total=1, src=None):\n    return VectorRecord(vector=vec, document_id=doc, chunk=Chunk(content=TextBlock(text=text),\n        source=src or (doc + '.txt'), chunk_index=idx, total_chunks=total, metadata=meta or {}))\n\nclass FakeIndices:\n    def __init__(self, owner):\n        self.owner = owner\n    async def exists(self, index):\n        return index in self.owner.indexes\n    async def create(self, index, mappings):\n        self.owner.calls.append('create')\n        self.owner.indexes[index] = {}\n        self.owner.mappings = mappings\n    async def delete(self, index):\n        self.owner.indexes.pop(index, None)\nclass FakeES:\n    def __init__(self):\n        self.indexes, self.calls, self.mappings, self.refresh = {}, [], None, []\n        self.indices = FakeIndices(self)\n        self.bulk_errors = False\n        self.pages = None\n        self.closed = False\n    async def bulk(self, operations, refresh):\n        self.calls.append('bulk')\n        self.refresh.append(('bulk', refresh))\n        for action, body in zip(operations[0::2], operations[1::2]):\n            self.indexes.setdefault(action['index']['_index'], {})[action['index']['_id']] = body\n        if self.bulk_errors:\n            return {'errors': True, 'items': [{'index': {'error': {'type': 'x'}}}]}\n        return {'errors': False, 'items': []}\n    async def delete_by_query(self, index, query, conflicts, refresh):\n        self.refresh.append(('delete', refresh))\n        doc = query['term']['document_id']\n        store = self.indexes.get(index, {})\n        for key in [k for k, v in store.items() if v['document_id'] == doc]:\n            del store[key]\n    async def search(self, index, **kwargs):\n        self.calls.append('search')\n        if 'knn' in kwargs:\n            self.last_knn = kwargs['knn']\n            hits = [{'_score': 1.0, '_source': {'document_id': v['document_id'], 'chunk': v['chunk']}}\n                    for v in self.indexes.get(index, {}).values()][:kwargs['size']]\n            return {'hits': {'hits': hits}}\n        page = self.pages.pop(0)\n        return {'aggregations': {'documents': page}}\n    async def close(self):\n        self.closed = True\n\nfrom agentscope.rag import ElasticsearchStore\nasync def go():\n    store = ElasticsearchStore('http://localhost:9200')\n    fake = FakeES()\n    store._client = fake\n    await store.create_collection('kb', 3)\n    await store.create_collection('kb', 3)\n    await store.insert('kb', [])\n    await store.insert('kb', [rec('d1', 0, [1.0, 0.0, 0.0], 'v1')])\n    await store.insert('kb', [rec('d1', 0, [0.6, 0.8, 0.0], 'v2'), rec('d1', 1, [0.0, 1.0, 0.0], 'w')])\n    stored = sorted(v['chunk']['content']['text'] for v in fake.indexes['kb'].values())\n    await store.delete('kb', 'd1')\n    return [fake.calls.count('create'), fake.calls.count('bulk'), stored, len(fake.indexes['kb']),\n            fake.mappings['properties']['vector']['dims']]\nresult = arun(go())\n",
+  "id": "OBS-0084"
+ },
+ {
+  "code": "from agentscope.rag import VectorRecord\ndef rec(doc, idx, vec, text, meta=None, total=1, src=None):\n    return VectorRecord(vector=vec, document_id=doc, chunk=Chunk(content=TextBlock(text=text),\n        source=src or (doc + '.txt'), chunk_index=idx, total_chunks=total, metadata=meta or {}))\n\nclass FakeIndices:\n    def __init__(self, owner):\n        self.owner = owner\n    async def exists(self, index):\n        return index in self.owner.indexes\n    async def create(self, index, mappings):\n        self.owner.calls.append('create')\n        self.owner.indexes[index] = {}\n        self.owner.mappings = mappings\n    async def delete(self, index):\n        self.owner.indexes.pop(index, None)\nclass FakeES:\n    def __init__(self):\n        self.indexes, self.calls, self.mappings, self.refresh = {}, [], None, []\n        self.indices = FakeIndices(self)\n        self.bulk_errors = False\n        self.pages = None\n        self.closed = False\n    async def bulk(self, operations, refresh):\n        self.calls.append('bulk')\n        self.refresh.append(('bulk', refresh))\n        for action, body in zip(operations[0::2], operations[1::2]):\n            self.indexes.setdefault(action['index']['_index'], {})[action['index']['_id']] = body\n        if self.bulk_errors:\n            return {'errors': True, 'items': [{'index': {'error': {'type': 'x'}}}]}\n        return {'errors': False, 'items': []}\n    async def delete_by_query(self, index, query, conflicts, refresh):\n        self.refresh.append(('delete', refresh))\n        doc = query['term']['document_id']\n        store = self.indexes.get(index, {})\n        for key in [k for k, v in store.items() if v['document_id'] == doc]:\n            del store[key]\n    async def search(self, index, **kwargs):\n        self.calls.append('search')\n        if 'knn' in kwargs:\n            self.last_knn = kwargs['knn']\n            hits = [{'_score': 1.0, '_source': {'document_id': v['document_id'], 'chunk': v['chunk']}}\n                    for v in self.indexes.get(index, {}).values()][:kwargs['size']]\n            return {'hits': {'hits': hits}}\n        page = self.pages.pop(0)\n        return {'aggregations': {'documents': page}}\n    async def close(self):\n        self.closed = True\n\nfrom agentscope.rag import ElasticsearchStore\nasync def go():\n    store = ElasticsearchStore('http://localhost:9200', refresh=False)\n    fake = FakeES()\n    store._client = fake\n    fake.bulk_errors = True\n    try:\n        await store.insert('kb', [rec('d1', 0, [1.0, 0.0], 'x')])\n        err = 'no error'\n    except RuntimeError:\n        err = 'RuntimeError'\n    await store.delete('kb', 'd1')\n    empty = await store.search('kb', [1.0, 0.0], top_k=0)\n    try:\n        await store.search('kb', [1.0, 0.0], top_k=10001)\n        big = 'no error'\n    except ValueError:\n        big = 'ValueError'\n    return [err, fake.refresh[-1], empty, big]\nresult = arun(go())\n",
+  "id": "OBS-0085"
+ },
+ {
+  "code": "from agentscope.rag import VectorRecord\ndef rec(doc, idx, vec, text, meta=None, total=1, src=None):\n    return VectorRecord(vector=vec, document_id=doc, chunk=Chunk(content=TextBlock(text=text),\n        source=src or (doc + '.txt'), chunk_index=idx, total_chunks=total, metadata=meta or {}))\n\nclass FakeIndices:\n    def __init__(self, owner):\n        self.owner = owner\n    async def exists(self, index):\n        return index in self.owner.indexes\n    async def create(self, index, mappings):\n        self.owner.calls.append('create')\n        self.owner.indexes[index] = {}\n        self.owner.mappings = mappings\n    async def delete(self, index):\n        self.owner.indexes.pop(index, None)\nclass FakeES:\n    def __init__(self):\n        self.indexes, self.calls, self.mappings, self.refresh = {}, [], None, []\n        self.indices = FakeIndices(self)\n        self.bulk_errors = False\n        self.pages = None\n        self.closed = False\n    async def bulk(self, operations, refresh):\n        self.calls.append('bulk')\n        self.refresh.append(('bulk', refresh))\n        for action, body in zip(operations[0::2], operations[1::2]):\n            self.indexes.setdefault(action['index']['_index'], {})[action['index']['_id']] = body\n        if self.bulk_errors:\n            return {'errors': True, 'items': [{'index': {'error': {'type': 'x'}}}]}\n        return {'errors': False, 'items': []}\n    async def delete_by_query(self, index, query, conflicts, refresh):\n        self.refresh.append(('delete', refresh))\n        doc = query['term']['document_id']\n        store = self.indexes.get(index, {})\n        for key in [k for k, v in store.items() if v['document_id'] == doc]:\n            del store[key]\n    async def search(self, index, **kwargs):\n        self.calls.append('search')\n        if 'knn' in kwargs:\n            self.last_knn = kwargs['knn']\n            hits = [{'_score': 1.0, '_source': {'document_id': v['document_id'], 'chunk': v['chunk']}}\n                    for v in self.indexes.get(index, {}).values()][:kwargs['size']]\n            return {'hits': {'hits': hits}}\n        page = self.pages.pop(0)\n        return {'aggregations': {'documents': page}}\n    async def close(self):\n        self.closed = True\n\nfrom agentscope.rag import ElasticsearchStore\nasync def go():\n    store = ElasticsearchStore('http://localhost:9200', num_candidates=7)\n    fake = FakeES()\n    store._client = fake\n    await store.insert('kb', [rec('d1', 0, [1.0, 0.0], 'alpha', {'lang': 'en'})])\n    hits = await store.search('kb', [1.0, 0.0], top_k=3)\n    candidates = [fake.last_knn['num_candidates'], fake.last_knn['k']]\n    await store.search('kb', [1.0, 0.0], top_k=20)\n    candidates += [fake.last_knn['num_candidates'], fake.last_knn['k']]\n    chunk = lambda doc, text: {'chunk': Chunk(content=TextBlock(text=text), source=doc + '.md', chunk_index=0,\n                                                total_chunks=1, metadata={'k': doc}).model_dump(mode='json')}\n    fake.pages = [\n        {'buckets': [{'key': {'document_id': 'a'}, 'doc_count': 2, 'sample': {'hits': {'hits': [{'_source': chunk('a', 'x')}]}}}],\n         'after_key': {'document_id': 'a'}},\n        {'buckets': [{'key': {'document_id': 'b'}, 'doc_count': 1, 'sample': {'hits': {'hits': [{'_source': chunk('b', 'y')}]}}}],\n         'after_key': {'document_id': 'b'}},\n        {'buckets': []},\n    ]\n    docs = await store.list_documents('kb')\n    return [[(h.document_id, h.chunk.content.text, h.chunk.metadata) for h in hits], candidates,\n            [(d.document_id, d.chunk_count, d.source, d.metadata) for d in docs]]\nresult = arun(go())\n",
+  "id": "OBS-0086"
+ },
+ {
+  "code": "from agentscope.rag import MongoDBStore\nstore = MongoDBStore(uri='mongodb://localhost:27017', database='rag')\nout = [store._client is None, store._filter_fields, store._index_name, store._distance]\nclient = store.get_client()\nout.append(client is store.get_client())\narun(store.__aexit__(None, None, None))\nout.append(store._client is None)\nresult = out\n",
+  "id": "OBS-0087"
+ },
+ {
+  "code": "from agentscope.rag import VectorRecord\ndef rec(doc, idx, vec, text, meta=None, total=1, src=None):\n    return VectorRecord(vector=vec, document_id=doc, chunk=Chunk(content=TextBlock(text=text),\n        source=src or (doc + '.txt'), chunk_index=idx, total_chunks=total, metadata=meta or {}))\n\nclass FakeCursor:\n    def __init__(self, rows):\n        self.rows = list(rows)\n    def __aiter__(self):\n        self._it = iter(self.rows)\n        return self\n    async def __anext__(self):\n        try:\n            return next(self._it)\n        except StopIteration:\n            raise StopAsyncIteration\nclass FakeCollection:\n    def __init__(self, db, name):\n        self.db, self.name = db, name\n    async def create_search_index(self, model):\n        self.db.index_models[self.name] = model.document\n    async def list_search_indexes(self, name):\n        return FakeCursor([{'name': name, 'queryable': True}])\n    async def bulk_write(self, operations, ordered):\n        docs = self.db.docs.setdefault(self.name, {})\n        for op in operations:\n            doc = op._doc\n            docs[doc['_id']] = doc\n    async def delete_many(self, query):\n        docs = self.db.docs.setdefault(self.name, {})\n        for key in [k for k, v in docs.items() if v['document_id'] == query['document_id']]:\n            del docs[key]\n    async def drop(self):\n        self.db.names.discard(self.name)\n        self.db.docs.pop(self.name, None)\n    async def aggregate(self, pipeline):\n        self.db.pipelines.append(pipeline)\n        docs = list(self.db.docs.get(self.name, {}).values())\n        if '$vectorSearch' in pipeline[0]:\n            return FakeCursor([{'document_id': d['document_id'], 'chunk': d['chunk'], 'score': 0.5} for d in docs])\n        groups = {}\n        for d in docs:\n            g = groups.setdefault(d['document_id'], {'_id': d['document_id'], 'source': d['chunk']['source'],\n                                                     'metadata': d['chunk']['metadata'], 'chunk_count': 0})\n            g['chunk_count'] += 1\n        return FakeCursor(groups.values())\nclass FakeDB:\n    def __init__(self):\n        self.names, self.docs, self.index_models, self.pipelines = set(), {}, {}, []\n        self.created = 0\n    async def list_collection_names(self):\n        return sorted(self.names)\n    async def create_collection(self, name):\n        self.created += 1\n        self.names.add(name)\n    def __getitem__(self, name):\n        return FakeCollection(self, name)\nclass FakeMongo:\n    def __init__(self):\n        self.db = FakeDB()\n        self.closed = False\n    def __getitem__(self, name):\n        return self.db\n    async def close(self):\n        self.closed = True\n\nfrom agentscope.rag import MongoDBStore\nasync def go():\n    store = MongoDBStore(uri='mongodb://x', database='rag', distance='dotProduct', index_name='vidx',\n                         filter_fields=['document_id', 'chunk.metadata.tenant'])\n    fake = FakeMongo()\n    store._client = fake\n    await store.create_collection('kb', dimensions=4)\n    await store.create_collection('kb', dimensions=4)\n    model = fake.db.index_models['kb']\n    fields = model['definition']['fields']\n    vec = [f for f in fields if f['type'] == 'vector'][0]\n    return [fake.db.created, await store.has_collection('kb'), model['name'], vec['path'], vec['numDimensions'],\n            vec['similarity'], sorted(f['path'] for f in fields if f['type'] == 'filter')]\nresult = arun(go())\n",
+  "id": "OBS-0088"
+ },
+ {
+  "code": "from agentscope.rag import VectorRecord\ndef rec(doc, idx, vec, text, meta=None, total=1, src=None):\n    return VectorRecord(vector=vec, document_id=doc, chunk=Chunk(content=TextBlock(text=text),\n        source=src or (doc + '.txt'), chunk_index=idx, total_chunks=total, metadata=meta or {}))\n\nclass FakeCursor:\n    def __init__(self, rows):\n        self.rows = list(rows)\n    def __aiter__(self):\n        self._it = iter(self.rows)\n        return self\n    async def __anext__(self):\n        try:\n            return next(self._it)\n        except StopIteration:\n            raise StopAsyncIteration\nclass FakeCollection:\n    def __init__(self, db, name):\n        self.db, self.name = db, name\n    async def create_search_index(self, model):\n        self.db.index_models[self.name] = model.document\n    async def list_search_indexes(self, name):\n        return FakeCursor([{'name': name, 'queryable': True}])\n    async def bulk_write(self, operations, ordered):\n        docs = self.db.docs.setdefault(self.name, {})\n        for op in operations:\n            doc = op._doc\n            docs[doc['_id']] = doc\n    async def delete_many(self, query):\n        docs = self.db.docs.setdefault(self.name, {})\n        for key in [k for k, v in docs.items() if v['document_id'] == query['document_id']]:\n            del docs[key]\n    async def drop(self):\n        self.db.names.discard(self.name)\n        self.db.docs.pop(self.name, None)\n    async def aggregate(self, pipeline):\n        self.db.pipelines.append(pipeline)\n        docs = list(self.db.docs.get(self.name, {}).values())\n        if '$vectorSearch' in pipeline[0]:\n            return FakeCursor([{'document_id': d['document_id'], 'chunk': d['chunk'], 'score': 0.5} for d in docs])\n        groups = {}\n        for d in docs:\n            g = groups.setdefault(d['document_id'], {'_id': d['document_id'], 'source': d['chunk']['source'],\n                                                     'metadata': d['chunk']['metadata'], 'chunk_count': 0})\n            g['chunk_count'] += 1\n        return FakeCursor(groups.values())\nclass FakeDB:\n    def __init__(self):\n        self.names, self.docs, self.index_models, self.pipelines = set(), {}, {}, []\n        self.created = 0\n    async def list_collection_names(self):\n        return sorted(self.names)\n    async def create_collection(self, name):\n        self.created += 1\n        self.names.add(name)\n    def __getitem__(self, name):\n        return FakeCollection(self, name)\nclass FakeMongo:\n    def __init__(self):\n        self.db = FakeDB()\n        self.closed = False\n    def __getitem__(self, name):\n        return self.db\n    async def close(self):\n        self.closed = True\n\nfrom agentscope.rag import MongoDBStore\nasync def go():\n    store = MongoDBStore(uri='mongodb://x', database='rag')\n    fake = FakeMongo()\n    store._client = fake\n    await store.create_collection('kb', dimensions=2)\n    await store.insert('kb', [rec('d1', 0, [1.0, 0.0], 'a', {'tenant': 't1'}, 2), rec('d1', 1, [0.0, 1.0], 'b', {'tenant': 't1'}, 2),\n                              rec('d2', 0, [1.0, 1.0], 'c', {'tenant': 't2'})])\n    stored = sorted((d['document_id'], d['chunk']['chunk_index']) for d in fake.db.docs['kb'].values())\n    hits = await store.search('kb', [1.0, 0.0], top_k=2, metadata_filter={'tenant': 't1', 'lang': 'en'})\n    vs = fake.db.pipelines[-1][0]['$vectorSearch']\n    def pairs(node, out):\n        # The documented contract is an AND of chunk.metadata.<key> == value pairs; accept any equivalent\n        # MongoDB spelling ($and of clauses, a flat document, {'$eq': v} or a bare value).\n        for key, value in node.items():\n            if key == '$and':\n                for clause in value:\n                    pairs(clause, out)\n            else:\n                out.append((key, value['$eq'] if isinstance(value, dict) and set(value) == {'$eq'} else value))\n        return out\n    docs = await store.list_documents('kb')\n    await store.delete('kb', 'd1')\n    after = await store.list_documents('kb')\n    await store.delete_collection('kb')\n    return [stored, sorted({h.document_id for h in hits}), vs['limit'], sorted(pairs(vs['filter'], [])),\n            sorted((d.document_id, d.chunk_count, d.source) for d in docs), [d.document_id for d in after],\n            await store.has_collection('kb')]\nresult = arun(go())\n",
+  "id": "OBS-0089"
+ },
+ {
+  "code": "async def go():\n    async with QdrantStore(location=':memory:') as store:\n        model = StubEmbedding()\n        kb = KnowledgeBase('docs', 'my docs', model, store, 'col-1', metadata_filter={'tenant': 't'})\n        before = await store.has_collection('col-1')\n        await kb.ensure_collection()\n        await kb.ensure_collection()\n        return [kb.name, kb.description, kb.embedding_model is model, kb.vector_store is store, kb.collection,\n                kb.metadata_filter, before, await store.has_collection('col-1')]\nresult = arun(go())\n",
+  "id": "OBS-0090"
+ },
+ {
+  "code": "async def go():\n    async with QdrantStore(location=':memory:') as store:\n        kb = KnowledgeBase('docs', 'd', StubEmbedding(), store, 'c')\n        chunks = await ApproxTokenChunker(chunk_size=64, overlap=0).chunk(\n            [Section(content=TextBlock(text='aaa bbb'), source='x.txt')])\n        doc_id = await kb.insert_document(chunks)\n        listed = await kb.list_documents()\n        await kb.delete_document(doc_id)\n        after = await kb.list_documents()\n        return [isinstance(doc_id, str) and len(doc_id) > 0, [d.document_id == doc_id for d in listed],\n                [d.chunk_count for d in listed], after]\nresult = arun(go())\n",
+  "id": "OBS-0091"
+ },
+ {
+  "code": "async def go():\n    async with QdrantStore(location=':memory:') as store:\n        kb = KnowledgeBase('docs', 'd', StubEmbedding(), store, 'c')\n        chunks = await ApproxTokenChunker(chunk_size=64, overlap=0).chunk(\n            [Section(content=TextBlock(text='aaaa'), source='a.txt'), Section(content=TextBlock(text='bbbb'), source='a.txt')])\n        await kb.insert_document(chunks, document_id='doc-a')\n        hits = await kb.search(['aaaa'], top_k=1)\n        return [len(hits), hits[0].document_id, hits[0].chunk.content.text]\nresult = arun(go())\n",
+  "id": "OBS-0092"
+ },
+ {
+  "code": "m = StubEmbedding(batch_size=2)\nr = arun(m(['a', 'bb', 'ccc', 'abc', 'aa']))\nresult = [m.batches, r.embeddings, r.usage.tokens, r.usage.time, r.source, r.type]\n",
+  "id": "OBS-0093"
+ },
+ {
+  "code": "m = StubEmbedding()\nr = arun(m([]))\nr2 = arun(m([TextBlock(text='ab'), 'c'], flavour='x'))\nresult = [r.embeddings, r.usage.tokens, m.batches, m.kwargs_seen, r2.embeddings]\n",
+  "id": "OBS-0094"
+ },
+ {
+  "code": "m = StubEmbedding(failures=2, retry_on=(ConnectionError,), max_retries=2)\nr = arun(m(['a']))\nm2 = StubEmbedding(failures=3, retry_on=(ConnectionError,), max_retries=2)\ntry:\n    arun(m2(['a']))\n    e2 = 'no error'\nexcept ConnectionError:\n    e2 = 'ConnectionError'\nresult = [r.embeddings, m.attempts, e2, m2.attempts]\n",
+  "id": "OBS-0095"
+ },
+ {
+  "code": "from pydantic import BaseModel\nclass Legacy(BaseModel):\n    dimensions: int = 0\nout = []\nfor dims, params in ((0, None), (-2, None), (None, None)):\n    try:\n        EmbeddingModelBase.__init__(StubEmbedding.__new__(StubEmbedding), credential=DashScopeCredential(api_key='k'),\n                                    model='m', dimensions=dims, parameters=params, context_size=1, batch_size=1,\n                                    max_retries=0, retry_delay=0)\n        out.append('ok')\n    except ValueError:\n        out.append('ValueError')\nobj = StubEmbedding.__new__(StubEmbedding)\nEmbeddingModelBase.__init__(obj, credential=DashScopeCredential(api_key='k'), model='m', dimensions=None,\n                            parameters=EmbeddingModelBase.Parameters(dimensions=8), context_size=1, batch_size=1,\n                            max_retries=0, retry_delay=0)\nout.append(obj.dimensions)\nout.append('dimensions' in obj.parameters.model_dump())\nout.append(EmbeddingModelBase.supports_multimodal)\nresult = out\n",
+  "id": "OBS-0096"
+ },
+ {
+  "code": "r = EmbeddingResponse(embeddings=[[0.1, 0.2]])\nu = EmbeddingUsage(time=1.5)\nresult = [r.embeddings, r.type, r.source, r.usage, isinstance(r.id, str), isinstance(r.created_at, str),\n          u.time, u.tokens, u.type]\n",
+  "id": "OBS-0097"
+ },
+ {
+  "code": "r = EmbeddingResponse(embeddings=[[1.0]], usage=EmbeddingUsage(time=0.1, tokens=4), source='cache')\nresult = [r.source, r.usage.tokens, r['embeddings'], r.get('source')]\n",
+  "id": "OBS-0098"
+ },
+ {
+  "code": "from agentscope.embedding import FileEmbeddingCache\nasync def go():\n    cache = FileEmbeddingCache(cache_dir=_os.path.join(_os.getcwd(), 'emb'))\n    key = {'input': ['a'], 'model': 'm'}\n    missing = await cache.retrieve(key)\n    await cache.store([[1.0, 2.0]], key)\n    got = await cache.retrieve(key)\n    await cache.store([[9.0, 9.0]], key)\n    kept = await cache.retrieve(key)\n    await cache.store([[3.0, 4.0]], key, overwrite=True)\n    replaced = await cache.retrieve(key)\n    await cache.remove(key)\n    gone = await cache.retrieve(key)\n    try:\n        await cache.remove(key)\n        err = 'no error'\n    except FileNotFoundError:\n        err = 'FileNotFoundError'\n    return [missing, got, kept, replaced, gone, err, _os.path.isdir(cache.cache_dir)]\nresult = arun(go())\n",
+  "id": "OBS-0099"
+ },
+ {
+  "code": "import time\nfrom agentscope.embedding import FileEmbeddingCache\nasync def go():\n    cache = FileEmbeddingCache(cache_dir=_os.path.join(_os.getcwd(), 'emb'), max_file_number=2)\n    for i in range(3):\n        await cache.store([[float(i)]], 'key-%d' % i)\n        time.sleep(0.05)\n    present = [await cache.retrieve('key-%d' % i) for i in range(3)]\n    await cache.clear()\n    cleared = [await cache.retrieve('key-%d' % i) for i in range(3)]\n    return [sum(p is not None for p in present), cleared]\nresult = arun(go())\n",
+  "id": "OBS-0100"
+ },
+ {
+  "code": "from agentscope.embedding import EmbeddingCacheBase, FileEmbeddingCache\nresult = [issubclass(FileEmbeddingCache, EmbeddingCacheBase),\n          sorted(n for n in ('store', 'retrieve', 'remove', 'clear') if hasattr(EmbeddingCacheBase, n))]\n",
+  "id": "OBS-0101"
+ },
+ {
+  "code": "from agentscope.embedding import OpenAIEmbeddingModel, EmbeddingModelCard\ncards = {c.name: c for c in OpenAIEmbeddingModel.list_models()}\nc = cards['text-embedding-3-small']\nresult = [sorted(cards), c.type, c.label, c.status, c.input_types, c.output_types, c.dimensions,\n          c.supported_dimensions, c.context_size, isinstance(c, EmbeddingModelCard)]\n",
+  "id": "OBS-0102"
+ },
+ {
+  "code": "from agentscope.embedding import DashScopeEmbeddingModel, GeminiEmbeddingModel, OllamaEmbeddingModel\nresult = [sorted(c.name for c in DashScopeEmbeddingModel.list_models()),\n          sorted(c.name for c in GeminiEmbeddingModel.list_models()),\n          OllamaEmbeddingModel.list_models(), StubEmbedding.list_models(custom_yaml_dir=_os.path.join(_os.getcwd(), 'none'))]\n",
+  "id": "OBS-0103"
+ },
+ {
+  "code": "from agentscope.embedding import EmbeddingModelCard\npath = _os.path.join(_os.getcwd(), 'card.yaml')\nopen(path, 'w').write('name: m1\\nlabel: M One\\n')\ntry:\n    EmbeddingModelCard.from_yaml(path, EmbeddingModelBase.Parameters)\n    e = 'no error'\nexcept ValueError:\n    e = 'ValueError'\nopen(path, 'w').write('name: m2\\nlabel: M Two\\ndimensions: 64\\n')\ncard = EmbeddingModelCard.from_yaml(path, EmbeddingModelBase.Parameters)\nresult = [e, card.name, card.dimensions, card.status, card.input_types, card.supported_dimensions]\n",
+  "id": "OBS-0104"
+ },
+ {
+  "code": "from types import SimpleNamespace as NS\nfrom agentscope.embedding import OpenAIEmbeddingModel\nfrom agentscope.credential import OpenAICredential\nm = OpenAIEmbeddingModel(OpenAICredential(api_key='k', base_url='http://127.0.0.1:9/v1', organization='org-1'),\n                         'text-embedding-3-small', dimensions=2)\nseen = []\nasync def create(**kwargs):\n    seen.append(kwargs)\n    return NS(data=[NS(index=1, embedding=[0.0, 1.0]), NS(index=0, embedding=[1.0, 0.0])], usage=NS(total_tokens=7))\nm.client.embeddings.create = create\nr = arun(m(['first', TextBlock(text='second')]))\nresult = [r.embeddings, r.usage.tokens, seen[0]['input'], seen[0]['model'], seen[0]['encoding_format'],\n          seen[0].get('dimensions'), str(m.client.base_url).rstrip('/'), m.client.organization, m.batch_size,\n          m.context_size, m.max_retries]\n",
+  "id": "OBS-0105"
+ },
+ {
+  "code": "from types import SimpleNamespace as NS\nfrom agentscope.embedding import OpenAIEmbeddingModel, FileEmbeddingCache\nfrom agentscope.credential import OpenAICredential\ncache = FileEmbeddingCache(cache_dir=_os.path.join(_os.getcwd(), 'c'))\nm = OpenAIEmbeddingModel(OpenAICredential(api_key='k'), 'compat-model', dimensions=3, pass_dimensions=False,\n                         embedding_cache=cache)\nseen = []\nasync def create(**kwargs):\n    seen.append(kwargs)\n    return NS(data=[NS(index=0, embedding=[0.5, 0.5, 0.5])], usage=NS(total_tokens=2))\nm.client.embeddings.create = create\nfirst = arun(m(['hello']))\nsecond = arun(m(['hello']))\nresult = ['dimensions' in seen[0], len(seen), first.source, second.source, second.embeddings]\n",
+  "id": "OBS-0106"
+ },
+ {
+  "code": "from types import SimpleNamespace as NS\nimport dashscope\nfrom agentscope.embedding import DashScopeEmbeddingModel\ncalls = []\ndef text_call(**kwargs):\n    calls.append(kwargs)\n    return NS(status_code=200, output={'embeddings': [{'embedding': [float(len(t)), 0.0]} for t in kwargs['input']]},\n              usage={'total_tokens': 3})\ndashscope.embeddings.TextEmbedding.call = staticmethod(text_call)\nm = DashScopeEmbeddingModel(DashScopeCredential(api_key='k'), 'text-embedding-v4', dimensions=2)\nr = arun(m(['x' * i for i in range(1, 13)]))\nresult = [[len(c['input']) for c in calls], calls[0]['dimension'], calls[0]['model'], r.embeddings[:3], len(r.embeddings)]\n",
+  "id": "OBS-0107"
+ },
+ {
+  "code": "from types import SimpleNamespace as NS\nimport dashscope\nfrom agentscope.embedding import DashScopeEmbeddingModel\nfrom agentscope.message import Base64Source, URLSource\ncalls = []\ndef mm_call(**kwargs):\n    calls.append(kwargs['input'])\n    return NS(status_code=200, output={'embeddings': [{'embedding': [1.0, 2.0]} for _ in kwargs['input']]},\n              usage={'input_tokens': 2, 'image_tokens': 5})\ndashscope.MultiModalEmbedding.call = staticmethod(mm_call)\nm = DashScopeEmbeddingModel(DashScopeCredential(api_key='k'), 'multimodal-embedding-v1', dimensions=2)\nimg = DataBlock(source=Base64Source(media_type='image/png', data='QUJD'))\nurl_img = DataBlock(source=URLSource(media_type='image/jpeg', url='https://example.com/a.jpg'))\nvid = DataBlock(source=URLSource(media_type='video/mp4', url='https://example.com/v.mp4'))\nr = arun(m(['hello', img, url_img, vid]))\nflat = [item for batch in calls for item in batch]\nresult = [flat, len(r.embeddings), [len(b) for b in calls]]\n",
+  "id": "OBS-0108"
+ },
+ {
+  "code": "from types import SimpleNamespace as NS\nimport dashscope\nfrom agentscope.embedding import DashScopeEmbeddingModel\nfrom agentscope.message import Base64Source, URLSource\ndashscope.MultiModalEmbedding.call = staticmethod(lambda **k: NS(status_code=200, output={'embeddings': []}, usage={}))\nm = DashScopeEmbeddingModel(DashScopeCredential(api_key='k'), 'qwen3-vl-embedding', dimensions=2)\nout = []\nfor block in (DataBlock(source=Base64Source(media_type='video/mp4', data='QUJD')),\n              DataBlock(source=Base64Source(media_type='audio/mpeg', data='QUJD'))):\n    try:\n        arun(m([block]))\n        out.append('no error')\n    except ValueError:\n        out.append('ValueError')\nt = DashScopeEmbeddingModel(DashScopeCredential(api_key='k'), 'text-embedding-v3', dimensions=2)\ntry:\n    arun(t([DataBlock(source=Base64Source(media_type='image/png', data='QUJD'))]))\n    out.append('no error')\nexcept ValueError:\n    out.append('ValueError')\ndashscope.embeddings.TextEmbedding.call = staticmethod(lambda **k: NS(status_code=400, output=None, usage=None))\ntry:\n    arun(t(['x']))\n    out.append('no error')\nexcept RuntimeError:\n    out.append('RuntimeError')\nresult = out\n",
+  "id": "OBS-0109"
+ },
+ {
+  "code": "from types import SimpleNamespace as NS\nfrom agentscope.embedding import GeminiEmbeddingModel\nfrom agentscope.credential import GeminiCredential\nm = GeminiEmbeddingModel(GeminiCredential(api_key='k'), 'gemini-embedding-001', dimensions=3)\nseen = []\ndef embed_content(**kwargs):\n    seen.append(kwargs)\n    return NS(embeddings=[NS(values=[float(i), 0.0, 1.0]) for i, _ in enumerate(kwargs['contents'])])\nm.client.models.embed_content = embed_content\nr = arun(m(['one', TextBlock(text='two')]))\nresult = [r.embeddings, seen[0]['model'], seen[0]['contents'], seen[0]['config'].output_dimensiona

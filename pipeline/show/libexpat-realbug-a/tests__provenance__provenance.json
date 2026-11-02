@@ -1,0 +1,180 @@
+{
+  "repo": "libexpat/libexpat",
+  "repo_url": "https://github.com/libexpat/libexpat.git",
+  "base_commit": "57c7da69b78e3698e112a6b5da19d5109b8232d1",
+  "base_ref": "R_2_4_3",
+  "source": {
+    "kind": "swe-sweep",
+    "task": "libexpat",
+    "url": "https://github.com/facebookresearch/swe-sweep",
+    "commit": "48e6bf74e2b2b7d055dfd39612fc8a9d60556144"
+  },
+  "contamination": "SWE-Sweep (2026-10-01) publishes these hidden tests and asks that they not be trained on; the bugs are libexpat fixes later than R_2_4_3 (2022-01), several of them public CVE fixes, so treat this task as high-contamination and track its results apart from injected and freshly mined tasks.",
+  "licenses": [
+    "COPYING.libexpat",
+    "LICENSE.swe-sweep"
+  ],
+  "bugs": {
+    "libexpat-0c5dbd0bb0a5": {
+      "kind": "swe-sweep",
+      "dataset": "facebookresearch/swe-sweep",
+      "dataset_commit": "48e6bf74e2b2b7d055dfd39612fc8a9d60556144",
+      "dataset_task": "swe-sweep__libexpat",
+      "subtask": "libexpat-0c5dbd0bb0a5",
+      "upstream_f2p": [
+        "runtests",
+        "runtestspp"
+      ],
+      "upstream_target_files": [
+        "expat/lib/xmlparse.c"
+      ],
+      "gold_patch_origin": "tasks/swe-sweep__libexpat/tests/oracle/libexpat-0c5dbd0bb0a5.patch",
+      "test_patch_origin": "tasks/swe-sweep__libexpat/tests/subtasks/libexpat-0c5dbd0bb0a5/test.patch",
+      "license": "SWE-Sweep MIT (LICENSE.swe-sweep); patch content is upstream code under the upstream license",
+      "gold_patch_sha256": "fe542fdda24707ca61375861feea7ea460af4845418e8e7b6b132c44d787cf5d",
+      "test_patch_sha256": "df7a799500b04729ed7fde1f782d78a0ea9376ef8af63ab3313c5664f2848547"
+    },
+    "libexpat-30d93b149d3d": {
+      "kind": "swe-sweep",
+      "dataset": "facebookresearch/swe-sweep",
+      "dataset_commit": "48e6bf74e2b2b7d055dfd39612fc8a9d60556144",
+      "dataset_task": "swe-sweep__libexpat",
+      "subtask": "libexpat-30d93b149d3d",
+      "upstream_f2p": [
+        "runtests",
+        "runtestspp"
+      ],
+      "upstream_target_files": [
+        "expat/lib/xmlparse.c"
+      ],
+      "gold_patch_origin": "tasks/swe-sweep__libexpat/tests/oracle/libexpat-30d93b149d3d.patch",
+      "test_patch_origin": "tasks/swe-sweep__libexpat/tests/subtasks/libexpat-30d93b149d3d/test.patch",
+      "license": "SWE-Sweep MIT (LICENSE.swe-sweep); patch content is upstream code under the upstream license",
+      "gold_patch_sha256": "689dbb1cd652057682197653471f179827dd11957e6de4e56b5d77df2b578e32",
+      "test_patch_sha256": "24cd397e3a996ca7d5b880ba9f5defda6e352574d8fbade9aa53fec79ba48245"
+    },
+    "libexpat-8e5c789e8d3b": {
+      "kind": "swe-sweep",
+      "dataset": "facebookresearch/swe-sweep",
+      "dataset_commit": "48e6bf74e2b2b7d055dfd39612fc8a9d60556144",
+      "dataset_task": "swe-sweep__libexpat",
+      "subtask": "libexpat-8e5c789e8d3b",
+      "upstream_f2p": [
+        "runtests",
+        "runtestspp"
+      ],
+      "upstream_target_files": [
+        "expat/lib/xmlparse.c"
+      ],
+      "gold_patch_origin": "tasks/swe-sweep__libexpat/tests/oracle/libexpat-8e5c789e8d3b.patch",
+      "test_patch_origin": "tasks/swe-sweep__libexpat/tests/subtasks/libexpat-8e5c789e8d3b/test.patch",
+      "license": "SWE-Sweep MIT (LICENSE.swe-sweep); patch content is upstream code under the upstream license",
+      "gold_patch_sha256": "eee7ac262725d77ed848bfbe33ff1cf4c10c5562a8602f830cf3a3b85d35c6d1",
+      "test_patch_sha256": "55272c03736d563da8131b7774ae672f00a1b3c2a1987b200e2d628828b19ab6"
+    },
+    "libexpat-e567e550f1be": {
+      "kind": "swe-sweep",
+      "dataset": "facebookresearch/swe-sweep",
+      "dataset_commit": "48e6bf74e2b2b7d055dfd39612fc8a9d60556144",
+      "dataset_task": "swe-sweep__libexpat",
+      "subtask": "libexpat-e567e550f1be",
+      "upstream_f2p": [
+        "runtests",
+        "runtestspp"
+      ],
+      "upstream_target_files": [
+        "expat/lib/xmltok.c"
+      ],
+      "gold_patch_origin": "tasks/swe-sweep__libexpat/tests/oracle/libexpat-e567e550f1be.patch",
+      "test_patch_origin": "tasks/swe-sweep__libexpat/tests/subtasks/libexpat-e567e550f1be/test.patch",
+      "license": "SWE-Sweep MIT (LICENSE.swe-sweep); patch content is upstream code under the upstream license",
+      "gold_patch_sha256": "746dad444f8f1a4e4ab01a3f87a9286e8f250fc19ec954f19b873b230ff13ae3",
+      "test_patch_sha256": "2c71ed7525c2223f2ae83848cb2dfba746b7d66949aa8b5c57b1928a66e51e3c"
+    }
+  },
+  "measured": {
+    "pristine_tests": 2,
+    "allowed_failing": [],
+    "suite_seconds": 1,
+    "build_seconds": 6,
+    "bugs": {
+      "libexpat-0c5dbd0bb0a5": {
+        "f2p": [
+          "runtests",
+          "runtestspp"
+        ],
+        "expected_tests": [
+          "runtests",
+          "runtestspp"
+        ],
+        "base_failing": [
+          "runtests",
+          "runtestspp"
+        ],
+        "witness": {
+          "runtests": "100%: Checks: 336, Failed: 0",
+          "runtestspp": "100%: Checks: 336, Failed: 0"
+        },
+        "skipped_in_gold": []
+      },
+      "libexpat-30d93b149d3d": {
+        "f2p": [
+          "runtests",
+          "runtestspp"
+        ],
+        "expected_tests": [
+          "runtests",
+          "runtestspp"
+        ],
+        "base_failing": [
+          "runtests",
+          "runtestspp"
+        ],
+        "witness": {
+          "runtests": "100%: Checks: 336, Failed: 0",
+          "runtestspp": "100%: Checks: 336, Failed: 0"
+        },
+        "skipped_in_gold": []
+      },
+      "libexpat-8e5c789e8d3b": {
+        "f2p": [
+          "runtests",
+          "runtestspp"
+        ],
+        "expected_tests": [
+          "runtests",
+          "runtestspp"
+        ],
+        "base_failing": [
+          "runtests",
+          "runtestspp"
+        ],
+        "witness": {
+          "runtests": "100%: Checks: 336, Failed: 0",
+          "runtestspp": "100%: Checks: 336, Failed: 0"
+        },
+        "skipped_in_gold": []
+      },
+      "libexpat-e567e550f1be": {
+        "f2p": [
+          "runtests",
+          "runtestspp"
+        ],
+        "expected_tests": [
+          "runtests",
+          "runtestspp"
+        ],
+        "base_failing": [
+          "runtests",
+          "runtestspp"
+        ],
+        "witness": {
+          "runtests": "100%: Checks: 336, Failed: 0",
+          "runtestspp": "100%: Checks: 336, Failed: 0"
+        },
+        "skipped_in_gold": []
+      }
+    },
+    "max_test_seconds": 0.90158
+  }
+}

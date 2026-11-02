@@ -1,0 +1,518 @@
+[
+ {
+  "code": "result = observe({'op': 'bypass', 'requests': [{'dont_filter': True, 'url': 'https://example.test/a'}, {'url': 'https://example.test/a'}, {'url': 'https://example.test/a'}]})\n",
+  "id": "OBS-0001"
+ },
+ {
+  "code": "result = observe({'op': 'bypass', 'requests': [{'dont_filter': True, 'url': 'https://example.test/a'}, {'dont_filter': True, 'url': 'https://example.test/a'}, {'url': 'https://example.test/a'}, {'url': 'https://example.test/a'}]})\n",
+  "id": "OBS-0002"
+ },
+ {
+  "code": "result = observe({'op': 'composition', 'requests': [{'dont_filter': True, 'priority': 8, 'url': 'https://example.test/a?x=1&y=2'}, {'meta': {'is_start_request': True}, 'priority': 3, 'url': 'https://example.test/a?y=2&x=1'}, {'meta': {'is_start_request': True}, 'priority': 3, 'url': 'https://example.test/b'}, {'priority': 3, 'url': 'https://example.test/c'}, {'priority': -2, 'url': 'https://example.test/d'}, {'priority': 1, 'url': 'https://example.test/e'}]})\n",
+  "id": "OBS-0003"
+ },
+ {
+  "code": "result = observe({'op': 'identity', 'requests': [{'url': 'https://example.test/a?x=1&y=2'}, {'url': 'https://example.test/a?y=2&x=1'}]})\n",
+  "id": "OBS-0004"
+ },
+ {
+  "code": "result = observe({'op': 'identity', 'requests': [{'url': 'https://example.test/a#one'}, {'url': 'https://example.test/a#two'}]})\n",
+  "id": "OBS-0005"
+ },
+ {
+  "code": "result = observe({'op': 'ordering', 'requests': [{'meta': {'is_start_request': True}, 'url': 'https://example.test/a'}, {'meta': {'is_start_request': True}, 'url': 'https://example.test/b'}, {'url': 'https://example.test/c'}]})\n",
+  "id": "OBS-0006"
+ },
+ {
+  "code": "result = observe({'op': 'ordering', 'requests': [{'priority': 8, 'url': 'https://example.test/a'}, {'priority': 3, 'url': 'https://example.test/b'}, {'priority': -4, 'url': 'https://example.test/c'}, {'priority': 3, 'url': 'https://example.test/d'}]})\n",
+  "id": "OBS-0007"
+ },
+ {
+  "code": "result = observe({'op': 'bypass', 'requests': [{'url': 'https://example.test/a'}, {'url': 'https://example.test/a'}, {'dont_filter': True, 'url': 'https://example.test/a'}, {'url': 'https://example.test/a'}]})\n",
+  "id": "OBS-0008"
+ },
+ {
+  "code": "result = observe({'op': 'bypass', 'requests': [{'dont_filter': True, 'url': 'https://example.test/a'}, {'dont_filter': True, 'url': 'https://example.test/a'}]})\n",
+  "id": "OBS-0009"
+ },
+ {
+  "code": "result = observe({'op': 'bypass', 'requests': [{'url': 'https://example.test/a'}, {'dont_filter': False, 'url': 'https://example.test/a'}]})\n",
+  "id": "OBS-0010"
+ },
+ {
+  "code": "result = observe({'op': 'bypass', 'requests': [{'url': 'https://example.test/a'}, {'url': 'https://example.test/a'}, {'url': 'https://example.test/a'}], 'settings': {'DUPEFILTER_CLASS': 'scrapy.dupefilters.BaseDupeFilter'}})\n",
+  "id": "OBS-0011"
+ },
+ {
+  "code": "result = observe({'op': 'identity', 'requests': [{'url': 'https://example.test/a'}, {'method': 'POST', 'url': 'https://example.test/a'}, {'body': 'one', 'method': 'POST', 'url': 'https://example.test/a'}, {'body': 'two', 'method': 'POST', 'url': 'https://example.test/a'}]})\n",
+  "id": "OBS-0012"
+ },
+ {
+  "code": "result = observe({'op': 'identity', 'requests': [{'headers': {'X-ID': 'one'}, 'url': 'https://example.test/a'}, {'headers': {'X-ID': 'two'}, 'url': 'https://example.test/a'}]})\n",
+  "id": "OBS-0013"
+ },
+ {
+  "code": "result = observe({'op': 'identity', 'requests': [{'url': 'https://example.test/a?x=1'}, {'url': 'https://example.test/a?x=2'}]})\n",
+  "id": "OBS-0014"
+ },
+ {
+  "code": "result = observe({'op': 'identity', 'requests': [{'meta': {'verbatim_url': True}, 'url': 'https://example.test/a?x=1&y=2'}, {'meta': {'verbatim_url': True}, 'url': 'https://example.test/a?y=2&x=1'}]})\n",
+  "id": "OBS-0015"
+ },
+ {
+  "code": "result = observe({'op': 'identity', 'requests': [{'meta': {'verbatim_url': True}, 'url': 'https://example.test/a#one'}, {'meta': {'verbatim_url': True}, 'url': 'https://example.test/a#two'}]})\n",
+  "id": "OBS-0016"
+ },
+ {
+  "code": "result = observe({'op': 'ordering', 'requests': []})\n",
+  "id": "OBS-0017"
+ },
+ {
+  "code": "result = observe({'op': 'ordering', 'requests': [{'priority': -4, 'url': 'https://example.test/a'}]})\n",
+  "id": "OBS-0018"
+ },
+ {
+  "code": "result = observe({'op': 'ordering', 'requests': [{'url': 'https://example.test/a'}, {'url': 'https://example.test/b'}, {'url': 'https://example.test/c'}]})\n",
+  "id": "OBS-0019"
+ },
+ {
+  "code": "result = observe({'op': 'ordering', 'requests': [{'priority': 4, 'url': 'https://example.test/a'}, {'priority': -4, 'url': 'https://example.test/b'}]})\n",
+  "id": "OBS-0020"
+ },
+ {
+  "code": "result = observe({'op': 'ordering', 'requests': [{'priority': 4, 'url': 'https://example.test/a'}, {'priority': 4, 'url': 'https://example.test/b'}, {'priority': -4, 'url': 'https://example.test/c'}]})\n",
+  "id": "OBS-0021"
+ },
+ {
+  "code": "result = observe({'op': 'ordering', 'requests': [{'dont_filter': True, 'meta': {'is_start_request': True}, 'url': 'https://example.test/a'}, {'dont_filter': True, 'meta': {'is_start_request': True}, 'url': 'https://example.test/b'}, {'url': 'https://example.test/c'}]})\n",
+  "id": "OBS-0022"
+ },
+ {
+  "code": "result = observe({'op': 'ordering', 'requests': [{'meta': {'is_start_request': True}, 'url': 'https://example.test/a'}, {'meta': {'is_start_request': True}, 'url': 'https://example.test/b'}, {'url': 'https://example.test/c'}], 'settings': {'SCHEDULER_START_MEMORY_QUEUE': None}})\n",
+  "id": "OBS-0023"
+ },
+ {
+  "code": "result = observe({'op': 'ordering', 'requests': [{'url': 'https://example.test/a'}, {'url': 'https://example.test/b'}, {'url': 'https://example.test/c'}], 'settings': {'SCHEDULER_MEMORY_QUEUE': 'scrapy.squeues.FifoMemoryQueue'}})\n",
+  "id": "OBS-0024"
+ },
+ {
+  "code": "\nerrors = []\nfor url in ['example.test/no-scheme', '']:\n    try:\n        Request(url)\n        errors.append('ok')\n    except ValueError:\n        errors.append('ValueError')\nresult = {'errors': errors, 'method': Request('http://example.test/', method='post').method}\n",
+  "id": "OBS-0025"
+ },
+ {
+  "code": "\nr1 = Request('http://example.test/', body='caf\\u00e9')\nr2 = Request('http://example.test/', body='caf\\u00e9', encoding='latin-1')\nr3 = Request('http://example.test/')\nresult = [r1.body.hex(), r2.body.hex(), r3.body, type(r3.body).__name__]\n",
+  "id": "OBS-0026"
+ },
+ {
+  "code": "\nmeta = {'k': [1]}\nr = Request('http://example.test/', meta=meta)\nmeta['other'] = 1\nr.meta['k'].append(2)\nd = Request('http://example.test/')\nresult = {'meta_keys': sorted(r.meta), 'shared_value': meta['k'], 'priority': d.priority,\n          'dont_filter': d.dont_filter, 'callback': d.callback, 'errback': d.errback,\n          'cb_kwargs': d.cb_kwargs, 'flags': d.flags, 'meta': d.meta}\n",
+  "id": "OBS-0027"
+ },
+ {
+  "code": "\nr1 = Request('http://example.test/caf\\u00e9?q=\\u00fc')\nr2 = Request('http://example.test/caf\\u00e9?q=\\u00fc', encoding='latin-1')\nr3 = Request('http://example.test/caf\\u00e9?q=\\u00fc', meta={'verbatim_url': True})\nresult = [r1.url, r2.url, r3.url]\n",
+  "id": "OBS-0028"
+ },
+ {
+  "code": "\nr = Request('http://example.test/', headers={'X-One': 'a', 'X-Many': ['b', 'c'], 'X-None': None})\nresult = {'one': r.headers.get('X-One'), 'many': r.headers.getlist('X-Many'), 'none_value': r.headers.get('X-None')}\n",
+  "id": "OBS-0029"
+ },
+ {
+  "code": "\nr = Request('http://example.test/a', body=b'x')\nout = []\nfor attr, new in (('url', 'http://example.test/b'), ('body', b'y')):\n    try:\n        setattr(r, attr, new)\n        out.append('set')\n    except AttributeError:\n        out.append('AttributeError')\nresult = out + [r.url, r.body]\n",
+  "id": "OBS-0030"
+ },
+ {
+  "code": "\nr = Request('http://example.test/a', method='POST', body=b'b', meta={'m': [1]}, cb_kwargs={'c': [2]},\n            priority=3, dont_filter=True, flags=['f'])\nr2 = r.replace(url='http://example.test/b')\nr2.meta['new'] = 1\nr2.meta['m'].append(9)\nresult = {'url': r2.url, 'method': r2.method, 'body': r2.body, 'priority': r2.priority,\n          'dont_filter': r2.dont_filter, 'flags': r2.flags, 'orig_meta_keys': sorted(r.meta),\n          'shared': r.meta['m'], 'cb_kwargs_equal': r2.cb_kwargs == r.cb_kwargs,\n          'cb_kwargs_same_object': r2.cb_kwargs is r.cb_kwargs}\n",
+  "id": "OBS-0031"
+ },
+ {
+  "code": "\nr = Request('http://example.test/a', headers={'X': '1'}, cookies={'c': 'v'}, priority=-2)\nc = r.copy()\nresult = [c is r, c.url, c.headers.get('X'), c.priority, type(c).__name__]\n",
+  "id": "OBS-0032"
+ },
+ {
+  "code": "\nr = Request('http://example.test/a')\nr2 = r.replace(cls=JsonRequest)\nresult = [type(r2).__name__, r2.url]\n",
+  "id": "OBS-0033"
+ },
+ {
+  "code": "\nresult = sorted(Request.attributes)\n",
+  "id": "OBS-0034"
+ },
+ {
+  "code": "\nfrom scrapy.utils.request import request_from_dict\nclass S(Spider):\n    name = 's'\n    def parse_item(self, response): pass\n    def on_error(self, failure): pass\nspider = S()\nr = Request('http://example.test/a', callback=spider.parse_item, errback=spider.on_error, method='PUT',\n            body=b'x', headers={'X-A': '1'}, meta={'m': 1}, priority=5, dont_filter=True, cb_kwargs={'k': 2},\n            flags=['f'])\nd = r.to_dict(spider=spider)\nr2 = request_from_dict(d, spider=spider)\nresult = {'callback': d['callback'], 'errback': d['errback'], 'same': [r2.url, r2.method, r2.body, r2.priority,\n          r2.dont_filter, r2.cb_kwargs, r2.flags, r2.meta, r2.headers.get('X-A')],\n          'bound': r2.callback.__name__ if r2.callback else None}\n",
+  "id": "OBS-0035"
+ },
+ {
+  "code": "\nfrom scrapy.utils.request import request_from_dict\nr = JsonRequest('http://example.test/a', data={'a': 1})\nr2 = request_from_dict(r.to_dict())\nresult = [type(r2).__name__, r2.method, r2.body]\n",
+  "id": "OBS-0036"
+ },
+ {
+  "code": "\nr = Request.from_curl(\"curl -X POST 'http://example.test/p' -H 'X-A: 1' -b 'c=v' --data-raw 'q=1'\")\nr2 = Request.from_curl(\"curl 'http://example.test/p' -X POST\", method='PUT')\nresult = [r.method, r.url, r.headers.get('X-A'), r.cookies, r.body, r2.method]\n",
+  "id": "OBS-0037"
+ },
+ {
+  "code": "\nok = Request.from_curl(\"curl 'http://example.test/' --made-up-option\").url\ntry:\n    Request.from_curl(\"curl 'http://example.test/' --made-up-option\", ignore_unknown_options=False)\n    strict = 'ok'\nexcept ValueError:\n    strict = 'ValueError'\nresult = [ok, strict]\n",
+  "id": "OBS-0038"
+ },
+ {
+  "code": "\nr = Request('http://example.test/p', method='POST', headers={'X-A': '1'}, body=b'q=1')\nr2 = Request.from_curl(r.to_curl())\nresult = [r2.method, r2.url, r2.headers.get('X-A'), r2.body]\n",
+  "id": "OBS-0039"
+ },
+ {
+  "code": "\nfrom scrapy.http.request import NO_CALLBACK\nr = Request('http://example.test/', callback=NO_CALLBACK)\nresult = r.callback is NO_CALLBACK\n",
+  "id": "OBS-0040"
+ },
+ {
+  "code": "\nfrom scrapy.utils.request import fingerprint, RequestFingerprinter\nbase = Request('http://example.test/a')\nfp = fingerprint(base)\nsame = fingerprint(Request('http://example.test/a', headers={'X-ID': '1'}))\npost = fingerprint(Request('http://example.test/a', method='POST'))\nbody = fingerprint(Request('http://example.test/a', method='POST', body=b'1'))\nh1 = fingerprint(Request('http://example.test/a', headers={'X-ID': '1'}), include_headers=['X-ID'])\nh2 = fingerprint(Request('http://example.test/a', headers={'X-ID': '2'}), include_headers=['X-ID'])\nfper = RequestFingerprinter(make_crawler())\nresult = {'type': type(fp).__name__, 'len': len(fp), 'headers_ignored': fp == same, 'method': fp != post,\n          'body': post != body, 'include_headers': h1 != h2, 'fingerprinter': fper.fingerprint(base) == fp}\n",
+  "id": "OBS-0041"
+ },
+ {
+  "code": "\nfrom scrapy.utils.request import fingerprint\na = Request('http://example.test/a?y=2&x=1', meta={'verbatim_url': True})\nb = Request('http://example.test/a?x=1&y=2', meta={'verbatim_url': True})\nc = Request('http://example.test/a#f', meta={'verbatim_url': True})\nd = Request('http://example.test/a', meta={'verbatim_url': True})\nresult = [fingerprint(a) != fingerprint(b), fingerprint(c) != fingerprint(d)]\n",
+  "id": "OBS-0042"
+ },
+ {
+  "code": "\nclass FP:\n    def fingerprint(self, request):\n        return b'x' + request.url.encode()\ncrawler = make_crawler({'REQUEST_FINGERPRINTER_CLASS': FP})\nresult = crawler.request_fingerprinter.fingerprint(Request('http://example.test/a')).decode()\n",
+  "id": "OBS-0043"
+ },
+ {
+  "code": "\nr = FormRequest('http://example.test/post', formdata={'name': 'John Doe', 'age': '27'})\nresult = [r.method, sorted(r.body.decode().split('&')), r.headers.get('Content-Type')]\n",
+  "id": "OBS-0044"
+ },
+ {
+  "code": "\nr = FormRequest('http://example.test/search?x=1', method='GET', formdata=[('q', 'a b'), ('q', 'c')])\nresult = [r.method, r.url, r.body]\n",
+  "id": "OBS-0045"
+ },
+ {
+  "code": "\nr = JsonRequest('http://example.test/post', data={'name1': 'value1'})\nresult = [r.method, r.headers.get('Content-Type'), r.headers.get('Accept'), r.body]\n",
+  "id": "OBS-0046"
+ },
+ {
+  "code": "\nr1 = JsonRequest('http://example.test/p', body=b'{\"x\":1}', data={'y': 2})\nr2 = JsonRequest('http://example.test/p', data={'b': 1, 'a': 2}, dumps_kwargs={'sort_keys': True})\nr3 = JsonRequest('http://example.test/p')\nresult = [r1.body, r2.body, r3.method, r3.body]\n",
+  "id": "OBS-0047"
+ },
+ {
+  "code": "\nr = JsonRequest('http://example.test/p', data={'b': 1, 'a': 2}, dumps_kwargs={'sort_keys': True})\nr2 = r.replace(data={'d': 1, 'c': 2})\nresult = ['dumps_kwargs' in JsonRequest.attributes, r2.body]\n",
+  "id": "OBS-0048"
+ },
+ {
+  "code": "\nflags = ['a']\nr = Response('http://example.test/', headers={'Set-Cookie': ['a=1', 'b=2'], 'X': 'y'}, flags=flags)\nflags.append('b')\nresult = {'status': r.status, 'get': r.headers.get('Set-Cookie'), 'getlist': r.headers.getlist('Set-Cookie'),\n          'x': r.headers.get('X'), 'flags': r.flags, 'body': r.body}\n",
+  "id": "OBS-0049"
+ },
+ {
+  "code": "\nreq = Request('http://example.test/', meta={'m': 1}, cb_kwargs={'k': 2})\nr = Response('http://example.test/', request=req)\nout = [r.meta is req.meta, r.cb_kwargs is req.cb_kwargs, r.request is req]\ntry:\n    Response('http://example.test/').meta\n    out.append('no error')\nexcept AttributeError:\n    out.append('AttributeError')\nresult = out\n",
+  "id": "OBS-0050"
+ },
+ {
+  "code": "\nfrom urllib.parse import urljoin\nreq = Request('http://example.test/a/b')\nr = Response('http://example.test/a/b', status=404, body=b'x', request=req, flags=['f'], protocol='HTTP/1.1')\nr2 = r.replace(status=200)\nc = r.copy()\ntry:\n    r.url = 'http://example.test/'\n    ro = 'set'\nexcept AttributeError:\n    ro = 'AttributeError'\nresult = {'replace': [r2.status, r2.url, r2.body, r2.flags, r2.protocol, r2.request is req],\n          'copy': [c is r, c.status, c.body], 'ro': ro,\n          'join': [r.urljoin('c'), r.urljoin('/d'), r.urljoin('c') == urljoin(r.url, 'c')]}\n",
+  "id": "OBS-0051"
+ },
+ {
+  "code": "\nr = Response('http://example.test/')\nresult = [r.certificate, r.ip_address, r.protocol, sorted(Response.attributes)]\n",
+  "id": "OBS-0052"
+ },
+ {
+  "code": "\nfrom scrapy.link import Link\nreq = Request('http://example.test/a/b')\nr = Response('http://example.test/a/b', request=req)\nf1 = r.follow('c', method='POST', priority=3, meta={'m': 1})\nf2 = r.follow(Link('http://other.test/z'))\nall_ = list(r.follow_all(['x', '/y']))\nresult = [f1.url, f1.method, f1.priority, f1.meta, f2.url, [x.url for x in all_]]\n",
+  "id": "OBS-0053"
+ },
+ {
+  "code": "\nr = Response('http://example.test/', body=b'<p>x</p>')\nout = []\nfor attr in ('text', 'css', 'xpath'):\n    try:\n        v = getattr(r, attr)\n        if callable(v):\n            v('p')\n        out.append('ok')\n    except Exception:\n        out.append('raises')\nresult = out\n",
+  "id": "OBS-0054"
+ },
+ {
+  "code": "\nr = TextResponse('http://example.test/', body='caf\\u00e9', encoding='latin-1')\nresult = [r.body.hex(), r.text, r.encoding]\n",
+  "id": "OBS-0055"
+ },
+ {
+  "code": "\nbody = '<html><head><meta charset=\"cp1252\"></head><body>\\u20ac</body></html>'.encode('cp1252')\nh1 = HtmlResponse('http://example.test/', body=body, headers={'Content-Type': 'text/html; charset=utf-8'}, encoding='cp1252')\nh2 = HtmlResponse('http://example.test/', body='x'.encode(), headers={'Content-Type': 'text/html; charset=utf-8'})\nh3 = HtmlResponse('http://example.test/', body=body, headers={'Content-Type': 'text/html; charset=nonsense'})\nh4 = HtmlResponse('http://example.test/', body=body)\nx = XmlResponse('http://example.test/', body='<?xml version=\"1.0\" encoding=\"cp1252\"?><r>\\u20ac</r>'.encode('cp1252'))\nresult = [h1.encoding, h2.encoding, h3.encoding, h4.encoding, h4.text.endswith('\\u20ac</body></html>'), x.encoding]\n",
+  "id": "OBS-0056"
+ },
+ {
+  "code": "\nr = HtmlResponse('http://example.test/', body=b'<p class=\"a\">one</p><p>two</p>', encoding='utf-8')\nj = TextResponse('http://example.test/', body=b'{\"object\": [1, 2]}', encoding='utf-8')\nresult = [r.xpath('//p/text()').getall(), r.css('p.a::text').get(), r.selector is r.selector,\n          j.jmespath('object[*]').getall()]\n",
+  "id": "OBS-0057"
+ },
+ {
+  "code": "\nr = TextResponse('http://example.test/', body=b'{\"a\": [1, 2.5, null]}')\nresult = [r.json(), r.json() is r.json()]\n",
+  "id": "OBS-0058"
+ },
+ {
+  "code": "\nr = HtmlResponse('http://example.test/a/b', body=b'<html><head><base href=\"http://base.test/x/\"></head></html>')\nr2 = HtmlResponse('http://example.test/a/b', body=b'<html></html>')\nresult = [r.urljoin('c'), r2.urljoin('c')]\n",
+  "id": "OBS-0059"
+ },
+ {
+  "code": "\nr = HtmlResponse('http://example.test/a/', body=b'<a href=\"x\">1</a><a>no href</a><a class=\"k\" href=\"/y\">2</a><img src=\"i.png\">',\n                 encoding='utf-8')\nf1 = r.follow(r.css('a.k')[0])\nf2 = r.follow(r.xpath('//img/@src')[0])\nall_css = [q.url for q in r.follow_all(css='a')]\nall_xpath = [q.url for q in r.follow_all(xpath='//a')]\nall_sel = [q.url for q in r.follow_all(r.css('a'))]\nresult = [f1.url, f2.url, all_css, all_xpath, all_sel]\n",
+  "id": "OBS-0060"
+ },
+ {
+  "code": "\nresult = [issubclass(c, TextResponse) for c in (HtmlResponse, XmlResponse, JsonResponse)] + [issubclass(TextResponse, Response)]\n",
+  "id": "OBS-0061"
+ },
+ {
+  "code": "\nh = Headers({'Content-Type': 'text/html'})\nh['X-Many'] = ['a', 'b']\nh.appendlist('x-many', 'c')\nresult = [h.get('content-type'), h['CONTENT-TYPE'], h.getlist('X-MANY'), h.get('x-many'), 'content-type' in h]\n",
+  "id": "OBS-0062"
+ },
+ {
+  "code": "\nh = Headers({'X-Many': ['a', 'b'], 'X-One': 'c'})\nu = h.to_unicode_dict()\nresult = [u['x-many'], u['X-ONE'], sorted(h.to_tuple_list())]\n",
+  "id": "OBS-0063"
+ },
+ {
+  "code": "\nh = Headers({'A': '1'})\nh.setdefault('A', '2')\nh.setdefault('B', '3')\nc = h.copy()\nc['A'] = '9'\nresult = [h.get('A'), h.get('B'), c.get('A'), h.getlist('missing'), h.getlist('missing', ['d'])]\n",
+  "id": "OBS-0064"
+ },
+ {
+  "code": "\nimport os\njobdir = os.path.join(os.getcwd(), 'job')\nsettings = {'JOBDIR': jobdir, 'SCHEDULER_PRIORITY_QUEUE': 'scrapy.pqueues.ScrapyPriorityQueue'}\nfrom scrapy.core.scheduler import Scheduler\nc1 = make_crawler(settings)\ns1 = Scheduler.from_crawler(c1)\ns1.open(c1.spider)\nadm = [s1.enqueue_request(Request('http://example.test/' + n)) for n in 'abc']\nfirst = s1.next_request().url\ns1.close('shutdown')\nfiles = sorted(os.listdir(jobdir))\nc2 = make_crawler(settings)\ns2 = Scheduler.from_crawler(c2)\ns2.open(c2.spider)\npending = len(s2)\ndrained = []\nwhile s2.has_pending_requests():\n    drained.append(s2.next_request().url)\ndup = s2.enqueue_request(Request('http://example.test/a'))\ns2.close('finished')\nresult = {'admitted': adm, 'first': first, 'files': files,\n          'active_json': os.path.exists(os.path.join(jobdir, 'requests.queue', 'active.json')),\n          'pending_after_resume': pending, 'drained': drained, 'seen_rejected': dup,\n          'stats1': {k: v for k, v in c1.stats.get_stats().items() if k.startswith('scheduler/')}}\n",
+  "id": "OBS-0065"
+ },
+ {
+  "code": "\nimport os\njobdir = os.path.join(os.getcwd(), 'job')\nsettings = {'JOBDIR': jobdir, 'SCHEDULER_PRIORITY_QUEUE': 'scrapy.pqueues.ScrapyPriorityQueue'}\nfrom scrapy.core.scheduler import Scheduler\nc1 = make_crawler(settings)\ns1 = Scheduler.from_crawler(c1)\ns1.open(c1.spider)\nok = s1.enqueue_request(Request('http://example.test/mem', callback=lambda r: None))\ndisk = s1.enqueue_request(Request('http://example.test/disk'))\nn = len(s1)\ns1.close('shutdown')\nc2 = make_crawler(settings)\ns2 = Scheduler.from_crawler(c2)\ns2.open(c2.spider)\nleft = []\nwhile s2.has_pending_requests():\n    left.append(s2.next_request().url)\ns2.close('finished')\nst = c1.stats.get_stats()\nresult = {'accepted': [ok, disk], 'len': n, 'after_resume': left,\n          'unserializable': st.get('scheduler/unserializable'), 'memory': st.get('scheduler/enqueued/memory'),\n          'disk': st.get('scheduler/enqueued/disk')}\n",
+  "id": "OBS-0066"
+ },
+ {
+  "code": "\nimport os\nclass S(Spider):\n    name = 's'\n    def parse_item(self, response):\n        pass\njobdir = os.path.join(os.getcwd(), 'job')\nsettings = {'JOBDIR': jobdir, 'SCHEDULER_PRIORITY_QUEUE': 'scrapy.pqueues.ScrapyPriorityQueue'}\nfrom scrapy.core.scheduler import Scheduler\nc1 = make_crawler(settings, S)\ns1 = Scheduler.from_crawler(c1)\ns1.open(c1.spider)\nshared = {'items': [1]}\ns1.enqueue_request(Request('http://example.test/x', callback=c1.spider.parse_item, cb_kwargs={'state': shared},\n                           meta={'m': shared}))\ns1.close('shutdown')\nc2 = make_crawler(settings, S)\ns2 = Scheduler.from_crawler(c2)\ns2.open(c2.spider)\nr = s2.next_request()\ns2.close('finished')\nresult = {'callback': r.callback.__name__, 'cb_kwargs': r.cb_kwargs, 'copied': r.cb_kwargs['state'] is not shared,\n          'meta_m': r.meta['m'], 'unserializable': c1.stats.get_value('scheduler/unserializable')}\n",
+  "id": "OBS-0067"
+ },
+ {
+  "code": "\nfrom scrapy.core.scheduler import Scheduler\nc = make_crawler({'SCHEDULER_PRIORITY_QUEUE': 'scrapy.pqueues.ScrapyPriorityQueue',\n                  'SCHEDULER_MEMORY_QUEUE': 'scrapy.squeues.FifoMemoryQueue',\n                  'SCHEDULER_DISK_QUEUE': 'scrapy.squeues.PickleFifoDiskQueue', 'DEPTH_PRIORITY': 1})\ns = Scheduler.from_crawler(c)\ns.open(c.spider)\nfor n in 'abc':\n    s.enqueue_request(Request('http://example.test/' + n))\norder = [s.next_request().url[-1] for _ in range(3)]\ns.close('finished')\nresult = {'order': order, 'disk': c.stats.get_value('scheduler/enqueued/disk'), 'memory': c.stats.get_value('scheduler/enqueued/memory')}\n",
+  "id": "OBS-0068"
+ },
+ {
+  "code": "\nimport os\nfrom scrapy.settings import Settings\nfrom scrapy.utils.job import job_dir\npath = os.path.join(os.getcwd(), 'nested', 'job')\nresult = [job_dir(Settings()), job_dir(Settings({'JOBDIR': path})) == path, os.path.isdir(path)]\n",
+  "id": "OBS-0069"
+ },
+ {
+  "code": "\nimport os\nfrom scrapy import squeues\nc = make_crawler()\nout = {}\nfor name in ('FifoMemoryQueue', 'LifoMemoryQueue'):\n    q = squeues.__dict__[name].from_crawler(c)\n    for n in 'abc':\n        q.push(Request('http://example.test/' + n))\n    out[name] = [len(q)] + [q.pop().url[-1] for _ in range(3)] + [q.pop()]\nfor name in ('PickleFifoDiskQueue', 'PickleLifoDiskQueue', 'MarshalFifoDiskQueue', 'MarshalLifoDiskQueue'):\n    path = os.path.join(os.getcwd(), name)\n    q = squeues.__dict__[name].from_crawler(c, path)\n    for n in 'abc':\n        q.push(Request('http://example.test/' + n, meta={'k': n}))\n    q.close()\n    q = squeues.__dict__[name].from_crawler(c, path)\n    out[name] = [len(q)] + [(lambda r: [r.url[-1], r.meta['k'], type(r).__name__])(q.pop()) for _ in range(3)]\n    q.close()\nresult = out\n",
+  "id": "OBS-0070"
+ },
+ {
+  "code": "\nfrom scrapy.pqueues import ScrapyPriorityQueue\nfrom scrapy.squeues import FifoMemoryQueue\nc = make_crawler()\npq = ScrapyPriorityQueue.from_crawler(c, FifoMemoryQueue, '')\nfor n, p in (('a', 0), ('b', 5), ('c', 0), ('d', 5)):\n    pq.push(Request('http://example.test/' + n, priority=p))\npeek = pq.peek().url[-1]\norder = [pq.pop().url[-1] for _ in range(4)]\nresult = {'peek': peek, 'order': order, 'len': len(pq), 'empty_pop': pq.pop(), 'empty_peek': pq.peek()}\n",
+  "id": "OBS-0071"
+ },
+ {
+  "code": "\nimport os\nfrom scrapy.pqueues import ScrapyPriorityQueue\nfrom scrapy.squeues import PickleFifoDiskQueue\nc = make_crawler()\nkey = os.path.join(os.getcwd(), 'pq')\npq = ScrapyPriorityQueue.from_crawler(c, PickleFifoDiskQueue, key)\npq.push(Request('http://example.test/a', priority=1))\npq.push(Request('http://example.test/b', priority=1))\nactive = pq.close()\ndirs = sorted(os.listdir(key))\npq2 = ScrapyPriorityQueue.from_crawler(c, PickleFifoDiskQueue, key, active)\norder = [pq2.pop().url[-1] for _ in range(2)]\nresult = {'active': active, 'dirs': dirs, 'order': order, 'len': len(pq2)}\n",
+  "id": "OBS-0072"
+ },
+ {
+  "code": "\nfrom scrapy.dupefilters import RFPDupeFilter\ndf = RFPDupeFilter.from_crawler(make_crawler())\nseq = [Request('http://example.test/a'), Request('http://example.test/a', headers={'X': '1'}),\n       Request('http://example.test/a', method='POST'), Request('http://example.test/a', method='POST', body=b'1'),\n       Request('http://example.test/a', method='POST', body=b'1'), Request('http://example.test/b')]\nresult = [df.request_seen(r) for r in seq]\n",
+  "id": "OBS-0073"
+ },
+ {
+  "code": "\nimport os\nfrom scrapy.dupefilters import RFPDupeFilter\nfrom scrapy.utils.request import fingerprint\njobdir = os.path.join(os.getcwd(), 'job')\ndf = RFPDupeFilter.from_crawler(make_crawler({'JOBDIR': jobdir}))\ndf.request_seen(Request('http://example.test/a'))\ndf.request_seen(Request('http://example.test/b'))\ndf.close('finished')\nlines = open(os.path.join(jobdir, 'requests.seen')).read().splitlines()\ndf2 = RFPDupeFilter.from_crawler(make_crawler({'JOBDIR': jobdir}))\nresult = {'lines': len(lines), 'is_fp': lines[0] == fingerprint(Request('http://example.test/a')).hex(),\n          'reloaded': [df2.request_seen(Request('http://example.test/b')), df2.request_seen(Request('http://example.test/c'))]}\n",
+  "id": "OBS-0074"
+ },
+ {
+  "code": "\nfrom scrapy.dupefilters import BaseDupeFilter\ndf = BaseDupeFilter.from_crawler(make_crawler())\nresult = [df.request_seen(Request('http://example.test/a')) for _ in range(3)]\n",
+  "id": "OBS-0075"
+ },
+ {
+  "code": "\nfrom scrapy.core.scheduler import Scheduler\nclass ByHost:\n    def fingerprint(self, request):\n        return request.url.split('/')[2].encode()\nc = make_crawler({'SCHEDULER_PRIORITY_QUEUE': 'scrapy.pqueues.ScrapyPriorityQueue', 'REQUEST_FINGERPRINTER_CLASS': ByHost})\ns = Scheduler.from_crawler(c)\ns.open(c.spider)\nadm = [s.enqueue_request(Request(u)) for u in ('http://one.test/a', 'http://one.test/b', 'http://two.test/a')]\ns.close('finished')\nresult = adm\n",
+  "id": "OBS-0076"
+ },
+ {
+  "code": "\nimport os\nfrom scrapy.extensions.spiderstate import SpiderState\njobdir = os.path.join(os.getcwd(), 'job')\nc1 = make_crawler({'JOBDIR': jobdir})\next = SpiderState.from_crawler(c1)\next.spider_opened(c1.spider)\nstart = dict(c1.spider.state)\nc1.spider.state['items_count'] = c1.spider.state.get('items_count', 0) + 1\next.spider_closed(c1.spider)\nc2 = make_crawler({'JOBDIR': jobdir})\next2 = SpiderState.from_crawler(c2)\next2.spider_opened(c2.spider)\nresult = {'start': start, 'resumed': c2.spider.state, 'file': os.path.exists(os.path.join(jobdir, 'spider.state'))}\n",
+  "id": "OBS-0077"
+ },
+ {
+  "code": "\nfrom scrapy.exceptions import NotConfigured\nfrom scrapy.extensions.spiderstate import SpiderState\ntry:\n    SpiderState.from_crawler(make_crawler())\n    result = 'enabled'\nexcept NotConfigured:\n    result = 'NotConfigured'\n",
+  "id": "OBS-0078"
+ },
+ {
+  "code": "\nfrom scrapy.exceptions import NotConfigured\nfrom scrapy.extensions.throttle import AutoThrottle\nout = []\nfor s in ({}, {'AUTOTHROTTLE_ENABLED': True, 'AUTOTHROTTLE_TARGET_CONCURRENCY': 0}, {'AUTOTHROTTLE_ENABLED': True}):\n    try:\n        AutoThrottle.from_crawler(make_crawler(s))\n        out.append('enabled')\n    except NotConfigured:\n        out.append('NotConfigured')\nresult = out\n",
+  "id": "OBS-0079"
+ },
+ {
+  "code": "\nimport types\nfrom scrapy.extensions.throttle import AutoThrottle\ndef trace(settings, steps):\n    c = make_crawler(dict({'AUTOTHROTTLE_ENABLED': True}, **settings))\n    slot = types.SimpleNamespace(delay=0.0, transferring=set())\n    c.engine = types.SimpleNamespace(downloader=types.SimpleNamespace(_delay=None, slots={'k': slot}))\n    at = AutoThrottle.from_crawler(c)\n    at._spider_opened(c.spider)\n    slot.delay = c.engine.downloader._delay\n    out = [c.engine.downloader._delay]\n    for latency, status in steps:\n        req = Request('http://example.test/', meta={'download_slot': 'k', 'download_latency': latency})\n        at._response_downloaded(Response('http://example.test/', status=status), req, c.spider)\n        out.append(round(slot.delay, 6))\n    return out\nresult = [trace({'AUTOTHROTTLE_START_DELAY': 4.0}, [(2.0, 200), (1.0, 200), (10.0, 200)]),\n          trace({'AUTOTHROTTLE_START_DELAY': 1.0, 'DOWNLOAD_DELAY': 2.0, 'AUTOTHROTTLE_MAX_DELAY': 5.0}, [(0.1, 200), (30.0, 200)]),\n          trace({'AUTOTHROTTLE_START_DELAY': 1.0, 'AUTOTHROTTLE_TARGET_CONCURRENCY': 4.0}, [(8.0, 200), (4.0, 200)])]\n",
+  "id": "OBS-0080"
+ },
+ {
+  "code": "\nimport types\nfrom scrapy.extensions.throttle import AutoThrottle\nc = make_crawler({'AUTOTHROTTLE_ENABLED': True, 'AUTOTHROTTLE_START_DELAY': 3.0})\nslot = types.SimpleNamespace(delay=0.0, transferring=set())\nc.engine = types.SimpleNamespace(downloader=types.SimpleNamespace(_delay=None, slots={'k': slot}))\nat = AutoThrottle.from_crawler(c)\nat._spider_opened(c.spider)\nslot.delay = 3.0\nout = []\ndef step(meta, status=200):\n    req = Request('http://example.test/', meta=meta)\n    at._response_downloaded(Response('http://example.test/', status=status), req, c.spider)\n    out.append(round(slot.delay, 6))\nstep({'download_slot': 'k', 'download_latency': 0.5}, 404)\nstep({'download_slot': 'k', 'download_latency': 9.0}, 500)\nstep({'download_slot': 'k', 'download_latency': 0.5, 'autothrottle_dont_adjust_delay': True})\nstep({'download_slot': 'k'})\nstep({'download_slot': 'other', 'download_latency': 0.5})\nstep({'download_slot': 'k', 'download_latency': 0.5})\nresult = out\n",
+  "id": "OBS-0081"
+ },
+ {
+  "code": "\nfrom scrapy.exceptions import (CloseSpider, DontCloseSpider, DropItem, IgnoreRequest, NotConfigured,\n                               NotSupported, StopDownload)\ne = CloseSpider('bandwidth_exceeded')\nd = StopDownload()\nf = StopDownload(fail=False)\nresult = {'reason': e.reason, 'fail': [d.fail, f.fail],\n          'bases': [issubclass(x, Exception) for x in (DontCloseSpider, DropItem, IgnoreRequest, NotConfigured, NotSupported)]}\n",
+  "id": "OBS-0082"
+ },
+ {
+  "code": "\nfrom scrapy.exceptions import NotConfigured\nfrom scrapy.downloadermiddlewares.cookies import CookiesMiddleware\nfrom scrapy.downloadermiddlewares.httpcache import HttpCacheMiddleware\nfrom scrapy.downloadermiddlewares.retry import RetryMiddleware\nfrom scrapy.downloadermiddlewares.redirect import RedirectMiddleware\nfrom scrapy.spidermiddlewares.referer import RefererMiddleware\nout = []\nfor cls, s in ((CookiesMiddleware, {'COOKIES_ENABLED': False}), (HttpCacheMiddleware, {}),\n               (RetryMiddleware, {'RETRY_ENABLED': False}), (RedirectMiddleware, {'REDIRECT_ENABLED': False}),\n               (RefererMiddleware, {'REFERER_ENABLED': False})):\n    try:\n        component(cls, s)\n        out.append('enabled')\n    except NotConfigured:\n        out.append('NotConfigured')\nresult = out\n",
+  "id": "OBS-0083"
+ },
+ {
+  "code": "\nfrom scrapy.exceptions import NotSupported\nr = Response('http://example.test/', body=b'<p/>')\nout = []\nfor m in ('css', 'xpath'):\n    try:\n        getattr(r, m)('p')\n        out.append('ok')\n    except NotSupported:\n        out.append('NotSupported')\nresult = out\n",
+  "id": "OBS-0084"
+ },
+ {
+  "code": "\nfrom scrapy.utils.url import url_has_any_extension, url_is_from_any_domain, url_is_from_spider\nclass S(Spider):\n    name = 'example.test'\n    allowed_domains = ['other.test']\nresult = [url_is_from_any_domain('http://www.example.test/a', ['example.test']),\n          url_is_from_any_domain('http://example.test.evil/a', ['example.test']),\n          url_is_from_any_domain('http://EXAMPLE.test/a', ['example.test']),\n          url_is_from_spider('http://sub.other.test/x', S), url_is_from_spider('http://nope.test/x', S),\n          url_has_any_extension('http://x.test/f.PDF', {'.pdf'}), url_has_any_extension('http://x.test/f.pdf?x', {'.zip'})]\n",
+  "id": "OBS-0085"
+ },
+ {
+  "code": "\nfrom scrapy.utils.url import add_http_if_no_scheme, guess_scheme\nresult = [add_http_if_no_scheme('example.test/a'), add_http_if_no_scheme('//example.test/a'),\n          add_http_if_no_scheme('https://example.test/a'), guess_scheme('/home/user/f.html'),\n          guess_scheme('example.test/a'), guess_scheme('ftp://example.test/')]\n",
+  "id": "OBS-0086"
+ },
+ {
+  "code": "\nfrom scrapy.utils.url import strip_url\nu = 'https://user:pw@example.test:443/a/b?q=1#frag'\nresult = [strip_url(u), strip_url(u, strip_credentials=False), strip_url(u, strip_default_port=False),\n          strip_url(u, origin_only=True), strip_url(u, strip_fragment=False),\n          strip_url('http://example.test:8080/x'), strip_url('ftp://example.test:21/x')]\n",
+  "id": "OBS-0087"
+ },
+ {
+  "code": "\nfrom scrapy.utils.response import get_base_url, get_meta_refresh, response_status_message\nr = HtmlResponse('http://example.test/a/b', body=b'<html><head><base href=\"/x/\"><meta http-equiv=\"refresh\" content=\"5;url=/next\"></head></html>')\nr2 = HtmlResponse('http://example.test/a/b', body=b'<html></html>')\nresult = [get_base_url(r), get_base_url(r2), list(get_meta_refresh(r)), list(get_meta_refresh(r2)),\n          response_status_message(404), response_status_message(200)]\n",
+  "id": "OBS-0088"
+ },
+ {
+  "code": "\nfrom scrapy.utils.request import referer_str, request_httprepr, request_to_curl\nr = Request('http://example.test/a?b=1', method='POST', body=b'x', headers={'Referer': 'http://ref.test/'})\nresult = [request_httprepr(Request('http://example.test/p?q=1')).decode().splitlines(), referer_str(r),\n          referer_str(Request('http://example.test/')), request_to_curl(r) == r.to_curl()]\n",
+  "id": "OBS-0089"
+ },
+ {
+  "code": "\nfrom scrapy.spidermiddlewares.depth import DepthMiddleware\nmw, c = component(DepthMiddleware)\nresp = Response('http://example.test/', request=Request('http://example.test/'))\nout = list(mw.process_spider_output(resp, [Request('http://example.test/a'), {'item': 1}]))\nchild = Response('http://example.test/a', request=out[0])\nout2 = list(mw.process_spider_output(child, [Request('http://example.test/b')]))\nresult = {'root_depth': resp.meta['depth'], 'depths': [out[0].meta['depth'], out2[0].meta['depth']], 'item': out[1],\n          'max': c.stats.get_value('request_depth_max'), 'priority': [out[0].priority, out2[0].priority]}\n",
+  "id": "OBS-0090"
+ },
+ {
+  "code": "\nfrom scrapy.spidermiddlewares.depth import DepthMiddleware\nmw, c = component(DepthMiddleware, {'DEPTH_LIMIT': 1, 'DEPTH_STATS_VERBOSE': True})\nresp = Response('http://example.test/', request=Request('http://example.test/', meta={'depth': 1}))\nkept = list(mw.process_spider_output(resp, [Request('http://example.test/a'), Request('http://example.test/b')]))\nresp0 = Response('http://example.test/', request=Request('http://example.test/'))\nkept0 = list(mw.process_spider_output(resp0, [Request('http://example.test/c')]))\nst = c.stats.get_stats()\nresult = {'kept': [r.url for r in kept], 'kept0': [r.meta['depth'] for r in kept0],\n          'ignored': st.get('depth/request_ignored_count'), 'per_depth': {k: v for k, v in st.items() if k.startswith('request_depth_count/')}}\n",
+  "id": "OBS-0091"
+ },
+ {
+  "code": "\nfrom scrapy.spidermiddlewares.depth import DepthMiddleware\nout = []\nfor prio in (1, -1, 0):\n    mw, c = component(DepthMiddleware, {'DEPTH_PRIORITY': prio})\n    resp = Response('http://example.test/', request=Request('http://example.test/', meta={'depth': 2}))\n    r = list(mw.process_spider_output(resp, [Request('http://example.test/a', priority=10)]))[0]\n    out.append([r.meta['depth'], r.priority])\nresult = out\n",
+  "id": "OBS-0092"
+ },
+ {
+  "code": "\nfrom scrapy.spidermiddlewares.depth import DepthMiddleware\nmw, c = component(DepthMiddleware, {'DEPTH_LIMIT': 1})\nresp = Response('http://example.test/', request=Request('http://example.test/', meta={'depth': 5}))\nout = list(mw.process_spider_output(resp, [Request('http://other.test/', meta={'depth_reset': True})]))\nresult = {'reset': [(r.meta.get('depth'), 'depth_reset' in r.meta) for r in out]}\n",
+  "id": "OBS-0093"
+ },
+ {
+  "code": "\nfrom scrapy.spidermiddlewares.depth import DepthMiddleware\nmw, c = component(DepthMiddleware)\nresp = Response('http://example.test/', request=Request('http://example.test/'))\nout = drain(mw.process_spider_output_async(resp, aiter_of([Request('http://example.test/a')])))\nresult = [r.meta['depth'] for r in out]\n",
+  "id": "OBS-0094"
+ },
+ {
+  "code": "\nfrom scrapy.exceptions import IgnoreRequest\nfrom scrapy.spidermiddlewares.httperror import HttpError, HttpErrorMiddleware\nmw, c = component(HttpErrorMiddleware)\nout = []\nfor status in (200, 204, 299, 301, 404, 500):\n    resp = Response('http://example.test/', status=status, request=Request('http://example.test/'))\n    try:\n        mw.process_spider_input(resp)\n        out.append('pass')\n    except HttpError as e:\n        out.append(['HttpError', isinstance(e, IgnoreRequest), e.response.status])\nresult = out\n",
+  "id": "OBS-0095"
+ },
+ {
+  "code": "\nfrom scrapy.spidermiddlewares.httperror import HttpError, HttpErrorMiddleware\ndef check(settings, status, **attrs):\n    mw, c = component(HttpErrorMiddleware, settings, **attrs)\n    try:\n        mw.process_spider_input(Response('http://example.test/', status=status, request=Request('http://example.test/')))\n        return 'pass'\n    except HttpError:\n        return 'HttpError'\nresult = [check({'HTTPERROR_ALLOWED_CODES': [404]}, 404), check({'HTTPERROR_ALLOWED_CODES': [404]}, 500),\n          check({'HTTPERROR_ALLOW_ALL': True}, 503), check({}, 404, handle_httpstatus_list=[404]),\n          check({}, 410, handle_httpstatus_list=[404])]\n",
+  "id": "OBS-0096"
+ },
+ {
+  "code": "\nfrom scrapy.spidermiddlewares.httperror import HttpError, HttpErrorMiddleware\ndef check(meta, status, settings=None):\n    mw, c = component(HttpErrorMiddleware, settings or {})\n    try:\n        mw.process_spider_input(Response('http://example.test/', status=status, request=Request('http://example.test/', meta=meta)))\n        return 'pass'\n    except HttpError:\n        return 'HttpError'\nresult = [check({'handle_httpstatus_list': [404]}, 404), check({'handle_httpstatus_list': [404]}, 500),\n          check({'handle_httpstatus_all': True}, 500), check({'handle_httpstatus_all': False}, 500),\n          check({'handle_httpstatus_list': []}, 500, {'HTTPERROR_ALLOW_ALL': True})]\n",
+  "id": "OBS-0097"
+ },
+ {
+  "code": "\nfrom scrapy.spidermiddlewares.httperror import HttpError, HttpErrorMiddleware\nmw, c = component(HttpErrorMiddleware)\nresp = Response('http://example.test/', status=404, request=Request('http://example.test/'))\nr1 = mw.process_spider_exception(resp, HttpError(resp, 'x'))\nr2 = mw.process_spider_exception(resp, ValueError('x'))\nst = c.stats.get_stats()\nresult = [list(r1), r2, st.get('httperror/response_ignored_count'), st.get('httperror/response_ignored_status_count/404')]\n",
+  "id": "OBS-0098"
+ },
+ {
+  "code": "\nfrom scrapy.spidermiddlewares.referer import RefererMiddleware\nmw, c = component(RefererMiddleware)\ndef ref(src, dst, meta=None, headers=None):\n    resp = Response(src, request=Request(src), headers=headers or {})\n    out = list(mw.process_spider_output(resp, [Request(dst, meta=meta or {})]))\n    v = out[0].headers.get('Referer')\n    return v.decode() if v else None\nresult = [ref('http://a.test/p?q=1', 'http://a.test/x'), ref('http://a.test/p', 'https://b.test/x'),\n          ref('https://a.test/p', 'http://b.test/x'), ref('https://a.test/p#frag', 'https://a.test/x'),\n          ref('http://user:pw@a.test/p', 'http://a.test/x'), ref('file:///etc/x', 'http://a.test/')]\n",
+  "id": "OBS-0099"
+ },
+ {
+  "code": "\nfrom scrapy.spidermiddlewares.referer import RefererMiddleware\nsrc, same, cross, down = 'https://a.test/p/q?x=1', 'https://a.test/z', 'https://b.test/z', 'http://b.test/z'\nout = {}\nfor policy in ('no-referrer', 'no-referrer-when-downgrade', 'same-origin', 'origin', 'strict-origin',\n               'origin-when-cross-origin', 'strict-origin-when-cross-origin', 'unsafe-url'):\n    mw, c = component(RefererMiddleware, {'REFERRER_POLICY': policy})\n    resp = Response(src, request=Request(src))\n    reqs = list(mw.process_spider_output(resp, [Request(u) for u in (same, cross, down)]))\n    out[policy] = [(r.headers.get('Referer') or b'').decode() or None for r in reqs]\nmw, c = component(RefererMiddleware)\nresp = Response(src, request=Request(src))\nr = list(mw.process_spider_output(resp, [Request(cross, meta={'referrer_policy': 'origin'})]))[0]\nout['meta'] = r.headers.get('Referer').decode()\nresult = out\n",
+  "id": "OBS-0100"
+ },
+ {
+  "code": "\nfrom scrapy.spidermiddlewares.referer import RefererMiddleware\nsrc = 'https://a.test/p?x=1'\ndef run_(settings, header):\n    mw, c = component(RefererMiddleware, settings)\n    resp = Response(src, request=Request(src), headers={'Referrer-Policy': header})\n    r = list(mw.process_spider_output(resp, [Request('https://b.test/z')]))[0]\n    v = r.headers.get('Referer')\n    return v.decode() if v else None\nresult = [run_({}, 'no-referrer'), run_({}, 'origin'),\n          run_({'REFERRER_POLICIES': {'origin': 'scrapy.spidermiddlewares.referer.NoReferrerPolicy'}}, 'origin'),\n          run_({'REFERRER_POLICY': 'scrapy.spidermiddlewares.referer.OriginPolicy'}, 'bogus-name')]\n",
+  "id": "OBS-0101"
+ },
+ {
+  "code": "\nfrom scrapy.spidermiddlewares import referer as R\nsrc, dst = 'https://u:p@a.test/p?x=1#f', 'https://b.test/'\nout = {}\nfor name in ('DefaultReferrerPolicy', 'NoReferrerPolicy', 'NoReferrerWhenDowngradePolicy', 'SameOriginPolicy',\n             'OriginPolicy', 'StrictOriginPolicy', 'OriginWhenCrossOriginPolicy', 'StrictOriginWhenCrossOriginPolicy',\n             'UnsafeUrlPolicy'):\n    p = getattr(R, name)()\n    out[name] = [p.name, p.referrer(src, dst), p.referrer(src, 'http://b.test/')]\nresult = out\n",
+  "id": "OBS-0102"
+ },
+ {
+  "code": "\nfrom scrapy.exceptions import NotConfigured\nfrom scrapy.spidermiddlewares.referer import RefererMiddleware\ntry:\n    component(RefererMiddleware, {'REFERER_ENABLED': False})\n    result = 'enabled'\nexcept NotConfigured:\n    result = 'NotConfigured'\n",
+  "id": "OBS-0103"
+ },
+ {
+  "code": "\nfrom scrapy.exceptions import NotConfigured\nfrom scrapy.spidermiddlewares.urllength import UrlLengthMiddleware\nmw, c = component(UrlLengthMiddleware, {'URLLENGTH_LIMIT': 25})\nresp = Response('http://example.test/', request=Request('http://example.test/'))\nkept = list(mw.process_spider_output(resp, [Request('http://example.test/abc'), Request('http://example.test/' + 'x' * 30), {'i': 1}]))\ntry:\n    component(UrlLengthMiddleware, {'URLLENGTH_LIMIT': 0})\n    disabled = 'enabled'\nexcept NotConfigured:\n    disabled = 'NotConfigured'\nresult = [[getattr(x, 'url', x) for x in kept], c.stats.get_value('urllength/request_ignored_count'), disabled]\n",
+  "id": "OBS-0104"
+ },
+ {
+  "code": "\nfrom scrapy.spidermiddlewares.start import StartSpiderMiddleware\nmw, c = component(StartSpiderMiddleware)\nstart = drain(mw.process_start(aiter_of([Request('http://example.test/s'), Request('http://example.test/t', meta={'is_start_request': False})])))\nresp = Response('http://example.test/', request=Request('http://example.test/'))\nlater = list(mw.process_spider_output(resp, [Request('http://example.test/a')]))\nresult = [[r.meta.get('is_start_request') for r in start], ['is_start_request' in r.meta for r in later]]\n",
+  "id": "OBS-0105"
+ },
+ {
+  "code": "\nimport logging\nfrom scrapy.spidermiddlewares.metacopy import MetaCopyDetectionMiddleware\nrecords = []\nclass H(logging.Handler):\n    def emit(self, record):\n        records.append(record.levelname)\nlogging.getLogger('scrapy.spidermiddlewares.metacopy').addHandler(H())\ndef run_(settings, metas):\n    del records[:]\n    mw, c = component(MetaCopyDetectionMiddleware, settings)\n    resp = Response('http://example.test/', request=Request('http://example.test/'))\n    out = list(mw.process_spider_output(resp, [Request('http://example.test/' + str(i), meta=m) for i, m in enumerate(metas)]))\n    return [len(out), list(records)]\nresult = [run_({}, [{'retry_times': 1}, {'redirect_urls': []}]), run_({}, [{'custom': 1}]),\n          run_({'META_COPY_WARN_SKIP_KEYS': ['retry_times']}, [{'retry_times': 1}])]\n",
+  "id": "OBS-0106"
+ },
+ {
+  "code": "\nfrom scrapy.spidermiddlewares.base import BaseSpiderMiddleware\nclass MW(BaseSpiderMiddleware):\n    def get_processed_request(self, request, response):\n        if 'drop' in request.url:\n            return None\n        request.priority = 7\n        return request\n    def get_processed_item(self, item, response):\n        return None if item.get('drop') else dict(item, seen=True)\nmw = MW.from_crawler(make_crawler())\nresp = Response('http://example.test/', request=Request('http://example.test/'))\nout = list(mw.process_spider_output(resp, [Request('http://example.test/a'), Request('http://example.test/drop'), {'i': 1}, {'drop': 1}]))\nout2 = drain(mw.process_start(aiter_of([Request('http://example.test/s'), {'i': 2}])))\nresult = [[getattr(x, 'priority', x) for x in out], [getattr(x, 'priority', x) for x in out2]]\n",
+  "id": "OBS-0107"
+ },
+ {
+  "code": "\nfrom scrapy.downloadermiddlewares.cookies import CookiesMiddleware\nmw, c = component(CookiesMiddleware)\nr1 = Request('https://example.test/', cookies={'currency': 'USD', 'country': 'UY'})\nmw.process_request(r1)\nresp = Response('https://example.test/', headers={'Set-Cookie': 'session=abc; Path=/'}, request=r1)\nmw.process_response(r1, resp)\nr2 = Request('https://example.test/other')\nmw.process_request(r2)\nr3 = Request('https://other.test/')\nmw.process_request(r3)\nresult = [sorted(r1.headers.get('Cookie').decode().split('; ')), sorted(r2.headers.get('Cookie').decode().split('; ')),\n          r3.headers.get('Cookie')]\n",
+  "id": "OBS-0108"
+ },
+ {
+  "code": "\nfrom scrapy.downloadermiddlewares.cookies import CookiesMiddleware\nmw, c = component(CookiesMiddleware)\nr1 = Request('https://example.test/currency/', cookies=[{'name': 'currency', 'value': 'USD', 'domain': 'example.test',\n                                                        'path': '/currency', 'secure': True}])\nmw.process_request(r1)\nout = []\nfor url in ('https://example.test/currency/x', 'https://example.test/other', 'http://example.test/currency/x'):\n    r = Request(url)\n    mw.process_request(r)\n    v = r.headers.get('Cookie')\n    out.append(v.decode() if v else None)\nresult = out\n",
+  "id": "OBS-0109"
+ },
+ {
+  "code": "\nfrom scrapy.downloadermiddlewares.cookies import CookiesMiddleware\nmw, c = component(CookiesMiddleware)\nfor jar, token in ((1, 'one'), (2, 'two')):\n    r = Request('https://example.test/', meta={'cookiejar': jar})\n    mw.process_request(r)\n    mw.process_response(r, Response('https://example.test/', headers={'Set-Cookie': 'id=' + token}, request=r))\nout = []\nfor meta in ({'cookiejar': 1}, {'cookiejar': 2}, {}):\n    r = Request('https://example.test/x', meta=meta)\n    mw.process_request(r)\n    v = r.headers.get('Cookie')\n    out.append(v.decode() if v else None)\nresult = out\n",
+  "id": "OBS-0110"
+ },
+ {
+  "code": "\nfrom scrapy.downloadermiddlewares.cookies import CookiesMiddleware\nmw, c = component(CookiesMiddleware)\nr0 = Request('https://example.test/')\nmw.process_request(r0)\nmw.process_response(r0, Response('https://example.test/', headers={'Set-Cookie': 'a=1'}, request=r0))\nr1 = Request('https://example.test/', cookies={'b': '2'}, meta={'dont_merge_cookies': True})\nmw.process_request(r1)\nmw.process_response(r1, Response('https://example.test/', headers={'Set-Cookie': 'c=3'}, request=r1))\nr2 = Request('https://example.test/')\nmw.process_request(r2)\nresult = [r1.headers.get('Cookie'), r2.headers.get('Cookie').decode()]\n",
+  "id": "OBS-0111"
+ },
+ {
+  "code": "\nfrom scrapy.exceptions import NotConfigured\nfrom scrapy.downloadermiddlewares.cookies import CookiesMiddleware\nmw, c = component(CookiesMiddleware)\nr = Request('https://example.test/', headers={'Cookie': 'manual=1'})\nmw.process_request(r)\ntry:\n    component(CookiesMiddleware, {'COOKIES_ENABLED': False})\n    disabled = 'enabled'\nexcept NotConfigured:\n    disabled = 'NotConfigured'\nresult = [r.headers.get('Cookie'), disabled]\n",
+  "id": "OBS-0112"
+ },
+ {
+  "code": "\nfrom scrapy.downloadermiddlewares.defaultheaders import DefaultHeadersMiddleware\nmw, c = component(DefaultHeadersMiddleware, {'DEFAULT_REQUEST_HEADERS': {'Accept': 'text/x', 'X-Default': 'd'}})\nr = Request('http://example.test/', headers={'X-Default': 'mine'})\nmw.process_request(r)\nresult = [r.headers.get('Accept'), r.headers.get('X-Default')]\n",
+  "id": "OBS-0113"
+ },
+ {
+  "code": "\nfrom scrapy.downloadermiddlewares.downloadtimeout import DownloadTimeoutMiddleware\nmw, c = component(DownloadTimeoutMiddleware, {'DOWNLOAD_TIMEOUT': 7})\nr1 = Request('http://example.test/')\nr2 = Request('http://example.test/', meta={'download_timeout': 3})\nmw.spider_opened(c.spider)\nmw.process_request(r1)\nmw.process_request(r2)\nresult = [r1.meta['download_timeout'], r2.meta['download_timeout']]\n",
+  "id": "OBS-0114"
+ },
+ {
+  "code": "\nfrom scrapy.downloadermiddlewares.useragent import UserAgentMiddleware\nmw, c = component(UserAgentMiddleware, {'USER_AGENT': 'agent/1'})\nmw.spider_opened(c.spider)\nr1 = Request('http://example.test/')\nr2 = Request('http://example.test/', headers={'User-Agent': 'mine'})\nmw.process_request(r1)\nmw.process_request(r2)\nresult = [r1.headers.get('User-Agent'), r2.headers.get('User-Agent')]\n",
+  "id": "OBS-0115"
+ },
+ {
+  "code": "\nfrom scrapy.exceptions import NotConfigured\nfrom scrapy.downloadermiddlewares.stats import DownloaderStats\nmw, c = component(DownloaderStats)\nr = Request('http://example.test/', method='POST')\nmw.process_request(r)\nafter_request = len(c.stats.get_stats())\nmw.process_response(r, Response('http://example.test/', status=404, request=r))\nafter_response = len(c.stats.get_stats())\nmw.process_exception(r, ValueError('x'))\nafter_exception = len(c.stats.get_stats())\ntry:\n    component(DownloaderStats, {'DOWNLOADER_STATS': False})\n    disabled = 'enabled'\nexcept NotConfigured:\n    disabled = 'NotConfigured'\nst = c.stats.get_stats()\nresult = [after_request > 0, after_response > after_request, after_exception > after_response,\n          any(k.startswith('downloader/') for k in st), disabled]\n",
+  "id": "OBS-0116"
+ },
+ {
+  "code": "\nfrom scrapy.downloadermiddlewares.httpauth import HttpAuthMiddleware\nmw, c = component(HttpAuthMiddleware, {'HTTPAUTH_USER': 'someuser', 'HTTPAUTH_PASS': 'somepass',\n                                       'HTTPAUTH_DOMAIN': 'intranet.example.test'})\nout = []\nfor url in ('https://intranet.example.test/p', 'https://a.intranet.example.test/', 'https://other.test/',\n            'https://example.test/'):\n    r = Request(url)\n    mw.process_request(r)\n    v = r.headers.get('Authorization')\n    out.append(v.decode() if v else None)\nresult = out\n",
+  "id": "OBS-0117"
+ },
+ {
+  "code": "\nfrom scrapy.downloadermiddlewares.httpauth import HttpAuthMiddleware\nmw, c = component(HttpAuthMiddleware)\nr = Request('https://intranet.example.test/protected/', meta={'http_user': 'u', 'http_pass': 'p',\n                                                             'http_auth_domain': 'intranet.example.test'})\nr2 = Request('https://elsewhere.test/', meta={'http_user': 'u', 'http_pass': 'p', 'http_auth_domain': 'intranet.example.test'})\nr3 = Request('https://elsewhere.test/', meta={'http_user': 'u', 'http_pass': 'p', 'http_auth_domain': None})\nfor x in (r, r2, r3):\n    mw.process_request(x)\nresult = [(x.headers.get('Authorization') or b'').decode() or None for x in (r, r2, r3)]\n",
+  "id": "OBS-0118"
+ },
+ {
+  "code": "\nfrom scrapy.downloadermiddlewares.httpauth import HttpAuthMiddleware\nmw, c = component(HttpAuthMiddleware, {'HTTPAUTH_USER': 'u', 'HTTPAUTH_PASS': 'p', 'HTTPAUTH_DOMAIN': 'example.test'})\nr1 = Request('https://example.test/', headers={'Authorization': 'Bearer x'})\nmw.process_request(r1)\nmw2, c2 = component(HttpAuthMiddleware)\nr2 = Request('https://example.test/')\nmw2.process_request(r2)\nresult = [r1.headers.get('Authorization').decode(), r2.headers.get('Authorization')]\n",
+  "id": "OBS-0119"
+ },
+ {
+  "code": "\nimport os\nfrom scrapy.downloadermiddlewares.httpcache import HttpCacheMiddleware\nsettings = {'HTTPCACHE_ENABLED': True, 'HTTPCACHE_DIR': os.path.join(os.getcwd(), 'cache')}\nmw, c = component(HttpCacheMiddleware, settings)\nmw.spider_opened(c.spider)\nr = Request('http://example.test/a')\nmiss = mw.process_request(r)\nmw.process_response(r, Response('http://example.test/a', body=b'body', headers={'X': '1'}, request=r))\nhit = mw.process_request(Request('http://example.test/a'))\nmw.spider_closed(c.spider)\nst = c.stats.get_stats()\nresult = {'miss': miss, 'hit': [kind(hit), hit.body, hit.headers.get('X'), 'cached' in hit.flags]}\n",
+  "id": "OBS-0120"
+ },
+ {
+  "code": "\nimport os\nfrom scrapy.downloadermiddlewares.httpcache import HttpCacheMiddleware\nsettings = {'HTTPCACHE_ENABLED': True, 'HTTPCACHE_DIR': os.path.join(os.getcwd(), 'cache'), 'HTTPCACHE_IGNORE_HTTP_CODES': [500]}\nmw, c = component(HttpCacheMiddleware, settings)\nmw.spider_opened(c.spider)\ndef store_and_check(url, status=200, meta=None):\n    r = Request(url, meta=meta or {})\n    mw.process_request(r)\n    mw.process_response(r, Response(url, status=status, request=r))\n    return kind(mw.process_request(Request(url)))\nresult = [store_and_check('http://example.test/nc', meta={'dont_cache': True}), store_and_check('http://example.test/e', 500),\n          store_and_check('file:///tmp/x'), store_and_check('http://example.test/ok')]\n",
+  "id": "OBS-0121"
+ },
+ {
+  "code": "\nimport os\nfrom scrapy.exceptions import IgnoreRequest\nfrom scrapy.downloadermiddlewares.httpcache import HttpCacheMiddleware\nmw, c = component(HttpCacheMiddleware, {'HTTPCACHE_ENABLED': True, 'HTTPCACHE_DIR': os.path.join(os.getcwd(), 'cache'),\n                                        'HTTPCACHE_IGNORE_MISSING': True})\nmw.spider_opened(c.spider)\ntry:\n    mw.process_request(Request('http://example.test/missing'))\n    result = 'downloaded'\nexcept IgnoreRequest:\n    result = 'IgnoreRequest'\n",
+  "id": "OBS-0122"
+ },
+ {
+  "code": "\nimport os\nfrom scrapy.extensions.httpcache import FilesystemCacheStorage\nfrom scrapy.utils.request import fingerprint\nout = {}\nfor gz in (False, True):\n    d = os.path.join(os.getcwd(), 'fs%d' % gz)\n    c = make_crawler({'HTTPCACHE_DIR': d, 'HTTPCACHE_GZIP': gz})\n    st = FilesystemCacheStorage(c.settings)\n    st.open_spider(c.spider)\n    r = Request('http://example.test/a')\n    st.store_response(c.spider, r, Response('http://example.test/a', body=b'B', request=r))\n    fp = fingerprint(r).hex()\n    path = os.path.join(d, c.spider.name, fp[:2], fp)\n    got = st.retrieve_response(c.spider, Request('http://example.test/a'))\n    out[str(gz)] = [sorted(os.listdir(path)), got.body, open(os.path.join(path, 'response_body'), 'rb').read() == b'B']\n    st.close_spider(c.spider)\nresult = out\n",
+  "id": "OBS-0123"
+ },
+ {
+  "code": "\nimport os\nfrom scrapy.downloadermiddlewares.httpcache import HttpCacheMiddleware\nsettings = {'HTTPCACHE_ENABLED': True, 'HTTPCACHE_DIR': os.path.join(os.getcwd(), 'cache'),\n            'HTTPCACHE_POLICY': 'scrapy.extensions.httpcache.RFC2616Policy'}\nmw, c = component(HttpCacheMiddleware, settings)\nmw.spider_opened(c.spider)\ndef cycle(url, headers):\n    r = Request(url)\n    mw.process_request(r)\n    mw.process_response(r, Response(url, headers=headers, request=r))\n    return kind(mw.process_request(Request(url)))\nresult = [cycle('http://example.test/ns', {'Cache-Control': 'no-store'}), cycle('http://example.test/fresh', {'Cache-Control': 'max-age=3600'})]\n",
+  "id": "OBS-0124"
+ },
+ {
+  "code": "\nimport gzip, zlib, brotli\nfrom scrapy.downloadermiddlewares.httpcompression import HttpCompressionMiddleware\nmw, c = component(HttpCompressionMiddleware)\nr = Request('http://example.test/')\nmw.process_request(r)\nout = [sorted(x.strip() for x in r.headers.get('Accept-Encoding').decode().split(','))]\nbody = b'<html>' + b'x' * 50 + b'</html>'\nfor enc, data in (('gzip', gzip.compress(body)), ('deflate', zlib.compress(body)), ('br', brotli.compress(body))):\n    resp = Response('http://example.test/', body=data, headers={'Content-Encoding': enc, 'Content-Type': 'text/html'}, request=r)\n    new = mw.process_response(r, resp)\n    out.append([enc, new.body == body, new.headers.get('Content-Encoding'), kind(new)])\nresult = out\n",
+  "id": "OBS-0125"
+ },
+ {
+  "code": "\nfrom scrapy.exceptions import NotConfigured\nfrom scrapy.downloadermiddlewares.httpcompression import HttpCompressionMiddleware\nmw, c = component(HttpCompressionMiddleware)\nr = Request('http://example.test/')\nresp = Response('http://example.test/', body=b'raw', headers={'Content-Encoding': 'made-up'}, request=r)\nsame = mw.process_response(r, resp)\ntry:\n    component(HttpCompressionMiddleware, {'COMPRESSION_ENABLED': False})\n    disabled = 'enabled'\nexcept NotConfigured:\n    disabled = 'NotConfigured'\nresult = [same.body, same.headers.get('Content-Encoding'), disabled]\n",
+  "id": "OBS-0126"
+ },
+ {
+  "code": "\nfrom scrapy.downloadermiddlewares.httpproxy import HttpProxyMiddleware\nmw, c = component(HttpProxyMiddleware)\nr = Request('http://example.test/', meta={'proxy': 'http://user:pass@proxy.test:8080'})\nmw.process_request(r)\nr2 = Request('http://example.test/', meta={'proxy': 'http://proxy.test:8080'})\nmw.process_request(r2)\nresult = [r.meta['proxy'], r.headers.get('Proxy-Authorization'), r2.meta['proxy'], r2.headers.get('Proxy-Authorization')]\n",
+  "id": "OBS-0127"
+ },
+ {
+  "code": "\nimport os\nos.environ.update({'http_proxy': 'http://envproxy.test:3128', 'https_proxy': 'http://secure.test:3129', 'no_proxy': 'skip.test'})\nfrom scrapy.downloadermiddlewares.httpproxy import HttpProxyMiddleware\nmw, c = component(HttpProxyMiddleware)\nout = []\nfor url, meta in (('http://example.test/', {}), ('https://example.test/', {}), ('http://skip.test/', {}),\n                  ('http://skip.test/', {'proxy': 'http://forced.test:1'})):\n    r = Request(url, meta=meta)\n    mw.process_request(r)\n    out.append(r.meta.get('proxy'))\nresult = out\n",
+  "id": "OBS-0128"
+ },
+ {
+  "code": "\nfrom scrapy.exceptions import NotConfigured\nfrom scrapy.downloadermiddlewares.httpproxy import HttpProxyMiddleware\nmw, c = component(HttpProxyMiddleware, {'HTTPPROXY_AUTH_ENCODING': 'utf-8'})\nr = Request('http://example.test/', meta={'proxy': 'http://us\\u00e9r:p@proxy.test:8080'})\nmw.process_request(r)\nr2 = Request('http://example.test/', meta={'proxy': None})\nmw.process_request(r2)\ntry:\n    component(HttpProxyMiddleware, {'HTTPPROXY_ENABLED': False})\n    disabled = 'enabled'\nexcept NotConfigured:\n    disabled = 'NotConfigured'\nresult = [r.headers.get('Proxy-Authorization'), r2.meta.get('proxy'), disabled]\n",
+  "id": "OBS-0129"
+ },
+ {

@@ -1,0 +1,17 @@
+FROM oven/bun:1.4.0-debian@sha256:5bb0f9be3a1a36a03e27c9a9dd894a3b1ad26657155c7df4dda771e17bf872ef AS bun-runtime
+FROM node:22-bookworm@sha256:0e5f906573693feaa1e21057ebdcfdb5bd5021f050b2dc7c9deceb629c7da2a8
+COPY --from=bun-runtime /usr/local/bin/bun /usr/local/bin/bun
+ARG REPO_URL=https://github.com/activepieces/activepieces.git
+ARG BASE_COMMIT=f69620859abdc8c691f46b680786f34328992f2e
+ENV CI=1 BUN_INSTALL_CACHE_DIR=/opt/bun-cache
+USER root
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tmux asciinema bash sudo ca-certificates curl git jq less lsof netcat-openbsd procps python3 vim-tiny postgresql redis-server build-essential && rm -rf /var/lib/apt/lists/*
+RUN service postgresql start && su postgres -c "psql -v ON_ERROR_STOP=1 -c \"ALTER USER postgres PASSWORD 'postgres'\"" && service postgresql stop
+RUN useradd -m -s /bin/bash agent && install -d -o agent -g agent /app /logs /logs/artifacts /opt/bun-cache && git config --system --add safe.directory /app && printf 'agent ALL=(root) NOPASSWD: /usr/sbin/service\n' > /etc/sudoers.d/agent-services && chmod 440 /etc/sudoers.d/agent-services
+USER agent
+WORKDIR /app
+RUN git init -q /app && git remote add origin "$REPO_URL" && git fetch -q --depth 1 origin "$BASE_COMMIT" && git checkout -q --detach FETCH_HEAD && test "$(git rev-parse HEAD)" = "$BASE_COMMIT"
+RUN bun install --frozen-lockfile
+RUN bun x turbo run build --filter=api --filter=worker --filter=@activepieces/engine --filter=@activepieces/piece-webhook --filter=@activepieces/piece-http --filter=@activepieces/piece-store
+USER root
+CMD ["/bin/bash"]

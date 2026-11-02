@@ -1,0 +1,151 @@
+{
+  "branches": {
+    "000-8276f023ad61": {
+      "tests": [
+        "eval.tests.test_command_root.test_baseline_root_bad_checksum_compressed_frame",
+        "eval.tests.test_command_root.test_baseline_root_bad_checksum_framed_stream",
+        "eval.tests.test_command_root.test_baseline_root_bad_magic_framed_stream",
+        "eval.tests.test_command_root.test_baseline_root_compressed_chunk_before_header",
+        "eval.tests.test_command_root.test_baseline_root_compressed_name_rejected",
+        "eval.tests.test_command_root.test_baseline_root_directory_path_error",
+        "eval.tests.test_command_root.test_baseline_root_empty_framed_file",
+        "eval.tests.test_command_root.test_baseline_root_existing_output_without_force",
+        "eval.tests.test_command_root.test_baseline_root_force_replace_decompressed_output"
+      ],
+      "ignored": false,
+      "ignored_tests": []
+    },
+    "001-a537891321c5": {
+      "tests": [
+        "eval.tests.test_command_root.test_baseline_root_framed_file_baseline",
+        "eval.tests.test_command_root.test_baseline_root_framed_file_baseline_binary",
+        "eval.tests.test_command_root.test_baseline_root_framed_file_baseline_empty",
+        "eval.tests.test_command_root.test_baseline_root_framed_file_baseline_special_name",
+        "eval.tests.test_command_root.test_baseline_root_framed_file_baseline_unicode",
+        "eval.tests.test_command_root.test_baseline_root_framed_stream_compress",
+        "eval.tests.test_command_root.test_baseline_root_framed_stream_decompress",
+        "eval.tests.test_command_root.test_baseline_root_identifier_only_framed_stream",
+        "eval.tests.test_command_root.test_baseline_root_invalid_header_length_framed_stream"
+      ],
+      "ignored": false,
+      "ignored_tests": []
+    },
+    "002-757f392a5fea": {
+      "tests": [
+        "eval.tests.test_command_root.test_baseline_root_large_repetitive_framed_stream",
+        "eval.tests.test_command_root.test_baseline_root_malformed_compressed_frame",
+        "eval.tests.test_command_root.test_baseline_root_malformed_framed_stream",
+        "eval.tests.test_command_root.test_baseline_root_malformed_raw_stream",
+        "eval.tests.test_command_root.test_baseline_root_missing_then_valid_paths",
+        "eval.tests.test_command_root.test_baseline_root_multiblock_repetitive_framed_stream",
+        "eval.tests.test_command_root.test_baseline_root_multiple_paths_revision_probe",
+        "eval.tests.test_command_root.test_baseline_root_oversized_decompressed_frame",
+        "eval.tests.test_command_root.test_baseline_root_oversized_uncompressed_frame"
+      ],
+      "ignored": false,
+      "ignored_tests": []
+    },
+    "003-4c9b5394fa1c": {
+      "tests": [
+        "eval.tests.test_command_root.test_baseline_root_partial_chunk_header_after_identifier",
+        "eval.tests.test_command_root.test_baseline_root_raw_copy_missing_offset",
+        "eval.tests.test_command_root.test_baseline_root_raw_copy_output_overrun",
+        "eval.tests.test_command_root.test_baseline_root_raw_copy_zero_offset",
+        "eval.tests.test_command_root.test_baseline_root_raw_fast_nonoverlap_copy",
+        "eval.tests.test_command_root.test_baseline_root_raw_file_decompression",
+        "eval.tests.test_command_root.test_baseline_root_raw_format_alias",
+        "eval.tests.test_command_root.test_baseline_root_raw_format_named",
+        "eval.tests.test_command_root.test_baseline_root_raw_header_mismatch"
+      ],
+      "ignored": false,
+      "ignored_tests": [
+        {
+          "name": "eval.tests.test_command_root.test_baseline_root_raw_fast_nonoverlap_copy",
+          "reasons": [
+            {
+              "id": "rubric_review",
+              "detail": "raw binary stdout contains CR bytes and is routed through the terminal comparator, which accepts wrong bytes"
+            }
+          ]
+        }
+      ]
+    },
+    "004-c3a4095b1f87": {
+      "tests": [
+        "eval.tests.test_command_root.test_baseline_root_raw_invalid_varint",
+        "eval.tests.test_command_root.test_baseline_root_raw_literal_overrun",
+        "eval.tests.test_command_root.test_baseline_root_raw_overlapping_copy_with_tail",
+        "eval.tests.test_command_root.test_baseline_root_reserved_chunk_framed_stream",
+        "eval.tests.test_command_root.test_baseline_root_retain_framed_compressed_input",
+        "eval.tests.test_command_root.test_baseline_root_short_data_chunk_framed_stream",
+        "eval.tests.test_command_root.test_baseline_root_skippable_padding_framed_stream",
+        "eval.tests.test_command_root.test_baseline_root_stream_header_body_mismatch",
+        "eval.tests.test_command_root.test_baseline_root_truncated_framed_stream"
+      ],
+      "ignored": false,
+      "ignored_tests": [
+        {
+          "name": "eval.tests.test_command_root.test_baseline_root_raw_overlapping_copy_with_tail",
+          "reasons": [
+            {
+              "id": "rubric_review",
+              "detail": "raw binary stdout contains CR bytes and is routed through the terminal comparator, which accepts wrong bytes"
+            }
+          ]
+        }
+      ]
+    },
+    "005-52a458cc9f13": {
+      "tests": [
+        "eval.tests.test_command_root.test_baseline_root_uncompressed_name_rejected",
+        "eval.tests.test_command_root.test_baseline_root_valid_compressed_frame",
+        "eval.tests.test_help_output.test_help_long_root",
+        "eval.tests.test_help_output.test_help_short_root",
+        "eval.tests.test_help_output.test_version_long",
+        "eval.tests.test_help_output.test_version_short"
+      ],
+      "ignored": false,
+      "ignored_tests": []
+    },
+    "006-340224aa6714": {
+      "tests": [
+        "eval.tests.test_flags.test_decompress_decompress_framed_file",
+        "eval.tests.test_flags.test_force_replace_existing_output",
+        "eval.tests.test_flags.test_keep_retain_source_file",
+        "eval.tests.test_flags.test_raw_raw_option_file",
+        "eval.tests.test_flags.test_short_d_decompress_framed_file",
+        "eval.tests.test_flags.test_short_f_replace_existing_output",
+        "eval.tests.test_flags.test_short_k_retain_source_file",
+        "eval.tests.test_flags.test_short_r_raw_option_file"
+      ],
+      "ignored": false,
+      "ignored_tests": []
+    },
+    "007-53091c21e897": {
+      "tests": [
+        "eval.tests.test_errors_and_edge_cases.test_argument_terminator_root",
+        "eval.tests.test_errors_and_edge_cases.test_decompress_repeated",
+        "eval.tests.test_errors_and_edge_cases.test_force_repeated",
+        "eval.tests.test_errors_and_edge_cases.test_keep_repeated",
+        "eval.tests.test_errors_and_edge_cases.test_missing_path_root",
+        "eval.tests.test_errors_and_edge_cases.test_no_arguments_root",
+        "eval.tests.test_errors_and_edge_cases.test_raw_repeated",
+        "eval.tests.test_errors_and_edge_cases.test_unknown_flag_root"
+      ],
+      "ignored": false,
+      "ignored_tests": []
+    },
+    "008-29de4ba7003f": {
+      "tests": [
+        "eval.tests.test_flag_interaction.test_pair_decompress_force_framed_file_baseline",
+        "eval.tests.test_flag_interaction.test_pair_decompress_keep_framed_file_baseline",
+        "eval.tests.test_flag_interaction.test_pair_decompress_raw_framed_file_baseline",
+        "eval.tests.test_flag_interaction.test_pair_force_keep_framed_file_baseline",
+        "eval.tests.test_flag_interaction.test_pair_force_raw_framed_file_baseline",
+        "eval.tests.test_flag_interaction.test_pair_keep_raw_framed_file_baseline"
+      ],
+      "ignored": false,
+      "ignored_tests": []
+    }
+  }
+}

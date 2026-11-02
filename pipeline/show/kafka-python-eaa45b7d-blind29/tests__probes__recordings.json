@@ -1,0 +1,219 @@
+{
+ "sites": [
+  {
+   "module": "kafka.net.compat",
+   "qualname": "KafkaNetClient.least_loaded_node",
+   "file": "kafka/net/compat.py",
+   "kind": "call",
+   "id": "kafka/net/compat.py::KafkaNetClient.least_loaded_node",
+   "calls": [
+    {
+     "args": [
+      "@obj {\"class\": \"kafka.net.compat:KafkaNetClient\", \"state\": {\"_lock\": \"@obj {\\\"class\\\": \\\"_thread:RLock\\\", \\\"state\\\": {}}\", \"_manager\": \"@obj {\\\"class\\\": \\\"kafka.net.manager:KafkaConnectionManager\\\", \\\"state\\\": {\\\"_auth_failures\\\": \\\"{}\\\", \\\"_backoff\\\": \\\"{}\\\", \\\"_bootstrap_future\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"kafka.net.backend.selector:SelectorFuture\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"exception\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"is_done\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"value\\\\\\\": \\\\\\\"None\\\\\\\"}}\\\", \\\"_bootstrap_wakeup\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"kafka.net.wakeup_notifier:WakeupNotifier\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"_fut\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"_pending\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"_scheduled\\\\\\\": \\\\\\\"False\\\\\\\"}}\\\", \\\"_idle_check_delay\\\": \\\"540.0\\\", \\\"_net\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"kafka.net.backend.selector:NetworkSelector\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"_closed\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"_exception\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"_io_thread\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"_pending_waiters\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_stop\\\\\\\": \\\\\\\"False\\\\\\\"}}\\\", \\\"_owns_net\\\": \\\"False\\\", \\\"_sensors\\\": \\\"None\\\", \\\"broker_version_data\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"kafka.protocol.broker_version_data:BrokerVersionData\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"api_versions\\\\\\\": \\\\\\\"{0: (0, 13), 1: (4, 18), 2: (1, 11), 3: (0, 13), 8: (2, 10), 9: (1, 10), 10: (0, 6), 11: (0, 9), 12: (0, 4), 13: (0, 5), 14: (0, 5), 15: (0, 6), 16: (0, 5), 17: (0, 1), 18: (0, 4), 19: (2, 7), 20: (1, 6), 21: (0, 2), 22: (0, 5), 23: (2, 4), 24: (0, 5), 25: (0, 4), 26: (0, 5), 27: (1, 2), 28: (0, 5), 29: (1, 3), 30: (1, 3), 31: (1, 3), 32: (1, 4), 33: (0, 2), 34: (1, 2), 35: (1, 4), 36: (0, 2), 37: (0, 3), 38: (1, 3), 39: (1, 2), 40: (1, 2), 41: (1, 3), 42: (0, 2), 43: (0, 2), 44: (0, 1), 45: (0, 1), 46: (0, 0), 47: (0, 0), 48: (0, 1), 49: (0, 1), 50: (0, 0), 51: (0, 0), 55: (0, 2), 57: (0, 2), 60: (0, 2), 61: (0, 0), 64: (0, 0), 65: (0, 0), 66: (0, 2), 68: (0, 1), 69: (0, 1), 74: (0, 1), 75: (0, 0), 76: (1, 1), 77: (1, 1), 78: (1, 2), 79: (1, 2), 80: (0, 1), 81: (0, 0), 83: (0, 0), 84: (0, 0), 85: (0, 1), 86: (0, 0), 87: (0, 1), 88: (0, 0), 89: (0, 0), 90: (0, 1), 91: (0, 0), 92: (0, 0)}\\\\\\\", \\\\\\\"broker_version\\\\\\\": \\\\\\\"(4, 2)\\\\\\\"}}\\\", \\\"closed\\\": \\\"False\\\", \\\"cluster\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"kafka.cluster:ClusterMetadata\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"_brokers\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_coordinator_brokers\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_coordinators\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_last_refresh_ms\\\\\\\": \\\\\\\"0\\\\\\\", \\\\\\\"_last_successful_refresh_ms\\\\\\\": \\\\\\\"0\\\\\\\", \\\\\\\"_need_update\\\\\\\": \\\\\\\"True\\\\\\\", \\\\\\\"_partitions\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_refresh_future\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"_topic_ids\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_topic_names_by_id\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_topics\\\\\\\": \\\\\\\"set()\\\\\\\", \\\\\\\"closed\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"cluster_id\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"config\\\\\\\": \\\\\\\"{'retry_backoff_ms': 100, 'metadata_max_age_ms': 300000, 'bootstrap_servers': 'localhost:9092', 'allow_auto_create_topics': True, 'client_dns_lookup': 'use_all_dns_ips'}\\\\\\\", \\\\\\\"controller\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"internal_topics\\\\\\\": \\\\\\\"set()\\\\\\\", \\\\\\\"need_all_topic_metadata\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"unauthorized_topics\\\\\\\": \\\\\\\"set()\\\\\\\"}}\\\", \\\"config\\\": \\\"{'bootstrap_servers': 'localhost:9092', 'client_id': 'kafka-python-3.1.0.dev', 'client_software_name': 'kafka-python', 'client_software_version': '3.1.0.dev', 'receive_message_max_bytes': 1000000, 'reconnect_backoff_ms': 50, 'reconnect_backoff_max_ms': 30000, 'request_timeout_ms': 5000, 'default_api_timeout_ms': 60000, 'socket_connection_setup_timeout_ms': 10000, 'socket_connection_setup_timeout_max_ms': 30000, 'socket_options': [(6, 1, 1), (1, 9, 1)], 'max_in_flight_requests_per_connection': 5, 'connections_max_idle_ms': 540000, 'security_protocol': 'PLAINTEXT', 'ssl_context': None, 'ssl_check_hostname': True, 'ssl_cafile': None, 'ssl_certfile': None, 'ssl_keyfile': None, 'ssl_password': None, 'ssl_crlfile': None, 'sasl_mechanism': None, 'sasl_plain_username': None, 'sasl_plain_password': None, 'sasl_kerberos_name': None, 'sasl_kerberos_service_name': 'kafka', 'sasl_kerberos_domain_name': None, 'sasl_oauth_token_provider': None, 'proxy_url': None, 'api_version': (4, 2), 'metrics': None, 'metric_group_prefix': '', 'metadata_max_age_ms': 300000, 'client_dns_lookup': 'use_all_dns_ips'}\\\", \\\"ssl_context\\\": \\\"None\\\"}}\", \"_net\": \"@obj {\\\"class\\\": \\\"kafka.net.backend.selector:NetworkSelector\\\", \\\"state\\\": {\\\"_closed\\\": \\\"False\\\", \\\"_current\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"kafka.net.backend.selector:Task\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"_exc\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"_res\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"scheduled_at\\\\\\\": \\\\\\\"None\\\\\\\"}}\\\", \\\"_exception\\\": \\\"None\\\", \\\"_io_thread\\\": \\\"None\\\", \\\"_pending_waiters\\\": \\\"{}\\\", \\\"_poll_owner\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"threading:_MainThread\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"_args\\\\\\\": \\\\\\\"()\\\\\\\", \\\\\\\"_daemonic\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"_ident\\\\\\\": \\\\\\\"137194073299840\\\\\\\", \\\\\\\"_initialized\\\\\\\": \\\\\\\"True\\\\\\\", \\\\\\\"_is_stopped\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"_kwargs\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_name\\\\\\\": \\\\\\\"'MainThread'\\\\\\\", \\\\\\\"_native_id\\\\\\\": \\\\\\\"42\\\\\\\", \\\\\\\"_target\\\\\\\": \\\\\\\"None\\\\\\\"}}\\\", \\\"_ready\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"collections:deque\\\\\\\", \\\\\\\"state\\\\\\\": {}}\\\", \\\"_selector\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"selectors:EpollSelector\\\\\\\", \\\\\\\"state\\\\\\\": {}}\\\", \\\"_stop\\\": \\\"False\\\", \\\"_wakeup_r\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"socket:socket\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"_closed\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"_io_refs\\\\\\\": \\\\\\\"0\\\\\\\"}}\\\", \\\"_wakeup_w\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"socket:socket\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"_closed\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"_io_refs\\\\\\\": \\\\\\\"0\\\\\\\"}}\\\"}}\"}}"
+     ],
+     "kwargs": {},
+     "outcome": {
+      "kind": "return",
+      "repr": "None"
+     }
+    }
+   ]
+  },
+  {
+   "module": "kafka.net.sasl.msk",
+   "qualname": "SaslMechanismAwsMskIam.receive",
+   "file": "kafka/net/sasl/msk.py",
+   "kind": "call",
+   "id": "kafka/net/sasl/msk.py::SaslMechanismAwsMskIam.receive",
+   "calls": [
+    {
+     "args": [
+      "@obj {\"class\": \"kafka.net.sasl.msk:SaslMechanismAwsMskIam\", \"state\": {\"_auth\": \"None\", \"_is_authenticated\": \"False\", \"_is_done\": \"False\", \"host\": \"'localhost'\"}}",
+      "b'foo'"
+     ],
+     "kwargs": {},
+     "outcome": {
+      "kind": "return",
+      "repr": "None"
+     },
+     "after_args": {
+      "0": "@obj {\"class\": \"kafka.net.sasl.msk:SaslMechanismAwsMskIam\", \"state\": {\"_auth\": \"'foo'\", \"_is_authenticated\": \"True\", \"_is_done\": \"True\", \"host\": \"'localhost'\"}}"
+     }
+    }
+   ]
+  },
+  {
+   "module": "kafka.metrics.metrics",
+   "qualname": "Metrics.add_metric",
+   "file": "kafka/metrics/metrics.py",
+   "kind": "call",
+   "id": "kafka/metrics/metrics.py::Metrics.add_metric",
+   "calls": [
+    {
+     "args": [
+      "@obj {\"class\": \"kafka.metrics.metrics:Metrics\", \"state\": {\"_children_sensors\": \"{}\", \"_closed\": \"False\", \"_config\": \"@obj {\\\"class\\\": \\\"kafka.metrics.metric_config:MetricConfig\\\", \\\"state\\\": {\\\"_samples\\\": \\\"2\\\", \\\"event_window\\\": \\\"9223372036854775807\\\", \\\"quota\\\": \\\"None\\\", \\\"tags\\\": \\\"{'client-id': 'kafka-python-3.1.0.dev'}\\\", \\\"time_window_ms\\\": \\\"30000\\\"}}\", \"_lock\": \"@obj {\\\"class\\\": \\\"_thread:RLock\\\", \\\"state\\\": {}}\", \"_metrics\": \"{}\", \"_reporters\": \"[]\", \"_sensors\": \"{}\"}}",
+      "@obj {\"class\": \"kafka.metrics.metric_name:MetricName\", \"state\": {\"_description\": \"'total number of registered metrics'\", \"_group\": \"'kafka-metrics-count'\", \"_hash\": \"0\", \"_name\": \"'count'\", \"_tags\": \"{'client-id': 'kafka-python-3.1.0.dev'}\"}}",
+      "@obj {\"class\": \"kafka.metrics.measurable:AnonMeasurable\", \"state\": {}}"
+     ],
+     "kwargs": {},
+     "outcome": {
+      "kind": "return",
+      "repr": "None"
+     },
+     "after_args": {
+      "0": "@obj {\"class\": \"kafka.metrics.metrics:Metrics\", \"state\": {\"_children_sensors\": \"{}\", \"_closed\": \"False\", \"_config\": \"@obj {\\\"class\\\": \\\"kafka.metrics.metric_config:MetricConfig\\\", \\\"state\\\": {\\\"_samples\\\": \\\"2\\\", \\\"event_window\\\": \\\"9223372036854775807\\\", \\\"quota\\\": \\\"None\\\", \\\"tags\\\": \\\"{'client-id': 'kafka-python-3.1.0.dev'}\\\", \\\"time_window_ms\\\": \\\"30000\\\"}}\", \"_lock\": \"@obj {\\\"class\\\": \\\"_thread:RLock\\\", \\\"state\\\": {}}\", \"_metrics\": null, \"_reporters\": \"[]\", \"_sensors\": \"{}\"}}",
+      "1": "@obj {\"class\": \"kafka.metrics.metric_name:MetricName\", \"state\": {\"_description\": \"'total number of registered metrics'\", \"_group\": \"'kafka-metrics-count'\", \"_hash\": \"7361466609247046157612\", \"_name\": \"'count'\", \"_tags\": \"{'client-id': 'kafka-python-3.1.0.dev'}\"}}"
+     }
+    }
+   ]
+  },
+  {
+   "module": "kafka.net.compat",
+   "qualname": "KafkaNetClient.in_flight_request_count",
+   "file": "kafka/net/compat.py",
+   "kind": "call",
+   "id": "kafka/net/compat.py::KafkaNetClient.in_flight_request_count",
+   "calls": [
+    {
+     "args": [
+      "@obj {\"class\": \"kafka.net.compat:KafkaNetClient\", \"state\": {\"_lock\": \"@obj {\\\"class\\\": \\\"_thread:RLock\\\", \\\"state\\\": {}}\", \"_manager\": \"@obj {\\\"class\\\": \\\"kafka.net.manager:KafkaConnectionManager\\\", \\\"state\\\": {\\\"_auth_failures\\\": \\\"{}\\\", \\\"_backoff\\\": \\\"{}\\\", \\\"_bootstrap_future\\\": \\\"None\\\", \\\"_bootstrap_wakeup\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"kafka.net.wakeup_notifier:WakeupNotifier\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"_fut\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"_pending\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"_scheduled\\\\\\\": \\\\\\\"False\\\\\\\"}}\\\", \\\"_conns\\\": \\\"{}\\\", \\\"_idle_check_delay\\\": \\\"540.0\\\", \\\"_net\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"kafka.net.backend.selector:NetworkSelector\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"_closed\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"_current\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"_exception\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"_io_thread\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"_pending_waiters\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_poll_owner\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"_stop\\\\\\\": \\\\\\\"False\\\\\\\"}}\\\", \\\"_owns_net\\\": \\\"False\\\", \\\"_sensors\\\": \\\"None\\\", \\\"broker_version_data\\\": \\\"None\\\", \\\"closed\\\": \\\"False\\\", \\\"cluster\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"kafka.cluster:ClusterMetadata\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"_brokers\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_coordinator_brokers\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_coordinators\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_future\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"_last_refresh_ms\\\\\\\": \\\\\\\"0\\\\\\\", \\\\\\\"_last_successful_refresh_ms\\\\\\\": \\\\\\\"0\\\\\\\", \\\\\\\"_listeners\\\\\\\": \\\\\\\"set()\\\\\\\", \\\\\\\"_need_update\\\\\\\": \\\\\\\"True\\\\\\\", \\\\\\\"_partitions\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_refresh_future\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"_refresh_loop_future\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"_topic_ids\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_topic_names_by_id\\\\\\\": \\\\\\\"{}\\\\\\\", \\\\\\\"_topics\\\\\\\": \\\\\\\"set()\\\\\\\", \\\\\\\"closed\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"cluster_id\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"config\\\\\\\": \\\\\\\"{'retry_backoff_ms': 100, 'metadata_max_age_ms': 300000, 'bootstrap_servers': ['localhost:1'], 'allow_auto_create_topics': True, 'client_dns_lookup': 'use_all_dns_ips'}\\\\\\\", \\\\\\\"controller\\\\\\\": \\\\\\\"None\\\\\\\", \\\\\\\"internal_topics\\\\\\\": \\\\\\\"set()\\\\\\\", \\\\\\\"need_all_topic_metadata\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"unauthorized_topics\\\\\\\": \\\\\\\"set()\\\\\\\"}}\\\", \\\"config\\\": \\\"{'bootstrap_servers': ['localhost:1'], 'client_id': 'kafka-python-3.1.0.dev', 'client_software_name': 'kafka-python', 'client_software_version': '3.1.0.dev', 'receive_message_max_bytes': 1000000, 'reconnect_backoff_ms': 10, 'reconnect_backoff_max_ms': 100, 'request_timeout_ms': 30000, 'default_api_timeout_ms': 60000, 'socket_connection_setup_timeout_ms': 10000, 'socket_connection_setup_timeout_max_ms': 30000, 'socket_options': [(6, 1, 1), (1, 9, 1)], 'max_in_flight_requests_per_connection': 5, 'connections_max_idle_ms': 540000, 'security_protocol': 'PLAINTEXT', 'ssl_context': None, 'ssl_check_hostname': True, 'ssl_cafile': None, 'ssl_certfile': None, 'ssl_keyfile': None, 'ssl_password': None, 'ssl_crlfile': None, 'sasl_mechanism': None, 'sasl_plain_username': None, 'sasl_plain_password': None, 'sasl_kerberos_name': None, 'sasl_kerberos_service_name': 'kafka', 'sasl_kerberos_domain_name': None, 'sasl_oauth_token_provider': None, 'proxy_url': None, 'api_version': None, 'metrics': None, 'metric_group_prefix': '', 'metadata_max_age_ms': 300000, 'client_dns_lookup': 'use_all_dns_ips'}\\\", \\\"ssl_context\\\": \\\"None\\\"}}\", \"_net\": \"@obj {\\\"class\\\": \\\"kafka.net.backend.selector:NetworkSelector\\\", \\\"state\\\": {\\\"_closed\\\": \\\"False\\\", \\\"_current\\\": \\\"None\\\", \\\"_exception\\\": \\\"None\\\", \\\"_io_thread\\\": \\\"None\\\", \\\"_pending_waiters\\\": \\\"{}\\\", \\\"_poll_owner\\\": \\\"None\\\", \\\"_ready\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"collections:deque\\\\\\\", \\\\\\\"state\\\\\\\": {}}\\\", \\\"_selector\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"selectors:EpollSelector\\\\\\\", \\\\\\\"state\\\\\\\": {}}\\\", \\\"_stop\\\": \\\"False\\\", \\\"_wakeup_r\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"socket:socket\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"_closed\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"_io_refs\\\\\\\": \\\\\\\"0\\\\\\\"}}\\\", \\\"_wakeup_w\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"socket:socket\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"_closed\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"_io_refs\\\\\\\": \\\\\\\"0\\\\\\\"}}\\\"}}\"}}",
+      "'nonexistent'"
+     ],
+     "kwargs": {},
+     "outcome": {
+      "kind": "return",
+      "repr": "0"
+     }
+    }
+   ]
+  },
+  {
+   "module": "kafka.metrics.stats.histogram",
+   "qualname": "Histogram.ConstantBinScheme.from_bin",
+   "file": "kafka/metrics/stats/histogram.py",
+   "kind": "call",
+   "id": "kafka/metrics/stats/histogram.py::Histogram.ConstantBinScheme.from_bin",
+   "calls": [
+    {
+     "args": [
+      "@obj {\"class\": \"kafka.metrics.stats.histogram:Histogram.ConstantBinScheme\", \"state\": {\"_bins\": \"100\", \"_bucket_width\": \"1.0204081632653061\", \"_max\": \"100.0\", \"_min\": \"0.0\"}}",
+      "25"
+     ],
+     "kwargs": {},
+     "outcome": {
+      "kind": "return",
+      "repr": "24.48979591836735"
+     }
+    }
+   ]
+  },
+  {
+   "module": "kafka.metrics.metrics",
+   "qualname": "Metrics.metric_name",
+   "file": "kafka/metrics/metrics.py",
+   "kind": "call",
+   "id": "kafka/metrics/metrics.py::Metrics.metric_name",
+   "calls": [
+    {
+     "args": [
+      "@obj {\"class\": \"kafka.metrics.metrics:Metrics\", \"state\": {\"_children_sensors\": \"{}\", \"_closed\": \"False\", \"_config\": \"@obj {\\\"class\\\": \\\"kafka.metrics.metric_config:MetricConfig\\\", \\\"state\\\": {\\\"_samples\\\": \\\"2\\\", \\\"event_window\\\": \\\"9223372036854775807\\\", \\\"quota\\\": \\\"None\\\", \\\"tags\\\": \\\"{'client-id': 'kafka-python-3.1.0.dev'}\\\", \\\"time_window_ms\\\": \\\"30000\\\"}}\", \"_lock\": \"@obj {\\\"class\\\": \\\"_thread:RLock\\\", \\\"state\\\": {}}\", \"_metrics\": \"{}\", \"_reporters\": \"[]\", \"_sensors\": \"{}\"}}",
+      "'count'",
+      "'kafka-metrics-count'",
+      "'total number of registered metrics'"
+     ],
+     "kwargs": {},
+     "outcome": {
+      "kind": "state",
+      "fields": {
+       "_name": "'count'",
+       "_group": "'kafka-metrics-count'",
+       "_description": "'total number of registered metrics'",
+       "_tags": "{'client-id': 'kafka-python-3.1.0.dev'}",
+       "_hash": "0"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "module": "kafka.consumer.subscription_state",
+   "qualname": "SubscriptionState.subscribe",
+   "file": "kafka/consumer/subscription_state.py",
+   "kind": "call",
+   "id": "kafka/consumer/subscription_state.py::SubscriptionState.subscribe",
+   "calls": [
+    {
+     "args": [
+      "@obj {\"class\": \"kafka.consumer.subscription_state:SubscriptionState\", \"state\": {\"_default_offset_reset_strategy\": \"-2\", \"_group_subscription\": \"set()\", \"_lock\": \"@obj {\\\"class\\\": \\\"_thread:RLock\\\", \\\"state\\\": {}}\", \"_user_assignment\": \"set()\", \"assignment\": \"@obj {\\\"base\\\": \\\"{}\\\", \\\"class\\\": \\\"collections:OrderedDict\\\", \\\"state\\\": {}}\", \"listeners\": \"[]\", \"rebalance_listener\": \"None\", \"subscribed_pattern\": \"None\", \"subscription\": \"None\", \"subscription_type\": \"@obj {\\\"base\\\": \\\"0\\\", \\\"class\\\": \\\"kafka.consumer.subscription_state:SubscriptionType\\\", \\\"state\\\": {\\\"__objclass__\\\": \\\"@import kafka.consumer.subscription_state:SubscriptionType\\\", \\\"_name_\\\": \\\"'NONE'\\\", \\\"_sort_order_\\\": \\\"0\\\", \\\"_value_\\\": \\\"0\\\"}}\"}}"
+     ],
+     "kwargs": {
+      "topics": "'foo'"
+     },
+     "outcome": {
+      "kind": "raise",
+      "types": [
+       "builtins.TypeError",
+       "builtins.Exception",
+       "builtins.BaseException"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "module": "kafka.net.backend.transport",
+   "qualname": "KafkaTCPTransport.write",
+   "file": "kafka/net/backend/transport.py",
+   "kind": "call",
+   "id": "kafka/net/backend/transport.py::KafkaTCPTransport.write",
+   "calls": [
+    {
+     "args": [
+      "@obj {\"class\": \"kafka.net.backend.transport:KafkaTCPTransport\", \"state\": {\"_closed\": \"True\", \"_net\": \"@obj {\\\"class\\\": \\\"kafka.net.backend.selector:NetworkSelector\\\", \\\"state\\\": {\\\"_closed\\\": \\\"False\\\", \\\"_current\\\": \\\"None\\\", \\\"_exception\\\": \\\"None\\\", \\\"_io_thread\\\": \\\"None\\\", \\\"_pending_tasks\\\": \\\"set()\\\", \\\"_pending_waiters\\\": \\\"{}\\\", \\\"_poll_owner\\\": \\\"None\\\", \\\"_ready\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"collections:deque\\\\\\\", \\\\\\\"state\\\\\\\": {}}\\\", \\\"_scheduled\\\": \\\"[]\\\", \\\"_selector\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"selectors:EpollSelector\\\\\\\", \\\\\\\"state\\\\\\\": {}}\\\", \\\"_stop\\\": \\\"False\\\", \\\"_wakeup_r\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"socket:socket\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"_closed\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"_io_refs\\\\\\\": \\\\\\\"0\\\\\\\"}}\\\", \\\"_wakeup_w\\\": \\\"@obj {\\\\\\\"class\\\\\\\": \\\\\\\"socket:socket\\\\\\\", \\\\\\\"state\\\\\\\": {\\\\\\\"_closed\\\\\\\": \\\\\\\"False\\\\\\\", \\\\\\\"_io_refs\\\\\\\": \\\\\\\"0\\\\\\\"}}\\\"}}\", \"_protocol\": \"None\", \"_read\": \"False\", \"_read_task\": \"None\", \"_write\": \"True\", \"_write_buffer\": \"@obj {\\\"class\\\": \\\"collections:deque\\\", \\\"state\\\": {}}\", \"_write_task\": \"None\", \"_writing\": \"False\", \"host\": \"None\", \"last_read\": \"9975703.635163616\", \"last_write\": \"9975703.635163536\"}}",
+      "b'hello'"
+     ],
+     "kwargs": {},
+     "outcome": {
+      "kind": "raise",
+      "types": [
+       "builtins.RuntimeError",
+       "builtins.Exception",
+       "builtins.BaseException"
+      ]
+     }
+    }
+   ]
+  }
+ ],
+ "notes": {
+  "kafka/admin/_groups.py::GroupAdminMixin._async_delete_groups": "it is a coroutine or a generator, so one call is not one result",
+  "kafka/producer/transaction_manager.py::ProducerIdAndEpoch.is_valid": "it is not a plain function at run time",
+  "kafka/util.py::Timer.timeout_secs": "it is not a plain function at run time",
+  "kafka/admin/_partitions.py::PartitionAdminMixin._async_delete_records": "it is a coroutine or a generator, so one call is not one result",
+  "kafka/admin/_cluster.py::ClusterAdminMixin._async_describe_features": "it is a coroutine or a generator, so one call is not one result",
+  "kafka/partitioner/sticky.py::StickyPartitioner._pick_sticky_locked": "no call was seen whose arguments, receiver and result could all be written down",
+  "kafka/net/backend/asyncio_backend.py::AsyncioBackend.call_at": "no call was seen whose arguments, receiver and result could all be written down",
+  "kafka/coordinator/assignors/cooperative_sticky.py::CooperativeStickyAssignor.assign": "no call was seen whose arguments, receiver and result could all be written down",
+  "kafka/coordinator/assignors/sticky/partition_movements.py::PartitionMovements._has_cycles": "no call was seen whose arguments, receiver and result could all be written down",
+  "kafka/partitioner/sticky.py::StickyPartitioner.partition": "no call was seen whose arguments, receiver and result could all be written down",
+  "kafka/cluster.py::expand_to_canonical_bootstrap_hosts": "no call was seen whose arguments, receiver and result could all be written down",
+  "kafka/coordinator/assignors/cooperative_sticky.py::CooperativeStickyAssignor.parse_member_metadata": "no call was seen whose arguments, receiver and result could all be written down",
+  "kafka/admin/_groups.py::GroupAdminMixin._remove_group_members_batch_request": "no call was seen whose arguments, receiver and result could all be written down",
+  "kafka/net/compat.py::KafkaNetClient.least_loaded_node": "recorded",
+  "kafka/metrics/stats/avg.py::Avg.combine": "its recorded calls behave the same way with the edit in place, so they are not evidence of a repair",
+  "kafka/net/sasl/msk.py::SaslMechanismAwsMskIam.receive": "recorded",
+  "kafka/protocol/admin/topics.py::DeleteTopicsRequest.encode": "its recorded calls behave the same way with the edit in place, so they are not evidence of a repair",
+  "kafka/metrics/metrics.py::Metrics.add_metric": "recorded",
+  "kafka/record/memory_records.py::MemoryRecordsBuilder.__init__": "its recorded calls behave the same way with the edit in place, so they are not evidence of a repair",
+  "kafka/consumer/subscription_state.py::TopicPartitionState.update_preferred_read_replica": "its recorded calls behave the same way with the edit in place, so they are not evidence of a repair",
+  "kafka/net/compat.py::KafkaNetClient.in_flight_request_count": "recorded",
+  "kafka/producer/kafka.py::KafkaProducer.__init__": "its recorded calls behave the same way with the edit in place, so they are not evidence of a repair",
+  "kafka/metrics/stats/histogram.py::Histogram.ConstantBinScheme.from_bin": "recorded",
+  "kafka/net/backend/asyncio_backend.py::AsyncioBackend._fail_pending_waiters": "its recorded calls did not reproduce outside the suite, so replaying them is not evidence about the code",
+  "kafka/metrics/metrics.py::Metrics.metric_name": "recorded",
+  "kafka/consumer/subscription_state.py::SubscriptionState.subscribe": "recorded",
+  "kafka/net/connection.py::KafkaConnection.close": "its recorded calls behave the same way with the edit in place, so they are not evidence of a repair",
+  "kafka/producer/kafka.py::KafkaProducer.send": "its recorded calls did not reproduce outside the suite, so replaying them is not evidence about the code",
+  "kafka/net/backend/transport.py::KafkaTCPTransport.write": "recorded"
+ }
+}

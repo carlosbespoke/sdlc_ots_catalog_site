@@ -1,0 +1,24 @@
+FROM golang@sha256:3b4a11519ad929d1e1d261a12cff056f0c85b735253d7d861346b9c6f8b36437
+ARG BASE_COMMIT=e7ecca9a44a420e0687072d30916fcd6a6bfba07
+ENV DEBIAN_FRONTEND=noninteractive
+ENV CI="true"
+ENV GO111MODULE="on"
+ENV CGO_ENABLED="0"
+ENV APISGURU_COMMIT="f7207cf0a5c56081d275ebae4cf615249323385d"
+RUN apt-get update && apt-get install -y --no-install-recommends bash build-essential ca-certificates curl gdb git jq less procps strace tmux=3.3a-3 && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+RUN git init -q . && git remote add origin https://github.com/getkin/kin-openapi.git && git fetch --depth 1 origin "$BASE_COMMIT" && git checkout -q FETCH_HEAD
+RUN test "$(git rev-parse HEAD)" = "$BASE_COMMIT"
+RUN go mod download && [ -f go.sum ] && git restore --worktree -- go.sum || true
+RUN go mod verify
+RUN go test ./...
+RUN GOFLAGS= GOPROXY=https://proxy.golang.org,direct GOSUMDB=sum.golang.org go install github.com/ctrf-io/go-ctrf-json-reporter/cmd/go-ctrf-json-reporter@v0.1.0 && command -v go-ctrf-json-reporter
+RUN gopath="$(go env GOPATH)" && chown root:root "$gopath" && chmod 0755 "$gopath" && chown -R root:root "$gopath/bin" && chmod 0755 "$gopath/bin" && [ "$(stat -c '%u %a' "$gopath/bin")" = "0 755" ]
+RUN id -u agent >/dev/null 2>&1 || useradd -m -s /bin/bash agent 2>/dev/null || adduser -D -s /bin/sh agent 2>/dev/null || adduser --disabled-password --gecos "" agent; id -u agent >/dev/null
+RUN chown -R agent:agent /app; [ -d /workspace/.cache/go-build ] && chown -R agent:agent /workspace/.cache/go-build; [ -d /go/pkg/mod ] && chown -R agent:agent /go/pkg/mod; [ "$(stat -c '%U' /app)" = "agent" ]
+RUN git config --system --add safe.directory /app
+ENV APISGURU_COMMIT="f7207cf0a5c56081d275ebae4cf615249323385d"
+ENV CGO_ENABLED="0"
+ENV CI="true"
+ENV GO111MODULE="on"
+CMD ["bash"]

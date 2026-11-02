@@ -1,0 +1,541 @@
+{
+  "schema": 1,
+  "generator": {
+    "file": "build_task.py",
+    "git_revision": "80e16ab384bacf2f7e0fe2038eef7a3ba010ac7e",
+    "uncommitted": false,
+    "sha256": "7ca685ffa02600058bb7913f0e01598cdc981d2291cac08d30d67265a0695576",
+    "written_by_build": true
+  },
+  "grader_sha256": "e4cf2240c24c48e6f25324b896cffc88bee852dbd07492eb798ea6f255d063ca",
+  "grader_template": "b053fa8096610dd30952a1af7bc54293384980b4e52c0eb9559c181466045eec",
+  "grader_template_commit": "ea4954b9184fdeffbc301c15cf12c82195528822",
+  "args": {
+    "ids": "caa974ef,d516433c,c8827d4b,35e5897f,85bc1ee2,22a22bb0,48ed68ce,216bf9ef,8b36bda4,aa9ec5b8,6fc85f31,26b786ef,7e94dac9,1a65813e,5b4aff20,8e2670a8,842578eb,fea6104b",
+    "test": "",
+    "repo": "oss-rebuild",
+    "repo_url": "https://github.com/google/oss-rebuild.git",
+    "commit": "69b2d341a21b4a98df63025ce1cbc67cfe94fe63",
+    "base_image": "diagvgen-base-google__oss-rebuild-69b2d341",
+    "workdir": "/workspace/repo",
+    "test_cmd": "go test -count=1 ./...",
+    "language": "go",
+    "baseline_failures": 0,
+    "source_roots": [
+      "internal/api/apiservice",
+      "internal/bitmap",
+      "internal/gitcache",
+      "internal/netclassify",
+      "pkg/archive",
+      "pkg/build/local",
+      "pkg/registry/cratesio",
+      "pkg/registry/rubygems",
+      "pkg/stabilize"
+    ],
+    "hide_tests": true,
+    "symptom": "The repository has received 18 separate undocumented edits. What follows is everything I could pin down from the outside.\n\nI use this toolchain to reproduce published package artifacts from source, to compare a fresh result against the published one, and to drive those jobs from a hosted service. Every stage of that work now answers wrongly somewhere. No upstream host changed what it serves and no code of mine changed, yet the same inputs that used to be judged correctly are judged wrongly, and in several places work that used to succeed now dies with an error.\n\nKeeping track of which positions in a fixed-size set are marked is unreliable in two ways. Asking whether a given position holds a one answers yes for positions that were never touched, and it keeps answering yes after that position has been cleared; the same untrustworthy answers show up after intersecting two sets or taking their exclusive or, so the surviving positions match neither input. Separately, inverting a set whose declared length is indivisible by sixty-four leaves the wrong number of ones behind: a fresh set of one hundred positions, inverted, reports a population other than one hundred.\n\nWorking out what a package download points at is wrong in several places, with clearly working neighbours alongside. Image manifest addresses, both those aimed at a tag and those aimed at a digest, no longer yield an identifier, and neither do blob-by-digest addresses; a blob upload endpoint that used to be reported as deliberately ignored is no longer reported that way either. Mirror addresses for the packages of a musl-based Linux distribution fail the same way in both its main and its community trees, while a mis-shaped .apk filename is still reported as unrecognized. A well-formed wheel filename such as package-1.0.0-py3-none-any.whl no longer resolves to the package and release it names, whether handed over as a bare filename or as a full download address, although source distribution filenames with the usual compressed suffixes still resolve and the .metadata suffix is still reported as skipped. Java artifact addresses, from both the central host and the plugin host, and with or without a trailing qualifier in the filename, come back with something other than the expected identifier. One JavaScript case is off on its own: a package download whose release ends in an un-hyphenated release-candidate suffix, like express-2.0.0rc.tgz, no longer yields the identifier it used to, while plain, scoped, hyphenated-name and dotted-prerelease download addresses all still resolve. Rust downloads, cloud-storage objects, source-control endpoints and Debian and Ubuntu pool addresses behave as before. Two questions put to upstream hosting services also fail on their happy day: asking for the metadata document for a Rust package, against a plain 200 answer carrying valid JSON, comes back as an error instead of the parsed record, and asking for the per-release detail document for a Ruby package is treated as a failure status although the host answered 200, so inferring a reproduction recipe for such a package dies with an error rather than returning the recipe with its spec-file location, directory and timestamp.\n\nFetching source through the service that keeps its own copies of repositories fails at both ends. Over the wire, a read request with no address at all, or with a time bound that is malformed rather than RFC 3339, answers 401 instead of 400, even though the explanatory text in the body is still the right one; the same endpoint still answers 400 for a time bound far in the future, for an address it is unable to canonicalize, and for an address with too many segments. From the calling side, copying a repository down through that service fails outright for both filesystem-backed and in-memory storage, and two separate steps misjudge success: asking for the download location of a requested revision reports an error when the lookup in fact succeeded, and the retrieval of the packed repository treats a 200 answer as a failure. Once a copy is in hand, unpacking a compressed package file into a destination directory silently drops entries it ought to write: a file collection holding a single well-formed symbolic pointer, aimed at a sibling file inside the same destination, leaves the destination empty and reports no error at all. Entries whose own name or whose pointer climbs out of the destination are still absent afterwards.\n\nComparing a pair of artifacts is broken twice over. Handing in a list of well-formed user-supplied normalization entries answers with an error instead of the assembled rules, so the whole summary of a pair of artifacts fails at that point. And the rule that is meant to drop members whose names match a glob drops none of them, so two zip files that differ only in one such member no longer reduce to the same digest.\n\nCarrying out a reproduction phase inside a sandbox yields the wrong command lines. The command that launches the sandbox now carries a memory-cap flag with a blank value even when no cap was asked for, so the argument vector differs from what I requested in every configuration I tried, including the default one, the one with an inline auth header, the one removed on exit and both privileged variants. The per-phase command then hands the sandbox a script in which the strict-mode prelude is glued directly onto the first line of the phase script with no line break, producing one mangled line instead of a prelude followed by the commands.\n\nFinally, kicking off a long-lived reproduction hands back an operation identifier, and fetching the operation by that identifier works, but turning that identifier back into the name under which the saved record lives fails with a complaint about its shape, so the record behind an in-flight job is impossible to locate and its eventual completion never surfaces.",
+    "drop_paths": "",
+    "title": "A Go package-reproduction toolchain gives wrong answers in eighteen places, diagnosed without a test suite",
+    "description": "A Go service and library collection for reproducing upstream package artifacts has been altered by 18 one-line edits, and its test suite has been removed. Users report a broad spread of misbehaviour: bit-set queries answering for positions that were never touched, download URLs for containers, Alpine packages, Python wheels, Java artifacts and npm tarballs no longer resolving to package identifiers, successful HTTP metadata responses being reported as failures, a caching repository fetch failing end to end and answering the wrong status code on malformed queries, tarball unpacking silently dropping entries, user-supplied normalization rules being rejected and then having no effect, container invocation emitting a blank flag and mangling phase scripts, and operation identifiers that cannot be turned back into the records they name. The agent must locate the faults from behaviour alone, repair each one, and name the functions that were edited.",
+    "allow": ""
+  },
+  "base_dockerfile_sha256": "b2a8f985d798259d43ac66917395735e52f86103cc9ffed34982056f3eb6ea53",
+  "base_dockerfile_text": "# Generated by voyager repo-pipeline. Reproduces google/oss-rebuild@69b2d341a21b4a98df63025ce1cbc67cfe94fe63\nFROM --platform=linux/amd64 golang@sha256:e401dae1bf814e29204a8cb7915682e1780951e609ca0dd8865ee1937f510c48\nENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8\nENV CGO_ENABLED=1\nENV GOFLAGS=-buildvcs=false\nENV GOCACHE=/workspace/.cache/go-build\nENV GOMODCACHE=/go/pkg/mod\nENV GOTOOLCHAIN=local\nENV SOURCE_DATE_EPOCH=0\nRUN echo REPOPIPELINE_STAGE=system_packages \\\n    && apt-get update -qq \\\n    && apt-get install -y -qq --no-install-recommends build-essential ca-certificates git \\\n    && rm -rf /var/lib/apt/lists/*\n# Keep the toolchain visible to login shells (`bash -lc`), not just `ENV`:\n# /etc/profile rebuilds PATH and would otherwise discard the ENV entry.\nRUN printf 'export CGO_ENABLED=\"1\"\\nexport GOFLAGS=\"-buildvcs=false\"\\nexport GOCACHE=\"/workspace/.cache/go-build\"\\nexport GOMODCACHE=\"/go/pkg/mod\"\\nexport GOTOOLCHAIN=\"local\"\\nexport PATH=\"/usr/local/go/bin:/go/bin:$PATH\"\\n' > /etc/profile.d/00-repopipeline.sh && chmod 0644 /etc/profile.d/00-repopipeline.sh\nRUN useradd -m -u 1000 -s /bin/bash agent 2>/dev/null || true \\\n    && git config --system --add safe.directory /workspace/repo\nRUN echo REPOPIPELINE_STAGE=clone \\\n    && git init -q /workspace/repo \\\n    && cd /workspace/repo \\\n    && git remote add origin https://github.com/google/oss-rebuild.git \\\n    && git fetch --depth 1 origin 69b2d341a21b4a98df63025ce1cbc67cfe94fe63 \\\n    && git checkout -q FETCH_HEAD \\\n    && git submodule update --init --recursive --depth 1 2>/dev/null || true\nWORKDIR /workspace/repo\nRUN echo REPOPIPELINE_STAGE=cache_dirs && mkdir -p /workspace/.cache/go-build /go/pkg/mod\nRUN echo REPOPIPELINE_STAGE=install \\\n    && go mod download\nRUN echo REPOPIPELINE_STAGE=build \\\n    && go build ./... \\\n    && chown -R agent:agent /workspace/repo /workspace/.cache/go-build /go/pkg/mod /go 2>/dev/null || true\nLABEL org.opencontainers.image.source=\"https://github.com/google/oss-rebuild\" \\\n      org.opencontainers.image.revision=\"69b2d341a21b4a98df63025ce1cbc67cfe94fe63\" \\\n      io.voyager.repo=\"google/oss-rebuild\" \\\n      io.voyager.language=\"go\" \\\n      io.voyager.toolchain=\"go1.25\" \\\n      io.voyager.test-command=\"go test ./...\"",
+  "faults": [
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/bitmap::TestNotWithNonMultipleOf64"
+      ],
+      "id": "caa974ef",
+      "kind": "swap_arithmetic_operator",
+      "path": "internal/bitmap/bitmap.go",
+      "func": "Bitmap.Not",
+      "line": 111,
+      "before": "1<<(b.size%64) - 1",
+      "after": "1<<(b.size%64) + 1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/api/apiservice::TestCreateAndGetRebuildOp"
+      ],
+      "id": "d516433c",
+      "kind": "change_constant",
+      "path": "internal/api/apiservice/rebuild_lro.go",
+      "func": "toAttemptKey",
+      "line": 69,
+      "before": "5",
+      "after": "6"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/api/scratchworkerservice::TestExecStart_NonBlocking",
+        "github.com/google/oss-rebuild/internal/verifier::TestSummarizeArtifacts/success"
+      ],
+      "id": "c8827d4b",
+      "kind": "swap_boolean_operator",
+      "path": "pkg/stabilize/custom.go",
+      "func": "ExcludePath.Stabilizer",
+      "line": 202,
+      "before": "err != nil || match",
+      "after": "err != nil && match"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/gitcache::TestClientClone/filesystem_storage",
+        "github.com/google/oss-rebuild/internal/gitcache::TestClientClone/memory_storage"
+      ],
+      "id": "35e5897f",
+      "kind": "flip_comparison",
+      "path": "internal/gitcache/client.go",
+      "func": "Client.GetLinkWithRef",
+      "line": 47,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/npm_download_legacy_prerelease"
+      ],
+      "id": "85bc1ee2",
+      "kind": "change_constant",
+      "path": "internal/netclassify/classify.go",
+      "func": "classifyNPMURL",
+      "line": 257,
+      "before": "4",
+      "after": "5"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyPyPIFile/valid_wheel_file",
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/valid_PyPI_wheel_URL"
+      ],
+      "id": "22a22bb0",
+      "kind": "flip_comparison",
+      "path": "internal/netclassify/classify.go",
+      "func": "classifyPyPIFile",
+      "line": 230,
+      "before": "matches == nil",
+      "after": "matches != nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/bitmap::TestAnd",
+        "github.com/google/oss-rebuild/internal/bitmap::TestNot",
+        "github.com/google/oss-rebuild/internal/bitmap::TestSetGetClear",
+        "github.com/google/oss-rebuild/internal/bitmap::TestXor"
+      ],
+      "id": "48ed68ce",
+      "kind": "change_constant",
+      "path": "internal/bitmap/bitmap.go",
+      "func": "Bitmap.Get",
+      "line": 57,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/gitcache::TestClientClone/filesystem_storage",
+        "github.com/google/oss-rebuild/internal/gitcache::TestClientClone/memory_storage",
+        "github.com/google/oss-rebuild/pkg/archive::TestExtractTarSymlink/well-formed_symlink_within_root"
+      ],
+      "id": "216bf9ef",
+      "kind": "flip_comparison",
+      "path": "pkg/archive/tar.go",
+      "func": "ExtractTar",
+      "line": 50,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/pkg/rebuild/rubygems::TestInferStrategy/LocationHint.Dir_wins_over_gemspec_discovery",
+        "github.com/google/oss-rebuild/pkg/rebuild/rubygems::TestInferStrategy/basic",
+        "github.com/google/oss-rebuild/pkg/rebuild/rubygems::TestInferStrategy/gemspec_in_subdirectory_found_by_grep",
+        "github.com/google/oss-rebuild/pkg/rebuild/rubygems::TestInferStrategy/well-known_path_disambiguates_sibling_gemspecs"
+      ],
+      "id": "8b36bda4",
+      "kind": "change_constant",
+      "path": "pkg/registry/rubygems/rubygems.go",
+      "func": "HTTPRegistry.Version",
+      "line": 114,
+      "before": "200",
+      "after": "201"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/pkg/build/local::TestComposeDockerStartArgs/inline_auth",
+        "github.com/google/oss-rebuild/pkg/build/local::TestComposeDockerStartArgs/local_defaults",
+        "github.com/google/oss-rebuild/pkg/build/local::TestComposeDockerStartArgs/privileged_allowed",
+        "github.com/google/oss-rebuild/pkg/build/local::TestComposeDockerStartArgs/privileged_denied",
+        "github.com/google/oss-rebuild/pkg/build/local::TestComposeDockerStartArgs/removed_on_exit",
+        "github.com/google/oss-rebuild/pkg/build/local::TestDockerRunExecutor/docker_execution_failure",
+        "github.com/google/oss-rebuild/pkg/build/local::TestDockerRunExecutor/successful_execution",
+        "github.com/google/oss-rebuild/pkg/build/local::TestDockerRunExecutor/with_custom_working_directory",
+        "github.com/google/oss-rebuild/pkg/build/local::TestDockerRunExecutorSavePostBuildContainer"
+      ],
+      "id": "aa9ec5b8",
+      "kind": "flip_comparison",
+      "path": "pkg/build/local/run_args.go",
+      "func": "composeContainerArgs",
+      "line": 61,
+      "before": "opts.MemoryLimit != \"\"",
+      "after": "opts.MemoryLimit == \"\""
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/pkg/build/local::TestComposeDockerExecArgs",
+        "github.com/google/oss-rebuild/pkg/build/local::TestDockerRunExecutor/successful_execution",
+        "github.com/google/oss-rebuild/pkg/build/local::TestDockerRunExecutor/with_custom_working_directory",
+        "github.com/google/oss-rebuild/pkg/build/local::TestDockerRunExecutorSavePostBuildContainer",
+        "github.com/google/oss-rebuild/pkg/build/scratch::TestPhaseFailureSurfacesExitError"
+      ],
+      "id": "6fc85f31",
+      "kind": "break_chain",
+      "path": "pkg/build/local/run_args.go",
+      "func": "ComposeDockerExecArgs",
+      "line": 91,
+      "before": "strictPrelude + \"\\n\" + phase.Script",
+      "after": "strictPrelude + phase.Script"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/alpine_community_package_URL",
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/valid_alpine_package_URL"
+      ],
+      "id": "26b786ef",
+      "kind": "flip_comparison",
+      "path": "internal/netclassify/classify.go",
+      "func": "classifyAlpineURL",
+      "line": 208,
+      "before": "matches == nil",
+      "after": "matches != nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/pkg/registry/cratesio::TestHTTPRegistry_Crate/Success"
+      ],
+      "id": "7e94dac9",
+      "kind": "flip_comparison",
+      "path": "pkg/registry/cratesio/cratesio.go",
+      "func": "HTTPRegistry.Crate",
+      "line": 80,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/verifier::TestSummarizeArtifacts/success"
+      ],
+      "id": "1a65813e",
+      "kind": "flip_comparison",
+      "path": "pkg/stabilize/custom.go",
+      "func": "CreateCustomStabilizers",
+      "line": 84,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/gitcache::TestServerHandleGet/bad_contains_format",
+        "github.com/google/oss-rebuild/internal/gitcache::TestServerHandleGet/missing_URI"
+      ],
+      "id": "5b4aff20",
+      "kind": "change_constant",
+      "path": "internal/gitcache/server.go",
+      "func": "Server.HandleGet",
+      "line": 53,
+      "before": "400",
+      "after": "401"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/docker_blob",
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/docker_manifest_with_hash",
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/skipped_docker_blob_upload",
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/valid_docker_manifest_URL"
+      ],
+      "id": "8e2670a8",
+      "kind": "flip_comparison",
+      "path": "internal/netclassify/classify.go",
+      "func": "classifyOCIRegistryURL",
+      "line": 150,
+      "before": "loc == nil",
+      "after": "loc != nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/gitcache::TestClientClone/filesystem_storage",
+        "github.com/google/oss-rebuild/internal/gitcache::TestClientClone/memory_storage"
+      ],
+      "id": "842578eb",
+      "kind": "flip_comparison",
+      "path": "internal/gitcache/client.go",
+      "func": "Client.Clone",
+      "line": 121,
+      "before": "resp.StatusCode != http.StatusOK",
+      "after": "resp.StatusCode == http.StatusOK"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/maven_central_artifact",
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/maven_gradle_plugin_repo_artifact",
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/maven_with_classifier"
+      ],
+      "id": "fea6104b",
+      "kind": "change_constant",
+      "path": "internal/netclassify/classify.go",
+      "func": "classifyMavenURL",
+      "line": 283,
+      "before": "4",
+      "after": "5"
+    }
+  ],
+  "causes": [
+    {
+      "file": "internal/bitmap/bitmap.go",
+      "function": "Bitmap.Not",
+      "qualname": "Bitmap.Not",
+      "id": "caa974ef",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/bitmap::TestNotWithNonMultipleOf64"
+      ]
+    },
+    {
+      "file": "internal/api/apiservice/rebuild_lro.go",
+      "function": "toAttemptKey",
+      "qualname": "toAttemptKey",
+      "id": "d516433c",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/api/apiservice::TestCreateAndGetRebuildOp"
+      ]
+    },
+    {
+      "file": "pkg/stabilize/custom.go",
+      "function": "ExcludePath.Stabilizer",
+      "qualname": "ExcludePath.Stabilizer",
+      "id": "c8827d4b",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/api/scratchworkerservice::TestExecStart_NonBlocking",
+        "github.com/google/oss-rebuild/internal/verifier::TestSummarizeArtifacts/success"
+      ]
+    },
+    {
+      "file": "internal/gitcache/client.go",
+      "function": "Client.GetLinkWithRef",
+      "qualname": "Client.GetLinkWithRef",
+      "id": "35e5897f",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/gitcache::TestClientClone/filesystem_storage",
+        "github.com/google/oss-rebuild/internal/gitcache::TestClientClone/memory_storage"
+      ]
+    },
+    {
+      "file": "internal/netclassify/classify.go",
+      "function": "classifyNPMURL",
+      "qualname": "classifyNPMURL",
+      "id": "85bc1ee2",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/npm_download_legacy_prerelease"
+      ]
+    },
+    {
+      "file": "internal/netclassify/classify.go",
+      "function": "classifyPyPIFile",
+      "qualname": "classifyPyPIFile",
+      "id": "22a22bb0",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyPyPIFile/valid_wheel_file",
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/valid_PyPI_wheel_URL"
+      ]
+    },
+    {
+      "file": "internal/bitmap/bitmap.go",
+      "function": "Bitmap.Get",
+      "qualname": "Bitmap.Get",
+      "id": "48ed68ce",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/bitmap::TestAnd",
+        "github.com/google/oss-rebuild/internal/bitmap::TestNot",
+        "github.com/google/oss-rebuild/internal/bitmap::TestSetGetClear",
+        "github.com/google/oss-rebuild/internal/bitmap::TestXor"
+      ]
+    },
+    {
+      "file": "pkg/archive/tar.go",
+      "function": "ExtractTar",
+      "qualname": "ExtractTar",
+      "id": "216bf9ef",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/gitcache::TestClientClone/filesystem_storage",
+        "github.com/google/oss-rebuild/internal/gitcache::TestClientClone/memory_storage",
+        "github.com/google/oss-rebuild/pkg/archive::TestExtractTarSymlink/well-formed_symlink_within_root"
+      ]
+    },
+    {
+      "file": "pkg/registry/rubygems/rubygems.go",
+      "function": "HTTPRegistry.Version",
+      "qualname": "HTTPRegistry.Version",
+      "id": "8b36bda4",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/google/oss-rebuild/pkg/rebuild/rubygems::TestInferStrategy/LocationHint.Dir_wins_over_gemspec_discovery",
+        "github.com/google/oss-rebuild/pkg/rebuild/rubygems::TestInferStrategy/basic",
+        "github.com/google/oss-rebuild/pkg/rebuild/rubygems::TestInferStrategy/gemspec_in_subdirectory_found_by_grep",
+        "github.com/google/oss-rebuild/pkg/rebuild/rubygems::TestInferStrategy/well-known_path_disambiguates_sibling_gemspecs"
+      ]
+    },
+    {
+      "file": "pkg/build/local/run_args.go",
+      "function": "composeContainerArgs",
+      "qualname": "composeContainerArgs",
+      "id": "aa9ec5b8",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/google/oss-rebuild/pkg/build/local::TestComposeDockerStartArgs/inline_auth",
+        "github.com/google/oss-rebuild/pkg/build/local::TestComposeDockerStartArgs/local_defaults",
+        "github.com/google/oss-rebuild/pkg/build/local::TestComposeDockerStartArgs/privileged_allowed",
+        "github.com/google/oss-rebuild/pkg/build/local::TestComposeDockerStartArgs/privileged_denied",
+        "github.com/google/oss-rebuild/pkg/build/local::TestComposeDockerStartArgs/removed_on_exit",
+        "github.com/google/oss-rebuild/pkg/build/local::TestDockerRunExecutor/docker_execution_failure",
+        "github.com/google/oss-rebuild/pkg/build/local::TestDockerRunExecutor/successful_execution",
+        "github.com/google/oss-rebuild/pkg/build/local::TestDockerRunExecutor/with_custom_working_directory",
+        "github.com/google/oss-rebuild/pkg/build/local::TestDockerRunExecutorSavePostBuildContainer"
+      ]
+    },
+    {
+      "file": "pkg/build/local/run_args.go",
+      "function": "ComposeDockerExecArgs",
+      "qualname": "ComposeDockerExecArgs",
+      "id": "6fc85f31",
+      "kind": "break_chain",
+      "breaks": [
+        "github.com/google/oss-rebuild/pkg/build/local::TestComposeDockerExecArgs",
+        "github.com/google/oss-rebuild/pkg/build/local::TestDockerRunExecutor/successful_execution",
+        "github.com/google/oss-rebuild/pkg/build/local::TestDockerRunExecutor/with_custom_working_directory",
+        "github.com/google/oss-rebuild/pkg/build/local::TestDockerRunExecutorSavePostBuildContainer",
+        "github.com/google/oss-rebuild/pkg/build/scratch::TestPhaseFailureSurfacesExitError"
+      ]
+    },
+    {
+      "file": "internal/netclassify/classify.go",
+      "function": "classifyAlpineURL",
+      "qualname": "classifyAlpineURL",
+      "id": "26b786ef",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/alpine_community_package_URL",
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/valid_alpine_package_URL"
+      ]
+    },
+    {
+      "file": "pkg/registry/cratesio/cratesio.go",
+      "function": "HTTPRegistry.Crate",
+      "qualname": "HTTPRegistry.Crate",
+      "id": "7e94dac9",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/google/oss-rebuild/pkg/registry/cratesio::TestHTTPRegistry_Crate/Success"
+      ]
+    },
+    {
+      "file": "pkg/stabilize/custom.go",
+      "function": "CreateCustomStabilizers",
+      "qualname": "CreateCustomStabilizers",
+      "id": "1a65813e",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/verifier::TestSummarizeArtifacts/success"
+      ]
+    },
+    {
+      "file": "internal/gitcache/server.go",
+      "function": "Server.HandleGet",
+      "qualname": "Server.HandleGet",
+      "id": "5b4aff20",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/gitcache::TestServerHandleGet/bad_contains_format",
+        "github.com/google/oss-rebuild/internal/gitcache::TestServerHandleGet/missing_URI"
+      ]
+    },
+    {
+      "file": "internal/netclassify/classify.go",
+      "function": "classifyOCIRegistryURL",
+      "qualname": "classifyOCIRegistryURL",
+      "id": "8e2670a8",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/docker_blob",
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/docker_manifest_with_hash",
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/skipped_docker_blob_upload",
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/valid_docker_manifest_URL"
+      ]
+    },
+    {
+      "file": "internal/gitcache/client.go",
+      "function": "Client.Clone",
+      "qualname": "Client.Clone",
+      "id": "842578eb",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/gitcache::TestClientClone/filesystem_storage",
+        "github.com/google/oss-rebuild/internal/gitcache::TestClientClone/memory_storage"
+      ]
+    },
+    {
+      "file": "internal/netclassify/classify.go",
+      "function": "classifyMavenURL",
+      "qualname": "classifyMavenURL",
+      "id": "fea6104b",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/maven_central_artifact",
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/maven_gradle_plugin_repo_artifact",
+        "github.com/google/oss-rebuild/internal/netclassify::TestClassifyURL/maven_with_classifier"
+      ]
+    }
+  ],
+  "formatter_pass": {
+    "tool": "gofmt",
+    "formatted": [
+      "internal/api/apiservice/rebuild_lro.go",
+      "internal/bitmap/bitmap.go",
+      "internal/gitcache/client.go",
+      "internal/gitcache/server.go",
+      "internal/netclassify/classify.go",
+      "pkg/archive/tar.go",
+      "pkg/build/local/run_args.go",
+      "pkg/registry/cratesio/cratesio.go",
+      "pkg/registry/rubygems/rubygems.go",
+      "pkg/stabilize/custom.go"
+    ],
+    "raw": []
+  },
+  "rebuild": "python3 build_task.py --faults-file <this file> --ids <args.ids> and the rest of args above; --base-dockerfile can be written out of base_dockerfile_text"
+}

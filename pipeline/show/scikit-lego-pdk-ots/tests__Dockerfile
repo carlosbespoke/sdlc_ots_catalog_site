@@ -1,0 +1,88 @@
+# syntax=docker/dockerfile:1
+# scikit-lego-pdk-ots verifier image (Harbor separate-verifier mode). Toolchain section: identical to the
+# solver image (environment/Dockerfile) up to its solver starting state, so the grader observes the
+# candidate under the same interpreter, libraries and startup hooks (separate-verifier.py parity).
+# lock/requirements.txt is a byte copy of environment/requirements.txt (the solver image deletes its copy).
+FROM python@sha256:2e32f7d302adc1c37428355c1e646897c0c53f4fd60b6a551245fb90ee129f91
+
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_INPUT=1 PIP_NO_CACHE_DIR=1 UV_NO_CACHE=1
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONHASHSEED=42
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH=/opt/venv/bin:$PATH
+ENV PYTHONPATH=/workdir
+ENV SOURCE_DATE_EPOCH=0
+
+# --- Agent harness prerequisites (driftflow/harness.py, ISSUE-103) ---
+# Harbor's TerminusV2 agent opens a tmux session in this container, records it, and drives the
+# solver through it. Without tmux every rollout dies at agent setup with "Failed to start tmux
+# session" before the agent takes a turn, and the whole cohort is lost.
+#
+# This layer needs build-time network for the package manager. Build with network enabled; that is
+# independent of the task's run-time isolation, which task.toml still declares as no-network. The
+# base image stays digest-pinned.
+#
+# Debian ships *.patch files under /usr/share/doc, which isolation probes that walk the filesystem
+# for private assets will flag. Drop the docs here rather than loosening a probe.
+RUN if command -v apt-get >/dev/null; then \
+        apt-get update && apt-get install -y --no-install-recommends \
+            asciinema ca-certificates git tmux \
+        && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man; \
+    elif command -v apk >/dev/null; then \
+        apk add --no-cache asciinema ca-certificates git tmux; \
+    fi
+# Fail the BUILD, not a paid cohort. Starting and tearing down a real session proves tmux works,
+# which `command -v` does not.
+RUN command -v git && command -v tmux \
+    && tmux -V \
+    && tmux -L harbor-build-smoke new-session -d -s smoke 'sleep 30' \
+    && tmux -L harbor-build-smoke has-session -t smoke \
+    && tmux -L harbor-build-smoke kill-server
+
+# Keep the toolchain visible to login shells (`bash -lc`), not just `ENV`: /etc/profile rebuilds
+# PATH and would otherwise discard the ENV entry.
+RUN printf 'export VIRTUAL_ENV="/opt/venv"\nexport PATH="/opt/venv/bin:$PATH"\nexport PYTHONPATH="/workdir"\nexport PYTHONDONTWRITEBYTECODE="1"\nexport PYTHONHASHSEED="42"\nexport TZ="UTC"\n' \
+      > /etc/profile.d/00-scikit-lego.sh && chmod 0644 /etc/profile.d/00-scikit-lego.sh
+
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/python -m pip install --no-cache-dir 'pip==25.2' 'setuptools==75.8.2' 'wheel==0.45.1' 'uv==0.12.3'
+
+# --- Solve-time dependencies: every package the pinned commit's uv.lock resolves for its runtime
+# requirements and all of its extras (cvxpy, formulaic, umap, docs, test, utils, dev), as the
+# colleague's original image installed them, exported hash-pinned with
+# `uv export --frozen --all-extras --no-emit-project` and installed without resolution
+# (Python 3.11 markers). That includes pytest, matplotlib and jupyter for the solver's own checks.
+# scikit-lego itself is not installed: it is imported from /workdir through PYTHONPATH.
+COPY lock/requirements.txt /opt/requirements/requirements.txt
+RUN uv pip install --python /opt/venv/bin/python --no-deps --require-hashes --compile-bytecode \
+        -r /opt/requirements/requirements.txt \
+    && rm -rf /opt/requirements \
+    && /opt/venv/bin/python -m pip check
+# Distribution metadata only (no code): `sklego.__version__` reads the installed distribution's
+# version through importlib.metadata, and the pinned commit declares version 0.9.9.
+RUN d=/opt/venv/lib/python3.11/site-packages/scikit_lego-0.9.9.dist-info \
+    && mkdir -p "$d" \
+    && printf 'Metadata-Version: 2.1\nName: scikit-lego\nVersion: 0.9.9\nSummary: A collection of lego bricks for scikit-learn pipelines\n' > "$d/METADATA" \
+    && printf 'sklego\n' > "$d/top_level.txt" \
+    && printf 'pip\n' > "$d/INSTALLER" \
+    && : > "$d/RECORD" \
+    && /opt/venv/bin/python -c "from importlib import metadata; print(metadata.version('scikit-lego'))"
+
+RUN useradd -m -u 1000 -s /bin/bash agent 2>/dev/null || true \
+    && git config --system --add safe.directory /workdir
+
+# --- Verifier section ---------------------------------------------------------------------------
+# The same interpreter seal as the solver image, then the grading material in a root-only /tests.
+RUN find /opt/venv -name '*.pth' -print0 | xargs -0 -r grep -l /workdir | xargs -r rm -f \
+    && chown -R root:root /opt/venv \
+    && chmod -R go-w /opt/venv \
+    && /opt/venv/bin/python -c "import numpy, scipy, pandas, sklearn, narwhals, sklearn_compat, formulaic, cvxpy, umap, matplotlib, pytest; print('verifier interpreter sealed')"
+
+COPY . /tests
+RUN rm -rf /tests/Dockerfile /tests/lock \
+    && chown -R root:root /tests \
+    && chmod -R go-rwx /tests \
+    && mkdir -p /workdir /logs/verifier
+
+WORKDIR /workdir
+CMD ["sh", "-c", "sleep infinity"]

@@ -1,0 +1,62 @@
+{
+  "base_commit": "f69620859abdc8c691f46b680786f34328992f2e",
+  "f2p_node_ids": [
+    "hidden.Webhook.concurrent_deliveries_across_two_api_processes",
+    "hidden.Webhook.conflicting_bodies_racing_on_one_key",
+    "hidden.Webhook.different_body_is_rejected",
+    "hidden.Webhook.keyed_replay_reuses_id_and_run",
+    "hidden.Webhook.redis_outage_does_not_acknowledge_lost_runs",
+    "hidden.Webhook.sync_repeat_during_original_run_shares_its_response",
+    "hidden.Webhook.sync_repeats_reuse_body_and_run_listing",
+    "hidden.Webhook.worker_killed_mid_run_does_not_repeat_finished_actions",
+    "hidden.Webhook.worker_payload_submission_is_replay_safe"
+  ],
+  "p2p_node_ids": [
+    "hidden.Webhook.accepted_delivery_survives_worker_restart",
+    "hidden.Webhook.missing_and_disabled_statuses",
+    "hidden.Webhook.unkeyed_requests_still_create_distinct_runs",
+    "packages/server/worker/test/lib/worker.test.ts.findStalledLoopIndex > flags a wedged loop even while a sibling is executing a job",
+    "packages/server/worker/test/lib/worker.test.ts.findStalledLoopIndex > flags a wedged loop even while a sibling keeps iterating",
+    "packages/server/worker/test/lib/worker.test.ts.findStalledLoopIndex > reports nothing before any loop has registered",
+    "packages/server/worker/test/lib/worker.test.ts.findStalledLoopIndex > reports nothing while every loop is executing a job",
+    "packages/server/worker/test/lib/worker.test.ts.findStalledLoopIndex > reports nothing while every loop is iterating",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > forwards USER_FAILURE status from synchronous job handler",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > forwards response from job handler to completeJob",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > health endpoint > closes the health server when the socket disconnects",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > health endpoint > responds 200 with status ok on /api/v1/health",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > health endpoint > responds 200 with status ok on /v1/health",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > health endpoint > responds 200 with status ok on /worker/health",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > health endpoint > responds 404 on unknown paths",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > keeps polling when the server-ping probe never settles",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > polls for a job, executes it, and reports completion",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > propagates INTERNAL_ERROR status from fire-and-forget result to completeJob",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > propagates TIMEOUT status from fire-and-forget result to completeJob",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > reports error when job execution fails",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > resilience to invalid job data > continues processing after a handler throws and handles the next job",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > resilience to invalid job data > handles interleaved nulls, invalid jobs, and valid jobs",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > resilience to invalid job data > survives a job with an unrecognized jobType and continues polling",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > resilience to invalid job data > survives a job with empty object as jobData and continues polling",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > resilience to invalid job data > survives a job with invalid jobData fields and continues processing",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > resilience to invalid job data > survives a job with non-object primitive jobData and continues polling",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > resilience to invalid job data > survives multiple consecutive invalid jobs and still processes a valid one",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > runtime lifecycle on reconnect > shuts down the old runtime and brings up a fresh one when the server drops the connection",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > skips null poll responses and re-polls",
+    "packages/server/worker/test/lib/worker.test.ts.worker integration > treats USER_FAILURE differently from INTERNAL_ERROR in fire-and-forget",
+    "hidden.Webhook.same_key_on_two_flows_is_independent"
+  ],
+  "gated_p2p_node_ids": [
+    "hidden.Webhook.accepted_delivery_survives_worker_restart",
+    "hidden.Webhook.missing_and_disabled_statuses",
+    "hidden.Webhook.unkeyed_requests_still_create_distinct_runs",
+    "hidden.Webhook.same_key_on_two_flows_is_independent"
+  ],
+  "p2p_gating": "guards",
+  "grade": {
+    "format": "junit",
+    "tool_label": "node-test",
+    "reports": [
+      "/logs/verifier/base.xml",
+      "/logs/verifier/new.xml"
+    ]
+  }
+}

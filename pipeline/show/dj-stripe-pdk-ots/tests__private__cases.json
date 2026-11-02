@@ -1,0 +1,395 @@
+[
+ {
+  "code": "result = replay({'op': 'delivery', 'registrations': ['balance.available', 'billing.alert.triggered'], 'types': ['billing.alert.triggered']})\n",
+  "id": "OBS-0001"
+ },
+ {
+  "code": "result = replay({'duplicate': True, 'op': 'delivery', 'types': ['balance.available', 'balance.available']})\n",
+  "id": "OBS-0002"
+ },
+ {
+  "code": "result = replay({'failure': 'event', 'op': 'delivery'})\n",
+  "id": "OBS-0003"
+ },
+ {
+  "code": "result = replay({'duplicate': True, 'failure': 'event', 'op': 'delivery', 'retry': True, 'types': ['balance.available', 'balance.available']})\n",
+  "id": "OBS-0004"
+ },
+ {
+  "code": "result = replay({'failure': 'pre', 'op': 'delivery'})\n",
+  "id": "OBS-0005"
+ },
+ {
+  "code": "result = replay({'missing': True, 'op': 'delivery'})\n",
+  "id": "OBS-0006"
+ },
+ {
+  "code": "result = replay({'op': 'event', 'registrations': ['balance.available', 'billing.alert.triggered'], 'types': ['billing.alert.triggered']})\n",
+  "id": "OBS-0007"
+ },
+ {
+  "code": "result = replay({'duplicate': True, 'op': 'event', 'types': ['balance.available', 'balance.available']})\n",
+  "id": "OBS-0008"
+ },
+ {
+  "code": "result = replay({'failure': 'event', 'op': 'event'})\n",
+  "id": "OBS-0009"
+ },
+ {
+  "code": "result = replay({'duplicate': True, 'failure': 'event', 'op': 'event', 'retry': True, 'types': ['balance.available', 'balance.available']})\n",
+  "id": "OBS-0010"
+ },
+ {
+  "code": "result = replay({'omit': ['id'], 'op': 'validation'})\n",
+  "id": "OBS-0011"
+ },
+ {
+  "code": "result = replay({'omit': ['livemode'], 'op': 'validation'})\n",
+  "id": "OBS-0012"
+ },
+ {
+  "code": "result = replay({'debug': True, 'forward': 'whsec_forward', 'method': 'verify_signature', 'op': 'validation', 'signed_with': 'whsec_forward'})\n",
+  "id": "OBS-0013"
+ },
+ {
+  "code": "result = replay({'op': 'delivery'})\n",
+  "id": "OBS-0014"
+ },
+ {
+  "code": "result = replay({'op': 'delivery', 'registrations': ['balance.available']})\n",
+  "id": "OBS-0015"
+ },
+ {
+  "code": "result = replay({'op': 'delivery', 'registrations': ['balance.available'], 'tuple': True})\n",
+  "id": "OBS-0016"
+ },
+ {
+  "code": "result = replay({'op': 'delivery', 'registrations': 'billing.alert.triggered', 'types': ['billing.alert.triggered']})\n",
+  "id": "OBS-0017"
+ },
+ {
+  "code": "result = replay({'op': 'delivery', 'types': ['unknown.event']})\n",
+  "id": "OBS-0018"
+ },
+ {
+  "code": "result = replay({'op': 'delivery', 'registrations': []})\n",
+  "id": "OBS-0019"
+ },
+ {
+  "code": "result = replay({'op': 'event'})\n",
+  "id": "OBS-0020"
+ },
+ {
+  "code": "result = replay({'op': 'event', 'registrations': ['balance.available']})\n",
+  "id": "OBS-0021"
+ },
+ {
+  "code": "result = replay({'op': 'event', 'registrations': ['balance.available'], 'tuple': True})\n",
+  "id": "OBS-0022"
+ },
+ {
+  "code": "result = replay({'op': 'event', 'registrations': 'billing.alert.triggered', 'types': ['billing.alert.triggered']})\n",
+  "id": "OBS-0023"
+ },
+ {
+  "code": "result = replay({'op': 'event', 'types': ['unknown.event']})\n",
+  "id": "OBS-0024"
+ },
+ {
+  "code": "result = replay({'op': 'event', 'registrations': []})\n",
+  "id": "OBS-0025"
+ },
+ {
+  "code": "result = replay({'omit': [], 'op': 'validation'})\n",
+  "id": "OBS-0026"
+ },
+ {
+  "code": "result = replay({'omit': ['id', 'livemode'], 'op': 'validation'})\n",
+  "id": "OBS-0027"
+ },
+ {
+  "code": "result = replay({'invalid_json': True, 'op': 'validation'})\n",
+  "id": "OBS-0028"
+ },
+ {
+  "code": "result = replay({'debug': False, 'forward': 'whsec_forward', 'method': 'verify_signature', 'op': 'validation', 'signed_with': 'whsec_endpoint'})\n",
+  "id": "OBS-0029"
+ },
+ {
+  "code": "result = replay({'debug': False, 'forward': 'whsec_forward', 'method': 'verify_signature', 'op': 'validation', 'signed_with': 'whsec_forward'})\n",
+  "id": "OBS-0030"
+ },
+ {
+  "code": "result = replay({'debug': True, 'forward': '', 'method': 'verify_signature', 'op': 'validation', 'signed_with': 'whsec_endpoint'})\n",
+  "id": "OBS-0031"
+ },
+ {
+  "code": "result = replay({'debug': True, 'method': 'verify_signature', 'op': 'validation', 'signed_with': 'whsec_endpoint'})\n",
+  "id": "OBS-0032"
+ },
+ {
+  "code": "result = replay({'debug': False, 'method': 'verify_signature', 'op': 'validation', 'signed_with': 'bad'})\n",
+  "id": "OBS-0033"
+ },
+ {
+  "code": "result = replay({'debug': False, 'method': 'verify_signature', 'op': 'validation', 'signed_with': 'whsec_endpoint'})\n",
+  "id": "OBS-0034"
+ },
+ {
+  "code": "result = replay({'header_name': 'Stripe-Signature', 'method': 'verify_signature', 'op': 'validation'})\n",
+  "id": "OBS-0035"
+ },
+ {
+  "code": "result = replay({'header_name': 'STRIPE-SIGNATURE', 'method': 'verify_signature', 'op': 'validation'})\n",
+  "id": "OBS-0036"
+ },
+ {
+  "code": "result = replay({'header_name': 'sTrIpE-sIgNaTuRe', 'method': 'verify_signature', 'op': 'validation'})\n",
+  "id": "OBS-0037"
+ },
+ {
+  "code": "\nfrom djstripe.settings import djstripe_settings\nfrom django.test import override_settings\nwith override_settings(STRIPE_TEST_SECRET_KEY=\"sk_test_a\", STRIPE_LIVE_SECRET_KEY=\"sk_live_b\", STRIPE_LIVE_MODE=False):\n    del settings.STRIPE_SECRET_KEY\n    test_mode = djstripe_settings.STRIPE_SECRET_KEY\nwith override_settings(STRIPE_TEST_SECRET_KEY=\"sk_test_a\", STRIPE_LIVE_SECRET_KEY=\"sk_live_b\", STRIPE_LIVE_MODE=True):\n    del settings.STRIPE_SECRET_KEY\n    live_mode = djstripe_settings.STRIPE_SECRET_KEY\nresult = [test_mode, live_mode]\n",
+  "id": "OBS-0038"
+ },
+ {
+  "code": "\nfrom djstripe.settings import djstripe_settings\nfrom django.test import override_settings\nwith override_settings(STRIPE_SECRET_KEY=\"sk_test_default\", STRIPE_TEST_SECRET_KEY=\"sk_test_a\",\n                       STRIPE_LIVE_SECRET_KEY=\"sk_live_b\", STRIPE_LIVE_MODE=True):\n    result = [djstripe_settings.STRIPE_SECRET_KEY, djstripe_settings.get_default_api_key(None),\n              djstripe_settings.get_default_api_key(True), djstripe_settings.get_default_api_key(False)]\n",
+  "id": "OBS-0039"
+ },
+ {
+  "code": "\nfrom djstripe.settings import djstripe_settings\nfrom django.test import override_settings\nwith override_settings(STRIPE_SECRET_KEY=\"sk_test_default\", STRIPE_TEST_SECRET_KEY=\"\", STRIPE_LIVE_SECRET_KEY=\"\"):\n    result = [djstripe_settings.get_default_api_key(True), djstripe_settings.get_default_api_key(False),\n              djstripe_settings.get_default_api_key(None)]\n",
+  "id": "OBS-0040"
+ },
+ {
+  "code": "\nfrom djstripe.settings import djstripe_settings\nfrom django.test import override_settings\nwith override_settings(STRIPE_SECRET_KEY=\"sk_test_a\", STRIPE_TEST_SECRET_KEY=\"sk_test_a\",\n                       STRIPE_LIVE_SECRET_KEY=\"sk_live_b\"):\n    keys = djstripe_settings.get_api_keys()\nwith override_settings(STRIPE_SECRET_KEY=\"\", STRIPE_TEST_SECRET_KEY=\"sk_test_a\", STRIPE_LIVE_SECRET_KEY=\"\"):\n    only = djstripe_settings.get_api_keys()\nresult = [sorted(keys), len(keys), only]\n",
+  "id": "OBS-0041"
+ },
+ {
+  "code": "\nfrom djstripe.settings import djstripe_settings\nfrom django.test import override_settings\nwith override_settings(STRIPE_TEST_PUBLIC_KEY=\"pk_test_x\", STRIPE_LIVE_PUBLIC_KEY=\"pk_live_y\", STRIPE_LIVE_MODE=False):\n    test_public = djstripe_settings.STRIPE_PUBLIC_KEY\nwith override_settings(STRIPE_TEST_PUBLIC_KEY=\"pk_test_x\", STRIPE_LIVE_PUBLIC_KEY=\"pk_live_y\", STRIPE_LIVE_MODE=True):\n    live_public = djstripe_settings.STRIPE_PUBLIC_KEY\nresult = [test_public, live_public]\n",
+  "id": "OBS-0042"
+ },
+ {
+  "code": "\nfrom djstripe.settings import djstripe_settings, DjstripeSettings\nfrom django.test import override_settings\nwith override_settings(STRIPE_API_VERSION=\"2020-08-27\"):\n    explicit = djstripe_settings.STRIPE_API_VERSION\nwith override_settings(STRIPE_API_VERSION=\"\"):\n    falsey = djstripe_settings.STRIPE_API_VERSION == DjstripeSettings.DEFAULT_STRIPE_API_VERSION\nwith override_settings(STRIPE_API_VERSION=None):\n    none = djstripe_settings.STRIPE_API_VERSION == DjstripeSettings.DEFAULT_STRIPE_API_VERSION\nresult = [explicit, falsey, none]\n",
+  "id": "OBS-0043"
+ },
+ {
+  "code": "\nimport stripe\nfrom djstripe.settings import djstripe_settings, DjstripeSettings\nsaved = stripe.api_version\ntry:\n    stripe.api_version = \"2019-05-16\"\n    absent_sdk = djstripe_settings.STRIPE_API_VERSION\n    stripe.api_version = None\n    absent_none = djstripe_settings.STRIPE_API_VERSION == DjstripeSettings.DEFAULT_STRIPE_API_VERSION\nfinally:\n    stripe.api_version = saved\nresult = [absent_sdk, absent_none]\n",
+  "id": "OBS-0044"
+ },
+ {
+  "code": "\nfrom djstripe.settings import djstripe_settings\nfrom django.contrib.auth import get_user_model\nresult = [djstripe_settings.get_subscriber_model() is get_user_model(),\n          djstripe_settings.get_subscriber_model_string()]\n",
+  "id": "OBS-0045"
+ },
+ {
+  "code": "\nfrom djstripe.settings import djstripe_settings\nfrom django.test import override_settings\nclass Request:\n    user = \"the-user\"\n    organization = \"the-org\"\ndefault = djstripe_settings.subscriber_request_callback(Request())\nwith override_settings(DJSTRIPE_SUBSCRIBER_MODEL_REQUEST_CALLBACK=lambda request: request.organization):\n    custom = djstripe_settings.subscriber_request_callback(Request())\nwith override_settings(DJSTRIPE_SUBSCRIBER_MODEL_REQUEST_CALLBACK=\"operator.attrgetter\"):\n    dotted = djstripe_settings.subscriber_request_callback(\"organization\")(Request())\nresult = [default, custom, dotted]\n",
+  "id": "OBS-0046"
+ },
+ {
+  "code": "\nfrom djstripe.settings import djstripe_settings\nfrom django.test import override_settings\ndefaults = [djstripe_settings.SUBSCRIBER_CUSTOMER_KEY, djstripe_settings.WEBHOOK_VALIDATION,\n            djstripe_settings.DJSTRIPE_WEBHOOK_URL]\nwith override_settings(DJSTRIPE_SUBSCRIBER_CUSTOMER_KEY=\"org_id\", DJSTRIPE_WEBHOOK_VALIDATION=\"retrieve_event\"):\n    custom = [djstripe_settings.SUBSCRIBER_CUSTOMER_KEY, djstripe_settings.WEBHOOK_VALIDATION]\nresult = [defaults, custom]\n",
+  "id": "OBS-0047"
+ },
+ {
+  "code": "\nfrom djstripe.settings import djstripe_settings\nfrom djstripe.models import IdempotencyKey\nfirst = djstripe_settings.get_idempotency_key(\"customer\", \"create:1\", False)\nagain = djstripe_settings.get_idempotency_key(\"customer\", \"create:1\", False)\nother = djstripe_settings.get_idempotency_key(\"customer\", \"create:2\", False)\nresult = [first == again, first != other, IdempotencyKey.objects.count()]\n",
+  "id": "OBS-0048"
+ },
+ {
+  "code": "\nfrom djstripe.settings import djstripe_settings\nfrom django.test import override_settings\nwith override_settings(DJSTRIPE_IDEMPOTENCY_KEY_CALLBACK=lambda object_type, action, livemode: f\"{object_type}|{action}|{livemode}\"):\n    result = djstripe_settings.get_idempotency_key(\"customer\", \"create:1\", True)\n",
+  "id": "OBS-0049"
+ },
+ {
+  "code": "\nfrom djstripe.settings import djstripe_settings\nfrom django.core.exceptions import ImproperlyConfigured\nfrom django.test import override_settings\noutcomes = []\nfor value in [\"auth.User\", \"nonexistent.Model\", \"not-a-model-path\"]:\n    with override_settings(DJSTRIPE_SUBSCRIBER_MODEL=value):\n        try:\n            outcomes.append(djstripe_settings.get_subscriber_model().__name__)\n        except ImproperlyConfigured:\n            outcomes.append(\"ImproperlyConfigured\")\nresult = outcomes\n",
+  "id": "OBS-0050"
+ },
+ {
+  "code": "\nfrom djstripe.checks import check_djstripe_settings_foreign_key_to_field\nfrom django.test import override_settings\nids = {}\nfor value in [\"id\", \"djstripe_id\"]:\n    with override_settings(DJSTRIPE_FOREIGN_KEY_TO_FIELD=value):\n        ids[value] = [m.id for m in check_djstripe_settings_foreign_key_to_field()]\nwith override_settings(DJSTRIPE_FOREIGN_KEY_TO_FIELD=\"pk\"):\n    ids[\"invalid\"] = [m.id for m in check_djstripe_settings_foreign_key_to_field()]\nwith override_settings():\n    del settings.DJSTRIPE_FOREIGN_KEY_TO_FIELD\n    ids[\"unset\"] = [m.id for m in check_djstripe_settings_foreign_key_to_field()]\nresult = ids\n",
+  "id": "OBS-0051"
+ },
+ {
+  "code": "\nfrom djstripe.admin.forms import APIKeyAdminCreateForm\nfrom djstripe.models import APIKey\nfake = fake_stripe({(\"GET\", \"/v1/account\"): account_data(\"acct_owner\")})\nsecret = \"sk_test_\" + \"A1b2C3d4\" * 3\nform = APIKeyAdminCreateForm(data={\"name\": \"\", \"secret\": secret})\nvalid = form.is_valid()\nkey = form.instance\nstored = list(APIKey.objects.filter(secret=secret).values_list(\"type\", \"livemode\", \"djstripe_owner_account_id\"))\nresult = [valid, str(key.type), key.livemode, key.djstripe_owner_account_id, stored, sorted(set(fake.calls())), fake.requests[0][\"api_key\"] == secret]\n",
+  "id": "OBS-0052"
+ },
+ {
+  "code": "\nfrom djstripe.admin.forms import APIKeyAdminCreateForm\nfake = fake_stripe({})\nout = []\nfor secret in [\"pk_live_\" + \"Z9y8X7w6\" * 3, \"pk_test_\" + \"Z9y8X7w6\" * 3]:\n    form = APIKeyAdminCreateForm(data={\"name\": \"public\", \"secret\": secret})\n    valid = form.is_valid()\n    key = form.save()\n    out.append([valid, str(key.type), key.livemode, key.djstripe_owner_account_id])\nresult = [out, fake.calls()]\n",
+  "id": "OBS-0053"
+ },
+ {
+  "code": "\nfrom djstripe.admin.forms import APIKeyAdminCreateForm\nfake = fake_stripe({(\"GET\", \"/v1/account\"): account_data(\"acct_restricted\")})\nform = APIKeyAdminCreateForm(data={\"name\": \"ro\", \"secret\": \"rk_live_\" + \"Q1w2E3r4\" * 3})\nvalid = form.is_valid()\nkey = form.instance\nbad = APIKeyAdminCreateForm(data={\"name\": \"bad\", \"secret\": \"sk_test_short\"})\nresult = [valid, str(key.type), key.livemode, key.djstripe_owner_account_id, bad.is_valid(), sorted(bad.errors)]\n",
+  "id": "OBS-0054"
+ },
+ {
+  "code": "\nfrom djstripe.models.api import redact_api_key, is_restricted_key\nfrom djstripe.models import APIKey\nkey = APIKey(secret=\"sk_test_\" + \"4eC39HqLyjWDarjtT1zdp7dc\", livemode=False, type=\"secret\")\nresult = [redact_api_key(\"sk_live_\" + \"abcdefghijklmnopqrstuvwx1234\"), key.secret_redacted, str(key),\n          is_restricted_key(\"rk_test_x\"), is_restricted_key(\"sk_test_x\")]\n",
+  "id": "OBS-0055"
+ },
+ {
+  "code": "\nfrom djstripe.models import Account, APIKey\nfrom django.test import override_settings\nwith override_settings(STRIPE_TEST_SECRET_KEY=\"sk_test_settings\", STRIPE_LIVE_SECRET_KEY=\"sk_live_settings\",\n                       STRIPE_LIVE_MODE=False):\n    del settings.STRIPE_SECRET_KEY\n    account = Account.objects.create(id=\"acct_db\", livemode=False, stripe_data={})\n    fallback = [account.get_default_api_key(), account.get_default_api_key(livemode=True)]\n    APIKey.objects.create(secret=\"sk_test_\" + \"D\" * 24, type=\"secret\", livemode=False, djstripe_owner_account=account)\n    stored = [account.default_api_key, account.get_default_api_key(livemode=False), account.get_default_api_key(livemode=True)]\nresult = [fallback, stored]\n",
+  "id": "OBS-0056"
+ },
+ {
+  "code": "\nfrom djstripe.models import Product\nfake = fake_stripe({})\nfirst = Product.sync_from_stripe_data(product_data(name=\"Premium plan\"))\nagain = Product.sync_from_stripe_data(product_data(name=\"Renamed plan\"))\nresult = [type(first).__name__, first.id, first.name, again.pk == first.pk, Product.objects.count(),\n          Product.objects.get().name]\n",
+  "id": "OBS-0057"
+ },
+ {
+  "code": "\nfrom djstripe.models import Price, Product\nfake = fake_stripe({(\"GET\", \"/v1/products/prod_related\"): product_data(id=\"prod_related\", name=\"Fetched\")})\nprice = Price.sync_from_stripe_data(price_data(id=\"price_rel\", product=\"prod_related\"))\nresult = [price.id, price.product_id, Product.objects.get(id=\"prod_related\").name,\n          (\"GET\", \"/v1/products/prod_related\") in fake.calls(), sorted({r[\"api_key\"] for r in fake.requests})]\n",
+  "id": "OBS-0058"
+ },
+ {
+  "code": "\nimport stripe\nfrom djstripe.models import Product\nfake = fake_stripe({(\"POST\", \"/v1/products\"): product_data(id=\"prod_created\", name=\"Premium plan\")})\nstripe_product = stripe.Product.create(name=\"Premium plan\", api_key=\"sk_test_\" + \"P\" * 24)\nproduct = Product.sync_from_stripe_data(stripe_product)\nresult = [product.id, product.name, Product.objects.filter(id=\"prod_created\").exists(),\n          [(r[\"method\"], r[\"path\"], r[\"params\"].get(\"name\")) for r in fake.requests if r[\"method\"] == \"POST\"]]\n",
+  "id": "OBS-0059"
+ },
+ {
+  "code": "\nfrom django.contrib.auth import get_user_model\nfrom djstripe.models import Customer\nuser = get_user_model().objects.create(username=\"alice\", email=\"alice@example.com\", first_name=\"Alice\", last_name=\"Doe\")\nfake = fake_stripe({(\"POST\", \"/v1/customers\"): customer_data(id=\"cus_alice\", email=\"alice@example.com\")})\ncustomer, created = Customer.get_or_create(subscriber=user)\nagain, created_again = Customer.get_or_create(subscriber=user)\npost = [r for r in fake.requests if r[\"method\"] == \"POST\"]\nresult = [customer.id, created, again.pk == customer.pk, created_again, customer.subscriber_id == user.pk,\n          len(post), {k: v for k, v in post[0][\"params\"].items() if k in (\"email\", \"name\", \"metadata[djstripe_subscriber]\")}]\n",
+  "id": "OBS-0060"
+ },
+ {
+  "code": "\nfrom django.contrib.auth import get_user_model\nfrom djstripe.models import Customer\nuser = get_user_model().objects.create(username=\"bob\", email=\"bob@example.com\")\nfake = fake_stripe({(\"POST\", \"/v1/customers\"): customer_data(id=\"cus_bob\", email=\"bob@example.com\")})\ncustomer, created = Customer.get_or_create(subscriber=user, metadata={\"djstripe_subscriber\": \"spoofed\", \"plan\": \"gold\"},\n                                           description=\"VIP\")\nparams = fake.requests[0][\"params\"]\nresult = [created, params.get(\"metadata[djstripe_subscriber]\"), params.get(\"metadata[plan]\"), params.get(\"description\")]\n",
+  "id": "OBS-0061"
+ },
+ {
+  "code": "\nfrom django.contrib.auth import get_user_model\nfrom djstripe.models import Customer\nfrom django.test import override_settings\nuser = get_user_model().objects.create(username=\"carol\", email=\"carol@example.com\")\nfake = fake_stripe({(\"POST\", \"/v1/customers\"): customer_data(id=\"cus_carol\", email=\"carol@example.com\")})\nwith override_settings(DJSTRIPE_SUBSCRIBER_CUSTOMER_KEY=\"org_ref\"):\n    customer, created = Customer.get_or_create(subscriber=user)\nparams = fake.requests[0][\"params\"]\nresult = [created, params.get(\"metadata[org_ref]\"), \"metadata[djstripe_subscriber]\" in params]\n",
+  "id": "OBS-0062"
+ },
+ {
+  "code": "\nfrom djstripe.models import Customer\nfrom django.contrib.auth import get_user_model\nuser = get_user_model().objects.create(username=\"dave\", email=\"dave@example.com\")\nfake = fake_stripe({})\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_dave\", metadata={\"djstripe_subscriber\": str(user.pk)}))\norphan = Customer.sync_from_stripe_data(customer_data(id=\"cus_orphan\", metadata={\"djstripe_subscriber\": \"999\"}))\nresult = [customer.subscriber_id == user.pk, orphan.subscriber_id]\n",
+  "id": "OBS-0063"
+ },
+ {
+  "code": "\nfrom decimal import Decimal\nfrom djstripe.models import Customer\nfake_stripe({})\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_help\"))\n\nfake = fake_stripe({(\"POST\", \"/v1/charges\"): charge_data(id=\"ch_help\", customer=\"cus_help\", amount=1000)})\ncharge = customer.charge(Decimal(\"10.00\"), currency=\"usd\")\ntry:\n    customer.charge(10, currency=\"usd\")\n    bad = \"accepted\"\nexcept ValueError:\n    bad = \"ValueError\"\nresult = [type(charge).__name__, charge.id, charge.customer_id, bad,\n          [(p, {k: v for k, v in q.items() if k in (\"amount\", \"currency\", \"customer\")}) for p, q in form_posts(fake, \"/v1/charges\")]]\n",
+  "id": "OBS-0064"
+ },
+ {
+  "code": "\nfrom decimal import Decimal\nfrom djstripe.models import Customer\nfake_stripe({})\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_help\"))\n\nstate = {\"default\": None}\ndef customer_get(entry):\n    return customer_data(id=\"cus_help\", invoice_settings={\"custom_fields\": None, \"default_payment_method\": state[\"default\"],\n                                                           \"footer\": None, \"rendering_options\": None})\ndef customer_post(entry):\n    state[\"default\"] = entry[\"params\"].get(\"invoice_settings[default_payment_method]\", state[\"default\"])\n    return customer_get(entry)\nfake = fake_stripe({(\"GET\", \"/v1/customers/cus_help\"): customer_get, (\"POST\", \"/v1/customers/cus_help\"): customer_post,\n                    (\"GET\", \"/v1/payment_methods/pm_card_visa\"): payment_method_data(id=\"pm_card_visa\", customer=None),\n                    (\"POST\", \"/v1/payment_methods/pm_card_visa/attach\"): payment_method_data(id=\"pm_card_visa\", customer=\"cus_help\")})\npm = customer.add_payment_method(\"pm_card_visa\")\ncustomer.refresh_from_db()\ndefault_after = customer.default_payment_method_id\nattach = [p for p, q in form_posts(fake) if p.endswith(\"/attach\")]\nresult = [type(pm).__name__, pm.id, default_after, attach, state[\"default\"]]\n",
+  "id": "OBS-0065"
+ },
+ {
+  "code": "\nfrom decimal import Decimal\nfrom djstripe.models import Customer\nfake_stripe({})\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_help\"))\n\nfake = fake_stripe({(\"GET\", \"/v1/customers/cus_help\"): customer_data(id=\"cus_help\"),\n                    (\"POST\", \"/v1/customers/cus_help\"): customer_data(id=\"cus_help\"),\n                    (\"GET\", \"/v1/payment_methods/pm_other\"): payment_method_data(id=\"pm_other\", customer=None),\n                    (\"POST\", \"/v1/payment_methods/pm_other/attach\"): payment_method_data(id=\"pm_other\", customer=\"cus_help\")})\npm = customer.add_payment_method(\"pm_other\", set_default=False)\ncustomer.refresh_from_db()\nresult = [pm.id, pm.customer_id, customer.default_payment_method_id,\n          [p for p, q in form_posts(fake) if p == \"/v1/customers/cus_help\"]]\n",
+  "id": "OBS-0066"
+ },
+ {
+  "code": "\nfrom decimal import Decimal\nfrom djstripe.models import Customer\nfake_stripe({})\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_help\"))\n\nfake = fake_stripe({(\"POST\", \"/v1/invoiceitems\"): invoiceitem_data(id=\"ii_help\", customer=\"cus_help\", amount=250)})\nitem = customer.add_invoice_item(Decimal(\"2.50\"), \"usd\", description=\"Setup fee\")\nparams = form_posts(fake, \"/v1/invoiceitems\")[0][1]\ntry:\n    customer.add_invoice_item(2.5, \"usd\")\n    bad = \"accepted\"\nexcept ValueError:\n    bad = \"ValueError\"\nresult = [type(item).__name__, item.id, {k: params.get(k) for k in (\"amount\", \"currency\", \"customer\", \"description\")}, bad]\n",
+  "id": "OBS-0067"
+ },
+ {
+  "code": "\nfrom decimal import Decimal\nfrom djstripe.models import Customer\nfake_stripe({})\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_help\"))\n\nfrom djstripe.models import Coupon\nfake = fake_stripe({(\"GET\", \"/v1/customers/cus_help\"): customer_data(id=\"cus_help\"),\n                    (\"POST\", \"/v1/customers/cus_help\"): customer_data(id=\"cus_help\")})\ncoupon = Coupon(id=\"SPRING25\", livemode=False, stripe_data={})\ncustomer.add_coupon(coupon)\ncustomer.add_coupon(\"WINTER10\")\nresult = [q.get(\"coupon\") for p, q in form_posts(fake, \"/v1/customers/cus_help\")]\n",
+  "id": "OBS-0068"
+ },
+ {
+  "code": "\nfrom decimal import Decimal\nfrom djstripe.models import Customer\nfake_stripe({})\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_help\"))\n\nfake = fake_stripe({(\"POST\", \"/v1/invoices\"): invoice_data(id=\"in_send\", customer=\"cus_help\"),\n                    (\"POST\", \"/v1/invoices/in_send/pay\"): invoice_data(id=\"in_send\", customer=\"cus_help\", status=\"paid\")})\nsent = customer.send_invoice()\npaths = [p for p, q in form_posts(fake, \"/v1/invoices\")]\nfake2 = fake_stripe({(\"POST\", \"/v1/invoices\"): ({\"error\": {\"type\": \"invalid_request_error\",\n                     \"message\": \"Nothing to invoice for customer\"}}, 400)})\nnothing = customer.send_invoice()\nresult = [sent, paths, nothing]\n",
+  "id": "OBS-0069"
+ },
+ {
+  "code": "\nfrom decimal import Decimal\nfrom djstripe.models import Customer\nfake_stripe({})\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_help\"))\n\nfake = fake_stripe({(\"POST\", \"/v1/invoices/create_preview\"): invoice_data(id=None, customer=\"cus_help\", status=\"draft\"),\n                    (\"GET\", \"/v1/invoices/upcoming\"): invoice_data(id=None, customer=\"cus_help\", status=\"draft\")})\nupcoming = customer.upcoming_invoice(api_key=COV_KEY)\nsent_customer = [r[\"params\"].get(\"customer\") for r in fake.requests if \"invoices\" in r[\"path\"]]\nresult = [type(upcoming).__name__, upcoming.id, upcoming.customer_id, sent_customer[:1], upcoming.total]\n",
+  "id": "OBS-0070"
+ },
+ {
+  "code": "\nfrom django.contrib.auth import get_user_model\nfrom djstripe.models import Customer\nuser = get_user_model().objects.create(username=\"erin\", email=\"erin@example.com\")\nfake = fake_stripe({})\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_purge\", metadata={\"djstripe_subscriber\": str(user.pk)}))\nfake.routes[(\"DELETE\", \"/v1/customers/cus_purge\")] = {\"id\": \"cus_purge\", \"object\": \"customer\", \"deleted\": True}\nbefore = customer.subscriber_id == user.pk\ncustomer.purge()\ncustomer.refresh_from_db()\ngone = Customer.sync_from_stripe_data(customer_data(id=\"cus_gone\"))\nfake.routes[(\"DELETE\", \"/v1/customers/cus_gone\")] = ({\"error\": {\"type\": \"invalid_request_error\",\n                                                       \"message\": \"No such customer: 'cus_gone'\"}}, 404)\ngone.purge()\nresult = [before, customer.subscriber_id, customer.date_purged is not None, (\"DELETE\", \"/v1/customers/cus_purge\") in fake.calls(),\n          gone.date_purged is not None]\n",
+  "id": "OBS-0071"
+ },
+ {
+  "code": "\nfrom djstripe.models import Customer\nfake = fake_stripe({})\nowing = Customer.sync_from_stripe_data(customer_data(id=\"cus_owing\", balance=700))\ncredit = Customer.sync_from_stripe_data(customer_data(id=\"cus_credit\", balance=-300))\nzero = Customer.sync_from_stripe_data(customer_data(id=\"cus_zero\", balance=0))\nresult = [[c.balance, c.credits, c.pending_charges] for c in (owing, credit, zero)]\n",
+  "id": "OBS-0072"
+ },
+ {
+  "code": "\nfrom decimal import Decimal\nfrom djstripe.models import Customer\nfake_stripe({})\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_help\"))\n\nfrom djstripe.models import Price, Product\nProduct.sync_from_stripe_data(product_data(id=\"prod_sub\"))\np1 = Price.sync_from_stripe_data(price_data(id=\"price_one\", product=\"prod_sub\", nickname=\"one_price\"))\np2 = Price.sync_from_stripe_data(price_data(id=\"price_two\", product=\"prod_sub\", nickname=\"two_price\"))\nfake = fake_stripe({(\"POST\", \"/v1/subscriptions\"): subscription_data(id=\"sub_two\", customer=\"cus_help\", price=price_data(id=\"price_one\", product=\"prod_sub\"))})\nsub = customer.subscribe(items=[{\"price\": p1}, {\"price\": p2}])\nparams = form_posts(fake, \"/v1/subscriptions\")[0][1]\nresult = [type(sub).__name__, sub.id, sub.customer_id, {k: v for k, v in params.items() if k.startswith((\"items\", \"customer\"))}]\n",
+  "id": "OBS-0073"
+ },
+ {
+  "code": "\nfrom decimal import Decimal\nfrom djstripe.models import Customer\nfake_stripe({})\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_help\"))\n\nfrom djstripe.models import Price, Product\nProduct.sync_from_stripe_data(product_data(id=\"prod_sub\"))\np1 = Price.sync_from_stripe_data(price_data(id=\"price_one\", product=\"prod_sub\", nickname=\"one_price\"))\nfake = fake_stripe({(\"POST\", \"/v1/subscriptions\"): subscription_data(id=\"sub_one\", customer=\"cus_help\", price=price_data(id=\"price_one\", product=\"prod_sub\"))})\nsub = customer.subscribe(price=p1)\nby_id = customer.subscribe(price=\"price_one\")\nparams = [{k: v for k, v in q.items() if k.startswith((\"items\", \"customer\"))} for p, q in form_posts(fake, \"/v1/subscriptions\")]\ntry:\n    customer.subscribe(items=[{\"price\": p1}], price=p1)\n    both = \"accepted\"\nexcept TypeError:\n    both = \"TypeError\"\nresult = [sub.id, params, both, sub.status]\n",
+  "id": "OBS-0074"
+ },
+ {
+  "code": "\nimport datetime\nfrom djstripe.models import Customer, Price, Product, Subscription\nfake_stripe({})\nProduct.sync_from_stripe_data(product_data(id=\"prod_a\"))\nProduct.sync_from_stripe_data(product_data(id=\"prod_b\"))\npa = price_data(id=\"price_a\", product=\"prod_a\")\npb = price_data(id=\"price_b\", product=\"prod_b\")\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_subs\"))\nother = Customer.sync_from_stripe_data(customer_data(id=\"cus_other\"))\nT0 = 1700000000  # 2023-11-14\ndef make(id, status, price=pa, customer=\"cus_subs\", start=T0, end=T0 + 30 * 86400, **extra):\n    return Subscription.sync_from_stripe_data(sobj(subscription_data(id=id, customer=customer, price=price, status=status,\n                                                                     start=start, end=end, **extra)))\nmake(\"sub_active\", \"active\")\nmake(\"sub_trial\", \"trialing\", trial_start=T0, trial_end=T0 + 14 * 86400, end=T0 + 14 * 86400)\nmake(\"sub_pastdue\", \"past_due\", price=pb)\nmake(\"sub_canceled\", \"canceled\", canceled_at=T0 + 5 * 86400, ended_at=T0 + 5 * 86400)\nmake(\"sub_incomplete\", \"incomplete\", price=pb)\nmake(\"sub_cancelling\", \"active\", price=pb, cancel_at_period_end=True)\nmake(\"sub_old\", \"active\", start=T0 - 400 * 86400, end=T0 - 370 * 86400)\nmake(\"sub_other\", \"active\", customer=\"cus_other\")\nat = datetime.datetime.fromtimestamp(T0 + 86400, tz=datetime.timezone.utc)\ndef ids(qs):\n    return sorted(qs.values_list(\"id\", flat=True))\n\nresult = [ids(Subscription.objects.active()), ids(Subscription.objects.trialing()), ids(Subscription.objects.past_due()),\n          ids(Subscription.objects.canceled()), ids(Subscription.objects.incomplete()),\n          ids(Subscription.objects.with_status(\"trialing\", \"past_due\"))]\n",
+  "id": "OBS-0075"
+ },
+ {
+  "code": "\nimport datetime\nfrom djstripe.models import Customer, Price, Product, Subscription\nfake_stripe({})\nProduct.sync_from_stripe_data(product_data(id=\"prod_a\"))\nProduct.sync_from_stripe_data(product_data(id=\"prod_b\"))\npa = price_data(id=\"price_a\", product=\"prod_a\")\npb = price_data(id=\"price_b\", product=\"prod_b\")\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_subs\"))\nother = Customer.sync_from_stripe_data(customer_data(id=\"cus_other\"))\nT0 = 1700000000  # 2023-11-14\ndef make(id, status, price=pa, customer=\"cus_subs\", start=T0, end=T0 + 30 * 86400, **extra):\n    return Subscription.sync_from_stripe_data(sobj(subscription_data(id=id, customer=customer, price=price, status=status,\n                                                                     start=start, end=end, **extra)))\nmake(\"sub_active\", \"active\")\nmake(\"sub_trial\", \"trialing\", trial_start=T0, trial_end=T0 + 14 * 86400, end=T0 + 14 * 86400)\nmake(\"sub_pastdue\", \"past_due\", price=pb)\nmake(\"sub_canceled\", \"canceled\", canceled_at=T0 + 5 * 86400, ended_at=T0 + 5 * 86400)\nmake(\"sub_incomplete\", \"incomplete\", price=pb)\nmake(\"sub_cancelling\", \"active\", price=pb, cancel_at_period_end=True)\nmake(\"sub_old\", \"active\", start=T0 - 400 * 86400, end=T0 - 370 * 86400)\nmake(\"sub_other\", \"active\", customer=\"cus_other\")\nat = datetime.datetime.fromtimestamp(T0 + 86400, tz=datetime.timezone.utc)\ndef ids(qs):\n    return sorted(qs.values_list(\"id\", flat=True))\n\nSERVICE = {\"trialing\", \"active\", \"past_due\"}\nservice = customer.subscriptions.with_status(*SERVICE).period_current(at=at)\nresult = [ids(service), ids(Subscription.objects.period_current(at=at)),\n          ids(customer.subscriptions.with_status(*SERVICE).period_current(at=at).for_product(\"prod_b\")),\n          ids(customer.subscriptions.for_product(Product.objects.get(id=\"prod_a\"))),\n          ids(customer.subscriptions.scheduled_for_cancellation()), service.for_product(\"prod_b\").exists()]\n",
+  "id": "OBS-0076"
+ },
+ {
+  "code": "\nimport datetime\nfrom djstripe.models import Customer, Price, Product, Subscription\nfake_stripe({})\nProduct.sync_from_stripe_data(product_data(id=\"prod_a\"))\nProduct.sync_from_stripe_data(product_data(id=\"prod_b\"))\npa = price_data(id=\"price_a\", product=\"prod_a\")\npb = price_data(id=\"price_b\", product=\"prod_b\")\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_subs\"))\nother = Customer.sync_from_stripe_data(customer_data(id=\"cus_other\"))\nT0 = 1700000000  # 2023-11-14\ndef make(id, status, price=pa, customer=\"cus_subs\", start=T0, end=T0 + 30 * 86400, **extra):\n    return Subscription.sync_from_stripe_data(sobj(subscription_data(id=id, customer=customer, price=price, status=status,\n                                                                     start=start, end=end, **extra)))\nmake(\"sub_active\", \"active\")\nmake(\"sub_trial\", \"trialing\", trial_start=T0, trial_end=T0 + 14 * 86400, end=T0 + 14 * 86400)\nmake(\"sub_pastdue\", \"past_due\", price=pb)\nmake(\"sub_canceled\", \"canceled\", canceled_at=T0 + 5 * 86400, ended_at=T0 + 5 * 86400)\nmake(\"sub_incomplete\", \"incomplete\", price=pb)\nmake(\"sub_cancelling\", \"active\", price=pb, cancel_at_period_end=True)\nmake(\"sub_old\", \"active\", start=T0 - 400 * 86400, end=T0 - 370 * 86400)\nmake(\"sub_other\", \"active\", customer=\"cus_other\")\nat = datetime.datetime.fromtimestamp(T0 + 86400, tz=datetime.timezone.utc)\ndef ids(qs):\n    return sorted(qs.values_list(\"id\", flat=True))\n\nlater = datetime.datetime.fromtimestamp(T0 + 20 * 86400, tz=datetime.timezone.utc)\nafter = datetime.datetime.fromtimestamp(T0 + 40 * 86400, tz=datetime.timezone.utc)\nget = Subscription.objects.get\nresult = [[get(id=i).is_period_current(at=at), get(id=i).is_period_current(at=later), get(id=i).is_period_current(at=after)]\n          for i in (\"sub_active\", \"sub_trial\", \"sub_old\")] + [\n          [get(id=i).is_scheduled_for_cancellation(at=at), get(id=i).is_scheduled_for_cancellation(at=after)]\n          for i in (\"sub_cancelling\", \"sub_active\")]\n",
+  "id": "OBS-0077"
+ },
+ {
+  "code": "\nimport datetime\nfrom djstripe.models import Customer, Price, Product, Subscription\nfake_stripe({})\nProduct.sync_from_stripe_data(product_data(id=\"prod_a\"))\nProduct.sync_from_stripe_data(product_data(id=\"prod_b\"))\npa = price_data(id=\"price_a\", product=\"prod_a\")\npb = price_data(id=\"price_b\", product=\"prod_b\")\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_subs\"))\nother = Customer.sync_from_stripe_data(customer_data(id=\"cus_other\"))\nT0 = 1700000000  # 2023-11-14\ndef make(id, status, price=pa, customer=\"cus_subs\", start=T0, end=T0 + 30 * 86400, **extra):\n    return Subscription.sync_from_stripe_data(sobj(subscription_data(id=id, customer=customer, price=price, status=status,\n                                                                     start=start, end=end, **extra)))\nmake(\"sub_active\", \"active\")\nmake(\"sub_trial\", \"trialing\", trial_start=T0, trial_end=T0 + 14 * 86400, end=T0 + 14 * 86400)\nmake(\"sub_pastdue\", \"past_due\", price=pb)\nmake(\"sub_canceled\", \"canceled\", canceled_at=T0 + 5 * 86400, ended_at=T0 + 5 * 86400)\nmake(\"sub_incomplete\", \"incomplete\", price=pb)\nmake(\"sub_cancelling\", \"active\", price=pb, cancel_at_period_end=True)\nmake(\"sub_old\", \"active\", start=T0 - 400 * 86400, end=T0 - 370 * 86400)\nmake(\"sub_other\", \"active\", customer=\"cus_other\")\nat = datetime.datetime.fromtimestamp(T0 + 86400, tz=datetime.timezone.utc)\ndef ids(qs):\n    return sorted(qs.values_list(\"id\", flat=True))\n\nresult = [ids(Subscription.objects.started_during(2023, 11)), ids(Subscription.objects.canceled_during(2023, 11)),\n          ids(Subscription.objects.started_during(2022, 10)), ids(Subscription.objects.canceled_during(2023, 12))]\n",
+  "id": "OBS-0078"
+ },
+ {
+  "code": "\nimport datetime\nfrom djstripe.models import Customer, Price, Product, Subscription\nfake_stripe({})\nProduct.sync_from_stripe_data(product_data(id=\"prod_a\"))\nProduct.sync_from_stripe_data(product_data(id=\"prod_b\"))\npa = price_data(id=\"price_a\", product=\"prod_a\")\npb = price_data(id=\"price_b\", product=\"prod_b\")\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_subs\"))\nother = Customer.sync_from_stripe_data(customer_data(id=\"cus_other\"))\nT0 = 1700000000  # 2023-11-14\ndef make(id, status, price=pa, customer=\"cus_subs\", start=T0, end=T0 + 30 * 86400, **extra):\n    return Subscription.sync_from_stripe_data(sobj(subscription_data(id=id, customer=customer, price=price, status=status,\n                                                                     start=start, end=end, **extra)))\nmake(\"sub_active\", \"active\")\nmake(\"sub_trial\", \"trialing\", trial_start=T0, trial_end=T0 + 14 * 86400, end=T0 + 14 * 86400)\nmake(\"sub_pastdue\", \"past_due\", price=pb)\nmake(\"sub_canceled\", \"canceled\", canceled_at=T0 + 5 * 86400, ended_at=T0 + 5 * 86400)\nmake(\"sub_incomplete\", \"incomplete\", price=pb)\nmake(\"sub_cancelling\", \"active\", price=pb, cancel_at_period_end=True)\nmake(\"sub_old\", \"active\", start=T0 - 400 * 86400, end=T0 - 370 * 86400)\nmake(\"sub_other\", \"active\", customer=\"cus_other\")\nat = datetime.datetime.fromtimestamp(T0 + 86400, tz=datetime.timezone.utc)\ndef ids(qs):\n    return sorted(qs.values_list(\"id\", flat=True))\n\nsub = Subscription.objects.get(id=\"sub_active\")\nfake = fake_stripe({(\"POST\", \"/v1/subscriptions/sub_active\"): subscription_data(id=\"sub_active\", customer=\"cus_subs\",\n                    price=pa, status=\"trialing\", start=T0, end=T0 + 30 * 86400, trial_end=T0 + 40 * 86400)})\nupdated = sub.extend(datetime.timedelta(days=10))\nparams = form_posts(fake, \"/v1/subscriptions/sub_active\")[0][1]\ntry:\n    sub.extend(datetime.timedelta(days=-1))\n    negative = \"accepted\"\nexcept ValueError:\n    negative = \"ValueError\"\nresult = [params.get(\"trial_end\"), str(T0 + 40 * 86400), params.get(\"proration_behavior\"), negative, updated.status]\n",
+  "id": "OBS-0079"
+ },
+ {
+  "code": "\nimport datetime\nfrom djstripe.models import Customer, Price, Product, Subscription\nfake_stripe({})\nProduct.sync_from_stripe_data(product_data(id=\"prod_a\"))\nProduct.sync_from_stripe_data(product_data(id=\"prod_b\"))\npa = price_data(id=\"price_a\", product=\"prod_a\")\npb = price_data(id=\"price_b\", product=\"prod_b\")\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_subs\"))\nother = Customer.sync_from_stripe_data(customer_data(id=\"cus_other\"))\nT0 = 1700000000  # 2023-11-14\ndef make(id, status, price=pa, customer=\"cus_subs\", start=T0, end=T0 + 30 * 86400, **extra):\n    return Subscription.sync_from_stripe_data(sobj(subscription_data(id=id, customer=customer, price=price, status=status,\n                                                                     start=start, end=end, **extra)))\nmake(\"sub_active\", \"active\")\nmake(\"sub_trial\", \"trialing\", trial_start=T0, trial_end=T0 + 14 * 86400, end=T0 + 14 * 86400)\nmake(\"sub_pastdue\", \"past_due\", price=pb)\nmake(\"sub_canceled\", \"canceled\", canceled_at=T0 + 5 * 86400, ended_at=T0 + 5 * 86400)\nmake(\"sub_incomplete\", \"incomplete\", price=pb)\nmake(\"sub_cancelling\", \"active\", price=pb, cancel_at_period_end=True)\nmake(\"sub_old\", \"active\", start=T0 - 400 * 86400, end=T0 - 370 * 86400)\nmake(\"sub_other\", \"active\", customer=\"cus_other\")\nat = datetime.datetime.fromtimestamp(T0 + 86400, tz=datetime.timezone.utc)\ndef ids(qs):\n    return sorted(qs.values_list(\"id\", flat=True))\n\nsub = Subscription.objects.get(id=\"sub_active\")\nfake = fake_stripe({(\"DELETE\", \"/v1/subscriptions/sub_active\"): subscription_data(id=\"sub_active\", customer=\"cus_subs\",\n                    price=pa, status=\"canceled\", start=T0, canceled_at=T0 + 86400, ended_at=T0 + 86400),\n                    (\"POST\", \"/v1/subscriptions/sub_pastdue\"): subscription_data(id=\"sub_pastdue\", customer=\"cus_subs\",\n                    price=pb, status=\"past_due\", start=T0, cancel_at_period_end=True)})\nnow_canceled = sub.cancel()\nlater = Subscription.objects.get(id=\"sub_pastdue\").cancel(at_period_end=True)\nresult = [now_canceled.status, (\"DELETE\", \"/v1/subscriptions/sub_active\") in fake.calls(),\n          form_posts(fake, \"/v1/subscriptions/sub_pastdue\")[0][1].get(\"cancel_at_period_end\"), later.cancel_at_period_end,\n          (\"DELETE\", \"/v1/subscriptions/sub_pastdue\") in fake.calls()]\n",
+  "id": "OBS-0080"
+ },
+ {
+  "code": "\nimport datetime\nfrom djstripe.models import Customer, Price, Product, Subscription\nfake_stripe({})\nProduct.sync_from_stripe_data(product_data(id=\"prod_a\"))\nProduct.sync_from_stripe_data(product_data(id=\"prod_b\"))\npa = price_data(id=\"price_a\", product=\"prod_a\")\npb = price_data(id=\"price_b\", product=\"prod_b\")\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_subs\"))\nother = Customer.sync_from_stripe_data(customer_data(id=\"cus_other\"))\nT0 = 1700000000  # 2023-11-14\ndef make(id, status, price=pa, customer=\"cus_subs\", start=T0, end=T0 + 30 * 86400, **extra):\n    return Subscription.sync_from_stripe_data(sobj(subscription_data(id=id, customer=customer, price=price, status=status,\n                                                                     start=start, end=end, **extra)))\nmake(\"sub_active\", \"active\")\nmake(\"sub_trial\", \"trialing\", trial_start=T0, trial_end=T0 + 14 * 86400, end=T0 + 14 * 86400)\nmake(\"sub_pastdue\", \"past_due\", price=pb)\nmake(\"sub_canceled\", \"canceled\", canceled_at=T0 + 5 * 86400, ended_at=T0 + 5 * 86400)\nmake(\"sub_incomplete\", \"incomplete\", price=pb)\nmake(\"sub_cancelling\", \"active\", price=pb, cancel_at_period_end=True)\nmake(\"sub_old\", \"active\", start=T0 - 400 * 86400, end=T0 - 370 * 86400)\nmake(\"sub_other\", \"active\", customer=\"cus_other\")\nat = datetime.datetime.fromtimestamp(T0 + 86400, tz=datetime.timezone.utc)\ndef ids(qs):\n    return sorted(qs.values_list(\"id\", flat=True))\n\nimport datetime as dt\nfuture = int(dt.datetime.now(dt.timezone.utc).timestamp()) + 30 * 86400\nsub = make(\"sub_trial_now\", \"trialing\", trial_start=T0, trial_end=future, end=future)\nfake = fake_stripe({(\"DELETE\", \"/v1/subscriptions/sub_trial_now\"): subscription_data(id=\"sub_trial_now\", customer=\"cus_subs\",\n                    price=pa, status=\"canceled\", start=T0)})\nsub.cancel(at_period_end=True)\nresult = [(\"DELETE\", \"/v1/subscriptions/sub_trial_now\") in fake.calls(), form_posts(fake, \"/v1/subscriptions/sub_trial_now\")]\n",
+  "id": "OBS-0081"
+ },
+ {
+  "code": "\nimport datetime\nfrom djstripe.models import Customer, Price, Product, Subscription\nfake_stripe({})\nProduct.sync_from_stripe_data(product_data(id=\"prod_a\"))\nProduct.sync_from_stripe_data(product_data(id=\"prod_b\"))\npa = price_data(id=\"price_a\", product=\"prod_a\")\npb = price_data(id=\"price_b\", product=\"prod_b\")\ncustomer = Customer.sync_from_stripe_data(customer_data(id=\"cus_subs\"))\nother = Customer.sync_from_stripe_data(customer_data(id=\"cus_other\"))\nT0 = 1700000000  # 2023-11-14\ndef make(id, status, price=pa, customer=\"cus_subs\", start=T0, end=T0 + 30 * 86400, **extra):\n    return Subscription.sync_from_stripe_data(sobj(subscription_data(id=id, customer=customer, price=price, status=status,\n                                                                     start=start, end=end, **extra)))\nmake(\"sub_active\", \"active\")\nmake(\"sub_trial\", \"trialing\", trial_start=T0, trial_end=T0 + 14 * 86400, end=T0 + 14 * 86400)\nmake(\"sub_pastdue\", \"past_due\", price=pb)\nmake(\"sub_canceled\", \"canceled\", canceled_at=T0 + 5 * 86400, ended_at=T0 + 5 * 86400)\nmake(\"sub_incomplete\", \"incomplete\", price=pb)\nmake(\"sub_cancelling\", \"active\", price=pb, cancel_at_period_end=True)\nmake(\"sub_old\", \"active\", start=T0 - 400 * 86400, end=T0 - 370 * 86400)\nmake(\"sub_other\", \"active\", customer=\"cus_other\")\nat = datetime.datetime.fromtimestamp(T0 + 86400, tz=datetime.timezone.utc)\ndef ids(qs):\n    return sorted(qs.values_list(\"id\", flat=True))\n\nplan = {\"id\": \"plan_a\", \"object\": \"plan\", \"active\": True, \"amount\": 1000, \"currency\": \"usd\", \"interval\": \"month\",\n        \"interval_count\": 1, \"product\": \"prod_a\", \"livemode\": False, \"metadata\": {}, \"nickname\": None,\n        \"created\": T0, \"usage_type\": \"licensed\", \"billing_scheme\": \"per_unit\", \"trial_period_days\": None,\n        \"aggregate_usage\": None, \"tiers_mode\": None, \"transform_usage\": None, \"amount_decimal\": \"1000\"}\nsub = make(\"sub_react\", \"active\", cancel_at_period_end=True, plan=plan)\ndata = subscription_data(id=\"sub_react\", customer=\"cus_subs\", price=pa, status=\"active\", start=T0, cancel_at_period_end=True, plan=plan)\ndone = dict(data, cancel_at_period_end=False)\nfake = fake_stripe({(\"GET\", \"/v1/subscriptions/sub_react\"): data, (\"POST\", \"/v1/subscriptions/sub_react\"): done})\nagain = sub.reactivate()\nresult = [form_posts(fake, \"/v1/subscriptions/sub_react\")[0][1].get(\"cancel_at_period_end\"), again.cancel_at_period_end]\n",
+  "id": "OBS-0082"
+ },
+ {
+  "code": "\nimport json, time\nfrom django.test import Client\nfrom django.urls import reverse\nfrom djstripe.models import Event, WebhookEventTrigger\nfake = fake_stripe({})\nep = endpoint()\nurl = reverse(\"djstripe:djstripe_webhook_by_uuid\", kwargs={\"uuid\": ep.djstripe_uuid})\nclient = Client(raise_request_exception=False)\ndef body_for(event_type=\"balance.available\", id=\"evt_hook\", **extra):\n    data = dict(payload(event_type), id=id, **extra)\n    return json.dumps(data, sort_keys=True)\nNOW = int(time.time())\n\nimport uuid as _uuid\nbody = body_for()\nmissing = client.post(url, data=body, content_type=\"application/json\")\nunknown_url = reverse(\"djstripe:djstripe_webhook_by_uuid\", kwargs={\"uuid\": _uuid.UUID(int=7)})\nunknown = client.post(unknown_url, data=body, content_type=\"application/json\",\n                      HTTP_STRIPE_SIGNATURE=signed_headers(body, \"whsec_cov\", NOW))\nresult = [url.replace(str(ep.djstripe_uuid), \"<uuid>\"), missing.status_code, unknown.status_code,\n          WebhookEventTrigger.objects.count(), Event.objects.count()]\n",
+  "id": "OBS-0083"
+ },
+ {
+  "code": "\nimport json, time\nfrom django.test import Client\nfrom django.urls import reverse\nfrom djstripe.models import Event, WebhookEventTrigger\nfake = fake_stripe({})\nep = endpoint()\nurl = reverse(\"djstripe:djstripe_webhook_by_uuid\", kwargs={\"uuid\": ep.djstripe_uuid})\nclient = Client(raise_request_exception=False)\ndef body_for(event_type=\"balance.available\", id=\"evt_hook\", **extra):\n    data = dict(payload(event_type), id=id, **extra)\n    return json.dumps(data, sort_keys=True)\nNOW = int(time.time())\n\nbody = body_for(id=\"evt_signed\")\nok = client.post(url, data=body, content_type=\"application/json\", HTTP_STRIPE_SIGNATURE=signed_headers(body, \"whsec_cov\", NOW - 5))\ntrigger = WebhookEventTrigger.objects.get()\nresult = [ok.status_code, ok.content.decode() == str(trigger.id), trigger.valid, trigger.processed,\n          list(Event.objects.values_list(\"id\", flat=True)), trigger.webhook_endpoint_id]\n",
+  "id": "OBS-0084"
+ },
+ {
+  "code": "\nimport json, time\nfrom django.test import Client\nfrom django.urls import reverse\nfrom djstripe.models import Event, WebhookEventTrigger\nfake = fake_stripe({})\nep = endpoint()\nurl = reverse(\"djstripe:djstripe_webhook_by_uuid\", kwargs={\"uuid\": ep.djstripe_uuid})\nclient = Client(raise_request_exception=False)\ndef body_for(event_type=\"balance.available\", id=\"evt_hook\", **extra):\n    data = dict(payload(event_type), id=id, **extra)\n    return json.dumps(data, sort_keys=True)\nNOW = int(time.time())\n\nbody = body_for(id=\"evt_forged\")\nwith LogCapture() as logs:\n    bad = client.post(url, data=body, content_type=\"application/json\",\n                      HTTP_STRIPE_SIGNATURE=signed_headers(body, \"whsec_attacker\", NOW))\ntrigger = WebhookEventTrigger.objects.get()\nresult = [bad.status_code, b\"Failed to verify header\" in bad.content, any(\"Failed to verify header\" in m for m in logs.records),\n          trigger.valid, trigger.processed, Event.objects.count()]\n",
+  "id": "OBS-0085"
+ },
+ {
+  "code": "\nimport json, time\nfrom django.test import Client\nfrom django.urls import reverse\nfrom djstripe.models import Event, WebhookEventTrigger\nfake = fake_stripe({})\nep = endpoint()\nurl = reverse(\"djstripe:djstripe_webhook_by_uuid\", kwargs={\"uuid\": ep.djstripe_uuid})\nclient = Client(raise_request_exception=False)\ndef body_for(event_type=\"balance.available\", id=\"evt_hook\", **extra):\n    data = dict(payload(event_type), id=id, **extra)\n    return json.dumps(data, sort_keys=True)\nNOW = int(time.time())\n\nep.djstripe_tolerance = 300\nep.save()\nbody = body_for(id=\"evt_recent\")\nrecent = client.post(url, data=body, content_type=\"application/json\", HTTP_STRIPE_SIGNATURE=signed_headers(body, \"whsec_cov\", NOW - 120))\nep.djstripe_tolerance = 30\nep.save()\nbody2 = body_for(id=\"evt_stale\")\nstale = client.post(url, data=body2, content_type=\"application/json\", HTTP_STRIPE_SIGNATURE=signed_headers(body2, \"whsec_cov\", NOW - 120))\nresult = [recent.status_code, stale.status_code, sorted(Event.objects.values_list(\"id\", flat=True))]\n",
+  "id": "OBS-0086"
+ },
+ {
+  "code": "\nimport json, time\nfrom django.test import Client\nfrom django.urls import reverse\nfrom djstripe.models import Event, WebhookEventTrigger\nfake = fake_stripe({})\nep = endpoint()\nurl = reverse(\"djstripe:djstripe_webhook_by_uuid\", kwargs={\"uuid\": ep.djstripe_uuid})\nclient = Client(raise_request_exception=False)\ndef body_for(event_type=\"balance.available\", id=\"evt_hook\", **extra):\n    data = dict(payload(event_type), id=id, **extra)\n    return json.dumps(data, sort_keys=True)\nNOW = int(time.time())\n\nfrom django.test import override_settings\nbody = body_for(id=\"evt_prod\")\nwith override_settings(DEBUG=False):\n    forwarded = client.post(url, data=body, content_type=\"application/json\",\n                            HTTP_STRIPE_SIGNATURE=signed_headers(body, \"whsec_cli\", NOW), HTTP_X_DJSTRIPE_WEBHOOK_SECRET=\"whsec_cli\")\nresult = [forwarded.status_code, Event.objects.count(), WebhookEventTrigger.objects.get().valid]\n",
+  "id": "OBS-0087"
+ },
+ {
+  "code": "\nimport json, time\nfrom django.test import Client\nfrom django.urls import reverse\nfrom djstripe.models import Event, WebhookEventTrigger\nfake = fake_stripe({})\nep = endpoint()\nurl = reverse(\"djstripe:djstripe_webhook_by_uuid\", kwargs={\"uuid\": ep.djstripe_uuid})\nclient = Client(raise_request_exception=False)\ndef body_for(event_type=\"balance.available\", id=\"evt_hook\", **extra):\n    data = dict(payload(event_type), id=id, **extra)\n    return json.dumps(data, sort_keys=True)\nNOW = int(time.time())\n\nep.djstripe_validation_method = \"none\"\nep.save()\nbody = body_for(id=\"evt_unchecked\")\nunchecked = client.post(url, data=body, content_type=\"application/json\", HTTP_STRIPE_SIGNATURE=\"t=1,v1=nonsense\")\nresult = [unchecked.status_code, list(Event.objects.values_list(\"id\", flat=True))]\n",
+  "id": "OBS-0088"
+ },
+ {
+  "code": "\nimport json, time\nfrom django.test import Client\nfrom django.urls import reverse\nfrom djstripe.models import Event, WebhookEventTrigger\nfake = fake_stripe({})\nep = endpoint()\nurl = reverse(\"djstripe:djstripe_webhook_by_uuid\", kwargs={\"uuid\": ep.djstripe_uuid})\nclient = Client(raise_request_exception=False)\ndef body_for(event_type=\"balance.available\", id=\"evt_hook\", **extra):\n    data = dict(payload(event_type), id=id, **extra)\n    return json.dumps(data, sort_keys=True)\nNOW = int(time.time())\n\nep.djstripe_validation_method = \"retrieve_event\"\nep.save()\nbody = body_for(id=\"evt_remote\", api_version=\"2019-02-19\")\nremote = json.loads(body)\nfake.routes[(\"GET\", \"/v1/events/evt_remote\")] = remote\nsame = client.post(url, data=body, content_type=\"application/json\", HTTP_STRIPE_SIGNATURE=\"t=1,v1=unused\")\nfetch = [r for r in fake.requests if r[\"path\"] == \"/v1/events/evt_remote\"]\nresult = [len(fetch) >= 1, fetch[0][\"stripe_version\"], fetch[0][\"api_key\"] == COV_KEY]\n",
+  "id": "OBS-0089"
+ },
+ {
+  "code": "\nimport json, time\nfrom django.test import Client\nfrom django.urls import reverse\nfrom djstripe.models import Event, WebhookEventTrigger\nfake = fake_stripe({})\nep = endpoint()\nurl = reverse(\"djstripe:djstripe_webhook_by_uuid\", kwargs={\"uuid\": ep.djstripe_uuid})\nclient = Client(raise_request_exception=False)\ndef body_for(event_type=\"balance.available\", id=\"evt_hook\", **extra):\n    data = dict(payload(event_type), id=id, **extra)\n    return json.dumps(data, sort_keys=True)\nNOW = int(time.time())\n\nep.djstripe_validation_method = \"retrieve_event\"\nep.save()\nbody = body_for(id=\"evt_tampered\")\nremote = json.loads(body)\nremote[\"data\"] = {\"object\": {\"id\": \"obj_other\", \"object\": \"balance\"}}\nfake.routes[(\"GET\", \"/v1/events/evt_tampered\")] = remote\ntampered = client.post(url, data=body, content_type=\"application/json\", HTTP_STRIPE_SIGNATURE=\"t=1,v1=unused\")\nresult = [tampered.status_code, Event.objects.count(), WebhookEventTrigger.objects.get().valid]\n",
+  "id": "OBS-0090"
+ },
+ {
+  "code": "\nfrom djstripe.models import Event\nfake = fake_stripe({})\nevent = Event.process(dict(payload(\"customer.subscription.trial_will_end\"), id=\"evt_parts\"), api_key=COV_KEY)\nresult = [event.parts, event.category, event.verb, event.type, str(event).startswith(\"type=customer.subscription.trial_will_end\")]\n",
+  "id": "OBS-0091"
+ },
+ {
+  "code": "\nfrom djstripe.models import Event, Product\nfake = fake_stripe({(\"GET\", \"/v1/products/prod_evt\"): product_data(id=\"prod_evt\", name=\"From API\")})\ncreated = dict(payload(\"product.created\"), id=\"evt_prod_created\", data={\"object\": product_data(id=\"prod_evt\", name=\"From event\")})\nEvent.process(created, api_key=COV_KEY)\nfirst = Product.objects.get(id=\"prod_evt\").name\ndeleted = dict(payload(\"product.deleted\"), id=\"evt_prod_deleted\", data={\"object\": dict(product_data(id=\"prod_evt\"), deleted=True)})\nEvent.process(deleted, api_key=COV_KEY)\nresult = [first, Product.objects.filter(id=\"prod_evt\").exists(), sorted(Event.objects.values_list(\"type\", flat=True))]\n",
+  "id": "OBS-0092"
+ },
+ {
+  "code": "\nfrom djstripe.models import Event, Charge, Customer\nfake = fake_stripe({(\"GET\", \"/v1/customers/cus_evt\"): customer_data(id=\"cus_evt\"),\n                    (\"GET\", \"/v1/charges/ch_evt\"): charge_data(id=\"ch_evt\", customer=\"cus_evt\", amount=4200)})\nevent = dict(payload(\"charge.succeeded\"), id=\"evt_charge\", data={\"object\": charge_data(id=\"ch_evt\", customer=\"cus_evt\", amount=4200)})\nEvent.process(event, api_key=COV_KEY)\ncharge = Charge.objects.get(id=\"ch_evt\")\nresult = [charge.customer_id, str(charge.amount), charge.stripe_data.get(\"status\")]\n",
+  "id": "OBS-0093"
+ },
+ {
+  "code": "\nfrom djstripe.models import Event, PaymentMethod, Customer\nfake = fake_stripe({(\"GET\", \"/v1/customers/cus_pm\"): customer_data(id=\"cus_pm\"),\n                    (\"GET\", \"/v1/payment_methods/pm_evt\"): payment_method_data(id=\"pm_evt\", customer=\"cus_pm\")})\nCustomer.sync_from_stripe_data(customer_data(id=\"cus_pm\"))\nevent = dict(payload(\"payment_method.attached\"), id=\"evt_pm\", data={\"object\": payment_method_data(id=\"pm_evt\", customer=\"cus_pm\")})\nEvent.process(event, api_key=COV_KEY)\npm = PaymentMethod.objects.get(id=\"pm_evt\")\nresult = [pm.customer_id, pm.type]\n",
+  "id": "OBS-0094"
+ },
+ {
+  "code": "\nfrom djstripe.models import Event, Customer\nfrom django.contrib.auth import get_user_model\nuser = get_user_model().objects.create(username=\"frank\", email=\"frank@example.com\")\nfake = fake_stripe({(\"GET\", \"/v1/customers/cus_new\"): customer_data(id=\"cus_new\", metadata={\"djstripe_subscriber\": str(user.pk)})})\nevent = dict(payload(\"customer.created\"), id=\"evt_cus\", data={\"object\": customer_data(id=\"cus_new\", metadata={\"djstripe_subscriber\": str(user.pk)})})\nEvent.process(event, api_key=COV_KEY)\ncustomer = Customer.objects.get(id=\"cus_new\")\nresult = [customer.subscriber_id == user.pk, customer.email]\n",
+  "id": "OBS-0095"
+ },
+ {
+  "code": "\nfrom djstripe import signals\nfrom djstripe.event_handlers import djstripe_receiver\nfrom djstripe.models import Event\nfake = fake_stripe({})\nseen = []\ndef receiver(sender, event, **kwargs):\n    seen.append(event.type)\nsignals.WEBHOOK_SIGNALS[\"charge.refunded\"].connect(receiver, sender=Event, weak=False)\nEvent.process(dict(payload(\"made.up.event\"), id=\"evt_unknown\"), api_key=COV_KEY)\ntry:\n    djstripe_receiver(\"made.up.event\")(lambda sender, **kw: None)\n    refused = \"accepted\"\nexcept RuntimeError:\n    refused = \"RuntimeError\"\nresult = [seen, list(Event.objects.values_list(\"type\", flat=True)), refused, \"charge.succeeded\" in signals.WEBHOOK_SIGNALS]\n",
+  "id": "OBS-0096"
+ },
+ {
+  "code": "\nimport io\nfrom django.core.management import call_command\nfrom django.core.management.base import CommandError\ndef run(*args, **kwargs):\n    out, err = io.StringIO(), io.StringIO()\n    try:\n        call_command(*args, stdout=out, stderr=err, **kwargs)\n        status = \"ok\"\n    except CommandError as exc:\n        status = \"CommandError\"\n    return status, out.getvalue(), err.getvalue()\n\nfrom djstripe.models import Product, APIKey\nkey = \"sk_test_\" + \"S\" * 24\nfake = fake_stripe({(\"GET\", \"/v1/products\"): stripe_list(\"/v1/products\", product_data(id=\"prod_s1\"), product_data(id=\"prod_s2\", name=\"Second\")),\n                    (\"GET\", \"/v1/accounts\"): stripe_list(\"/v1/accounts\")})\nstatus, out, err = run(\"djstripe_sync_models\", \"Product\", api_keys=[key])\nlisted = sorted({r[\"api_key\"] for r in fake.requests if r[\"path\"] == \"/v1/products\"})\nresult = [status, sorted(Product.objects.values_list(\"id\", flat=True)), listed == [key]]\n",
+  "id": "OBS-0097"
+ },
+ {
+  "code": "\nimport io\nfrom django.core.management import call_command\nfrom django.core.management.base import CommandError\ndef run(*args, **kwargs):\n    out, err = io.StringIO(), io.StringIO()\n    try:\n        call_command(*args, stdout=out, stderr=err, **kwargs)\n        status = \"ok\"\n    except CommandError as exc:\n        status = \"CommandError\"\n    return status, out.getvalue(), err.getvalue()\n\nfrom djstripe.models import Product\nfake = fake_stripe({(\"GET\", \"/v1/products\"): stripe_list(\"/v1/products\"), (\"GET\", \"/v1/accounts\"): stripe_list(\"/v1/accounts\")})\nbad = run(\"djstripe_sync_models\", \"Product\", api_keys=[\"sk_test_tooshort\"])\nunknown = run(\"djstripe_sync_models\", \"NoSuchModel\", api_keys=[\"sk_test_\" + \"S\" * 24])\nresult = [bad[0], unknown[0], [r[\"path\"] for r in fake.requests if r[\"path\"] == \"/v1/products\"]]\n",
+  "id": "OBS-0098"
+ },
+ {
+  "code": "\nimport io\nfrom django.core.management import call_command\nfrom django.core.management.base import CommandError\ndef run(*args, **kwargs):\n    out, err = io.StringIO(), io.StringIO()\n    try:\n        call_command(*args, stdout=out, stderr=err, **kwargs)\n        status = \"ok\"\n    except CommandError as exc:\n        status = \"CommandError\"\n    return status, out.getvalue(), err.getvalue()\n\nfrom djstripe.models import APIKey\nfrom django.test import override_settings\ndb_key = \"sk_test_\" + \"B\" * 24\nrestricted = \"rk_test_\" + \"R\" * 24\npu

@@ -1,0 +1,859 @@
+{
+  "schema": 1,
+  "generator": {
+    "file": "build_task.py",
+    "git_revision": "684cbd4fc01f06fb169e6a231e970f9d20df080e",
+    "uncommitted": false,
+    "sha256": "0564a1cd834d02898825c17e722ca573cc6e1c822b58ead8b6018bd490e9701d",
+    "written_by_build": true
+  },
+  "grader_sha256": "ad459a137f8fd8a1ef5505407cd5d672331ae2e4af998514e443d064c37fa983",
+  "grader_template": "a0eb45c96a3235207542e3ac11e0bcdc1030a98a5394e82e979ffafb4038f4cf",
+  "grader_template_commit": "150c9c85c8bb016f6e0aeb7307f521a2c4bdedd3",
+  "args": {
+    "ids": "d29c87d3,6f02de3f,3d21a9f8,f1406232,3b8be3d8,8e51f1de,7af88617,6d615226,a96e3706,8c8ffe23,cb023777,f0875faf,381ac900,75051eba,6ed1d6d5,34c3afc0,db0e6296,e2aa3393,bbe8ab6c,2adbc844,2cbc52ed,a8f37a3d,0092b844,86303780,1ea77341,00d3aa9a,f7553cad,949d91b7,428ef6da,151518d2",
+    "test": "",
+    "repo": "capstone",
+    "repo_url": "https://github.com/capstone-engine/capstone.git",
+    "commit": "fab085153272a2e4f8d2c45ce3ce69f0cddf5246",
+    "base_image": "diagvgen-base-capstone-engine__capstone-fab08515",
+    "workdir": "/workspace/repo",
+    "test_cmd": "cmake --build build -j 8 && ctest --test-dir build --output-on-failure --output-junit /workspace/repo/results.xml -j 8",
+    "language": "c",
+    "baseline_failures": 0,
+    "source_roots": [
+      ".",
+      "arch/AArch64",
+      "arch/ARC",
+      "arch/ARM",
+      "arch/BPF",
+      "arch/EVM",
+      "arch/HPPA",
+      "arch/M680X",
+      "arch/M68K",
+      "arch/MOS65XX",
+      "arch/Mips",
+      "arch/PowerPC",
+      "arch/RISCV",
+      "arch/Sparc",
+      "arch/TMS320C64x",
+      "arch/TriCore",
+      "arch/WASM",
+      "arch/X86",
+      "arch/XCore"
+    ],
+    "hide_tests": true,
+    "symptom": "The repository has received 30 separate undocumented edits.\n\nSoftware that hands this project a buffer of machine code, one instruction at a time, gets back a printed line and a structured description of the operands, and both of those now come out wrong in a great many places. The bytes being fed in have not changed and neither have the callers.\n\nWalking a buffer instruction by instruction, some byte sequences no longer come back as an instruction at all. A vector shift-left-long-by-immediate encoding is refused outright and its bytes are reported as undecodable. The bitwise-and arithmetic operation of one small register machine yields nothing. An encoding occupying six bytes resolves to something unrelated to the bytes handed in, or fails to resolve. The first of the push-an-immediate opcodes of one stack machine arrives without its immediate and reports a length one byte short, so the following instruction is taken from the middle of it.\n\nElsewhere an instruction does come back, but not the one the bytes denote. A compare-and-branch encoding whose two source register fields hold the same number comes back as the two-register comparison mnemonic carrying an extra register operand, in place of the single-register form. A short-form encoding whose one register serves as both source and destination comes back with that register operand missing entirely. Three-operand encodings come back with wrong register numbers. An instruction written with the four-byte vector encoding introducer and its operand-width bit set comes back as the narrow variant, with wrong operand width and wrong register selection. An addressing form pairing a zero-page address with a branch displacement comes back with no operands whatsoever. A load or store belonging to an auxiliary processing unit reports a register mask where a direct data register access belongs. A single-operand encoding that should render as a no-operation prints a mnemonic and an operand instead, while encodings that should keep their operands render as a no-operation and lose one. Register operands appear under names belonging to other registers, or with no name at all. An operand listing the tiles of a matrix unit states the wrong number of tiles. A four-element structure load to one lane with its alignment bit set shows its memory operand without the alignment.\n\nThe text of the line is damaged in ways of its own. The division between the mnemonic and the operand text is taken at the wrong space, so part of the operand text ends up inside the mnemonic. A write to the status register prints without the field-selection letters that should follow the underscore, while the case that selects no fields prints a stray underscore. A vector compare using the always-true unsigned-signalling predicate prints without its predicate suffix. A rotate-and-mask instruction prints its simplified form with a wrong immediate. An instruction that folds its second operand into the mnemonic prints that operand a second time afterwards. A branch carrying a modifier prints the wrong modifier text.\n\nThe numbers attached to an instruction are wrong too. A compressed load-upper-immediate whose immediate stands for a negative value reads as a large positive number. A four-byte immediate with its top bit set prints as a large positive quantity rather than the negative value it denotes. A multi-byte variable-length integer embedded in an instruction comes out wrong once it spans more than one byte, so a branch table's entry count is far too small and the instruction length with it. Targets worked out for a 32-bit setting print as enormous 64-bit addresses instead of wrapping into 32 bits. An instruction addressing memory by an absolute offset prints a wrong number in place of that offset. An operand holding a floating point constant in the widest format prints a number of completely wrong magnitude.\n\nLeaning on the structured description handed back alongside each instruction is no better. Asking whether a recorded operand holds a literal number answers yes exactly when it does not, so the printed text and the recorded operand kinds both describe the wrong thing over a broad range of instructions. Detail derived from a pair of describing values attaches them in reverse order, giving operand entries built from the wrong one. Memory-referencing instructions report base and displacement as separate plain operands rather than as one memory operand. Setting an option on an open handle comes back with a failure code instead of success.",
+    "drop_paths": "",
+    "title": "Diagnosing 30 injected faults in capstone without a test suite",
+    "description": "The capstone disassembly library at a pinned commit has had 30 one-line faults injected across its decoding, printing and detail-reporting paths. The agent receives the faulted source tree with no test suite and must localize each defect from behavioural symptoms alone, repair the behaviour, and name the faulted functions.",
+    "allow": ""
+  },
+  "base_dockerfile_sha256": "618998408f64a38a8025901c2acb581835bc4db15144d15c07b010be0203fcb1",
+  "base_dockerfile_text": "FROM --platform=linux/amd64 ubuntu:24.04@sha256:008173c23f95b170204355c12626cb5a965d779a7e1283b09e9cffbb1bf33ca3\nENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 SOURCE_DATE_EPOCH=0\nRUN apt-get update && apt-get install -y --no-install-recommends build-essential cmake git ca-certificates pkg-config python3 libyaml-dev \\\n    && rm -rf /var/lib/apt/lists/*\nRUN git config --system --add safe.directory '*'\nRUN mkdir -p /workspace/repo && cd /workspace/repo \\\n    && git init -q && git remote add origin https://github.com/capstone-engine/capstone.git \\\n    && git fetch --depth 1 -q origin fab085153272a2e4f8d2c45ce3ce69f0cddf5246 \\\n    && git checkout -q FETCH_HEAD \\\n    && git submodule update --init --recursive --depth 1\nWORKDIR /workspace/repo\nRUN mkdir build && cd build \\\n    && cmake -DCMAKE_BUILD_TYPE=Debug -DCAPSTONE_INSTALL=1 -DCMAKE_C_COMPILER=gcc -DCMAKE_INSTALL_PREFIX=/usr \\\n       -DCAPSTONE_BUILD_SHARED_LIBS=1 -DCAPSTONE_BUILD_CSTEST=ON ..\nRUN cmake --build build -j 8\nLABEL repo=\"capstone-engine/capstone\" revision=\"fab085153272a2e4f8d2c45ce3ce69f0cddf5246\" language=\"c\"",
+  "faults": [
+    {
+      "drop": null,
+      "breaks": [
+        "MCTests"
+      ],
+      "id": "d29c87d3",
+      "kind": "drop_if_block",
+      "path": "arch/ARM/ARMDisassembler.c",
+      "func": "DecodeVST4LN",
+      "line": 5880,
+      "before": "\t\tif (fieldFromInstruction_4(Insn, 4, 1))\n\t\t\talign = 8;\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests"
+      ],
+      "id": "6f02de3f",
+      "kind": "swap_call_arguments",
+      "path": "arch/ARM/ARMMapping.c",
+      "func": "ARM_add_cs_detail",
+      "line": 2021,
+      "before": "add_cs_detail_template_2(MI, op_group, op_num, templ_arg_0,\n\t\t\t\t\t templ_arg_1)",
+      "after": "add_cs_detail_template_2(MI, op_group, op_num, templ_arg_1,\n\t\t\t\t\t templ_arg_0)",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "MCTests"
+      ],
+      "id": "3d21a9f8",
+      "kind": "tighten_condition",
+      "path": "arch/Mips/MipsDisassembler.c",
+      "func": "DecodeBgtzGroupBranch",
+      "line": 1196,
+      "before": "else if (Rs == Rt) {\n\t\tMCInst_setOpcode(MI, (Mips_BLTZALC));\n\t\tHasRs = true;\n\t} else {\n\t\tMCInst_setOpcode(MI, (Mips_BLTUC));\n\t\tHasRs = true;\n\t\tHasRt = true;\n\t}",
+      "after": "else {\n\t\tMCInst_setOpcode(MI, (Mips_BLTUC));\n\t\tHasRs = true;\n\t\tHasRt = true;\n\t}",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "MCTests"
+      ],
+      "id": "f1406232",
+      "kind": "change_constant",
+      "path": "arch/HPPA/HPPADisassembler.c",
+      "func": "fill_branch_mods",
+      "line": 2178,
+      "before": "7",
+      "after": "8",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "MCTests"
+      ],
+      "id": "3b8be3d8",
+      "kind": "drop_call",
+      "path": "arch/TriCore/TriCoreDisassembler.c",
+      "func": "DecodeSRCInstruction",
+      "line": 415,
+      "before": "\t\t\ttryDecodeReg(1, s1_d);\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "MCTests"
+      ],
+      "id": "8e51f1de",
+      "kind": "named_constant_swap",
+      "path": "arch/AArch64/AArch64Disassembler.c",
+      "func": "DecodeVecShiftLImm",
+      "line": 1022,
+      "before": "Success",
+      "after": "Fail",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "MCTests"
+      ],
+      "id": "7af88617",
+      "kind": "drop_call",
+      "path": "arch/BPF/BPFDisassembler.c",
+      "func": "op2insn_alu",
+      "line": 599,
+      "before": "\t\tCASE(AND);\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests"
+      ],
+      "id": "6d615226",
+      "kind": "drop_if_block",
+      "path": "arch/M680X/M680XInstPrinter.c",
+      "func": "M680X_printInst",
+      "line": 277,
+      "before": "\tif ((m680x->flags & M680X_SECOND_OP_IN_MNEM) != 0)\n\t\tsuppress_operands++;\n\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "MCTests"
+      ],
+      "id": "a96e3706",
+      "kind": "tighten_condition",
+      "path": "arch/X86/X86InstPrinterCommon.c",
+      "func": "printSSEAVXCC",
+      "line": 179,
+      "before": "\tcase 0x1f:\n\t\tSStream_concat0(O, \"true_us\");\n\t\top_addAvxCC(MI, X86_AVX_CC_TRUE_US);\n\t\tbreak;\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests"
+      ],
+      "id": "8c8ffe23",
+      "kind": "break_chain",
+      "path": "arch/M68K/M68KInstPrinter.c",
+      "func": "extended_to_double",
+      "line": 336,
+      "before": "sign |\n\t\t\t\t\t    ((uint64_t)(e + 1023) << 52) |\n\t\t\t\t\t    (rounded & 0x000fffffffffffffULL)",
+      "after": "sign |\n\t\t\t\t\t    (rounded & 0x000fffffffffffffULL)",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests"
+      ],
+      "id": "cb023777",
+      "kind": "named_constant_swap",
+      "path": "arch/M68K/M68KDisassembler.c",
+      "func": "dcf_coproc_ldst",
+      "line": 2100,
+      "before": "M68K_EA_DATA_DIRECT_D0",
+      "after": "M68K_EA_REGISTER_MASK",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "MCTests"
+      ],
+      "id": "f0875faf",
+      "kind": "break_chain",
+      "path": "arch/X86/X86DisassemblerDecoder.c",
+      "func": "readPrefixes",
+      "line": 565,
+      "before": "0x40 |\n\t\t\t\t\t(wFromEVEX3of4(\n\t\t\t\t\t\t insn->vectorExtensionPrefix[2])\n\t\t\t\t\t << 3) |\n\t\t\t\t\t(rFromEVEX2of4(\n\t\t\t\t\t\t insn->vectorExtensionPrefix[1])\n\t\t\t\t\t << 2)",
+      "after": "0x40 |\n\t\t\t\t\t(rFromEVEX2of4(\n\t\t\t\t\t\t insn->vectorExtensionPrefix[1])\n\t\t\t\t\t << 2)",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests",
+        "legacy_test_iter"
+      ],
+      "id": "381ac900",
+      "kind": "swap_call_arguments",
+      "path": "arch/Sparc/SparcInstPrinter.c",
+      "func": "Sparc_LLVM_getRegisterName",
+      "line": 340,
+      "before": "getRegisterName(RegNo, AltIdx)",
+      "after": "getRegisterName(AltIdx, RegNo)",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests"
+      ],
+      "id": "75051eba",
+      "kind": "toggle_negation",
+      "path": "arch/TMS320C64x/TMS320C64xInstPrinter.c",
+      "func": "printAliasInstruction",
+      "line": 620,
+      "before": "if ((MCInst_getNumOperands(MI) == 1) &&\n\t\t    MCOperand_isImm(MCInst_getOperand(MI, 0)) &&\n\t\t    (MCOperand_getReg(MCInst_getOperand(MI, 0)) == 1)) {\n\t\t\tMI->size--;\n\n\t\t\tSStream_concat0(O, \"NOP\");\n\n\t\t\treturn true;\n\t\t}",
+      "after": "if (!((MCInst_getNumOperands(MI) == 1) &&\n\t\t    MCOperand_isImm(MCInst_getOperand(MI, 0)) &&\n\t\t    (MCOperand_getReg(MCInst_getOperand(MI, 0)) == 1))) {\n\t\t\tMI->size--;\n\n\t\t\tSStream_concat0(O, \"NOP\");\n\n\t\t\treturn true;\n\t\t}",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests",
+        "MCTests"
+      ],
+      "id": "6ed1d6d5",
+      "kind": "drop_if_block",
+      "path": "arch/RISCV/RISCVInstPrinter.c",
+      "func": "printBranchOperand",
+      "line": 157,
+      "before": "\t\tif (!RISCV_getFeatureBits(MI->csh->mode, RISCV_Feature64Bit))\n\t\t\tTarget &= 0xffffffff;\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "MCTests"
+      ],
+      "id": "34c3afc0",
+      "kind": "wrong_variable",
+      "path": "arch/AArch64/AArch64InstPrinter.c",
+      "func": "printMatrixTileList",
+      "line": 1837,
+      "before": "MaxRegs",
+      "after": "NumRegs",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests",
+        "MCTests"
+      ],
+      "id": "db0e6296",
+      "kind": "toggle_negation",
+      "path": "arch/ARM/ARMInstPrinter.c",
+      "func": "printMSRMaskOperand",
+      "line": 817,
+      "before": "if (Mask) {\n\t\tSStream_concat0(O, \"_\");\n\n\t\tif (Mask & 8)\n\t\t\tSStream_concat0(O, \"f\");\n\n\t\tif (Mask & 4)\n\t\t\tSStream_concat0(O, \"s\");\n\n\t\tif (Mask & 2)\n\t\t\tSStream_concat0(O, \"x\");\n\n\t\tif (Mask & 1)\n\t\t\tSStream_concat0(O, \"c\");\n\t}",
+      "after": "if (!(Mask)) {\n\t\tSStream_concat0(O, \"_\");\n\n\t\tif (Mask & 8)\n\t\t\tSStream_concat0(O, \"f\");\n\n\t\tif (Mask & 4)\n\t\t\tSStream_concat0(O, \"s\");\n\n\t\tif (Mask & 2)\n\t\t\tSStream_concat0(O, \"x\");\n\n\t\tif (Mask & 1)\n\t\t\tSStream_concat0(O, \"c\");\n\t}",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests",
+        "MCTests"
+      ],
+      "id": "e2aa3393",
+      "kind": "flip_comparison",
+      "path": "MCInst.c",
+      "func": "MCOperand_isImm",
+      "line": 123,
+      "before": "op->Kind == kImmediate",
+      "after": "op->Kind != kImmediate",
+      "crashes": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests",
+        "MCTests"
+      ],
+      "id": "bbe8ab6c",
+      "kind": "wrong_variable",
+      "path": "arch/PowerPC/PPCInstPrinter.c",
+      "func": "printInst",
+      "line": 620,
+      "before": "ME",
+      "after": "MB",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "MCTests"
+      ],
+      "id": "2adbc844",
+      "kind": "change_constant",
+      "path": "arch/ARC/ARCDisassembler.c",
+      "func": "readInstruction48",
+      "line": 78,
+      "before": "(uint64_t)Bytes[0] << 0",
+      "after": "(uint64_t)Bytes[0] << 1",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests"
+      ],
+      "id": "2cbc52ed",
+      "kind": "tighten_condition",
+      "path": "arch/MOS65XX/MOS65XXDisassembler.c",
+      "func": "MOS65XX_getInstruction",
+      "line": 497,
+      "before": "\tcase MOS65XX_AM_ZP_REL:\n\t\tMCOperand_CreateImm0(MI, code[1]);\n\t\tMCOperand_CreateImm0(MI, code[2]);\n\t\tbreak;\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests"
+      ],
+      "id": "a8f37a3d",
+      "kind": "tighten_condition",
+      "path": "arch/X86/X86Disassembler.c",
+      "func": "translateImmediate",
+      "line": 246,
+      "before": "\t\tcase ENCODING_ID:\n\t\t\tif (immediate & 0x80000000)\n\t\t\t\timmediate |= ~(0xffffffffull);\n\t\t\tbreak;\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests"
+      ],
+      "id": "0092b844",
+      "kind": "swap_arithmetic_operator",
+      "path": "arch/XCore/XCoreDisassembler.c",
+      "func": "Decode3OpInstruction",
+      "line": 248,
+      "before": "Combined / 3",
+      "after": "Combined * 3",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests"
+      ],
+      "id": "86303780",
+      "kind": "sibling_api_swap",
+      "path": "arch/XCore/XCoreInstPrinter.c",
+      "func": "XCore_insn_extract",
+      "line": 54,
+      "before": "strchr(tmp, ' ')",
+      "after": "strrchr(tmp, ' ')",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "IssueTests"
+      ],
+      "id": "1ea77341",
+      "kind": "off_by_one",
+      "path": "arch/X86/X86IntelInstPrinter.c",
+      "func": "printMemOffset",
+      "line": 684,
+      "before": "Op + 1",
+      "after": "Op",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "MCTests"
+      ],
+      "id": "00d3aa9a",
+      "kind": "drop_if_block",
+      "path": "arch/RISCV/RISCVDisassembler.c",
+      "func": "decodeCLUIImmOperand",
+      "line": 360,
+      "before": "\tif (Imm > 31) {\n\t\tImm = (SignExtend64((Imm), 6) & 0xfffff);\n\t}\n",
+      "after": "",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests"
+      ],
+      "id": "f7553cad",
+      "kind": "swap_boolean_operator",
+      "path": "arch/PowerPC/PPCMapping.c",
+      "func": "add_cs_detail_general",
+      "line": 428,
+      "before": "doing_mem(MI) || (op_type & CS_OP_MEM)",
+      "after": "doing_mem(MI) && (op_type & CS_OP_MEM)",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests",
+        "unit_wasm_brtable_size"
+      ],
+      "id": "949d91b7",
+      "kind": "swap_arithmetic_operator",
+      "path": "arch/WASM/WASMDisassembler.c",
+      "func": "get_varuint32",
+      "line": 291,
+      "before": "i * 7",
+      "after": "i / 7",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests",
+        "IssueTests"
+      ],
+      "id": "428ef6da",
+      "kind": "wrong_return",
+      "path": "cs.c",
+      "func": "cs_option",
+      "line": 1094,
+      "before": "return CS_ERR_OK;",
+      "after": "return CS_ERR_ARCH;",
+      "crashes": false
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "DetailTests"
+      ],
+      "id": "151518d2",
+      "kind": "flip_comparison",
+      "path": "arch/EVM/EVMDisassembler.c",
+      "func": "EVM_getInstruction",
+      "line": 289,
+      "before": "opcode >= EVM_INS_PUSH1",
+      "after": "opcode > EVM_INS_PUSH1",
+      "crashes": false,
+      "breaks_nonlocal_only": true
+    }
+  ],
+  "baseline_failing_names": [],
+  "causes": [
+    {
+      "file": "arch/ARM/ARMDisassembler.c",
+      "function": "DecodeVST4LN",
+      "qualname": "DecodeVST4LN",
+      "id": "d29c87d3",
+      "kind": "drop_if_block",
+      "breaks": [
+        "MCTests"
+      ]
+    },
+    {
+      "file": "arch/ARM/ARMMapping.c",
+      "function": "ARM_add_cs_detail",
+      "qualname": "ARM_add_cs_detail",
+      "id": "6f02de3f",
+      "kind": "swap_call_arguments",
+      "breaks": [
+        "DetailTests"
+      ]
+    },
+    {
+      "file": "arch/Mips/MipsDisassembler.c",
+      "function": "DecodeBgtzGroupBranch",
+      "qualname": "DecodeBgtzGroupBranch",
+      "id": "3d21a9f8",
+      "kind": "tighten_condition",
+      "breaks": [
+        "MCTests"
+      ]
+    },
+    {
+      "file": "arch/HPPA/HPPADisassembler.c",
+      "function": "fill_branch_mods",
+      "qualname": "fill_branch_mods",
+      "id": "f1406232",
+      "kind": "change_constant",
+      "breaks": [
+        "MCTests"
+      ]
+    },
+    {
+      "file": "arch/TriCore/TriCoreDisassembler.c",
+      "function": "DecodeSRCInstruction",
+      "qualname": "DecodeSRCInstruction",
+      "id": "3b8be3d8",
+      "kind": "drop_call",
+      "breaks": [
+        "MCTests"
+      ]
+    },
+    {
+      "file": "arch/AArch64/AArch64Disassembler.c",
+      "function": "DecodeVecShiftLImm",
+      "qualname": "DecodeVecShiftLImm",
+      "id": "8e51f1de",
+      "kind": "named_constant_swap",
+      "breaks": [
+        "MCTests"
+      ]
+    },
+    {
+      "file": "arch/BPF/BPFDisassembler.c",
+      "function": "op2insn_alu",
+      "qualname": "op2insn_alu",
+      "id": "7af88617",
+      "kind": "drop_call",
+      "breaks": [
+        "MCTests"
+      ]
+    },
+    {
+      "file": "arch/M680X/M680XInstPrinter.c",
+      "function": "M680X_printInst",
+      "qualname": "M680X_printInst",
+      "id": "6d615226",
+      "kind": "drop_if_block",
+      "breaks": [
+        "DetailTests"
+      ]
+    },
+    {
+      "file": "arch/X86/X86InstPrinterCommon.c",
+      "function": "printSSEAVXCC",
+      "qualname": "printSSEAVXCC",
+      "id": "a96e3706",
+      "kind": "tighten_condition",
+      "breaks": [
+        "MCTests"
+      ]
+    },
+    {
+      "file": "arch/M68K/M68KInstPrinter.c",
+      "function": "extended_to_double",
+      "qualname": "extended_to_double",
+      "id": "8c8ffe23",
+      "kind": "break_chain",
+      "breaks": [
+        "DetailTests"
+      ]
+    },
+    {
+      "file": "arch/M68K/M68KDisassembler.c",
+      "function": "dcf_coproc_ldst",
+      "qualname": "dcf_coproc_ldst",
+      "id": "cb023777",
+      "kind": "named_constant_swap",
+      "breaks": [
+        "DetailTests"
+      ]
+    },
+    {
+      "file": "arch/X86/X86DisassemblerDecoder.c",
+      "function": "readPrefixes",
+      "qualname": "readPrefixes",
+      "id": "f0875faf",
+      "kind": "break_chain",
+      "breaks": [
+        "MCTests"
+      ]
+    },
+    {
+      "file": "arch/Sparc/SparcInstPrinter.c",
+      "function": "Sparc_LLVM_getRegisterName",
+      "qualname": "Sparc_LLVM_getRegisterName",
+      "id": "381ac900",
+      "kind": "swap_call_arguments",
+      "breaks": [
+        "DetailTests",
+        "legacy_test_iter"
+      ]
+    },
+    {
+      "file": "arch/TMS320C64x/TMS320C64xInstPrinter.c",
+      "function": "printAliasInstruction",
+      "qualname": "printAliasInstruction",
+      "id": "75051eba",
+      "kind": "toggle_negation",
+      "breaks": [
+        "DetailTests"
+      ]
+    },
+    {
+      "file": "arch/RISCV/RISCVInstPrinter.c",
+      "function": "printBranchOperand",
+      "qualname": "printBranchOperand",
+      "id": "6ed1d6d5",
+      "kind": "drop_if_block",
+      "breaks": [
+        "DetailTests",
+        "MCTests"
+      ]
+    },
+    {
+      "file": "arch/AArch64/AArch64InstPrinter.c",
+      "function": "printMatrixTileList",
+      "qualname": "printMatrixTileList",
+      "id": "34c3afc0",
+      "kind": "wrong_variable",
+      "breaks": [
+        "MCTests"
+      ]
+    },
+    {
+      "file": "arch/ARM/ARMInstPrinter.c",
+      "function": "printMSRMaskOperand",
+      "qualname": "printMSRMaskOperand",
+      "id": "db0e6296",
+      "kind": "toggle_negation",
+      "breaks": [
+        "DetailTests",
+        "MCTests"
+      ]
+    },
+    {
+      "file": "MCInst.c",
+      "function": "MCOperand_isImm",
+      "qualname": "MCOperand_isImm",
+      "id": "e2aa3393",
+      "kind": "flip_comparison",
+      "breaks": [
+        "DetailTests",
+        "MCTests"
+      ]
+    },
+    {
+      "file": "arch/PowerPC/PPCInstPrinter.c",
+      "function": "printInst",
+      "qualname": "printInst",
+      "id": "bbe8ab6c",
+      "kind": "wrong_variable",
+      "breaks": [
+        "DetailTests",
+        "MCTests"
+      ]
+    },
+    {
+      "file": "arch/ARC/ARCDisassembler.c",
+      "function": "readInstruction48",
+      "qualname": "readInstruction48",
+      "id": "2adbc844",
+      "kind": "change_constant",
+      "breaks": [
+        "MCTests"
+      ]
+    },
+    {
+      "file": "arch/MOS65XX/MOS65XXDisassembler.c",
+      "function": "MOS65XX_getInstruction",
+      "qualname": "MOS65XX_getInstruction",
+      "id": "2cbc52ed",
+      "kind": "tighten_condition",
+      "breaks": [
+        "DetailTests"
+      ]
+    },
+    {
+      "file": "arch/X86/X86Disassembler.c",
+      "function": "translateImmediate",
+      "qualname": "translateImmediate",
+      "id": "a8f37a3d",
+      "kind": "tighten_condition",
+      "breaks": [
+        "DetailTests"
+      ]
+    },
+    {
+      "file": "arch/XCore/XCoreDisassembler.c",
+      "function": "Decode3OpInstruction",
+      "qualname": "Decode3OpInstruction",
+      "id": "0092b844",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "DetailTests"
+      ]
+    },
+    {
+      "file": "arch/XCore/XCoreInstPrinter.c",
+      "function": "XCore_insn_extract",
+      "qualname": "XCore_insn_extract",
+      "id": "86303780",
+      "kind": "sibling_api_swap",
+      "breaks": [
+        "DetailTests"
+      ]
+    },
+    {
+      "file": "arch/X86/X86IntelInstPrinter.c",
+      "function": "printMemOffset",
+      "qualname": "printMemOffset",
+      "id": "1ea77341",
+      "kind": "off_by_one",
+      "breaks": [
+        "IssueTests"
+      ]
+    },
+    {
+      "file": "arch/RISCV/RISCVDisassembler.c",
+      "function": "decodeCLUIImmOperand",
+      "qualname": "decodeCLUIImmOperand",
+      "id": "00d3aa9a",
+      "kind": "drop_if_block",
+      "breaks": [
+        "MCTests"
+      ]
+    },
+    {
+      "file": "arch/PowerPC/PPCMapping.c",
+      "function": "add_cs_detail_general",
+      "qualname": "add_cs_detail_general",
+      "id": "f7553cad",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "DetailTests"
+      ]
+    },
+    {
+      "file": "arch/WASM/WASMDisassembler.c",
+      "function": "get_varuint32",
+      "qualname": "get_varuint32",
+      "id": "949d91b7",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "DetailTests",
+        "unit_wasm_brtable_size"
+      ]
+    },
+    {
+      "file": "cs.c",
+      "function": "cs_option",
+      "qualname": "cs_option",
+      "id": "428ef6da",
+      "kind": "wrong_return",
+      "breaks": [
+        "DetailTests",
+        "IssueTests"
+      ]
+    },
+    {
+      "file": "arch/EVM/EVMDisassembler.c",
+      "function": "EVM_getInstruction",
+      "qualname": "EVM_getInstruction",
+      "id": "151518d2",
+      "kind": "flip_comparison",
+      "breaks": [
+        "DetailTests"
+      ]
+    }
+  ],
+  "formatter_pass": {
+    "tool": null,
+    "formatted": [],
+    "raw": [
+      "MCInst.c",
+      "arch/AArch64/AArch64Disassembler.c",
+      "arch/AArch64/AArch64InstPrinter.c",
+      "arch/ARC/ARCDisassembler.c",
+      "arch/ARM/ARMDisassembler.c",
+      "arch/ARM/ARMInstPrinter.c",
+      "arch/ARM/ARMMapping.c",
+      "arch/BPF/BPFDisassembler.c",
+      "arch/EVM/EVMDisassembler.c",
+      "arch/HPPA/HPPADisassembler.c",
+      "arch/M680X/M680XInstPrinter.c",
+      "arch/M68K/M68KDisassembler.c",
+      "arch/M68K/M68KInstPrinter.c",
+      "arch/MOS65XX/MOS65XXDisassembler.c",
+      "arch/Mips/MipsDisassembler.c",
+      "arch/PowerPC/PPCInstPrinter.c",
+      "arch/PowerPC/PPCMapping.c",
+      "arch/RISCV/RISCVDisassembler.c",
+      "arch/RISCV/RISCVInstPrinter.c",
+      "arch/Sparc/SparcInstPrinter.c",
+      "arch/TMS320C64x/TMS320C64xInstPrinter.c",
+      "arch/TriCore/TriCoreDisassembler.c",
+      "arch/WASM/WASMDisassembler.c",
+      "arch/X86/X86Disassembler.c",
+      "arch/X86/X86DisassemblerDecoder.c",
+      "arch/X86/X86InstPrinterCommon.c",
+      "arch/X86/X86IntelInstPrinter.c",
+      "arch/XCore/XCoreDisassembler.c",
+      "arch/XCore/XCoreInstPrinter.c",
+      "cs.c"
+    ]
+  },
+  "rebuild": "python3 build_task.py --faults-file <this file> --ids <args.ids> and the rest of args above; --base-dockerfile can be written out of base_dockerfile_text",
+  "baseline_failures": 0
+}

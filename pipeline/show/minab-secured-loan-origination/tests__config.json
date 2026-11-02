@@ -1,0 +1,59 @@
+{
+ "base_commit": "ea1d817dc3cca12bd47fb790dbed5e4d91e0ed30",
+ "f2p_node_ids": [
+  "com.openfinova.banking.loan.origination.SecuredLoanOriginationTest#individualOriginationPersistsTheAccountWithItsGuarantorsAndCollateral",
+  "com.openfinova.banking.loan.origination.SecuredLoanOriginationTest#individualOriginationSupersedesOnlyTheApplicantsPendingApplications",
+  "com.openfinova.banking.loan.origination.SecuredLoanOriginationTest#individualOriginationWithNothingToSupersedeStillPersistsEverything",
+  "com.openfinova.banking.loan.origination.SecuredLoanOriginationTest#groupOriginationPersistsTheAccountWithItsGuarantorsAndCollateral",
+  "com.openfinova.banking.loan.origination.SecuredLoanOriginationTest#groupOriginationSupersedesPendingApplicationsAcrossTheGroupIncludingTheApplicant",
+  "com.openfinova.banking.loan.origination.SecuredLoanOriginationTest#leadGuarantorThatIsNotOneOfTheGuarantorsIsRejectedWithoutAnyChange",
+  "com.openfinova.banking.loan.origination.SecuredLoanOriginationTest#individualBorrowerNeedsAnIndividualLeadGuarantor",
+  "com.openfinova.banking.loan.origination.SecuredLoanOriginationTest#corporateGroupNeedsACorporateLeadGuarantor",
+  "com.openfinova.banking.loan.origination.SecuredLoanOriginationTest#secondOriginationFromTheSameApplicationIsRejectedAndTheFirstStaysIntact",
+  "com.openfinova.banking.loan.origination.BareAccountOpeningRetiredTest#nothingInTheLoanModuleStillOpensAccountsThroughCreateLoanAccountUuidString",
+  "com.openfinova.banking.loan.origination.BareAccountOpeningRetiredTest#theBareCreateRequestIsGone",
+  "com.openfinova.banking.loan.origination.BareAccountOpeningRetiredTest#postLoanAccountsTakesASecuredOriginationRequest",
+  "com.openfinova.banking.loan.origination.BareAccountOpeningRetiredTest#postLoanAccountsRunsTheSecuredOrigination"
+ ],
+ "p2p_node_ids": [
+  "com.openfinova.banking.loan.service.DelinquencyBucketMappingTest#fromDaysPastDue_mapsToExpectedBuckets",
+  "com.openfinova.banking.loan.service.LoanApplicationServiceCreditScoringTest#performCreditScoring_zeroMonthlyIncome_doesNotDivideByZero",
+  "com.openfinova.banking.loan.service.LoanPaymentServiceAllocationTest#calculatePaymentAllocation_waterfallPaysPenaltiesFirst",
+  "com.openfinova.banking.loan.service.LoanProvisionCalculationTest#provisionAmount_fivePercentOf100k_is5000",
+  "com.openfinova.banking.loan.service.LoanProvisionCalculationTest#provisionAmount_onePercentOf100k_is1000",
+  "com.openfinova.banking.loan.service.LoanProvisionCalculationTest#ratePercentForDaysPastDue_tiers",
+  "com.openfinova.banking.loan.service.LoanProvisionCalculationTest#provisionAmount_nullArguments_throws",
+  "com.openfinova.banking.loan.service.LoanScheduleServiceAmortizationTest#quarterlySchedule_stepsDueDatesByThreeMonths",
+  "com.openfinova.banking.loan.service.LoanScheduleServiceAmortizationTest#monthlySchedule_hasExpectedInstallmentCountAndPrincipalSum",
+  "com.openfinova.banking.loan.origination.LoanAccountCreationTest#securedOriginationFromAnUnknownApplicationIsRejected",
+  "com.openfinova.banking.loan.origination.LoanAccountCreationTest#securedOriginationFromAnApplicationThatIsNotApprovedIsRejectedWithoutAnyChange"
+ ],
+ "p2p_provenance": {
+  "upstream": [
+   "com.openfinova.banking.loan.service.DelinquencyBucketMappingTest#fromDaysPastDue_mapsToExpectedBuckets",
+   "com.openfinova.banking.loan.service.LoanApplicationServiceCreditScoringTest#performCreditScoring_zeroMonthlyIncome_doesNotDivideByZero",
+   "com.openfinova.banking.loan.service.LoanPaymentServiceAllocationTest#calculatePaymentAllocation_waterfallPaysPenaltiesFirst",
+   "com.openfinova.banking.loan.service.LoanProvisionCalculationTest#provisionAmount_fivePercentOf100k_is5000",
+   "com.openfinova.banking.loan.service.LoanProvisionCalculationTest#provisionAmount_onePercentOf100k_is1000",
+   "com.openfinova.banking.loan.service.LoanProvisionCalculationTest#ratePercentForDaysPastDue_tiers",
+   "com.openfinova.banking.loan.service.LoanProvisionCalculationTest#provisionAmount_nullArguments_throws",
+   "com.openfinova.banking.loan.service.LoanScheduleServiceAmortizationTest#quarterlySchedule_stepsDueDatesByThreeMonths",
+   "com.openfinova.banking.loan.service.LoanScheduleServiceAmortizationTest#monthlySchedule_hasExpectedInstallmentCountAndPrincipalSum"
+  ],
+  "authored": [
+   "com.openfinova.banking.loan.origination.LoanAccountCreationTest#securedOriginationFromAnUnknownApplicationIsRejected",
+   "com.openfinova.banking.loan.origination.LoanAccountCreationTest#securedOriginationFromAnApplicationThatIsNotApprovedIsRejectedWithoutAnyChange"
+  ],
+  "not_graded": [
+   "loan-service/src/test/.../service/LoanAccountServiceAccountOpeningTest.java",
+   "loan-service/src/test/.../controller/LoanAccountControllerTest.java"
+  ],
+  "note": "Upstream P2P are the loan-service unit tests in the repository at base. Authored P2P (LoanAccountCreationTest, added by tests/test.patch) pass at base and reference only base symbols. The two base tests listed under not_graded call the entry point the task retires (createLoanAccount(UUID, String), LoanAccountCreateRequest), so a correct submission must rewrite them; the grader removes their base copies and grades that behaviour through the hidden suite."
+ },
+ "grade": {
+  "runner": "maven-surefire",
+  "module": "loan/loan-service",
+  "command": "mvn -B -o -Dmaven.compiler.proc=none -pl loan/loan-service -am test -Dtest=<graded classes>",
+  "rule": "reward 1.0 iff every f2p and p2p test is reported passed, f2p is non-empty, and the planted report canary is reported failed; otherwise 0.0"
+ }
+}

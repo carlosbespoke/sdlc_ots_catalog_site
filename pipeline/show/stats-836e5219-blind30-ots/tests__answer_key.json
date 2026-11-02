@@ -1,0 +1,668 @@
+{
+  "repo": "stats",
+  "workdir": "/workspace/repo",
+  "target_test": "",
+  "language": "go",
+  "module": "github.com/montanaflynn/stats",
+  "test_cmd": "go test -count=1 ./...",
+  "baseline_failures": 0,
+  "weights": {
+    "repair": 0.5,
+    "report": 0.5
+  },
+  "run_tests_as": "agent",
+  "baseline_tests": 330,
+  "baseline_skipped": 0,
+  "sabotage_passes": 0,
+  "suite_seconds": 9,
+  "probe_sites": 0,
+  "probe_calls": 0,
+  "source_roots": [
+    "."
+  ],
+  "restored_paths": [
+    "clip_test.go",
+    "coefficient_of_variation_test.go",
+    "correlation_test.go",
+    "cumulative_sum_test.go",
+    "cumulative_test.go",
+    "data_test.go",
+    "describe_test.go",
+    "deviation_test.go",
+    "diff_test.go",
+    "distances_test.go",
+    "entropy_test.go",
+    "errors_test.go",
+    "ewma_test.go",
+    "examples_test.go",
+    "extremes_test.go",
+    "geometric_distribution_test.go",
+    "histogram_test.go",
+    "interp_test.go",
+    "kendall_test.go",
+    "kurtosis_test.go",
+    "legacy_test.go",
+    "load_test.go",
+    "max_test.go",
+    "mean_test.go",
+    "median_test.go",
+    "min_test.go",
+    "mode_test.go",
+    "moving_test.go",
+    "mutation_test.go",
+    "nist_test.go",
+    "norm_test.go",
+    "outlier_test.go",
+    "percentile_of_score_test.go",
+    "percentile_test.go",
+    "percentile_weighted_test.go",
+    "product_test.go",
+    "quartile_test.go",
+    "rank_test.go",
+    "ranksum_test.go",
+    "regression_test.go",
+    "rescale_test.go",
+    "rms_test.go",
+    "rolling_test.go",
+    "round_test.go",
+    "sample_test.go",
+    "sem_test.go",
+    "sigmoid_test.go",
+    "skewness_test.go",
+    "softmax_test.go",
+    "sum_test.go",
+    "test_utils_test.go",
+    "trimmed_mean_test.go",
+    "ttest_internal_test.go",
+    "ttest_test.go",
+    "util_test.go",
+    "variance_test.go",
+    "weighted_mean_test.go",
+    "winsorize_test.go",
+    "zscore_test.go",
+    "ztest_test.go"
+  ],
+  "shipped_files": [
+    ".chglog/CHANGELOG.tpl.md",
+    ".chglog/SECTION.tpl.md",
+    ".chglog/config.yml",
+    ".github/FUNDING.yml",
+    ".github/workflows/go.yml",
+    ".github/workflows/release.yml",
+    ".gitignore",
+    ".goreleaser.yml",
+    "CHANGELOG.md",
+    "DOCUMENTATION.md",
+    "LICENSE",
+    "Makefile",
+    "README.md",
+    "clip.go",
+    "clip_test.go",
+    "coefficient_of_variation.go",
+    "coefficient_of_variation_test.go",
+    "correlation.go",
+    "correlation_test.go",
+    "cumulative.go",
+    "cumulative_sum.go",
+    "cumulative_sum_test.go",
+    "cumulative_test.go",
+    "data.go",
+    "data_test.go",
+    "describe.go",
+    "describe_test.go",
+    "deviation.go",
+    "deviation_test.go",
+    "diff.go",
+    "diff_test.go",
+    "distances.go",
+    "distances_test.go",
+    "doc.go",
+    "entropy.go",
+    "entropy_test.go",
+    "errors.go",
+    "errors_test.go",
+    "ewma.go",
+    "ewma_test.go",
+    "examples/README.md",
+    "examples/functions/main.go",
+    "examples/methods/main.go",
+    "examples_test.go",
+    "extremes.go",
+    "extremes_test.go",
+    "geometric_distribution.go",
+    "geometric_distribution_test.go",
+    "go.mod",
+    "histogram.go",
+    "histogram_test.go",
+    "interp.go",
+    "interp_test.go",
+    "kendall.go",
+    "kendall_test.go",
+    "kurtosis.go",
+    "kurtosis_test.go",
+    "legacy.go",
+    "legacy_test.go",
+    "load.go",
+    "load_test.go",
+    "max.go",
+    "max_test.go",
+    "mean.go",
+    "mean_test.go",
+    "median.go",
+    "median_test.go",
+    "min.go",
+    "min_test.go",
+    "mode.go",
+    "mode_test.go",
+    "moving.go",
+    "moving_test.go",
+    "mutation_test.go",
+    "nist_test.go",
+    "norm.go",
+    "norm_test.go",
+    "outlier.go",
+    "outlier_test.go",
+    "percentile.go",
+    "percentile_of_score.go",
+    "percentile_of_score_test.go",
+    "percentile_test.go",
+    "percentile_weighted.go",
+    "percentile_weighted_test.go",
+    "product.go",
+    "product_test.go",
+    "quartile.go",
+    "quartile_test.go",
+    "rank.go",
+    "rank_test.go",
+    "ranksum.go",
+    "ranksum_test.go",
+    "regression.go",
+    "regression_test.go",
+    "rescale.go",
+    "rescale_test.go",
+    "rms.go",
+    "rms_test.go",
+    "rolling.go",
+    "rolling_test.go",
+    "round.go",
+    "round_test.go",
+    "sample.go",
+    "sample_test.go",
+    "scripts/update-changelog.sh",
+    "sem.go",
+    "sem_test.go",
+    "sigmoid.go",
+    "sigmoid_test.go",
+    "skewness.go",
+    "skewness_test.go",
+    "softmax.go",
+    "softmax_test.go",
+    "sum.go",
+    "sum_test.go",
+    "test_utils_test.go",
+    "trimmed_mean.go",
+    "trimmed_mean_test.go",
+    "ttest.go",
+    "ttest_internal_test.go",
+    "ttest_test.go",
+    "util.go",
+    "util_test.go",
+    "variance.go",
+    "variance_test.go",
+    "weighted_mean.go",
+    "weighted_mean_test.go",
+    "winsorize.go",
+    "winsorize_test.go",
+    "zscore.go",
+    "zscore_test.go",
+    "ztest.go",
+    "ztest_test.go"
+  ],
+  "tracked_files": [
+    ".chglog/CHANGELOG.tpl.md",
+    ".chglog/SECTION.tpl.md",
+    ".chglog/config.yml",
+    ".github/FUNDING.yml",
+    ".github/workflows/go.yml",
+    ".github/workflows/release.yml",
+    ".gitignore",
+    ".goreleaser.yml",
+    "CHANGELOG.md",
+    "DOCUMENTATION.md",
+    "LICENSE",
+    "Makefile",
+    "README.md",
+    "clip.go",
+    "clip_test.go",
+    "coefficient_of_variation.go",
+    "coefficient_of_variation_test.go",
+    "correlation.go",
+    "correlation_test.go",
+    "cumulative.go",
+    "cumulative_sum.go",
+    "cumulative_sum_test.go",
+    "cumulative_test.go",
+    "data.go",
+    "data_test.go",
+    "describe.go",
+    "describe_test.go",
+    "deviation.go",
+    "deviation_test.go",
+    "diff.go",
+    "diff_test.go",
+    "distances.go",
+    "distances_test.go",
+    "doc.go",
+    "entropy.go",
+    "entropy_test.go",
+    "errors.go",
+    "errors_test.go",
+    "ewma.go",
+    "ewma_test.go",
+    "examples/README.md",
+    "examples/functions/main.go",
+    "examples/methods/main.go",
+    "examples_test.go",
+    "extremes.go",
+    "extremes_test.go",
+    "geometric_distribution.go",
+    "geometric_distribution_test.go",
+    "go.mod",
+    "histogram.go",
+    "histogram_test.go",
+    "interp.go",
+    "interp_test.go",
+    "kendall.go",
+    "kendall_test.go",
+    "kurtosis.go",
+    "kurtosis_test.go",
+    "legacy.go",
+    "legacy_test.go",
+    "load.go",
+    "load_test.go",
+    "max.go",
+    "max_test.go",
+    "mean.go",
+    "mean_test.go",
+    "median.go",
+    "median_test.go",
+    "min.go",
+    "min_test.go",
+    "mode.go",
+    "mode_test.go",
+    "moving.go",
+    "moving_test.go",
+    "mutation_test.go",
+    "nist_test.go",
+    "norm.go",
+    "norm_test.go",
+    "outlier.go",
+    "outlier_test.go",
+    "percentile.go",
+    "percentile_of_score.go",
+    "percentile_of_score_test.go",
+    "percentile_test.go",
+    "percentile_weighted.go",
+    "percentile_weighted_test.go",
+    "product.go",
+    "product_test.go",
+    "quartile.go",
+    "quartile_test.go",
+    "rank.go",
+    "rank_test.go",
+    "ranksum.go",
+    "ranksum_test.go",
+    "regression.go",
+    "regression_test.go",
+    "rescale.go",
+    "rescale_test.go",
+    "rms.go",
+    "rms_test.go",
+    "rolling.go",
+    "rolling_test.go",
+    "round.go",
+    "round_test.go",
+    "sample.go",
+    "sample_test.go",
+    "scripts/update-changelog.sh",
+    "sem.go",
+    "sem_test.go",
+    "sigmoid.go",
+    "sigmoid_test.go",
+    "skewness.go",
+    "skewness_test.go",
+    "softmax.go",
+    "softmax_test.go",
+    "sum.go",
+    "sum_test.go",
+    "test_utils_test.go",
+    "trimmed_mean.go",
+    "trimmed_mean_test.go",
+    "ttest.go",
+    "ttest_internal_test.go",
+    "ttest_test.go",
+    "util.go",
+    "util_test.go",
+    "variance.go",
+    "variance_test.go",
+    "weighted_mean.go",
+    "weighted_mean_test.go",
+    "winsorize.go",
+    "winsorize_test.go",
+    "zscore.go",
+    "zscore_test.go",
+    "ztest.go",
+    "ztest_test.go"
+  ],
+  "rca_prefix_only": true,
+  "causes": [
+    {
+      "file": "mode.go",
+      "function": "Mode",
+      "qualname": "Mode",
+      "id": "d64517d4",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestHelperMethods",
+        "github.com/montanaflynn/stats::TestMode"
+      ]
+    },
+    {
+      "file": "sample.go",
+      "function": "Sample",
+      "qualname": "Sample",
+      "id": "ca79a747",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestSampleWithReplacement"
+      ]
+    },
+    {
+      "file": "ztest.go",
+      "function": "ZTest",
+      "qualname": "ZTest",
+      "id": "b0636b4f",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestInputsNotMutated",
+        "github.com/montanaflynn/stats::TestZTestTwoSample"
+      ]
+    },
+    {
+      "file": "percentile_of_score.go",
+      "function": "PercentileOfScore",
+      "qualname": "PercentileOfScore",
+      "id": "d340108f",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestPercentileOfScore"
+      ]
+    },
+    {
+      "file": "mean.go",
+      "function": "HarmonicMean",
+      "qualname": "HarmonicMean",
+      "id": "b38e4d97",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestHarmonicMean",
+        "github.com/montanaflynn/stats::TestNistHarmonicMean"
+      ]
+    },
+    {
+      "file": "trimmed_mean.go",
+      "function": "TrimmedMean",
+      "qualname": "TrimmedMean",
+      "id": "e696fdce",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestTrimmedMeanInvalidInput"
+      ]
+    },
+    {
+      "file": "geometric_distribution.go",
+      "function": "VarGeom",
+      "qualname": "VarGeom",
+      "id": "f41d3d79",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::ExampleVarGeom",
+        "github.com/montanaflynn/stats::TestVarGeom"
+      ]
+    },
+    {
+      "file": "interp.go",
+      "function": "Interp",
+      "qualname": "Interp",
+      "id": "14f9fa4a",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "github.com/montanaflynn/stats::ExampleInterp",
+        "github.com/montanaflynn/stats::TestInterp"
+      ]
+    },
+    {
+      "file": "sigmoid.go",
+      "function": "Sigmoid",
+      "qualname": "Sigmoid",
+      "id": "d2544cc8",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestSigmoidEmptyInput"
+      ]
+    },
+    {
+      "file": "coefficient_of_variation.go",
+      "function": "CoefficientOfVariation",
+      "qualname": "CoefficientOfVariation",
+      "id": "bdce88a3",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestCoefficientOfVariationEmptyInput"
+      ]
+    },
+    {
+      "file": "product.go",
+      "function": "Product",
+      "qualname": "Product",
+      "id": "2157148b",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestProduct",
+        "github.com/montanaflynn/stats::TestProductEmptyInput"
+      ]
+    },
+    {
+      "file": "zscore.go",
+      "function": "ZScore",
+      "qualname": "ZScore",
+      "id": "269e832f",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestZScoreZeroStandardDeviation"
+      ]
+    },
+    {
+      "file": "distances.go",
+      "function": "MinkowskiDistance",
+      "qualname": "MinkowskiDistance",
+      "id": "d3bd4ec8",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestDataSetDistances"
+      ]
+    },
+    {
+      "file": "regression.go",
+      "function": "LinearRegression",
+      "qualname": "LinearRegression",
+      "id": "b5c2970e",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestRegressionsRejectInvalidDomains/linear_constant_x",
+        "github.com/montanaflynn/stats::TestRegressionsRejectInvalidDomains/linear_single_point"
+      ]
+    },
+    {
+      "file": "ttest.go",
+      "function": "TTest",
+      "qualname": "TTest",
+      "id": "c36cc43c",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestTTestTwoSample"
+      ]
+    },
+    {
+      "file": "norm.go",
+      "function": "normLogTail",
+      "qualname": "normLogTail",
+      "id": "f8603d3a",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestNormTail"
+      ]
+    },
+    {
+      "file": "quartile.go",
+      "function": "Trimean",
+      "qualname": "Trimean",
+      "id": "af35639d",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestTrimean"
+      ]
+    },
+    {
+      "file": "percentile.go",
+      "function": "PercentileNearestRank",
+      "qualname": "PercentileNearestRank",
+      "id": "e8a5837e",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestPercentileNearestRank"
+      ]
+    },
+    {
+      "file": "softmax.go",
+      "function": "SoftMax",
+      "qualname": "SoftMax",
+      "id": "e639dd67",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestSoftMaxEmptyInput"
+      ]
+    },
+    {
+      "file": "load.go",
+      "function": "LoadRawData",
+      "qualname": "LoadRawData",
+      "id": "575cedac",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestLoadRawData"
+      ]
+    },
+    {
+      "file": "winsorize.go",
+      "function": "Winsorize",
+      "qualname": "Winsorize",
+      "id": "d0955fa3",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestWinsorizeInvalidInput"
+      ]
+    },
+    {
+      "file": "rolling.go",
+      "function": "MovingAverage",
+      "qualname": "MovingAverage",
+      "id": "abcf64d5",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestMovingAverageInvalidInput"
+      ]
+    },
+    {
+      "file": "weighted_mean.go",
+      "function": "WeightedMean",
+      "qualname": "WeightedMean",
+      "id": "41118ab7",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestWeightedMeanZeroWeights"
+      ]
+    },
+    {
+      "file": "entropy.go",
+      "function": "Entropy",
+      "qualname": "Entropy",
+      "id": "dc12aded",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestEntropy"
+      ]
+    },
+    {
+      "file": "outlier.go",
+      "function": "QuartileOutliers",
+      "qualname": "QuartileOutliers",
+      "id": "2e5cd9ed",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestQuartileOutliers"
+      ]
+    },
+    {
+      "file": "extremes.go",
+      "function": "ArgMax",
+      "qualname": "ArgMax",
+      "id": "75a62d50",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestArgMax",
+        "github.com/montanaflynn/stats::TestFloat64DataArgMaxArgMinRangeMethods"
+      ]
+    },
+    {
+      "file": "cumulative.go",
+      "function": "CumulativeMax",
+      "qualname": "CumulativeMax",
+      "id": "e2b1c504",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestCumulativeMax"
+      ]
+    },
+    {
+      "file": "clip.go",
+      "function": "Clip",
+      "qualname": "Clip",
+      "id": "34a35aab",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestClipEmptyInput"
+      ]
+    },
+    {
+      "file": "rank.go",
+      "function": "Rank",
+      "qualname": "Rank",
+      "id": "69ba40b5",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestRankEmptyInput"
+      ]
+    },
+    {
+      "file": "cumulative_sum.go",
+      "function": "CumulativeSum",
+      "qualname": "CumulativeSum",
+      "id": "173a910f",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestCumulativeSum"
+      ]
+    }
+  ]
+}

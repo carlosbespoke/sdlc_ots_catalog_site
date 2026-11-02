@@ -1,0 +1,961 @@
+{
+ "Resources": {
+  "PipelineNotifications84B145AD": {
+   "Type": "AWS::SNS::Topic",
+   "Properties": {
+    "DisplayName": "orion-prod delivery",
+    "KmsMasterKeyId": {
+     "Fn::GetStackOutput": {
+      "StackName": "AcceleratorProdDelivery",
+      "Region": "us-east-1",
+      "OutputName": "PublishOutputFnGetAttArtifactKey8D84C5F0Arn76592DE5"
+     }
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "channel"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "prod"
+     }
+    ],
+    "TopicName": "orion-prod-pipeline-notifications"
+   }
+  },
+  "PipelineNotificationsplatformprimaryacceleratorexample1DAB0360": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Endpoint": "platform-primary@accelerator.example",
+    "Protocol": "email",
+    "TopicArn": {
+     "Ref": "PipelineNotifications84B145AD"
+    }
+   }
+  },
+  "PipelineNotificationsplatformsecondaryacceleratorexample193F3ED0": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Endpoint": "platform-secondary@accelerator.example",
+    "Protocol": "email",
+    "TopicArn": {
+     "Ref": "PipelineNotifications84B145AD"
+    }
+   }
+  },
+  "PipelineNotificationssecurityoperationsacceleratorexample6756F25C": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Endpoint": "security-operations@accelerator.example",
+    "Protocol": "email",
+    "TopicArn": {
+     "Ref": "PipelineNotifications84B145AD"
+    }
+   }
+  },
+  "PipelineNotificationsdeliverymanagersacceleratorexample41C60A8F": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Endpoint": "delivery-managers@accelerator.example",
+    "Protocol": "email",
+    "TopicArn": {
+     "Ref": "PipelineNotifications84B145AD"
+    }
+   }
+  },
+  "PipelineNotificationsPolicy8ACE917C": {
+   "Type": "AWS::SNS::TopicPolicy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sns:Publish",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       },
+       "Resource": {
+        "Ref": "PipelineNotifications84B145AD"
+       },
+       "Sid": "0"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Topics": [
+     {
+      "Ref": "PipelineNotifications84B145AD"
+     }
+    ]
+   }
+  },
+  "NotificationLogs7DD8E52F": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "KmsKeyId": {
+     "Fn::GetStackOutput": {
+      "StackName": "AcceleratorProdDelivery",
+      "Region": "us-east-1",
+      "OutputName": "PublishOutputFnGetAttArtifactKey8D84C5F0Arn76592DE5"
+     }
+    },
+    "LogGroupName": "/aws/lambda/orion-prod-notifications",
+    "RetentionInDays": 30,
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "processor"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "prod"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "NotificationFunctionServiceRole66D0974B": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "processor"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "prod"
+     }
+    ]
+   }
+  },
+  "NotificationFunctionServiceRoleDefaultPolicy49A8A750": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sns:Publish",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetStackOutput": {
+          "StackName": "AcceleratorProdDelivery",
+          "Region": "us-east-1",
+          "OutputName": "PublishOutputRefDevEventsTopicF2A6F55A0E9234E9"
+         }
+        },
+        {
+         "Fn::GetStackOutput": {
+          "StackName": "AcceleratorProdDelivery",
+          "Region": "us-east-1",
+          "OutputName": "PublishOutputRefQaEventsTopic81AE31F5057B91A7"
+         }
+        },
+        {
+         "Fn::GetStackOutput": {
+          "StackName": "AcceleratorProdDelivery",
+          "Region": "us-east-1",
+          "OutputName": "PublishOutputRefUatEventsTopicF5CC4FC5F7EB73C4"
+         }
+        },
+        {
+         "Ref": "PipelineNotifications84B145AD"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:GenerateDataKey*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetStackOutput": {
+         "StackName": "AcceleratorProdDelivery",
+         "Region": "us-east-1",
+         "OutputName": "PublishOutputFnGetAttArtifactKey8D84C5F0Arn76592DE5"
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "NotificationFunctionServiceRoleDefaultPolicy49A8A750",
+    "Roles": [
+     {
+      "Ref": "NotificationFunctionServiceRole66D0974B"
+     }
+    ]
+   }
+  },
+  "NotificationFunction0492F7EA": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+     "S3Key": "c6fdc1568d55b1aab8a09b74c54ebf5190b71915e17049194154c64157c4723e.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "ACCELERATOR_PROJECT": "orion",
+      "ACCELERATOR_ENVIRONMENT": "prod",
+      "STAGE_QUEUES": {
+       "Fn::Join": [
+        "",
+        [
+         {
+          "Fn::GetStackOutput": {
+           "StackName": "AcceleratorProdDelivery",
+           "Region": "us-east-1",
+           "OutputName": "PublishOutputRefUatDeployQueue5CA78959E54265D3"
+          }
+         },
+         ",",
+         {
+          "Fn::GetStackOutput": {
+           "StackName": "AcceleratorProdDelivery",
+           "Region": "us-east-1",
+           "OutputName": "PublishOutputRefDevDeployQueueFC93034FB22DF2FB"
+          }
+         },
+         ",",
+         {
+          "Fn::GetStackOutput": {
+           "StackName": "AcceleratorProdDelivery",
+           "Region": "us-east-1",
+           "OutputName": "PublishOutputRefQaDeployQueue9B4EE0AC5C32180E"
+          }
+         }
+        ]
+       ]
+      },
+      "STAGE_TOPICS": {
+       "Fn::Join": [
+        "",
+        [
+         {
+          "Fn::GetStackOutput": {
+           "StackName": "AcceleratorProdDelivery",
+           "Region": "us-east-1",
+           "OutputName": "PublishOutputRefUatEventsTopicF5CC4FC5F7EB73C4"
+          }
+         },
+         ",",
+         {
+          "Fn::GetStackOutput": {
+           "StackName": "AcceleratorProdDelivery",
+           "Region": "us-east-1",
+           "OutputName": "PublishOutputRefDevEventsTopicF2A6F55A0E9234E9"
+          }
+         },
+         ",",
+         {
+          "Fn::GetStackOutput": {
+           "StackName": "AcceleratorProdDelivery",
+           "Region": "us-east-1",
+           "OutputName": "PublishOutputRefQaEventsTopic81AE31F5057B91A7"
+          }
+         }
+        ]
+       ]
+      }
+     }
+    },
+    "FunctionName": "orion-prod-notifications",
+    "Handler": "index.handler",
+    "LoggingConfig": {
+     "LogGroup": {
+      "Ref": "NotificationLogs7DD8E52F"
+     }
+    },
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "NotificationFunctionServiceRole66D0974B",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.12",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "processor"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "prod"
+     }
+    ],
+    "Timeout": 12,
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetStackOutput": {
+        "StackName": "AcceleratorProdNetwork",
+        "Region": "us-east-1",
+        "OutputName": "PublishOutputFnGetAttNotificationSecurityGroupC966E957GroupId2875DA05"
+       }
+      }
+     ],
+     "SubnetIds": [
+      {
+       "Fn::GetStackOutput": {
+        "StackName": "AcceleratorProdNetwork",
+        "Region": "us-east-1",
+        "OutputName": "PublishOutputRefCoreVpcprivateSubnet1SubnetC785D5B620E01478"
+       }
+      },
+      {
+       "Fn::GetStackOutput": {
+        "StackName": "AcceleratorProdNetwork",
+        "Region": "us-east-1",
+        "OutputName": "PublishOutputRefCoreVpcprivateSubnet2SubnetDD498F54DF3FC5BA"
+       }
+      },
+      {
+       "Fn::GetStackOutput": {
+        "StackName": "AcceleratorProdNetwork",
+        "Region": "us-east-1",
+        "OutputName": "PublishOutputRefCoreVpcprivateSubnet3SubnetEF48DB9398CE48E1"
+       }
+      }
+     ]
+    }
+   },
+   "DependsOn": [
+    "NotificationFunctionServiceRoleDefaultPolicy49A8A750",
+    "NotificationFunctionServiceRole66D0974B"
+   ]
+  },
+  "NotificationFunctionAllowInvokeAcceleratorProdOperationsPipelineNotifications87B86F10BEBC1603": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "NotificationFunction0492F7EA",
+      "Arn"
+     ]
+    },
+    "Principal": "sns.amazonaws.com",
+    "SourceArn": {
+     "Ref": "PipelineNotifications84B145AD"
+    }
+   }
+  },
+  "NotificationFunctionPipelineNotificationsBA44707D": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Endpoint": {
+     "Fn::GetAtt": [
+      "NotificationFunction0492F7EA",
+      "Arn"
+     ]
+    },
+    "Protocol": "lambda",
+    "TopicArn": {
+     "Ref": "PipelineNotifications84B145AD"
+    }
+   }
+  },
+  "NotificationFunctionAllowInvokeAcceleratorProdDeliveryUatEventsTopic2C0420AC01237C79": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "NotificationFunction0492F7EA",
+      "Arn"
+     ]
+    },
+    "Principal": "sns.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetStackOutput": {
+      "StackName": "AcceleratorProdDelivery",
+      "Region": "us-east-1",
+      "OutputName": "PublishOutputRefUatEventsTopicF5CC4FC5F7EB73C4"
+     }
+    }
+   }
+  },
+  "NotificationFunctionUatEventsTopicAFCC9B91": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Endpoint": {
+     "Fn::GetAtt": [
+      "NotificationFunction0492F7EA",
+      "Arn"
+     ]
+    },
+    "Protocol": "lambda",
+    "TopicArn": {
+     "Fn::GetStackOutput": {
+      "StackName": "AcceleratorProdDelivery",
+      "Region": "us-east-1",
+      "OutputName": "PublishOutputRefUatEventsTopicF5CC4FC5F7EB73C4"
+     }
+    }
+   }
+  },
+  "NotificationFunctionAllowInvokeAcceleratorProdDeliveryDevEventsTopicBDF0FA3DCD612943": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "NotificationFunction0492F7EA",
+      "Arn"
+     ]
+    },
+    "Principal": "sns.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetStackOutput": {
+      "StackName": "AcceleratorProdDelivery",
+      "Region": "us-east-1",
+      "OutputName": "PublishOutputRefDevEventsTopicF2A6F55A0E9234E9"
+     }
+    }
+   }
+  },
+  "NotificationFunctionDevEventsTopic5075D7FF": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Endpoint": {
+     "Fn::GetAtt": [
+      "NotificationFunction0492F7EA",
+      "Arn"
+     ]
+    },
+    "Protocol": "lambda",
+    "TopicArn": {
+     "Fn::GetStackOutput": {
+      "StackName": "AcceleratorProdDelivery",
+      "Region": "us-east-1",
+      "OutputName": "PublishOutputRefDevEventsTopicF2A6F55A0E9234E9"
+     }
+    }
+   }
+  },
+  "NotificationFunctionAllowInvokeAcceleratorProdDeliveryQaEventsTopicC380C59DD71F213E": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "NotificationFunction0492F7EA",
+      "Arn"
+     ]
+    },
+    "Principal": "sns.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetStackOutput": {
+      "StackName": "AcceleratorProdDelivery",
+      "Region": "us-east-1",
+      "OutputName": "PublishOutputRefQaEventsTopic81AE31F5057B91A7"
+     }
+    }
+   }
+  },
+  "NotificationFunctionQaEventsTopic654F3E07": {
+   "Type": "AWS::SNS::Subscription",
+   "Properties": {
+    "Endpoint": {
+     "Fn::GetAtt": [
+      "NotificationFunction0492F7EA",
+      "Arn"
+     ]
+    },
+    "Protocol": "lambda",
+    "TopicArn": {
+     "Fn::GetStackOutput": {
+      "StackName": "AcceleratorProdDelivery",
+      "Region": "us-east-1",
+      "OutputName": "PublishOutputRefQaEventsTopic81AE31F5057B91A7"
+     }
+    }
+   }
+  },
+  "BuildFailedRule6FB50303": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "Description": "orion-prod build failed events",
+    "EventPattern": {
+     "source": [
+      "aws.codebuild"
+     ],
+     "detail-type": [
+      "CodeBuild Build State Change"
+     ],
+     "detail": {
+      "state": [
+       "FAILED",
+       "FAULT",
+       "STOPPED"
+      ]
+     }
+    },
+    "Name": "orion-prod-build-failed",
+    "State": "ENABLED",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "rules/build-failed"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "prod"
+     }
+    ],
+    "Targets": [
+     {
+      "Arn": {
+       "Ref": "PipelineNotifications84B145AD"
+      },
+      "Id": "Target0"
+     }
+    ]
+   }
+  },
+  "BuildSucceededRuleD068A516": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "Description": "orion-prod build succeeded events",
+    "EventPattern": {
+     "source": [
+      "aws.codebuild"
+     ],
+     "detail-type": [
+      "CodeBuild Build State Change"
+     ],
+     "detail": {
+      "state": [
+       "SUCCEEDED"
+      ]
+     }
+    },
+    "Name": "orion-prod-build-succeeded",
+    "State": "ENABLED",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "rules/build-succeeded"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "prod"
+     }
+    ],
+    "Targets": [
+     {
+      "Arn": {
+       "Ref": "PipelineNotifications84B145AD"
+      },
+      "Id": "Target0"
+     }
+    ]
+   }
+  },
+  "DeploymentStateRule34C8AC42": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "Description": "orion-prod deployment state events",
+    "EventPattern": {
+     "source": [
+      "aws.ecs"
+     ],
+     "detail-type": [
+      "ECS Deployment State Change"
+     ]
+    },
+    "Name": "orion-prod-deployment-state",
+    "State": "ENABLED",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "rules/deployment-state"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "prod"
+     }
+    ],
+    "Targets": [
+     {
+      "Arn": {
+       "Ref": "PipelineNotifications84B145AD"
+      },
+      "Id": "Target0"
+     }
+    ]
+   }
+  },
+  "NotificationErrorsAlarm27D38F9D": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "PipelineNotifications84B145AD"
+     }
+    ],
+    "AlarmDescription": "orion-prod notification function errors",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "NotificationFunction0492F7EA"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Errors",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "monitoring"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "prod"
+     }
+    ],
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   }
+  },
+  "NotificationThrottlesAlarm09D71E92": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": "orion-prod notification function throttles",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "NotificationFunction0492F7EA"
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "Throttles",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "monitoring"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "prod"
+     }
+    ],
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   }
+  },
+  "NotificationHealth54F76FEC": {
+   "Type": "AWS::CloudWatch::CompositeAlarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "PipelineNotifications84B145AD"
+     }
+    ],
+    "AlarmDescription": "orion-prod notification delivery is unhealthy",
+    "AlarmName": "AcceleratorProdOperationsNotificationHealthC2820056",
+    "AlarmRule": {
+     "Fn::Join": [
+      "",
+      [
+       "(ALARM(\"",
+       {
+        "Fn::GetAtt": [
+         "NotificationErrorsAlarm27D38F9D",
+         "Arn"
+        ]
+       },
+       "\") OR ALARM(\"",
+       {
+        "Fn::GetAtt": [
+         "NotificationThrottlesAlarm09D71E92",
+         "Arn"
+        ]
+       },
+       "\"))"
+      ]
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "monitoring"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "prod"
+     }
+    ]
+   }
+  },
+  "OperationsDashboard06307C07": {
+   "Type": "AWS::CloudWatch::Dashboard",
+   "Properties": {
+    "DashboardBody": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"widgets\":[{\"type\":\"metric\",\"width\":6,\"height\":6,\"x\":0,\"y\":0,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Notification Lambda\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/Lambda\",\"Invocations\",\"FunctionName\",\"",
+       {
+        "Ref": "NotificationFunction0492F7EA"
+       },
+       "\",{\"stat\":\"Sum\"}],[\"AWS/Lambda\",\"Errors\",\"FunctionName\",\"",
+       {
+        "Ref": "NotificationFunction0492F7EA"
+       },
+       "\",{\"stat\":\"Sum\",\"yAxis\":\"right\"}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":6,\"height\":6,\"x\":0,\"y\":6,\"properties\":{\"view\":\"timeSeries\",\"title\":\"uat deployment queue\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/SQS\",\"ApproximateNumberOfMessagesVisible\",\"QueueName\",\"",
+       {
+        "Fn::GetStackOutput": {
+         "StackName": "AcceleratorProdDelivery",
+         "Region": "us-east-1",
+         "OutputName": "PublishOutputFnGetAttUatDeployQueue5CA78959QueueName1222A29D"
+        }
+       },
+       "\",{\"stat\":\"Maximum\"}],[\"AWS/SQS\",\"ApproximateAgeOfOldestMessage\",\"QueueName\",\"",
+       {
+        "Fn::GetStackOutput": {
+         "StackName": "AcceleratorProdDelivery",
+         "Region": "us-east-1",
+         "OutputName": "PublishOutputFnGetAttUatDeployQueue5CA78959QueueName1222A29D"
+        }
+       },
+       "\",{\"stat\":\"Maximum\",\"yAxis\":\"right\"}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":6,\"height\":6,\"x\":6,\"y\":6,\"properties\":{\"view\":\"timeSeries\",\"title\":\"dev deployment queue\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/SQS\",\"ApproximateNumberOfMessagesVisible\",\"QueueName\",\"",
+       {
+        "Fn::GetStackOutput": {
+         "StackName": "AcceleratorProdDelivery",
+         "Region": "us-east-1",
+         "OutputName": "PublishOutputFnGetAttDevDeployQueueFC93034FQueueNameC19866D8"
+        }
+       },
+       "\",{\"stat\":\"Maximum\"}],[\"AWS/SQS\",\"ApproximateAgeOfOldestMessage\",\"QueueName\",\"",
+       {
+        "Fn::GetStackOutput": {
+         "StackName": "AcceleratorProdDelivery",
+         "Region": "us-east-1",
+         "OutputName": "PublishOutputFnGetAttDevDeployQueueFC93034FQueueNameC19866D8"
+        }
+       },
+       "\",{\"stat\":\"Maximum\",\"yAxis\":\"right\"}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":6,\"height\":6,\"x\":12,\"y\":6,\"properties\":{\"view\":\"timeSeries\",\"title\":\"qa deployment queue\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/SQS\",\"ApproximateNumberOfMessagesVisible\",\"QueueName\",\"",
+       {
+        "Fn::GetStackOutput": {
+         "StackName": "AcceleratorProdDelivery",
+         "Region": "us-east-1",
+         "OutputName": "PublishOutputFnGetAttQaDeployQueue9B4EE0ACQueueNameCDD12247"
+        }
+       },
+       "\",{\"stat\":\"Maximum\"}],[\"AWS/SQS\",\"ApproximateAgeOfOldestMessage\",\"QueueName\",\"",
+       {
+        "Fn::GetStackOutput": {
+         "StackName": "AcceleratorProdDelivery",
+         "Region": "us-east-1",
+         "OutputName": "PublishOutputFnGetAttQaDeployQueue9B4EE0ACQueueNameCDD12247"
+        }
+       },
+       "\",{\"stat\":\"Maximum\",\"yAxis\":\"right\"}]],\"yAxis\":{}}}]}"
+      ]
+     ]
+    },
+    "DashboardName": "orion-prod-delivery",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "monitoring"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "prod"
+     }
+    ]
+   }
+  },
+  "NotificationTopicParameter89F36868": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/orion/prod/notification-topic-arn",
+    "Tags": {
+     "component": "monitoring",
+     "owner": "accelerator-platform",
+     "stage": "prod"
+    },
+    "Type": "String",
+    "Value": {
+     "Ref": "PipelineNotifications84B145AD"
+    }
+   }
+  },
+  "NotificationFunctionParameter16989281": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/orion/prod/notification-function-arn",
+    "Tags": {
+     "component": "monitoring",
+     "owner": "accelerator-platform",
+     "stage": "prod"
+    },
+    "Type": "String",
+    "Value": {
+     "Fn::GetAtt": [
+      "NotificationFunction0492F7EA",
+      "Arn"
+     ]
+    }
+   }
+  }
+ },
+ "Outputs": {
+  "NotificationTopicArn": {
+   "Value": {
+    "Ref": "PipelineNotifications84B145AD"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

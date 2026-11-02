@@ -1,0 +1,39 @@
+# environment/Dockerfile for a dbt-duckdb task. FILL the values marked FILL, and pin the
+# base image by digest. The base image is this one FROM line: an official image through Google's public
+# Docker Hub mirror (mirror.gcr.io/library/<image>), never Docker Hub itself, so anyone can rebuild the
+# task; the digest is Docker Hub's (docker buildx imagetools inspect python:<version>-slim-bookworm).
+FROM mirror.gcr.io/library/python:3.13-slim-bookworm@sha256:a1165e272e578941b84abc79e4ab38a0305cd12803a5c4247979ac7655f4d641
+
+# FILL: the repository and the base commit.
+ARG REPO_URL=https://github.com/smithclay/dbt_opentelemetry.git
+ARG BASE_COMMIT=69c614f29e08fad188128971d551b76c25e6639c
+ENV CI=1 PIP_DISABLE_PIP_VERSION_CHECK=1 PYTHONDONTWRITEBYTECODE=1 \
+    DBT_SEND_ANONYMOUS_USAGE_STATS=false DO_NOT_TRACK=1
+
+# tmux and asciinema are required by Harbor's solver agent.
+RUN set -eu; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+      tmux asciinema bash build-essential ca-certificates curl file git jq less procps vim-tiny; \
+    rm -rf /var/lib/apt/lists/*
+
+# The repository at the base commit only: one commit, no remote, no reflog, so no later history
+# (and no answer) is reachable.
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" \
+    && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD \
+    && test "$(git -C /app rev-parse HEAD)" = "$BASE_COMMIT" \
+    && git -C /app remote remove origin && rm -f /app/.git/FETCH_HEAD \
+    && git -C /app reflog expire --expire=now --all && git -C /app gc -q --prune=now
+
+# dbt-core, dbt-duckdb and the project's other tools, outside /app (so the solution's diff never
+# carries them), pinned from the repository's lock so the agent works offline. FILL: the
+# repository's lock (requirements.txt, uv.lock). dbt packages (packages.yml) are fetched here, at
+# build time, into the project's dbt_packages/ folder.
+RUN set -eu; python -m venv /opt/venv; \
+    /opt/venv/bin/pip install -q -r requirements.txt; \
+    /opt/venv/bin/dbt --version; \
+    cd /app/integration_tests; /opt/venv/bin/dbt deps; cd /app
+ENV PATH=/opt/venv/bin:$PATH
+
+CMD ["/bin/bash"]

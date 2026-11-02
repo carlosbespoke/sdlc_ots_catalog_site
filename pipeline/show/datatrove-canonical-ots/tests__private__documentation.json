@@ -1,0 +1,1682 @@
+{
+ "comments": "off",
+ "format": "spec-drift-doc-sequence-v3",
+ "modules": {
+  "src/datatrove/data.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "f21e38741ea5bce7e0261678e48c016826928c50e2bd2e85795717fddff54416",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "e14102977039b4432eafb594034e71b91f38c47731047ca46afc9e3f091e1726",
+     [
+      "MediaType"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "0cccdce8a91ac0cace8b0ce63543288c9f2a7e9f590630d28114914e5624bf32",
+     [
+      "Media"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "f23ca00cb8336acdc3b73f00fd31cc5c3f781d6aad7e5428706c4a1e874319e9",
+     [
+      "Document"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/executor/base.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "559effe731bcdb59faff41890e7ba501017ac77664a1d5e0516fb28e32e1699e",
+     [
+      "DistributedEnvVars"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "a78fc971c488e54fb0a2a1abe37b32edd9f10864a208ebbb876514a80eae39ef",
+     [
+      "PipelineExecutor"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "e3295304fdcbed69b8fe1f0d7108bf6f1017d62de445e6eea769159348b22b58",
+     [
+      "PipelineExecutor.run"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "f497d85c93b571dcde88e12b6b6ad34c3b66e45446d5c5bf7bc317bc3a2f057c",
+     [
+      "PipelineExecutor.world_size"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "7ec61de97fbcf497e7f5907b9abc1897817e1b073958a0ba07a0b27d937c2287",
+     [
+      "PipelineExecutor.get_distributed_env"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "0d39585f241ed22078f56af1d804f9f63abae15ad89c9c17439d1f1af29b93ea",
+     [
+      "PipelineExecutor._run_for_rank"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "faa80a911abb23df06a2fc56e2af7efde58491ad24ccf1a889f1d45f4eeec9f0",
+     [
+      "PipelineExecutor.is_rank_completed"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "7cfcf0aeb2fb5392e4f186b6819686eafed4d0e74171f4cea056fd246bdb7222",
+     [
+      "PipelineExecutor.mark_rank_as_completed"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "f845459a9c21a12aa8ea03464f2529a5803a7c1671bebe483de2d499daa498bc",
+     [
+      "PipelineExecutor.get_incomplete_ranks"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "b681213fc4ae7649a2f679c5e7aa8c1cd235b8b0897fbcf3d9c6a9a5ed8fa870",
+     [
+      "PipelineExecutor.to_json"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "9ff78da82945efe324f7a23d43f74d0b4c4cfaff53585f144d3a569d6e51fe0e",
+     [
+      "PipelineExecutor.save_executor_as_json"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "ee4bc59f16b4f750ecdae40e51d71e8af074182f95121900e3f098bbc85c385a",
+     [
+      "ExecutorJSONEncoder"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/executor/local.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "5e9ce974e660a2ba2b2ef5c7f1f0698054f41f5b25d040ef666e17db9eff9dbe",
+     [
+      "LocalPipelineExecutor"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "a3cb0aa634c4c81057ea11b13fc491aff49d90a74604a098067f9e5c93c3d03c",
+     [
+      "LocalPipelineExecutor._launch_run_for_rank"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "5fb9b6123e4800840313b1bbf0683c9b1fa79e1dbc60ee176b030fa627e68a92",
+     [
+      "LocalPipelineExecutor.run"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "00542fd038316c8aaf3745babba9003e5270976ce76b5da7186dc73c7b1136e6",
+     [
+      "LocalPipelineExecutor.get_distributed_env"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "cd567c9be7173d43f21d856c33c85e4dc393089795828593f6cd65a6aeaa9320",
+     [
+      "LocalPipelineExecutor.world_size"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/io.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "975cb98d93d95702516d8c07070969eaff199474b3fe3c26a44bb272fc0ff05f",
+     [
+      "OutputFileManager"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "42d35072effb5023667038083b2ef8155a3d0c5c2eecaae8752d84f26c7c6017",
+     [
+      "OutputFileManager.get_file"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "14626e776d50d52b55ac6812c134f8197794c57de99d9dbb9f0d9ffef0360e0b",
+     [
+      "OutputFileManager.get_open_files"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "37cf7bec866150a76f3d5d0470cc3f7c2b0a312f03ed40ccbea5ad2259202f74",
+     [
+      "OutputFileManager.pop"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "a329df4328001e2b79a102fefeaf64a66c36f0c6b162d1513e139cba261bbd67",
+     [
+      "OutputFileManager.write"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "51cef7dd50fa7e3dbb4cd08bb257a21c7ad1ebc7ae951005684a76103ea392c9",
+     [
+      "OutputFileManager.close"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "44540be829986f47a501fcd4af62a14646b2c9f73325b0fa7df2a57b38448e41",
+     [
+      "DataFolder"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "eaf0db00a4f7d21d6724336b1baf2bea28ba4106db1870d5a5da886c4e80374b",
+     [
+      "DataFolder.__init__"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "7d151bbba557d5d5d94e6052529010d9491de1256755c0a01475a2cec047f3d8",
+     [
+      "DataFolder.list_files"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "00b32d365dac3c66dfc6f1ef8828200c4dc9415873b3fc9428fb94e6de868aee",
+     [
+      "DataFolder.get_shard"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "7f3d01312bd0a5bead9e9e501bdbb37258fd88ae7b2bf31414cc8da1d051ade3",
+     [
+      "DataFolder.resolve_paths"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "4a1fb7a03f9953d39f3ba57d58e32e22765d23a7d33e65ba32d5c3c77387d0de",
+     [
+      "DataFolder.get_output_file_manager"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "b0fb4752837975058daf206132888f019faa31cbf5d20b114f4832197bb158f7",
+     [
+      "DataFolder.open_files"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "7629b1ae2d0432d2b09165ac674222ce5ccaffa9b90d16bea3672082e5dc48a2",
+     [
+      "DataFolder.open"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "0ab1b07d14f28bf54f481fa3aad0fed63f47ab1e88ba5dac668533b0113103f0",
+     [
+      "DataFolder.is_local"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "77206b0dbe84cd0eaf44aa4046a3dac77721f3621593b0d710ac1111a7e0e9c3",
+     [
+      "get_datafolder"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "4b59bb80a99cb0823f1a287a310ec570fbe618554e0c8da59d7905b4a3fe62f8",
+     [
+      "open_file"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "e80dd5ac885c21a5b371fbeefb4e5a5a8b5d054c1dde7a8c470b73025ead62f7",
+     [
+      "safely_create_file"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "dbd82b94331d0308fba28ac515953f412de1644d74ae0e60c40eca0d72ac2976",
+     [
+      "cached_asset_path_or_download"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/base.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "6a0d356580c642090486e4d31571f36db86d4890f59f94aa61b98feffc6310a6",
+     [
+      "PipelineStep"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "818872e9b336289b0919a7d245cf07d645553d72a6494430da9a7a3b175c45d4",
+     [
+      "PipelineStep.__new__"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "d6d1dc0b978e74d6f42e9802a0e8be663f65fba10a41c9c8b2f5acc4de3e7451",
+     [
+      "PipelineStep.stat_update"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "9a9c0a68846daa68a7118639518db41c0d2aab8bb7c32efde9ebb4d9fe975e7d",
+     [
+      "PipelineStep.update_media_stats"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "3862c912acb861cb5a8658b0f283e4ba1a1178be9fdced863c0f52f49aa8e91f",
+     [
+      "PipelineStep.update_doc_stats"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "e59ecfce4a58bb56683a44c79828003cd7c0a79a717561093899fdb12e272c2e",
+     [
+      "PipelineStep.track_time"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "f0f25e31b073f3b3fced991ca1e059daf277cd6443632770e02808501de5e996",
+     [
+      "PipelineStep.run"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "ad233e09b4e6ea2a83bbac7d4c855e67fd8fc2b6e5f6495cf8235a47700ceb4a",
+     [
+      "PipelineStep.__call__"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/dedup/__init__.py": {
+   "comments": {},
+   "entries": []
+  },
+  "src/datatrove/pipeline/dedup/bloom_filter.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "69398d43ef116401844506dde5638f2256afa103992e767a71b5d98ee8326983",
+     [
+      "BloomFilterConfig"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "56933893d1d8195ae8a9fffced9bd34e42282a145e95b98d6135b168d5f04841",
+     [
+      "SingleBloomFilter"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "ede80458a36302f11d25c9c9df71f60fb9737b7bf91258e9c7214fe5e2cf8499",
+     [
+      "SingleBloomFilter.parameters"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "a7071e9f03833290efff2738fd92aca647c6ea82b53b4127cc4853c806ac485f",
+     [
+      "SingleBloomFilter.get_shingles"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "9ac629fd1f365b38eba815688efd32ceba9d74478b51e0476fae1dd509353dfa",
+     [
+      "SingleBloomFilter.get_indexes"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "b741ecae6e5b5200513891adbb759e5b0f5ea357b4e03bbff42d90e55421ce87",
+     [
+      "SingleBloomFilter.update_bf"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "20ed55658f44f6fbb19111946e5e26bc59551daf5872deb6e9f6e6d111b633bb",
+     [
+      "SingleBloomFilter.query"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "ca878e945231a02e6201b02eaccc1074f7e56d0671743fb16476a478c2c55fe6",
+     [
+      "SingleBloomFilter.step"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/dedup/exact_dedup.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "ffd88de5453e58fd7c33d678ad0cdf3797c07124f642bfb41dc7ce5e1bcdf923",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "1c39f39fd5c4cda98e86bb8cae7e0454b246089391c2954ab7cac4f519832f6f",
+     [
+      "ExactDedupConfig"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "1da7c24c59dd171ad8d050e6e9896ce580489f3495adb3225005ed68ca770ff2",
+     [
+      "ExactDedupSignature"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "e60c01928485f6db6953dcaedf3baafbe67f46b85f3946e9f16a5f1f14df929b",
+     [
+      "ExactFindDedups"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "6e5cdc9c8ff9c2496b03483c2732ac942716acd279836cb4ea7c0ecdbe405171",
+     [
+      "ExactDedupFilter"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "79622d8958b107e38c64368abb30237ae7f5b35a0b67c976c44c85eda034db57",
+     [
+      "ExactDedupFilter.read_duplicates"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "48826799104deff38e714f9283a22c397a153845afcdfe42a25ba54c611837f1",
+     [
+      "ExactDedupFilter.read_duplicate_counts"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "60084da693fccd255ee5c8ce7c5f9c08c1029c60abca86381963e730d6c63140",
+     [
+      "ExactDedupBuildIndex"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/dedup/minhash.py": {
+   "comments": {},
+   "entries": [
+    [
+     "string",
+     0,
+     "acdca2e6504e3f900920f5032250862e9402caa6bbf247f91d5aab08d9db3667",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "be63e1ca20a02ce1801085747718067748e90e093ca6e0e01b2735246258eb80",
+     [
+      "MinhashConfig"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "b6e04a6e173fa2393eae3431e211338af2ea167bca92da2861f1893c0e2ef478",
+     [
+      "HashSig"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "ea0d3cb3825553055609d7c912caf8ea7d28941d84bf930f0f8cbe63df282334",
+     [
+      "read_sigs"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "cdba3c90ca9f3625e0af58218881932a9addc9d921dd627868947e4065d51174",
+     [
+      "MinhashDedupSignature"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "2afa561bbf84d949400aa9831610b745e51788ff9e24592ee3a98a20485eb91d",
+     [
+      "MinhashDedupSignature.parameters"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "7c0ba6222839f08193f7db68c0a0471a757492ff75fa6e9572305f874b4703fd",
+     [
+      "MinhashDedupSignature.get_signature"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "22462278c7f5ac81e357af5e51b6fd9a0989d4dc041efb24ed38687aa4bce825",
+     [
+      "MinhashDedupSignature.get_shingles"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "9f9cb39648bfe4d667c9bcb6b169a9f8af296643e0982892a349e5bb4104541f",
+     [
+      "MinhashDedupBuckets"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "39fb33c5aa6ce73f6a9454ea2529da678723c80bea0063018cd8dc7656027b72",
+     [
+      "MinhashDedupCluster"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "07b12933aea6460dbcc2a6d692c0a23a41ee2b7b1ea140b09fb6df9b31ed0677",
+     [
+      "MinhashDedupFilter"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "8b56caf407fe9007314493136703a1802302aec5122e45ae13c6198b75846da6",
+     [
+      "MinhashBuildIndex"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/dedup/sentence_dedup.py": {
+   "comments": {},
+   "entries": [
+    [
+     "module",
+     0,
+     "d9e520fa10137e6a4ab081cef56e23fcce61635774868b93c42a8d64c19117f7",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "41b9303a0090aa1eb14f1cb7e20a066bb42125813f67a39d10019809bb43ec48",
+     [
+      "SentenceDedupSignature"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "122c30b7055dda83a820e2f312fd7c045b5d6f211db6f0813d908d6fceca8374",
+     [
+      "SentenceDedupSignature.run"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "ece473eda932c17cda8ff3a52930746c9e16568cdca0e7864ae51e6b26898b64",
+     [
+      "SentenceFindDedups"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "effca9e6a7743070ddec36fadfd399a224017efbbaa17d36a137c4b0d422df7c",
+     [
+      "SentenceDedupFilter"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "01e153df57a0d7be04503fe221a6f043c92813527868157e4de6c6e91d0bbcc9",
+     [
+      "SentenceDedupFilter.read_duplicates"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "818777177d7ddd11993a3596ca7e5a93934165704697da17d259fc5ec68d8729",
+     [
+      "SentenceDedupFilter.run"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "0cb9c6851f069e1800c1782ca9521f02ed08b03dcbd3f36c8d35ed9028b5c8e9",
+     [
+      "SentenceDedupBuildIndex"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/filters/__init__.py": {
+   "comments": {},
+   "entries": []
+  },
+  "src/datatrove/pipeline/filters/base_filter.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "372c5c9a51b2f2c2b8bf483552c885e02581ed23c1db5a35afae2bb5974dadff",
+     [
+      "BaseFilter"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "8a3c3e4fbbcc476be73c14af08d910bc9f87882409c8cd87865c9a72cc6ce3de",
+     [
+      "BaseFilter.filter"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "ec43246bae14e2de879d11eed490027004a72916260448e67fd7cd19695b15ad",
+     [
+      "BaseFilter.filter_batch"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/filters/c4_filters.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "cec1ec3eea817980d677aa173a42f1c33961d6aacb9c4ec145b1d78f6ff0eaa3",
+     [
+      "C4QualityFilter"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "01a16167b25adaadd36410843ecfa4f9eaf56a46cc203539b725fa17dfaa7e65",
+     [
+      "C4ParagraphFilter"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "05af27ada650a9ca0e7198ee435d2302a4e080b6333bf6b3a70bf82cec910c08",
+     [
+      "C4ParagraphFilter.paragraph_filter"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "735fc9debf71d49fc2f968d6ad2dd068a91084892c93a03fd1b72ed1c5c4f4a8",
+     [
+      "C4BadWordsFilter"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/filters/fineweb_quality_filter.py": {
+   "comments": {},
+   "entries": []
+  },
+  "src/datatrove/pipeline/filters/gopher_quality_filter.py": {
+   "comments": {},
+   "entries": [
+    [
+     "method",
+     2,
+     "7713321991348241125c5dfffbcf2180aaa6125c60d8c6e0a8c0208dbe8aba35",
+     [
+      "GopherQualityFilter.__init__"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "f3234e695505df5144534cbdc417973c85b517669c5c2e2d82f56e5fe9420013",
+     [
+      "GopherQualityFilter.filter"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/filters/gopher_repetition_filter.py": {
+   "comments": {},
+   "entries": [
+    [
+     "string",
+     0,
+     "d1ed5fd504475e780f0d4289a1ced10ea1579c947b34e5a256700e6a3edecea5",
+     [
+      "<module>"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "b1f5b13c1de8551e8696b841f918a09d20bd7d3aceafeb914555339d29299cdb",
+     [
+      "GopherRepetitionFilter.__init__"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/filters/lambda_filter.py": {
+   "comments": {},
+   "entries": [
+    [
+     "method",
+     2,
+     "2533e4520f64bdbe0589c63a875bb9a925ef7aa53059c87ac35397ec552ae9b5",
+     [
+      "LambdaFilter.__init__"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "70e8d3e4421fb5fea8bd4877c4dae084ccc7e744bbc1604adf6612d1d81cb74b",
+     [
+      "LambdaFilter.filter"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/filters/regex_filter.py": {
+   "comments": {},
+   "entries": [
+    [
+     "method",
+     2,
+     "a0de931b257f1d5a76fc8f7aa50da95d7ee3c8284eee134caf3870f22814f133",
+     [
+      "RegexFilter.__init__"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "c8b495cb2c8568dff3af3087941e8ec9f4d381b95dba966d9106de0bf31c3317",
+     [
+      "RegexFilter.filter"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/filters/sampler_filter.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "8d71b9ddf1f50438134214adc4a17814f0eb72d6988e9cf15e395a01e80bcf71",
+     [
+      "SamplerFilter"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "36a9e7f1c95b82ffb99743e0c5c4ce95d83c9a430aac59f84ef3cbfab6145068",
+     [
+      "SamplerFilter.__init__"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/filters/url_filter.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "cfafd2c9d0b24685f34e15a0592d3b7e144bfae07e370e195348c00c4b95f93c",
+     [
+      "URLFilter"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/formatters/__init__.py": {
+   "comments": {},
+   "entries": []
+  },
+  "src/datatrove/pipeline/formatters/base.py": {
+   "comments": {},
+   "entries": []
+  },
+  "src/datatrove/pipeline/formatters/ftfy.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "278af7ed42aae028011bdc73dcd6765b1c796d2d9ff8f92359d339f7d5dbea9a",
+     [
+      "FTFYFormatter"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/formatters/pii.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "e60177f00d3aa2fd0adea8bf20ecfbf26cfa6c7761e5fb6688bff237f44c5636",
+     [
+      "PIIFormatter"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/formatters/symbol_lines_remover.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "8b95e41912a2401231a68949d8d19196f9355f2d70a742a22e447ef7162fb8d4",
+     [
+      "SymbolLinesFormatter"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/readers/__init__.py": {
+   "comments": {},
+   "entries": []
+  },
+  "src/datatrove/pipeline/readers/base.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "f1aeff21ba8bbe0cfc630b2c3468a69219ba03743b27dcfbcc9c66f653fba2a1",
+     [
+      "BaseReader"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "2504eab90335033b9f8f1460d62575d02cb969924033e4280c10539e534cd15a",
+     [
+      "BaseReader._default_adapter"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "49a94256ccf4be08b78cb0ec1ae78d3dcb97173828e3341885f844bd72d953ce",
+     [
+      "BaseReader.get_document_from_dict"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "8222e37ab605ae65a87aa857efd74b584c3a301259549278190eabbc012c9455",
+     [
+      "BaseReader.run"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "875aad43e7377d72468365b259e1851f4fa6beeb77de1ffe67d316f4e73822c3",
+     [
+      "BaseDiskReader"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "051c482dfb1d7baeb86aae21943c66d563edd6f33822d21dedf09dcfd40ee0d8",
+     [
+      "BaseDiskReader.read_file"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "124f9c20b0d90e874895c9aff427dfa901f084bc790d10c37ff0c409bb0c8799",
+     [
+      "BaseDiskReader.read_files_shard"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "94a055626dda4bb72556a5d37831eb84bbc6d7943d7660df04274bd257d8e827",
+     [
+      "BaseDiskReader.run"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/readers/csv.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "b54d1151aa8c88dc5cadbbfa5eedf3130e7400f5b462f5d80872749bcdbab428",
+     [
+      "CsvReader"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/readers/ipc.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "58949b1403346a43bb3352b9fd7b4d8dd6672b5df3ee1b5837f9645fbdb868bf",
+     [
+      "IpcReader"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/readers/jsonl.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "78a7ce5a773b02c0e4c89b86451f7a55da7b13c106af6a8edaa1cebd27c4d037",
+     [
+      "JsonlReader"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/readers/parquet.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "5242953cc9d8a793a2ad2076a95919d36757199398730af4ca1c5f13e7958c32",
+     [
+      "ParquetReader"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/stats/base.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "7ba6dc914d9b46edc7f4a95975261ef2a544dafbbcc02af1470b91123016a9fd",
+     [
+      "BaseStats"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "789e47df124448701dfd211604730e318644eea5b5f728686ab4e0bf349317a8",
+     [
+      "BaseStats.extract_stats"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/stats/config.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "21c36074911570999157ec31a8d608f1023c781b18c057b1a9d90dcf903516bb",
+     [
+      "TopKConfig"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/stats/contamination_stats.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "429da7829084f3f8eb284c9a7d2ae8eaba92ba10c7245983a3f3498d97c3314e",
+     [
+      "WordsContaminationStats"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/stats/doc_stats.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "67ec30fb9a03bdba022ebc46229bcb0bdae7809531a891ff84218854cbee6c26",
+     [
+      "DocStats"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/stats/line_stats.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "5fbb3a76ea1f3928f44a5dd64919a4d428fc0d078000a80619d6422529bd197a",
+     [
+      "LineStats"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/stats/merger.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "7023bf24599e961cfcd13bfde9741e8079de40c6247239e1a81363f20087f5f7",
+     [
+      "StatsMerger"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "fec2d0c068760c4732a2108d5ecd04e00e5046bc198f1d5fc8b917b47ab4c787",
+     [
+      "StatsMerger.run"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/stats/paragraph_stats.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "62e53122909fa7f3981c5683317ef73f6231f9b90312ff6c704d36e7edd03c83",
+     [
+      "ParagraphStats"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/stats/sentence_stats.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "d168edad842eb5b2aac7972b93e284546a17a5a7c8c285179f237fe5b0eb694e",
+     [
+      "SentenceStats"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/stats/word_stats.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "f8d4c538b0ed6a5358b652824f3877e2f07f6db286b17e03bca7560fcc4b6fbe",
+     [
+      "WordStats"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/writers/__init__.py": {
+   "comments": {},
+   "entries": []
+  },
+  "src/datatrove/pipeline/writers/disk_base.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "a01d856a731d2990837a69e90a2c6c29863faadece400ce8e1b009384d1b1e79",
+     [
+      "DiskWriter"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "57ba7b6ce991bd862224c7676fd78a7ab4f89f68b281beb5755146ca2894f1ff",
+     [
+      "DiskWriter.is_retryable_hf_hub_error"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "f8fa1b22477a7d9e898ddf15d3d19791768cbcb71c21f9dad57f5b7418deed5d",
+     [
+      "DiskWriter._retry_hf_hub_operation"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "c187cde24caef62e4a5faf6053e87fbb1543b2e931258265ed5bfdc9ad0e0883",
+     [
+      "DiskWriter._get_output_file_with_retry"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "6dcffe70c4678b420dfa375bd8b3f307dce6c233269c285fc2440395c714d1f9",
+     [
+      "DiskWriter._default_adapter"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "c4f5fbde92cdb2710f6472c3841fd9dba637d20c25368e724a24c0bd71b80bf8",
+     [
+      "DiskWriter._get_output_filename"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "05a32b009919a03a25c2793e97e35585850af0bd5fc7e70da1337ed297a8de4f",
+     [
+      "DiskWriter._write"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "d859a239e5f2057fe74d974404971c447a5636944db292d58cfb0014a36d890f",
+     [
+      "DiskWriter._on_file_switch"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "07c35a8a57d80f11adcbccc5bb45d5ac2098059c11e67670093a89c22f32b646",
+     [
+      "DiskWriter.close_file"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "7f2303fa618d85b03d3abc782d7ced5fde3d1540d87293c42e3b4288c7e43dfa",
+     [
+      "DiskWriter._get_filename_with_file_id"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "35ef8935277d1423e751282070e472273a82f453753a6c2f17897c787fa41b67",
+     [
+      "DiskWriter.write"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "0f7d102d21f305774be1be233a5c1c4fe34972b1d5a3fa593360934b262b01c6",
+     [
+      "DiskWriter.run"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/writers/jsonl.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "d6cd45e518c3025076d050f6c5b02b6cc6710bbf88ab01f96ce583a736358441",
+     [
+      "JsonlWriter"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/pipeline/writers/parquet.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "076527f4faec1ebd39f78d7d240a15690da4feb649357121266404b1002de430",
+     [
+      "ParquetWriter"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "d96b6c41b7ae8e5fd22f74a74b4b0fbad8eedbc06dba40e4fc6a29a3941862d7",
+     [
+      "ParquetWriter.close_file"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/tools/merge_stats.py": {
+   "comments": {},
+   "entries": []
+  },
+  "src/datatrove/utils/_import_utils.py": {
+   "comments": {},
+   "entries": [
+    [
+     "function",
+     1,
+     "504fdb25e82b2c8a97539f04b0cb8b207db08f6ca7fd8f26ebbedc9a55671807",
+     [
+      "check_required_dependencies"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "ebfcef8413029856b0c0b27d305c1cd53ac38763e61564d08600ae27b61d96f4",
+     [
+      "_raise_error_for_missing_dependencies"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "ba6303e7c88529ea95529ff71beb5e6fc33c853255ad25c8dda135b25aa3553b",
+     [
+      "_is_package_available"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/utils/batching.py": {
+   "comments": {},
+   "entries": [
+    [
+     "function",
+     1,
+     "dd8a01663b9674cdda4eb0724a117bc23be0a357e1d9128422c107c20c6263d5",
+     [
+      "batched"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/utils/binaryio.py": {
+   "comments": {},
+   "entries": [
+    [
+     "function",
+     1,
+     "af4654ce538472cd4642236f289c5c2fb3afddada39a94aa2ca939b38be5a08c",
+     [
+      "read_tuples_from_file"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "4a1b9c004022e44df1317ac1b56cdc3cd0d09eaa6b05c299c50fe15042307730",
+     [
+      "read_np_from_file"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/utils/hashes/sha1.py": {
+   "comments": {},
+   "entries": [
+    [
+     "function",
+     1,
+     "4b70967bd8ca98fddc57830d2c9677e184c77be0e38c7f94091fc06b0457adc6",
+     [
+      "sha1_hash32"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "c21801a127ddbfb74dba012bf1efb4bd270352a19eb2e3180c3f8a1c4005685f",
+     [
+      "sha1_hash32_bytes"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "331f60dc2715626a1023399bc257899c00f0514175f4cf0d0b90c4d045fc51c5",
+     [
+      "sha1_hash64"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "9b4ef26a2ce8332ef34c6467bf9bc22cc6805e445d8f62a18d7d640471cea7d9",
+     [
+      "sha1_hash64_bytes"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/utils/hashes/xxhash.py": {
+   "comments": {},
+   "entries": []
+  },
+  "src/datatrove/utils/hashing.py": {
+   "comments": {},
+   "entries": []
+  },
+  "src/datatrove/utils/logging.py": {
+   "comments": {},
+   "entries": [
+    [
+     "function",
+     1,
+     "e2b336220afbdd424fbf8324e3232ff36946396d19065b8052af444a6a70ca8e",
+     [
+      "get_timestamp"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "1296d259d8e98a56dfd416e11493b84b46ac3c758afe5e73bf3aac88d449e271",
+     [
+      "get_random_str"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "7812e3a7f4f55a9dc0c43b5f1d372c5a9a408b930a0658b5e3deddec5ae56d79",
+     [
+      "add_task_logger"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "2ac82db10cab1f849282a1a5e85121ce4ec361962e438fa518a92da85e677097",
+     [
+      "close_task_logger"
+     ]
+    ],
+    [
+     "function",
+     1,
+     "d910f58fb7d1f24a78475d32d405dd0a0c986f9668d6b71522e12a2009fd4cd4",
+     [
+      "log_pipeline"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/utils/stats.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "8ebfd3375f45e600ac93e46de859fe45030f9a2048323fad00efd4ecd7754603",
+     [
+      "MetricStatsDict"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "4a679c0744acf7d60bed009ba67a1c9c4fe273e52425ecea196b85212dcc2fa9",
+     [
+      "MetricStatsDict.topk"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "3a6629e68b99926eba86f0b2eeaae0e11d0a38767ffed9c45534896f92527099",
+     [
+      "Stats"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "c1ba443694900e420f9ed044700ef1cf8fcbe5d7270e6dae762f5fbd7ae01b4b",
+     [
+      "Stats.save_to_disk"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "d9a790fe1e440c57db5dbc7b640b069fa5bddfd82bfe827e2446c1ff50a5033a",
+     [
+      "Stats.from_dict"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "0224f54e5f37b7a9ec49e17243ef2903b64efad88fd83251b1eea85eb838248d",
+     [
+      "PipelineStats.get_repr"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "d9a790fe1e440c57db5dbc7b640b069fa5bddfd82bfe827e2446c1ff50a5033a",
+     [
+      "PipelineStats.from_json"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "237d2ffa26acfcd89dad1efd9f156ccc4a7dd02fe8c1d8494f1fe101a99d688c",
+     [
+      "PipelineStats.save_to_disk"
+     ]
+    ],
+    [
+     "class",
+     1,
+     "a369f453e9a8d83cd7f3301f173629119d66ae437ce77b49d3ff660a8b32f9e5",
+     [
+      "MetricStats"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "ab6cb5a89ed69eeb56281e2f7659d22ed2d9ebf9e15124a5a269f83d5a1a6b62",
+     [
+      "MetricStats.update"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "d9a790fe1e440c57db5dbc7b640b069fa5bddfd82bfe827e2446c1ff50a5033a",
+     [
+      "MetricStats.from_dict"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "ab6cb5a89ed69eeb56281e2f7659d22ed2d9ebf9e15124a5a269f83d5a1a6b62",
+     [
+      "TimingStats.update"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "abef4485c74c5d1bb0fd25ee1788e5589c2d3d04d2525f6e79d20789599d4dd1",
+     [
+      "TimingStats._get_time_frac"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "7a20043490c1d142af50f69b28a76d38cff19cd486f4516f39ad0538eb39ff14",
+     [
+      "TimingStats.get_repr"
+     ]
+    ],
+    [
+     "method",
+     2,
+     "d9a790fe1e440c57db5dbc7b640b069fa5bddfd82bfe827e2446c1ff50a5033a",
+     [
+      "TimingStats.from_dict"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/utils/text.py": {
+   "comments": {},
+   "entries": [
+    [
+     "function",
+     1,
+     "92efc42a8a1e5780052f35f213da133d08949c4f231134655aa26c3b4cc18d52",
+     [
+      "simplify_text"
+     ]
+    ]
+   ]
+  },
+  "src/datatrove/utils/word_tokenizers.py": {
+   "comments": {},
+   "entries": [
+    [
+     "class",
+     1,
+     "98271b01ec2eb52bb49540dfd1a6f02ae39409df50418285592858c4b875e0f5",
+     [
+      "WhitespaceTokenizer"
+     ]
+    ],
+    [
+     "string",
+     0,
+     "f670ee52229f21a21de6451a31e866c6ce5d24cd10445b1318e7a88411218ba9",
+     [
+      "<module>"
+     ]
+    ]
+   ]
+  }
+ },
+ "pages": {
+  "README.md": "6742291d4290150424ed5b3fd5a46614a1128cbada00ad4e7692e90066db0846"
+ }
+}

@@ -1,0 +1,1902 @@
+{
+ "schema": 1,
+ "modules": [
+  "network",
+  "data",
+  "identity",
+  "compute"
+ ],
+ "ownership": {
+  "aws_vpc.main": "network",
+  "aws_internet_gateway.gw": "network",
+  "aws_subnet.public": "network",
+  "aws_subnet.private": "network",
+  "aws_subnet.database": "network",
+  "aws_eip.nat": "network",
+  "aws_nat_gateway.main": "network",
+  "aws_route_table.public": "network",
+  "aws_route.public_internet": "network",
+  "aws_route_table_association.public": "network",
+  "aws_route_table.private": "network",
+  "aws_route.private_nat": "network",
+  "aws_route_table_association.private": "network",
+  "aws_route_table.database": "network",
+  "aws_route_table_association.database": "network",
+  "aws_vpc_endpoint.s3": "network",
+  "aws_vpc_endpoint_route_table_association.s3": "network",
+  "aws_route53_zone.internal": "network",
+  "aws_security_group.nomad": "network",
+  "aws_security_group_rule.ingress": "network",
+  "aws_security_group_rule.icmp": "network",
+  "aws_security_group_rule.egress": "network",
+  "aws_cloudwatch_log_group.vpc_flow": "network",
+  "aws_iam_role.vpc_flow": "network",
+  "aws_iam_role_policy.vpc_flow": "network",
+  "aws_flow_log.vpc": "network",
+  "aws_kms_key.data": "data",
+  "aws_kms_alias.data": "data",
+  "aws_s3_bucket.tfe": "data",
+  "aws_s3_bucket_versioning.tfe": "data",
+  "aws_s3_bucket_server_side_encryption_configuration.tfe": "data",
+  "aws_s3_bucket_public_access_block.tfe": "data",
+  "aws_db_subnet_group.tfe": "data",
+  "aws_db_parameter_group.postgres": "data",
+  "aws_db_instance.tfe": "data",
+  "aws_elasticache_subnet_group.redis": "data",
+  "aws_elasticache_cluster.redis": "data",
+  "aws_dynamodb_table.locks": "data",
+  "aws_secretsmanager_secret.bootstrap": "data",
+  "aws_secretsmanager_secret_version.bootstrap": "data",
+  "tls_private_key.nomad": "identity",
+  "aws_iam_role.nomad": "identity",
+  "aws_iam_instance_profile.nomad": "identity",
+  "aws_iam_role_policy_attachment.managed": "identity",
+  "aws_iam_role_policy.tfe_data": "identity",
+  "aws_key_pair.nomad": "compute",
+  "aws_network_interface.nomad": "compute",
+  "aws_launch_template.nomad": "compute",
+  "aws_autoscaling_group.nomad": "compute",
+  "aws_eip.nomad": "compute",
+  "aws_cloudwatch_log_group.nomad": "compute",
+  "aws_cloudwatch_metric_alarm.nomad_status": "compute",
+  "aws_ssm_parameter.node_config": "compute",
+  "aws_route53_record.nomad": "compute",
+  "aws_ssm_parameter.cluster_inventory": "compute"
+ },
+ "direct_modules": true,
+ "no_count": true,
+ "key_dimensions": {
+  "az": {
+   "variable": "availability_zones",
+   "keys": {
+    "aws_subnet.public[0]": "us-east-1c",
+    "aws_subnet.public[1]": "us-east-1a",
+    "aws_subnet.public[2]": "us-east-1b",
+    "aws_subnet.private[0]": "us-east-1c",
+    "aws_subnet.private[1]": "us-east-1a",
+    "aws_subnet.private[2]": "us-east-1b",
+    "aws_subnet.database[0]": "us-east-1c",
+    "aws_subnet.database[1]": "us-east-1a",
+    "aws_subnet.database[2]": "us-east-1b",
+    "aws_eip.nat[0]": "us-east-1c",
+    "aws_eip.nat[1]": "us-east-1a",
+    "aws_eip.nat[2]": "us-east-1b",
+    "aws_nat_gateway.main[0]": "us-east-1c",
+    "aws_nat_gateway.main[1]": "us-east-1a",
+    "aws_nat_gateway.main[2]": "us-east-1b",
+    "aws_route_table.private[0]": "us-east-1c",
+    "aws_route_table.private[1]": "us-east-1a",
+    "aws_route_table.private[2]": "us-east-1b",
+    "aws_route.private_nat[0]": "us-east-1c",
+    "aws_route.private_nat[1]": "us-east-1a",
+    "aws_route.private_nat[2]": "us-east-1b",
+    "aws_route_table_association.public[0]": "us-east-1c",
+    "aws_route_table_association.public[1]": "us-east-1a",
+    "aws_route_table_association.public[2]": "us-east-1b",
+    "aws_route_table_association.private[0]": "us-east-1c",
+    "aws_route_table_association.private[1]": "us-east-1a",
+    "aws_route_table_association.private[2]": "us-east-1b",
+    "aws_route_table_association.database[0]": "us-east-1c",
+    "aws_route_table_association.database[1]": "us-east-1a",
+    "aws_route_table_association.database[2]": "us-east-1b",
+    "aws_vpc_endpoint_route_table_association.s3[0]": "us-east-1b",
+    "aws_vpc_endpoint_route_table_association.s3[1]": "us-east-1c",
+    "aws_vpc_endpoint_route_table_association.s3[2]": "us-east-1a",
+    "aws_vpc_endpoint_route_table_association.s3[3]": null
+   },
+   "add": {
+    "key": "us-east-1f",
+    "value": {
+     "public_cidr": "10.72.5.0/24",
+     "private_cidr": "10.72.21.0/24",
+     "database_cidr": "10.72.37.0/24"
+    },
+    "created_values": [
+     {
+      "base": "aws_subnet.public",
+      "attr": "availability_zone",
+      "value": "us-east-1f"
+     },
+     {
+      "base": "aws_subnet.private",
+      "attr": "availability_zone",
+      "value": "us-east-1f"
+     },
+     {
+      "base": "aws_subnet.database",
+      "attr": "availability_zone",
+      "value": "us-east-1f"
+     },
+     {
+      "base": "aws_subnet.public",
+      "attr": "cidr_block",
+      "value": "10.72.5.0/24"
+     },
+     {
+      "base": "aws_subnet.private",
+      "attr": "cidr_block",
+      "value": "10.72.21.0/24"
+     },
+     {
+      "base": "aws_subnet.database",
+      "attr": "cidr_block",
+      "value": "10.72.37.0/24"
+     }
+    ]
+   },
+   "remove": "us-east-1c",
+   "allowed_updates": {
+    "aws_db_subnet_group.tfe": [
+     "subnet_ids",
+     "supported_network_types"
+    ],
+    "aws_elasticache_subnet_group.redis": [
+     "subnet_ids"
+    ]
+   },
+   "required_updates": {
+    "aws_db_subnet_group.tfe": [
+     "subnet_ids"
+    ],
+    "aws_elasticache_subnet_group.redis": [
+     "subnet_ids"
+    ]
+   }
+  },
+  "node": {
+   "variable": "node_groups",
+   "keys": {
+    "aws_network_interface.nomad[0]": "client",
+    "aws_network_interface.nomad[1]": "worker",
+    "aws_network_interface.nomad[2]": "server",
+    "aws_launch_template.nomad[0]": "client",
+    "aws_launch_template.nomad[1]": "worker",
+    "aws_launch_template.nomad[2]": "server",
+    "aws_autoscaling_group.nomad[0]": "client",
+    "aws_autoscaling_group.nomad[1]": "worker",
+    "aws_autoscaling_group.nomad[2]": "server",
+    "aws_eip.nomad[0]": "client",
+    "aws_eip.nomad[1]": "worker",
+    "aws_eip.nomad[2]": "server",
+    "aws_cloudwatch_log_group.nomad[0]": "client",
+    "aws_cloudwatch_log_group.nomad[1]": "worker",
+    "aws_cloudwatch_log_group.nomad[2]": "server",
+    "aws_cloudwatch_metric_alarm.nomad_status[0]": "client",
+    "aws_cloudwatch_metric_alarm.nomad_status[1]": "worker",
+    "aws_cloudwatch_metric_alarm.nomad_status[2]": "server",
+    "aws_ssm_parameter.node_config[0]": "client",
+    "aws_ssm_parameter.node_config[1]": "worker",
+    "aws_ssm_parameter.node_config[2]": "server",
+    "aws_route53_record.nomad[0]": "client",
+    "aws_route53_record.nomad[1]": "worker",
+    "aws_route53_record.nomad[2]": "server"
+   },
+   "add": {
+    "key": "relay",
+    "value": {
+     "instance_type": "t3.large",
+     "private_ip_host": 131,
+     "volume_size": 60,
+     "subnet_key": "us-east-1a"
+    },
+    "created_values": [
+     {
+      "base": "aws_network_interface.nomad",
+      "attr": "private_ips",
+      "value": [
+       "10.72.1.131"
+      ]
+     },
+     {
+      "base": "aws_ssm_parameter.node_config",
+      "attr": "description",
+      "value": "tfefdo-prod relay placement us-east-1a"
+     }
+    ]
+   },
+   "remove": "client",
+   "allowed_updates": {
+    "aws_ssm_parameter.cluster_inventory": [
+     "value"
+    ]
+   },
+   "required_updates": {
+    "aws_ssm_parameter.cluster_inventory": [
+     "value"
+    ]
+   }
+  }
+ },
+ "variables": {
+  "project": {
+   "default": "tfefdo",
+   "type": "string"
+  },
+  "environment": {
+   "default": "prod",
+   "type": "string"
+  },
+  "vpc_cidr": {
+   "default": "10.72.0.0/16",
+   "type": "string"
+  },
+  "availability_zones": {
+   "default": {
+    "us-east-1c": {
+     "public_cidr": "10.72.0.0/24",
+     "private_cidr": "10.72.16.0/24",
+     "database_cidr": "10.72.32.0/24"
+    },
+    "us-east-1a": {
+     "public_cidr": "10.72.1.0/24",
+     "private_cidr": "10.72.17.0/24",
+     "database_cidr": "10.72.33.0/24"
+    },
+    "us-east-1b": {
+     "public_cidr": "10.72.2.0/24",
+     "private_cidr": "10.72.18.0/24",
+     "database_cidr": "10.72.34.0/24"
+    }
+   },
+   "type": "map(object({ public_cidr = string, private_cidr = string, database_cidr = string }))"
+  },
+  "node_groups": {
+   "default": {
+    "client": {
+     "instance_type": "t3.large",
+     "private_ip_host": 124,
+     "volume_size": 60,
+     "subnet_key": "us-east-1a"
+    },
+    "worker": {
+     "instance_type": "t3.large",
+     "private_ip_host": 126,
+     "volume_size": 60,
+     "subnet_key": "us-east-1a"
+    },
+    "server": {
+     "instance_type": "t3.large",
+     "private_ip_host": 123,
+     "volume_size": 60,
+     "subnet_key": "us-east-1a"
+    }
+   },
+   "type": "map(object({ instance_type = string, private_ip_host = number, volume_size = number, subnet_key = string }))"
+  },
+  "tags": {
+   "default": {
+    "Owner": "platform-engineering",
+    "CostCenter": "cc-7421",
+    "ManagedBy": "terraform"
+   },
+   "type": "map(string)"
+  },
+  "node_ami_id": {
+   "default": "ami-0009de7aaac3fdbb1",
+   "type": "string"
+  },
+  "db_instance_class": {
+   "default": "db.t3.medium",
+   "type": "string"
+  },
+  "db_allocated_storage": {
+   "default": 50,
+   "type": "number"
+  },
+  "cache_node_type": {
+   "default": "cache.t3.small",
+   "type": "string"
+  },
+  "log_retention_days": {
+   "default": 30,
+   "type": "number"
+  },
+  "alarm_period": {
+   "default": 120,
+   "type": "number"
+  }
+ },
+ "probes": [
+  {
+   "name": "add_az",
+   "kind": "key_add",
+   "dimension": "az",
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-33ebaaef36b47d867",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-e767ba44ada73fd2e",
+      "us-east-1b": "subnet-c94398598bc15d22a",
+      "us-east-1c": "subnet-7750dfd29aa7140d7"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "private_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-c3a894b4c531a76e8",
+      "us-east-1b": "subnet-e53d2440f90a2f3e5",
+      "us-east-1c": "subnet-f833fddb51aa85ddf"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "database_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-83cae4f00cf8417cd",
+      "us-east-1b": "subnet-2f80062ef650b24ac",
+      "us-east-1c": "subnet-16fb889b6b7880d19"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "nat_public_ips": {
+     "after": {
+      "us-east-1a": "127.130.226.30",
+      "us-east-1b": "127.175.182.247",
+      "us-east-1c": "127.169.33.166"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "node_public_ips": {
+     "after": {
+      "client": "127.79.98.173",
+      "server": "127.2.83.182",
+      "worker": "127.0.245.233"
+     },
+     "unknown": false
+    },
+    "node_group_names": {
+     "after": {
+      "client": "tfefdo-prod-client",
+      "server": "tfefdo-prod-server",
+      "worker": "tfefdo-prod-worker"
+     },
+     "unknown": false
+    },
+    "state_bucket_name": {
+     "after": "tfefdo-prod-state-8f2c",
+     "unknown": false
+    },
+    "database_endpoint": {
+     "after": "tfefdo-prod-postgres.aaaaaaaaaa.us-east-1.rds.amazonaws.com:5432",
+     "unknown": false
+    },
+    "redis_cluster_id": {
+     "after": "tfefdo-prod-redis",
+     "unknown": false
+    },
+    "internal_zone_id": {
+     "after": "X2GSFICUJ32XWN4OT3H0MT",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_db_subnet_group.tfe": {
+     "subnet_ids": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-16fb889b6b7880d19",
+        "subnet-2f80062ef650b24ac",
+        "subnet-83cae4f00cf8417cd",
+        "subnet-96c895125fcf4d559"
+       ],
+       "unknown": null
+      }
+     },
+     "supported_network_types": {
+      "after": [],
+      "unknown": [],
+      "filled": {
+       "after": [],
+       "unknown": null
+      }
+     }
+    },
+    "aws_elasticache_subnet_group.redis": {
+     "subnet_ids": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-233b746537c3b33f5",
+        "subnet-c3a894b4c531a76e8",
+        "subnet-e53d2440f90a2f3e5",
+        "subnet-f833fddb51aa85ddf"
+       ],
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_az",
+   "kind": "key_remove",
+   "dimension": "az",
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-33ebaaef36b47d867",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-e767ba44ada73fd2e",
+      "us-east-1b": "subnet-c94398598bc15d22a"
+     },
+     "unknown": false
+    },
+    "private_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-c3a894b4c531a76e8",
+      "us-east-1b": "subnet-e53d2440f90a2f3e5"
+     },
+     "unknown": false
+    },
+    "database_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-83cae4f00cf8417cd",
+      "us-east-1b": "subnet-2f80062ef650b24ac"
+     },
+     "unknown": false
+    },
+    "nat_public_ips": {
+     "after": {
+      "us-east-1a": "127.130.226.30",
+      "us-east-1b": "127.175.182.247"
+     },
+     "unknown": false
+    },
+    "node_public_ips": {
+     "after": {
+      "client": "127.79.98.173",
+      "server": "127.2.83.182",
+      "worker": "127.0.245.233"
+     },
+     "unknown": false
+    },
+    "node_group_names": {
+     "after": {
+      "client": "tfefdo-prod-client",
+      "server": "tfefdo-prod-server",
+      "worker": "tfefdo-prod-worker"
+     },
+     "unknown": false
+    },
+    "state_bucket_name": {
+     "after": "tfefdo-prod-state-8f2c",
+     "unknown": false
+    },
+    "database_endpoint": {
+     "after": "tfefdo-prod-postgres.aaaaaaaaaa.us-east-1.rds.amazonaws.com:5432",
+     "unknown": false
+    },
+    "redis_cluster_id": {
+     "after": "tfefdo-prod-redis",
+     "unknown": false
+    },
+    "internal_zone_id": {
+     "after": "X2GSFICUJ32XWN4OT3H0MT",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_db_subnet_group.tfe": {
+     "subnet_ids": {
+      "after": [
+       "subnet-2f80062ef650b24ac",
+       "subnet-83cae4f00cf8417cd"
+      ],
+      "unknown": null
+     },
+     "supported_network_types": {
+      "after": [],
+      "unknown": null
+     }
+    },
+    "aws_elasticache_subnet_group.redis": {
+     "subnet_ids": {
+      "after": [
+       "subnet-c3a894b4c531a76e8",
+       "subnet-e53d2440f90a2f3e5"
+      ],
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "update_az",
+   "kind": "key_update",
+   "dimension": "az",
+   "updates": {
+    "us-east-1c": {
+     "public_cidr": "10.72.6.0/24",
+     "private_cidr": "10.72.22.0/24",
+     "database_cidr": "10.72.38.0/24"
+    },
+    "us-east-1a": {
+     "public_cidr": "10.72.7.0/24",
+     "private_cidr": "10.72.23.0/24",
+     "database_cidr": "10.72.39.0/24"
+    },
+    "us-east-1b": {
+     "public_cidr": "10.72.8.0/24",
+     "private_cidr": "10.72.24.0/24",
+     "database_cidr": "10.72.40.0/24"
+    }
+   },
+   "expect": [
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.public",
+     "attr": "cidr_block",
+     "value": "10.72.6.0/24"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.private",
+     "attr": "cidr_block",
+     "value": "10.72.22.0/24"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.database",
+     "attr": "cidr_block",
+     "value": "10.72.38.0/24"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.public",
+     "attr": "cidr_block",
+     "value": "10.72.7.0/24"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.private",
+     "attr": "cidr_block",
+     "value": "10.72.23.0/24"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.database",
+     "attr": "cidr_block",
+     "value": "10.72.39.0/24"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.public",
+     "attr": "cidr_block",
+     "value": "10.72.8.0/24"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.private",
+     "attr": "cidr_block",
+     "value": "10.72.24.0/24"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.database",
+     "attr": "cidr_block",
+     "value": "10.72.40.0/24"
+    }
+   ],
+   "may_change": [
+    {
+     "base": "aws_network_interface.nomad",
+     "attr": "private_ips"
+    }
+   ],
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-33ebaaef36b47d867",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {},
+     "unknown": {
+      "us-east-1a": true,
+      "us-east-1b": true,
+      "us-east-1c": true
+     }
+    },
+    "private_subnet_ids": {
+     "after": {},
+     "unknown": {
+      "us-east-1a": true,
+      "us-east-1b": true,
+      "us-east-1c": true
+     }
+    },
+    "database_subnet_ids": {
+     "after": {},
+     "unknown": {
+      "us-east-1a": true,
+      "us-east-1b": true,
+      "us-east-1c": true
+     }
+    },
+    "nat_public_ips": {
+     "after": {
+      "us-east-1a": "127.130.226.30",
+      "us-east-1b": "127.175.182.247",
+      "us-east-1c": "127.169.33.166"
+     },
+     "unknown": false
+    },
+    "node_public_ips": {
+     "after": {
+      "client": "127.79.98.173",
+      "server": "127.2.83.182",
+      "worker": "127.0.245.233"
+     },
+     "unknown": false
+    },
+    "node_group_names": {
+     "after": {
+      "client": "tfefdo-prod-client",
+      "server": "tfefdo-prod-server",
+      "worker": "tfefdo-prod-worker"
+     },
+     "unknown": false
+    },
+    "state_bucket_name": {
+     "after": "tfefdo-prod-state-8f2c",
+     "unknown": false
+    },
+    "database_endpoint": {
+     "after": "tfefdo-prod-postgres.aaaaaaaaaa.us-east-1.rds.amazonaws.com:5432",
+     "unknown": false
+    },
+    "redis_cluster_id": {
+     "after": "tfefdo-prod-redis",
+     "unknown": false
+    },
+    "internal_zone_id": {
+     "after": "X2GSFICUJ32XWN4OT3H0MT",
+     "unknown": false
+    }
+   },
+   "reference_replaced": [
+    "aws_nat_gateway.main[0]",
+    "aws_nat_gateway.main[1]",
+    "aws_nat_gateway.main[2]",
+    "aws_network_interface.nomad[0]",
+    "aws_network_interface.nomad[1]",
+    "aws_network_interface.nomad[2]",
+    "aws_route_table_association.database[0]",
+    "aws_route_table_association.database[1]",
+    "aws_route_table_association.database[2]",
+    "aws_route_table_association.private[0]",
+    "aws_route_table_association.private[1]",
+    "aws_route_table_association.private[2]",
+    "aws_route_table_association.public[0]",
+    "aws_route_table_association.public[1]",
+    "aws_route_table_association.public[2]",
+    "aws_subnet.database[0]",
+    "aws_subnet.database[1]",
+    "aws_subnet.database[2]",
+    "aws_subnet.private[0]",
+    "aws_subnet.private[1]",
+    "aws_subnet.private[2]",
+    "aws_subnet.public[0]",
+    "aws_subnet.public[1]",
+    "aws_subnet.public[2]"
+   ],
+   "update_values": {
+    "aws_db_subnet_group.tfe": {
+     "subnet_ids": {
+      "after": null,
+      "unknown": true
+     },
+     "supported_network_types": {
+      "after": [],
+      "unknown": []
+     }
+    },
+    "aws_elasticache_subnet_group.redis": {
+     "subnet_ids": {
+      "after": null,
+      "unknown": true
+     }
+    }
+   }
+  },
+  {
+   "name": "add_node",
+   "kind": "key_add",
+   "dimension": "node",
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-33ebaaef36b47d867",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-e767ba44ada73fd2e",
+      "us-east-1b": "subnet-c94398598bc15d22a",
+      "us-east-1c": "subnet-7750dfd29aa7140d7"
+     },
+     "unknown": false
+    },
+    "private_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-c3a894b4c531a76e8",
+      "us-east-1b": "subnet-e53d2440f90a2f3e5",
+      "us-east-1c": "subnet-f833fddb51aa85ddf"
+     },
+     "unknown": false
+    },
+    "database_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-83cae4f00cf8417cd",
+      "us-east-1b": "subnet-2f80062ef650b24ac",
+      "us-east-1c": "subnet-16fb889b6b7880d19"
+     },
+     "unknown": false
+    },
+    "nat_public_ips": {
+     "after": {
+      "us-east-1a": "127.130.226.30",
+      "us-east-1b": "127.175.182.247",
+      "us-east-1c": "127.169.33.166"
+     },
+     "unknown": false
+    },
+    "node_public_ips": {
+     "after": {
+      "client": "127.79.98.173",
+      "server": "127.2.83.182",
+      "worker": "127.0.245.233"
+     },
+     "unknown": {
+      "relay": true
+     }
+    },
+    "node_group_names": {
+     "after": {
+      "client": "tfefdo-prod-client",
+      "relay": "tfefdo-prod-relay",
+      "server": "tfefdo-prod-server",
+      "worker": "tfefdo-prod-worker"
+     },
+     "unknown": false
+    },
+    "state_bucket_name": {
+     "after": "tfefdo-prod-state-8f2c",
+     "unknown": false
+    },
+    "database_endpoint": {
+     "after": "tfefdo-prod-postgres.aaaaaaaaaa.us-east-1.rds.amazonaws.com:5432",
+     "unknown": false
+    },
+    "redis_cluster_id": {
+     "after": "tfefdo-prod-redis",
+     "unknown": false
+    },
+    "internal_zone_id": {
+     "after": "X2GSFICUJ32XWN4OT3H0MT",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_ssm_parameter.cluster_inventory": {
+     "value": {
+      "after": "{\"environment\":\"prod\",\"node_groups\":[\"client\",\"worker\",\"server\",\"relay\"],\"project\":\"tfefdo\"}",
+      "unknown": null,
+      "filled": {
+       "after": "{\"environment\":\"prod\",\"node_groups\":[\"client\",\"worker\",\"server\",\"relay\"],\"project\":\"tfefdo\"}",
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_node",
+   "kind": "key_remove",
+   "dimension": "node",
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-33ebaaef36b47d867",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-e767ba44ada73fd2e",
+      "us-east-1b": "subnet-c94398598bc15d22a",
+      "us-east-1c": "subnet-7750dfd29aa7140d7"
+     },
+     "unknown": false
+    },
+    "private_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-c3a894b4c531a76e8",
+      "us-east-1b": "subnet-e53d2440f90a2f3e5",
+      "us-east-1c": "subnet-f833fddb51aa85ddf"
+     },
+     "unknown": false
+    },
+    "database_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-83cae4f00cf8417cd",
+      "us-east-1b": "subnet-2f80062ef650b24ac",
+      "us-east-1c": "subnet-16fb889b6b7880d19"
+     },
+     "unknown": false
+    },
+    "nat_public_ips": {
+     "after": {
+      "us-east-1a": "127.130.226.30",
+      "us-east-1b": "127.175.182.247",
+      "us-east-1c": "127.169.33.166"
+     },
+     "unknown": false
+    },
+    "node_public_ips": {
+     "after": {
+      "server": "127.2.83.182",
+      "worker": "127.0.245.233"
+     },
+     "unknown": false
+    },
+    "node_group_names": {
+     "after": {
+      "server": "tfefdo-prod-server",
+      "worker": "tfefdo-prod-worker"
+     },
+     "unknown": false
+    },
+    "state_bucket_name": {
+     "after": "tfefdo-prod-state-8f2c",
+     "unknown": false
+    },
+    "database_endpoint": {
+     "after": "tfefdo-prod-postgres.aaaaaaaaaa.us-east-1.rds.amazonaws.com:5432",
+     "unknown": false
+    },
+    "redis_cluster_id": {
+     "after": "tfefdo-prod-redis",
+     "unknown": false
+    },
+    "internal_zone_id": {
+     "after": "X2GSFICUJ32XWN4OT3H0MT",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_ssm_parameter.cluster_inventory": {
+     "value": {
+      "after": "{\"environment\":\"prod\",\"node_groups\":[\"worker\",\"server\"],\"project\":\"tfefdo\"}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "update_node",
+   "kind": "key_update",
+   "dimension": "node",
+   "updates": {
+    "client": {
+     "instance_type": "m6i.large",
+     "private_ip_host": 134,
+     "volume_size": 70,
+     "subnet_key": "us-east-1b"
+    },
+    "worker": {
+     "instance_type": "c6i.large",
+     "private_ip_host": 135,
+     "volume_size": 120,
+     "subnet_key": "us-east-1b"
+    },
+    "server": {
+     "instance_type": "c6i.xlarge",
+     "private_ip_host": 136,
+     "volume_size": 55,
+     "subnet_key": "us-east-1b"
+    }
+   },
+   "expect": [
+    {
+     "key": "client",
+     "base": "aws_network_interface.nomad",
+     "attr": "private_ips",
+     "value": [
+      "10.72.2.134"
+     ]
+    },
+    {
+     "key": "client",
+     "base": "aws_launch_template.nomad",
+     "attr": "instance_type",
+     "value": "m6i.large"
+    },
+    {
+     "key": "client",
+     "base": "aws_launch_template.nomad",
+     "attr": "block_device_mappings[0].ebs[0].volume_size",
+     "value": 70
+    },
+    {
+     "key": "client",
+     "base": "aws_ssm_parameter.node_config",
+     "attr": "description",
+     "value": "tfefdo-prod client placement us-east-1b"
+    },
+    {
+     "key": "worker",
+     "base": "aws_network_interface.nomad",
+     "attr": "private_ips",
+     "value": [
+      "10.72.2.135"
+     ]
+    },
+    {
+     "key": "worker",
+     "base": "aws_launch_template.nomad",
+     "attr": "instance_type",
+     "value": "c6i.large"
+    },
+    {
+     "key": "worker",
+     "base": "aws_launch_template.nomad",
+     "attr": "block_device_mappings[0].ebs[0].volume_size",
+     "value": 120
+    },
+    {
+     "key": "worker",
+     "base": "aws_ssm_parameter.node_config",
+     "attr": "description",
+     "value": "tfefdo-prod worker placement us-east-1b"
+    },
+    {
+     "key": "server",
+     "base": "aws_network_interface.nomad",
+     "attr": "private_ips",
+     "value": [
+      "10.72.2.136"
+     ]
+    },
+    {
+     "key": "server",
+     "base": "aws_launch_template.nomad",
+     "attr": "instance_type",
+     "value": "c6i.xlarge"
+    },
+    {
+     "key": "server",
+     "base": "aws_launch_template.nomad",
+     "attr": "block_device_mappings[0].ebs[0].volume_size",
+     "value": 55
+    },
+    {
+     "key": "server",
+     "base": "aws_ssm_parameter.node_config",
+     "attr": "description",
+     "value": "tfefdo-prod server placement us-east-1b"
+    }
+   ],
+   "may_change": [
+    {
+     "base": "aws_network_interface.nomad",
+     "attr": "subnet_id"
+    },
+    {
+     "base": "aws_autoscaling_group.nomad",
+     "attr": "vpc_zone_identifier"
+    },
+    {
+     "base": "aws_autoscaling_group.nomad",
+     "attr": "launch_template"
+    }
+   ],
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-33ebaaef36b47d867",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-e767ba44ada73fd2e",
+      "us-east-1b": "subnet-c94398598bc15d22a",
+      "us-east-1c": "subnet-7750dfd29aa7140d7"
+     },
+     "unknown": false
+    },
+    "private_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-c3a894b4c531a76e8",
+      "us-east-1b": "subnet-e53d2440f90a2f3e5",
+      "us-east-1c": "subnet-f833fddb51aa85ddf"
+     },
+     "unknown": false
+    },
+    "database_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-83cae4f00cf8417cd",
+      "us-east-1b": "subnet-2f80062ef650b24ac",
+      "us-east-1c": "subnet-16fb889b6b7880d19"
+     },
+     "unknown": false
+    },
+    "nat_public_ips": {
+     "after": {
+      "us-east-1a": "127.130.226.30",
+      "us-east-1b": "127.175.182.247",
+      "us-east-1c": "127.169.33.166"
+     },
+     "unknown": false
+    },
+    "node_public_ips": {
+     "after": {
+      "client": "127.79.98.173",
+      "server": "127.2.83.182",
+      "worker": "127.0.245.233"
+     },
+     "unknown": false
+    },
+    "node_group_names": {
+     "after": {
+      "client": "tfefdo-prod-client",
+      "server": "tfefdo-prod-server",
+      "worker": "tfefdo-prod-worker"
+     },
+     "unknown": false
+    },
+    "state_bucket_name": {
+     "after": "tfefdo-prod-state-8f2c",
+     "unknown": false
+    },
+    "database_endpoint": {
+     "after": "tfefdo-prod-postgres.aaaaaaaaaa.us-east-1.rds.amazonaws.com:5432",
+     "unknown": false
+    },
+    "redis_cluster_id": {
+     "after": "tfefdo-prod-redis",
+     "unknown": false
+    },
+    "internal_zone_id": {
+     "after": "X2GSFICUJ32XWN4OT3H0MT",
+     "unknown": false
+    }
+   },
+   "reference_replaced": [
+    "aws_network_interface.nomad[0]",
+    "aws_network_interface.nomad[1]",
+    "aws_network_interface.nomad[2]"
+   ],
+   "update_values": {
+    "aws_ssm_parameter.cluster_inventory": {
+     "value": {
+      "after": "{\"environment\":\"prod\",\"node_groups\":[\"client\",\"worker\",\"server\"],\"project\":\"tfefdo\"}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "project_var",
+   "kind": "rename",
+   "variable": "project",
+   "old": "tfefdo",
+   "new": "quartzapp",
+   "name_outputs": [
+    "state_bucket_name",
+    "node_group_names",
+    "redis_cluster_id"
+   ],
+   "swap_fields": [
+    {
+     "base": "aws_launch_template.nomad",
+     "attr": "user_data"
+    },
+    {
+     "base": "aws_ssm_parameter.node_config",
+     "attr": "value"
+    },
+    {
+     "legacy": "aws_ssm_parameter.cluster_inventory",
+     "attr": "value"
+    },
+    {
+     "legacy": "aws_iam_role_policy.tfe_data",
+     "attr": "policy"
+    },
+    {
+     "legacy": "aws_secretsmanager_secret_version.bootstrap",
+     "attr": "secret_string"
+    }
+   ],
+   "expect": [
+    {
+     "legacy": "aws_db_instance.tfe",
+     "attr": "db_name",
+     "value": "quartzappprod"
+    },
+    {
+     "legacy": "aws_secretsmanager_secret_version.bootstrap",
+     "attr": "secret_string",
+     "contains": "quartzappprod"
+    }
+   ]
+  },
+  {
+   "name": "environment_var",
+   "kind": "rename",
+   "variable": "environment",
+   "old": "prod",
+   "new": "staging",
+   "name_outputs": [
+    "state_bucket_name",
+    "node_group_names",
+    "redis_cluster_id"
+   ],
+   "swap_fields": [
+    {
+     "base": "aws_launch_template.nomad",
+     "attr": "user_data"
+    },
+    {
+     "base": "aws_ssm_parameter.node_config",
+     "attr": "value"
+    },
+    {
+     "legacy": "aws_ssm_parameter.cluster_inventory",
+     "attr": "value"
+    },
+    {
+     "legacy": "aws_iam_role_policy.tfe_data",
+     "attr": "policy"
+    },
+    {
+     "legacy": "aws_secretsmanager_secret_version.bootstrap",
+     "attr": "secret_string"
+    }
+   ],
+   "user_data": {
+    "legacy": "aws_launch_template.nomad[0]",
+    "line_prefix": "      TFE_ENV="
+   },
+   "expect": [
+    {
+     "legacy": "aws_db_instance.tfe",
+     "attr": "db_name",
+     "value": "tfefdostaging"
+    },
+    {
+     "legacy": "aws_secretsmanager_secret_version.bootstrap",
+     "attr": "secret_string",
+     "contains": "tfefdostaging"
+    }
+   ]
+  },
+  {
+   "name": "tags_var",
+   "kind": "tags",
+   "variable": "tags",
+   "common_keys": [
+    "Owner",
+    "CostCenter",
+    "ManagedBy"
+   ],
+   "value": {
+    "Owner": "platform-probe",
+    "ManagedBy": "terraform",
+    "Compliance": "soc2"
+   },
+   "core": true
+  },
+  {
+   "name": "vpc_cidr_var",
+   "kind": "set",
+   "vars": {
+    "vpc_cidr": "10.91.0.0/16"
+   },
+   "expect": [
+    {
+     "legacy": "aws_vpc.main",
+     "attr": "cidr_block",
+     "value": "10.91.0.0/16"
+    },
+    {
+     "legacy": "aws_security_group_rule.ingress[2]",
+     "attr": "cidr_blocks",
+     "value": [
+      "10.91.0.0/16"
+     ]
+    },
+    {
+     "legacy": "aws_security_group_rule.ingress[3]",
+     "attr": "cidr_blocks",
+     "value": [
+      "10.91.0.0/16"
+     ]
+    },
+    {
+     "legacy": "aws_security_group_rule.ingress[4]",
+     "attr": "cidr_blocks",
+     "value": [
+      "10.91.0.0/16"
+     ]
+    },
+    {
+     "legacy": "aws_security_group_rule.ingress[5]",
+     "attr": "cidr_blocks",
+     "value": [
+      "10.91.0.0/16"
+     ]
+    },
+    {
+     "legacy": "aws_security_group_rule.ingress[6]",
+     "attr": "cidr_blocks",
+     "value": [
+      "10.91.0.0/16"
+     ]
+    }
+   ],
+   "unchanged": [
+    {
+     "type": "aws_subnet",
+     "attr": "cidr_block"
+    }
+   ],
+   "alternates": [
+    {
+     "vars": {
+      "vpc_cidr": "10.93.0.0/16"
+     }
+    }
+   ],
+   "core": true,
+   "reference_replaced": [
+    "aws_flow_log.vpc",
+    "aws_nat_gateway.main[0]",
+    "aws_nat_gateway.main[1]",
+    "aws_nat_gateway.main[2]",
+    "aws_network_interface.nomad[0]",
+    "aws_network_interface.nomad[1]",
+    "aws_network_interface.nomad[2]",
+    "aws_route.private_nat[0]",
+    "aws_route.private_nat[1]",
+    "aws_route.private_nat[2]",
+    "aws_route.public_internet",
+    "aws_route_table.database",
+    "aws_route_table.private[0]",
+    "aws_route_table.private[1]",
+    "aws_route_table.private[2]",
+    "aws_route_table.public",
+    "aws_route_table_association.database[0]",
+    "aws_route_table_association.database[1]",
+    "aws_route_table_association.database[2]",
+    "aws_route_table_association.private[0]",
+    "aws_route_table_association.private[1]",
+    "aws_route_table_association.private[2]",
+    "aws_route_table_association.public[0]",
+    "aws_route_table_association.public[1]",
+    "aws_route_table_association.public[2]",
+    "aws_security_group.nomad",
+    "aws_security_group_rule.egress",
+    "aws_security_group_rule.icmp",
+    "aws_security_group_rule.ingress[0]",
+    "aws_security_group_rule.ingress[1]",
+    "aws_security_group_rule.ingress[2]",
+    "aws_security_group_rule.ingress[3]",
+    "aws_security_group_rule.ingress[4]",
+    "aws_security_group_rule.ingress[5]",
+    "aws_security_group_rule.ingress[6]",
+    "aws_subnet.database[0]",
+    "aws_subnet.database[1]",
+    "aws_subnet.database[2]",
+    "aws_subnet.private[0]",
+    "aws_subnet.private[1]",
+    "aws_subnet.private[2]",
+    "aws_subnet.public[0]",
+    "aws_subnet.public[1]",
+    "aws_subnet.public[2]",
+    "aws_vpc.main",
+    "aws_vpc_endpoint.s3",
+    "aws_vpc_endpoint_route_table_association.s3[0]",
+    "aws_vpc_endpoint_route_table_association.s3[1]",
+    "aws_vpc_endpoint_route_table_association.s3[2]",
+    "aws_vpc_endpoint_route_table_association.s3[3]"
+   ]
+  },
+  {
+   "name": "node_ami_var",
+   "kind": "set",
+   "vars": {
+    "node_ami_id": "ami-0fedcba9876543210"
+   },
+   "expect": [
+    {
+     "base": "aws_launch_template.nomad",
+     "attr": "image_id",
+     "value": "ami-0fedcba9876543210"
+    }
+   ],
+   "alternates": [
+    {
+     "vars": {
+      "node_ami_id": "ami-0123456789abcdef0"
+     }
+    }
+   ],
+   "core": true,
+   "reference_replaced": []
+  },
+  {
+   "name": "db_class_var",
+   "kind": "set",
+   "vars": {
+    "db_instance_class": "db.r6g.large"
+   },
+   "expect": [
+    {
+     "legacy": "aws_db_instance.tfe",
+     "attr": "instance_class",
+     "value": "db.r6g.large"
+    }
+   ],
+   "alternates": [
+    {
+     "vars": {
+      "db_instance_class": "db.m6g.large"
+     }
+    }
+   ],
+   "core": true,
+   "reference_replaced": []
+  },
+  {
+   "name": "db_storage_var",
+   "kind": "set",
+   "vars": {
+    "db_allocated_storage": 180
+   },
+   "expect": [
+    {
+     "legacy": "aws_db_instance.tfe",
+     "attr": "allocated_storage",
+     "value": 180
+    }
+   ],
+   "alternates": [
+    {
+     "vars": {
+      "db_allocated_storage": 120
+     }
+    }
+   ],
+   "core": true,
+   "reference_replaced": []
+  },
+  {
+   "name": "cache_type_var",
+   "kind": "set",
+   "vars": {
+    "cache_node_type": "cache.m6g.large"
+   },
+   "expect": [
+    {
+     "legacy": "aws_elasticache_cluster.redis",
+     "attr": "node_type",
+     "value": "cache.m6g.large"
+    }
+   ],
+   "alternates": [
+    {
+     "vars": {
+      "cache_node_type": "cache.r6g.large"
+     }
+    }
+   ],
+   "core": true,
+   "reference_replaced": []
+  },
+  {
+   "name": "log_retention_var",
+   "kind": "set",
+   "vars": {
+    "log_retention_days": 60
+   },
+   "expect": [
+    {
+     "legacy": "aws_cloudwatch_log_group.vpc_flow",
+     "attr": "retention_in_days",
+     "value": 60
+    },
+    {
+     "base": "aws_cloudwatch_log_group.nomad",
+     "attr": "retention_in_days",
+     "value": 60
+    }
+   ],
+   "alternates": [
+    {
+     "vars": {
+      "log_retention_days": 90
+     }
+    }
+   ],
+   "core": true,
+   "reference_replaced": []
+  },
+  {
+   "name": "alarm_period_var",
+   "kind": "set",
+   "vars": {
+    "alarm_period": 300
+   },
+   "expect": [
+    {
+     "base": "aws_cloudwatch_metric_alarm.nomad_status",
+     "attr": "period",
+     "value": 300
+    }
+   ],
+   "alternates": [
+    {
+     "vars": {
+      "alarm_period": 180
+     }
+    }
+   ],
+   "core": true,
+   "reference_replaced": []
+  }
+ ],
+ "outputs": {
+  "vpc_id": {
+   "owner": "network",
+   "value": {
+    "legacy": "aws_vpc.main",
+    "attr": "id"
+   }
+  },
+  "public_subnet_ids": {
+   "owner": "network",
+   "map": {
+    "base": "aws_subnet.public",
+    "dimension": "az",
+    "attr": "id"
+   }
+  },
+  "private_subnet_ids": {
+   "owner": "network",
+   "map": {
+    "base": "aws_subnet.private",
+    "dimension": "az",
+    "attr": "id"
+   }
+  },
+  "database_subnet_ids": {
+   "owner": "network",
+   "map": {
+    "base": "aws_subnet.database",
+    "dimension": "az",
+    "attr": "id"
+   }
+  },
+  "nat_public_ips": {
+   "owner": "network",
+   "map": {
+    "base": "aws_eip.nat",
+    "dimension": "az",
+    "attr": "public_ip"
+   }
+  },
+  "node_public_ips": {
+   "owner": "compute",
+   "map": {
+    "base": "aws_eip.nomad",
+    "dimension": "node",
+    "attr": "public_ip"
+   }
+  },
+  "node_group_names": {
+   "owner": "compute",
+   "map": {
+    "base": "aws_autoscaling_group.nomad",
+    "dimension": "node",
+    "attr": "name"
+   }
+  },
+  "state_bucket_name": {
+   "owner": "data",
+   "value": {
+    "legacy": "aws_s3_bucket.tfe[0]",
+    "attr": "bucket"
+   }
+  },
+  "database_endpoint": {
+   "owner": "data",
+   "value": {
+    "legacy": "aws_db_instance.tfe",
+    "attr": "endpoint"
+   }
+  },
+  "redis_cluster_id": {
+   "owner": "data",
+   "value": {
+    "legacy": "aws_elasticache_cluster.redis",
+    "attr": "cluster_id"
+   }
+  },
+  "internal_zone_id": {
+   "owner": "network",
+   "value": {
+    "legacy": "aws_route53_zone.internal",
+    "attr": "zone_id"
+   }
+  }
+ },
+ "negative_controls": [
+  {
+   "name": "az_collector_fixed",
+   "file": "main.tf",
+   "pattern": "database_subnet_ids\\s*= \\[for key in local\\.az_order : module\\.network\\.database_subnet_ids\\[key\\]\\]",
+   "replace": "database_subnet_ids = [module.network.database_subnet_ids[\"us-east-1c\"], module.network.database_subnet_ids[\"us-east-1a\"], module.network.database_subnet_ids[\"us-east-1b\"]]",
+   "expect": "zero"
+  },
+  {
+   "name": "node_collector_fixed",
+   "file": "modules/compute/*.tf",
+   "pattern": "node_groups\\s*= var\\.node_order",
+   "replace": "node_groups = [\"client\", \"worker\", \"server\"]",
+   "expect": "zero"
+  },
+  {
+   "name": "project_user_data_fixed",
+   "file": "modules/compute/*.tf",
+   "pattern": "project\\s*= var\\.project",
+   "replace": "project = \"tfefdo\"",
+   "expect": "zero"
+  },
+  {
+   "name": "environment_user_data_fixed",
+   "file": "modules/compute/*.tf",
+   "pattern": "environment\\s*= var\\.environment",
+   "replace": "environment = \"prod\"",
+   "expect": "zero"
+  }
+ ],
+ "fresh_salt": "ff899d3758b416b7",
+ "fresh_records": {
+  "add_az_fresh": {
+   "add_key": "us-east-1d",
+   "update_values": {
+    "aws_db_subnet_group.tfe": {
+     "subnet_ids": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-16fb889b6b7880d19",
+        "subnet-2f80062ef650b24ac",
+        "subnet-83cae4f00cf8417cd",
+        "subnet-d0802d83749a31f97"
+       ],
+       "unknown": null
+      }
+     },
+     "supported_network_types": {
+      "after": [],
+      "unknown": [],
+      "filled": {
+       "after": [],
+       "unknown": null
+      }
+     }
+    },
+    "aws_elasticache_subnet_group.redis": {
+     "subnet_ids": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-68577a087a5d15608",
+        "subnet-c3a894b4c531a76e8",
+        "subnet-e53d2440f90a2f3e5",
+        "subnet-f833fddb51aa85ddf"
+       ],
+       "unknown": null
+      }
+     }
+    }
+   },
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-33ebaaef36b47d867",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-e767ba44ada73fd2e",
+      "us-east-1b": "subnet-c94398598bc15d22a",
+      "us-east-1c": "subnet-7750dfd29aa7140d7"
+     },
+     "unknown": {
+      "us-east-1d": true
+     }
+    },
+    "private_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-c3a894b4c531a76e8",
+      "us-east-1b": "subnet-e53d2440f90a2f3e5",
+      "us-east-1c": "subnet-f833fddb51aa85ddf"
+     },
+     "unknown": {
+      "us-east-1d": true
+     }
+    },
+    "database_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-83cae4f00cf8417cd",
+      "us-east-1b": "subnet-2f80062ef650b24ac",
+      "us-east-1c": "subnet-16fb889b6b7880d19"
+     },
+     "unknown": {
+      "us-east-1d": true
+     }
+    },
+    "nat_public_ips": {
+     "after": {
+      "us-east-1a": "127.130.226.30",
+      "us-east-1b": "127.175.182.247",
+      "us-east-1c": "127.169.33.166"
+     },
+     "unknown": {
+      "us-east-1d": true
+     }
+    },
+    "node_public_ips": {
+     "after": {
+      "client": "127.79.98.173",
+      "server": "127.2.83.182",
+      "worker": "127.0.245.233"
+     },
+     "unknown": false
+    },
+    "node_group_names": {
+     "after": {
+      "client": "tfefdo-prod-client",
+      "server": "tfefdo-prod-server",
+      "worker": "tfefdo-prod-worker"
+     },
+     "unknown": false
+    },
+    "state_bucket_name": {
+     "after": "tfefdo-prod-state-8f2c",
+     "unknown": false
+    },
+    "database_endpoint": {
+     "after": "tfefdo-prod-postgres.aaaaaaaaaa.us-east-1.rds.amazonaws.com:5432",
+     "unknown": false
+    },
+    "redis_cluster_id": {
+     "after": "tfefdo-prod-redis",
+     "unknown": false
+    },
+    "internal_zone_id": {
+     "after": "X2GSFICUJ32XWN4OT3H0MT",
+     "unknown": false
+    }
+   }
+  },
+  "add_node_fresh": {
+   "add_key": "dyiob",
+   "update_values": {
+    "aws_ssm_parameter.cluster_inventory": {
+     "value": {
+      "after": "{\"environment\":\"prod\",\"node_groups\":[\"client\",\"worker\",\"server\",\"dyiob\"],\"project\":\"tfefdo\"}",
+      "unknown": null,
+      "filled": {
+       "after": "{\"environment\":\"prod\",\"node_groups\":[\"client\",\"worker\",\"server\",\"dyiob\"],\"project\":\"tfefdo\"}",
+       "unknown": null
+      }
+     }
+    }
+   },
+   "reference_outputs": {
+    "vpc_id": {
+     "after": "vpc-33ebaaef36b47d867",
+     "unknown": false
+    },
+    "public_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-e767ba44ada73fd2e",
+      "us-east-1b": "subnet-c94398598bc15d22a",
+      "us-east-1c": "subnet-7750dfd29aa7140d7"
+     },
+     "unknown": false
+    },
+    "private_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-c3a894b4c531a76e8",
+      "us-east-1b": "subnet-e53d2440f90a2f3e5",
+      "us-east-1c": "subnet-f833fddb51aa85ddf"
+     },
+     "unknown": false
+    },
+    "database_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-83cae4f00cf8417cd",
+      "us-east-1b": "subnet-2f80062ef650b24ac",
+      "us-east-1c": "subnet-16fb889b6b7880d19"
+     },
+     "unknown": false
+    },
+    "nat_public_ips": {
+     "after": {
+      "us-east-1a": "127.130.226.30",
+      "us-east-1b": "127.175.182.247",
+      "us-east-1c": "127.169.33.166"
+     },
+     "unknown": false
+    },
+    "node_public_ips": {
+     "after": {
+      "client": "127.79.98.173",
+      "server": "127.2.83.182",
+      "worker": "127.0.245.233"
+     },
+     "unknown": {
+      "dyiob": true
+     }
+    },
+    "node_group_names": {
+     "after": {
+      "client": "tfefdo-prod-client",
+      "dyiob": "tfefdo-prod-dyiob",
+      "server": "tfefdo-prod-server",
+      "worker": "tfefdo-prod-worker"
+     },
+     "unknown": false
+    },
+    "state_bucket_name": {
+     "after": "tfefdo-prod-state-8f2c",
+     "unknown": false
+    },
+    "database_endpoint": {
+     "after": "tfefdo-prod-postgres.aaaaaaaaaa.us-east-1.rds.amazonaws.com:5432",
+     "unknown": false
+    },
+    "redis_cluster_id": {
+     "after": "tfefdo-prod-redis",
+     "unknown": false
+    },
+    "internal_zone_id": {
+     "after": "X2GSFICUJ32XWN4OT3H0MT",
+     "unknown": false
+    }
+   }
+  }
+ },
+ "alt_records": {
+  "vpc_cidr_var_alt": {
+   "vars": {
+    "vpc_cidr": "10.93.0.0/16"
+   },
+   "reference_replaced": [
+    "aws_flow_log.vpc",
+    "aws_nat_gateway.main[0]",
+    "aws_nat_gateway.main[1]",
+    "aws_nat_gateway.main[2]",
+    "aws_network_interface.nomad[0]",
+    "aws_network_interface.nomad[1]",
+    "aws_network_interface.nomad[2]",
+    "aws_route.private_nat[0]",
+    "aws_route.private_nat[1]",
+    "aws_route.private_nat[2]",
+    "aws_route.public_internet",
+    "aws_route_table.database",
+    "aws_route_table.private[0]",
+    "aws_route_table.private[1]",
+    "aws_route_table.private[2]",
+    "aws_route_table.public",
+    "aws_route_table_association.database[0]",
+    "aws_route_table_association.database[1]",
+    "aws_route_table_association.database[2]",
+    "aws_route_table_association.private[0]",
+    "aws_route_table_association.private[1]",
+    "aws_route_table_association.private[2]",
+    "aws_route_table_association.public[0]",
+    "aws_route_table_association.public[1]",
+    "aws_route_table_association.public[2]",
+    "aws_security_group.nomad",
+    "aws_security_group_rule.egress",
+    "aws_security_group_rule.icmp",
+    "aws_security_group_rule.ingress[0]",
+    "aws_security_group_rule.ingress[1]",
+    "aws_security_group_rule.ingress[2]",
+    "aws_security_group_rule.ingress[3]",
+    "aws_security_group_rule.ingress[4]",
+    "aws_security_group_rule.ingress[5]",
+    "aws_security_group_rule.ingress[6]",
+    "aws_subnet.database[0]",
+    "aws_subnet.database[1]",
+    "aws_subnet.database[2]",
+    "aws_subnet.private[0]",
+    "aws_subnet.private[1]",
+    "aws_subnet.private[2]",
+    "aws_subnet.public[0]",
+    "aws_subnet.public[1]",
+    "aws_subnet.public[2]",
+    "aws_vpc.main",
+    "aws_vpc_endpoint.s3",
+    "aws_vpc_endpoint_route_table_association.s3[0]",
+    "aws_vpc_endpoint_route_table_association.s3[1]",
+    "aws_vpc_endpoint_route_table_association.s3[2]",
+    "aws_vpc_endpoint_route_table_association.s3[3]"
+   ]
+  },
+  "node_ami_var_alt": {
+   "vars": {
+    "node_ami_id": "ami-0123456789abcdef0"
+   },
+   "reference_replaced": []
+  },
+  "db_class_var_alt": {
+   "vars": {
+    "db_instance_class": "db.m6g.large"
+   },
+   "reference_replaced": []
+  },
+  "db_storage_var_alt": {
+   "vars": {
+    "db_allocated_storage": 120
+   },
+   "reference_replaced": []
+  },
+  "cache_type_var_alt": {
+   "vars": {
+    "cache_node_type": "cache.r6g.large"
+   },
+   "reference_replaced": []
+  },
+  "log_retention_var_alt": {
+   "vars": {
+    "log_retention_days": 90
+   },
+   "reference_replaced": []
+  },
+  "alarm_period_var_alt": {
+   "vars": {
+    "alarm_period": 180
+   },
+   "reference_replaced": []
+  }
+ }
+}

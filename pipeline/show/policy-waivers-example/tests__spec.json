@@ -1,0 +1,859 @@
+{
+ "guardrails": {
+  "policies": "guardrails",
+  "rules": [
+   "IAM-002",
+   "IAM-003",
+   "KMS-003",
+   "KMS-004",
+   "KMS-005",
+   "CW-002",
+   "S3-002",
+   "S3-005"
+  ]
+ },
+ "exceptions": {
+  "register": "exceptions/register.json",
+  "expected": [
+   [
+    "NET-001",
+    "aws_security_group_rule.partner_sftp_feed"
+   ],
+   [
+    "NET-001",
+    "aws_security_group_rule.uptime_probe_v6"
+   ],
+   [
+    "NET-001",
+    "aws_security_group_rule.webhook_relay_public"
+   ],
+   [
+    "NET-006",
+    "aws_network_acl_rule.ops_rdp_bastion"
+   ],
+   [
+    "NET-006",
+    "aws_network_acl_rule.vendor_ssh_relay"
+   ],
+   [
+    "RDS-005",
+    "aws_db_instance.ghost"
+   ]
+  ]
+ },
+ "task_type": "waivers",
+ "family": "terraform-policy-remediation",
+ "task": "ggjam-waivers",
+ "artifact_dir": "/workspace/infra",
+ "pristine_state": "pristine.tfstate",
+ "lock_file": "terraform.lock.hcl",
+ "policies": "policies",
+ "conftest": {
+  "namespaces": "all"
+ },
+ "protected": {
+  "trusted_dir": "trusted",
+  "files": [
+   "providers.tf",
+   "versions.tf",
+   "scripts/ci-plan.sh"
+  ],
+  "trees": [
+   "policies"
+  ]
+ },
+ "banned_files": [
+  "conftest.toml"
+ ],
+ "frozen_variables": {
+  "admin_cidr_blocks": [
+   "203.0.113.0/24"
+  ],
+  "build_lanes": {
+   "bulk": {
+    "age_alarm_threshold": 2400,
+    "alarm_period_seconds": 600,
+    "delay_seconds": 120,
+    "evaluation_periods": 5,
+    "failure_threshold": 24,
+    "max_message_bytes": 262144,
+    "receive_wait_seconds": 20,
+    "retention_seconds": 14400,
+    "visibility_seconds": 240
+   },
+   "scheduled": {
+    "age_alarm_threshold": 900,
+    "alarm_period_seconds": 300,
+    "delay_seconds": 30,
+    "evaluation_periods": 3,
+    "failure_threshold": 9,
+    "max_message_bytes": 131072,
+    "receive_wait_seconds": 10,
+    "retention_seconds": 5400,
+    "visibility_seconds": 90
+   },
+   "urgent": {
+    "age_alarm_threshold": 450,
+    "alarm_period_seconds": 180,
+    "delay_seconds": 0,
+    "evaluation_periods": 2,
+    "failure_threshold": 5,
+    "max_message_bytes": 98304,
+    "receive_wait_seconds": 5,
+    "retention_seconds": 3600,
+    "visibility_seconds": 60
+   }
+  },
+  "content_key_deletion_window_days": 10,
+  "delivery_channels": {
+   "email": {
+    "age_alarm_threshold": 600,
+    "alarm_period_seconds": 180,
+    "delay_seconds": 10,
+    "evaluation_periods": 3,
+    "failure_threshold": 10,
+    "max_message_bytes": 131072,
+    "receive_wait_seconds": 10,
+    "retention_seconds": 3600,
+    "visibility_seconds": 60
+   },
+   "feed": {
+    "age_alarm_threshold": 1200,
+    "alarm_period_seconds": 300,
+    "delay_seconds": 20,
+    "evaluation_periods": 4,
+    "failure_threshold": 15,
+    "max_message_bytes": 262144,
+    "receive_wait_seconds": 20,
+    "retention_seconds": 7200,
+    "visibility_seconds": 120
+   },
+   "webhook": {
+    "age_alarm_threshold": 300,
+    "alarm_period_seconds": 120,
+    "delay_seconds": 0,
+    "evaluation_periods": 2,
+    "failure_threshold": 5,
+    "max_message_bytes": 65536,
+    "receive_wait_seconds": 5,
+    "retention_seconds": 1800,
+    "visibility_seconds": 30
+   }
+  },
+  "ghost_db_backup_days": 1,
+  "site_components": {
+   "backups": {
+    "age_alarm_threshold": 1800,
+    "alarm_period_seconds": 300,
+    "delay_seconds": 30,
+    "evaluation_periods": 3,
+    "failure_threshold": 20,
+    "max_message_bytes": 262144,
+    "receive_wait_seconds": 20,
+    "retention_seconds": 3600,
+    "visibility_seconds": 90
+   },
+   "frontend": {
+    "age_alarm_threshold": 900,
+    "alarm_period_seconds": 240,
+    "delay_seconds": 10,
+    "evaluation_periods": 4,
+    "failure_threshold": 12,
+    "max_message_bytes": 196608,
+    "receive_wait_seconds": 15,
+    "retention_seconds": 1800,
+    "visibility_seconds": 60
+   },
+   "media": {
+    "age_alarm_threshold": 600,
+    "alarm_period_seconds": 180,
+    "delay_seconds": 0,
+    "evaluation_periods": 2,
+    "failure_threshold": 8,
+    "max_message_bytes": 131072,
+    "receive_wait_seconds": 10,
+    "retention_seconds": 1200,
+    "visibility_seconds": 45
+   }
+  }
+ },
+ "protected_variables": {
+  "admin_cidr_blocks": {
+   "default": [
+    "203.0.113.0/24"
+   ],
+   "type": "${list(string)}",
+   "validation": [
+    {
+     "condition": "${alltrue([for c in var.admin_cidr_blocks : can(cidrnetmask(c))])}",
+     "error_message": "Every admin range must be an IPv4 CIDR block."
+    }
+   ]
+  },
+  "build_lanes": {
+   "default": {
+    "bulk": {
+     "age_alarm_threshold": 2400,
+     "alarm_period_seconds": 600,
+     "delay_seconds": 120,
+     "evaluation_periods": 5,
+     "failure_threshold": 24,
+     "max_message_bytes": 262144,
+     "receive_wait_seconds": 20,
+     "retention_seconds": 14400,
+     "visibility_seconds": 240
+    },
+    "scheduled": {
+     "age_alarm_threshold": 900,
+     "alarm_period_seconds": 300,
+     "delay_seconds": 30,
+     "evaluation_periods": 3,
+     "failure_threshold": 9,
+     "max_message_bytes": 131072,
+     "receive_wait_seconds": 10,
+     "retention_seconds": 5400,
+     "visibility_seconds": 90
+    },
+    "urgent": {
+     "age_alarm_threshold": 450,
+     "alarm_period_seconds": 180,
+     "delay_seconds": 0,
+     "evaluation_periods": 2,
+     "failure_threshold": 5,
+     "max_message_bytes": 98304,
+     "receive_wait_seconds": 5,
+     "retention_seconds": 3600,
+     "visibility_seconds": 60
+    }
+   },
+   "type": "${map(object({\n    retention_seconds    = number\n    visibility_seconds   = number\n    max_message_bytes    = number\n    receive_wait_seconds = number\n    delay_seconds        = number\n    age_alarm_threshold  = number\n    failure_threshold    = number\n    alarm_period_seconds = number\n    evaluation_periods   = number\n  }))}"
+  },
+  "content_key_deletion_window_days": {
+   "default": 10,
+   "type": "${number}",
+   "validation": [
+    {
+     "condition": "${var.content_key_deletion_window_days >= 7 && var.content_key_deletion_window_days <= 30}",
+     "error_message": "KMS deletion windows are 7 to 30 days."
+    }
+   ]
+  },
+  "delivery_channels": {
+   "default": {
+    "email": {
+     "age_alarm_threshold": 600,
+     "alarm_period_seconds": 180,
+     "delay_seconds": 10,
+     "evaluation_periods": 3,
+     "failure_threshold": 10,
+     "max_message_bytes": 131072,
+     "receive_wait_seconds": 10,
+     "retention_seconds": 3600,
+     "visibility_seconds": 60
+    },
+    "feed": {
+     "age_alarm_threshold": 1200,
+     "alarm_period_seconds": 300,
+     "delay_seconds": 20,
+     "evaluation_periods": 4,
+     "failure_threshold": 15,
+     "max_message_bytes": 262144,
+     "receive_wait_seconds": 20,
+     "retention_seconds": 7200,
+     "visibility_seconds": 120
+    },
+    "webhook": {
+     "age_alarm_threshold": 300,
+     "alarm_period_seconds": 120,
+     "delay_seconds": 0,
+     "evaluation_periods": 2,
+     "failure_threshold": 5,
+     "max_message_bytes": 65536,
+     "receive_wait_seconds": 5,
+     "retention_seconds": 1800,
+     "visibility_seconds": 30
+    }
+   },
+   "type": "${map(object({\n    retention_seconds    = number\n    visibility_seconds   = number\n    max_message_bytes    = number\n    receive_wait_seconds = number\n    delay_seconds        = number\n    age_alarm_threshold  = number\n    failure_threshold    = number\n    alarm_period_seconds = number\n    evaluation_periods   = number\n  }))}"
+  },
+  "ghost_db_backup_days": {
+   "default": 1,
+   "type": "${number}",
+   "validation": [
+    {
+     "condition": "${var.ghost_db_backup_days >= 0 && var.ghost_db_backup_days <= 35}",
+     "error_message": "RDS keeps automated backups for 0 to 35 days."
+    }
+   ]
+  },
+  "site_components": {
+   "default": {
+    "backups": {
+     "age_alarm_threshold": 1800,
+     "alarm_period_seconds": 300,
+     "delay_seconds": 30,
+     "evaluation_periods": 3,
+     "failure_threshold": 20,
+     "max_message_bytes": 262144,
+     "receive_wait_seconds": 20,
+     "retention_seconds": 3600,
+     "visibility_seconds": 90
+    },
+    "frontend": {
+     "age_alarm_threshold": 900,
+     "alarm_period_seconds": 240,
+     "delay_seconds": 10,
+     "evaluation_periods": 4,
+     "failure_threshold": 12,
+     "max_message_bytes": 196608,
+     "receive_wait_seconds": 15,
+     "retention_seconds": 1800,
+     "visibility_seconds": 60
+    },
+    "media": {
+     "age_alarm_threshold": 600,
+     "alarm_period_seconds": 180,
+     "delay_seconds": 0,
+     "evaluation_periods": 2,
+     "failure_threshold": 8,
+     "max_message_bytes": 131072,
+     "receive_wait_seconds": 10,
+     "retention_seconds": 1200,
+     "visibility_seconds": 45
+    }
+   },
+   "type": "${map(object({\n    retention_seconds    = number\n    visibility_seconds   = number\n    max_message_bytes    = number\n    receive_wait_seconds = number\n    delay_seconds        = number\n    age_alarm_threshold  = number\n    failure_threshold    = number\n    alarm_period_seconds = number\n    evaluation_periods   = number\n  }))}"
+  }
+ },
+ "allowed_creates": [
+  "aws_db_parameter_group",
+  "aws_flow_log",
+  "aws_s3_bucket_ownership_controls",
+  "aws_s3_bucket_policy",
+  "aws_s3_bucket_public_access_block",
+  "aws_s3_bucket_server_side_encryption_configuration",
+  "aws_s3_bucket_versioning"
+ ],
+ "allowed_updates": {
+  "aws_api_gateway_stage": [
+   "xray_tracing_enabled"
+  ],
+  "aws_autoscaling_group": [
+   "launch_template"
+  ],
+  "aws_cloudwatch_log_group": [
+   "kms_key_id",
+   "retention_in_days"
+  ],
+  "aws_cloudwatch_metric_alarm": [
+   "actions_enabled",
+   "alarm_actions",
+   "insufficient_data_actions",
+   "ok_actions"
+  ],
+  "aws_db_instance": [
+   "apply_immediately",
+   "backup_retention_period",
+   "copy_tags_to_snapshot",
+   "deletion_protection",
+   "final_snapshot_identifier",
+   "parameter_group_name",
+   "skip_final_snapshot"
+  ],
+  "aws_db_parameter_group": [
+   "parameter"
+  ],
+  "aws_dynamodb_table": [
+   "deletion_protection_enabled",
+   "point_in_time_recovery",
+   "server_side_encryption"
+  ],
+  "aws_ecs_cluster": [
+   "setting"
+  ],
+  "aws_iam_policy": [
+   "policy"
+  ],
+  "aws_iam_role": [
+   "assume_role_policy",
+   "inline_policy"
+  ],
+  "aws_iam_role_policy": [
+   "policy"
+  ],
+  "aws_instance": [
+   "metadata_options"
+  ],
+  "aws_kms_key": [
+   "bypass_policy_lockout_safety_check",
+   "deletion_window_in_days",
+   "enable_key_rotation",
+   "policy",
+   "rotation_period_in_days"
+  ],
+  "aws_lambda_function": [
+   "kms_key_arn",
+   "tracing_config"
+  ],
+  "aws_launch_template": [
+   "block_device_mappings",
+   "default_version",
+   "metadata_options",
+   "update_default_version"
+  ],
+  "aws_lb": [
+   "access_logs",
+   "drop_invalid_header_fields",
+   "enable_deletion_protection"
+  ],
+  "aws_lb_listener": [
+   "default_action",
+   "ssl_policy"
+  ],
+  "aws_network_acl": [
+   "ingress"
+  ],
+  "aws_s3_bucket_ownership_controls": [
+   "rule"
+  ],
+  "aws_s3_bucket_policy": [
+   "policy"
+  ],
+  "aws_s3_bucket_public_access_block": [
+   "block_public_acls",
+   "block_public_policy",
+   "ignore_public_acls",
+   "restrict_public_buckets"
+  ],
+  "aws_s3_bucket_server_side_encryption_configuration": [
+   "rule"
+  ],
+  "aws_s3_bucket_versioning": [
+   "versioning_configuration"
+  ],
+  "aws_secretsmanager_secret": [
+   "kms_key_id",
+   "recovery_window_in_days"
+  ],
+  "aws_security_group": [
+   "ingress"
+  ],
+  "aws_sns_topic": [
+   "kms_master_key_id"
+  ],
+  "aws_sqs_queue": [
+   "kms_data_key_reuse_period_seconds",
+   "kms_master_key_id",
+   "redrive_allow_policy",
+   "redrive_policy",
+   "sqs_managed_sse_enabled"
+  ],
+  "aws_sqs_queue_policy": [
+   "policy"
+  ],
+  "aws_vpc_security_group_ingress_rule": [
+   "cidr_ipv4",
+   "cidr_ipv6",
+   "description"
+  ]
+ },
+ "allowed_tag_keys": null,
+ "update_fallout": {
+  "aws_launch_template": [
+   "latest_version"
+  ]
+ },
+ "probes": [
+  {
+   "name": "new_site_component",
+   "kind": "collection_add",
+   "var_file": "probes/new_site_component.tfvars.json",
+   "state": "probes/new_site_component.tfstate"
+  },
+  {
+   "name": "new_delivery_channel",
+   "kind": "collection_add",
+   "var_file": "probes/new_delivery_channel.tfvars.json",
+   "state": "probes/new_delivery_channel.tfstate"
+  },
+  {
+   "name": "new_build_lane",
+   "kind": "collection_add",
+   "var_file": "probes/new_build_lane.tfvars.json",
+   "state": "probes/new_build_lane.tfstate"
+  },
+  {
+   "name": "admin_cidr_blocks",
+   "kind": "variable",
+   "var_file": "probes/admin_cidr_blocks.tfvars.json",
+   "expect": [
+    {
+     "kind": "ingress_port_sources",
+     "port": 22,
+     "cidrs": [
+      "198.51.100.0/24",
+      "192.0.2.128/25"
+     ],
+     "require": [
+      "aws_security_group.jumpbox",
+      "aws_security_group.release_runner"
+     ]
+    }
+   ],
+   "allowed_changes": {
+    "aws_security_group.release_runner": [
+     "ingress"
+    ]
+   }
+  },
+  {
+   "name": "retire_site_component",
+   "kind": "collection_change",
+   "var_file": "probes/retire_site_component.tfvars.json",
+   "allowed_destroys": [
+    "aws_cloudwatch_log_group.publisher[\"backups\"]",
+    "aws_cloudwatch_log_group.publisher_audit[\"backups\"]",
+    "aws_cloudwatch_metric_alarm.publishing_age[\"backups\"]",
+    "aws_cloudwatch_metric_alarm.publishing_dlq_depth[\"backups\"]",
+    "aws_iam_policy.component_alerting[\"backups\"]",
+    "aws_iam_policy.component_delivery[\"backups\"]",
+    "aws_s3_bucket.site[\"backups\"]",
+    "aws_s3_bucket_public_access_block.site[\"backups\"]",
+    "aws_s3_bucket_server_side_encryption_configuration.site[\"backups\"]",
+    "aws_s3_bucket_versioning.site[\"backups\"]",
+    "aws_sns_topic.component_alerts[\"backups\"]",
+    "aws_sqs_queue.publishing[\"backups\"]",
+    "aws_sqs_queue.publishing_dlq[\"backups\"]",
+    "aws_sqs_queue_policy.publishing[\"backups\"]",
+    "aws_ssm_parameter.component_alert_topic[\"backups\"]",
+    "aws_ssm_parameter.component_bucket[\"backups\"]",
+    "aws_ssm_parameter.component_config[\"backups\"]"
+   ],
+   "allowed_changes": {
+    "aws_iam_policy.ghost_content": [
+     "policy"
+    ],
+    "aws_iam_policy.publisher_inventory": [
+     "policy"
+    ],
+    "aws_lambda_function.webhook": [
+     "environment"
+    ],
+    "aws_ssm_parameter.component_inventory": [
+     "insecure_value",
+     "value",
+     "version"
+    ]
+   }
+  },
+  {
+   "name": "retune_delivery_channel",
+   "kind": "collection_change",
+   "var_file": "probes/retune_delivery_channel.tfvars.json",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_sqs_queue",
+      "address": "^aws_sqs_queue\\.channel_dlq\\[\"webhook\"\\]$"
+     },
+     "path": "visibility_timeout_seconds",
+     "equals": 50,
+     "prose": "the channel's new `visibility_seconds`"
+    }
+   ],
+   "allowed_changes": {
+    "aws_cloudwatch_metric_alarm.channel_failures[\"webhook\"]": [
+     "threshold"
+    ],
+    "aws_sqs_queue.channel[\"webhook\"]": [
+     "visibility_timeout_seconds"
+    ],
+    "aws_sqs_queue.channel_dlq[\"webhook\"]": [
+     "visibility_timeout_seconds"
+    ],
+    "aws_ssm_parameter.channel_config[\"webhook\"]": [
+     "insecure_value",
+     "value",
+     "version"
+    ]
+   }
+  },
+  {
+   "name": "ghost_db_backup_and_key_windows",
+   "kind": "variable",
+   "var_file": "probes/ghost_db_backup_and_key_windows.tfvars.json",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_db_instance",
+      "address": "^aws_db_instance\\.ghost$"
+     },
+     "path": "backup_retention_period",
+     "equals": 21,
+     "min_count": 1,
+     "prose": "the requested `ghost_db_backup_days`, since it meets the pack's 7-day minimum"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_kms_key",
+      "address": "^aws_kms_key\\.content$"
+     },
+     "path": "deletion_window_in_days",
+     "equals": 30,
+     "min_count": 1,
+     "prose": "the pack's 30-day minimum, since the requested window is shorter"
+    }
+   ],
+   "allowed_changes": {
+    "aws_db_instance.ghost": [
+     "backup_retention_period"
+    ],
+    "aws_iam_policy.ghost_content": [
+     "policy"
+    ],
+    "aws_kms_key.content": [
+     "deletion_window_in_days"
+    ]
+   }
+  },
+  {
+   "name": "retire_build_lane",
+   "kind": "collection_change",
+   "var_file": "probes/retire_build_lane.tfvars.json",
+   "allowed_destroys": [
+    "aws_cloudwatch_log_group.build[\"scheduled\"]",
+    "aws_cloudwatch_log_group.build_audit[\"scheduled\"]",
+    "aws_cloudwatch_metric_alarm.build_age[\"scheduled\"]",
+    "aws_cloudwatch_metric_alarm.build_failures[\"scheduled\"]",
+    "aws_iam_policy.build_delivery[\"scheduled\"]",
+    "aws_iam_role_policy_attachment.build_delivery[\"scheduled\"]",
+    "aws_s3_bucket.build_artifacts[\"scheduled\"]",
+    "aws_s3_bucket_ownership_controls.build_artifacts[\"scheduled\"]",
+    "aws_s3_bucket_server_side_encryption_configuration.build_artifacts[\"scheduled\"]",
+    "aws_s3_bucket_versioning.build_artifacts[\"scheduled\"]",
+    "aws_sns_topic.build_alerts[\"scheduled\"]",
+    "aws_sqs_queue.build[\"scheduled\"]",
+    "aws_sqs_queue.build_dlq[\"scheduled\"]",
+    "aws_sqs_queue_policy.build[\"scheduled\"]",
+    "aws_ssm_parameter.build_config[\"scheduled\"]"
+   ],
+   "allowed_changes": {
+    "aws_iam_policy.build_inventory": [
+     "policy"
+    ],
+    "aws_lambda_function.webhook": [
+     "environment"
+    ],
+    "aws_ssm_parameter.build_inventory": [
+     "insecure_value",
+     "value",
+     "version"
+    ]
+   }
+  },
+  {
+   "name": "new_site_component_fresh",
+   "kind": "collection_change",
+   "var_file": "probes/new_site_component_fresh.tfvars.json",
+   "variant_of": "new_site_component",
+   "state": "probes/new_site_component_fresh.tfstate"
+  },
+  {
+   "name": "new_delivery_channel_fresh",
+   "kind": "collection_change",
+   "var_file": "probes/new_delivery_channel_fresh.tfvars.json",
+   "variant_of": "new_delivery_channel",
+   "state": "probes/new_delivery_channel_fresh.tfstate"
+  },
+  {
+   "name": "new_build_lane_fresh",
+   "kind": "collection_change",
+   "var_file": "probes/new_build_lane_fresh.tfvars.json",
+   "variant_of": "new_build_lane",
+   "state": "probes/new_build_lane_fresh.tfstate"
+  },
+  {
+   "name": "retire_site_component_fresh",
+   "kind": "collection_change",
+   "var_file": "probes/retire_site_component_fresh.tfvars.json",
+   "variant_of": "retire_site_component",
+   "allowed_destroys": [
+    "aws_cloudwatch_log_group.publisher[\"frontend\"]",
+    "aws_cloudwatch_log_group.publisher_audit[\"frontend\"]",
+    "aws_cloudwatch_metric_alarm.publishing_age[\"frontend\"]",
+    "aws_cloudwatch_metric_alarm.publishing_dlq_depth[\"frontend\"]",
+    "aws_iam_policy.component_alerting[\"frontend\"]",
+    "aws_iam_policy.component_delivery[\"frontend\"]",
+    "aws_s3_bucket.site[\"frontend\"]",
+    "aws_s3_bucket_public_access_block.site[\"frontend\"]",
+    "aws_s3_bucket_server_side_encryption_configuration.site[\"frontend\"]",
+    "aws_s3_bucket_versioning.site[\"frontend\"]",
+    "aws_sns_topic.component_alerts[\"frontend\"]",
+    "aws_sqs_queue.publishing[\"frontend\"]",
+    "aws_sqs_queue.publishing_dlq[\"frontend\"]",
+    "aws_sqs_queue_policy.publishing[\"frontend\"]",
+    "aws_ssm_parameter.component_alert_topic[\"frontend\"]",
+    "aws_ssm_parameter.component_bucket[\"frontend\"]",
+    "aws_ssm_parameter.component_config[\"frontend\"]"
+   ],
+   "allowed_changes": {
+    "aws_iam_policy.ghost_content": [
+     "policy"
+    ],
+    "aws_iam_policy.publisher_inventory": [
+     "policy"
+    ],
+    "aws_lambda_function.webhook": [
+     "environment"
+    ],
+    "aws_ssm_parameter.component_inventory": [
+     "insecure_value",
+     "value",
+     "version"
+    ]
+   }
+  },
+  {
+   "name": "retire_build_lane_fresh",
+   "kind": "collection_change",
+   "var_file": "probes/retire_build_lane_fresh.tfvars.json",
+   "variant_of": "retire_build_lane",
+   "allowed_destroys": [
+    "aws_cloudwatch_log_group.build[\"urgent\"]",
+    "aws_cloudwatch_log_group.build_audit[\"urgent\"]",
+    "aws_cloudwatch_metric_alarm.build_age[\"urgent\"]",
+    "aws_cloudwatch_metric_alarm.build_failures[\"urgent\"]",
+    "aws_iam_policy.build_delivery[\"urgent\"]",
+    "aws_iam_role_policy_attachment.build_delivery[\"urgent\"]",
+    "aws_s3_bucket.build_artifacts[\"urgent\"]",
+    "aws_s3_bucket_ownership_controls.build_artifacts[\"urgent\"]",
+    "aws_s3_bucket_server_side_encryption_configuration.build_artifacts[\"urgent\"]",
+    "aws_s3_bucket_versioning.build_artifacts[\"urgent\"]",
+    "aws_sns_topic.build_alerts[\"urgent\"]",
+    "aws_sqs_queue.build[\"urgent\"]",
+    "aws_sqs_queue.build_dlq[\"urgent\"]",
+    "aws_sqs_queue_policy.build[\"urgent\"]",
+    "aws_ssm_parameter.build_config[\"urgent\"]"
+   ],
+   "allowed_changes": {
+    "aws_iam_policy.build_inventory": [
+     "policy"
+    ],
+    "aws_lambda_function.webhook": [
+     "environment"
+    ],
+    "aws_ssm_parameter.build_inventory": [
+     "insecure_value",
+     "value",
+     "version"
+    ]
+   }
+  },
+  {
+   "name": "admin_cidr_blocks_alt",
+   "kind": "variable",
+   "var_file": "probes/admin_cidr_blocks_alt.tfvars.json",
+   "variant_of": "admin_cidr_blocks",
+   "expect": [
+    {
+     "kind": "ingress_port_sources",
+     "port": 22,
+     "cidrs": [
+      "198.19.171.0/24",
+      "198.18.188.0/25"
+     ],
+     "require": [
+      "aws_security_group.jumpbox",
+      "aws_security_group.release_runner"
+     ]
+    }
+   ],
+   "allowed_changes": {
+    "aws_security_group.release_runner": [
+     "ingress"
+    ]
+   }
+  },
+  {
+   "name": "retune_delivery_channel_alt",
+   "kind": "collection_change",
+   "var_file": "probes/retune_delivery_channel_alt.tfvars.json",
+   "variant_of": "retune_delivery_channel",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_sqs_queue",
+      "address": "^aws_sqs_queue\\.channel_dlq\\[\"webhook\"\\]$"
+     },
+     "path": "visibility_timeout_seconds",
+     "equals": 40,
+     "prose": "the channel's new `visibility_seconds`"
+    }
+   ],
+   "allowed_changes": {
+    "aws_cloudwatch_metric_alarm.channel_failures[\"webhook\"]": [
+     "threshold"
+    ],
+    "aws_sqs_queue.channel[\"webhook\"]": [
+     "visibility_timeout_seconds"
+    ],
+    "aws_sqs_queue.channel_dlq[\"webhook\"]": [
+     "visibility_timeout_seconds"
+    ],
+    "aws_ssm_parameter.channel_config[\"webhook\"]": [
+     "insecure_value",
+     "value",
+     "version"
+    ]
+   }
+  },
+  {
+   "name": "ghost_db_backup_and_key_windows_alt",
+   "kind": "variable",
+   "var_file": "probes/ghost_db_backup_and_key_windows_alt.tfvars.json",
+   "variant_of": "ghost_db_backup_and_key_windows",
+   "expect": [
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_db_instance",
+      "address": "^aws_db_instance\\.ghost$"
+     },
+     "path": "backup_retention_period",
+     "equals": 20,
+     "min_count": 1,
+     "prose": "the requested `ghost_db_backup_days`, since it meets the pack's 7-day minimum"
+    },
+    {
+     "kind": "attribute",
+     "select": {
+      "type": "aws_kms_key",
+      "address": "^aws_kms_key\\.content$"
+     },
+     "path": "deletion_window_in_days",
+     "equals": 30,
+     "min_count": 1,
+     "prose": "the pack's 30-day minimum, since the requested window is shorter"
+    }
+   ],
+   "allowed_changes": {
+    "aws_db_instance.ghost": [
+     "backup_retention_period"
+    ],
+    "aws_iam_policy.ghost_content": [
+     "policy"
+    ],
+    "aws_kms_key.content": [
+     "deletion_window_in_days"
+    ]
+   }
+  }
+ ],
+ "scoring": {
+  "partial_credit": false
+ }
+}

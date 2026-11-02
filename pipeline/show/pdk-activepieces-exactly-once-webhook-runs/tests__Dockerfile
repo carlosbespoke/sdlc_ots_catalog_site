@@ -1,0 +1,23 @@
+FROM oven/bun:1.4.0-debian@sha256:5bb0f9be3a1a36a03e27c9a9dd894a3b1ad26657155c7df4dda771e17bf872ef AS bun-runtime
+FROM node:22-bookworm@sha256:0e5f906573693feaa1e21057ebdcfdb5bd5021f050b2dc7c9deceb629c7da2a8
+COPY --from=bun-runtime /usr/local/bin/bun /usr/local/bin/bun
+ARG REPO_URL=https://github.com/activepieces/activepieces.git
+ARG BASE_COMMIT=f69620859abdc8c691f46b680786f34328992f2e
+ENV CI=1 BUN_INSTALL_CACHE_DIR=/opt/bun-cache
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends bash ca-certificates curl git jq less lsof netcat-openbsd procps python3 vim-tiny postgresql redis-server build-essential && rm -rf /var/lib/apt/lists/*
+RUN service postgresql start && su postgres -c "psql -v ON_ERROR_STOP=1 -c \"ALTER USER postgres PASSWORD 'postgres'\"" && service postgresql stop
+RUN useradd -m -s /bin/bash sdapp && install -d -o sdapp -g sdapp /app /opt/bun-cache && git config --system --add safe.directory /app
+USER sdapp
+WORKDIR /app
+RUN git init -q /app && git remote add origin "$REPO_URL" && git fetch -q --depth 1 origin "$BASE_COMMIT" && git checkout -q --detach FETCH_HEAD && test "$(git rev-parse HEAD)" = "$BASE_COMMIT"
+RUN bun install --frozen-lockfile
+RUN bun x turbo run build --filter=api --filter=worker --filter=@activepieces/engine --filter=@activepieces/piece-webhook --filter=@activepieces/piece-http --filter=@activepieces/piece-store
+USER root
+COPY grader-node/ /opt/sd-grader-node/
+RUN cd /opt/sd-grader-node && npm ci --ignore-scripts --omit=dev && chmod -R go-w /opt/sd-grader-node
+COPY grader.py /tests/grader.py
+COPY config.json /tests/config.json
+COPY test.patch /tests/test.patch
+COPY test.sh /tests/test.sh
+RUN chmod +x /tests/test.sh && git -C /app apply --whitespace=nowarn /tests/test.patch && GRADE_DIR=/tmp/warm bash /app/test.sh stage && GRADE_DIR=/tmp/warm bash /tmp/warm/test.sh build-tests && rm -rf /tmp/warm && git -C /app apply -R --whitespace=nowarn /tests/test.patch && git -C /app clean -qfd -- tests && test -z "$(git -C /app status --porcelain)"
+CMD ["/bin/bash"]

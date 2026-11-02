@@ -1,0 +1,38 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-sqlite-history-json-schema"
+description = ""
+authors = []
+keywords = ["python", "data-processing", "schema"]
+
+[metadata]
+task_id = "pdk-sqlite-history-json-schema"
+display_title = "Repair audit history after tracked SQLite tables changed shape"
+repository_url = "https://github.com/simonw/sqlite-history-json.git"
+base_commit_hash = "53e66b2791a1ccc2efd19c1e24de9fd5afcc343b"
+language = "python"
+category = "data_processing"
+archetype = "schema"
+
+[verifier]
+environment_mode = "separate"
+# At least 3x one full grade (both suites) on 4 CPUs, and never below 1800.
+timeout_sec = 1800
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached 53e66b2791a1ccc2efd19c1e24de9fd5afcc343b > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+
+[environment]
+allow_internet = false
+build_timeout_sec = 2400
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+timeout_sec = 21600

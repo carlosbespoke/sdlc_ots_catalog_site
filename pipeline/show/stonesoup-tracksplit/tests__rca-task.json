@@ -1,0 +1,42 @@
+{
+  "format": "rca-task",
+  "version": 1,
+  "source": {
+    "repository": "https://github.com/dstl/Stone-Soup.git",
+    "commit": "50e965aa15ec63d1d3eb13bb275639d136d8557b",
+    "voyager": "dstl__Stone-Soup.50e965aa"
+  },
+  "language": "python",
+  "test_command": "python -m pytest -p no:cacheprovider -q stonesoup",
+  "strip": [
+    ".github",
+    "docs/make.bat"
+  ],
+  "omit_tests": {
+    "globs": [
+      "**/tests/",
+      "**/test_*.py",
+      "**/*_test.py",
+      "**/conftest.py"
+    ],
+    "keep": []
+  },
+  "overlay": {
+    "path": "faults",
+    "files": {
+      "stonesoup/deleter/time.py": "7aa8144d1fff0111bc6f13baa52df13bf9c9b9b14051c29543e0a4e18a408fcb",
+      "stonesoup/types/array.py": "752adeef1932a6451f777c31d9a10f7465f82ceb6e35612b10f3a88c7623deba"
+    },
+    "removed": [],
+    "executable": []
+  },
+  "trees": {
+    "algorithm": "spec-drift-tree-v1",
+    "pristine": "000756e7679aa5ea1d005e9b2b7520815f84c7f803002e541a0db14883e48579",
+    "solver": "8281d6f3aeca2807420cc01e08eb9976b398f9dfc58e9836d922f37c0877925f"
+  },
+  "workspace": {
+    "root": "/workdir",
+    "evidence": "evidence"
+  }
+}

@@ -1,0 +1,38 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/dbconform-schema"
+description = ""
+authors = []
+keywords = ["python", "data-processing", "schema"]
+
+[metadata]
+task_id = "dbconform-schema"
+display_title = "Evolve SQLite columns with their data, views, triggers and ids intact"
+repository_url = "https://github.com/brian-pond/dbconform.git"
+base_commit_hash = "8f3dc04161e4ffe07499b0ded25e0542f2edeb40"
+language = "python"
+category = "data_processing"
+archetype = "schema"
+
+[verifier]
+environment_mode = "separate"
+# At least 3x one full grade (both suites) on 4 CPUs, and never below 1800.
+timeout_sec = 1800
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached 8f3dc04161e4ffe07499b0ded25e0542f2edeb40 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+
+[environment]
+allow_internet = false
+build_timeout_sec = 2400
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+timeout_sec = 21600

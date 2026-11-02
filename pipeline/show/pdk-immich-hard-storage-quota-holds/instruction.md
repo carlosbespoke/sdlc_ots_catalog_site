@@ -1,0 +1,9 @@
+Concurrent asset uploads can each pass the quota check using the same old usage value, after their files have already been written. A terminated API leaves an unfinished original on disk. The quota needs to remain a hard limit even while requests are still streaming.
+
+To close this out:
+- Make the per-user quota a hard limit across separate API processes, including uploads through shared links. Count bytes while multipart `POST /api/assets` bodies are arriving, including bodies without a declared file size. Refuse an upload that would exceed committed usage plus in-flight bytes with a quota error (HTTP 400 or 413), leaving no asset or rejected file. An active slow stream retains its space.
+- Return space and remove unfinished originals on client abort within 5 seconds, and after an API process dies within 45 seconds, without requiring another request. Completing an upload charges its original once. `GET /api/users/me` reports committed usage, not in-flight bytes.
+- Permanent deletion, whether requested repeatedly by emptying trash or through duplicate `AssetDelete` jobs on the `backgroundTask` queue, releases the original's usage exactly once; trash and restore leave it charged. Uploads whose checksum matches an existing asset return the existing id without charging twice. Users with no quota remain unrestricted.
+- Admin quota updates and `UserSyncUsage` jobs cannot erase in-flight space; finishing concurrent uploads charges their accepted bytes exactly.
+
+Work in `/app` (Immich at the pinned revision). PostgreSQL with VectorChord, Valkey/Redis and the shared `/data` upload directory are available through `DB_HOSTNAME=postgres`, `DB_USERNAME=postgres`, `DB_PASSWORD=postgres`, `DB_DATABASE_NAME=immich`, and `REDIS_HOSTNAME=redis`. Build with `pnpm --filter immich build` from `/app`. `api` and `microservices` run as separate workers via `IMMICH_WORKERS_INCLUDE`; Docker is unavailable inside the agent container.

@@ -1,0 +1,382 @@
+[
+ {
+  "code": "from throttled import Throttled, store\nt = Throttled(key=\"burst\", quota=\"1/m burst 5\", store=store.MemoryStore())\nresult = [brief(t.limit()) for _ in range(6)]\n",
+  "id": "OBS-0001"
+ },
+ {
+  "code": "from throttled import Throttled, rate_limiter, store\nt = Throttled(quota=rate_limiter.per_min(10, burst=20), store=store.MemoryStore())\nfirst = brief(t.limit(\"user:1\", cost=15))\nsecond = brief(t.limit(\"user:1\", cost=6))\nresult = [first, second, state(t.peek(\"user:1\"))]\n",
+  "id": "OBS-0002"
+ },
+ {
+  "code": "from throttled.asyncio import Throttled, per_sec, store\nasync def main():\n    t = Throttled(key=\"a\", quota=per_sec(2, burst=4), store=store.MemoryStore())\n    got = [brief(await t.limit()) for _ in range(5)]\n    clock.advance(1)\n    got.append(state(await t.peek(\"a\")))\n    return got\nresult = run(main())\n",
+  "id": "OBS-0003"
+ },
+ {
+  "code": "from throttled import Throttled\nt = Throttled(key=\"r\", quota=\"2 per second burst 3\", store=redis_store())\nresult = [brief(t.limit()) for _ in range(4)]\n",
+  "id": "OBS-0004"
+ },
+ {
+  "code": "from throttled.asyncio import Throttled\nasync def main():\n    t = Throttled(key=\"ar\", quota=\"1/s burst 3\", store=async_redis_store())\n    return [brief(await t.limit()) for _ in range(4)]\nresult = run(main())\n",
+  "id": "OBS-0005"
+ },
+ {
+  "code": "from fastapi import Request\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\nlimiter = Limiter(quota=\"1/m burst 3\", store=store.MemoryStore())\napp = fastapi_app()\n@app.get(\"/items\")\n@limiter.limit()\nasync def items(request: Request):\n    return {\"items\": [\"apple\", \"banana\"]}\nclient = client_for(app)\nresult = [http(client, \"GET\", \"/items\") for _ in range(3)] + [http(client, \"GET\", \"/items\")[:2]]\n",
+  "id": "OBS-0006"
+ },
+ {
+  "code": "from fastapi import Request\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\nlimiter = Limiter(quota=\"2/m\", store=store.MemoryStore())\napp = fastapi_app()\n@app.get(\"/items\")\n@limiter.limit()\nasync def items(request: Request):\n    return {\"items\": [\"apple\", \"banana\"]}\nclient = client_for(app)\nresult = [http(client, \"GET\", \"/items\") for _ in range(3)]\n",
+  "id": "OBS-0007"
+ },
+ {
+  "code": "from throttled import Throttled, rate_limiter, store\nt = Throttled(key=\"k\", quota=rate_limiter.per_min(10), store=store.MemoryStore())\ndrained = t.limit(cost=10)\nresult = [res(drained), res(t.limit(cost=2)), res(t.limit(cost=7))]\n",
+  "id": "OBS-0008"
+ },
+ {
+  "code": "from throttled.asyncio import Throttled, per_min, store\nasync def main():\n    t = Throttled(key=\"k\", quota=per_min(6), store=store.MemoryStore())\n    first = await t.limit(cost=6)\n    second = await t.limit(cost=1)\n    clock.advance(10)\n    third = await t.limit(cost=1)\n    return [res(first), res(second), res(third)]\nresult = run(main())\n",
+  "id": "OBS-0009"
+ },
+ {
+  "code": "from throttled import Throttled, exceptions, store\n@Throttled(key=\"/ping\", quota=\"2/m\", store=store.MemoryStore())\ndef ping():\n    return \"pong\"\nreplies = [ping(), ping()]\ntry:\n    ping()\n    message = None\nexcept exceptions.LimitedError as error:\n    message = [str(error), res(error.rate_limit_result)]\nresult = [replies, message]\n",
+  "id": "OBS-0010"
+ },
+ {
+  "code": "from throttled import Throttled\nt = Throttled(key=\"r\", quota=\"4/m\", store=redis_store())\nresult = [res(t.limit(cost=4)), res(t.limit(cost=1)), res(t.limit(cost=3))]\n",
+  "id": "OBS-0011"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, store\n@Throttled(key=\"ping\", using=RateLimiterType.GCRA.value, quota=\"2/s burst 2\", timeout=0.5,\n           store=store.MemoryStore())\ndef ping():\n    return \"pong\"\nstart = clock.elapsed()\ntimes = []\nfor i in range(5):\n    try:\n        ping()\n        times.append(round(clock.elapsed() - start, 6))\n    except Exception as error:\n        times.append(type(error).__name__)\nresult = times\n",
+  "id": "OBS-0012"
+ },
+ {
+  "code": "from throttled.asyncio import RateLimiterType, Throttled, store\nasync def main():\n    @Throttled(key=\"ping\", using=RateLimiterType.GCRA.value, quota=\"2/s burst 2\", timeout=0.5,\n               store=store.MemoryStore())\n    async def ping():\n        return \"pong\"\n    times = []\n    for i in range(5):\n        try:\n            await ping()\n            times.append(clock.elapsed())\n        except Exception as error:\n            times.append(type(error).__name__)\n    return times\nresult = run(main())\n",
+  "id": "OBS-0013"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, rate_limiter, store\nt = Throttled(using=RateLimiterType.GCRA.value, quota=rate_limiter.per_sec(2, burst=2),\n              store=store.MemoryStore())\nfirst = [res(t.limit(\"/ping\")), res(t.limit(\"/ping\"))]\nwaited = t.limit(\"/ping\", timeout=0.5)\nresult = [first, res(waited), clock.elapsed()]\n",
+  "id": "OBS-0014"
+ },
+ {
+  "code": "from throttled import Throttled, rate_limiter, store\nt = Throttled(key=\"tb\", quota=rate_limiter.per_sec(1, burst=1), timeout=1, store=store.MemoryStore())\nfirst = t.limit()\nsecond = t.limit()\nresult = [res(first), res(second), clock.elapsed()]\n",
+  "id": "OBS-0015"
+ },
+ {
+  "code": "from throttled.asyncio import Throttled, per_sec, store\nasync def main():\n    t = Throttled(key=\"tb\", quota=per_sec(1, burst=1), store=store.MemoryStore())\n    first = await t.limit()\n    second = await t.limit(timeout=1)\n    return [res(first), res(second), clock.elapsed()]\nresult = run(main())\n",
+  "id": "OBS-0016"
+ },
+ {
+  "code": "from throttled import Throttled, exceptions, rate_limiter, store\nt = Throttled(key=\"cm\", quota=rate_limiter.per_sec(1), timeout=1, store=store.MemoryStore())\ngot = []\nfor i in range(3):\n    try:\n        with t as rl:\n            got.append([res(rl), clock.elapsed()])\n    except exceptions.LimitedError:\n        got.append([\"LimitedError\", clock.elapsed()])\nresult = got\n",
+  "id": "OBS-0017"
+ },
+ {
+  "code": "from throttled import Hook, Throttled, store\nevents = Events()\nclass Named(Hook):\n    def __init__(self, name):\n        self.name = name\n    def on_limit(self, call_next, context):\n        events.add(self.name + \":before\")\n        rl = call_next()\n        events.add(self.name + \":after\")\n        return rl\nt = Throttled(key=\"h\", quota=\"5/m\", hooks=[Named(\"A\"), Named(\"B\")], store=store.MemoryStore())\nrl = t.limit()\nresult = [events.items, res(rl)]\n",
+  "id": "OBS-0018"
+ },
+ {
+  "code": "from throttled.asyncio import Hook, Throttled, store\nevents = Events()\nclass Named(Hook):\n    def __init__(self, name):\n        self.name = name\n    async def on_limit(self, call_next, context):\n        events.add(self.name + \":before\")\n        rl = await call_next()\n        events.add(self.name + \":after\")\n        return rl\nasync def main():\n    t = Throttled(key=\"h\", quota=\"5/m\", hooks=[Named(\"A\"), Named(\"B\"), Named(\"C\")],\n                  store=store.MemoryStore())\n    return res(await t.limit())\nfirst = run(main())\nresult = [events.items, first]\n",
+  "id": "OBS-0019"
+ },
+ {
+  "code": "from throttled import Hook, Throttled, store\nclass Outer(Hook):\n    def __init__(self, log):\n        self.log = log\n    def on_limit(self, call_next, context):\n        self.log.append(\"outer-start\")\n        rl = call_next()\n        self.log.append(\"outer-end\")\n        return rl\nclass Inner(Hook):\n    def __init__(self, log):\n        self.log = log\n    def on_limit(self, call_next, context):\n        self.log.append(\"inner-start\")\n        rl = call_next()\n        self.log.append(\"inner-end\")\n        return rl\nlog = []\nt = Throttled(key=\"h2\", quota=\"5/m\", hooks=[Outer(log), Inner(log)], store=store.MemoryStore())\nt.limit()\nt.limit()\nresult = log\n",
+  "id": "OBS-0020"
+ },
+ {
+  "code": "from fastapi import Request\nfrom throttled.asyncio import Hook\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\nevents = Events()\nclass Named(Hook):\n    def __init__(self, name):\n        self.name = name\n    async def on_limit(self, call_next, context):\n        events.add(self.name + \":before\")\n        rl = await call_next()\n        events.add(self.name + \":after\")\n        return rl\nlimiter = Limiter(quota=\"5/m\", store=store.MemoryStore(), hooks=[Named(\"first\"), Named(\"second\")])\napp = fastapi_app()\n@app.get(\"/items\")\n@limiter.limit()\nasync def items(request: Request):\n    return {\"ok\": True}\nclient = client_for(app)\nstatus = http(client, \"GET\", \"/items\")[0]\nresult = [status, events.items]\n",
+  "id": "OBS-0021"
+ },
+ {
+  "code": "from throttled import store\ns = store.MemoryStore(options={\"MAX_SIZE\": 2})\ns.set(\"a\", 1, 60)\ns.set(\"b\", 2, 60)\ntouched = s.get(\"a\")\ns.set(\"c\", 3, 60)\nresult = [touched, s.get(\"a\"), s.get(\"b\"), s.get(\"c\"), s.exists(\"b\")]\n",
+  "id": "OBS-0022"
+ },
+ {
+  "code": "from throttled.asyncio import store\nasync def main():\n    s = store.MemoryStore(options={\"MAX_SIZE\": 3})\n    for name, number in [(\"x\", 1), (\"y\", 2), (\"z\", 3)]:\n        await s.set(name, number, 60)\n    touched = [await s.get(\"x\"), await s.get(\"y\")]\n    await s.set(\"w\", 4, 60)\n    return [touched, await s.get(\"x\"), await s.get(\"y\"), await s.get(\"z\"), await s.get(\"w\")]\nresult = run(main())\n",
+  "id": "OBS-0023"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, store\ns = store.MemoryStore(options={\"MAX_SIZE\": 2})\nt = Throttled(using=RateLimiterType.FIXED_WINDOW.value, quota=\"2/m\", store=s)\nsteps = [brief(t.limit(\"k1\")), brief(t.limit(\"k2\")), state(t.peek(\"k1\")), brief(t.limit(\"k3\")),\n         state(t.peek(\"k1\")), state(t.peek(\"k2\")), state(t.peek(\"k3\"))]\nresult = steps\n",
+  "id": "OBS-0024"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, store\ns = store.MemoryStore(options={\"MAX_SIZE\": 2})\nt = Throttled(using=RateLimiterType.GCRA.value, quota=\"1/m burst 1\", store=s)\nsteps = [res(t.limit(\"g1\")), res(t.limit(\"g2\")), state(t.peek(\"g1\")), res(t.limit(\"g3\")),\n         res(t.limit(\"g1\"))]\nresult = steps\n",
+  "id": "OBS-0025"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, store\nt = Throttled(key=\"fw\", using=RateLimiterType.FIXED_WINDOW.value, quota=\"3/m\", store=store.MemoryStore())\nresult = [res(t.limit()) for _ in range(4)]\n",
+  "id": "OBS-0026"
+ },
+ {
+  "code": "from throttled.asyncio import RateLimiterType, Throttled, store\nasync def main():\n    t = Throttled(key=\"fw\", using=RateLimiterType.FIXED_WINDOW.value, quota=\"2/s\",\n                  store=store.MemoryStore())\n    first = await t.limit(cost=2)\n    second = await t.limit(cost=1)\n    clock.advance(1)\n    third = await t.limit(cost=2)\n    return [res(first), res(second), res(third)]\nresult = run(main())\n",
+  "id": "OBS-0027"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled\nt = Throttled(key=\"fw\", using=RateLimiterType.FIXED_WINDOW.value, quota=\"2/m\", store=redis_store())\nresult = [res(t.limit()) for _ in range(3)]\n",
+  "id": "OBS-0028"
+ },
+ {
+  "code": "from throttled.asyncio import RateLimiterType, Throttled\nasync def main():\n    t = Throttled(key=\"fw\", using=RateLimiterType.FIXED_WINDOW.value, quota=\"5/h\",\n                  store=async_redis_store())\n    return [res(await t.limit(cost=3)), res(await t.limit(cost=2)), res(await t.limit(cost=1))]\nresult = run(main())\n",
+  "id": "OBS-0029"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, exceptions, store\n@Throttled(key=\"dec\", using=RateLimiterType.FIXED_WINDOW.value, quota=\"1/m\", store=store.MemoryStore())\ndef ping():\n    return \"ping\"\ngot = []\nfor i in range(2):\n    try:\n        got.append(ping())\n    except exceptions.LimitedError as error:\n        got.append(str(error))\nresult = got\n",
+  "id": "OBS-0030"
+ },
+ {
+  "code": "from fastapi import Request\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\nlimiter = Limiter(quota=\"1/m\", store=store.MemoryStore())\napp = fastapi_app()\n@app.get(\"/items\")\n@limiter.limit()\nasync def list_items(request: Request):\n    return {\"items\": []}\n@app.post(\"/items\")\n@limiter.limit()\nasync def create_item(request: Request):\n    return {\"created\": True}\nclient = client_for(app)\nresult = [http(client, \"GET\", \"/items\")[:2], http(client, \"POST\", \"/items\")[:2],\n          http(client, \"GET\", \"/items\")[:2], http(client, \"POST\", \"/items\")[:2]]\n",
+  "id": "OBS-0031"
+ },
+ {
+  "code": "from fastapi import Request\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\ndef get_api_key(request: Request) -> str:\n    return request.headers.get(\"X-API-Key\", \"anonymous\")\nlimiter = Limiter(quota=\"2/m\", store=store.MemoryStore(), key_func=get_api_key)\napp = fastapi_app()\n@app.put(\"/items/{item_id}\")\n@limiter.limit()\nasync def put_item(item_id: int, request: Request):\n    return {\"put\": item_id}\n@app.delete(\"/items/{item_id}\")\n@limiter.limit()\nasync def delete_item(item_id: int, request: Request):\n    return {\"deleted\": item_id}\nclient = client_for(app)\nheaders = {\"X-API-Key\": \"user-a\"}\nresult = [http(client, \"PUT\", \"/items/1\", headers=headers)[:2], http(client, \"PUT\", \"/items/2\", headers=headers)[:2],\n          http(client, \"DELETE\", \"/items/1\", headers=headers)[:2], http(client, \"PUT\", \"/items/3\", headers=headers)[:2]]\n",
+  "id": "OBS-0032"
+ },
+ {
+  "code": "from fastapi import APIRouter, Request\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\nlimiter = Limiter(quota=\"1/h\", store=store.MemoryStore())\nrouter = APIRouter()\n@router.api_route(\"/thing\", methods=[\"GET\", \"PATCH\"])\n@limiter.limit()\nasync def thing(request: Request):\n    return {\"method\": request.method}\napp = fastapi_app()\napp.include_router(router)\nclient = client_for(app)\nresult = [http(client, \"GET\", \"/thing\")[:2], http(client, \"PATCH\", \"/thing\")[:2], http(client, \"PATCH\", \"/thing\")[:2]]\n",
+  "id": "OBS-0033"
+ },
+ {
+  "code": "from fastapi import Request\nfrom fastapi.responses import JSONResponse\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\nlimiter = Limiter(quota=\"5/m\", store=store.MemoryStore())\napp = fastapi_app()\n@app.get(\"/bad\")\n@limiter.limit()\nasync def bad(request: Request):\n    return JSONResponse(status_code=400, content={\"error\": \"bad input\"})\nclient = client_for(app)\nresult = [http(client, \"GET\", \"/bad\"), http(client, \"GET\", \"/bad\")]\n",
+  "id": "OBS-0034"
+ },
+ {
+  "code": "from fastapi import HTTPException, Request\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\nlimiter = Limiter(quota=\"3/m\", store=store.MemoryStore())\napp = fastapi_app()\n@app.get(\"/missing/{name}\")\n@limiter.limit()\nasync def missing(name: str, request: Request):\n    raise HTTPException(status_code=404, detail=\"not found: \" + name)\nclient = client_for(app)\nresult = [http(client, \"GET\", \"/missing/a\"), http(client, \"GET\", \"/missing/b\")]\n",
+  "id": "OBS-0035"
+ },
+ {
+  "code": "from fastapi import Request\nfrom fastapi.responses import PlainTextResponse\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\nlimiter = Limiter(quota=\"10/h\", store=store.MemoryStore())\napp = fastapi_app()\n@app.post(\"/fail\")\n@limiter.limit()\nasync def fail(request: Request):\n    return PlainTextResponse(\"boom\", status_code=503)\n@app.post(\"/ok\")\n@limiter.limit()\nasync def ok(request: Request):\n    return PlainTextResponse(\"fine\", status_code=201)\nclient = client_for(app)\nresult = [http(client, \"POST\", \"/fail\"), http(client, \"POST\", \"/ok\")]\n",
+  "id": "OBS-0036"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, store\nthrottle = Throttled(using=RateLimiterType.TOKEN_BUCKET.value, quota=\"1000/s burst 1000\",\n                     store=store.MemoryStore())\nflags = [throttle.limit(\"/ping\", cost=1).limited for _ in range(1003)]\nresult = [flags.count(True), flags.index(True), state(throttle.peek(\"/ping\"))]\n",
+  "id": "OBS-0037"
+ },
+ {
+  "code": "from throttled.asyncio import RateLimiterType, Throttled, store\nasync def main():\n    throttle = Throttled(using=RateLimiterType.TOKEN_BUCKET.value, quota=\"1000/s burst 1000\",\n                         store=store.MemoryStore())\n    flags = [(await throttle.limit(\"/ping\", cost=1)).limited for _ in range(1002)]\n    clock.advance(1)\n    return [flags.count(True), state(await throttle.peek(\"/ping\"))]\nresult = run(main())\n",
+  "id": "OBS-0038"
+ },
+ {
+  "code": "import re\nfrom throttled import Throttled, utils\nthrottle = Throttled(key=\"bench\", quota=\"10/s\")\ndef call_api():\n    return throttle.limit(\"bench-key\").limited\ngot = quiet(utils.Benchmark().serial, call_api, 15)\nresult = [got[0], re.findall(r\"Total: [0-9]+\", got[1])]\n",
+  "id": "OBS-0039"
+ },
+ {
+  "code": "from throttled import Throttled\nthrottle = Throttled()\nfirst = throttle.limit(\"key\")\npeeked = [state(throttle.peek(\"key\")), state(throttle.peek(\"key\"))]\nbig = throttle.limit(\"key\", cost=60)\nresult = [res(first), peeked, res(big), state(throttle.peek(\"key\"))]\n",
+  "id": "OBS-0040"
+ },
+ {
+  "code": "from throttled.asyncio import Throttled\nasync def main():\n    throttle = Throttled()\n    first = await throttle.limit(\"key\")\n    peeked = state(await throttle.peek(\"key\"))\n    clock.advance(30)\n    later = state(await throttle.peek(\"key\"))\n    return [res(first), peeked, later]\nresult = run(main())\n",
+  "id": "OBS-0041"
+ },
+ {
+  "code": "from throttled import Throttled, store\nthrottle = Throttled(key=\"default-key\", quota=\"5/m\", store=store.MemoryStore())\nown = res(throttle.limit())\nother = res(throttle.limit(\"other-key\", cost=2))\nresult = [own, other, state(throttle.peek(\"default-key\")), state(throttle.peek(\"other-key\"))]\n",
+  "id": "OBS-0042"
+ },
+ {
+  "code": "from throttled import Throttled, exceptions, store\nthrottle = Throttled(quota=\"5/m\", store=store.MemoryStore())\ngot = []\nfor args in [(), (None,)]:\n    try:\n        throttle.limit(*args)\n        got.append(None)\n    except exceptions.DataError as error:\n        got.append(str(error))\ngot.append(raised(throttle.limit, \"\"))\nfor cost in [-1, 1.5, \"2\"]:\n    got.append(raised(throttle.limit, \"k\", cost=cost))\ngot.append(res(throttle.limit(\"k\", cost=0)))\nresult = got\n",
+  "id": "OBS-0043"
+ },
+ {
+  "code": "from throttled import Throttled, exceptions, store\ncalls = []\n@Throttled(key=\"/ping\", quota=\"1/m\", store=store.MemoryStore())\ndef ping():\n    \"\"\"Ping.\"\"\"\n    calls.append(\"ping\")\n    return \"ping\"\nfirst = ping()\ntry:\n    ping()\n    second = None\nexcept exceptions.LimitedError as error:\n    second = [str(error), res(error.rate_limit_result), [k.__name__ for k in type(error).__mro__]]\nresult = [first, second, calls, ping.__name__, ping.__doc__]\n",
+  "id": "OBS-0044"
+ },
+ {
+  "code": "from throttled import Throttled, exceptions, store\nshared = store.MemoryStore()\n@Throttled(key=\"/ping\", quota=\"2/m\", store=shared)\ndef ping():\n    return \"pong\"\n@Throttled(key=\"/ping\", quota=\"2/m\", cost=2, store=shared)\ndef heavy_ping():\n    return \"heavy_pong\"\nfirst = ping()\ntry:\n    heavy_ping()\n    second = None\nexcept exceptions.LimitedError as error:\n    second = str(error)\nclock.advance(30)\nthird = heavy_ping()\nresult = [first, second, third]\n",
+  "id": "OBS-0045"
+ },
+ {
+  "code": "from throttled import Throttled, exceptions\ntry:\n    @Throttled(quota=\"1/m\")\n    def nokey():\n        return 1\n    got = None\nexcept exceptions.DataError as error:\n    got = [type(error).__name__, str(error)]\nresult = got\n",
+  "id": "OBS-0046"
+ },
+ {
+  "code": "from throttled.asyncio import Throttled, exceptions, store\nasync def main():\n    @Throttled(key=\"/aping\", quota=\"1/m\", store=store.MemoryStore())\n    async def ping(x):\n        return x * 2\n    got = [await ping(2)]\n    try:\n        await ping(3)\n    except exceptions.LimitedError as error:\n        got.append(str(error))\n    return got\nresult = run(main())\n",
+  "id": "OBS-0047"
+ },
+ {
+  "code": "from throttled import Throttled, exceptions, store\nthrottle = Throttled(key=\"/api/v1/users/\", quota=\"1/m\", store=store.MemoryStore())\nran = []\nwith throttle as rl:\n    ran.append(\"first\")\n    first = res(rl)\ntry:\n    with throttle:\n        ran.append(\"second\")\n    second = None\nexcept exceptions.LimitedError as error:\n    second = str(error)\nresult = [first, second, ran]\n",
+  "id": "OBS-0048"
+ },
+ {
+  "code": "from throttled.asyncio import Throttled, exceptions, store\nasync def main():\n    throttle = Throttled(key=\"/async/users\", quota=\"1/m\", store=store.MemoryStore())\n    got = []\n    for i in range(2):\n        try:\n            async with throttle as rl:\n                got.append(res(rl))\n        except exceptions.LimitedError as error:\n            got.append(str(error))\n    return got\nresult = run(main())\n",
+  "id": "OBS-0049"
+ },
+ {
+  "code": "from throttled import Throttled, store\nthrottle = Throttled(key=\"key\", quota=\"1/s burst 1\", store=store.MemoryStore())\nfirst = res(throttle.limit())\nt0 = clock.elapsed()\nwaited = res(throttle.limit(timeout=2))\nt1 = clock.elapsed()\nimmediate = res(throttle.limit(timeout=0.5))\nt2 = clock.elapsed()\nresult = [first, waited, round(t1 - t0, 6), immediate, round(t2 - t1, 6)]\n",
+  "id": "OBS-0050"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, store\nthrottle = Throttled(using=RateLimiterType.GCRA.value, quota=\"100/s burst 100\", timeout=1,\n                     store=store.MemoryStore())\nflags = [throttle.limit(\"/ping\", cost=1).limited for _ in range(150)]\nresult = [flags.count(True), flags.index(False)]\n",
+  "id": "OBS-0051"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, store\nthrottle = Throttled(key=\"w\", using=RateLimiterType.GCRA.value, quota=\"1/s burst 1\", timeout=5,\n                     store=store.MemoryStore())\nfirst = res(throttle.limit())\nno_wait = res(throttle.limit(timeout=-1))\nt0 = clock.elapsed()\nwaited = res(throttle.limit())\nresult = [first, no_wait, waited, round(clock.elapsed() - t0, 6)]\n",
+  "id": "OBS-0052"
+ },
+ {
+  "code": "from throttled import Throttled, exceptions\ngot = []\nfor timeout in [0, -2, \"1\", None, 0.25]:\n    try:\n        Throttled(key=\"k\", quota=\"1/s\", timeout=timeout)\n        got.append(\"ok\")\n    except exceptions.DataError as error:\n        got.append(type(error).__name__)\nthrottle = Throttled(key=\"k2\", quota=\"1/s\")\ngot.append(raised(throttle.limit, timeout=0))\nresult = got\n",
+  "id": "OBS-0053"
+ },
+ {
+  "code": "from throttled.asyncio import Throttled, store\nasync def main():\n    throttle = Throttled(key=\"key\", quota=\"1/s burst 1\", store=store.MemoryStore())\n    first = res(await throttle.limit())\n    waited = res(await throttle.limit(timeout=3))\n    t1 = clock.elapsed()\n    immediate = res(await throttle.limit(timeout=0.5))\n    return [first, waited, t1, immediate, clock.elapsed()]\nresult = run(main())\n",
+  "id": "OBS-0054"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, store\ngot = {}\nfor unit in [\"s\", \"sec\", \"secs\", \"second\", \"seconds\", \"m\", \"min\", \"mins\", \"minute\", \"minutes\",\n             \"h\", \"hr\", \"hrs\", \"hour\", \"hours\", \"d\", \"day\", \"days\", \"w\", \"wk\", \"wks\", \"week\", \"weeks\"]:\n    for text in [\"7/\" + unit, \"7 / \" + unit, \"7 per \" + unit]:\n        t = Throttled(key=\"k\", using=RateLimiterType.FIXED_WINDOW.value, quota=text,\n                      store=store.MemoryStore())\n        got[text] = res(t.limit())\nresult = got\n",
+  "id": "OBS-0055"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, store\ngot = []\nfor text in [\"2/s\", \"2/s burst 5\", \"2 per second burst 5\", \"3 per minute\"]:\n    t = Throttled(key=\"k\", using=RateLimiterType.LEAKING_BUCKET.value, quota=text,\n                  store=store.MemoryStore())\n    got.append([text, res(t.limit())])\nfor text in [\"4/m burst 2\", \"4/m\"]:\n    t = Throttled(key=\"k\", using=RateLimiterType.GCRA.value, quota=text, store=store.MemoryStore())\n    got.append([text, res(t.limit())])\nresult = got\n",
+  "id": "OBS-0056"
+ },
+ {
+  "code": "from throttled import Throttled, exceptions\ngot = []\nfor text in [\"\", \"   \", \"100\", \"100/x\", \"0/s\", \"-1/s\", \"1/s burst\", \"abc\", \"1/s, 2/m\", \"10 per\", 42]:\n    try:\n        Throttled(key=\"k\", quota=text)\n        got.append(\"ok\")\n    except exceptions.DataError:\n        got.append(\"DataError\")\n    except Exception as error:\n        got.append(type(error).__name__)\nresult = got\n",
+  "id": "OBS-0057"
+ },
+ {
+  "code": "from throttled import Throttled, store\nt = Throttled(key=\"dsl\", quota=\"1/s\", store=store.MemoryStore())\nfirst = res(t.limit())\nsecond = res(t.limit())\nclock.advance(1)\nthird = res(t.limit())\nresult = [first, second, third]\n",
+  "id": "OBS-0058"
+ },
+ {
+  "code": "from datetime import timedelta\nfrom throttled import rate_limiter\ngot = []\nfor make in [rate_limiter.per_sec, rate_limiter.per_min, rate_limiter.per_hour, rate_limiter.per_day,\n             rate_limiter.per_week]:\n    q = make(60)\n    got.append([q.rate.limit, q.rate.period.total_seconds(), q.burst])\nq = rate_limiter.per_min(60, burst=120)\ngot.append([q.rate.limit, q.rate.period.total_seconds(), q.burst])\nq = rate_limiter.per_duration(timedelta(minutes=2), limit=120, burst=150)\ngot.append([q.rate.limit, q.rate.period.total_seconds(), q.burst])\nresult = got\n",
+  "id": "OBS-0059"
+ },
+ {
+  "code": "from datetime import timedelta\nfrom throttled import Throttled, rate_limiter, store\nfrom throttled.rate_limiter import Quota, Rate\nq = Quota(Rate(period=timedelta(seconds=10), limit=5), burst=5)\nt = Throttled(key=\"q\", quota=q, store=store.MemoryStore())\nfirst = res(t.limit())\ncustom = Throttled(key=\"c\", quota=rate_limiter.per_duration(timedelta(minutes=2), limit=120),\n                   store=store.MemoryStore())\nresult = [first, res(custom.limit()), Quota(Rate(period=timedelta(seconds=1), limit=1)).burst]\n",
+  "id": "OBS-0060"
+ },
+ {
+  "code": "from throttled.asyncio import Throttled, per_duration, per_hour, store\nfrom datetime import timedelta\nasync def main():\n    a = Throttled(key=\"a\", quota=per_hour(3600), store=store.MemoryStore())\n    b = Throttled(key=\"b\", quota=per_duration(timedelta(seconds=30), 3), store=store.MemoryStore())\n    return [brief(await a.limit()), brief(await b.limit(cost=3)), brief(await b.limit())]\nresult = run(main())\n",
+  "id": "OBS-0061"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled\nnames = [member.value for member in RateLimiterType]\nthrottle = Throttled(using=RateLimiterType.FIXED_WINDOW.value, quota=\"1/m\")\nresult = [names, throttle.limit(\"key\", 2).limited, RateLimiterType.GCRA.value,\n          RateLimiterType.LEAKING_BUCKET.value]\n",
+  "id": "OBS-0062"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, store\nt = Throttled(key=\"sw\", using=RateLimiterType.SLIDING_WINDOW.value, quota=\"4/m\", store=store.MemoryStore())\nsteps = [res(t.limit()), res(t.limit(cost=2)), res(t.limit(cost=2))]\nclock.advance(60)\nsteps.append(state(t.peek(\"sw\")))\nclock.advance(30)\nsteps.append(res(t.limit(cost=2)))\nsteps.append(res(t.limit(cost=2)))\nresult = steps\n",
+  "id": "OBS-0063"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, store\nt = Throttled(key=\"lb\", using=RateLimiterType.LEAKING_BUCKET.value, quota=\"2/s burst 4\",\n              store=store.MemoryStore())\nsteps = [res(t.limit(cost=3)), res(t.limit(cost=2)), state(t.peek(\"lb\"))]\nclock.advance(1)\nsteps.append(res(t.limit(cost=2)))\nsteps.append(state(t.peek(\"lb\")))\nresult = steps\n",
+  "id": "OBS-0064"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, store\nt = Throttled(key=\"g\", using=RateLimiterType.GCRA.value, quota=\"1/s burst 3\", store=store.MemoryStore())\nsteps = [res(t.limit()), res(t.limit(cost=2)), res(t.limit()), state(t.peek(\"g\"))]\nclock.advance(1.5)\nsteps.append(res(t.limit()))\nsteps.append(state(t.peek(\"g\")))\nresult = steps\n",
+  "id": "OBS-0065"
+ },
+ {
+  "code": "from throttled.asyncio import RateLimiterType, Throttled, store\nasync def main():\n    got = []\n    for algorithm in RateLimiterType:\n        t = Throttled(key=\"k\", using=algorithm.value, quota=\"3/m\", store=store.MemoryStore())\n        got.append([algorithm.value, brief(await t.limit()), brief(await t.limit(cost=5))])\n    return got\nresult = run(main())\n",
+  "id": "OBS-0066"
+ },
+ {
+  "code": "from throttled import Throttled, store\nt = Throttled(key=\"tb\", quota=\"2/s\", store=store.MemoryStore())\nsteps = [res(t.limit(cost=2)), state(t.peek(\"tb\"))]\nclock.advance(1)\nsteps.append(res(t.limit()))\nsteps.append(state(t.peek(\"tb\")))\nresult = steps\n",
+  "id": "OBS-0067"
+ },
+ {
+  "code": "from throttled import Throttled, exceptions, store\nmem_store = store.MemoryStore()\n@Throttled(key=\"ping-pong\", quota=\"1/m\", store=mem_store)\ndef ping():\n    return \"ping\"\n@Throttled(key=\"ping-pong\", quota=\"1/m\", store=mem_store)\ndef pong():\n    return \"pong\"\nfirst = ping()\nsecond = raised(pong)\nisolated = Throttled(key=\"ping-pong\", quota=\"1/m\", store=store.MemoryStore()).limit().limited\nresult = [first, second, isolated]\n",
+  "id": "OBS-0068"
+ },
+ {
+  "code": "import throttled\nfrom throttled import Throttled\n@Throttled(key=\"/api/products\", quota=\"1/m\")\ndef products():\n    return [{\"name\": \"iPhone\"}, {\"name\": \"MacBook\"}]\nfirst = products()\nsecond = raised(products)\nother_instance = Throttled(key=\"/api/products\", quota=\"1/m\").limit().limited\nasync def main():\n    return (await throttled.asyncio.Throttled(key=\"/api/products\", quota=\"1/m\").limit()).limited\nresult = [first, second, other_instance, run(main())]\n",
+  "id": "OBS-0069"
+ },
+ {
+  "code": "from throttled import store\ns = store.MemoryStore()\ns.set(\"k\", 5, 10)\ns.hset(\"h\", mapping={\"tokens\": 3, \"last_refreshed\": 7})\ns.hset(\"h\", \"tokens\", 2)\nbefore = [s.get(\"k\"), s.exists(\"k\"), s.ttl(\"k\"), s.hgetall(\"h\"), s.get(\"missing\"), s.ttl(\"missing\")]\nclock.advance(10.5)\nafter = [s.get(\"k\"), s.exists(\"k\"), s.ttl(\"k\")]\ns.expire(\"h\", 5)\nlater = [s.ttl(\"h\"), s.hgetall(\"h\")]\nclock.advance(6)\nresult = [before, after, later, s.hgetall(\"h\"), raised(s.set, \"x\", 1, 0), raised(s.get, \"h\")]\n",
+  "id": "OBS-0070"
+ },
+ {
+  "code": "from throttled import store\ns = store.MemoryStore()\nfor i in range(1025):\n    s.set(\"key-%d\" % i, i, 100)\nresult = [s.get(\"key-0\"), s.get(\"key-1\"), s.get(\"key-1024\"),\n          store.MemoryStore(options={\"MAX_SIZE\": 3}).get(\"nothing\")]\n",
+  "id": "OBS-0071"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled, exceptions\ns = redis_store()\n@Throttled(key=\"/api/products\", using=RateLimiterType.TOKEN_BUCKET.value, quota=\"1/m\", store=s)\ndef products():\n    return [{\"name\": \"iPhone\"}, {\"name\": \"MacBook\"}]\nfirst = products()\ntry:\n    products()\n    second = None\nexcept exceptions.LimitedError as error:\n    second = str(error)\nresult = [first, second]\n",
+  "id": "OBS-0072"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled\ns = redis_store()\ngot = []\nfor algorithm in RateLimiterType:\n    t = Throttled(key=\"k-\" + algorithm.value, using=algorithm.value, quota=\"3/m\", store=s)\n    got.append([algorithm.value, brief(t.limit()), state(t.peek(\"k-\" + algorithm.value))])\nresult = got\n",
+  "id": "OBS-0073"
+ },
+ {
+  "code": "from throttled import RateLimiterType, Throttled\ns = redis_store()\nlb = Throttled(key=\"lb\", using=RateLimiterType.LEAKING_BUCKET.value, quota=\"2/s burst 4\", store=s)\ng = Throttled(key=\"g\", using=RateLimiterType.GCRA.value, quota=\"1/s burst 3\", store=s)\nsw = Throttled(key=\"sw\", using=RateLimiterType.SLIDING_WINDOW.value, quota=\"4/m\", store=s)\nsteps = [res(lb.limit(cost=3)), res(lb.limit(cost=2)), res(g.limit(cost=3)), res(g.limit()),\n         res(sw.limit(cost=3)), res(sw.limit(cost=2))]\nclock.advance(1)\nsteps += [res(lb.limit(cost=2)), res(g.limit())]\nresult = steps\n",
+  "id": "OBS-0074"
+ },
+ {
+  "code": "from throttled.asyncio import RateLimiterType, Throttled\nasync def main():\n    s = async_redis_store()\n    got = []\n    for algorithm in RateLimiterType:\n        t = Throttled(key=\"a-\" + algorithm.value, using=algorithm.value, quota=\"2/s\", store=s)\n        got.append([algorithm.value, brief(await t.limit()), brief(await t.limit(cost=3)),\n                    state(await t.peek(\"a-\" + algorithm.value))])\n    return got\nresult = run(main())\n",
+  "id": "OBS-0075"
+ },
+ {
+  "code": "s = redis_store()\ns.set(\"k\", 5, 10)\ns.hset(\"h\", mapping={\"tokens\": 3, \"last_refreshed\": 7})\nfirst = [s.get(\"k\"), s.exists(\"k\"), s.ttl(\"k\"), s.hgetall(\"h\"), s.get(\"missing\")]\nclock.advance(11)\nresult = [first, s.get(\"k\"), s.exists(\"k\")]\n",
+  "id": "OBS-0076"
+ },
+ {
+  "code": "from throttled import store\nseen = {}\nclass FakeClient:\n    def __init__(self, **kwargs):\n        pool = kwargs.get(\"connection_pool\")\n        seen[\"pool\"] = {k: pool.connection_kwargs.get(k) for k in (\"host\", \"port\", \"db\", \"password\", \"username\")}\n        seen[\"client_kwargs\"] = sorted(k for k in kwargs if k != \"connection_pool\")\n    def get(self, key):\n        return None\ngot = []\nfor server in [None, \"redis://:secret@cache.local:6390/3\"]:\n    s = store.RedisStore(server=server, options={\"REDIS_CLIENT_CLASS\": \"case_module.FakeClient\",\n                                                \"REDIS_CLIENT_KWARGS\": {\"decode_responses\": True}})\n    got.append([s.get(\"anything\"), dict(seen)])\nresult = got\n",
+  "id": "OBS-0077"
+ },
+ {
+  "code": "from throttled import store\nseen = {}\nclass FakeSentinel:\n    def __init__(self, sentinels, sentinel_kwargs=None, **kwargs):\n        seen[\"sentinels\"] = [list(node) for node in sentinels]\n        seen[\"sentinel_kwargs\"] = sentinel_kwargs\nclass FakeClient:\n    def __init__(self, **kwargs):\n        seen[\"service_name\"] = kwargs[\"connection_pool\"].service_name\n    def get(self, key):\n        return None\ngot = []\nfor server in [\"redis+sentinel://:pw@host1:26380,host2/primary\", \"redis+sentinel://sentinel-a\"]:\n    seen.clear()\n    s = store.RedisStore(server=server, options={\"SENTINEL_CLASS\": \"case_module.FakeSentinel\",\n                                                \"REDIS_CLIENT_CLASS\": \"case_module.FakeClient\"})\n    s.get(\"x\")\n    got.append(dict(seen))\nresult = got\n",
+  "id": "OBS-0078"
+ },
+ {
+  "code": "from throttled import store\nseen = {}\nclass FakeCluster:\n    def __init__(self, startup_nodes=None, **kwargs):\n        seen[\"nodes\"] = [[node.host, node.port] for node in startup_nodes]\n        seen[\"kwargs\"] = sorted(kwargs)\n    def get(self, key):\n        return None\ngot = []\nfor server in [\"redis+cluster://:pw@node1:7000,node2\", \"redis+cluster://solo\"]:\n    seen.clear()\n    s = store.RedisStore(server=server, options={\"REDIS_CLIENT_CLASS\": \"case_module.FakeCluster\"})\n    s.get(\"x\")\n    got.append(dict(seen))\nresult = got\n",
+  "id": "OBS-0079"
+ },
+ {
+  "code": "from throttled import Hook, Throttled, store\nseen = []\nclass LoggingHook(Hook):\n    def on_limit(self, call_next, context):\n        seen.append([\"before\", context.key, context.cost, context.algorithm, context.store_type])\n        rl = call_next()\n        seen.append([\"after\", \"denied\" if rl.limited else \"allowed\", rl.state.remaining])\n        return rl\nthrottle = Throttled(key=\"/api/users\", quota=\"10/s\", hooks=[LoggingHook()], store=store.MemoryStore())\nfirst = res(throttle.limit())\nsecond = res(throttle.limit(\"/other\", cost=10))\nthird = res(throttle.limit(\"/other\"))\nrstore = Throttled(key=\"r\", using=\"gcra\", quota=\"1/s\", hooks=[LoggingHook()], store=redis_store())\nrstore.limit()\nresult = [seen, first, second, third]\n",
+  "id": "OBS-0080"
+ },
+ {
+  "code": "import dataclasses\nfrom throttled import Hook, HookContext, Throttled\nfrom throttled.asyncio import Hook as AsyncHook, Throttled as AsyncThrottled\nclass SyncOne(Hook):\n    def on_limit(self, call_next, context):\n        return call_next()\nclass AsyncOne(AsyncHook):\n    async def on_limit(self, call_next, context):\n        return await call_next()\nctx = HookContext(key=\"k\", cost=1, algorithm=\"token_bucket\", store_type=\"memory\")\ntry:\n    ctx.key = \"other\"\n    frozen = None\nexcept dataclasses.FrozenInstanceError:\n    frozen = \"FrozenInstanceError\"\nresult = [frozen,\n          raised(Throttled, key=\"/api\", quota=\"10/s\", hooks=[AsyncOne()]),\n          raised(Throttled, key=\"/api\", quota=\"10/s\", hooks=[\"not a hook\"]),\n          raised(AsyncThrottled, key=\"/api\", quota=\"10/s\", hooks=[SyncOne()]),\n          raised(Throttled, key=\"/api\", quota=\"10/s\", hooks=[SyncOne()]),\n          raised(AsyncThrottled, key=\"/api\", quota=\"10/s\", hooks=[AsyncOne()]),\n          raised(Throttled, key=\"/api\", quota=\"10/s\", hooks=[])]\n",
+  "id": "OBS-0081"
+ },
+ {
+  "code": "from throttled import Hook, Throttled, store\nclass BrokenBefore(Hook):\n    def on_limit(self, call_next, context):\n        raise RuntimeError(\"before\")\nclass BrokenAfter(Hook):\n    def on_limit(self, call_next, context):\n        call_next()\n        raise RuntimeError(\"after\")\ngot = []\nfor hook in [BrokenBefore(), BrokenAfter()]:\n    t = Throttled(key=\"k\", quota=\"5/m\", hooks=[hook], store=store.MemoryStore())\n    got.append(log_lines(\"throttled.hooks\", lambda: res(t.limit())))\n    got.append(state(t.peek(\"k\")))\nresult = got\n",
+  "id": "OBS-0082"
+ },
+ {
+  "code": "from throttled.asyncio import Hook, Throttled, store\nclass BrokenAfter(Hook):\n    async def on_limit(self, call_next, context):\n        await call_next()\n        raise ValueError(\"after\")\nclass Counting(Hook):\n    def __init__(self):\n        self.calls = 0\n    async def on_limit(self, call_next, context):\n        self.calls += 1\n        return await call_next()\ncounting = Counting()\nasync def main():\n    t = Throttled(key=\"k\", quota=\"5/m\", hooks=[BrokenAfter()], store=store.MemoryStore())\n    first = res(await t.limit())\n    u = Throttled(key=\"u\", using=\"gcra\", quota=\"5/m\", hooks=[counting], timeout=60,\n                  store=store.MemoryStore())\n    await u.limit(cost=5)\n    waited = res(await u.limit())\n    return [first, state(await t.peek(\"k\")), waited, counting.calls, clock.elapsed()]\nresult = log_lines(\"throttled.asyncio.hooks\", lambda: run(main()))\n",
+  "id": "OBS-0083"
+ },
+ {
+  "code": "from opentelemetry.sdk.metrics import MeterProvider\nfrom opentelemetry.sdk.metrics.export import InMemoryMetricReader\nfrom throttled import Throttled, store\nfrom throttled.contrib.otel import OTelHook\nreader = InMemoryMetricReader()\nmeter = MeterProvider(metric_readers=[reader]).get_meter(\"throttled-example\")\nthrottle = Throttled(key=\"/api/ping\", quota=\"5/m\", hooks=[OTelHook(meter)], store=store.MemoryStore())\nflags = [\"denied\" if throttle.limit(\"/api/ping\").limited else \"allowed\" for _ in range(6)]\nfound = {}\nfor rm in reader.get_metrics_data().resource_metrics:\n    for sm in rm.scope_metrics:\n        for metric in sm.metrics:\n            points = []\n            for point in metric.data.data_points:\n                attrs = dict(point.attributes)\n                amount = getattr(point, \"value\", None)\n                if amount is None:\n                    amount = point.count\n                points.append([attrs, amount])\n            found[metric.name] = [type(metric.data).__name__, metric.unit,\n                                  sorted(points, key=lambda p: p[0][\"result\"])]\nresult = [flags, found]\n",
+  "id": "OBS-0084"
+ },
+ {
+  "code": "from opentelemetry.sdk.metrics import MeterProvider\nfrom opentelemetry.sdk.metrics.export import InMemoryMetricReader\nfrom throttled.asyncio import Throttled, store\nfrom throttled.asyncio.contrib.otel import OTelHook\nreader = InMemoryMetricReader()\nmeter = MeterProvider(metric_readers=[reader]).get_meter(\"throttled-async\")\nasync def main():\n    throttle = Throttled(key=\"/api/ping\", using=\"fixed_window\", quota=\"5/m\", hooks=[OTelHook(meter)],\n                         store=store.MemoryStore())\n    return [(await throttle.limit()).limited, (await throttle.limit()).limited,\n            (await throttle.limit(cost=6)).limited]\nflags = run(main())\nfound = {}\nfor rm in reader.get_metrics_data().resource_metrics:\n    for sm in rm.scope_metrics:\n        for metric in sm.metrics:\n            total = 0\n            keys = set()\n            for point in metric.data.data_points:\n                total += getattr(point, \"value\", None) or getattr(point, \"count\", 0)\n                keys.add(tuple(sorted(dict(point.attributes).items())))\n            found[metric.name] = [total, sorted(keys)]\nresult = [flags, found]\n",
+  "id": "OBS-0085"
+ },
+ {
+  "code": "from fastapi import Request\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\nlimiter = Limiter(\"2/m\", store=store.MemoryStore())\napp = fastapi_app()\n@app.get(\"/items\")\n@limiter.limit()\nasync def list_items(request: Request):\n    return {\"items\": [\"apple\", \"banana\"]}\nclient = client_for(app)\nfirst = http(client, \"GET\", \"/items\")\nsecond = http(client, \"GET\", \"/items\")\nthird = http(client, \"GET\", \"/items\")[:2]\nclock.advance(30)\nfourth = http(client, \"GET\", \"/items\")\nresult = [first, second, third, fourth]\n",
+  "id": "OBS-0086"
+ },
+ {
+  "code": "from fastapi import Request\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\ndef get_api_key(request: Request) -> str:\n    return request.headers.get(\"X-API-Key\", \"anonymous\")\nlimiter = Limiter(\"2/m\", key_func=get_api_key, store=store.MemoryStore())\napp = fastapi_app()\n@app.get(\"/items\")\n@limiter.limit()\nasync def list_items(request: Request):\n    return {\"items\": [\"apple\", \"banana\"]}\nclient = client_for(app)\na = [http(client, \"GET\", \"/items\", headers={\"X-API-Key\": \"user-a\"})[:2] for _ in range(3)]\nb = http(client, \"GET\", \"/items\", headers={\"X-API-Key\": \"user-b\"})\nanon = http(client, \"GET\", \"/items\")\nresult = [a, b, anon]\n",
+  "id": "OBS-0087"
+ },
+ {
+  "code": "from fastapi import Request\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio.store import MemoryStore\nshared = MemoryStore()\nlimiter = Limiter(\"10/m\", store=shared)\napp = fastapi_app()\n@app.get(\"/items\")\n@limiter.limit()\nasync def list_items(request: Request):\n    return {\"items\": [\"apple\", \"banana\"]}\n@app.get(\"/admin\")\n@limiter.limit(\"1/m\")\nasync def admin_panel(request: Request):\n    return {\"status\": \"ok\"}\nclient = client_for(app)\nresult = [http(client, \"GET\", \"/items\"), http(client, \"GET\", \"/admin\"), http(client, \"GET\", \"/admin\"),\n          http(client, \"GET\", \"/items\")]\n",
+  "id": "OBS-0088"
+ },
+ {
+  "code": "from fastapi import Request\nfrom throttled.asyncio.contrib.fastapi import Limiter, get_remote_address\nfrom throttled.asyncio import store\nlimiter = Limiter(\"1/m\", key_func=get_remote_address, store=store.MemoryStore())\napp = fastapi_app()\n@app.get(\"/items\")\n@limiter.limit()\nasync def list_items(request: Request):\n    return {\"items\": [\"apple\", \"banana\"]}\none = client_for(app, client=(\"10.0.0.1\", 5000))\ntwo = client_for(app, client=(\"10.0.0.2\", 5000))\nresult = [http(one, \"GET\", \"/items\")[:2], http(one, \"GET\", \"/items\")[:2], http(two, \"GET\", \"/items\")[:2]]\n",
+  "id": "OBS-0089"
+ },
+ {
+  "code": "from fastapi import Request\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\nlimiter = Limiter(\"1/m\", store=store.MemoryStore())\ndef sync_route(request: Request):\n    return {}\ngot = [raised(limiter.limit(), sync_route), raised(Limiter, None)]\napp = fastapi_app()\n@app.get(\"/norequest\")\n@limiter.limit()\nasync def norequest():\n    return {\"ok\": True}\nclient = client_for(app)\ngot.append(raised(client.get, \"/norequest\"))\n@app.get(\"/named\")\n@limiter.limit()\nasync def named(req: Request, extra: int = 1):\n    return {\"extra\": extra}\ngot.append(http(client, \"GET\", \"/named?extra=5\"))\nresult = got\n",
+  "id": "OBS-0090"
+ },
+ {
+  "code": "from fastapi import Request\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\nasync def get_user_id(request: Request) -> str:\n    return \"user:\" + request.headers.get(\"Authorization\", \"none\")\nlimiter = Limiter(\"1/m\", key_func=get_user_id, store=store.MemoryStore())\napp = fastapi_app(middleware=False)\n@app.get(\"/me\")\n@limiter.limit()\nasync def me(request: Request):\n    return {\"me\": True}\n@limiter.limit()\n@app.get(\"/wrong\")\nasync def wrong(request: Request):\n    return {\"wrong\": True}\nclient = client_for(app)\nh = {\"Authorization\": \"t1\"}\nresult = [http(client, \"GET\", \"/me\", headers=h), http(client, \"GET\", \"/me\", headers=h)[:2],\n          http(client, \"GET\", \"/me\", headers={\"Authorization\": \"t2\"}),\n          [http(client, \"GET\", \"/wrong\") for _ in range(3)]]\n",
+  "id": "OBS-0091"
+ },
+ {
+  "code": "from fastapi import FastAPI, Request\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\nlimiter = Limiter(\"1/m\", store=store.MemoryStore())\ndef make_child():\n    child = fastapi_app()\n    @child.get(\"/ping\")\n    @limiter.limit()\n    async def ping(request: Request):\n        return {\"pong\": True}\n    return child\nparent = FastAPI()\nparent.mount(\"/v1\", make_child())\nparent.mount(\"/v2\", make_child())\nclient = client_for(parent)\nresult = [http(client, \"GET\", \"/v1/ping\")[:2], http(client, \"GET\", \"/v2/ping\")[:2],\n          http(client, \"GET\", \"/v1/ping\")[:2]]\n",
+  "id": "OBS-0092"
+ },
+ {
+  "code": "from fastapi import Request\nfrom throttled.asyncio.contrib.fastapi import Limiter\nfrom throttled.asyncio import store\nlimiter = Limiter(\"1/m\", store=store.MemoryStore())\napp = fastapi_app()\n@app.get(\"/per-user/{user}\")\n@limiter.limit(\"2/m\", key_func=lambda request: request.path_params[\"user\"])\nasync def per_user(user: str, request: Request):\n    return {\"user\": user}\n@app.get(\"/shared/{user}\")\n@limiter.limit()\nasync def shared(user: str, request: Request):\n    return {\"user\": user}\nclient = client_for(app)\nresult = [http(client, \"GET\", \"/per-user/a\"), http(client, \"GET\", \"/per-user/b\"),\n          http(client, \"GET\", \"/per-user/a\"), http(client, \"GET\", \"/per-user/a\")[:2],\n          http(client, \"GET\", \"/shared/a\")[:2], http(client, \"GET\", \"/shared/b\")[:2]]\n",
+  "id": "OBS-0093"
+ },
+ {
+  "code": "import throttled\nimport throttled.asyncio\nfrom throttled import exceptions\nnames = [\"Throttled\", \"RateLimiterType\", \"RateLimitResult\", \"RateLimitState\", \"Quota\", \"Rate\", \"per_sec\",\n         \"per_min\", \"per_hour\", \"per_day\", \"per_week\", \"per_duration\", \"MemoryStore\", \"RedisStore\",\n         \"Hook\", \"HookContext\", \"exceptions\", \"utils\", \"rate_limiter\"]\nsync = [type(getattr(throttled, name, None)).__name__ for name in names]\nasyn = [type(getattr(throttled.asyncio, name, None)).__name__ for name in names]\nhierarchy = [[k.__name__ for k in getattr(exceptions, name).__mro__]\n             for name in [\"SetUpError\", \"DataError\", \"StoreUnavailableError\", \"LimitedError\"]]\nresult = [sync, asyn, hierarchy, [throttled.Throttled.__module__, throttled.asyncio.Throttled.__module__]]\n",
+  "id": "OBS-0094"
+ },
+ {
+  "code": "from throttled import RateLimitResult, RateLimitState, Throttled, exceptions, store\nt = Throttled(key=\"m\", quota=\"1/m\", store=store.MemoryStore())\nrl = t.limit()\nst = rl.state\nerror = exceptions.LimitedError(rate_limit_result=t.limit())\nbare = exceptions.LimitedError()\nresult = [type(rl).__name__, type(st).__name__, rl.limited,\n          [st.limit, st.remaining, st.reset_after, st.retry_after], str(error),\n          error.rate_limit_result.limited, str(bare), bare.rate_limit_result]\n",
+  "id": "OBS-0095"
+ }
+]

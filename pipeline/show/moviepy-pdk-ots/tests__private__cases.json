@@ -1,0 +1,839 @@
+[
+ {
+  "code": "result = normalize(run({'begin': 1, 'end': 3, 'op': 'cut', 'times': [0, 0.75, 1, 1.25]}))\n",
+  "id": "OBS-0001"
+ },
+ {
+  "code": "result = normalize(run({'begin': 2, 'end': 4, 'op': 'cut', 'times': [0, 1.75, 2, 2.25]}))\n",
+  "id": "OBS-0002"
+ },
+ {
+  "code": "result = normalize(run({'begin': 0.5, 'end': 1.5, 'op': 'cut', 'times': [0, 0.25, 0.5, 0.75]}))\n",
+  "id": "OBS-0003"
+ },
+ {
+  "code": "result = normalize(run({'apply_to': 'mask', 'factor': 2, 'op': 'remap'}))\n",
+  "id": "OBS-0004"
+ },
+ {
+  "code": "result = normalize(run({'apply_to': 'audio', 'factor': 2, 'op': 'remap'}))\n",
+  "id": "OBS-0005"
+ },
+ {
+  "code": "result = normalize(run({'apply_to': ['mask', 'audio'], 'factor': 2, 'op': 'remap'}))\n",
+  "id": "OBS-0006"
+ },
+ {
+  "code": "result = normalize(run({'factor': 2, 'op': 'remap', 'still': True}))\n",
+  "id": "OBS-0007"
+ },
+ {
+  "code": "result = normalize(run({'factor': 0.5, 'keep_duration': True, 'op': 'remap', 'still': True}))\n",
+  "id": "OBS-0008"
+ },
+ {
+  "code": "result = normalize(run({'clips': [{'audio': False, 'duration': 1, 'fps': 12, 'size': [2, 2]}, {'audio': True, 'duration': 1, 'fps': 24, 'size': [2, 2]}, {'audio': True, 'duration': 2, 'fps': 16, 'size': [2, 2]}], 'method': 'chain', 'op': 'sequence', 'times': [0, 0.5, 1, 1.5, 2, 2.5, 3.5]}))\n",
+  "id": "OBS-0009"
+ },
+ {
+  "code": "result = normalize(run({'clips': [{'audio': True, 'duration': 1, 'fps': 12, 'size': [2, 2]}, {'audio': False, 'duration': 1, 'fps': 24, 'size': [2, 2]}, {'audio': True, 'duration': 2, 'fps': 16, 'size': [2, 2]}], 'method': 'chain', 'op': 'sequence', 'times': [0, 0.5, 1, 1.5, 2, 2.5, 3.5]}))\n",
+  "id": "OBS-0010"
+ },
+ {
+  "code": "result = normalize(run({'clips': [{'audio': False, 'duration': 1, 'fps': 12, 'size': [2, 2]}, {'audio': True, 'duration': 1, 'fps': 24, 'size': [2, 2]}, {'audio': True, 'duration': 2, 'fps': 16, 'size': [2, 2]}], 'method': 'compose', 'op': 'sequence', 'times': [0, 0.5, 1, 1.5, 2, 2.5, 3.5]}))\n",
+  "id": "OBS-0011"
+ },
+ {
+  "code": "result = normalize(run({'clips': [{'audio': True, 'duration': 1, 'fps': 12, 'size': [2, 2]}, {'audio': False, 'duration': 1, 'fps': 24, 'size': [2, 2]}, {'audio': True, 'duration': 2, 'fps': 16, 'size': [2, 2]}], 'method': 'compose', 'op': 'sequence', 'times': [0, 0.5, 1, 1.5, 2, 2.5, 3.5]}))\n",
+  "id": "OBS-0012"
+ },
+ {
+  "code": "result = normalize(run({'change_end': False, 'op': 'start', 'start': 2}))\n",
+  "id": "OBS-0013"
+ },
+ {
+  "code": "result = normalize(run({'change_end': False, 'op': 'start', 'start': '00:00:02.5'}))\n",
+  "id": "OBS-0014"
+ },
+ {
+  "code": "result = normalize(run({'change_end': False, 'op': 'start', 'start': [0, 3]}))\n",
+  "id": "OBS-0015"
+ },
+ {
+  "code": "result = normalize(run({'change_end': False, 'op': 'start', 'start': [0, 0, 1.5]}))\n",
+  "id": "OBS-0016"
+ },
+ {
+  "code": "result = normalize(run({'change_end': False, 'initial_start': 2, 'op': 'start', 'start': 1}))\n",
+  "id": "OBS-0017"
+ },
+ {
+  "code": "result = normalize(run({'begin': 1, 'end': -2, 'op': 'subclip'}))\n",
+  "id": "OBS-0018"
+ },
+ {
+  "code": "result = normalize(run({'begin': -5, 'end': -1, 'op': 'subclip'}))\n",
+  "id": "OBS-0019"
+ },
+ {
+  "code": "result = normalize(run({'begin': '00:00:02', 'end': -1, 'op': 'subclip'}))\n",
+  "id": "OBS-0020"
+ },
+ {
+  "code": "result = normalize(run({'begin': 1, 'end': 3, 'op': 'cut', 'times': [0, 0.75, 1.25]}))\n",
+  "id": "OBS-0021"
+ },
+ {
+  "code": "result = normalize(run({'begin': 2, 'end': 4, 'op': 'cut', 'times': [0, 1.75, 2.25]}))\n",
+  "id": "OBS-0022"
+ },
+ {
+  "code": "result = normalize(run({'begin': 0.5, 'end': 1.5, 'op': 'cut', 'times': [0, 0.25, 0.75]}))\n",
+  "id": "OBS-0023"
+ },
+ {
+  "code": "result = normalize(run({'apply_to': 'mask', 'factor': 0.5, 'keep_duration': True, 'op': 'remap'}))\n",
+  "id": "OBS-0024"
+ },
+ {
+  "code": "result = normalize(run({'apply_to': 'audio', 'factor': 0.5, 'keep_duration': True, 'op': 'remap'}))\n",
+  "id": "OBS-0025"
+ },
+ {
+  "code": "result = normalize(run({'apply_to': ['mask', 'audio'], 'factor': 0.5, 'keep_duration': True, 'op': 'remap'}))\n",
+  "id": "OBS-0026"
+ },
+ {
+  "code": "result = normalize(run({'factor': 0.5, 'op': 'remap'}))\n",
+  "id": "OBS-0027"
+ },
+ {
+  "code": "result = normalize(run({'apply_to': [], 'factor': 0.5, 'keep_duration': True, 'op': 'remap'}))\n",
+  "id": "OBS-0028"
+ },
+ {
+  "code": "result = normalize(run({'factor': 1, 'op': 'remap'}))\n",
+  "id": "OBS-0029"
+ },
+ {
+  "code": "result = normalize(run({'apply_to': [], 'factor': 1, 'keep_duration': True, 'op': 'remap'}))\n",
+  "id": "OBS-0030"
+ },
+ {
+  "code": "result = normalize(run({'factor': 2, 'op': 'remap'}))\n",
+  "id": "OBS-0031"
+ },
+ {
+  "code": "result = normalize(run({'apply_to': [], 'factor': 2, 'keep_duration': True, 'op': 'remap'}))\n",
+  "id": "OBS-0032"
+ },
+ {
+  "code": "result = normalize(run({'apply_to': [], 'factor': 2, 'op': 'remap', 'still': True}))\n",
+  "id": "OBS-0033"
+ },
+ {
+  "code": "result = normalize(run({'apply_to': ['audio'], 'factor': 2, 'op': 'remap', 'still': True}))\n",
+  "id": "OBS-0034"
+ },
+ {
+  "code": "result = normalize(run({'apply_to': ['mask'], 'factor': 2, 'op': 'remap', 'still': True}))\n",
+  "id": "OBS-0035"
+ },
+ {
+  "code": "result = normalize(run({'attachments': False, 'factor': 2, 'op': 'remap'}))\n",
+  "id": "OBS-0036"
+ },
+ {
+  "code": "result = normalize(run({'apply_to': [], 'factor': 1, 'keep_duration': False, 'offset': 2, 'op': 'remap'}))\n",
+  "id": "OBS-0037"
+ },
+ {
+  "code": "result = normalize(run({'clips': [{'audio': True, 'duration': 1, 'fps': 12, 'size': [2, 2]}, {'audio': True, 'duration': 1, 'fps': 24, 'size': [2, 2]}, {'audio': True, 'duration': 2, 'fps': 16, 'size': [2, 2]}], 'method': 'chain', 'op': 'sequence', 'times': [0, 0.5, 1, 1.5, 2, 2.5, 3.5]}))\n",
+  "id": "OBS-0038"
+ },
+ {
+  "code": "result = normalize(run({'clips': [{'audio': True, 'duration': 1, 'fps': 12, 'size': [2, 2]}, {'audio': True, 'duration': 1, 'fps': 24, 'size': [2, 2]}, {'audio': False, 'duration': 2, 'fps': 16, 'size': [2, 2]}], 'method': 'chain', 'op': 'sequence', 'times': [0, 0.5, 1, 1.5, 2, 2.5, 3.5]}))\n",
+  "id": "OBS-0039"
+ },
+ {
+  "code": "result = normalize(run({'clips': [{'audio': False, 'duration': 1, 'fps': 12, 'size': [2, 2]}, {'audio': False, 'duration': 1, 'fps': 24, 'size': [2, 2]}, {'audio': False, 'duration': 2, 'fps': 16, 'size': [2, 2]}], 'method': 'chain', 'op': 'sequence', 'times': [0, 0.5, 1, 1.5, 2, 2.5, 3.5]}))\n",
+  "id": "OBS-0040"
+ },
+ {
+  "code": "result = normalize(run({'clips': [{'audio': True, 'duration': 1, 'fps': 12, 'size': [2, 2]}, {'audio': True, 'duration': 1, 'fps': 24, 'size': [2, 2]}, {'audio': True, 'duration': 2, 'fps': 16, 'size': [2, 2]}], 'method': 'compose', 'op': 'sequence', 'times': [0, 0.5, 1, 1.5, 2, 2.5, 3.5]}))\n",
+  "id": "OBS-0041"
+ },
+ {
+  "code": "result = normalize(run({'clips': [{'audio': True, 'duration': 1, 'fps': 12, 'size': [2, 2]}, {'audio': True, 'duration': 1, 'fps': 24, 'size': [2, 2]}, {'audio': False, 'duration': 2, 'fps': 16, 'size': [2, 2]}], 'method': 'compose', 'op': 'sequence', 'times': [0, 0.5, 1, 1.5, 2, 2.5, 3.5]}))\n",
+  "id": "OBS-0042"
+ },
+ {
+  "code": "result = normalize(run({'clips': [{'audio': False, 'duration': 1, 'fps': 12, 'size': [2, 2]}, {'audio': False, 'duration': 1, 'fps': 24, 'size': [2, 2]}, {'audio': False, 'duration': 2, 'fps': 16, 'size': [2, 2]}], 'method': 'compose', 'op': 'sequence', 'times': [0, 0.5, 1, 1.5, 2, 2.5, 3.5]}))\n",
+  "id": "OBS-0043"
+ },
+ {
+  "code": "result = normalize(run({'clips': [{'audio': True, 'duration': 1, 'fps': 12, 'size': [2, 4]}, {'audio': True, 'duration': 1, 'fps': 24, 'size': [4, 2]}, {'audio': True, 'duration': 2, 'fps': 16, 'size': [2, 2]}], 'method': 'compose', 'op': 'sequence', 'times': [0, 0.5, 1, 1.5, 2, 2.5, 3.5]}))\n",
+  "id": "OBS-0044"
+ },
+ {
+  "code": "result = normalize(run({'clips': [{'audio': False, 'duration': 1, 'fps': 12, 'size': [2, 4]}, {'audio': False, 'duration': 1, 'fps': 24, 'size': [4, 2]}, {'audio': False, 'duration': 2, 'fps': 16, 'size': [2, 2]}], 'method': 'compose', 'op': 'sequence', 'times': [0, 0.5, 1, 1.5, 2, 2.5, 3.5]}))\n",
+  "id": "OBS-0045"
+ },
+ {
+  "code": "result = normalize(run({'factor': 2, 'op': 'speed'}))\n",
+  "id": "OBS-0046"
+ },
+ {
+  "code": "result = normalize(run({'factor': 0.5, 'op': 'speed'}))\n",
+  "id": "OBS-0047"
+ },
+ {
+  "code": "result = normalize(run({'factor': 1, 'op': 'speed'}))\n",
+  "id": "OBS-0048"
+ },
+ {
+  "code": "result = normalize(run({'final_duration': 4, 'op': 'speed'}))\n",
+  "id": "OBS-0049"
+ },
+ {
+  "code": "result = normalize(run({'final_duration': 16, 'op': 'speed'}))\n",
+  "id": "OBS-0050"
+ },
+ {
+  "code": "result = normalize(run({'op': 'start', 'start': 0}))\n",
+  "id": "OBS-0051"
+ },
+ {
+  "code": "result = normalize(run({'op': 'start', 'start': 2.5}))\n",
+  "id": "OBS-0052"
+ },
+ {
+  "code": "result = normalize(run({'op': 'start', 'start': '00:00:03'}))\n",
+  "id": "OBS-0053"
+ },
+ {
+  "code": "result = normalize(run({'op': 'start', 'start': [0, 1]}))\n",
+  "id": "OBS-0054"
+ },
+ {
+  "code": "result = normalize(run({'op': 'start', 'start': [0, 0, 4]}))\n",
+  "id": "OBS-0055"
+ },
+ {
+  "code": "result = normalize(run({'next_duration': 3, 'op': 'start', 'start': 2}))\n",
+  "id": "OBS-0056"
+ },
+ {
+  "code": "result = normalize(run({'duration_change_end': False, 'next_duration': 3, 'op': 'start', 'start': 2}))\n",
+  "id": "OBS-0057"
+ },
+ {
+  "code": "result = normalize(run({'attachments': False, 'change_end': False, 'op': 'start', 'start': 0}))\n",
+  "id": "OBS-0058"
+ },
+ {
+  "code": "result = normalize(run({'begin': 0, 'end': -2, 'op': 'subclip'}))\n",
+  "id": "OBS-0059"
+ },
+ {
+  "code": "result = normalize(run({'begin': 1, 'end': 4, 'op': 'subclip'}))\n",
+  "id": "OBS-0060"
+ },
+ {
+  "code": "result = normalize(run({'begin': -4, 'end': 7, 'op': 'subclip'}))\n",
+  "id": "OBS-0061"
+ },
+ {
+  "code": "result = normalize(run({'begin': 0, 'end': 8, 'op': 'subclip'}))\n",
+  "id": "OBS-0062"
+ },
+ {
+  "code": "result = normalize(run({'begin': [0, 1], 'end': [0, 5], 'op': 'subclip'}))\n",
+  "id": "OBS-0063"
+ },
+ {
+  "code": "result = normalize(run({'begin': 1, 'op': 'subclip'}))\n",
+  "id": "OBS-0064"
+ },
+ {
+  "code": "result = normalize(run({'begin': -3, 'op': 'subclip'}))\n",
+  "id": "OBS-0065"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4)\nn = c.with_end(3)\nresult = [n.start, n.end, n.duration, c.end, c.duration]\n",
+  "id": "OBS-0066"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4).with_audio(tone(4)).with_mask(mclip(4))\nn = c.with_end(\"00:00:02.5\")\nresult = [n.end, n.duration, n.audio.end, n.audio.duration, n.mask.end, n.mask.duration]\n",
+  "id": "OBS-0067"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4).with_start(1)\nn = c.with_end((0, 3))\nresult = [n.start, n.end, n.duration]\n",
+  "id": "OBS-0068"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4)\nn = c.with_duration(2)\nresult = [n.start, n.end, n.duration, c.duration, tvals(n, [0, 1.5])]\n",
+  "id": "OBS-0069"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4).with_audio(tone(4)).with_mask(mclip(4)).with_start(1)\nn = c.with_duration(\"00:00:03\")\nresult = [n.end, n.duration, n.audio.duration, n.mask.duration, n.audio.end, n.mask.end]\n",
+  "id": "OBS-0070"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2, fps=10)\nn = c.with_fps(25)\nresult = [n.fps, n.duration, c.fps]\n",
+  "id": "OBS-0071"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2, fps=10)\nn = c.with_fps(5, change_duration=True)\nresult = [n.fps, n.duration, tvals(n, [0, 2, 3])]\n",
+  "id": "OBS-0072"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2)\nm = c.with_is_mask(True)\nk = c.with_memoize(True)\nresult = [m.is_mask, c.is_mask, k.memoize, c.memoize]\n",
+  "id": "OBS-0073"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2)\nn = c.with_updated_frame_function(lambda t: np.full((2, 2, 3), 99, dtype=np.uint8))\nresult = [tvals(n, [0, 1]), tvals(c, [0, 1])]\n",
+  "id": "OBS-0074"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(1, fps=4)\nresult = [int(f[0, 0, 0]) for f in c.iter_frames()]\n",
+  "id": "OBS-0075"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(1, fps=4)\nresult = [[float(t), int(f[0, 0, 0]), str(f.dtype)] for t, f in c.iter_frames(fps=2, with_times=True, dtype=\"uint8\")]\n",
+  "id": "OBS-0076"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = VideoClip(lambda t: np.zeros((2, 2, 3)))\ntry:\n    list(c.iter_frames(fps=2))\n    result = \"no error\"\nexcept ValueError:\n    result = \"ValueError\"\n",
+  "id": "OBS-0077"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2).with_start(1)\nresult = [bool(c.is_playing(0.5)), bool(c.is_playing(1)), bool(c.is_playing(2.5)), bool(c.is_playing(\"00:00:03.5\"))]\n",
+  "id": "OBS-0078"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2).with_start(1)\na = c.is_playing(np.array([0.0, 1.5, 2.5, 4.0]))\nb = c.is_playing(np.array([5.0, 6.0]))\nresult = [[bool(x) for x in a], bool(b) if not hasattr(b, '__len__') else 'array']\n",
+  "id": "OBS-0079"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4, fps=10)\ns = c[1:3]\nresult = [s.duration, tvals(s, [0, 1])]\n",
+  "id": "OBS-0080"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4, fps=10)\ns = c[:2:2]\nr = sclip(4, fps=10)[::-1]\nresult = [s.duration, tvals(s, [0, 0.5]), r.duration, tvals(r, [0.5, 1.5, 3.5])]\n",
+  "id": "OBS-0081"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4, fps=10)\ns = c[(slice(0, 1), slice(2, 4))]\nresult = [s.duration, tvals(s, [0.5, 1.5]), int(c[2.5][0, 0, 0])]\n",
+  "id": "OBS-0082"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = tclip(1, fps=4)\nb = tclip(1, fps=4)\nd = a.with_effects([vfx.InvertColors()])\nresult = [a == b, a == d]\n",
+  "id": "OBS-0083"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nclosed = []\nclass Tracked(ColorClip):\n    def close(self):\n        closed.append(True)\nwith Tracked((2, 2), color=(1, 2, 3), duration=1) as clip:\n    inside = list(clip.get_frame(0)[0, 0])\nresult = [[int(v) for v in inside], closed]\n",
+  "id": "OBS-0084"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(10, 20, 30), duration=1)\nn = c.with_effects([vfx.MultiplyColor(2), vfx.InvertColors()])\nresult = [[int(v) for v in n.get_frame(0)[0, 0]], [int(v) for v in c.get_frame(0)[0, 0]]]\n",
+  "id": "OBS-0085"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\neff = vfx.Loop(n=2)\na = tclip(1).with_effects([eff])\nb = tclip(2).with_effects([eff])\nresult = [a.duration, b.duration, eff.n, eff.duration]\n",
+  "id": "OBS-0086"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = tone(2)\nn = a.with_volume_scaled(2)\nresult = asamp(n, [0.1, 1.5])\n",
+  "id": "OBS-0087"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = tone(3)\nn = a.with_volume_scaled(0, start_time=1, end_time=2)\nresult = asamp(n, [0.5, 1.5, 2.5])\n",
+  "id": "OBS-0088"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2)\nn = c.transform(lambda gf, t: 255 - gf(t))\nresult = [tvals(n, [0, 1]), n.duration]\n",
+  "id": "OBS-0089"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4)\nn = c.time_transform(lambda t: 2 * t)\nresult = [tvals(n, [0, 0.5, 1]), n.duration]\n",
+  "id": "OBS-0090"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2).with_mask(mclip(2))\nn = c.transform(lambda gf, t: gf(t) // 2)\nresult = [tvals(n, [1]), mvals(n.mask, [1])]\n",
+  "id": "OBS-0091"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4)\nout = []\nfor args in [(4, None), (1, 5)]:\n    try:\n        c.subclipped(*args)\n        out.append(\"ok\")\n    except ValueError:\n        out.append(\"ValueError\")\nresult = out\n",
+  "id": "OBS-0092"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4)\ns = c.subclipped(-3)\nu = c.subclipped(\"00:00:01\", (0, 3))\nresult = [s.duration, tvals(s, [0]), u.duration, tvals(u, [0])]\n",
+  "id": "OBS-0093"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nfrom moviepy.tools import convert_to_seconds\nresult = [convert_to_seconds(15.4), convert_to_seconds((1, 21.5)), convert_to_seconds((1, 1, 2)),\n          convert_to_seconds('01:01:33.045'), convert_to_seconds('01:01:33,5'), convert_to_seconds('1:33,5'),\n          convert_to_seconds('33.5')]\n",
+  "id": "OBS-0094"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nfrom moviepy.tools import find_extension\nout = []\nfor codec in [\"libx264\", \"libmpeg4\", \"libvpx\", \"libvorbis\", \"libmp3lame\", \"libfdk_aac\", \"pcm_s16le\", \"mp4\", \"nonsense_codec\"]:\n    try:\n        out.append(find_extension(codec))\n    except ValueError:\n        out.append(\"ValueError\")\nresult = out\n",
+  "id": "OBS-0095"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nimport warnings\nfrom moviepy.tools import deprecated_version_of\ndef new_name(x):\n    return x + 1\nold = deprecated_version_of(new_name, \"old_name\")\nwith warnings.catch_warnings(record=True) as w:\n    warnings.simplefilter(\"always\")\n    value = old(1)\nresult = [value, len(w) >= 1, any(\"new_name\" in str(x.message) for x in w)]\n",
+  "id": "OBS-0096"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nfrom moviepy.tools import ffmpeg_escape_filename, no_display_available\nresult = [ffmpeg_escape_filename(\"-video.mp4\"), ffmpeg_escape_filename(\"video.mp4\"), no_display_available()]\n",
+  "id": "OBS-0097"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nfrom moviepy.tools import cross_platform_popen_params\np = cross_platform_popen_params({\"stdout\": 1})\nresult = sorted(p.items())\n",
+  "id": "OBS-0098"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nfrom moviepy.tools import subprocess_call\nfrom moviepy.config import FFMPEG_BINARY\nsubprocess_call([FFMPEG_BINARY, \"-version\"], logger=None)\ntry:\n    subprocess_call([FFMPEG_BINARY, \"-i\", \"missing-input.mp4\", \"x.mp4\"], logger=None)\n    result = \"no error\"\nexcept IOError:\n    result = \"IOError\"\n",
+  "id": "OBS-0099"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nfrom moviepy.tools import close_all_clips\nclosed = []\nclass Tracked(ColorClip):\n    def close(self):\n        closed.append(self.size)\nobjs = {\"a\": Tracked((2, 2), color=(0, 0, 0)), \"b\": Tracked((4, 4), color=(0, 0, 0)), \"c\": 3}\nclose_all_clips(objects=objs, types=(\"image\",))\nresult = sorted(map(list, closed))\n",
+  "id": "OBS-0100"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nfrom moviepy.decorators import requires_duration, requires_fps\n@requires_duration\ndef need_duration(clip):\n    return clip.duration\n@requires_fps\ndef need_fps(clip):\n    return clip.fps\nout = []\nblank = lambda t: np.zeros((2, 2, 3))\nfor f, c in [(need_duration, VideoClip(blank)), (need_duration, tclip(2)),\n             (need_fps, VideoClip(blank, duration=1)), (need_fps, tclip(1, fps=7))]:\n    try:\n        out.append(f(c))\n    except ValueError:\n        out.append(\"ValueError\")\nresult = out\n",
+  "id": "OBS-0101"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nfrom moviepy.decorators import convert_parameter_to_seconds, outplace, use_clip_fps_by_default\n@convert_parameter_to_seconds([\"t\"])\ndef at(clip, t):\n    return t\n@outplace\ndef paint(clip, value):\n    clip.marker = value\n@use_clip_fps_by_default\ndef fps_of(clip, fps=None):\n    return fps\nc = tclip(1, fps=6)\nc.marker = \"original\"\nn = paint(c, \"copy\")\nresult = [at(c, \"00:01:01.5\"), at(c, (1, 2)), c.marker, n.marker, fps_of(c), fps_of(c, fps=3)]\n",
+  "id": "OBS-0102"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nfrom moviepy.decorators import add_mask_if_none, apply_to_mask, apply_to_audio\n@add_mask_if_none\ndef get_mask(clip):\n    return clip.mask\n@apply_to_mask\n@apply_to_audio\ndef stamp(clip):\n    clip = clip.copy()\n    clip.stamped = True\n    return clip\nm = get_mask(tclip(1))\nc = stamp(tclip(1).with_mask(mclip(1)).with_audio(tone(1)))\nresult = [m is not None, mvals(m, [0]), c.stamped, getattr(c.mask, \"stamped\", False), getattr(c.audio, \"stamped\", False)]\n",
+  "id": "OBS-0103"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nfrom moviepy import Effect\nclass AddValue(Effect):\n    def __init__(self, value):\n        self.value = value\n    def apply(self, clip):\n        self.value = self.value * 2\n        return clip.image_transform(lambda f: f + self.value)\ne = AddValue(5)\nn = ColorClip((2, 2), color=(1, 1, 1), duration=1).with_effects([e])\nk = e.copy()\nk.value = 100\nresult = [int(n.get_frame(0)[0, 0, 0]), e.value, k.value]\n",
+  "id": "OBS-0104"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nfrom moviepy import Effect\ntry:\n    Effect()\n    result = \"instantiated\"\nexcept TypeError:\n    result = \"TypeError\"\n",
+  "id": "OBS-0105"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2)\nn = c.with_effects([vfx.AccelDecel(new_duration=4, abruptness=0)])\nresult = [n.duration, tvals(n, [0, 1, 2, 3])]\n",
+  "id": "OBS-0106"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2)\nn = c.with_effects([vfx.AccelDecel(abruptness=1)])\nresult = [n.duration, tvals(n, [0, 1])]\n",
+  "id": "OBS-0107"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\ntry:\n    tclip(2).with_effects([vfx.AccelDecel(soonness=-1)])\n    result = \"no error\"\nexcept ValueError:\n    result = \"ValueError\"\n",
+  "id": "OBS-0108"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(30, 60, 90), duration=1)\nn = c.with_effects([vfx.BlackAndWhite()])\nresult = [int(v) for v in n.get_frame(0)[0, 0]]\n",
+  "id": "OBS-0109"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(100, 100, 100), duration=1)\nn = c.with_effects([vfx.BlackAndWhite(RGB=\"CRT_phosphor\")])\nm = c.with_effects([vfx.BlackAndWhite(RGB=[1, 0, 0], preserve_luminosity=False)])\nresult = [[int(v) for v in n.get_frame(0)[0, 0]], [int(v) for v in m.get_frame(0)[0, 0]]]\n",
+  "id": "OBS-0110"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4)\nn = c.with_effects([vfx.Blink(duration_on=1, duration_off=0.5)])\nresult = mvals(n.mask, [0.2, 0.9, 1.2, 1.6, 2.7])\n",
+  "id": "OBS-0111"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ImageClip(pattern(6, 4), duration=1)\nn = c.with_effects([vfx.Crop(x1=1, y1=1, x2=4, y2=3)])\nresult = [list(n.size), grid(n.get_frame(0)) == grid(pattern(6, 4)[1:3, 1:4])]\n",
+  "id": "OBS-0112"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ImageClip(pattern(6, 4), duration=1)\na = c.with_effects([vfx.Crop(y1=2)])\nb = c.with_effects([vfx.Crop(x1=1, width=2)])\nd = c.with_effects([vfx.Crop(x_center=3, y_center=2, width=2, height=2)])\nresult = [list(a.size), list(b.size), list(d.size), grid(d.get_frame(0)) == grid(pattern(6, 4)[1:3, 2:4])]\n",
+  "id": "OBS-0113"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ImageClip(pattern(6, 4), duration=1).with_mask(ColorClip((6, 4), color=0.5, is_mask=True, duration=1))\nn = c.with_effects([vfx.Crop(x1=2, x2=5)])\nresult = [list(n.size), list(n.mask.size)]\n",
+  "id": "OBS-0114"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4)\nn = c.with_effects([vfx.CrossFadeIn(2)])\nresult = mvals(n.mask, [0, 1, 2, 3])\n",
+  "id": "OBS-0115"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4)\nn = c.with_effects([vfx.CrossFadeOut(2)])\nresult = mvals(n.mask, [1, 2, 3, 4])\n",
+  "id": "OBS-0116"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nout = []\nfor e in [vfx.CrossFadeIn(1), vfx.CrossFadeOut(1)]:\n    try:\n        VideoClip(lambda t: np.zeros((2, 2, 3))).with_effects([e])\n        out.append(\"no error\")\n    except ValueError:\n        out.append(\"ValueError\")\nresult = out\n",
+  "id": "OBS-0117"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nout = []\nfor w, h in [(5, 3), (4, 3), (5, 4), (4, 4)]:\n    n = ImageClip(pattern(w, h), duration=1).with_effects([vfx.EvenSize()])\n    out.append(list(n.size) + [list(n.get_frame(0).shape)])\nresult = out\n",
+  "id": "OBS-0118"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(200, 100, 50), duration=4)\nn = c.with_effects([vfx.FadeIn(2)])\nresult = [[int(round(v)) for v in n.get_frame(t)[0, 0]] for t in [0, 1, 3]]\n",
+  "id": "OBS-0119"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(200, 100, 50), duration=4)\nn = c.with_effects([vfx.FadeOut(2, final_color=[0, 0, 250])])\nresult = [[int(round(v)) for v in n.get_frame(t)[0, 0]] for t in [1, 3, 4]]\n",
+  "id": "OBS-0120"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nm = ColorClip((2, 2), color=1.0, is_mask=True, duration=2)\na = m.with_effects([vfx.FadeIn(1)])\ntry:\n    VideoClip(lambda t: np.zeros((2, 2, 3))).with_effects([vfx.FadeOut(1)])\n    e = \"no error\"\nexcept ValueError:\n    e = \"ValueError\"\nresult = [mvals(a, [0, 0.5, 1.5]), e]\n",
+  "id": "OBS-0121"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2, fps=10)\nn = c.with_effects([vfx.Freeze(t=1, freeze_duration=1)])\nresult = [n.duration, tvals(n, [0.5, 1.5, 2.5])]\n",
+  "id": "OBS-0122"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2, fps=10)\nn = c.with_effects([vfx.Freeze(t=\"end\", total_duration=3)])\nresult = [n.duration, tvals(n, [1.0, 2.5])]\n",
+  "id": "OBS-0123"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\ntry:\n    tclip(2, fps=10).with_effects([vfx.Freeze(t=1)])\n    result = \"no error\"\nexcept ValueError:\n    result = \"ValueError\"\n",
+  "id": "OBS-0124"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = VideoClip(lambda t: np.full((4, 4, 3), int(40 * t), dtype=np.uint8), duration=2)\nn = c.with_effects([vfx.FreezeRegion(t=0, region=(0, 0, 2, 2))])\nf = n.get_frame(1)\nresult = [int(f[0, 0, 0]), int(f[3, 3, 0])]\n",
+  "id": "OBS-0125"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = VideoClip(lambda t: np.full((4, 4, 3), int(40 * t), dtype=np.uint8), duration=2)\nn = c.with_effects([vfx.FreezeRegion(t=0, outside_region=(0, 0, 2, 2))])\nf = n.get_frame(1)\nresult = [int(f[0, 0, 0]), int(f[3, 3, 0])]\n",
+  "id": "OBS-0126"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(0, 64, 255), duration=1)\nn = c.with_effects([vfx.GammaCorrection(2)])\nresult = [int(v) for v in n.get_frame(0)[0, 0]]\n",
+  "id": "OBS-0127"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(10, 127, 250), duration=1)\nn = c.with_effects([vfx.LumContrast(lum=20, contrast=0.5, contrast_threshold=127)])\nresult = [int(v) for v in n.get_frame(0)[0, 0]]\n",
+  "id": "OBS-0128"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nimg = np.zeros((20, 20, 3), dtype=np.uint8)\nimg[:, 10:] = 200\nc = ImageClip(img, duration=1)\nn = c.with_effects([vfx.HeadBlur(fx=lambda t: 10, fy=lambda t: 5, radius=3)])\nf = n.get_frame(0)\nresult = [list(f.shape), int(f[19, 0, 0]), int(f[19, 19, 0]), bool(0 < f[5, 9, 0] < 200 or 0 < f[5, 10, 0] < 200)]\n",
+  "id": "OBS-0129"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(0, 100, 255), duration=1)\nm = ColorClip((2, 2), color=0.25, is_mask=True, duration=1)\nresult = [[int(v) for v in c.with_effects([vfx.InvertColors()]).get_frame(0)[0, 0]],\n          mvals(m.with_effects([vfx.InvertColors()]), [0])]\n",
+  "id": "OBS-0130"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(10, 100, 200), duration=1)\nresult = [[int(v) for v in c.with_effects([vfx.MultiplyColor(2)]).get_frame(0)[0, 0]],\n          [int(v) for v in c.with_effects([vfx.MultiplyColor(0.5)]).get_frame(0)[0, 0]]]\n",
+  "id": "OBS-0131"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2)\nn = c.with_effects([vfx.Loop(n=3)])\nresult = [n.duration, tvals(n, [0.5, 2.5, 4.5])]\n",
+  "id": "OBS-0132"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2)\nn = c.with_effects([vfx.Loop(duration=5)])\nresult = [n.duration, tvals(n, [4.5])]\n",
+  "id": "OBS-0133"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\ntry:\n    VideoClip(lambda t: np.zeros((2, 2, 3))).with_effects([vfx.Loop(n=2)])\n    result = \"no error\"\nexcept ValueError:\n    result = \"ValueError\"\n",
+  "id": "OBS-0134"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(100, 100, 100), duration=3).with_fps(10)\nn = c.with_effects([vfx.MakeLoopable(1)])\nresult = [n.duration, list(n.size)]\n",
+  "id": "OBS-0135"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(50, 50, 50), duration=1)\nn = c.with_effects([vfx.Margin(margin_size=1, color=(255, 0, 0))])\nf = n.get_frame(0)\nresult = [list(n.size), [int(v) for v in f[0, 0]], [int(v) for v in f[1, 1]]]\n",
+  "id": "OBS-0136"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(1, size=(2, 2))\nn = c.with_effects([vfx.Margin(left=2, top=1, color=(9, 9, 9))])\nf = n.get_frame(0.5)\nresult = [list(n.size), int(f[0, 0, 0]), int(f[1, 2, 0])]\n",
+  "id": "OBS-0137"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(50, 50, 50), duration=1)\nn = c.with_effects([vfx.Margin(margin_size=1, opacity=0)])\nresult = [list(n.size), n.mask is not None, mvals(n.mask, [0], (0, 0)), mvals(n.mask, [0], (1, 1))]\n",
+  "id": "OBS-0138"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nimg = np.zeros((1, 2, 3), dtype=np.uint8)\nimg[0, 1] = (0, 3, 4)\nc = ImageClip(img, duration=1)\nn = c.with_effects([vfx.MaskColor(color=(0, 0, 0))])\nk = c.with_effects([vfx.MaskColor(color=(0, 0, 0), threshold=5, stiffness=1)])\nresult = [mvals(n.mask, [0], (0, 0)), mvals(n.mask, [0], (0, 1)), mvals(k.mask, [0], (0, 1))]\n",
+  "id": "OBS-0139"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nclip = ColorClip(color=(255, 0, 0), size=(1, 1), duration=1)\nmask = ColorClip(color=(0, 255, 0), size=(1, 1), duration=1)\na = clip.with_effects([vfx.MasksAnd(mask)])\no = clip.with_effects([vfx.MasksOr(mask)])\nresult = [grid(a.get_frame(0)), grid(o.get_frame(0))]\n",
+  "id": "OBS-0140"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nclip = tclip(2, size=(1, 1))\nother = ColorClip(color=(30, 30, 30), size=(1, 1), duration=2)\na = clip.with_effects([vfx.MasksAnd(other.with_effects([vfx.MultiplyColor(1)]))])\no = clip.with_effects([vfx.MasksOr(np.full((1, 1, 3), 30))])\nresult = [tvals(a, [0, 1.5]), tvals(o, [0, 1.5])]\n",
+  "id": "OBS-0141"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ImageClip(pattern(3, 2), duration=1)\nx = c.with_effects([vfx.MirrorX()])\ny = c.with_effects([vfx.MirrorY()])\nresult = [grid(x.get_frame(0)) == grid(pattern(3, 2)[:, ::-1]), grid(y.get_frame(0)) == grid(pattern(3, 2)[::-1])]\n",
+  "id": "OBS-0142"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nm = np.array([[0.0, 1.0]])\nc = ImageClip(np.zeros((1, 2, 3)), duration=1).with_mask(ImageClip(m, is_mask=True, duration=1))\nx = c.with_effects([vfx.MirrorX()])\nresult = mvals(x.mask, [0], (0, 0))\n",
+  "id": "OBS-0143"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4)\nn = c.with_effects([vfx.MultiplySpeed(2)])\nm = c.with_effects([vfx.MultiplySpeed(final_duration=8)])\nresult = [n.duration, tvals(n, [0, 1]), m.duration, tvals(m, [2])]\n",
+  "id": "OBS-0144"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ImageClip(pattern(8, 6), duration=1)\nn = c.with_effects([vfx.Painting(saturation=1.2, black=0.01)])\nf = n.get_frame(0)\nresult = [list(f.shape), str(f.dtype)]\n",
+  "id": "OBS-0145"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((8, 4), color=(10, 20, 30), duration=1)\na = c.with_effects([vfx.Resize((4, 2))])\nb = c.with_effects([vfx.Resize(0.5)])\nd = c.with_effects([vfx.Resize(height=2)])\ne = c.with_effects([vfx.Resize(width=16)])\nresult = [list(a.size), list(b.size), list(d.size), list(e.size), [int(v) for v in e.get_frame(0)[1, 1]]]\n",
+  "id": "OBS-0146"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((8, 4), color=(10, 20, 30), duration=2).with_mask(ColorClip((8, 4), color=1.0, is_mask=True, duration=2))\nn = c.with_effects([vfx.Resize(lambda t: 1 + t)])\nresult = [list(n.get_frame(0).shape), list(n.get_frame(1).shape), list(n.mask.get_frame(1).shape)]\n",
+  "id": "OBS-0147"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\ntry:\n    ColorClip((8, 4), color=(0, 0, 0), duration=1).with_effects([vfx.Resize()])\n    result = \"no error\"\nexcept ValueError:\n    result = \"ValueError\"\n",
+  "id": "OBS-0148"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ImageClip(pattern(3, 2), duration=1)\nn = c.with_effects([vfx.Rotate(90)])\nm = c.with_effects([vfx.Rotate(180)])\nresult = [list(n.size), grid(n.get_frame(0)) == grid(np.rot90(pattern(3, 2))), grid(m.get_frame(0)) == grid(pattern(3, 2)[::-1, ::-1])]\n",
+  "id": "OBS-0149"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nimport math\nc = ImageClip(pattern(3, 2), duration=1)\nn = c.with_effects([vfx.Rotate(math.pi / 2, unit=\"rad\")])\nk = ColorClip((4, 4), color=(9, 9, 9), duration=1).with_effects([vfx.Rotate(30, expand=False)])\nresult = [list(n.size), list(k.size)]\n",
+  "id": "OBS-0150"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\ntry:\n    ColorClip((4, 4), color=(9, 9, 9), duration=1).with_effects([vfx.Rotate(30, resample=\"bogus\")]).get_frame(0)\n    result = \"no error\"\nexcept ValueError:\n    result = \"ValueError\"\n",
+  "id": "OBS-0151"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nimg = np.zeros((10, 2, 3), dtype=np.uint8)\nimg[:, :, 0] = np.arange(10)[:, None]\nc = ImageClip(img, duration=4)\nn = c.with_effects([vfx.Scroll(h=2, y_speed=2)])\nresult = [list(n.get_frame(0).shape), int(n.get_frame(0)[0, 0, 0]), int(n.get_frame(2)[0, 0, 0])]\n",
+  "id": "OBS-0152"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((4, 4), color=(255, 0, 0), duration=2)\nn = c.with_effects([vfx.SlideIn(1, \"left\")])\ncomp = CompositeVideoClip([n], size=(4, 4), bg_color=(0, 0, 0))\nresult = [[int(v) for v in comp.get_frame(0.5)[0, :, 0]], [int(v) for v in comp.get_frame(1.5)[0, :, 0]]]\n",
+  "id": "OBS-0153"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((4, 4), color=(255, 0, 0), duration=2)\nn = c.with_effects([vfx.SlideOut(1, \"top\")])\ncomp = CompositeVideoClip([n], size=(4, 4), bg_color=(0, 0, 0))\nresult = [[int(v) for v in comp.get_frame(0.5)[:, 0, 0]], [int(v) for v in comp.get_frame(1.5)[:, 0, 0]]]\n",
+  "id": "OBS-0154"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = VideoClip(lambda t: np.full((2, 2, 3), int(round(10 * t * t)), dtype=np.uint8), duration=4)\nn = c.with_effects([vfx.SuperSample(d=1, n_frames=3)])\nresult = [int(n.get_frame(2)[0, 0, 0]), int(c.get_frame(2)[0, 0, 0])]\n",
+  "id": "OBS-0155"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = sclip(2, fps=10)\nn = c.with_effects([vfx.TimeMirror()])\nresult = [n.duration, tvals(n, [0.5, 1.5])]\n",
+  "id": "OBS-0156"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = sclip(2, fps=10)\nn = c.with_effects([vfx.TimeSymmetrize()])\nresult = [n.duration, tvals(n, [0.5, 1.5, 2.5, 3.5])]\n",
+  "id": "OBS-0157"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nout = []\nfor e in [vfx.TimeMirror(), vfx.TimeSymmetrize()]:\n    try:\n        VideoClip(lambda t: np.zeros((2, 2, 3))).with_effects([e])\n        out.append(\"no error\")\n    except ValueError:\n        out.append(\"ValueError\")\nresult = out\n",
+  "id": "OBS-0158"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nimport moviepy.video.fx as V\nimport moviepy.audio.fx as A\nresult = [sorted(V.__all__), sorted(A.__all__), all(hasattr(vfx, n) for n in V.__all__), all(hasattr(afx, n) for n in A.__all__)]\n",
+  "id": "OBS-0159"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = AudioClip(lambda t: np.array([0.5 * (np.asarray(t) < 0.1), 0.25 * (np.asarray(t) < 0.1)]).T, duration=0.1, fps=1000)\nn = a.with_effects([afx.AudioDelay(offset=0.2, n_repeats=2, decay=0)])\nresult = [round(n.duration, 4), asamp(n, [0.05, 0.25, 0.45])]\n",
+  "id": "OBS-0160"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = tone(4)\nn = a.with_effects([afx.AudioFadeIn(2)])\nm = a.with_effects([afx.AudioFadeOut(\"00:00:02\")])\nresult = [asamp(n, [0, 1, 3]), asamp(m, [1, 3, 4])]\n",
+  "id": "OBS-0161"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nv = tclip(4).with_audio(tone(4, stereo=True))\nn = v.with_effects([afx.AudioFadeIn(2)])\nresult = asamp(n.audio, [1])\n",
+  "id": "OBS-0162"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = tone(1, stereo=True)\nn = a.with_effects([afx.AudioLoop(n_loops=3)])\nm = a.with_effects([afx.AudioLoop(duration=2.5)])\nresult = [n.duration, m.duration, asamp(m, [0.5, 1.5, 2.2])]\n",
+  "id": "OBS-0163"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = AudioClip(lambda t: 0.25 * np.sin(2 * np.pi * np.asarray(t)), duration=1, fps=1000)\nn = a.with_effects([afx.AudioNormalize()])\ns = AudioClip(lambda t: np.asarray(t) * 0, duration=1, fps=100).with_effects([afx.AudioNormalize()])\nresult = [round(float(n.max_volume()), 3), round(float(s.max_volume()), 3)]\n",
+  "id": "OBS-0164"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = tone(3, stereo=True)\nn = a.with_effects([afx.MultiplyVolume(2)])\nm = a.with_effects([afx.MultiplyVolume(0, start_time=1, end_time=2)])\nresult = [asamp(n, [0.5]), asamp(m, [0.5, 1.5, 2.5])]\n",
+  "id": "OBS-0165"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = tone(2, stereo=True)\nn = a.with_effects([afx.MultiplyStereoVolume(left=0, right=2)])\nresult = asamp(n, [0.5])\n",
+  "id": "OBS-0166"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = VideoClip(lambda t: np.zeros((3, 4, 3)), duration=2).with_fps(5)\nresult = [list(c.size), c.w, c.h, round(c.aspect_ratio, 4), c.n_frames, c.is_mask]\n",
+  "id": "OBS-0167"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nm = VideoClip(lambda t: np.full((3, 4), 0.5), is_mask=True, duration=1)\nresult = [list(m.size), m.is_mask, list(m.get_frame(0).shape)]\n",
+  "id": "OBS-0168"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2).with_mask(mclip(2)).with_audio(tone(2))\nn = c.with_position((1, 2)).with_layer_index(3).with_opacity(0.5)\nresult = [list(c.pos(0)), c.layer_index, mvals(c.mask, [1]), list(n.pos(0)), n.layer_index, mvals(n.mask, [1])]\n",
+  "id": "OBS-0169"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nimport imageio.v3 as iio\nc = tclip(4)\nc.save_frame(\"frame.png\", t=\"00:00:01.5\")\nimg = iio.imread(\"frame.png\")\nresult = [list(img.shape), int(img[0, 0, 0])]\n",
+  "id": "OBS-0170"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nimport imageio.v3 as iio\nc = ColorClip((3, 2), color=(10, 20, 30), duration=1).with_mask(ColorClip((3, 2), color=0.0, is_mask=True, duration=1))\nc.save_frame(\"masked.png\", t=0, with_mask=True)\nimg = iio.imread(\"masked.png\")\nresult = [list(img.shape), [int(v) for v in img[0, 0]]]\n",
+  "id": "OBS-0171"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((16, 16), color=(200, 30, 30), duration=1).with_fps(10)\nc.write_videofile(\"out.mp4\", logger=None)\nv = VideoFileClip(\"out.mp4\")\nf = v.get_frame(0.5)\nresult = [list(v.size), v.fps, round(v.duration, 1), bool(abs(int(f[8, 8, 0]) - 200) < 20 and int(f[8, 8, 1]) < 60)]\nv.close()\n",
+  "id": "OBS-0172"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((16, 16), color=(0, 0, 255), duration=1).with_audio(tone(1, fps=22050, stereo=True))\nc.write_videofile(\"out.webm\", fps=5, logger=None)\nv = VideoFileClip(\"out.webm\")\nresult = [list(v.size), v.fps, v.audio is not None, round(v.duration, 1)]\nv.close()\n",
+  "id": "OBS-0173"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(1)\nnames = c.write_images_sequence(\"frame%03d.png\", fps=4, logger=None)\nresult = [names, sorted(n for n in os.listdir(\".\") if n.startswith(\"frame\"))]\n",
+  "id": "OBS-0174"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nimport imageio.v3 as iio\nc = tclip(1, size=(8, 8))\nc.write_gif(\"anim.gif\", fps=4, logger=None)\nframes = iio.imread(\"anim.gif\", index=None)\nresult = [int(frames.shape[0]), list(frames.shape[1:3])]\n",
+  "id": "OBS-0175"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = sclip(6, fps=10)\nn = c.with_effects_on_subclip([vfx.MultiplySpeed(0.5)], start_time=2, end_time=4)\nresult = [n.duration, tvals(n, [1, 2.5, 4.5, 6.5])]\n",
+  "id": "OBS-0176"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2)\nn = c.image_transform(lambda f: f + 1)\nresult = [tvals(n, [0, 1]), tvals(c, [1])]\n",
+  "id": "OBS-0177"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((3, 2), color=(1, 2, 3), duration=1).with_mask(ColorClip((3, 2), color=1.0, is_mask=True, duration=1))\nn = c.image_transform(lambda f: f[:1], apply_to=[\"mask\"])\nresult = [list(n.get_frame(0).shape), list(n.mask.get_frame(0).shape)]\n",
+  "id": "OBS-0178"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(1)\na = c.fill_array(np.zeros((2, 2, 3)), shape=(3, 4))\nb = c.fill_array(np.zeros((4, 5, 3)), shape=(2, 3))\nresult = [grid(a[:, :, 0]), list(b.shape)]\n",
+  "id": "OBS-0179"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(255, 255, 255), duration=1)\nn = c.with_background_color(size=(4, 4), color=(0, 0, 255))\nf = n.get_frame(0)\nresult = [list(n.size), [int(v) for v in f[0, 0]], [int(v) for v in f[1, 1]]]\n",
+  "id": "OBS-0180"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(255, 255, 255), duration=1)\nn = c.with_background_color(size=(4, 2), color=(0, 0, 0), pos=(0, 0))\nresult = [int(v) for v in n.get_frame(0)[0, :, 0]]\n",
+  "id": "OBS-0181"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = tone(2)\nc = tclip(2)\nw = c.with_audio(a)\nn = w.without_audio()\nresult = [c.audio is None, w.audio is a or w.audio is not None, n.audio is None, w.audio is not None]\n",
+  "id": "OBS-0182"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(2)\nm = c.with_mask()\nk = m.without_mask()\no = c.with_opacity(0.25)\nresult = [mvals(m.mask, [1]), k.mask is None, mvals(o.mask, [1]), c.mask is None]\n",
+  "id": "OBS-0183"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nbg = ColorClip((6, 6), color=(0, 0, 0), duration=1)\ndot = ColorClip((2, 2), color=(255, 0, 0), duration=1)\nout = []\nfor pos, rel in [((1, 3), False), ((\"center\", \"top\"), False), ((0.5, 0.5), True), (lambda t: (4, 4), False)]:\n    comp = CompositeVideoClip([bg, dot.with_position(pos, relative=rel)])\n    f = comp.get_frame(0)[:, :, 0]\n    ys, xs = np.nonzero(f)\n    out.append([int(xs.min()), int(ys.min())])\nresult = out\n",
+  "id": "OBS-0184"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = ColorClip((2, 2), color=(255, 0, 0), duration=1).with_layer_index(2)\nb = ColorClip((2, 2), color=(0, 255, 0), duration=1)\ncomp = CompositeVideoClip([a, b])\nresult = [a.layer_index, b.layer_index, [int(v) for v in comp.get_frame(0)[0, 0]]]\n",
+  "id": "OBS-0185"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ImageClip(pattern(4, 2), duration=1)\nr = c.resized(2)\no = c.rotated(90, expand=True)\nk = c.cropped(x1=1, x2=3)\nresult = [list(r.size), list(o.size), grid(o.get_frame(0)) == grid(np.rot90(pattern(4, 2))), list(k.size)]\n",
+  "id": "OBS-0186"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = tclip(4)\ni = c.to_ImageClip(t=\"00:00:02\", duration=3)\nresult = [type(i).__name__, i.duration, tvals(i, [0, 2])]\n",
+  "id": "OBS-0187"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((2, 2), color=(255, 51, 0), duration=1)\nm = c.to_mask(canal=1)\nr = m.to_RGB()\nresult = [m.is_mask, mvals(m, [0]), r.is_mask, [int(v) for v in r.get_frame(0)[0, 0]]]\n",
+  "id": "OBS-0188"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = ColorClip((2, 2), color=(255, 0, 0), duration=1)\nb = ColorClip((2, 2), color=(0, 255, 0), duration=2)\ns = a + b\nh = a | b\nv = a / b\nresult = [s.duration, list(h.size), list(v.size), [int(x) for x in h.get_frame(0)[0, :, 1]], [int(x) for x in v.get_frame(0)[:, 0, 1]]]\n",
+  "id": "OBS-0189"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = ImageClip(pattern(3, 2), duration=1)\nr = a @ 90\nm = ColorClip((3, 2), color=0.5, is_mask=True, duration=1)\nk = a & m\nl = tclip(1) * 3\nresult = [list(r.size), mvals(k.mask, [0]), l.duration]\n",
+  "id": "OBS-0190"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\ndata = [10, 20, 30, 40]\nc = DataVideoClip(data, lambda d: np.full((2, 2, 3), d, dtype=np.uint8), fps=2)\nresult = [c.duration, tvals(c, [0, 0.5, 1.0, 1.5])]\n",
+  "id": "OBS-0191"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nclass World:\n    def __init__(self):\n        self.clip_t = 0\n        self.updates = 0\n    def update(self):\n        self.updates += 1\n        self.clip_t += 0.5\n    def to_frame(self):\n        return np.full((2, 2, 3), self.updates, dtype=np.uint8)\nw = World()\nc = UpdatedVideoClip(w, duration=3)\nresult = [tvals(c, [1, 2]), w.updates, w.clip_t]\n",
+  "id": "OBS-0192"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ImageClip(pattern(3, 2), duration=2)\nn = c.image_transform(lambda f: 255 - f)\nresult = [list(c.size), c.duration, tvals(c, [0, 1.5]), type(n).__name__, tvals(n, [0])]\n",
+  "id": "OBS-0193"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nimport imageio.v3 as iio\nrgba = np.zeros((2, 3, 4), dtype=np.uint8)\nrgba[..., 0] = 200\nrgba[..., 3] = 255\nrgba[0, 0, 3] = 0\niio.imwrite(\"pic.png\", rgba)\nc = ImageClip(\"pic.png\")\nk = ImageClip(\"pic.png\", transparent=False)\nresult = [list(c.size), c.mask is not None, mvals(c.mask, [0], (0, 0)), mvals(c.mask, [0], (1, 1)), k.mask is None]\n",
+  "id": "OBS-0194"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nm = ImageClip(np.full((2, 2), 0.5), is_mask=True)\nresult = [m.is_mask, mvals(m, [0]), m.duration]\n",
+  "id": "OBS-0195"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nc = ColorClip((3, 2), color=(1, 2, 3), duration=1)\nd = ColorClip((3, 2), duration=1)\nm = ColorClip((3, 2), color=0.75, is_mask=True, duration=1)\nresult = [list(c.size), [int(v) for v in c.get_frame(0)[1, 2]], [int(v) for v in d.get_frame(0)[0, 0]], mvals(m, [0]), m.is_mask]\n",
+  "id": "OBS-0196"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nt = TextClip(text=\"Hi\", font_size=20, color=\"white\", bg_color=\"black\", duration=2)\nf = t.get_frame(0)\nresult = [t.w > 0, t.h > 0, t.duration, int(f.max()) > 200, [int(v) for v in f[0, 0]]]\n",
+  "id": "OBS-0197"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nt = TextClip(text=\"some words to wrap here\", font_size=12, size=(60, 80), method=\"caption\", color=\"white\")\nresult = [list(t.size), t.mask is not None]\n",
+  "id": "OBS-0198"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = TextClip(text=\"Hi\", font_size=20)\nb = TextClip(text=\"Hi\", font_size=20, margin=(5, 7))\nresult = [b.w - a.w, b.h - a.h]\n",
+  "id": "OBS-0199"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nframes = [[\"RG\", \"BB\"], [\"GG\", \"RR\"]]\nc = BitmapClip(frames, fps=1)\nresult = [list(c.size), c.duration, [int(v) for v in c.get_frame(0)[0, 0]], [int(v) for v in c.get_frame(1)[0, 0]], c.to_bitmap()]\n",
+  "id": "OBS-0200"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = ColorClip((4, 4), color=(255, 0, 0), duration=2)\nb = ColorClip((2, 2), color=(0, 255, 0), duration=3).with_position((1, 1))\ncomp = CompositeVideoClip([a, b])\nf = comp.get_frame(0)\nresult = [list(comp.size), comp.duration, [int(v) for v in f[0, 0]], [int(v) for v in f[1, 1]]]\n",
+  "id": "OBS-0201"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = ColorClip((2, 2), color=(255, 0, 0), duration=1).with_fps(5)\nb = ColorClip((2, 2), color=(0, 255, 0), duration=1).with_fps(12).with_mask(ColorClip((2, 2), color=0.0, is_mask=True, duration=1))\ncomp = CompositeVideoClip([a, b], size=(3, 3), bg_color=(0, 0, 255))\nf = comp.get_frame(0)\nresult = [comp.fps, list(comp.size), [int(v) for v in f[0, 0]], [int(v) for v in f[2, 2]]]\n",
+  "id": "OBS-0202"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = tclip(2).with_audio(tone(2, stereo=True))\nb = tclip(1).with_audio(tone(1, stereo=True)).with_start(1)\ncomp = CompositeVideoClip([a, b])\nresult = [comp.duration, comp.audio is not None, asamp(comp.audio, [0.5, 1.5])]\n",
+  "id": "OBS-0203"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nbg = ColorClip((4, 4), color=(0, 0, 255), duration=5)\nfg = ColorClip((2, 2), color=(255, 0, 0), duration=2)\ncomp = CompositeVideoClip([bg, fg], use_bgclip=True)\nf = comp.get_frame(1)\nresult = [comp.duration, [int(v) for v in f[0, 0]], [int(v) for v in f[3, 3]]]\n",
+  "id": "OBS-0204"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = ColorClip((2, 2), color=(255, 0, 0), duration=1)\nb = ColorClip((4, 2), color=(0, 255, 0), duration=1)\nc = ColorClip((2, 4), color=(0, 0, 255), duration=1)\nd = ColorClip((2, 2), color=(255, 255, 255), duration=1)\narr = clips_array([[a, b], [c, d]], bg_color=(9, 9, 9))\nf = arr.get_frame(0)\nresult = [list(arr.size), [int(v) for v in f[0, 0]], [int(v) for v in f[0, 2]], [int(v) for v in f[2, 0]], [int(v) for v in f[2, 2]]]\n",
+  "id": "OBS-0205"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = ColorClip((2, 2), color=(255, 0, 0), duration=1)\nb = ColorClip((2, 2), color=(0, 255, 0), duration=1)\nc = concatenate_videoclips([a, b], method=\"compose\", padding=-0.5)\nresult = [c.duration, [int(v) for v in c.get_frame(0.25)[0, 0]], [int(v) for v in c.get_frame(0.75)[0, 0]]]\n",
+  "id": "OBS-0206"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\na = ColorClip((2, 2), color=(255, 0, 0), duration=1)\nb = ColorClip((2, 2), color=(0, 255, 0), duration=1)\nt = ColorClip((2, 2), color=(0, 0, 255), duration=0.5)\nc = concatenate_videoclips([a, b], transition=t)\nresult = [c.duration, [int(v) for v in c.get_frame(1.25)[0, 0]], [int(v) for v in c.get_frame(1.75)[0, 0]]]\n",
+  "id": "OBS-0207"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\nm = tone(1)\ns = tone(1, stereo=True)\nresult = [m.nchannels, s.nchannels, m.duration, m.fps, asamp(m, [0, 0.5]), asamp(s, [0.5])]\n",
+  "id": "OBS-0208"
+ },
+ {
+  "code": "import os\nimport numpy as np\nimport moviepy\nfrom moviepy import *\nfrom moviepy import vfx, afx\ns = tone(1, fps=10, stereo=True)\narr = s.to_soundarray(fps=10)\nq = s.to_soundarray(fps=10, quantize=True, nbytes=2)\nresult = [list(arr.shape), round(float(arr[5, 0]), 4), str(q.dtype)]\n",
+  "id": "OBS-0209"
+ },
+ {
+  "code": "import os\nimpo

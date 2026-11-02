@@ -1,0 +1,411 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 2400,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "71184f6c7b4dd8899d1f3ff2ea765a791d059141f96919b4d2aa3c6ef2410fe2",
+  "documentation.json": "e080105334dc4bcffa0c977bd1acd9a9f1782996e996965680d20fbb6c9b5e79",
+  "driver.py": "a64f2e14a033241740472d9f710a1de2b60a0a76a60b896479e7128ea6217a47",
+  "expected.json": "059fe4dce2bd4ff2ae602f71584a1444bfa8dd0e66926a73293343083bbcde61"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "GROUP-0001",
+    "kind": "f2p",
+    "requirement": "RiemannianKMeans accepts backend-array centers or a callable receiving X and n_clusters. fit returns self, initializes nearest-center labels, alternates all-member cluster means with nearest updated-center labels, and stops when mean center displacement is below tol or max_iter updates occur. max_iter=0 retains initial centers and labels. predict uses nearest metric center for nonsingleton batches and multiple clusters. Cluster names are immaterial.",
+    "tests": [
+     "OBS-0001",
+     "OBS-0002",
+     "OBS-0003",
+     "OBS-0004",
+     "OBS-0005",
+     "OBS-0006",
+     "OBS-0007",
+     "OBS-0008",
+     "OBS-0009"
+    ]
+   },
+   {
+    "id": "GROUP-0002",
+    "kind": "f2p",
+    "requirement": "linear_mean and LinearMean.fit compute sum(weight * sample)/sum(weight), with equal weights when omitted and non-sample axes retained. FrechetMean selects LinearMean for Euclidean metrics, or explicitly with method=linear. fit returns self and sets estimate_.",
+    "tests": [
+     "OBS-0010",
+     "OBS-0011",
+     "OBS-0012",
+     "OBS-0013",
+     "OBS-0014",
+     "OBS-0015",
+     "OBS-0016",
+     "OBS-0017",
+     "OBS-0018",
+     "OBS-0019",
+     "OBS-0020",
+     "OBS-0021",
+     "OBS-0022"
+    ]
+   },
+   {
+    "id": "GROUP-0003",
+    "kind": "p2p",
+    "requirement": "RiemannianKMeans accepts backend-array centers or a callable receiving X and n_clusters. fit returns self, initializes nearest-center labels, alternates all-member cluster means with nearest updated-center labels, and stops when mean center displacement is below tol or max_iter updates occur. max_iter=0 retains initial centers and labels. predict uses nearest metric center for nonsingleton batches and multiple clusters. Cluster names are immaterial.",
+    "tests": [
+     "OBS-0023",
+     "OBS-0024",
+     "OBS-0025",
+     "OBS-0026",
+     "OBS-0027",
+     "OBS-0028",
+     "OBS-0029",
+     "OBS-0030",
+     "OBS-0031",
+     "OBS-0032",
+     "OBS-0033",
+     "OBS-0034",
+     "OBS-0035",
+     "OBS-0036",
+     "OBS-0037"
+    ]
+   },
+   {
+    "id": "GROUP-0004",
+    "kind": "p2p",
+    "requirement": "Prediction before fit raises RuntimeError.",
+    "tests": [
+     "OBS-0038"
+    ]
+   },
+   {
+    "id": "GROUP-0005",
+    "kind": "p2p",
+    "requirement": "linear_mean and LinearMean.fit compute sum(weight * sample)/sum(weight), with equal weights when omitted and non-sample axes retained. FrechetMean selects LinearMean for Euclidean metrics, or explicitly with method=linear. fit returns self and sets estimate_.",
+    "tests": [
+     "OBS-0039",
+     "OBS-0040",
+     "OBS-0041",
+     "OBS-0042",
+     "OBS-0043",
+     "OBS-0044",
+     "OBS-0045",
+     "OBS-0046",
+     "OBS-0047",
+     "OBS-0048",
+     "OBS-0049",
+     "OBS-0050",
+     "OBS-0051",
+     "OBS-0052",
+     "OBS-0053",
+     "OBS-0054",
+     "OBS-0055",
+     "OBS-0056",
+     "OBS-0057",
+     "OBS-0058",
+     "OBS-0059",
+     "OBS-0060",
+     "OBS-0061",
+     "OBS-0062"
+    ]
+   },
+   {
+    "id": "GROUP-COV-KMEDOIDS",
+    "kind": "p2p",
+    "requirement": "RiemannianKMedoids.fit returns self and clusters points around medoids chosen from the data.",
+    "tests": [
+     "OBS-0063"
+    ]
+   },
+   {
+    "id": "GROUP-COV-ONLINE-KMEANS",
+    "kind": "p2p",
+    "requirement": "OnlineKMeans.fit returns self with n_clusters centers on the manifold and labels.",
+    "tests": [
+     "OBS-0064"
+    ]
+   },
+   {
+    "id": "GROUP-COV-KNN",
+    "kind": "p2p",
+    "requirement": "KNearestNeighborsClassifier votes over the n_neighbors nearest points by manifold distance.",
+    "tests": [
+     "OBS-0065",
+     "OBS-0066"
+    ]
+   },
+   {
+    "id": "GROUP-COV-MDM",
+    "kind": "p2p",
+    "requirement": "RiemannianMinimumDistanceToMean assigns each point to the class with the nearest Frechet mean.",
+    "tests": [
+     "OBS-0067"
+    ]
+   },
+   {
+    "id": "GROUP-COV-KDE",
+    "kind": "p2p",
+    "requirement": "KernelDensityEstimationClassifier classifies by radial-kernel density estimates per class.",
+    "tests": [
+     "OBS-0068"
+    ]
+   },
+   {
+    "id": "GROUP-COV-RADIAL-KERNELS",
+    "kind": "p2p",
+    "requirement": "The radial kernel functions return the documented kernel values of distance and bandwidth.",
+    "tests": [
+     "OBS-0069",
+     "OBS-0070"
+    ]
+   },
+   {
+    "id": "GROUP-COV-GEOMETRIC-MEDIAN",
+    "kind": "p2p",
+    "requirement": "GeometricMedian.fit returns self and sets estimate_ to the Weiszfeld geometric median.",
+    "tests": [
+     "OBS-0071",
+     "OBS-0072"
+    ]
+   },
+   {
+    "id": "GROUP-COV-INCREMENTAL-MEAN",
+    "kind": "p2p",
+    "requirement": "IncrementalFrechetMean moves 1/k of the way along the geodesic to each new point.",
+    "tests": [
+     "OBS-0073",
+     "OBS-0074"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TO-TANGENT",
+    "kind": "p2p",
+    "requirement": "ToTangentSpace lifts points with log at the base point and inverse_transform maps back with exp.",
+    "tests": [
+     "OBS-0075",
+     "OBS-0076"
+    ]
+   },
+   {
+    "id": "GROUP-COV-MEAN-SHIFT",
+    "kind": "p2p",
+    "requirement": "RiemannianMeanShift finds n_clusters centers on the manifold and predicts the nearest center.",
+    "tests": [
+     "OBS-0077"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AGGLOMERATIVE",
+    "kind": "p2p",
+    "requirement": "AgglomerativeHierarchicalClustering merges points by manifold distance into n_clusters clusters.",
+    "tests": [
+     "OBS-0078"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TANGENT-PCA",
+    "kind": "p2p",
+    "requirement": "TangentPCA fits a PCA of the log-mapped data at the base point; transform/inverse_transform map between manifold and components.",
+    "tests": [
+     "OBS-0079",
+     "OBS-0080"
+    ]
+   },
+   {
+    "id": "GROUP-COV-FRECHET-MANIFOLD",
+    "kind": "p2p",
+    "requirement": "FrechetMean on non-Euclidean spaces dispatches to the Frechet mean estimators and fit sets estimate_.",
+    "tests": [
+     "OBS-0081",
+     "OBS-0082",
+     "OBS-0083"
+    ]
+   },
+   {
+    "id": "GROUP-COV-VARIANCE",
+    "kind": "p2p",
+    "requirement": "variance returns the (weighted) mean squared distance of the points to the base point.",
+    "tests": [
+     "OBS-0084"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CIRCLE-MEAN",
+    "kind": "p2p",
+    "requirement": "FrechetMean on the circle uses CircleMean and returns the circular mean.",
+    "tests": [
+     "OBS-0085"
+    ]
+   },
+   {
+    "id": "GROUP-COV-EXP-BARYCENTER",
+    "kind": "p2p",
+    "requirement": "ExponentialBarycenter of Lie-group data returns self and sets estimate_, honouring weights.",
+    "tests": [
+     "OBS-0086",
+     "OBS-0087"
+    ]
+   },
+   {
+    "id": "GROUP-COV-MDS",
+    "kind": "p2p",
+    "requirement": "pairwise_dists returns pairwise manifold distances; MDS embeds them in n_components Euclidean dimensions.",
+    "tests": [
+     "OBS-0088"
+    ]
+   },
+   {
+    "id": "GROUP-COV-EM",
+    "kind": "p2p",
+    "requirement": "RiemannianEM fits a Gaussian mixture on the Poincare ball and exposes means_, variances_ and mixture weights.",
+    "tests": [
+     "OBS-0089"
+    ]
+   },
+   {
+    "id": "GROUP-COV-LINEAR-REGRESSION",
+    "kind": "p2p",
+    "requirement": "LinearRegression on Euclidean inputs fits vector- or tensor-valued linear models.",
+    "tests": [
+     "OBS-0090",
+     "OBS-0091"
+    ]
+   },
+   {
+    "id": "GROUP-COV-GEODESIC-REGRESSION",
+    "kind": "p2p",
+    "requirement": "GeodesicRegression fits intercept_ and coef_ of a geodesic model and predicts with exp.",
+    "tests": [
+     "OBS-0092",
+     "OBS-0093"
+    ]
+   },
+   {
+    "id": "GROUP-COV-WRAPPED-GP",
+    "kind": "p2p",
+    "requirement": "WrappedGaussianProcess regresses manifold-valued targets around a prior with a wrapped GP.",
+    "tests": [
+     "OBS-0094"
+    ]
+   },
+   {
+    "id": "GROUP-COV-KALMAN",
+    "kind": "p2p",
+    "requirement": "KalmanFilter propagates and updates state and covariance for the documented localization model.",
+    "tests": [
+     "OBS-0095"
+    ]
+   },
+   {
+    "id": "GROUP-COV-OPTIMIZATION",
+    "kind": "p2p",
+    "requirement": "ScipyMinimize, ScipyRoot and NewtonMethod find the documented minimum and roots.",
+    "tests": [
+     "OBS-0096",
+     "OBS-0097"
+    ]
+   },
+   {
+    "id": "GROUP-COV-FINITE-DIFFERENCES",
+    "kind": "p2p",
+    "requirement": "forward, centered and second centered differences follow their documented formulas.",
+    "tests": [
+     "OBS-0098"
+    ]
+   },
+   {
+    "id": "GROUP-COV-INTERPOLATION-PATH",
+    "kind": "p2p",
+    "requirement": "The linear interpolators and the uniformly sampled path energy and path give the documented values.",
+    "tests": [
+     "OBS-0099",
+     "OBS-0100"
+    ]
+   },
+   {
+    "id": "GROUP-COV-IVP-EXP",
+    "kind": "p2p",
+    "requirement": "GSIVPIntegrator, ScipySolveIVP and ExpODESolver integrate the initial value problem.",
+    "tests": [
+     "OBS-0101",
+     "OBS-0102"
+    ]
+   },
+   {
+    "id": "GROUP-COV-LOG-SOLVERS",
+    "kind": "p2p",
+    "requirement": "LogODESolver and LogShootingSolver solve the geodesic boundary value problem.",
+    "tests": [
+     "OBS-0103"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DISTRIBUTIONS",
+    "kind": "p2p",
+    "requirement": "LogNormal dispatches by space and samples; BrownianMotion samples a path from the initial point.",
+    "tests": [
+     "OBS-0104",
+     "OBS-0105",
+     "OBS-0106"
+    ]
+   },
+   {
+    "id": "GROUP-COV-ERRORS",
+    "kind": "p2p",
+    "requirement": "The errors.check_* helpers raise the documented exceptions and accept valid input.",
+    "tests": [
+     "OBS-0107"
+    ]
+   },
+   {
+    "id": "GROUP-COV-PGA",
+    "kind": "p2p",
+    "requirement": "PGA on the hyperbolic plane dispatches to HyperbolicPlaneExactPGA and fits components.",
+    "tests": [
+     "OBS-0108"
+    ]
+   },
+   {
+    "id": "GROUP-COV-AAC",
+    "kind": "p2p",
+    "requirement": "AAC on graph space dispatches to the AAC estimator for the requested estimate.",
+    "tests": [
+     "OBS-0109",
+     "OBS-0110"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TEMPLATE",
+    "kind": "p2p",
+    "requirement": "The template estimator, classifier and transformer behave as their docstrings state.",
+    "tests": [
+     "OBS-0111"
+    ]
+   },
+   {
+    "id": "GROUP-COV-FRECHET-OTHER",
+    "kind": "p2p",
+    "requirement": "FrechetMean selects SturmsMean, batch gradient descent and ElasticMean as documented and fits estimate_.",
+    "tests": [
+     "OBS-0112",
+     "OBS-0113",
+     "OBS-0114"
+    ]
+   },
+   {
+    "id": "GROUP-COV-KMEANS-INIT",
+    "kind": "p2p",
+    "requirement": "RiemannianKMeans accepts the 'random' and 'kmeans++' initializations and records init_cluster_centers_ and inertia_.",
+    "tests": [
+     "OBS-0115"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   }
+  ]
+ }
+}

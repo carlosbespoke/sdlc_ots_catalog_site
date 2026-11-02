@@ -1,0 +1,709 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 1200,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "43a52957d127fcc9a084cbc813ad8dc968eab69d917980fa89c2ccd66d4e3164",
+  "documentation.json": "29d5db1264fb09ef4df778b933257bf9c2c390bcc97229fa4a0512ab94e8d599",
+  "driver.py": "7b9fe0270239f65b5b2d8eb2631e7b725ec553667489d10159d9da180b19739e",
+  "expected.json": "1ba364a777ca8b55e2622201b1a0d105aa708eac8a3d254e3f4204bde935357d"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "F-SOMEOF-COUNT-INCLUSIVE",
+    "kind": "f2p",
+    "requirement": "SomeOf(num_transforms=(min, max)) applies between min and max transforms, both ends included",
+    "tests": [
+     "OBS-0001"
+    ]
+   },
+   {
+    "id": "F-CHOICE-REPR",
+    "kind": "f2p",
+    "requirement": "Choice repr shows the values with one decimal and the probabilities with two decimals",
+    "tests": [
+     "OBS-0002"
+    ]
+   },
+   {
+    "id": "F-SIX-TUPLE-RANGES",
+    "kind": "f2p",
+    "requirement": "a 6-tuple parameter is (lo0, hi0, lo1, hi1, lo2, hi2), one (lo, hi) range per axis",
+    "tests": [
+     "OBS-0003"
+    ]
+   },
+   {
+    "id": "F-INVERSE-REVERSE-ORDER",
+    "kind": "f2p",
+    "requirement": "the inverse of a transform history undoes the transforms in reverse order",
+    "tests": [
+     "OBS-0004"
+    ]
+   },
+   {
+    "id": "F-LAMBDA-TYPES",
+    "kind": "f2p",
+    "requirement": "Lambda(types_to_apply='scalar') changes only ScalarImages and 'label' only LabelMaps",
+    "tests": [
+     "OBS-0005"
+    ]
+   },
+   {
+    "id": "F-FLIP-FIRST-LETTER",
+    "kind": "f2p",
+    "requirement": "Flip resolves an anatomical axis label from its first letter only",
+    "tests": [
+     "OBS-0006"
+    ]
+   },
+   {
+    "id": "F-ENSURE-MULTIPLE-AXES",
+    "kind": "f2p",
+    "requirement": "EnsureShapeMultiple((n_i, n_j, n_k)) makes the size along axis d a multiple of n_d",
+    "tests": [
+     "OBS-0007"
+    ]
+   },
+   {
+    "id": "F-TRANSPOSE-AFFINE",
+    "kind": "f2p",
+    "requirement": "Transpose swaps the I and K columns of the affine, so spacing and orientation follow the swapped axes and world coordinates stay consistent",
+    "tests": [
+     "OBS-0008"
+    ]
+   },
+   {
+    "id": "F-RESIZE-SPACING",
+    "kind": "f2p",
+    "requirement": "Resize keeps the physical extent: each spacing is multiplied by old size / new size and the origin is unchanged",
+    "tests": [
+     "OBS-0009"
+    ]
+   },
+   {
+    "id": "F-CROP-THREE-VALUES",
+    "kind": "f2p",
+    "requirement": "Crop with three values (i, j, k) crops i voxels from both ends of the first axis, j from the second and k from the third",
+    "tests": [
+     "OBS-0010"
+    ]
+   },
+   {
+    "id": "F-NORMALIZE-CLIP",
+    "kind": "f2p",
+    "requirement": "Normalize clips intensities to the input range before rescaling (CT windowing)",
+    "tests": [
+     "OBS-0011"
+    ]
+   },
+   {
+    "id": "F-GAMMA-SIGN",
+    "kind": "f2p",
+    "requirement": "Gamma maps negative values to sign(I) * |I| ** gamma",
+    "tests": [
+     "OBS-0012"
+    ]
+   },
+   {
+    "id": "F-BLUR-SIGMA-MM",
+    "kind": "f2p",
+    "requirement": "Blur standard deviations are in mm and are converted to voxels by dividing by the spacing",
+    "tests": [
+     "OBS-0013"
+    ]
+   },
+   {
+    "id": "F-STANDARDIZE-MASKED-STATS",
+    "kind": "f2p",
+    "requirement": "Standardize computes the mean and the standard deviation from the masked voxels and applies them to the whole image",
+    "tests": [
+     "OBS-0014"
+    ]
+   },
+   {
+    "id": "F-MASK-LABELS",
+    "kind": "f2p",
+    "requirement": "Mask(labels=[...]) treats exactly the listed label values as inside the mask",
+    "tests": [
+     "OBS-0015"
+    ]
+   },
+   {
+    "id": "F-REMAP-SIMULTANEOUS",
+    "kind": "f2p",
+    "requirement": "RemapLabels replaces each original value by its new value, so swapping two labels works",
+    "tests": [
+     "OBS-0016"
+    ]
+   },
+   {
+    "id": "F-SEQUENTIAL-FROM-ZERO",
+    "kind": "f2p",
+    "requirement": "SequentialLabels maps the smallest label to 0 and the others to consecutive integers, also when there are no zeros",
+    "tests": [
+     "OBS-0017"
+    ]
+   },
+   {
+    "id": "F-ONEHOT-MAX-PLUS-ONE",
+    "kind": "f2p",
+    "requirement": "OneHot with the default num_classes=-1 infers max_label + 1 channels",
+    "tests": [
+     "OBS-0018"
+    ]
+   },
+   {
+    "id": "F-KEEP-LARGEST-CONNECTIVITY",
+    "kind": "f2p",
+    "requirement": "KeepLargestComponent uses 26-connectivity by default (fully_connected=True) and 6-connectivity with fully_connected=False",
+    "tests": [
+     "OBS-0019"
+    ]
+   },
+   {
+    "id": "F-AFFINE-SPACING-COLUMNS",
+    "kind": "f2p",
+    "requirement": "AffineMatrix.spacing is the norm of each column of the rotation-zoom block",
+    "tests": [
+     "OBS-0020"
+    ]
+   },
+   {
+    "id": "F-AFFINE-COMPOSE-ORDER",
+    "kind": "f2p",
+    "requirement": "AffineMatrix.compose(other) and a @ b return the matrix product self @ other",
+    "tests": [
+     "OBS-0021"
+    ]
+   },
+   {
+    "id": "F-SLICE-ORIGIN-WORLD",
+    "kind": "f2p",
+    "requirement": "slicing an image moves its origin to the world position of the first kept voxel (the affine is applied to the start index)",
+    "tests": [
+     "OBS-0022"
+    ]
+   },
+   {
+    "id": "F-BBOX-CENTER-SIZE",
+    "kind": "f2p",
+    "requirement": "converting corner boxes to center/size gives the center and the corner difference as the size",
+    "tests": [
+     "OBS-0023"
+    ]
+   },
+   {
+    "id": "F-AXIS-MAPPING-PERMUTATION",
+    "kind": "f2p",
+    "requirement": "get_axis_mapping gives, for each target column, the index of the source column; Points.to_axes reorders voxel axes accordingly",
+    "tests": [
+     "OBS-0024"
+    ]
+   },
+   {
+    "id": "F-NIFTI-AFFINE-OVERRIDE",
+    "kind": "f2p",
+    "requirement": "an explicit affine= on a NiBabel source overrides the header affine in the lazy backend too (image.dataobj.affine agrees with image.affine)",
+    "tests": [
+     "OBS-0025"
+    ]
+   },
+   {
+    "id": "F-QUEUE-DRAIN-AT-MAX-LENGTH",
+    "kind": "f2p",
+    "requirement": "Queue shuffles and empties its buffer as soon as it holds at least max_length patches",
+    "tests": [
+     "OBS-0026"
+    ]
+   },
+   {
+    "id": "F-AGGREGATOR-CROP-FLOOR-HALF",
+    "kind": "f2p",
+    "requirement": "PatchAggregator 'crop' mode trims patch_overlap // 2 voxels from each inner patch side, so odd overlaps tile without gaps",
+    "tests": [
+     "OBS-0027"
+    ]
+   },
+   {
+    "id": "F-NEGATIVE-INDEX-ONE-ELEMENT",
+    "kind": "f2p",
+    "requirement": "every integer index, negative ones included, selects exactly one element and keeps its axis with size 1",
+    "tests": [
+     "OBS-0028"
+    ]
+   },
+   {
+    "id": "F-ELASTIC-LOCKED-BOTH-ENDS",
+    "kind": "f2p",
+    "requirement": "locked_borders=n zeros the n outermost control-point layers at both ends of every axis",
+    "tests": [
+     "OBS-0029"
+    ]
+   },
+   {
+    "id": "F-OTSU-STRICTLY-BELOW",
+    "kind": "f2p",
+    "requirement": "default_pad_value='otsu' averages the face voxels strictly below their Otsu threshold",
+    "tests": [
+     "OBS-0030"
+    ]
+   },
+   {
+    "id": "F-AFFINE-TRANSLATION-WORLD",
+    "kind": "f2p",
+    "requirement": "Affine translation is applied in world coordinates, not rotated or scaled by the sampled rotation and scales",
+    "tests": [
+     "OBS-0031"
+    ]
+   },
+   {
+    "id": "F-SITK-DIRECTION-ROUNDTRIP",
+    "kind": "f2p",
+    "requirement": "a SimpleITK image keeps its direction cosines through a transform round trip",
+    "tests": [
+     "OBS-0032"
+    ]
+   },
+   {
+    "id": "F-INCLUDE-AND-EXCLUDE",
+    "kind": "f2p",
+    "requirement": "with both include and exclude, a transform applies only to images listed in include and not in exclude",
+    "tests": [
+     "OBS-0033"
+    ]
+   },
+   {
+    "id": "F-COPY-AFFINE-ALL-IMAGES",
+    "kind": "f2p",
+    "requirement": "CopyAffine ignores include and exclude and copies the target affine to every other image",
+    "tests": [
+     "OBS-0034"
+    ]
+   },
+   {
+    "id": "F-ANISOTROPY-RANGE-CHECK",
+    "kind": "f2p",
+    "requirement": "Anisotropy accepts a downsampling range with a lower bound below 1 and rejects only an upper bound below 1",
+    "tests": [
+     "OBS-0035"
+    ]
+   },
+   {
+    "id": "F-BIAS-FIELD-PER-ELEMENT",
+    "kind": "f2p",
+    "requirement": "BiasField with per_instance=False shares the parameters but draws a different field for each batch element",
+    "tests": [
+     "OBS-0036"
+    ]
+   },
+   {
+    "id": "F-QUANTILE-INTERPOLATION",
+    "kind": "f2p",
+    "requirement": "percentile statistics interpolate linearly between neighbouring order statistics like torch.quantile",
+    "tests": [
+     "OBS-0037"
+    ]
+   },
+   {
+    "id": "F-PCA-WHITEN-UNIT-VARIANCE",
+    "kind": "f2p",
+    "requirement": "PCA(whiten=True) scales every component to unit variance",
+    "tests": [
+     "OBS-0038"
+    ]
+   },
+   {
+    "id": "F-MOTION-FIRST-SEGMENT",
+    "kind": "f2p",
+    "requirement": "Motion keeps the first k-space segment and fills every later segment from a transformed image",
+    "tests": [
+     "OBS-0039"
+    ]
+   },
+   {
+    "id": "F-LABELS-TO-IMAGE-BACKGROUND",
+    "kind": "f2p",
+    "requirement": "LabelsToImage(ignore_background=True) leaves only label value 0 as zero",
+    "tests": [
+     "OBS-0040"
+    ]
+   },
+   {
+    "id": "P-DATA-IMAGE-CREATION",
+    "kind": "p2p",
+    "requirement": "Image construction from tensors, arrays, SimpleITK, NiBabel, bytes and file-like sources; set_data and new_like",
+    "tests": [
+     "OBS-0041",
+     "OBS-0042",
+     "OBS-0043",
+     "OBS-0044",
+     "OBS-0045"
+    ]
+   },
+   {
+    "id": "P-DATA-IMAGE-PROPERTIES",
+    "kind": "p2p",
+    "requirement": "Image metadata access, dtype and memory, and channel/spatial slicing",
+    "tests": [
+     "OBS-0046",
+     "OBS-0047",
+     "OBS-0048",
+     "OBS-0049"
+    ]
+   },
+   {
+    "id": "P-DATA-IMAGE-FILES",
+    "kind": "p2p",
+    "requirement": "Image save/load round trips, lazy dataobj backends and lazy CropOrPad on files",
+    "tests": [
+     "OBS-0050",
+     "OBS-0051",
+     "OBS-0052",
+     "OBS-0053"
+    ]
+   },
+   {
+    "id": "P-DATA-SUBJECT",
+    "kind": "p2p",
+    "requirement": "Subject/Study classification, access, consistency checks and spatial slicing",
+    "tests": [
+     "OBS-0054",
+     "OBS-0055"
+    ]
+   },
+   {
+    "id": "P-DATA-AFFINE-IO",
+    "kind": "p2p",
+    "requirement": "AffineMatrix properties and methods; read_matrix/write_matrix round trips",
+    "tests": [
+     "OBS-0056",
+     "OBS-0057",
+     "OBS-0058"
+    ]
+   },
+   {
+    "id": "P-DATA-ANNOTATIONS",
+    "kind": "p2p",
+    "requirement": "Points, BoundingBoxes, BoundingBoxFormat and anatomical axis helpers",
+    "tests": [
+     "OBS-0059",
+     "OBS-0060",
+     "OBS-0061",
+     "OBS-0062"
+    ]
+   },
+   {
+    "id": "P-DATA-BACKENDS",
+    "kind": "p2p",
+    "requirement": "Backend registry, built-in backends and custom readers",
+    "tests": [
+     "OBS-0063",
+     "OBS-0064",
+     "OBS-0065"
+    ]
+   },
+   {
+    "id": "P-DATA-LOADING",
+    "kind": "p2p",
+    "requirement": "Loaders, collate functions, batch containers and opt-in logging",
+    "tests": [
+     "OBS-0066",
+     "OBS-0067",
+     "OBS-0068"
+    ]
+   },
+   {
+    "id": "P-CORE-INPUT-TYPES",
+    "kind": "p2p",
+    "requirement": "Transforms accept every documented input type and return the same type",
+    "tests": [
+     "OBS-0069",
+     "OBS-0070",
+     "OBS-0071",
+     "OBS-0072"
+    ]
+   },
+   {
+    "id": "P-CORE-TRANSFORM-BASICS",
+    "kind": "p2p",
+    "requirement": "Custom transforms, copy, p, include/exclude, transform types, no-op defaults and aliases",
+    "tests": [
+     "OBS-0073",
+     "OBS-0074",
+     "OBS-0075",
+     "OBS-0076",
+     "OBS-0077",
+     "OBS-0078",
+     "OBS-0079"
+    ]
+   },
+   {
+    "id": "P-CORE-HISTORY-EXPORT",
+    "kind": "p2p",
+    "requirement": "Transform history records, Hydra export and repr",
+    "tests": [
+     "OBS-0080",
+     "OBS-0081",
+     "OBS-0082"
+    ]
+   },
+   {
+    "id": "P-CORE-COMPOSITION",
+    "kind": "p2p",
+    "requirement": "Compose, the + and | operators, OneOf, SomeOf, Lambda and To",
+    "tests": [
+     "OBS-0083",
+     "OBS-0084",
+     "OBS-0085",
+     "OBS-0086",
+     "OBS-0087",
+     "OBS-0088",
+     "OBS-0089"
+    ]
+   },
+   {
+    "id": "P-CORE-RANDOM-PARAMETERS",
+    "kind": "p2p",
+    "requirement": "Scalar, range, per-axis, Choice and Distribution parameter forms",
+    "tests": [
+     "OBS-0090",
+     "OBS-0091"
+    ]
+   },
+   {
+    "id": "P-CORE-INVERSE",
+    "kind": "p2p",
+    "requirement": "Inverse transforms, skipped non-invertible transforms and batch inversion",
+    "tests": [
+     "OBS-0092",
+     "OBS-0093",
+     "OBS-0094"
+    ]
+   },
+   {
+    "id": "P-CORE-PER-INSTANCE",
+    "kind": "p2p",
+    "requirement": "Per-instance parameters and probability on batches",
+    "tests": [
+     "OBS-0095"
+    ]
+   },
+   {
+    "id": "P-SPATIAL-CROP-PAD",
+    "kind": "p2p",
+    "requirement": "Crop and Pad forms and padding modes",
+    "tests": [
+     "OBS-0096",
+     "OBS-0097",
+     "OBS-0098",
+     "OBS-0099"
+    ]
+   },
+   {
+    "id": "P-SPATIAL-CROP-OR-PAD",
+    "kind": "p2p",
+    "requirement": "CropOrPad shapes, units, options and laziness; EnsureShapeMultiple",
+    "tests": [
+     "OBS-0100",
+     "OBS-0101",
+     "OBS-0102",
+     "OBS-0103",
+     "OBS-0104"
+    ]
+   },
+   {
+    "id": "P-SPATIAL-AXES",
+    "kind": "p2p",
+    "requirement": "Flip, Transpose and Reorient",
+    "tests": [
+     "OBS-0105",
+     "OBS-0106",
+     "OBS-0107",
+     "OBS-0108"
+    ]
+   },
+   {
+    "id": "P-SPATIAL-RESIZE-REFERENCE",
+    "kind": "p2p",
+    "requirement": "Resize, CopyAffine and ToReferenceSpace",
+    "tests": [
+     "OBS-0109",
+     "OBS-0110",
+     "OBS-0111"
+    ]
+   },
+   {
+    "id": "P-SPATIAL-RESAMPLE-AFFINE",
+    "kind": "p2p",
+    "requirement": "Resample targets, Affine geometry and Spatial interpolation",
+    "tests": [
+     "OBS-0112",
+     "OBS-0113",
+     "OBS-0114"
+    ]
+   },
+   {
+    "id": "P-SPATIAL-FILL-CHECKS",
+    "kind": "p2p",
+    "requirement": "Spatial out-of-bounds fill values and argument checks",
+    "tests": [
+     "OBS-0115",
+     "OBS-0116"
+    ]
+   },
+   {
+    "id": "P-SPATIAL-ELASTIC-ANISOTROPY",
+    "kind": "p2p",
+    "requirement": "ElasticDeformation and Anisotropy",
+    "tests": [
+     "OBS-0117",
+     "OBS-0118",
+     "OBS-0119",
+     "OBS-0120"
+    ]
+   },
+   {
+    "id": "P-INTENSITY-BIAS-BLUR",
+    "kind": "p2p",
+    "requirement": "BiasField and Blur",
+    "tests": [
+     "OBS-0121",
+     "OBS-0122",
+     "OBS-0123",
+     "OBS-0124",
+     "OBS-0125"
+    ]
+   },
+   {
+    "id": "P-INTENSITY-CLAMP-GAMMA",
+    "kind": "p2p",
+    "requirement": "Clamp and Gamma on non-negative data",
+    "tests": [
+     "OBS-0126",
+     "OBS-0127"
+    ]
+   },
+   {
+    "id": "P-INTENSITY-ARTIFACTS",
+    "kind": "p2p",
+    "requirement": "Ghosting, Motion, Spike and Swap",
+    "tests": [
+     "OBS-0128",
+     "OBS-0129",
+     "OBS-0130",
+     "OBS-0131"
+    ]
+   },
+   {
+    "id": "P-INTENSITY-HISTOGRAM",
+    "kind": "p2p",
+    "requirement": "Histogram landmarks and HistogramStandardization",
+    "tests": [
+     "OBS-0132",
+     "OBS-0133"
+    ]
+   },
+   {
+    "id": "P-INTENSITY-SYNTHESIS-MASK",
+    "kind": "p2p",
+    "requirement": "LabelsToImage and Mask",
+    "tests": [
+     "OBS-0134",
+     "OBS-0135"
+    ]
+   },
+   {
+    "id": "P-INTENSITY-NOISE-PCA",
+    "kind": "p2p",
+    "requirement": "Noise and PCA",
+    "tests": [
+     "OBS-0136",
+     "OBS-0137"
+    ]
+   },
+   {
+    "id": "P-INTENSITY-NORMALIZATION",
+    "kind": "p2p",
+    "requirement": "Normalize and Standardize",
+    "tests": [
+     "OBS-0138",
+     "OBS-0139",
+     "OBS-0140"
+    ]
+   },
+   {
+    "id": "P-LABEL-CLEANUP-ENCODING",
+    "kind": "p2p",
+    "requirement": "Contour, KeepLargestComponent and OneHot",
+    "tests": [
+     "OBS-0141",
+     "OBS-0142",
+     "OBS-0143"
+    ]
+   },
+   {
+    "id": "P-LABEL-RENUMBERING",
+    "kind": "p2p",
+    "requirement": "RemapLabels, RemoveLabels and SequentialLabels",
+    "tests": [
+     "OBS-0144",
+     "OBS-0145",
+     "OBS-0146",
+     "OBS-0147"
+    ]
+   },
+   {
+    "id": "P-PATCH-SAMPLERS",
+    "kind": "p2p",
+    "requirement": "PatchLocation and the grid, uniform, weighted and label samplers",
+    "tests": [
+     "OBS-0148",
+     "OBS-0149",
+     "OBS-0150",
+     "OBS-0151",
+     "OBS-0152",
+     "OBS-0153"
+    ]
+   },
+   {
+    "id": "P-PATCH-AGGREGATOR",
+    "kind": "p2p",
+    "requirement": "PatchAggregator reconstruction, overlap modes and named outputs",
+    "tests": [
+     "OBS-0154",
+     "OBS-0155",
+     "OBS-0156"
+    ]
+   },
+   {
+    "id": "P-PATCH-QUEUE",
+    "kind": "p2p",
+    "requirement": "Queue patches, samplers and properties",
+    "tests": [
+     "OBS-0157",
+     "OBS-0158",
+     "OBS-0159",
+     "OBS-0160"
+    ]
+   },
+   {
+    "id": "P-TUTORIAL-FIRST-PIPELINE",
+    "kind": "p2p",
+    "requirement": "The first-pipeline tutorial: lazy loading, subjects, slicing and saving",
+    "tests": [
+     "OBS-0161"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   }
+  ]
+ }
+}

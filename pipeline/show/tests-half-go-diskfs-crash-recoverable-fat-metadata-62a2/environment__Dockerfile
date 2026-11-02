@@ -1,0 +1,50 @@
+FROM golang@sha256:81dc45d05a7444ead8c92a389621fafabc8e40f8fd1a19d7e5df14e61e98bc1a
+ARG BASE_COMMIT=5ec1662c401c4ab58904983f283244fc1b3fd4c6
+ENV DEBIAN_FRONTEND=noninteractive
+ENV GIT_CONFIG_COUNT="1"
+ENV GIT_CONFIG_KEY_0="safe.directory"
+ENV GIT_CONFIG_VALUE_0="/app"
+RUN apt-get update && apt-get install -y --no-install-recommends bash build-essential ca-certificates curl gdb git jq less procps strace tmux=3.3a-3 && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+RUN git init -q . && git remote add origin https://github.com/diskfs/go-diskfs.git && git fetch --depth 1 origin "$BASE_COMMIT" && git checkout -q FETCH_HEAD
+RUN test "$(git rev-parse HEAD)" = "$BASE_COMMIT"
+RUN go mod download
+RUN GOFLAGS= GOPROXY=https://proxy.golang.org,direct GOSUMDB=sum.golang.org go install github.com/ctrf-io/go-ctrf-json-reporter/cmd/go-ctrf-json-reporter@v0.1.0 && command -v go-ctrf-json-reporter && gopath="$(go env GOPATH)" && chown root:root "$gopath" && chmod 0755 "$gopath" && chown -R root:root "$gopath/bin" && chmod 0755 "$gopath/bin" && [ "$(stat -c '%u %a' "$gopath/bin")" = "0 755" ]
+RUN GOFLAGS= GOPROXY=https://proxy.golang.org,direct GOSUMDB=sum.golang.org go install github.com/ctrf-io/go-ctrf-json-reporter/cmd/go-ctrf-json-reporter@v0.1.0 && command -v go-ctrf-json-reporter
+RUN id -u agent >/dev/null 2>&1 || useradd -m -s /bin/bash agent 2>/dev/null || adduser -D -s /bin/sh agent 2>/dev/null || adduser --disabled-password --gecos "" agent; id -u agent >/dev/null
+RUN chown -R agent:agent /app; [ -d /workspace/.cache/go-build ] && chown -R agent:agent /workspace/.cache/go-build; [ "$(stat -c '%U' /app)" = "agent" ]
+# Verifier hardening: the module cache stays root-owned and read-only, and the
+# grader and collect step run git only against this root-owned base snapshot.
+RUN chown -R root:root /go/pkg/mod && chmod -R a-w /go/pkg/mod && [ "$(stat -c '%u' /go/pkg/mod)" = "0" ]
+RUN rm -rf /opt/verifier && mkdir -p /opt/verifier && cp -a /app/.git /opt/verifier/repo.git && chown -R root:root /opt/verifier && chmod -R go-w /opt/verifier && git --git-dir=/opt/verifier/repo.git cat-file -e "$BASE_COMMIT^{commit}"
+COPY verifier-collect.sh /opt/verifier/collect.sh
+RUN chown root:root /opt/verifier/collect.sh && chmod 0755 /opt/verifier/collect.sh
+CMD ["bash"]
+
+# Controlled original14 tests-only exposure; canonical verifier unchanged.
+COPY tests-only.patch /tmp/tests-only.patch
+RUN cd /app \
+ && git apply --check /tmp/tests-only.patch \
+ && git apply /tmp/tests-only.patch \
+ && rm -f /tmp/tests-only.patch \
+ && chown agent:agent -- acceptance/testatomiccopycommitscompletetreeeb3d/outputs_test.go \
+    acceptance/testatomiccopypreservestimestampf31c/outputs_test.go \
+    acceptance/testatomiccopyreopensthroughdiskc05b/outputs_test.go \
+    acceptance/testatomiccopysourcefailurerollsbacka1d8/outputs_test.go \
+    acceptance/testcommitfat12survivesreopena073/outputs_test.go \
+    acceptance/testcommitteddirectorycreationreopensdc31/outputs_test.go \
+    acceptance/testfat32rollbackrestoreshintsandallocation2896/outputs_test.go \
+    acceptance/testguardexistingfatprobingc2de/outputs_test.go \
+    acceptance/testguardordinarycopytimestampc5be/outputs_test.go \
+    acceptance/testguardordinaryrenamereplacementac42/outputs_test.go \
+    acceptance/testguardsubstorageoffsettranslation78bf/outputs_test.go \
+    acceptance/testinterruptedgrowthrestorespriorfilebac4/outputs_test.go \
+    acceptance/testinterruptedpersistencerecoverscoherentlyb33f/outputs_test.go \
+    acceptance/testinterruptedtransactionrecoveryrestoresbytes6e72/outputs_test.go \
+    acceptance/testnestedtransactionrejectedfirstremainsusable41d3/outputs_test.go \
+    acceptance/testrejectsinvalidclusterindices1cb0/outputs_test.go \
+    acceptance/testrejectsunrepresentablevalueswithoutmutation5b25/outputs_test.go \
+    acceptance/testrollbackrestoresadjacententries2ecf/outputs_test.go \
+    acceptance/testrollbacktruncationrestoresfilefe9d/outputs_test.go \
+    acceptance/testrolledbacktransactionisterminale7bc/outputs_test.go \
+    acceptance/testwholeimagerecoveryisgeometrybounded174d/outputs_test.go

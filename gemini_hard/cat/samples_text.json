@@ -1,0 +1,134 @@
+{
+ "tasks": [
+  {
+   "name": "mangle-8edad8d3-blind30",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image golang 1.25 pinned by digest\"] --> B[\"google mangle checkout at a pinned commit\"]\n  A --> C[\"tmux and python3 installed\"]\n  D[\"30 single-line faults copied over 23 source files\"] --> B\n  B --> E[\"Test files deleted and build cache rewarmed on the faulted tree\"]\n  F[\"Instruction.md with a behavioural symptom report\"] --> G[\"Agent session as agent user, no network\"]\n  E --> G\n  C --> G\n  G --> H[\"Repaired tree plus rca.json and RESEARCH_AND_PLANNING.md\"]\n  H --> I[\"Shared verifier runs as root in the same container\"]\n  I --> J[\"Hidden Go suite restored and run with go test\"]\n  I --> K[\"rca.json compared with the 30-entry answer key\"]\n  J --> L[\"Repair and report halves weighted 0.5 each\"]\n  K --> L\n  L --> M[\"Reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "The image builds from a digest-pinned golang base, clones google/mangle at commit 8edad8d3, downloads all modules and adds tmux and python3; the run has no network, 2 CPUs and 8 GB of memory (environment/Dockerfile, task.toml).",
+    "Thirty injected faults are copied over 23 files in packages such as analysis, engine, provenance, symbols and factstore, and the repository's test files are deleted so the agent has no suite to run (environment/Dockerfile, task.toml).",
+    "The Go build cache warmed on the pristine checkout is emptied and rewarmed on the faulted tree, so cached objects cannot reveal the original code (environment/Dockerfile).",
+    "The verifier runs as root in the agent's own container, restores the hidden suite from the root-owned tests mount and runs go test -count=1 ./... as the agent account, against a baseline of 382 passing tests (task.toml, tests/grade.py, tests/answer_key.json).",
+    "The reward is half repair (the suite passes and nothing else broke) and half report (rca.json names each edited file and function), with canary and determinism checks against forged results (tests/grade.py, tests/answer_key.json).",
+    "The agent must write /app/RESEARCH_AND_PLANNING.md before editing code, and the worktree, rca.json and plan are collected as artifacts (instruction.md, task.toml)."
+   ],
+   "workflow": "A maintainer of a Datalog engine receives a user report that undocumented single-line edits have broken parsing, type checking, evaluation, provenance and temporal arithmetic, and no test suite is available. The maintainer starts from the faulted source tree and the written symptoms only. The hard part is tracing each symptom to the function that holds the edit, including symptoms that need two separate fixes before they disappear, and then naming exactly those functions in a root-cause report.",
+   "prompt_pattern": "A first-person symptom report grouped by subsystem and written in user terms without function names, followed by a request to restore the behavior, a JSON schema for `/app/rca.json` with one file and function per edit, and a requirement to write `/app/RESEARCH_AND_PLANNING.md` before touching code."
+  },
+  {
+   "name": "torchio-canonical",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image python 3.12 pinned by digest\"] --> B[\"venv with torch CPU, SimpleITK, NiBabel, zarr and pytest\"]\n  A --> C[\"tmux, git and asciinema\"]\n  D[\"TorchIO 2.0.0a2 tree with injected implementation drift\"] --> E[\"Sanitized one-commit repository in /workdir\"]\n  B --> F[\"Agent session as agent, no network\"]\n  C --> F\n  E --> F\n  G[\"Instruction.md naming in-scope code and docs\"] --> F\n  F --> H[\"Final /workdir copied out as artifact\"]\n  H --> I[\"Separate verifier image with the same toolchain\"]\n  I --> J[\"Documentation preservation check\"]\n  I --> K[\"Sealed cases run as nobody in fresh interpreters\"]\n  J --> L[\"40 fault groups and 36 regression groups scored\"]\n  K --> L\n  L --> M[\"Binary and partial reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "The agent image uses a digest-pinned Python base with /opt/venv holding exact versions of PyTorch for CPU, NumPy, SimpleITK, NiBabel, nifti-zarr, zarr, matplotlib and pytest; torchio itself is imported from /workdir/src through PYTHONPATH (environment/Dockerfile).",
+    "/workdir holds TorchIO at commit 2b019d2a with documentation curation and selected drift already applied, committed as a single sanitized commit with no remotes, tags or reflog (environment/Dockerfile).",
+    "The agent has 4 hours with no network; the verifier is a separate container built from tests/Dockerfile that repeats the agent toolchain and receives only the final /workdir (task.toml, tests/Dockerfile).",
+    "Before running any candidate code, the grader checks that in-scope documentation pages, docstrings and comments are unchanged against a sealed digest, then runs private cases as the nobody user with the candidate src appended after site-packages (tests/grade.py, tests/doc_digest.py, tests/private/driver.py).",
+    "Observations are compared with sealed expected values in 40 fail-to-pass and 36 pass-to-pass groups; the partial reward is the mean F2P fraction times the mean P2P fraction, and the binary reward is 1 only when every group passes (tests/grade.py, tests/private_manifest.json, tests/reward_writer.py)."
+   ],
+   "workflow": "A maintainer of a medical imaging library treats the documentation as the specification and repairs the places where the code has drifted from it. The engineer starts from the source tree with its pages, docstrings and examples, and has no list of the discrepancies. The hard part is reading a large documented surface of transforms, data containers and patch sampling closely enough to find each behavioral mismatch, fixing the code rather than the docs, and leaving every behavior that already matches untouched.",
+   "prompt_pattern": "A short description of the library, a one-line directive to fix implementation drift from the documentation, an explicit list of in-scope source paths and documentation pages, a rule that documentation outranks code and comments, and a note on the installed offline environment."
+  },
+  {
+   "name": "terraform-centralwatch-alert-routing-module-refactor",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image debian bookworm slim\"] --> B[\"Pinned terraform 1.16.4, provider mirror and conftest\"]\n  B --> C[\"Flat count-indexed stack in /workspace/infra\"]\n  C --> D[\"Production state copy and CI guardrail policies\"]\n  E[\"Instruction.md with layout, keys, variables and outputs\"] --> F[\"Agent session as agent, no network or AWS access\"]\n  D --> F\n  F --> G[\"Refactored infra directory collected as artifact\"]\n  G --> H[\"Separate verifier with terraform, conftest and hcl2json\"]\n  H --> I[\"Offline init, validate and plan against pristine state\"]\n  I --> J[\"Gates for moves-only plan, policies, static bans and pasted IDs\"]\n  J --> K[\"Second plan on a state with swapped IDs\"]\n  K --> L[\"46 requirement checks from spec.json\"]\n  L --> M[\"Partial reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "Agent and verifier images share a debian bookworm-slim base with terraform 1.16.4, the AWS 5.100.0 and archive 2.8.1 providers in an offline filesystem mirror, and conftest 0.70.1, each checksum-verified (environment/Dockerfile, tests/Dockerfile).",
+    "The starting repository is a flat root module of about 260 AWS resources across 9 services with a production terraform.tfstate copy, a plan_safety.rego policy and scripts/ci-plan.sh, committed once and planned clean at build time (environment/Dockerfile, environment/infra/README.md, task.toml).",
+    "Provider traffic is routed to a dead loopback proxy and the task has no network, so no AWS call can succeed (environment/Dockerfile, task.toml).",
+    "The verifier discards state, plan and lock files from the artifact and plans offline as nobody against its own pristine state (tests/grade.py, tests/test.sh).",
+    "Any failed gate gives 0: offline init, validate and plan, static bans, a moves-only plan, CI policies, no pasted IDs, a remapped-state plan and outputs as plain module references; otherwise the reward is the fraction of 46 checks passed (tests/grade.py, task.toml)."
+   ],
+   "workflow": "A platform engineer inherits a production alert-routing stack written as one flat root module with list-indexed resources and hard-coded settings. The engineer must split it into eventing, messaging and processing modules keyed by team, source, severity and channel, with generalized variables and outputs. The hard part is expressing every address change in configuration so the plan against the live state contains only moves, while passing IDs between modules through outputs instead of literals.",
+   "prompt_pattern": "A first-person request to modularize a named Terraform stack without changing running infrastructure, followed by long constraint sections on how CI judges the change, module layout and ownership, `for_each` keys, root variables, root outputs and banned constructs."
+  },
+  {
+   "name": "pdk-actual-sync-log-checkpoint-compaction",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image node 22 bookworm\"] --> B[\"Actual monorepo at a pinned commit\"]\n  A --> C[\"Yarn 4 through corepack, sqlite3 and tmux\"]\n  B --> D[\"Dependencies installed and four packages built\"]\n  E[\"Instruction.md with the checkpoint protocol\"] --> F[\"Agent session as agent, no internet\"]\n  C --> F\n  D --> F\n  F --> G[\"git diff against base saved as model.patch\"]\n  G --> H[\"Separate verifier container applies the patch\"]\n  H --> I[\"Hidden test patch staged in a root-only directory\"]\n  I --> J[\"Hidden node suite run as sdapp\"]\n  J --> K[\"8 fail-to-pass tests and 2 gated guards\"]\n  K --> L[\"Reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "The agent image is node:22-bookworm pinned by digest with Yarn 4.17.1 through corepack, sqlite3, tmux and asciinema; actualbudget/actual is fetched at commit 832f43da, installed with yarn install --immutable and built for the crdt, core, sync-server and api workspaces (environment/Dockerfile).",
+    "The solver runs as an unprivileged agent user for up to 12 hours with no internet, 4 CPUs and 8 GB of memory, and may start installed services only through a restricted sudo wrapper (task.toml, environment/Dockerfile).",
+    "After the run, staged changes are diffed against the base commit with external diff and textconv disabled and saved as /logs/artifacts/model.patch (task.toml).",
+    "A separate verifier image rebuilds the same repository, adds protobuf client libraries for the grader, applies the submission and a hidden test patch, and runs the hidden suite as the unprivileged sdapp user (tests/Dockerfile, tests/test.sh, tests/grader-node/package.json).",
+    "The reward is 1 only when all 8 fail-to-pass tests pass and the 2 gated pass-to-pass guards still pass; a partial F2P fraction is also written (tests/config.json, tests/grader.py)."
+   ],
+   "workflow": "A backend engineer on a self-hosted budgeting app needs the sync server to compact each budget's change log from a client-built snapshot without breaking offline devices. The engineer starts from the sync server, CRDT and client packages, and the server cannot read the encrypted changes it stores. The hard part is the protocol: a conditional checkpoint commit tied to a receive base, correct handling of late messages with older timestamps, and compatibility for old clients, all checked across several simulated devices.",
+   "prompt_pattern": "A product-style problem statement followed by `What we need`, `Keep working` and `Setup` sections that fix the environment variable, protobuf field numbers, HTTP headers, endpoint and status codes, and the build commands."
+  },
+  {
+   "name": "pdk-harbor-scan-ephemeral-credentials",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image golang 1.26.4 bookworm\"] --> B[\"PostgreSQL, Redis and docker-registry packages\"]\n  A --> C[\"Harbor source at a pinned commit\"]\n  D[\"Pregenerated Swagger server packages\"] --> C\n  C --> E[\"core, jobservice and registryctl built offline\"]\n  F[\"Instruction.md on the scanner credential lifecycle\"] --> G[\"Agent session as agent, no internet\"]\n  B --> G\n  E --> G\n  G --> H[\"git diff against base saved as model.patch\"]\n  H --> I[\"Separate verifier image applies patch and hidden tests\"]\n  I --> J[\"Scan tests and hidden Go suite run as sdapp\"]\n  J --> K[\"7 fail-to-pass tests and 4 gated guards\"]\n  K --> L[\"Reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "The image is golang:1.26.4-bookworm pinned by digest with PostgreSQL, Redis and the docker-registry package installed, and the postgres password set at build time (environment/Dockerfile).",
+    "goharbor/harbor is fetched at commit b323c0c8, generated Swagger server code is copied into src/server/v2.0, and modules are downloaded and core, jobservice and registryctl built so the agent works offline (environment/Dockerfile, _files.json).",
+    "The agent runs unprivileged for up to 12 hours with 4 CPUs and 8 GB of memory, may start services through sudo service, and has no Docker daemon (task.toml, environment/Dockerfile, instruction.md).",
+    "The verifier is a separate container from the same base that applies the submitted model.patch and a hidden test patch, then runs the repository's scan REST tests and the hidden suite as the unprivileged sdapp user (tests/Dockerfile, tests/test.sh, tests/config.json).",
+    "The reward is 1 only when all 7 hidden fail-to-pass tests pass and none of the 4 gated guard tests regress (tests/config.json, tests/grader.py)."
+   ],
+   "workflow": "A maintainer of a container registry replaces long-lived, project-wide scanner robot accounts with short-lived credentials scoped to one repository. The engineer starts from Harbor's core and jobservice code for scan jobs, robot accounts and registry authorization. The hard part is the lifecycle across processes: keeping secrets out of Redis job records and logs, keeping the credential valid during long scans, and revoking it when a job ends or when jobservice dies without a final hook.",
+   "prompt_pattern": "A paragraph stating the current insecure behavior, a bullet list of observable requirements with time limits and HTTP status codes, and a closing paragraph on services, the offline build command and what is out of scope."
+  },
+  {
+   "name": "pdk-bagetter-fenced-package-writes",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image dotnet sdk 9.0.306\"] --> B[\"BaGetter source at a pinned commit\"]\n  B --> C[\"App and test projects built offline\"]\n  D[\"Sidecar PostgreSQL 16 and LocalStack S3\"] --> E[\"Internal compose network with no internet\"]\n  F[\"Instruction.md on fenced writes and reconcile\"] --> G[\"Agent session as agent\"]\n  C --> G\n  E --> G\n  G --> H[\"git diff against base saved as model.patch\"]\n  H --> I[\"Verifier compose with app role credentials\"]\n  I --> J[\"Patch and hidden tests applied, suite run as sdapp\"]\n  J --> K[\"9 fail-to-pass tests and 4 gated guards\"]\n  K --> L[\"Reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "The agent image is mcr.microsoft.com/dotnet/sdk:9.0.306 pinned by digest; BaGetter is fetched at commit 02b6706e and the main project and three test projects are built so NuGet packages are cached for offline work (environment/Dockerfile).",
+    "PostgreSQL 16 and LocalStack 4.2 serving S3 run as sidecars on a compose network declared internal, so host names resolve but nothing reaches the internet (environment/docker-compose.yaml, task.toml).",
+    "The agent's compose file connects as the postgres superuser, while the verifier's connects with the app role named in the instruction's deployment settings (environment/docker-compose.yaml, tests/docker-compose.yaml, instruction.md).",
+    "The verifier applies model.patch and a hidden test patch in its own container and runs the hidden C# suite as the unprivileged sdapp user, reading JUnit results (tests/test.sh, tests/config.json, tests/Dockerfile).",
+    "The reward is 1 only when all 9 fail-to-pass tests pass and the 4 gated guard tests still pass (tests/config.json, tests/grader.py)."
+   ],
+   "workflow": "A backend engineer running a NuGet server as several replicas over shared PostgreSQL and S3 must make package-version writes safe under races, partitions and crashes. The engineer starts from BaGetter's push, delete, mirror and storage code. The hard part is fencing: a writer whose database claim has expired must not overwrite or delete the winner's objects, and a new reconcile endpoint must clean up orphans while old-layout packages and an existing schema keep working.",
+   "prompt_pattern": "A two-sentence problem statement, a bullet list of required behaviors with HTTP status codes and a new admin endpoint, a compatibility paragraph, and a closing paragraph giving the build command, sidecar hosts, configuration keys and credentials."
+  },
+  {
+   "name": "pendulum-explicit-transition-resolution-policies",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image python pinned by digest\"] --> B[\"Rust 1.85.0 toolchain and maturin\"]\n  A --> C[\"Pendulum source at a pinned commit\"]\n  B --> D[\"Pendulum installed editable with its Rust extension\"]\n  C --> D\n  D --> E[\"pytest, poetry and time-machine installed\"]\n  F[\"Instruction.md with public API signatures\"] --> G[\"Agent session as agent, no network\"]\n  E --> G\n  G --> H[\"Plan file, then implementation in /app\"]\n  H --> I[\"git diff against base saved as model.patch\"]\n  I --> J[\"Shared verifier stages hidden tests\"]\n  J --> K[\"Repository suite and hidden tests run as agent under pytest\"]\n  K --> L[\"62 fail-to-pass and 196 pass-to-pass tests\"]\n  L --> M[\"Reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "The image starts from a digest-pinned Python base, fetches python-pendulum/pendulum at commit 0d71391a, installs Rust 1.85.0 and maturin 1.7.6, and installs pendulum in editable mode so its Rust extension is built (environment/Dockerfile).",
+    "pytest 7.4.4, pytest-benchmark, time-machine 3.2.0 and poetry are installed, and /app is owned by the unprivileged agent user, who has 6 hours with no network (environment/Dockerfile, task.toml).",
+    "The verifier runs in the same container after the agent phase, and the staged diff against the base commit is saved as /logs/artifacts/model.patch (task.toml).",
+    "test.sh runs the repository suite and the hidden tests/test_outputs.py under pytest as the agent user with JUnit reports, and adds a randomly named canary test to detect forged reports (tests/test.sh, tests/config.json).",
+    "The reward is 1 only when all 62 fail-to-pass and all 196 pass-to-pass tests pass and the canary checks out (tests/config.json, tests/grader.py)."
+   ],
+   "workflow": "A maintainer of a Python datetime library adds explicit policies for wall-clock times that fall in daylight-saving gaps or overlaps. The engineer starts from Pendulum's construction, arithmetic, parsing and timezone code, where the legacy fold behavior must stay the default. The hard part is applying one rule consistently across every entry point, including scoped defaults that nest and stay isolated between concurrent tasks, without changing any result when no policy is given.",
+   "prompt_pattern": "A specification in short dense paragraphs that names each new public type and function and the behaviors it must preserve, followed by a bullet list of required enum values and signatures, and a requirement to write `/app/RESEARCH_AND_PLANNING.md` before editing code."
+  },
+  {
+   "name": "go-tc-lossless-traffic-control-object-replay",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image golang pinned by digest\"] --> B[\"go-tc source at a pinned commit\"]\n  A --> C[\"tmux, build-essential and git\"]\n  B --> D[\"Modules downloaded and package built\"]\n  A --> E[\"go-ctrf-json-reporter installed root-owned\"]\n  F[\"Instruction.md with the replay API list\"] --> G[\"Agent session as agent, no network\"]\n  C --> G\n  D --> G\n  G --> H[\"Plan file, then implementation in /app\"]\n  H --> I[\"git diff against base saved as model.patch\"]\n  I --> J[\"Shared verifier stages hidden acceptance tests\"]\n  E --> J\n  J --> K[\"Go suites run as agent with CTRF reports\"]\n  K --> L[\"42 fail-to-pass and 329 pass-to-pass tests\"]\n  L --> M[\"Reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "The image is a digest-pinned golang base with CGO enabled, GOTOOLCHAIN set to local and tmux, build-essential and git installed; florianl/go-tc is fetched at commit 3ec4bd76 and built after go mod download (environment/Dockerfile).",
+    "go-ctrf-json-reporter v0.1.0 is installed into a root-owned GOPATH bin directory so the agent cannot replace it (environment/Dockerfile).",
+    "The agent has 6 hours, 2 CPUs and 8 GB of memory with no network, and the verifier runs in the same container afterwards on the staged diff saved as model.patch (task.toml).",
+    "test.sh runs the repository's tests and a hidden acceptance suite in acceptance/outputs_test.go as the agent user, and plants a canary test package to check that the reports are genuine (tests/test.sh, tests/config.json).",
+    "The reward is 1 only when all 42 fail-to-pass and 329 pass-to-pass tests pass (tests/config.json, tests/grader.py)."
+   ],
+   "workflow": "A maintainer of a Go netlink library for Linux traffic control adds a lossless decode and replay path, so objects read from the kernel can be edited and written back without dropping attributes the library does not model. The engineer starts from go-tc's typed attribute decoders and its Qdisc, Class, Filter and Chain request code. The hard part is byte-exact preservation of order, duplicates and unknown attributes across nested scopes, and reconciling typed edits with raw attributes under three conflict policies.",
+   "prompt_pattern": "A specification in short dense paragraphs that names each new public type and function and the behaviors it must preserve, followed by a bullet list of required exported identifiers, constant values and signatures, and a requirement to write `/app/RESEARCH_AND_PLANNING.md` before editing code."
+  },
+  {
+   "name": "go-sqlite3-portable-mergeable-statistics-e67a",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image golang pinned by digest\"] --> B[\"go-sqlite3 source at a pinned commit\"]\n  B --> C[\"Modules downloaded, verified and tested once\"]\n  A --> D[\"go-ctrf-json-reporter installed root-owned\"]\n  E[\"Instruction.md with the accumulator API\"] --> F[\"Agent session as agent, no network\"]\n  C --> F\n  F --> G[\"Plan file, then implementation in /app\"]\n  G --> H[\"git diff against base saved as model.patch\"]\n  H --> I[\"Shared verifier stages hidden acceptance tests\"]\n  D --> I\n  I --> J[\"Go suites run in short mode with CTRF reports\"]\n  J --> K[\"120 fail-to-pass and 220 pass-to-pass tests\"]\n  K --> L[\"Reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "The image is a digest-pinned golang base with GOTOOLCHAIN set to local and GOFLAGS set to -short; ncruces/go-sqlite3 is fetched at commit d23e09cd, and go mod download, go mod verify and go test ./... run at build time (environment/Dockerfile).",
+    "go-ctrf-json-reporter v0.1.0 is installed into a root-owned GOPATH bin directory, and /app is owned by the unprivileged agent user (environment/Dockerfile).",
+    "The agent has 90 minutes, 2 CPUs and 8 GB of memory with no network; the verifier runs in the same container and the staged diff is saved as model.patch (task.toml).",
+    "test.sh runs the repository tests and a hidden acceptance suite in acceptance/outputs_test.go, with a canary test package to detect forged reports (tests/test.sh, tests/config.json).",
+    "The reward is 1 only when all 120 fail-to-pass and 220 pass-to-pass tests pass (tests/config.json, tests/grader.py)."
+   ],
+   "workflow": "A maintainer of a Go SQLite binding extends its statistics extension so aggregate state can be checkpointed, restored and merged without a database connection. The engineer starts from the existing aggregate and window-function implementations in `ext/stats`. The hard part is a versioned binary format that keeps every function's configuration and numeric state, merges whose results match one-pass SQL evaluation, including compensated sums and percentiles, and failures that leave the destination exactly unchanged.",
+   "prompt_pattern": "A specification in short dense paragraphs that names each new public type and function and the behaviors it must preserve, followed by a bullet list of required interface methods and function signatures, and a requirement to write `/app/RESEARCH_AND_PLANNING.md` before editing code."
+  },
+  {
+   "name": "kin-openapi-explicit-field-presence-across-27d7",
+   "environment_facts": [
+    "The image is a digest-pinned golang base with CGO disabled and git, tmux and build-essential installed; getkin/kin-openapi is fetched at commit e7ecca9a and its test suite is run during the build (environment/Dockerfile).",
+    "go-ctrf-json-reporter v0.1.0 is installed into a root-owned GOPATH bin directory so the agent cannot replace it (environment/Dockerfile).",
+    "The agent has 6 hours, 2 CPUs and 8 GB of memory with no network, and the verifier runs in the same container afterwards on the staged diff saved as model.patch (task.toml).",
+    "test.sh runs the repository's tests and a hidden acceptance suite in acceptance/outputs_test.go as the agent user (tests/test.sh).",
+    "The reward is 1 only when all 49 fail-to-pass and 952 pass-to-pass tests pass (tests/config.json, tests/grader.py)."
+   ],
+   "workflow": "A maintainer of a Go OpenAPI library makes it remember whether each field in a spec was left out, written as null, set to zero or empty, or filled in. The engineer starts from the library's v2 and v3 models, its loader with reference resolution, and its v2 to v3 converters. The hard part is carrying that authorship through loading, recursive references and conversion in both directions, reporting each state a conversion cannot represent, and leaving every existing entry point unchanged.",
+   "prompt_pattern": "A specification in short dense paragraphs that names each new public type, method and package entry point and the behaviors it must preserve, followed by a bullet list of required constants and signatures, and a requirement to write `/app/RESEARCH_AND_PLANNING.md` before editing code."
+  }
+ ]
+}

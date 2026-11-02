@@ -1,0 +1,404 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 2400,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "86672144042102886f4cadb34d06494cd8e4a60955e2c1af5c816e458bde9190",
+  "documentation.json": "9a71d06d63968c93d784c91f0a9e03b9c5568b356541f16975e5b945bd9f41c4",
+  "driver.py": "3d637a6233ea853afef041f7571a32501579769749ac6338384d8a0cf1b6656f",
+  "expected.json": "fa85902f83b8029c274717ec77e3c8e235111c25ed3995c085f19d50b8b6abeb"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "GROUP-0001",
+    "kind": "f2p",
+    "requirement": "ApproxTokenChunker preserves section boundaries, source and metadata, splits text by the UTF-8 approximate token budget with approximate overlap, and numbers chunks sequentially 0..N-1 across the document with total_chunks=N. Defaults are chunk_size=512 and overlap=50.",
+    "tests": [
+     "OBS-0001",
+     "OBS-0002",
+     "OBS-0003"
+    ]
+   },
+   {
+    "id": "GROUP-0002",
+    "kind": "f2p",
+    "requirement": "Insertion uses one document ID for all chunks; filter metadata overrides chunk metadata which overrides document metadata. Embedding count mismatch raises RuntimeError before insertion. Listing returns one summary per distinct document across all records, counting chunks and inheriting source and metadata from the first encountered chunk, with no mandated document order. Every filter pair must match. Deletion removes all records of the document ID in the collection, without metadata scoping. Empty collections list no documents.",
+    "tests": [
+     "OBS-0004",
+     "OBS-0005",
+     "OBS-0006"
+    ]
+   },
+   {
+    "id": "GROUP-0003",
+    "kind": "f2p",
+    "requirement": "Insertion embeds each chunk under the resolved document ID, merging metadata with constructor filter over chunk over document precedence. Qdrant search enforces every metadata key/value pair. KnowledgeBase embeds all usable query inputs, drops DataBlock for text-only models, accepts TextBlock and multimodal queries as supported, deduplicates by document ID and chunk index keeping the highest score, applies an inclusive minimum threshold (None disables it), sorts descending, and returns at most top_k (default 5). Tied score order is unspecified. Higher-is-better scores are required. EmbeddingModelBase unpacks TextBlock to text and preserves input embedding order.",
+    "tests": [
+     "OBS-0007",
+     "OBS-0008",
+     "OBS-0009",
+     "OBS-0010",
+     "OBS-0011",
+     "OBS-0012"
+    ]
+   },
+   {
+    "id": "GROUP-0004",
+    "kind": "p2p",
+    "requirement": "ApproxTokenChunker preserves section boundaries, source and metadata, splits text by the UTF-8 approximate token budget with approximate overlap, and numbers chunks sequentially 0..N-1 across the document with total_chunks=N. Defaults are chunk_size=512 and overlap=50.",
+    "tests": [
+     "OBS-0013",
+     "OBS-0014",
+     "OBS-0015",
+     "OBS-0016",
+     "OBS-0017",
+     "OBS-0018"
+    ]
+   },
+   {
+    "id": "GROUP-0005",
+    "kind": "p2p",
+    "requirement": "Empty insertion returns the supplied document ID without indexing. Empty queries and queries containing only DataBlock for a text-only model return no hits without creating a collection.",
+    "tests": [
+     "OBS-0019",
+     "OBS-0020"
+    ]
+   },
+   {
+    "id": "GROUP-0006",
+    "kind": "p2p",
+    "requirement": "Insertion uses one document ID for all chunks; filter metadata overrides chunk metadata which overrides document metadata. Embedding count mismatch raises RuntimeError before insertion. Listing returns one summary per distinct document across all records, counting chunks and inheriting source and metadata from the first encountered chunk, with no mandated document order. Every filter pair must match. Deletion removes all records of the document ID in the collection, without metadata scoping. Empty collections list no documents.",
+    "tests": [
+     "OBS-0021",
+     "OBS-0022",
+     "OBS-0023",
+     "OBS-0024",
+     "OBS-0025",
+     "OBS-0026"
+    ]
+   },
+   {
+    "id": "GROUP-0007",
+    "kind": "p2p",
+    "requirement": "Insertion embeds each chunk under the resolved document ID, merging metadata with constructor filter over chunk over document precedence. Qdrant search enforces every metadata key/value pair. KnowledgeBase embeds all usable query inputs, drops DataBlock for text-only models, accepts TextBlock and multimodal queries as supported, deduplicates by document ID and chunk index keeping the highest score, applies an inclusive minimum threshold (None disables it), sorts descending, and returns at most top_k (default 5). Tied score order is unspecified. Higher-is-better scores are required. EmbeddingModelBase unpacks TextBlock to text and preserves input embedding order.",
+    "tests": [
+     "OBS-0027",
+     "OBS-0028",
+     "OBS-0029",
+     "OBS-0030",
+     "OBS-0031",
+     "OBS-0032",
+     "OBS-0033",
+     "OBS-0034",
+     "OBS-0035",
+     "OBS-0036",
+     "OBS-0037",
+     "OBS-0038",
+     "OBS-0039",
+     "OBS-0040",
+     "OBS-0041"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TEXT-PARSER",
+    "kind": "p2p",
+    "requirement": "TextParser returns a single Section holding the whole text: bytes are decoded with the configured encoding (default utf-8), a str naming an existing file is read and decoded, any other str is used verbatim; the filename becomes Section.source and metadata is empty; undecodable bytes raise ValueError; supported_media_types and supported_extensions list the text formats.",
+    "tests": [
+     "OBS-0042",
+     "OBS-0043",
+     "OBS-0044",
+     "OBS-0045",
+     "OBS-0046"
+    ]
+   },
+   {
+    "id": "GROUP-COV-PDF-PARSER",
+    "kind": "p2p",
+    "requirement": "PDFParser returns one Section per page in document order with metadata {'page': n} starting at 1, the filename as source, an empty-text Section for a page without text, accepts bytes or a filesystem path, raises FileNotFoundError for a missing path and ValueError for bytes that are not a PDF.",
+    "tests": [
+     "OBS-0047",
+     "OBS-0048",
+     "OBS-0049",
+     "OBS-0050"
+    ]
+   },
+   {
+    "id": "GROUP-COV-IMAGE-PARSER",
+    "kind": "p2p",
+    "requirement": "ImageParser wraps the whole file in one Section whose content is a DataBlock with the base64-encoded bytes; the media type is sniffed from the magic number (PNG, JPEG, GIF, BMP, WebP) and also stored in metadata['media_type']; a path is read from disk.",
+    "tests": [
+     "OBS-0051",
+     "OBS-0052",
+     "OBS-0053"
+    ]
+   },
+   {
+    "id": "GROUP-COV-WORD-PARSER",
+    "kind": "p2p",
+    "requirement": "WordParser keeps document order: adjacent paragraphs (and, by default, tables rendered as Markdown) form one running text section, embedded images become separate DataBlock sections, separate_table=True puts each table in its own section, table_format='json' renders a <system-info> marker plus a JSON array, include_image=False drops images, and an unknown table_format raises ValueError.",
+    "tests": [
+     "OBS-0054",
+     "OBS-0055",
+     "OBS-0056",
+     "OBS-0057",
+     "OBS-0058"
+    ]
+   },
+   {
+    "id": "GROUP-COV-PPT-PARSER",
+    "kind": "p2p",
+    "requirement": "PPTParser emits sections per slide with metadata {'slide': n} starting at 1; the default slide_prefix '<slide index={index}>' starts the first text section of a slide and slide_suffix '</slide>' ends the last one (None disables either); pictures become DataBlock sections, tables render as Markdown or JSON and separate_table=True gives each table its own section; an unknown table_format raises ValueError and bytes that are not a PPTX raise ValueError.",
+    "tests": [
+     "OBS-0059",
+     "OBS-0060",
+     "OBS-0061",
+     "OBS-0062",
+     "OBS-0063"
+    ]
+   },
+   {
+    "id": "GROUP-COV-EXCEL-PARSER",
+    "kind": "p2p",
+    "requirement": "ExcelParser renders each sheet's table as Markdown (or JSON), prepends sheet names by default, can include cell coordinates; with separate_sheet=False all text is merged into one section with metadata {}, with separate_sheet=True each sheet's text section carries {'sheet': name}; include_image=True adds image sections; an unknown table_format raises ValueError.",
+    "tests": [
+     "OBS-0064",
+     "OBS-0065",
+     "OBS-0066",
+     "OBS-0067",
+     "OBS-0068"
+    ]
+   },
+   {
+    "id": "GROUP-COV-PARSER-BASE",
+    "kind": "p2p",
+    "requirement": "ParserBase is abstract: subclasses implement parse(file, filename) and declare supported_media_types; the base supported_extensions() derives sorted, deduplicated extensions starting with '.' from the media types.",
+    "tests": [
+     "OBS-0069",
+     "OBS-0070"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DOCUMENT",
+    "kind": "p2p",
+    "requirement": "Section holds content (TextBlock or DataBlock), source and a metadata dict defaulting to {}; Chunk adds the 0-based document-wide chunk_index and total_chunks and inherits metadata; DataBlock sections pass through ApproxTokenChunker unchanged as their own chunks.",
+    "tests": [
+     "OBS-0071",
+     "OBS-0072",
+     "OBS-0073"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CHUNKER-CONFIG",
+    "kind": "p2p",
+    "requirement": "ApproxTokenChunker requires a positive chunk_size and a non-negative overlap smaller than chunk_size (ValueError otherwise); defaults are chunk_size=512 and overlap=50; ChunkerBase is abstract; an empty section list gives no chunks; short text stays one chunk.",
+    "tests": [
+     "OBS-0074",
+     "OBS-0075",
+     "OBS-0076"
+    ]
+   },
+   {
+    "id": "GROUP-COV-QDRANT-COLLECTIONS",
+    "kind": "p2p",
+    "requirement": "QdrantStore creates the async client lazily on first use and closes it on context exit; create_collection/has_collection/delete_collection manage one collection per knowledge base; insert and search round-trip the document_id and the Chunk; search returns at most top_k hits, best first by similarity; delete removes every record of one document; a single-key metadata_filter restricts search and listing.",
+    "tests": [
+     "OBS-0077",
+     "OBS-0078",
+     "OBS-0079",
+     "OBS-0080",
+     "OBS-0081"
+    ]
+   },
+   {
+    "id": "GROUP-COV-MILVUS-LITE",
+    "kind": "p2p",
+    "requirement": "MilvusLiteStore runs an embedded Milvus Lite database from a local .db URI and implements the same collection API: create/has/delete collections, insert, top-k search returning document ids and chunks, single-key metadata filtering, per-document deletion and document listing with chunk counts.",
+    "tests": [
+     "OBS-0082"
+    ]
+   },
+   {
+    "id": "GROUP-COV-ELASTICSEARCH",
+    "kind": "p2p",
+    "requirement": "ElasticsearchStore validates num_candidates (1..10000), creates its client lazily and closes it on exit, skips index creation when the index exists, bulk-indexes records under deterministic per-(document, chunk) IDs so re-indexing replaces the same chunk, raises RuntimeError when the bulk response reports errors, passes refresh=False through to deletes, returns no hits for top_k <= 0 and raises ValueError above 10000, and lists documents from paginated composite aggregation buckets.",
+    "tests": [
+     "OBS-0083",
+     "OBS-0084",
+     "OBS-0085",
+     "OBS-0086"
+    ]
+   },
+   {
+    "id": "GROUP-COV-MONGODB",
+    "kind": "p2p",
+    "requirement": "MongoDBStore creates its async client lazily and closes it on exit; create_collection is a no-op for an existing collection and otherwise creates the collection with a vector search index (vector path, dimensions, similarity metric, index name) whose filter fields default to ['document_id']; insert stores document_id and the serialized chunk; delete removes every record of a document; search reconstructs hits and filters on chunk.metadata.<key> for every metadata_filter pair; list_documents aggregates by document_id.",
+    "tests": [
+     "OBS-0087",
+     "OBS-0088",
+     "OBS-0089"
+    ]
+   },
+   {
+    "id": "GROUP-COV-KNOWLEDGE-BASE",
+    "kind": "p2p",
+    "requirement": "KnowledgeBase exposes its name, description, embedding_model, vector_store, collection and metadata_filter; construction does no I/O; ensure_collection creates the backing collection once with the embedding model's dimensions and is idempotent; insert_document generates a fresh id when none is given; delete_document and list_documents work on the bound collection.",
+    "tests": [
+     "OBS-0090",
+     "OBS-0091",
+     "OBS-0092"
+    ]
+   },
+   {
+    "id": "GROUP-COV-EMBEDDING-BASE",
+    "kind": "p2p",
+    "requirement": "EmbeddingModelBase splits inputs into batches of batch_size, calls _call_api per batch and merges the results in input order with summed usage; an empty input list returns an empty response; TextBlock inputs reach _call_api as their text; extra keyword arguments are forwarded; retryable exceptions are retried up to max_retries times; dimensions must be positive and may come from legacy parameters; supports_multimodal defaults to False.",
+    "tests": [
+     "OBS-0093",
+     "OBS-0094",
+     "OBS-0095",
+     "OBS-0096"
+    ]
+   },
+   {
+    "id": "GROUP-COV-EMBEDDING-RESPONSE",
+    "kind": "p2p",
+    "requirement": "EmbeddingResponse carries embeddings, an id and created_at, type 'embedding', optional usage and a source of 'api' (default) or 'cache'; EmbeddingUsage carries time, optional tokens and type 'embedding'.",
+    "tests": [
+     "OBS-0097",
+     "OBS-0098"
+    ]
+   },
+   {
+    "id": "GROUP-COV-FILE-CACHE",
+    "kind": "p2p",
+    "requirement": "FileEmbeddingCache stores embeddings under a hash of a JSON-serializable identifier, retrieve returns them (or None when absent), store keeps an existing entry unless overwrite=True, remove deletes an entry and raises FileNotFoundError when absent, clear removes all entries, and max_file_number bounds the number of files kept.",
+    "tests": [
+     "OBS-0099",
+     "OBS-0100",
+     "OBS-0101"
+    ]
+   },
+   {
+    "id": "GROUP-COV-MODEL-CARDS",
+    "kind": "p2p",
+    "requirement": "EmbeddingModelCard describes a model (type 'embedding_model', name, label, status, input/output types, dimensions, supported_dimensions, context_size, parameter schema); from_yaml requires a top-level 'dimensions' field; each provider's list_models() loads the cards shipped in its _models directory, and a missing directory gives an empty list.",
+    "tests": [
+     "OBS-0102",
+     "OBS-0103",
+     "OBS-0104"
+    ]
+   },
+   {
+    "id": "GROUP-COV-OPENAI-EMBEDDING",
+    "kind": "p2p",
+    "requirement": "OpenAIEmbeddingModel sends the batch, model name, float encoding and (when pass_dimensions is True) the dimensions to the embeddings API, forwards the credential's base_url and organization to the client, places returned vectors by their index, reports usage tokens, and with an embedding cache serves repeated requests from the cache with source 'cache'.",
+    "tests": [
+     "OBS-0105",
+     "OBS-0106"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DASHSCOPE-EMBEDDING",
+    "kind": "p2p",
+    "requirement": "DashScopeEmbeddingModel routes text-embedding-* models to the text API (str inputs only, batches of 10, the dimension forwarded) and qwen*-vl / multimodal / tongyi-embedding-vision models to the multimodal API, where text becomes {'text': ...}, base64 images become data URLs, URL images and videos pass their URL, and a video without a URL source or an unsupported media type raises ValueError; API errors raise RuntimeError.",
+    "tests": [
+     "OBS-0107",
+     "OBS-0108",
+     "OBS-0109"
+    ]
+   },
+   {
+    "id": "GROUP-COV-GEMINI-OLLAMA-EMBEDDING",
+    "kind": "p2p",
+    "requirement": "GeminiEmbeddingModel and OllamaEmbeddingModel embed text batches through their SDK clients (replaced by local fakes here), keep input order, return one vector per input with the configured dimensions forwarded where the provider supports it, and unpack TextBlock inputs.",
+    "tests": [
+     "OBS-0110",
+     "OBS-0111"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CREDENTIALS",
+    "kind": "p2p",
+    "requirement": "Credentials are pydantic models with a generated id, a display name defaulting to '', a type discriminator and a secret api_key; CredentialFactory.from_dict deserializes a stored dict by its type, get_credential_class finds a class by its type value (None when unknown), list_schemas returns one JSON schema per registered class, register_credential adds a custom class once; get_embedding_model_class returns the provider's embedding model class or None.",
+    "tests": [
+     "OBS-0112",
+     "OBS-0113",
+     "OBS-0114",
+     "OBS-0115",
+     "OBS-0116"
+    ]
+   },
+   {
+    "id": "GROUP-COV-MESSAGE-BLOCKS",
+    "kind": "p2p",
+    "requirement": "Content blocks carry a fixed type tag: TextBlock 'text', ThinkingBlock 'thinking' (extra fields allowed), DataBlock 'data' with a Base64Source or URLSource (the URL serializes as a string), HintBlock 'hint' with text or blocks, ToolCallBlock 'tool_call' starting in state 'pending', ToolResultBlock 'tool_result'; each gets a generated id.",
+    "tests": [
+     "OBS-0117",
+     "OBS-0118"
+    ]
+   },
+   {
+    "id": "GROUP-COV-MSG",
+    "kind": "p2p",
+    "requirement": "Msg holds name, role and a list of content blocks; UserMsg/AssistantMsg/SystemMsg set the role and wrap a plain string in a TextBlock; user messages accept only text and data blocks and system messages only text blocks (ValueError otherwise); get_text_content joins the text blocks with the separator (default newline) or returns None; get_content_blocks and has_content_blocks filter by type; append_event applies streaming events whose reply_id matches the message id.",
+    "tests": [
+     "OBS-0119",
+     "OBS-0120",
+     "OBS-0121",
+     "OBS-0122"
+    ]
+   },
+   {
+    "id": "GROUP-COV-RAG-README",
+    "kind": "p2p",
+    "requirement": "The examples/rag walk-through: parse a text file, chunk it with ApproxTokenChunker, insert it through a KnowledgeBase over an in-memory QdrantStore, search it (hits carry document_id, score and the chunk), list and delete documents; an empty query list returns no hits.",
+    "tests": [
+     "OBS-0123"
+    ]
+   },
+   {
+    "id": "GROUP-HARDEN-EVICTION-AGE",
+    "kind": "f2p",
+    "requirement": "FileEmbeddingCache: when a store exceeds max_file_number or max_cache_size, the oldest .npy files (by modification time) are removed first.",
+    "tests": [
+     "OBS-0124",
+     "OBS-0125"
+    ]
+   },
+   {
+    "id": "GROUP-HARDEN-RETRYABLE-ONLY",
+    "kind": "f2p",
+    "requirement": "EmbeddingModelBase retries a batch only on exceptions listed by _get_retryable_exceptions(), which defaults to an empty tuple (no retries): any other exception propagates on the first attempt.",
+    "tests": [
+     "OBS-0126",
+     "OBS-0127"
+    ]
+   },
+   {
+    "id": "GROUP-HARDEN-USAGE-ACCUMULATION",
+    "kind": "f2p",
+    "requirement": "Msg.append_event initializes usage on the first MODEL_CALL_END event and accumulates input and output tokens across every later one.",
+    "tests": [
+     "OBS-0128"
+    ]
+   },
+   {
+    "id": "GROUP-HARDEN-DELETE-REFRESH",
+    "kind": "f2p",
+    "requirement": "ElasticsearchStore.delete passes a boolean refresh to delete-by-query: the default refresh='wait_for' and refresh=True map to True, refresh=False to False.",
+    "tests": [
+     "OBS-0129"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,38 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-patito-dataframe"
+description = ""
+authors = []
+keywords = ["python", "data-processing", "dataframe"]
+
+[metadata]
+task_id = "pdk-patito-dataframe"
+display_title = "Nested models in patito: defaults, validation and iteration for a nested parquet feed"
+repository_url = "https://github.com/JakobGM/patito.git"
+base_commit_hash = "e4590c3508a2d716733df2353d95563a2f008a6f"
+language = "python"
+category = "data_processing"
+archetype = "dataframe"
+
+[verifier]
+environment_mode = "separate"
+# At least 3x one full grade (both suites) on 4 CPUs, and never below 1800.
+timeout_sec = 1800
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached e4590c3508a2d716733df2353d95563a2f008a6f > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+
+[environment]
+allow_internet = false
+build_timeout_sec = 2400
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+timeout_sec = 21600

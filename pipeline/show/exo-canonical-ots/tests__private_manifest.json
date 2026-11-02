@@ -1,0 +1,524 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 2400,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "187d9af39fa82ee83d07c922b914e50a160810ea9b2d6f247f52394470c3101d",
+  "documentation.json": "4d2fd6cf29e9d99e155aa97ba59e8c99c02e03512bfafd62772f12356a08f92a",
+  "driver.py": "3e44b6b19cf93daa8cd3a2b59e12998bf4d9925c146560593f767b696d7c7ae2",
+  "expected.json": "b8ed4d19b5058e957a44d961e5d8e4b08cc77d7e6f0f5d6c8294712017306582"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "GROUP-F2P-DIVIDE-LOOP-TAIL-DEFAULT",
+    "kind": "f2p",
+    "requirement": "divide_loop's tail strategy defaults to \"guard\" (docs/primitives/loop_ops.md signature and tail argument): the signature's default, and a call that omits tail prints exactly what the same call with tail=\"guard\" prints (judged in the parent as an equal pair; the printed guard form itself is not pinned here).",
+    "tests": [
+     "OBS-0001",
+     "OBS-0002",
+     "OBS-0003",
+     "OBS-0004"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-CUT-LOOP-AT-HI",
+    "kind": "f2p",
+    "requirement": "cut_loop accepts any cut point with lo <= cut_point <= hi, including cut_point == hi (docs/primitives/loop_ops.md).",
+    "tests": [
+     "OBS-0005",
+     "OBS-0006",
+     "OBS-0007"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-SPECIALIZE-ORDER",
+    "kind": "f2p",
+    "requirement": "specialize with n conditions makes n+1 copies tested in order: if cond_0 / elif cond_1 / ... / else (docs/primitives/loop_ops.md).",
+    "tests": [
+     "OBS-0008",
+     "OBS-0009"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-REARRANGE-DIM",
+    "kind": "f2p",
+    "requirement": "rearrange_dim reorders the dimensions so that new dimension k is old dimension permute_vector[k] ([2,0,1]: x : T[N,M,K] -> x : T[K,N,M]) (docs/primitives/buffer_ops.md).",
+    "tests": [
+     "OBS-0010",
+     "OBS-0011",
+     "OBS-0012"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-BIND-EXPR-PRECISION",
+    "kind": "f2p",
+    "requirement": "bind_expr allocates the new scalar buffer with the precision of the bound expression (docs/primitives/buffer_ops.md).",
+    "tests": [
+     "OBS-0013",
+     "OBS-0014",
+     "OBS-0015"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-SPLIT-WRITE-ORDER",
+    "kind": "f2p",
+    "requirement": "split_write turns `a = b + c` into `a = b; a += c` and `a += b + c` into `a += b; a += c` (docs/primitives/other_ops.md).",
+    "tests": [
+     "OBS-0016",
+     "OBS-0017",
+     "OBS-0018"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-CTYPE-UI16",
+    "kind": "f2p",
+    "requirement": "ui16 lowers to the C type uint16_t (docs/memories.md, docs/externs.md type mapping).",
+    "tests": [
+     "OBS-0019",
+     "OBS-0020",
+     "OBS-0021"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-EXOTYPE-STRIDE",
+    "kind": "f2p",
+    "requirement": "ExoType.is_indexable() is True for Index, Size, Int and Stride (docs/Cursors.md ExoType).",
+    "tests": [
+     "OBS-0022",
+     "OBS-0023"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-EXOCC-STEM",
+    "kind": "f2p",
+    "requirement": "exocc names the generated .c and .h files after the source file unless --stem is given, also when -o selects the output directory (README.md \"Compile Exo\").",
+    "tests": [
+     "OBS-0024",
+     "OBS-0025"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-GET-PARENTS-UP-TO",
+    "kind": "f2p",
+    "requirement": "stdlib.inspection.get_parents yields the ancestors of stmt (exclusive) up to up_to (inclusive) (docstring).",
+    "tests": [
+     "OBS-0026",
+     "OBS-0027",
+     "OBS-0028"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-CURSOR-PREV-DIST",
+    "kind": "f2p",
+    "requirement": "StmtCursor.prev(dist) returns the statement dist-many before (InvalidCursor when there is none) (docstring).",
+    "tests": [
+     "OBS-0029",
+     "OBS-0030"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-LOOP-DIVIDE-TAILS",
+    "kind": "p2p",
+    "requirement": "divide_loop with explicit tail cut / cut_and_guard / guard and perfect=True (loop_ops.md).",
+    "tests": [
+     "OBS-0031",
+     "OBS-0032"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-LOOP-RECOMPUTE-MULT-JOIN",
+    "kind": "p2p",
+    "requirement": "divide_with_recompute, mult_loops and join_loops rewrites (loop_ops.md).",
+    "tests": [
+     "OBS-0033",
+     "OBS-0034",
+     "OBS-0035"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-LOOP-CUT-SHIFT",
+    "kind": "p2p",
+    "requirement": "cut_loop inside the range and its lo <= cut_point bound, shift_loop and its 0 <= new_lo bound (loop_ops.md).",
+    "tests": [
+     "OBS-0036",
+     "OBS-0037"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-LOOP-REORDER-FISSION",
+    "kind": "p2p",
+    "requirement": "reorder_loops (cursor and 'outer inner' shorthand) and fission at a gap (loop_ops.md).",
+    "tests": [
+     "OBS-0038",
+     "OBS-0039",
+     "OBS-0040"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-LOOP-ADD-REMOVE-UNROLL",
+    "kind": "p2p",
+    "requirement": "add_loop (with and without guard), remove_loop and unroll_loop (loop_ops.md).",
+    "tests": [
+     "OBS-0041",
+     "OBS-0042",
+     "OBS-0043"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-SCOPE-LIFT-FUSE-SPECIALIZE",
+    "kind": "p2p",
+    "requirement": "lift_scope, fuse of loops and of ifs, and specialize with one condition (loop_ops.md).",
+    "tests": [
+     "OBS-0044",
+     "OBS-0045",
+     "OBS-0046",
+     "OBS-0047"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-BUF-BIND-EXPR",
+    "kind": "p2p",
+    "requirement": "bind_expr of a literal-scaled expression (the buffer_ops.md example, R precision) and of repeated expressions (common subexpressions bound together).",
+    "tests": [
+     "OBS-0048",
+     "OBS-0049"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-BUF-RESIZE-EXPAND",
+    "kind": "p2p",
+    "requirement": "resize_dim (offset and fold) and expand_dim (buffer_ops.md).",
+    "tests": [
+     "OBS-0050",
+     "OBS-0051"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-BUF-DIMS",
+    "kind": "p2p",
+    "requirement": "rearrange_dim with a 2-D swap, divide_dim and mult_dim (the buffer_ops.md examples).",
+    "tests": [
+     "OBS-0052",
+     "OBS-0053",
+     "OBS-0054"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-BUF-UNROLL-LIFT-SINK",
+    "kind": "p2p",
+    "requirement": "unroll_buffer, lift_alloc and sink_alloc (buffer_ops.md).",
+    "tests": [
+     "OBS-0055",
+     "OBS-0056"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-BUF-REUSE-DELETE-INLINE",
+    "kind": "p2p",
+    "requirement": "reuse_buffer, delete_buffer and inline_window (buffer_ops.md, other_ops.md).",
+    "tests": [
+     "OBS-0057",
+     "OBS-0058",
+     "OBS-0059"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-BUF-STAGE-MEM",
+    "kind": "p2p",
+    "requirement": "stage_mem loading/storing a window and accum=True (buffer_ops.md).",
+    "tests": [
+     "OBS-0060",
+     "OBS-0061"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-OTHER-RENAME-INSTR-PASS",
+    "kind": "p2p",
+    "requirement": "rename, make_instr, insert_pass and delete_pass (other_ops.md).",
+    "tests": [
+     "OBS-0062",
+     "OBS-0063"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-OTHER-SIMPLIFY-DEAD-CODE",
+    "kind": "p2p",
+    "requirement": "simplify and eliminate_dead_code (other_ops.md).",
+    "tests": [
+     "OBS-0064",
+     "OBS-0065"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-OTHER-EXPR-EDITS",
+    "kind": "p2p",
+    "requirement": "reorder_stmts, commute_expr, left_reassociate_expr and rewrite_expr (other_ops.md).",
+    "tests": [
+     "OBS-0066",
+     "OBS-0067",
+     "OBS-0068",
+     "OBS-0069"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-OTHER-WRITES",
+    "kind": "p2p",
+    "requirement": "merge_writes (all four assign/reduce cases), fold_into_reduce and inline_assign (other_ops.md).",
+    "tests": [
+     "OBS-0070",
+     "OBS-0071",
+     "OBS-0072"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-OTHER-LIFT-REDUCE-CONSTANT",
+    "kind": "p2p",
+    "requirement": "lift_reduce_constant (other_ops.md).",
+    "tests": [
+     "OBS-0073"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-BACKEND-ANNOTATIONS",
+    "kind": "p2p",
+    "requirement": "set_precision, set_window, set_memory and parallelize_loop (backend_ops.md).",
+    "tests": [
+     "OBS-0074",
+     "OBS-0075"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-CONFIG-OPS",
+    "kind": "p2p",
+    "requirement": "bind_config, write_config and delete_config (config_ops.md).",
+    "tests": [
+     "OBS-0076",
+     "OBS-0077",
+     "OBS-0078"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-SUBPROC-EXTRACT-INLINE",
+    "kind": "p2p",
+    "requirement": "extract_subproc and inline (subproc_ops.md).",
+    "tests": [
+     "OBS-0079",
+     "OBS-0080"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-SUBPROC-REPLACE-CALL-EQV",
+    "kind": "p2p",
+    "requirement": "replace (unification) and call_eqv (subproc_ops.md).",
+    "tests": [
+     "OBS-0081",
+     "OBS-0082"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-OBJ-WINDOWS",
+    "kind": "p2p",
+    "requirement": "Window arguments (the object_code.md foo/bar example: window structs in C), tensor arguments and the window-shape bounds check (object_code.md).",
+    "tests": [
+     "OBS-0083",
+     "OBS-0084"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-OBJ-RESTRICTIONS",
+    "kind": "p2p",
+    "requirement": "Aliasing arguments, passing a window to a non-window parameter, non-affine indexing and value-dependent control flow are rejected; quasi-affine division/modulo by constants is accepted (object_code.md).",
+    "tests": [
+     "OBS-0085"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-OBJ-TYPES-LOOPS",
+    "kind": "p2p",
+    "requirement": "Precision types, the DRAM default for allocations, seq(start, end) loops and if/else in generated C (object_code.md).",
+    "tests": [
+     "OBS-0086",
+     "OBS-0087"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-PROC-METHODS",
+    "kind": "p2p",
+    "requirement": "Procedure.name/is_instr/get_instr, c_code_str, compile_c, partial_eval, transpose, add_assertion and unsafe_assert_eq (Procedures.md).",
+    "tests": [
+     "OBS-0088",
+     "OBS-0089",
+     "OBS-0090",
+     "OBS-0091"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-PROC-COMPILE-PROCS",
+    "kind": "p2p",
+    "requirement": "compile_procs_to_strings / compile_procs on several procedures (API.py; Procedures.md compilation).",
+    "tests": [
+     "OBS-0092",
+     "OBS-0093"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-CURSOR-FIND",
+    "kind": "p2p",
+    "requirement": "Procedure.args/body/find/find_loop/find_alloc_or_arg/find_all, the #n pattern selector and the no-match error (Cursors.md).",
+    "tests": [
+     "OBS-0094",
+     "OBS-0095"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-CURSOR-NAVIGATION",
+    "kind": "p2p",
+    "requirement": "next/prev, before/after gaps, parent, as_block, expand, body/orelse, block indexing and slicing, GapCursor.anchor (Cursors.md, API_cursors docstrings).",
+    "tests": [
+     "OBS-0096",
+     "OBS-0097"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-CURSOR-TYPES",
+    "kind": "p2p",
+    "requirement": "The methods of ArgCursor, AssignCursor, ReduceCursor, ForCursor, IfCursor, AllocCursor, CallCursor and WindowStmtCursor (Cursors.md).",
+    "tests": [
+     "OBS-0098",
+     "OBS-0099"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-CURSOR-FORWARDING",
+    "kind": "p2p",
+    "requirement": "Explicit p.forward(c) and implicit forwarding of cursors passed to primitives (Cursors.md).",
+    "tests": [
+     "OBS-0100",
+     "OBS-0101"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-INSPECTION-EXAMPLES",
+    "kind": "p2p",
+    "requirement": "The inspection.md example functions (is_loop, get_top_level_stmt) and ExoType members (inspection.md).",
+    "tests": [
+     "OBS-0102"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-IMPORTS",
+    "kind": "p2p",
+    "requirement": "The import paths listed in Imports.md resolve.",
+    "tests": [
+     "OBS-0103"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-STDLIB-INSPECTION",
+    "kind": "p2p",
+    "requirement": "exo.stdlib.inspection helpers: get_lca, get_depth, match_parent, get_enclosing_loop(_by_name), get_children, lrn/nlr traversals (stdlib/inspection.py).",
+    "tests": [
+     "OBS-0104"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-MEMORIES",
+    "kind": "p2p",
+    "requirement": "User-defined memories: alloc/free/window/global_ in generated C, can_read=False rejects direct access, set_memory, and the library AVX2/DRAM_STATIC memories (memories.md, libs/memories.py).",
+    "tests": [
+     "OBS-0105",
+     "OBS-0106",
+     "OBS-0107"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-EXTERNS",
+    "kind": "p2p",
+    "requirement": "User-defined externs (typecheck, compile, globl; the externs.md _Sin example) and the library externs; externs may take the same buffer several times (externs.md, libs/externs.py).",
+    "tests": [
+     "OBS-0108",
+     "OBS-0109"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-INSTRUCTIONS",
+    "kind": "p2p",
+    "requirement": "@instr procedures: the {name_data} placeholders in the emitted C, replace with an instruction, and the instruction body as its semantics (instructions.md).",
+    "tests": [
+     "OBS-0110",
+     "OBS-0111"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-METAPROGRAMMING",
+    "kind": "p2p",
+    "requirement": "with python / with exo quoting and unquoting of statements, expressions, numbers, types, indices and memories (Metaprogramming.md).",
+    "tests": [
+     "OBS-0112",
+     "OBS-0113"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-SYSTEM-BACKEND-CHECKS",
+    "kind": "p2p",
+    "requirement": "Back-end checks at code generation: memory consistency between caller and callee (mem_analysis), window annotation consistency (win_analysis) and precision coercion (prec_analysis) (System.md, backend_ops.md).",
+    "tests": [
+     "OBS-0114",
+     "OBS-0115",
+     "OBS-0116"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-SYSTEM-FRONTEND-CHECKS",
+    "kind": "p2p",
+    "requirement": "Frontend type checking and bounds/assertion checking reject ill-typed, out-of-bounds and unsatisfiable procedures (System.md).",
+    "tests": [
+     "OBS-0117"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-DESIGN-REWRITES",
+    "kind": "p2p",
+    "requirement": "Rewrite-based scheduling keeps the input procedure unchanged and returns a new procedure whose state can be printed at any point; scheduling errors are SchedulingError (Design.md, System.md, docs/README.md).",
+    "tests": [
+     "OBS-0118"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-README-EXOCC",
+    "kind": "p2p",
+    "requirement": "exocc writes NAME.c and NAME.h into a directory named after the source file by default, -o picks the directory and --stem the file names (README.md).",
+    "tests": [
+     "OBS-0119"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-STDLIB-SCHEDULING",
+    "kind": "p2p",
+    "requirement": "exo.stdlib.scheduling: repeat, replace_all, lift_if (stdlib/scheduling.py).",
+    "tests": [
+     "OBS-0120",
+     "OBS-0121"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-STDLIB-TILING",
+    "kind": "p2p",
+    "requirement": "exo.stdlib.stdlib tile_loops and the halide-style tile (stdlib/stdlib.py, stdlib/halide_scheduling_ops.py).",
+    "tests": [
+     "OBS-0122",
+     "OBS-0123"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   }
+  ]
+ }
+}

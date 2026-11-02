@@ -1,0 +1,120 @@
+{
+ "motivation": {
+  "problems": "Engineers in the catalog's main roles remove a dependency in one language by replacing it with a port in another. In these tasks the source is Java or Rust and the target is Go, with a few C++ targets such as mamrhein/fpdec.rs, cydhra/vers, toeverything/y-octo and houseme/qrcode-rs. The recurring difficulty is exact behavioral equivalence without seeing the tests: numeric precision in dynatrace-oss/dynahist and fpdec.rs, bit-exact random sequences in commons-rng-core, parser and error-case fidelity in rust-php-parser and htmlunit-xpath, and ordering of results in rust-rrule and dagre-rs. A second difficulty is the target language's runtime rules, such as Go's RE2 regular expressions panicking at start-up, or C++ header conventions in the PORTING.md for fpdec.rs. A third is working inside house constraints on imports and naming for code that ends up in a sandboxed service. The engineer reads the original source as the specification.",
+  "how_tasks_exemplify": "Each task provides the source library under /app, a skeleton in the target language with final signatures and stub bodies, and a mig-check tool that compares the skeleton, builds and vets the port. The tests of the original project, translated to the target language, are withheld and run in a separate container after the session. The agent's edits are collected as a git diff against a tagged base commit. The instruction states per-test time and memory limits and bans some standard packages. In the provided tasks a manifest lists the required tests, and the grader module records a reward from the passing results.",
+  "prompt_patterns": [
+   "A first-person request to port a named library or crate to Go from a reference folder, with a stub skeleton and withheld tests. Example: kookyleo--dagre-rs-xai.",
+   "A request framed by a business reason for the move, such as retiring a JVM dependency, with emphasis on exact reproduction of seeded output. Example: java--apache--commons-rng--commons-rng-core-xai.",
+   "A request for a C++ port because a tool cannot link Rust, with a pointer to a PORTING.md that lists house rules for headers. Example: mamrhein--fpdec.rs-xai.",
+   "A structured prompt with a title, a list of provided inputs, a how-to-work section and a statement that hidden tests grade the port. Example: oxideav--oxideav-subtitle.",
+   "A bullet list of language-specific pitfalls, such as RE2 regular expression syntax and reserved name prefixes. Example: java--argparse4j--argparse4j--main-xai."
+  ],
+  "open_questions": [
+   "The input labels the shape of these tasks as 'Evolve a repo from one release to the next', but every file shows a cross-language port. Should the shape label be changed?",
+   "The task.toml files describe the tasks as tests-only translations (category migration-tests). Is the hidden test suite always a mechanical translation of the original tests, and who checks that translation?",
+   "Samples mention a C++ target for four tasks, and none of those were provided with files. Should the catalog report the target-language split?",
+   "The migration-ots batch of five tasks uses a different prompt template from the 32 migration-xai-ots tasks. Is the grading the same?",
+   "The grader files show a fractional reward in some code paths and a binary reward in others. Which mode applies to the released tasks?"
+  ]
+ },
+ "tasks": [
+  {
+   "name": "java--apache--commons-rng--commons-rng-core-xai",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image golang 1.21 bookworm\"] --> B[\"Go skeleton with stub bodies in /app/port\"]\n  A --> C[\"Java reference source in /app/java_reference\"]\n  A --> D[\"mig-check on the PATH\"]\n  E[\"Instruction.md and porting rules\"] --> F[\"Agent session, no network\"]\n  B --> F\n  C --> F\n  D --> F\n  F --> G[\"Implemented Go package in /app/port\"]\n  G --> H[\"git diff against mig-base saved as model.patch\"]\n  H --> I[\"Separate verifier container applies the patch\"]\n  I --> J[\"Hidden Go tests translated from the original test suite\"]\n  J --> K[\"Reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "Base image golang:1.21-bookworm with git, python3, tmux and asciinema; the go command is wrapped with a 6 GB virtual-memory ulimit (environment/Dockerfile).",
+    "The Java source is copied to /app/java_reference and a Go skeleton with stub bodies is copied to /app/port (environment/Dockerfile, instruction.md).",
+    "A mig-check tool is compiled into /usr/local/bin and snapshots the skeleton's declarations at build time (environment/Dockerfile, instruction.md).",
+    "The tree is committed and tagged mig-base, and the agent's changes are collected as a git diff against that tag into /logs/artifacts/model.patch (environment/Dockerfile, task.toml).",
+    "Verification uses a separate container that applies the patch and runs a Go test suite translated from the original project's tests, with a 60 second per-test limit and a 2 GB address-space limit (tests/test.sh, tests/grader_tests.py, instruction.md).",
+    "The instruction tells the agent that generators must produce the same sequences as the Java ones for the same seeds, and that the package may not import os, unsafe, runtime, net and similar packages (instruction.md)."
+   ],
+   "workflow": "A research software engineer is retiring the last Java dependency of a simulation service and needs a Go replacement. Saved simulations depend on exact random sequences for given seeds, so the port must match seeding, state handling and numeric precision of the Java source. The engineer reads the Java code closely because the original tests are not provided.",
+   "prompt_pattern": "A first-person migration request that stresses bit-exact sequence reproduction for seeds, plus a bullet list of build, naming and import restrictions."
+  },
+  {
+   "name": "kookyleo--dagre-rs-xai",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image golang 1.21 bookworm\"] --> B[\"Go skeleton with stub bodies in /app/port\"]\n  A --> C[\"Rust reference source in /app/rust_reference\"]\n  A --> D[\"mig-check on the PATH\"]\n  E[\"Instruction.md and porting rules\"] --> F[\"Agent session, no network\"]\n  B --> F\n  C --> F\n  D --> F\n  F --> G[\"Implemented Go package in /app/port\"]\n  G --> H[\"git diff against mig-base saved as model.patch\"]\n  H --> I[\"Separate verifier container applies the patch\"]\n  I --> J[\"Hidden Go tests translated from the original test suite\"]\n  J --> K[\"Reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "Base image golang:1.21-bookworm with git, python3, tmux and asciinema; the go command is wrapped with a 6 GB virtual-memory ulimit (environment/Dockerfile).",
+    "The Rust source is copied to /app/rust_reference and a Go skeleton with stub bodies is copied to /app/port (environment/Dockerfile, instruction.md).",
+    "A mig-check tool is compiled into /usr/local/bin and snapshots the skeleton's declarations at build time (environment/Dockerfile, instruction.md).",
+    "The tree is committed and tagged mig-base, and the agent's changes are collected as a git diff against that tag into /logs/artifacts/model.patch (environment/Dockerfile, task.toml).",
+    "Verification uses a separate container that applies the patch and runs a Go test suite translated from the original project's tests, with a 60 second per-test limit and a 2 GB address-space limit (tests/test.sh, tests/grader_tests.py, instruction.md).",
+    "The instruction asks the agent to match error cases, edge cases, numeric precision and result ordering of the Rust crate, which implements a graph layout engine (instruction.md, rust_reference file names)."
+   ],
+   "workflow": "A library engineer is replacing a Rust graph-layout dependency with a Go package. The engineer has the crate source and a Go skeleton with final signatures. The work is to read the layout stages in the Rust source and reproduce their output, including coordinates and edge points, in Go.",
+   "prompt_pattern": "A first-person request to port a named library to Go from a source directory, with stubbed signatures given and the tests withheld, followed by a bullet list of build, naming and import rules."
+  },
+  {
+   "name": "fmeringdal--rust-rrule-xai",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image golang 1.21 bookworm\"] --> B[\"Go skeleton with stub bodies in /app/port\"]\n  A --> C[\"Rust reference source in /app/rust_reference\"]\n  A --> D[\"mig-check on the PATH\"]\n  E[\"Instruction.md and porting rules\"] --> F[\"Agent session, no network\"]\n  B --> F\n  C --> F\n  D --> F\n  F --> G[\"Implemented Go package in /app/port\"]\n  G --> H[\"git diff against mig-base saved as model.patch\"]\n  H --> I[\"Separate verifier container applies the patch\"]\n  I --> J[\"Hidden Go tests translated from the original test suite\"]\n  J --> K[\"Reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "Base image golang:1.21-bookworm with git, python3, tmux and asciinema; the go command is wrapped with a 6 GB virtual-memory ulimit (environment/Dockerfile).",
+    "The Rust source is copied to /app/rust_reference and a Go skeleton with stub bodies is copied to /app/port (environment/Dockerfile, instruction.md).",
+    "A mig-check tool is compiled into /usr/local/bin and snapshots the skeleton's declarations at build time (environment/Dockerfile, instruction.md).",
+    "The tree is committed and tagged mig-base, and the agent's changes are collected as a git diff against that tag into /logs/artifacts/model.patch (environment/Dockerfile, task.toml).",
+    "Verification uses a separate container that applies the patch and runs a Go test suite translated from the original project's tests, with a 60 second per-test limit and a 2 GB address-space limit (tests/test.sh, tests/grader_tests.py, instruction.md).",
+    "The instruction permits unsafe and reflect in this task, unlike most others in the set (instruction.md)."
+   ],
+   "workflow": "A backend engineer who handles calendars needs a Go port of a Rust recurrence-rule crate. The engineer works from the Rust source to reproduce parsing and occurrence generation (the reference port has parse and generate files), including edge cases and result order, without access to the translated tests.",
+   "prompt_pattern": "A first-person request to port a named library to Go from a source directory, with stubbed signatures given and the tests withheld, followed by a bullet list of build, naming and import rules."
+  },
+  {
+   "name": "java--argparse4j--argparse4j--main-xai",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image golang 1.21 bookworm\"] --> B[\"Go skeleton with stub bodies in /app/port\"]\n  A --> C[\"Java reference source in /app/java_reference\"]\n  A --> D[\"mig-check on the PATH\"]\n  E[\"Instruction.md and porting rules\"] --> F[\"Agent session, no network\"]\n  B --> F\n  C --> F\n  D --> F\n  F --> G[\"Implemented Go package in /app/port\"]\n  G --> H[\"git diff against mig-base saved as model.patch\"]\n  H --> I[\"Separate verifier container applies the patch\"]\n  I --> J[\"Hidden Go tests translated from the original test suite\"]\n  J --> K[\"Reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "Base image golang:1.21-bookworm with git, python3, tmux and asciinema; the go command is wrapped with a 6 GB virtual-memory ulimit (environment/Dockerfile).",
+    "The Java source is copied to /app/java_reference and a Go skeleton with stub bodies is copied to /app/port (environment/Dockerfile, instruction.md).",
+    "A mig-check tool is compiled into /usr/local/bin and snapshots the skeleton's declarations at build time (environment/Dockerfile, instruction.md).",
+    "The tree is committed and tagged mig-base, and the agent's changes are collected as a git diff against that tag into /logs/artifacts/model.patch (environment/Dockerfile, task.toml).",
+    "Verification uses a separate container that applies the patch and runs a Go test suite translated from the original project's tests, with a 60 second per-test limit and a 2 GB address-space limit (tests/test.sh, tests/grader_tests.py, instruction.md).",
+    "A mig-check snapshot of the skeleton is taken without the exported-only option and with a waiver file (environment/Dockerfile)."
+   ],
+   "workflow": "A developer-tools engineer moving a command-line tool from Java to Go needs the argument-parsing library in Go. The engineer reads the Java parsing and help-formatting code and reproduces parsing, formatting, error cases and result ordering as the instruction requires.",
+   "prompt_pattern": "A first-person request to port a named library to Go from a source directory, with stubbed signatures given and the tests withheld, followed by a bullet list of build, naming and import rules."
+  },
+  {
+   "name": "pmcgleenon--heavykeeper-rs-xai",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image golang 1.21 bookworm\"] --> B[\"Go skeleton with stub bodies in /app/port\"]\n  A --> C[\"Rust reference source in /app/rust_reference\"]\n  A --> D[\"mig-check on the PATH\"]\n  E[\"Instruction.md and porting rules\"] --> F[\"Agent session, no network\"]\n  B --> F\n  C --> F\n  D --> F\n  F --> G[\"Implemented Go package in /app/port\"]\n  G --> H[\"git diff against mig-base saved as model.patch\"]\n  H --> I[\"Separate verifier container applies the patch\"]\n  I --> J[\"Hidden Go tests translated from the original test suite\"]\n  J --> K[\"Reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "Base image golang:1.21-bookworm with git, python3, tmux and asciinema; the go command is wrapped with a 6 GB virtual-memory ulimit (environment/Dockerfile).",
+    "The Rust source is copied to /app/rust_reference and a Go skeleton with stub bodies is copied to /app/port (environment/Dockerfile, instruction.md).",
+    "A mig-check tool is compiled into /usr/local/bin and snapshots the skeleton's declarations at build time (environment/Dockerfile, instruction.md).",
+    "The tree is committed and tagged mig-base, and the agent's changes are collected as a git diff against that tag into /logs/artifacts/model.patch (environment/Dockerfile, task.toml).",
+    "Verification uses a separate container that applies the patch and runs a Go test suite translated from the original project's tests, with a 60 second per-test limit and a 2 GB address-space limit (tests/test.sh, tests/grader_tests.py, instruction.md).",
+    "The instruction permits unsafe and reflect in this task, and mig-check is run without a waiver file (instruction.md, environment/Dockerfile)."
+   ],
+   "workflow": "A library engineer needs a Go port of a Rust top-k frequency sketch. The engineer reads the Rust implementations of the sketch variants and their hashing and random-number code, and reproduces them in Go. The instruction asks for matching numeric precision and result order.",
+   "prompt_pattern": "A first-person request to port a named library to Go from a source directory, with stubbed signatures given and the tests withheld, followed by a bullet list of build, naming and import rules."
+  },
+  {
+   "name": "java--nscuro--versatile--versatile-core-xai",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image golang 1.21 bookworm\"] --> B[\"Go skeleton with stub bodies in /app/port\"]\n  A --> C[\"Java reference source in /app/java_reference\"]\n  A --> D[\"mig-check on the PATH\"]\n  E[\"Instruction.md and porting rules\"] --> F[\"Agent session, no network\"]\n  B --> F\n  C --> F\n  D --> F\n  F --> G[\"Implemented Go package in /app/port\"]\n  G --> H[\"git diff against mig-base saved as model.patch\"]\n  H --> I[\"Separate verifier container applies the patch\"]\n  I --> J[\"Hidden Go tests translated from the original test suite\"]\n  J --> K[\"Reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "Base image golang:1.21-bookworm with git, python3, tmux and asciinema; the go command is wrapped with a 6 GB virtual-memory ulimit (environment/Dockerfile).",
+    "The Java source is copied to /app/java_reference and a Go skeleton with stub bodies is copied to /app/port (environment/Dockerfile, instruction.md).",
+    "A mig-check tool is compiled into /usr/local/bin and snapshots the skeleton's declarations at build time (environment/Dockerfile, instruction.md).",
+    "The tree is committed and tagged mig-base, and the agent's changes are collected as a git diff against that tag into /logs/artifacts/model.patch (environment/Dockerfile, task.toml).",
+    "Verification uses a separate container that applies the patch and runs a Go test suite translated from the original project's tests, with a 60 second per-test limit and a 2 GB address-space limit (tests/test.sh, tests/grader_tests.py, instruction.md).",
+    "The Go skeleton is accompanied by a waive.json file for mig-check (environment/migcheck/waive.json)."
+   ],
+   "workflow": "A build and release engineer who works on software supply-chain tooling needs a Go version of a Java version and version-range library (the skeleton files cover versions, ranges and overlap). The engineer reads the Java code and reproduces its handling of edge-case inputs and ordering.",
+   "prompt_pattern": "A first-person request to port a named library to Go from a source directory, with stubbed signatures given and the tests withheld, followed by a bullet list of build, naming and import rules."
+  },
+  {
+   "name": "java--dynatrace-oss--dynahist-xai",
+   "environment_mermaid": "flowchart LR\n  A[\"Base image golang 1.21 bookworm\"] --> B[\"Go skeleton with stub bodies in /app/port\"]\n  A --> C[\"Java reference source in /app/java_reference\"]\n  A --> D[\"mig-check on the PATH\"]\n  E[\"Instruction.md and porting rules\"] --> F[\"Agent session, no network\"]\n  B --> F\n  C --> F\n  D --> F\n  F --> G[\"Implemented Go package in /app/port\"]\n  G --> H[\"git diff against mig-base saved as model.patch\"]\n  H --> I[\"Separate verifier container applies the patch\"]\n  I --> J[\"Hidden Go tests translated from the original test suite\"]\n  J --> K[\"Reward written to /logs/verifier\"]",
+   "environment_facts": [
+    "Base image golang:1.21-bookworm with git, python3, tmux and asciinema; the go command is wrapped with a 6 GB virtual-memory ulimit (environment/Dockerfile).",
+    "The Java source is copied to /app/java_reference and a Go skeleton with stub bodies is copied to /app/port (environment/Dockerfile, instruction.md).",
+    "A mig-check tool is compiled into /usr/local/bin and snapshots the skeleton's declarations at build time (environment/Dockerfile, instruction.md).",
+    "The tree is committed and tagged mig-base, and the agent's changes are collected as a git diff against that tag into /logs/artifacts/model.patch (environment/Dockerfile, task.toml).",
+    "Verification uses a separate container that applies the patch and runs a Go test suite translated from the original project's tests, with a 60 second per-test limit and a 2 GB address-space limit (tests/test.sh, tests/grader_tests.py, instruction.md).",
+    "The Go skeleton is accompanied by a waive.json file for mig-check (environment/migcheck/waive.json)."
+   ],
+   "workflow": "A research software engineer needs a Go port of a Java histogram library. The work is to reproduce histogram layouts and floating point behavior from the Java source, since the instruction asks for matching numeric precision.",
+   "prompt_pattern": "A first-person request to port a named library to Go from a source directory, with stubbed signatures given and the tests withheld, followed by a bullet list of build, naming and import rules."
+  }
+ ]
+}

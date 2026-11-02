@@ -1,0 +1,2807 @@
+{
+ "Resources": {
+  "ArtifactKey8D84C5F0": {
+   "Type": "AWS::KMS::Key",
+   "Properties": {
+    "Description": "nova-release2 artifact encryption",
+    "EnableKeyRotation": true,
+    "KeyPolicy": {
+     "Statement": [
+      {
+       "Action": "kms:*",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": "arn:aws:iam::111111111111:root"
+       },
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:GenerateDataKey*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       },
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PendingWindowInDays": 14,
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "encryption"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "ArtifactKeyAliasB27DA94F": {
+   "Type": "AWS::KMS::Alias",
+   "Properties": {
+    "AliasName": "alias/nova-release2-artifacts",
+    "TargetKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "StorageBucket19DB2FF8": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "BucketKeyEnabled": true,
+       "ServerSideEncryptionByDefault": {
+        "KMSMasterKeyID": {
+         "Fn::GetAtt": [
+          "ArtifactKey8D84C5F0",
+          "Arn"
+         ]
+        },
+        "SSEAlgorithm": "aws:kms"
+       }
+      }
+     ]
+    },
+    "BucketName": "nova-release2-storage-1111",
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "Id": "nova-release2-storage-archive",
+       "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 200
+       },
+       "Status": "Enabled",
+       "Transitions": [
+        {
+         "StorageClass": "STANDARD_IA",
+         "TransitionInDays": 55
+        }
+       ]
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     },
+     {
+      "Key": "aws-cdk:cr-owned:nova-release2:553332c4",
+      "Value": "true"
+     },
+     {
+      "Key": "aws-cdk:cr-owned:nova-release2:e1c1021a",
+      "Value": "true"
+     },
+     {
+      "Key": "aws-cdk:cr-owned:nova-release2:f5080a20",
+      "Value": "true"
+     },
+     {
+      "Key": "component",
+      "Value": "buckets/storage"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "VersioningConfiguration": {
+     "Status": "Enabled"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "StorageBucketPolicy41A048DB": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "StorageBucket19DB2FF8"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "StorageBucket19DB2FF8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "StorageBucket19DB2FF8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:PutBucketPolicy"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "StorageBucket19DB2FF8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "StorageBucket19DB2FF8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "StorageBucketAutoDeleteObjectsCustomResource105C81BD": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "StorageBucket19DB2FF8"
+    }
+   },
+   "DependsOn": [
+    "StorageBucketPolicy41A048DB"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "ComplianceLogBucketE27318B3": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "BucketKeyEnabled": true,
+       "ServerSideEncryptionByDefault": {
+        "KMSMasterKeyID": {
+         "Fn::GetAtt": [
+          "ArtifactKey8D84C5F0",
+          "Arn"
+         ]
+        },
+        "SSEAlgorithm": "aws:kms"
+       }
+      }
+     ]
+    },
+    "BucketName": "nova-release2-compliance-log-1111",
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "Id": "nova-release2-compliance-log-archive",
+       "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 365
+       },
+       "Status": "Enabled",
+       "Transitions": [
+        {
+         "StorageClass": "STANDARD_IA",
+         "TransitionInDays": 90
+        }
+       ]
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     },
+     {
+      "Key": "component",
+      "Value": "buckets/compliance-log"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "VersioningConfiguration": {
+     "Status": "Enabled"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "ComplianceLogBucketPolicy1C3F4FE4": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "ComplianceLogBucketE27318B3"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ComplianceLogBucketE27318B3",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ComplianceLogBucketE27318B3",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:PutBucketPolicy"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ComplianceLogBucketE27318B3",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ComplianceLogBucketE27318B3",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "ComplianceLogBucketAutoDeleteObjectsCustomResource7E7FDA60": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "ComplianceLogBucketE27318B3"
+    }
+   },
+   "DependsOn": [
+    "ComplianceLogBucketPolicy1C3F4FE4"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+     "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs24.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "StorageBucket19DB2FF8"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ]
+  },
+  "ReleaseTableB9556E5C": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "release_id",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "release_id",
+      "KeyType": "HASH"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "SSESpecification": {
+     "KMSMasterKeyId": {
+      "Fn::GetAtt": [
+       "ArtifactKey8D84C5F0",
+       "Arn"
+      ]
+     },
+     "SSEEnabled": true,
+     "SSEType": "KMS"
+    },
+    "TableName": "nova-release2-releases",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "releases"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "ApplicationRepository13E54097": {
+   "Type": "AWS::ECR::Repository",
+   "Properties": {
+    "EmptyOnDelete": true,
+    "ImageScanningConfiguration": {
+     "ScanOnPush": true
+    },
+    "LifecyclePolicy": {
+     "LifecyclePolicyText": "{\"rules\":[{\"rulePriority\":1,\"description\":\"nova-release2 keep release images\",\"selection\":{\"tagStatus\":\"any\",\"countType\":\"imageCountMoreThan\",\"countNumber\":25},\"action\":{\"type\":\"expire\"}}]}"
+    },
+    "RepositoryName": "nova-release2-application",
+    "RepositoryPolicyText": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchGetImage",
+        "ecr:GetDownloadUrlForLayer"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Sid": "NovaRelease2Pull"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "platform"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "ApplicationClusterC783CD56": {
+   "Type": "AWS::ECS::Cluster",
+   "Properties": {
+    "ClusterName": "nova-release2-ecs",
+    "ClusterSettings": [
+     {
+      "Name": "containerInsights",
+      "Value": "enabled"
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "platform"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   }
+  },
+  "DeliveryAlbDA9F3384": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     },
+     {
+      "Key": "idle_timeout.timeout_seconds",
+      "Value": "75"
+     }
+    ],
+    "Scheme": "internet-facing",
+    "SecurityGroups": [
+     {
+      "Fn::GetStackOutput": {
+       "StackName": "AcceleratorRelease2Network",
+       "Region": "us-east-1",
+       "OutputName": "PublishOutputFnGetAttDeliverySecurityGroup6A9ACBBEGroupIdC7CEA260"
+      }
+     }
+    ],
+    "Subnets": [
+     {
+      "Fn::GetStackOutput": {
+       "StackName": "AcceleratorRelease2Network",
+       "Region": "us-east-1",
+       "OutputName": "PublishOutputRefCoreVpcpublicSubnet1Subnet57C122A20B2CBD50"
+      }
+     },
+     {
+      "Fn::GetStackOutput": {
+       "StackName": "AcceleratorRelease2Network",
+       "Region": "us-east-1",
+       "OutputName": "PublishOutputRefCoreVpcpublicSubnet2SubnetB989FD57CD1EF545"
+      }
+     },
+     {
+      "Fn::GetStackOutput": {
+       "StackName": "AcceleratorRelease2Network",
+       "Region": "us-east-1",
+       "OutputName": "PublishOutputRefCoreVpcpublicSubnet3Subnet4C24FB3936E5C536"
+      }
+     },
+     {
+      "Fn::GetStackOutput": {
+       "StackName": "AcceleratorRelease2Network",
+       "Region": "us-east-1",
+       "OutputName": "PublishOutputRefCoreVpcpublicSubnet4SubnetB5DB0456A294B2C7"
+      }
+     },
+     {
+      "Fn::GetStackOutput": {
+       "StackName": "AcceleratorRelease2Network",
+       "Region": "us-east-1",
+       "OutputName": "PublishOutputRefCoreVpcpublicSubnet5SubnetF03669D3B1516809"
+      }
+     },
+     {
+      "Fn::GetStackOutput": {
+       "StackName": "AcceleratorRelease2Network",
+       "Region": "us-east-1",
+       "OutputName": "PublishOutputRefCoreVpcpublicSubnet6SubnetF636C60BDB89D48E"
+      }
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "gateway"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "Type": "application"
+   }
+  },
+  "DeliveryAlbHttpListenerBFB14444": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "FixedResponseConfig": {
+       "ContentType": "text/plain",
+       "MessageBody": "nova-release2 route not found",
+       "StatusCode": "404"
+      },
+      "Type": "fixed-response"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "DeliveryAlbDA9F3384"
+    },
+    "Port": 80,
+    "Protocol": "HTTP",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "gateway"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   }
+  },
+  "InternalZoneD0BA15A8": {
+   "Type": "AWS::Route53::HostedZone",
+   "Properties": {
+    "HostedZoneTags": [
+     {
+      "Key": "component",
+      "Value": "gateway"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "Name": "nova-release2.internal."
+   }
+  },
+  "BlueGreenServiceLogsCB8C7427": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "KmsKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "LogGroupName": "/nova/release2/service/blue-green",
+    "RetentionInDays": 90,
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/blue-green"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "BlueGreenDeployQueue604AD701": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "KmsMasterKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "MessageRetentionPeriod": 864000,
+    "QueueName": "nova-release2-blue-green-deploy",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/blue-green"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "VisibilityTimeout": 120
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "BlueGreenDeployQueuePolicy161C88D4": {
+   "Type": "AWS::SQS::QueuePolicy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sqs:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": {
+        "Fn::GetAtt": [
+         "BlueGreenDeployQueue604AD701",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Queues": [
+     {
+      "Ref": "BlueGreenDeployQueue604AD701"
+     }
+    ]
+   }
+  },
+  "BlueGreenEventsTopic3584DFC5": {
+   "Type": "AWS::SNS::Topic",
+   "Properties": {
+    "DisplayName": "nova-release2-blue-green",
+    "KmsMasterKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/blue-green"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "TopicName": "nova-release2-blue-green-events"
+   }
+  },
+  "BlueGreenTaskDefinitionTaskRoleA082D605": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/blue-green"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   }
+  },
+  "BlueGreenTaskDefinitionTaskRoleDefaultPolicy2D439AD3": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "StorageBucket19DB2FF8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "StorageBucket19DB2FF8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:DescribeKey",
+        "kms:Encrypt",
+        "kms:GenerateDataKey*",
+        "kms:ReEncrypt*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ArtifactKey8D84C5F0",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ReleaseTableB9556E5C",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "sqs:ChangeMessageVisibility",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl",
+        "sqs:ReceiveMessage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "BlueGreenDeployQueue604AD701",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "BlueGreenTaskDefinitionTaskRoleDefaultPolicy2D439AD3",
+    "Roles": [
+     {
+      "Ref": "BlueGreenTaskDefinitionTaskRoleA082D605"
+     }
+    ]
+   }
+  },
+  "BlueGreenTaskDefinition18F9B603": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Environment": [
+       {
+        "Name": "ACCELERATOR_PROJECT",
+        "Value": "nova"
+       },
+       {
+        "Name": "ACCELERATOR_ENVIRONMENT",
+        "Value": "release2"
+       },
+       {
+        "Name": "ACCELERATOR_STAGE",
+        "Value": "blue-green"
+       },
+       {
+        "Name": "DEPLOY_QUEUE",
+        "Value": {
+         "Ref": "BlueGreenDeployQueue604AD701"
+        }
+       },
+       {
+        "Name": "RELEASE_TABLE",
+        "Value": {
+         "Ref": "ReleaseTableB9556E5C"
+        }
+       }
+      ],
+      "Essential": true,
+      "Image": "public.ecr.aws/docker/library/nginx:1.27",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "BlueGreenServiceLogsCB8C7427"
+        },
+        "awslogs-stream-prefix": "nova-release2-blue-green",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "Name": "application",
+      "PortMappings": [
+       {
+        "ContainerPort": 8443,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "2048",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "BlueGreenTaskDefinitionExecutionRole571FA021",
+      "Arn"
+     ]
+    },
+    "Family": "nova-release2-blue-green",
+    "Memory": "4096",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "RuntimePlatform": {
+     "CpuArchitecture": "X86_64",
+     "OperatingSystemFamily": "LINUX"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/blue-green"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "BlueGreenTaskDefinitionTaskRoleA082D605",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "BlueGreenTaskDefinitionExecutionRole571FA021": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/blue-green"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   }
+  },
+  "BlueGreenTaskDefinitionExecutionRoleDefaultPolicy90335F8A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "BlueGreenServiceLogsCB8C7427",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "BlueGreenTaskDefinitionExecutionRoleDefaultPolicy90335F8A",
+    "Roles": [
+     {
+      "Ref": "BlueGreenTaskDefinitionExecutionRole571FA021"
+     }
+    ]
+   }
+  },
+  "BlueGreenTaskDocumentAwsCliLayer7F450C63": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "Content": {
+     "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+     "S3Key": "98f62bef9320f8c0a0a7be21d7c746f069131f196f51ffe3008a6bb730b368ec.zip"
+    },
+    "Description": "/opt/awscli/aws"
+   }
+  },
+  "BlueGreenTaskDocumentCustomResource58BE2F42": {
+   "Type": "Custom::CDKBucketDeployment",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536",
+      "Arn"
+     ]
+    },
+    "SourceBucketNames": [
+     "cdk-hnb659fds-assets-111111111111-us-east-1"
+    ],
+    "SourceObjectKeys": [
+     "e4e7c9d425a2f205b4f070412d90d9c0407119ca1e797782bd3b38d3e4b88d6a.zip"
+    ],
+    "SourceMarkers": [
+     {}
+    ],
+    "DestinationBucketName": {
+     "Ref": "StorageBucket19DB2FF8"
+    },
+    "DestinationBucketKeyPrefix": "nova-release2",
+    "WaitForDistributionInvalidation": true,
+    "RetainOnDelete": true,
+    "Prune": false,
+    "OutputObjectKeys": true
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "BlueGreenQueueAgeAlarm1CFD7CE2": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "BlueGreenEventsTopic3584DFC5"
+     }
+    ],
+    "AlarmDescription": "nova-release2 blue-green deployment queue age",
+    "AlarmName": "nova-release2-blue-green-queue-age",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "QueueName",
+      "Value": {
+       "Fn::GetAtt": [
+        "BlueGreenDeployQueue604AD701",
+        "QueueName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 3,
+    "MetricName": "ApproximateAgeOfOldestMessage",
+    "Namespace": "AWS/SQS",
+    "Period": 60,
+    "Statistic": "Maximum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/blue-green"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "Threshold": 300
+   }
+  },
+  "BlueGreenQueueDepthAlarmB013EF8C": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "BlueGreenEventsTopic3584DFC5"
+     }
+    ],
+    "AlarmDescription": "nova-release2 blue-green deployment backlog",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "QueueName",
+      "Value": {
+       "Fn::GetAtt": [
+        "BlueGreenDeployQueue604AD701",
+        "QueueName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "ApproximateNumberOfMessagesVisible",
+    "Namespace": "AWS/SQS",
+    "Period": 300,
+    "Statistic": "Maximum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/blue-green"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "Threshold": 25,
+    "TreatMissingData": "notBreaching"
+   }
+  },
+  "BlueGreenTopicFailureAlarm69E84B35": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": "nova-release2 blue-green event delivery failures",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "TopicName",
+      "Value": {
+       "Fn::GetAtt": [
+        "BlueGreenEventsTopic3584DFC5",
+        "TopicName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "NumberOfNotificationsFailed",
+    "Namespace": "AWS/SNS",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/blue-green"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   }
+  },
+  "Hotfix7ServiceLogs78782046": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "KmsKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "LogGroupName": "/nova/release2/service/hotfix.7",
+    "RetentionInDays": 90,
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/hotfix.7"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "Hotfix7DeployQueue4E73E033": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "KmsMasterKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "MessageRetentionPeriod": 864000,
+    "QueueName": "nova-release2-hotfix-7-deploy",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/hotfix.7"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "VisibilityTimeout": 65
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "Hotfix7DeployQueuePolicy1EC44C0E": {
+   "Type": "AWS::SQS::QueuePolicy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sqs:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": {
+        "Fn::GetAtt": [
+         "Hotfix7DeployQueue4E73E033",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Queues": [
+     {
+      "Ref": "Hotfix7DeployQueue4E73E033"
+     }
+    ]
+   }
+  },
+  "Hotfix7EventsTopic2A12C61A": {
+   "Type": "AWS::SNS::Topic",
+   "Properties": {
+    "DisplayName": "nova-release2-hotfix.7",
+    "KmsMasterKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/hotfix.7"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "TopicName": "nova-release2-hotfix-7-events"
+   }
+  },
+  "Hotfix7TaskDefinitionTaskRole35482AE2": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/hotfix.7"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   }
+  },
+  "Hotfix7TaskDefinitionTaskRoleDefaultPolicy76CD679F": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "StorageBucket19DB2FF8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "StorageBucket19DB2FF8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:DescribeKey",
+        "kms:Encrypt",
+        "kms:GenerateDataKey*",
+        "kms:ReEncrypt*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ArtifactKey8D84C5F0",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ReleaseTableB9556E5C",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "sqs:ChangeMessageVisibility",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl",
+        "sqs:ReceiveMessage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "Hotfix7DeployQueue4E73E033",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "Hotfix7TaskDefinitionTaskRoleDefaultPolicy76CD679F",
+    "Roles": [
+     {
+      "Ref": "Hotfix7TaskDefinitionTaskRole35482AE2"
+     }
+    ]
+   }
+  },
+  "Hotfix7TaskDefinition9867BC59": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Environment": [
+       {
+        "Name": "ACCELERATOR_PROJECT",
+        "Value": "nova"
+       },
+       {
+        "Name": "ACCELERATOR_ENVIRONMENT",
+        "Value": "release2"
+       },
+       {
+        "Name": "ACCELERATOR_STAGE",
+        "Value": "hotfix.7"
+       },
+       {
+        "Name": "DEPLOY_QUEUE",
+        "Value": {
+         "Ref": "Hotfix7DeployQueue4E73E033"
+        }
+       },
+       {
+        "Name": "RELEASE_TABLE",
+        "Value": {
+         "Ref": "ReleaseTableB9556E5C"
+        }
+       }
+      ],
+      "Essential": true,
+      "Image": "public.ecr.aws/docker/library/nginx:1.27",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "Hotfix7ServiceLogs78782046"
+        },
+        "awslogs-stream-prefix": "nova-release2-hotfix.7",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "Name": "application",
+      "PortMappings": [
+       {
+        "ContainerPort": 8443,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "1024",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "Hotfix7TaskDefinitionExecutionRoleF36A0662",
+      "Arn"
+     ]
+    },
+    "Family": "nova-release2-hotfix.7",
+    "Memory": "2048",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "RuntimePlatform": {
+     "CpuArchitecture": "X86_64",
+     "OperatingSystemFamily": "LINUX"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/hotfix.7"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "Hotfix7TaskDefinitionTaskRole35482AE2",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "Hotfix7TaskDefinitionExecutionRoleF36A0662": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/hotfix.7"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   }
+  },
+  "Hotfix7TaskDefinitionExecutionRoleDefaultPolicyCAEFDE0C": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "Hotfix7ServiceLogs78782046",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "Hotfix7TaskDefinitionExecutionRoleDefaultPolicyCAEFDE0C",
+    "Roles": [
+     {
+      "Ref": "Hotfix7TaskDefinitionExecutionRoleF36A0662"
+     }
+    ]
+   }
+  },
+  "Hotfix7TaskDocumentAwsCliLayerDE57D479": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "Content": {
+     "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+     "S3Key": "98f62bef9320f8c0a0a7be21d7c746f069131f196f51ffe3008a6bb730b368ec.zip"
+    },
+    "Description": "/opt/awscli/aws"
+   }
+  },
+  "Hotfix7TaskDocumentCustomResourceD78C6B2F": {
+   "Type": "Custom::CDKBucketDeployment",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536",
+      "Arn"
+     ]
+    },
+    "SourceBucketNames": [
+     "cdk-hnb659fds-assets-111111111111-us-east-1"
+    ],
+    "SourceObjectKeys": [
+     "6a085cc2b656a6760bbee9e4585202cb6dba23aa9fa6fbba1929cde920491ff7.zip"
+    ],
+    "SourceMarkers": [
+     {}
+    ],
+    "DestinationBucketName": {
+     "Ref": "StorageBucket19DB2FF8"
+    },
+    "DestinationBucketKeyPrefix": "nova-release2",
+    "WaitForDistributionInvalidation": true,
+    "RetainOnDelete": true,
+    "Prune": false,
+    "OutputObjectKeys": true
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "Hotfix7QueueAgeAlarm4B951486": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "Hotfix7EventsTopic2A12C61A"
+     }
+    ],
+    "AlarmDescription": "nova-release2 hotfix.7 deployment queue age",
+    "AlarmName": "nova-release2-hotfix.7-queue-age",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "QueueName",
+      "Value": {
+       "Fn::GetAtt": [
+        "Hotfix7DeployQueue4E73E033",
+        "QueueName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 3,
+    "MetricName": "ApproximateAgeOfOldestMessage",
+    "Namespace": "AWS/SQS",
+    "Period": 60,
+    "Statistic": "Maximum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/hotfix.7"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "Threshold": 300
+   }
+  },
+  "Hotfix7QueueDepthAlarmF5B787C9": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "Hotfix7EventsTopic2A12C61A"
+     }
+    ],
+    "AlarmDescription": "nova-release2 hotfix.7 deployment backlog",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "QueueName",
+      "Value": {
+       "Fn::GetAtt": [
+        "Hotfix7DeployQueue4E73E033",
+        "QueueName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "ApproximateNumberOfMessagesVisible",
+    "Namespace": "AWS/SQS",
+    "Period": 300,
+    "Statistic": "Maximum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/hotfix.7"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "Threshold": 25,
+    "TreatMissingData": "notBreaching"
+   }
+  },
+  "Hotfix7TopicFailureAlarmC5905EC0": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": "nova-release2 hotfix.7 event delivery failures",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "TopicName",
+      "Value": {
+       "Fn::GetAtt": [
+        "Hotfix7EventsTopic2A12C61A",
+        "TopicName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "NumberOfNotificationsFailed",
+    "Namespace": "AWS/SNS",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/hotfix.7"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   }
+  },
+  "AuditServiceLogs7AD1003F": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "KmsKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "LogGroupName": "/nova/release2/service/audit",
+    "RetentionInDays": 90,
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/audit"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "AuditDeployQueueC79987E7": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "KmsMasterKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "MessageRetentionPeriod": 864000,
+    "QueueName": "nova-release2-audit-deploy",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/audit"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "VisibilityTimeout": 40
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "AuditDeployQueuePolicyC45C0CA6": {
+   "Type": "AWS::SQS::QueuePolicy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sqs:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": {
+        "Fn::GetAtt": [
+         "AuditDeployQueueC79987E7",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Queues": [
+     {
+      "Ref": "AuditDeployQueueC79987E7"
+     }
+    ]
+   }
+  },
+  "AuditEventsTopic30B65ADB": {
+   "Type": "AWS::SNS::Topic",
+   "Properties": {
+    "DisplayName": "nova-release2-audit",
+    "KmsMasterKeyId": {
+     "Fn::GetAtt": [
+      "ArtifactKey8D84C5F0",
+      "Arn"
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/audit"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "TopicName": "nova-release2-audit-events"
+   }
+  },
+  "AuditTaskDefinitionTaskRole25CC6F59": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/audit"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   }
+  },
+  "AuditTaskDefinitionTaskRoleDefaultPolicy5855EB8C": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "StorageBucket19DB2FF8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "StorageBucket19DB2FF8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:DescribeKey",
+        "kms:Encrypt",
+        "kms:GenerateDataKey*",
+        "kms:ReEncrypt*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ArtifactKey8D84C5F0",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ReleaseTableB9556E5C",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "sqs:ChangeMessageVisibility",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl",
+        "sqs:ReceiveMessage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "AuditDeployQueueC79987E7",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AuditTaskDefinitionTaskRoleDefaultPolicy5855EB8C",
+    "Roles": [
+     {
+      "Ref": "AuditTaskDefinitionTaskRole25CC6F59"
+     }
+    ]
+   }
+  },
+  "AuditTaskDefinition1CA5B416": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Environment": [
+       {
+        "Name": "ACCELERATOR_PROJECT",
+        "Value": "nova"
+       },
+       {
+        "Name": "ACCELERATOR_ENVIRONMENT",
+        "Value": "release2"
+       },
+       {
+        "Name": "ACCELERATOR_STAGE",
+        "Value": "audit"
+       },
+       {
+        "Name": "DEPLOY_QUEUE",
+        "Value": {
+         "Ref": "AuditDeployQueueC79987E7"
+        }
+       },
+       {
+        "Name": "RELEASE_TABLE",
+        "Value": {
+         "Ref": "ReleaseTableB9556E5C"
+        }
+       }
+      ],
+      "Essential": true,
+      "Image": "public.ecr.aws/docker/library/nginx:1.27",
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "AuditServiceLogs7AD1003F"
+        },
+        "awslogs-stream-prefix": "nova-release2-audit",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "Name": "application",
+      "PortMappings": [
+       {
+        "ContainerPort": 8443,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "512",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "AuditTaskDefinitionExecutionRole5CCC5DD6",
+      "Arn"
+     ]
+    },
+    "Family": "nova-release2-audit",
+    "Memory": "1024",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "RuntimePlatform": {
+     "CpuArchitecture": "X86_64",
+     "OperatingSystemFamily": "LINUX"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/audit"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "AuditTaskDefinitionTaskRole25CC6F59",
+      "Arn"
+     ]
+    }
+   }
+  },
+  "AuditTaskDefinitionExecutionRole5CCC5DD6": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/audit"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   }
+  },
+  "AuditTaskDefinitionExecutionRoleDefaultPolicy4FDBF8C8": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "AuditServiceLogs7AD1003F",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AuditTaskDefinitionExecutionRoleDefaultPolicy4FDBF8C8",
+    "Roles": [
+     {
+      "Ref": "AuditTaskDefinitionExecutionRole5CCC5DD6"
+     }
+    ]
+   }
+  },
+  "AuditTaskDocumentAwsCliLayerF789EAE1": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "Content": {
+     "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+     "S3Key": "98f62bef9320f8c0a0a7be21d7c746f069131f196f51ffe3008a6bb730b368ec.zip"
+    },
+    "Description": "/opt/awscli/aws"
+   }
+  },
+  "AuditTaskDocumentCustomResource3521724F": {
+   "Type": "Custom::CDKBucketDeployment",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536",
+      "Arn"
+     ]
+    },
+    "SourceBucketNames": [
+     "cdk-hnb659fds-assets-111111111111-us-east-1"
+    ],
+    "SourceObjectKeys": [
+     "e41421be0aa996079e5acc42a36d459577d46e9af58d29ccc0bf87c9462fbf5a.zip"
+    ],
+    "SourceMarkers": [
+     {}
+    ],
+    "DestinationBucketName": {
+     "Ref": "StorageBucket19DB2FF8"
+    },
+    "DestinationBucketKeyPrefix": "nova-release2",
+    "WaitForDistributionInvalidation": true,
+    "RetainOnDelete": true,
+    "Prune": false,
+    "OutputObjectKeys": true
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "AuditQueueAgeAlarm38454807": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "AuditEventsTopic30B65ADB"
+     }
+    ],
+    "AlarmDescription": "nova-release2 audit deployment queue age",
+    "AlarmName": "nova-release2-audit-queue-age",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "QueueName",
+      "Value": {
+       "Fn::GetAtt": [
+        "AuditDeployQueueC79987E7",
+        "QueueName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 3,
+    "MetricName": "ApproximateAgeOfOldestMessage",
+    "Namespace": "AWS/SQS",
+    "Period": 60,
+    "Statistic": "Maximum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/audit"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "Threshold": 300
+   }
+  },
+  "AuditQueueDepthAlarm37CAE530": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmActions": [
+     {
+      "Ref": "AuditEventsTopic30B65ADB"
+     }
+    ],
+    "AlarmDescription": "nova-release2 audit deployment backlog",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "QueueName",
+      "Value": {
+       "Fn::GetAtt": [
+        "AuditDeployQueueC79987E7",
+        "QueueName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "ApproximateNumberOfMessagesVisible",
+    "Namespace": "AWS/SQS",
+    "Period": 300,
+    "Statistic": "Maximum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/audit"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "Threshold": 25,
+    "TreatMissingData": "notBreaching"
+   }
+  },
+  "AuditTopicFailureAlarm9A1816FA": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": "nova-release2 audit event delivery failures",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "TopicName",
+      "Value": {
+       "Fn::GetAtt": [
+        "AuditEventsTopic30B65ADB",
+        "TopicName"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "NumberOfNotificationsFailed",
+    "Namespace": "AWS/SNS",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "stages/audit"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   }
+  },
+  "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   }
+  },
+  "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        "arn:aws:s3:::cdk-hnb659fds-assets-111111111111-us-east-1",
+        "arn:aws:s3:::cdk-hnb659fds-assets-111111111111-us-east-1/*"
+       ]
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "StorageBucket19DB2FF8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "StorageBucket19DB2FF8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:DescribeKey",
+        "kms:Encrypt",
+        "kms:GenerateDataKey*",
+        "kms:ReEncrypt*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ArtifactKey8D84C5F0",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+    "Roles": [
+     {
+      "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+     }
+    ]
+   }
+  },
+  "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+     "S3Key": "35328da138f26fbd9160297abc9a2522d93dbf75878cd5114a9c050419fc1ce0.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AWS_CA_BUNDLE": "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"
+     }
+    },
+    "Handler": "index.handler",
+    "Layers": [
+     {
+      "Ref": "BlueGreenTaskDocumentAwsCliLayer7F450C63"
+     }
+    ],
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.13",
+    "Tags": [
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+   ]
+  },
+  "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CLogGroup817B64E9": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "BlueGreenBlueTargetBBEA42BB": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckIntervalSeconds": 15,
+    "HealthCheckPath": "/health/deep",
+    "HealthCheckTimeoutSeconds": 5,
+    "HealthyThresholdCount": 2,
+    "Matcher": {
+     "HttpCode": "200"
+    },
+    "Name": "nova-release2-blue-green-blue",
+    "Port": 8443,
+    "Protocol": "HTTP",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "routes/blue-green"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "TargetGroupAttributes": [
+     {
+      "Key": "deregistration_delay.timeout_seconds",
+      "Value": "50"
+     },
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "UnhealthyThresholdCount": 3,
+    "VpcId": {
+     "Fn::GetStackOutput": {
+      "StackName": "AcceleratorRelease2Network",
+      "Region": "us-east-1",
+      "OutputName": "PublishOutputRefCoreVpcB2509D563461A567"
+     }
+    }
+   }
+  },
+  "BlueGreenGreenTargetABADF0C6": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckIntervalSeconds": 15,
+    "HealthCheckPath": "/health/deep",
+    "HealthCheckTimeoutSeconds": 5,
+    "HealthyThresholdCount": 2,
+    "Matcher": {
+     "HttpCode": "200"
+    },
+    "Name": "nova-release2-blue-green-green",
+    "Port": 8443,
+    "Protocol": "HTTP",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "routes/blue-green"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ],
+    "TargetGroupAttributes": [
+     {
+      "Key": "deregistration_delay.timeout_seconds",
+      "Value": "50"
+     },
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "UnhealthyThresholdCount": 3,
+    "VpcId": {
+     "Fn::GetStackOutput": {
+      "StackName": "AcceleratorRelease2Network",
+      "Region": "us-east-1",
+      "OutputName": "PublishOutputRefCoreVpcB2509D563461A567"
+     }
+    }
+   }
+  },
+  "BlueGreenListenerRuleE02FB74F": {
+   "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
+   "Properties": {
+    "Actions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "BlueGreenBlueTargetBBEA42BB"
+      },
+      "Type": "forward"
+     }
+    ],
+    "Conditions": [
+     {
+      "Field": "host-header",
+      "HostHeaderConfig": {
+       "Values": [
+        "nova-release2-blue-green.internal"
+       ]
+      }
+     }
+    ],
+    "ListenerArn": {
+     "Ref": "DeliveryAlbHttpListenerBFB14444"
+    },
+    "Priority": 60,
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "routes/blue-green"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "release2"
+     }
+    ]
+   }
+  },
+  "BlueGreenAliasRecord727B0AF2": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "AliasTarget": {
+     "DNSName": {
+      "Fn::Join": [
+       "",
+       [
+        "dualstack.",
+        {
+         "Fn::GetA

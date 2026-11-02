@@ -1,0 +1,19 @@
+{
+  "root_causes": [
+    {"accept": [{"file": "internal/types/types.go", "function": "Type.MinEnctype"}]},
+    {"accept": [{"file": "internal/types/types.go", "function": "Type.MaxEnctypeDesc"}]}
+  ],
+  "default_reproducer": "repro_test.go",
+  "fix_tests": [
+    "fix/probe_1_test.go",
+    "fix/probe_2_test.go",
+    "fix/probe_3_test.go",
+    "fix/probe_4_test.go"
+  ],
+  "alt_fixes": ["alt_fix_1.patch", "alt_fix_2.patch"],
+  "runtime_fix": {"kind": "go-overlay", "path": "runtime_fix"},
+  "p2p": {
+    "command": "go test -json -count=1 ./... ./sqltests/... ./cmd/chai/...",
+    "selection": "every test passing on buggy and on buggy + gold (recorded at verifier build)"
+  }
+}

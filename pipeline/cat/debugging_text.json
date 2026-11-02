@@ -1,0 +1,236 @@
+{
+  "motivation": {
+    "problems": "Engineers who maintain libraries and backends are handed behaviour that is wrong in many small places and have to find the causes without a safety net. In the diagnosis tasks the repository has lost its tests and a block of symptoms describes many unrelated failures at once, as in aiogram-7a7c3502-blind20-ots, bdwgc-2547e33a-blind27 and libsrtp-32a3a3a5-blind20. In the spec-drift tasks the code still runs but contradicts its own README and docstrings, as in sdrift-sqlglot-sqlglot-003-shared, alembic-canonical and tau-canonical-ots. A third pattern is a single production symptom with a hidden root cause, as in trickster-extentkey-v2 and jsonpatch-movenear-v2. Across all three, the engineer must reproduce the symptom, localize the faulty function, repair it without breaking neighbouring behaviour, and in many tasks say where the defect was.",
+    "how_tasks_exemplify": "Each task ships a pinned checkout of a real open-source project, with network disabled at run time and the tests removed or stubbed in the agent's tree. The prompt gives symptoms or a documentation scope but not the location of the faults. The diagnosis tasks ask for /app/rca.json listing file and function per edit, and a separate verifier container restores hidden tests and compares the report to an answer key. The spec-drift tasks keep the documentation as the authority and forbid editing it; the grader runs sealed cases as an unprivileged user and checks that the documentation is unchanged. Rewards combine fail-to-pass repairs with pass-to-pass regressions. Stated fault counts range from 4 in libexpat-realbug-a to 30 in several blind tasks.",
+    "prompt_patterns": [
+      "A first-person list of observed symptoms with a stated number of undocumented edits and a request for /app/rca.json, for example oasdiff-f2d2e121-blind26-ots.",
+      "Symptom paragraphs grouped by feature with no file or function named, ending in a fix-and-report request, for example h3-cd62033b-blind21.",
+      "A repository description with an explicit in-scope and out-of-scope file list and the rule that documentation is authoritative and must not be edited, for example datatrove-canonical-ots.",
+      "A short generic request to restore documented behaviour in a repository, with the docs location given, for example pdk-drift-repository-89042e599dcf.",
+      "A single bug report written from a production symptom, with no pointer to the faulty module, for example jsonpatch-movenear-v2."
+    ],
+    "open_questions": [
+      "tests/rubrics.json in kafka-python-eaa45b7d-blind29 holds research and planning rubrics. It is not established whether a model or rules score them, or whether they affect the reward.",
+      "The h3 task.toml name is h3-17f-687c550d while the catalog name is h3-cd62033b-blind21. The mapping between the two names is not stated.",
+      "libexpat-realbug-a is labelled multi-bug diagnosis, but its description says the four defects are real upstream bugs and not injected edits. Confirm whether real-bug tasks belong under the same shape label."
+    ]
+  },
+  "tasks": [
+    {
+      "name": "libexpat-realbug-a",
+      "environment_mermaid": "flowchart LR\nA[\"ubuntu:24.04 image, no network, 2 cpus, 8 GB\"] --> B[\"Upstream libexpat checkout at /workspace/repo\"]\nB --> C[\"cmake build tree in build/ with tests stubbed\"]\nD[\"Four real upstream defects present at the pinned commit\"] --> B\nE[\"instruction.md: symptom report\"] --> F[\"Agent in tmux session, no test suite in tree\"]\nB --> F\nC --> F\nF --> G[\"Edited source files\"]\nF --> H[\"/app/rca.json: file and function per defect\"]\nG --> I[\"Verifier container built from tests/Dockerfile\"]\nH --> I\nI --> J[\"Upstream regression tests restored, ctest suite run, rca.json compared to answer key\"]\nJ --> K[\"Reward in /logs/verifier/reward.txt\"]",
+      "environment_facts": [
+        "Base image ubuntu:24.04 pinned by digest, with build-essential, cmake, git and tmux (environment/Dockerfile).",
+        "Checkout of libexpat/libexpat at commit 57c7da69b78e3698e112a6b5da19d5109b8232d1, built with cmake into build/ (environment/Dockerfile).",
+        "Test sources such as runtests.c are replaced by a stub comment saying they are graded separately (environment/Dockerfile).",
+        "Agent timeout 21600 s, verifier timeout 4740 s, network_mode no-network, 2 cpus, 8192 MB (task.toml).",
+        "Grading restores each bug's upstream test files, runs the whole CTest suite, and scores rca.json entries only for bugs that were repaired (tests/grade.py)."
+      ],
+      "workflow": "An engineer on a parser library receives user reports of wrong behaviour through the public C API: a missing amplification-limit report, dropped comments after a suspended parse, an oversized buffer request accepted, and an empty version pseudo-attribute accepted. The source has no tests, so the engineer reproduces each symptom, finds the faulty function, repairs it and records which function held each defect. This is the blind multi-bug diagnosis family, built from four real upstream bugs.",
+      "prompt_pattern": "Four prose symptom reports written from the caller's point of view, with no file or function named, followed by a request to fix them and list the responsible functions in rca.json."
+    },
+    {
+      "name": "nbgrader-canonical-ots",
+      "environment_mermaid": "flowchart LR\nA[\"python image pinned by digest, no network\"] --> B[\"venv at /opt/venv from hashed requirements, python 3.12\"]\nA --> C[\"nbgrader package copied to /workdir, one git commit, PYTHONPATH=/workdir\"]\nD[\"Documentation pages, example script and docstrings in the package\"] --> E[\"Agent session in tmux, user agent\"]\nF[\"instruction.md: fix drift, docs are the authority\"] --> E\nB --> E\nC --> E\nE --> G[\"Edited implementation files\"]\nG --> H[\"Verifier container built from tests/Dockerfile\"]\nH --> I[\"Documentation preservation check by hash and AST\"]\nH --> J[\"Private cases run in a child process as nobody\"]\nI --> K[\"Group scores combined, reward files in /logs/verifier\"]\nJ --> K",
+      "environment_facts": [
+        "Base image python pinned by sha256 digest, venv at /opt/venv installed from a hash-pinned requirements file, PYTHONPATH=/workdir, TZ=UTC (environment/Dockerfile).",
+        "The nbgrader source tree is copied from environment/solver into /workdir as a single commit dated 2001-01-01, and the Dockerfile asserts one commit, no tags and a clean status (environment/Dockerfile).",
+        "The instruction names the implementation packages and 14 documentation pages, the example script extract_grades.py and the module docstrings that define the intended behaviour (instruction.md).",
+        "Agent timeout 14400 s, verifier timeout 3000 s, no network, verifier in a separate container (task.toml).",
+        "The grader first checks that documentation pages are byte-identical by sha256 and that docstring sequences are preserved by AST, before any candidate code runs (tests/doc_digest.py).",
+        "54 private cases are run by a child process as nobody on stdin, and their raw observations are compared by the parent with floats at 1e-9. The 36 groups are classed fail-to-pass or pass-to-pass (tests/grade.py, tests/private_manifest.json, tests/obs_compare.py)."
+      ],
+      "workflow": "A backend engineer on a grading system finds that the code has drifted from its published documentation, in preprocessors, converters, the gradebook, the metadata format and the plugin hooks. The engineer reads each documented behaviour, compares it with the code and its docstring examples, and changes the implementation, never the docs. Existing behaviour that already matches the documentation has to stay unchanged.",
+      "prompt_pattern": "One instruction that lists the packages and documentation pages in scope and says the documentation wins, without naming any drifted behaviour or number of defects."
+    },
+    {
+      "name": "h3-cd62033b-blind21",
+      "environment_mermaid": "flowchart LR\nA[\"ubuntu:24.04 image, no network, 2 cpus, 8 GB\"] --> B[\"uber/h3 checkout at /workspace/repo with submodules\"]\nB --> C[\"cmake build tree in build/ with test apps stubbed\"]\nD[\"Ten faulted source files copied over src/h3lib/lib, 17 one-line edits\"] --> B\nE[\"instruction.md: symptom report\"] --> F[\"Agent in tmux session, no test suite in tree\"]\nB --> F\nC --> F\nF --> G[\"Edited source files\"]\nF --> H[\"/app/rca.json: file and function per defect\"]\nG --> I[\"Verifier container built from tests/Dockerfile\"]\nH --> I\nI --> J[\"Hidden suite and recorded probes compared, rca.json checked against answer key\"]\nJ --> K[\"Reward in /logs/verifier/reward.txt\"]",
+      "environment_facts": [
+        "Base image ubuntu:24.04 pinned by digest; uber/h3 fetched at commit cd62033b337b128ea7c4749f2302143b424187fc with submodules and built with cmake (environment/Dockerfile).",
+        "Ten faulted files (area.c, baseCells.c, directedEdge.c, h3Index.c, latLng.c, linkedGeo.c, localij.c, polyfill.c, polygon.c, vertex.c) are copied over src/h3lib/lib (environment/Dockerfile).",
+        "Test app sources under src/apps/testapps are replaced by a hidden marker (environment/Dockerfile).",
+        "Instruction states 17 undocumented edits and asks for /app/rca.json with file and function entries (instruction.md).",
+        "Agent timeout 21600 s, verifier timeout 2700 s, no network (task.toml)."
+      ],
+      "workflow": "A geospatial library team gets reports of wrong cell areas, edge lengths, neighbour rings, local coordinate round trips, cell corners and polygon fill results at once. The engineer must trace each wrong number back to a function in a large C code base without a test suite, repair it, and report where each fault was. This is the blind multi-bug diagnosis family with injected one-line faults.",
+      "prompt_pattern": "A long list of user-visible symptoms grouped by library feature, stating the number of undocumented edits and the rca.json format."
+    },
+    {
+      "name": "datatrove-canonical-ots",
+      "environment_mermaid": "flowchart LR\nA[\"python image pinned by digest, no network\"] --> B[\"DataTrove source in /workdir/src\"]\nP[\"Venv /opt/venv with hash-pinned deps: numpy, pyarrow, fsspec, spaCy, tokenizers\"] --> B\nC[\"Documentation drift applied to the code, docs left intact\"] --> B\nD[\"instruction.md: scope and fix all drift\"] --> E[\"Agent in tmux session as agent user\"]\nB --> E\nE --> F[\"Edited implementation files\"]\nF --> G[\"Verifier container built from tests/Dockerfile\"]\nH[\"Sealed private cases and expected values\"] --> G\nG --> I[\"Cases run as unprivileged user in fresh interpreters\"]\nG --> J[\"Doc digest check: documentation unchanged\"]\nI --> K[\"Reward from fail-to-pass and pass-to-pass groups\"]\nJ --> K",
+      "environment_facts": [
+        "Python image pinned by digest, PYTHONPATH=/workdir/src, HF_HUB_OFFLINE=1, no network (environment/Dockerfile, task.toml).",
+        "Dependencies include numpy, fsspec, huggingface_hub, pyarrow, orjson, regex, ftfy, spaCy blank pipelines, tldextract, xxhash, tokenizers and pytest (instruction.md).",
+        "Scope is the document-processing core of src/datatrove plus README.md and docstrings; fasttext, language and a few other modules are excluded (instruction.md).",
+        "Agent timeout 14400 s, verifier timeout 3000 s (task.toml).",
+        "Hidden cases run in a fresh interpreter as an unprivileged user and are compared to sealed expected values, with a documentation digest check (tests/grade.py, tests/doc_digest.py)."
+      ],
+      "workflow": "A data engineer relies on the documented behaviour of readers, writers, filters and deduplication blocks and finds output that contradicts the README and docstrings. The engineer compares docs to code across many modules and restores the documented behaviour while keeping public APIs stable. This is the documentation-drift repair family.",
+      "prompt_pattern": "A repository description, an explicit list of in-scope and out-of-scope modules, and the rule that the documentation is the authority and must not be edited."
+    },
+    {
+      "name": "bdwgc-2547e33a-blind27",
+      "environment_mermaid": "flowchart LR\nA[\"ubuntu 24.04 image with cmake, ninja and build-essential, no network\"] --> B[\"bdwgc checkout at /workspace/repo, commit 2547e33a\"]\nC[\"27 faulty edits copied over 18 source files\"] --> B\nD[\"Test sources replaced by hidden stubs, build tree rebuilt and cleaned\"] --> B\nE[\"instruction.md: prose report of misbehaviour\"] --> F[\"Agent session in tmux, user agent, 2 cpus 8 GB\"]\nB --> F\nF --> G[\"Edited sources\"]\nF --> H[\"/app/rca.json with file and function per edit\"]\nG --> I[\"Collected worktree.tgz without .git\"]\nH --> J[\"Collected rca.json\"]\nI --> K[\"Verifier container built from tests/Dockerfile\"]\nJ --> K\nK --> L[\"Hidden suite restored, cmake build and ctest as agent, rca.json compared with answer key\"]\nL --> M[\"Reward 0.5 repair plus 0.5 report\"]",
+      "environment_facts": [
+        "Base image ubuntu:24.04 pinned by digest with build-essential, cmake, ninja-build and git. bdwgc is fetched at commit 2547e33aa8123320dd8021ca3cea998075ede415 and built with cmake in Release with threads, C++ and GC assertions on (environment/Dockerfile).",
+        "Eighteen faulty source files, such as malloc.c, mark.c and cord/cordprnt.c, are copied over the checkout. The repository test sources are overwritten with a stub comment saying they are graded separately, and /app is created and owned by the agent (environment/Dockerfile, task.toml).",
+        "The task records fault_count 27 across 18 files, difficulty hard, an agent timeout of 21600 s and no network, 2 cpus and 8192 MB (task.toml).",
+        "The collect step archives the working tree without .git and copies /app/rca.json. The grader adopts only source files from the archive, restores the hidden suite from a tarball and runs `cmake --build` then ctest as the agent account (task.toml, tests/answer_key.json, tests/grade.py).",
+        "The answer key lists 27 causes and records 20 baseline tests. Weights are repair 0.5 and report 0.5, and each reported function must also show evidence that the removed behaviour is back (tests/answer_key.json, tests/grade.py).",
+        "rca.json entries are objects with an absolute or repo-relative file and a function name, and duplicate or enclosing-function entries count as wrong (instruction.md)."
+      ],
+      "workflow": "A systems engineer inherits a garbage collector and string library that misbehave in many places at once, with no test suite in the tree and only a prose list of failures seen by linking programs. The engineer has to build a reproduction for each symptom group, find the single-line edits across allocation, marking, threads, type descriptors and rope handling, repair them, and report every edited function.",
+      "prompt_pattern": "A long prose report grouped by subsystem that describes about 27 independent misbehaviours seen from the caller, states that the source was edited and the tests removed, and asks for repairs plus an rca.json naming each edited function."
+    },
+    {
+      "name": "exo-canonical-ots",
+      "environment_mermaid": "flowchart LR\nA[\"python image pinned by digest, no network\"] --> B[\"Exo package source in /workdir/src/exo\"]\nP[\"Venv /opt/venv: PySMT, z3-solver, asdl-adt, yapf, pytest\"] --> B\nC[\"Documentation drift applied to the code, docs left intact\"] --> B\nD[\"instruction.md: scope and fix all drift\"] --> E[\"Agent in tmux session as agent user\"]\nB --> E\nE --> F[\"Edited implementation files\"]\nF --> G[\"Verifier container built from tests/Dockerfile\"]\nH[\"Sealed private cases and expected values\"] --> G\nG --> I[\"Cases run as unprivileged user in fresh interpreters\"]\nG --> J[\"Doc digest check: documentation unchanged\"]\nI --> K[\"Reward from fail-to-pass and pass-to-pass groups\"]\nJ --> K",
+      "environment_facts": [
+        "Python 3.12 environment with PySMT, z3-solver, asdl-adt, yapf and pytest, no network, exo imported from /workdir/src (instruction.md, environment/Dockerfile).",
+        "Code in scope is src/exo except src/exo/platforms/ (instruction.md).",
+        "Documentation in scope is README.md, every page under docs/ including docs/primitives/, and docstrings with their examples (instruction.md).",
+        "Agent timeout 14400 s, verifier timeout 3000 s (task.toml).",
+        "Hidden cases run in a fresh interpreter as an unprivileged user and are compared to sealed expected values, with a documentation digest check (tests/grade.py, tests/doc_digest.py)."
+      ],
+      "workflow": "A compiler engineer working on a scheduling language finds that primitives, cursors or code generation behave differently from the documentation pages and docstring examples. The engineer treats the docs as the contract and repairs the compiler code without touching the docs. This is the documentation-drift repair family.",
+      "prompt_pattern": "A repository summary, an exact in-scope code and documentation list, and the instruction to change the implementation and never the documentation."
+    },
+    {
+      "name": "kafka-python-eaa45b7d-blind29",
+      "environment_mermaid": "flowchart LR\nA[\"Python image pinned by digest, no network, 2 cpus, 8 GB\"] --> B[\"dpkp/kafka-python checkout at /workspace/repo\"]\nB --> C[\"pip install -e with testing extras in /opt/venv\"]\nD[\"Faulted modules copied over the kafka package, 29 edits\"] --> B\nE[\"instruction.md: symptom report\"] --> F[\"Agent in tmux session, no test suite in tree\"]\nB --> F\nC --> F\nF --> R[\"/app/RESEARCH_AND_PLANNING.md written before code edits\"]\nF --> G[\"Edited source files\"]\nF --> H[\"/app/rca.json: file and function per defect\"]\nG --> I[\"Verifier container built from tests/Dockerfile\"]\nH --> I\nI --> J[\"Repair tests, recorded probes and rca.json compared to answer key\"]\nJ --> K[\"Reward in /logs/verifier/reward.txt\"]",
+      "environment_facts": [
+        "Python image pinned by digest; dpkp/kafka-python fetched at commit eaa45b7df23c75261ca43fdd24a8442586e4ada2 and installed editable with testing extras (environment/Dockerfile).",
+        "Faulted modules from kafka/admin, kafka/net, kafka/producer, kafka/coordinator and others are copied over the checkout (environment/Dockerfile, tests/faults).",
+        "Instruction states 29 undocumented edits, asks for /app/rca.json and asks for /app/RESEARCH_AND_PLANNING.md before any code change (instruction.md).",
+        "tests/rubrics.json holds research and planning rubrics that describe findings per fault (tests/rubrics.json).",
+        "Agent timeout 21600 s, verifier timeout 4320 s, no network, 2 cpus, 8192 MB (task.toml)."
+      ],
+      "workflow": "A backend engineer owns a message broker client and receives observations from application code: producer configuration refused, keyed messages mishandled, partition assignment and consumer state wrong, metrics off. With no tests, the engineer writes up an investigation plan, fixes many small faults and records where each was. This is the blind multi-bug diagnosis family with an added research-and-plan deliverable.",
+      "prompt_pattern": "A first-person symptom report organised by what the user was doing, a stated edit count, and an extra requirement to write a research and plan file before editing."
+    },
+    {
+      "name": "dj-stripe-pdk-ots",
+      "environment_mermaid": "flowchart LR\nA[\"python image pinned by digest, no network\"] --> B[\"dj-stripe djstripe/ package in /workdir\"]\nP[\"Venv /opt/venv with Django and a djsproject sandbox settings module\"] --> B\nC[\"Documentation drift applied to the code, docs left intact\"] --> B\nD[\"instruction.md: scope and fix all drift\"] --> E[\"Agent in tmux session as agent user\"]\nB --> E\nE --> F[\"Edited implementation files\"]\nF --> G[\"Verifier container built from tests/Dockerfile\"]\nH[\"Sealed private cases and expected values\"] --> G\nG --> I[\"Cases run as unprivileged user in fresh interpreters\"]\nG --> J[\"Doc digest check: documentation unchanged\"]\nI --> K[\"Reward from fail-to-pass and pass-to-pass groups\"]\nJ --> K",
+      "environment_facts": [
+        "Python image pinned by digest, DJANGO_SETTINGS_MODULE=djsproject.settings, PYTHONPATH=/workdir, no network (environment/Dockerfile, task.toml).",
+        "Sandbox settings use SQLite at /tmp/djsproject.sqlite3 by default, written in the Dockerfile (environment/Dockerfile).",
+        "Scope is every module of djstripe/ except migrations/, the admin templates, and listed docs pages including docs/usage/ (instruction.md).",
+        "Agent timeout 14400 s, verifier timeout 3000 s (task.toml).",
+        "Hidden cases run in a fresh interpreter as an unprivileged user and are compared to sealed expected values, with a documentation digest check (tests/grade.py, tests/doc_digest.py)."
+      ],
+      "workflow": "A backend engineer on a payments integration finds webhook handling, API key management or sync behaviour deviating from the documented usage pages. The engineer reads the docs and docstrings as the spec and fixes the models and handlers to match. This is the documentation-drift repair family.",
+      "prompt_pattern": "A repository description, a list of in-scope modules and docs pages, and the rule that documentation wins over code."
+    },
+    {
+      "name": "oasdiff-f2d2e121-blind26-ots",
+      "environment_mermaid": "flowchart LR\nA[\"golang image pinned by digest, no network, 2 cpus, 8 GB\"] --> B[\"oasdiff checkout at /workspace/repo\"]\nB --> C[\"go build of all packages, modules downloaded at build time\"]\nD[\"Faulted checker files copied over checker/, 26 edits\"] --> B\nE[\"instruction.md: symptom report\"] --> F[\"Agent in tmux session, no test suite in tree\"]\nB --> F\nC --> F\nF --> G[\"Edited source files\"]\nF --> H[\"/app/rca.json: file and function per defect\"]\nG --> I[\"Verifier container built from tests/Dockerfile\"]\nH --> I\nI --> J[\"Repair checks, recorded probes and rca.json compared to answer key\"]\nJ --> K[\"Reward in /logs/verifier/reward.txt\"]",
+      "environment_facts": [
+        "Go image pinned by digest with CGO_ENABLED=1 and GOTOOLCHAIN=local; oasdiff fetched at commit f2d2e1211a88f119a7eda535161e0a10d3f429e6 (environment/Dockerfile).",
+        "Dependencies fetched with go mod download all and the tree built with go build ./... during the image build (environment/Dockerfile).",
+        "Faulted files such as checker/check_api_deprecation.go and checker/check_request_parameters_min_set.go are copied into the tree (environment/Dockerfile).",
+        "Instruction states 26 undocumented edits and asks for /app/rca.json (instruction.md).",
+        "Agent timeout 21600 s, verifier timeout 2520 s, no network (task.toml)."
+      ],
+      "workflow": "An API tooling engineer uses a comparison tool to detect breaking changes between two OpenAPI documents and finds changelog entries missing, miscounted or classified wrongly. The engineer reproduces the differences on sample documents, locates the altered checker functions, repairs them and reports each. This is the blind multi-bug diagnosis family in Go.",
+      "prompt_pattern": "A first-person report of what was run and what came back, with counts of expected entries, the stated edit count, and the rca.json format."
+    },
+    {
+      "name": "scrapy-pdk-ots",
+      "environment_mermaid": "flowchart LR\nA[\"python image pinned by digest, no network\"] --> B[\"Scrapy source in /workdir, run with python -m scrapy\"]\nP[\"Venv /opt/venv with test dependencies, Scrapy itself not pip installed\"] --> B\nC[\"Documentation drift applied to the code, docs left intact\"] --> B\nD[\"instruction.md: scope and fix all drift\"] --> E[\"Agent in tmux session as agent user\"]\nB --> E\nE --> F[\"Edited implementation files\"]\nF --> G[\"Verifier container built from tests/Dockerfile\"]\nH[\"Sealed private cases and expected values\"] --> G\nG --> I[\"Cases run as unprivileged user in fresh interpreters\"]\nG --> J[\"Doc digest check: documentation unchanged\"]\nI --> K[\"Reward from fail-to-pass and pass-to-pass groups\"]\nJ --> K",
+      "environment_facts": [
+        "Python 3.11 image pinned by digest; Scrapy is not installed and /workdir is on PYTHONPATH with a scrapy launcher (environment/Dockerfile comments).",
+        "Scope covers scrapy/http, scheduler, pqueues, squeues, dupefilters, job persistence, AutoThrottle and built-in middlewares, with listed docs pages (instruction.md).",
+        "System packages include build-essential and libffi, libfreetype6, libjpeg and libssl headers (environment/Dockerfile).",
+        "Agent timeout 14400 s, verifier timeout 3000 s, no network (task.toml).",
+        "Hidden cases run in a fresh interpreter as an unprivileged user and are compared to sealed expected values, with a documentation digest check (tests/grade.py, tests/doc_digest.py)."
+      ],
+      "workflow": "A backend engineer running crawls finds duplicate filtering, priority queues, pause and resume, or throttling acting against the documentation. The engineer works through the request and response layer against the topic pages and restores documented behaviour. This is the documentation-drift repair family.",
+      "prompt_pattern": "A repository description, explicit in-scope files and documentation pages, and the rule that the documentation is the authority."
+    },
+    {
+      "name": "swanlab-nanpair",
+      "environment_mermaid": "flowchart LR\nA[\"python 3.x image pinned by digest, no network\"] --> B[\"venv at /opt/venv with pytest, pandas, numpy, swanboard\"]\nA --> C[\"SwanLab checkout at /workdir, commit 6d50bc3d, editable install\"]\nD[\"Faulty files overlaid on the checkout at build time\"] --> C\nE[\"Existing tests and conftest files deleted from the tree\"] --> C\nF[\"instruction.md: sweep CSV complaint\"] --> G[\"Agent session in tmux, user agent\"]\nB --> G\nC --> G\nG --> H[\"Library fix in /workdir\"]\nG --> I[\"Regression test under tests/\"]\nG --> J[\"/workdir/rca.json with root_causes and reproducer\"]\nH --> K[\"Verifier container built from tests/Dockerfile\"]\nI --> K\nJ --> K\nK --> L[\"Reproduce, locate and fix checks, reward in /logs/verifier\"]",
+      "environment_facts": [
+        "Base image python pinned by sha256 digest, venv at /opt/venv with pytest 9.0.2, pandas, numpy, swanboard and about a hundred other pinned packages (environment/Dockerfile).",
+        "SwanHubX/SwanLab fetched at commit 6d50bc3dd2ff16a76618755e8f857442c215f808 into /workdir and installed editable, then .git is removed and re-initialised as one commit (environment/Dockerfile).",
+        "A faults/ directory is copied over the checkout, and every tests/ directory, test_*.py, *_test.py and conftest.py file is deleted before the image is committed (environment/Dockerfile, tests/rca-task.json).",
+        "The agent runs as user agent with no network and a 21600 s timeout. The verifier is a separate container with a 3000 s timeout (task.toml).",
+        "The verifier runs tests/grade.py as root, with candidate code run in sandboxed child processes. The reward is 1 only when the reproduce, locate and fix components all pass, and a partial reward is the mean of the three (tests/grade.py, tests/reward_writer.py).",
+        "The reproducer must fail on the buggy tree and pass with the reference fix and with two alternative fixes. Fix is scored by hidden observation probes and the existing suite as a regression gate (tests/reward_writer.py, tests/meta.json)."
+      ],
+      "workflow": "A machine learning engineer maintains an experiment tracker and receives a complaint that diverged sweep runs rank first in the exported CSV. The engineer has to follow the NaN from the CSV plugin back to where the value is lost, repair it in the library so every consumer is fixed, add a regression test, and write down where the defect starts. The work mirrors an incident ticket against a shared tool.",
+      "prompt_pattern": "A production complaint written as a ticket (diverged runs sort first in a sweep CSV while the live view shows NaN), with no module named, asking for a source-level fix, a regression test and a root-cause note in rca.json."
+    },
+    {
+      "name": "stonesoup-tracksplit",
+      "environment_mermaid": "flowchart LR\nA[\"python 3.x image pinned by digest, gfortran and libhdf5, no network\"] --> B[\"venv at /opt/venv with numpy, scipy, pytest\"]\nA --> C[\"Stone Soup checkout at /workdir, commit 50e965aa, editable install\"]\nD[\"Faulty files overlaid on the checkout at build time\"] --> C\nE[\"Library tests deleted from the tree\"] --> C\nF[\"/workdir/evidence: tracking script, plot CSV of 29 September, script output\"] --> G[\"Agent session in tmux, user agent\"]\nG --> H[\"Library fix in /workdir\"]\nG --> I[\"Regression test, may read evidence\"]\nG --> J[\"/workdir/rca.json\"]\nC --> G\nB --> G\nH --> K[\"Verifier container built from tests/Dockerfile\"]\nI --> K\nJ --> K\nK --> L[\"Reproduce, locate and fix checks, reward in /logs/verifier\"]",
+      "environment_facts": [
+        "Base image python pinned by sha256 digest, with build-essential, gfortran, libhdf5-dev and libopenblas-dev, and a venv holding numpy, scipy, matplotlib, pytest and Sphinx (environment/Dockerfile).",
+        "dstl/Stone-Soup fetched at commit 50e965aa15ec63d1d3eb13bb275639d136d8557b into /workdir, installed editable with a pretend setuptools-scm version (environment/Dockerfile).",
+        "Faults are copied over the checkout, then every tests directory, test_*.py, *_test.py and conftest.py file is removed. The evidence/ folder is copied in afterwards (environment/Dockerfile).",
+        "evidence/ holds track_trial.py, plots_2026-09-29.csv and track_trial_output.txt. The script builds a bearing-range radar model, a GNN associator and an UpdateTimeStepsDeleter around MultiTargetTracker (evidence/track_trial.py).",
+        "The instruction asks for a test of under a minute that may read /workdir/evidence, and the verifier suite is `pytest stonesoup` (instruction.md, tests/rca-task.json).",
+        "Grading follows the same reproduce, locate and fix scheme as the sibling RCA tasks, with three hidden fix probes, no network and a 3000 s verifier timeout (tests/meta.json, task.toml)."
+      ],
+      "workflow": "A research software engineer running a multi-target tracker over recorded radar plots sees two vessels split into two tracks each, and sees tracks deleted after fewer missed scans than the configured threshold. The engineer has to work from the trial script and plot file to the library code that miscounts, fix it for all users, and add a fast regression test that reads the supplied evidence. The numerical output is the only symptom.",
+      "prompt_pattern": "A production complaint with attached evidence files (script, recorded data, output) describing a numeric symptom in a tracker, asking for a library fix, a regression test that may read the evidence, and rca.json."
+    },
+    {
+      "name": "chai-rangescan",
+      "environment_mermaid": "flowchart LR\nA[\"golang image pinned by digest, CGO on, GOPROXY off, no network\"] --> B[\"Go toolchain and read-only module cache in /go/pkg/mod\"]\nA --> C[\"Chai checkout at /workdir, commit e53516f8, committed as initial import\"]\nD[\"Faulty file overlaid on the checkout at build time\"] --> C\nE[\"All _test.go files and testdata deleted from the tree\"] --> C\nF[\"instruction.md: range query complaint on imported history\"] --> G[\"Agent session in tmux, user agent\"]\nB --> G\nC --> G\nG --> H[\"Library fix in /workdir\"]\nG --> I[\"_test.go regression test in the package\"]\nG --> J[\"/workdir/rca.json\"]\nH --> K[\"Verifier container built from tests/Dockerfile\"]\nI --> K\nJ --> K\nK --> L[\"Test binary built then Go sources removed, probes, suite gate, reward\"]",
+      "environment_facts": [
+        "Base image golang pinned by sha256 digest with build-essential and git, CGO_ENABLED=1, GOTOOLCHAIN=local, GOPROXY=off and -mod=readonly (environment/Dockerfile).",
+        "chaisql/chai fetched at commit e53516f8185cac23ea7437592022c5852adc01fd into /workdir. Dependencies are downloaded into /go/pkg/mod and made read-only, and go build ./... is run as the agent (environment/Dockerfile).",
+        "A faults/ directory is copied over the checkout, then every *_test.go file and testdata directory is deleted, and the tree is committed as initial import (environment/Dockerfile).",
+        "The instruction asks for a _test.go file that runs as a compiled test binary without the repository .go sources present (instruction.md).",
+        "The verifier compiles the reproducer and each hidden probe, deletes the .go files under /workdir, then runs the binaries. The existing-suite gate runs go test over the root, sqltests and cmd/chai packages (tests/grade.py, tests/rca-task.json).",
+        "Reward is 1 only when reproduce, locate and fix all pass, with a 3000 s verifier timeout and a 21600 s agent timeout and no network (tests/reward_writer.py, task.toml)."
+      ],
+      "workflow": "A database engineer maintains an embedded SQL engine and gets a report that range predicates and descending index scans skip rows from before 2000, although min() and row-by-row reads are correct. The engineer has to find where the engine mishandles these rows, repair it so every query that goes through that code is corrected, add a Go regression test that works as a standalone binary, and name the faulty functions.",
+      "prompt_pattern": "A production complaint with two concrete SQL statements and the index definitions, saying results are silently short, with no module named, asking for a library fix, a package test and rca.json."
+    },
+    {
+      "name": "form-pipeline-ots",
+      "environment_mermaid": "flowchart LR\n  A[\"node image pinned by digest with pnpm 12.5.1\"] --> B[\"TanStack Form checkout in /workdir with the drift applied\"]\n  A --> C[\"tmux and git on the path, user agent, no network\"]\n  D[\"Docs under docs/reference and JSDoc in packages/form-core/src\"] --> E[\"Agent reads docs and code\"]\n  B --> E\n  C --> E\n  F[\"instruction.md: fix drift from the documentation\"] --> E\n  E --> G[\"Edited implementation in the workdir, docs untouched\"]\n  G --> H[\"Final workdir copied into a separate verifier container\"]\n  H --> I[\"Documentation preserved check on pages and doc comments\"]\n  H --> J[\"Hidden behavior cases built and run as user nobody\"]\n  I --> K[\"Reward written by reward_writer, -1 if the grader crashes\"]\n  J --> K\n",
+      "environment_facts": [
+        "Base image node pinned by sha256 digest, with pnpm 12.5.1 installed globally, user agent at uid 1000 and tmux installed for the agent harness (environment/Dockerfile).",
+        "The image is built for TanStack/form at commit 2216fdedf0a5ff17e4ef8567e1321442639b96ca and /workdir is a curated tree with the drift applied (environment/Dockerfile).",
+        "The documentation in scope is docs/reference and the documentation comments in packages/form-core/src (instruction.md).",
+        "The agent has no network and a 21600 s timeout. The verifier is a separate container built from tests/Dockerfile, run as root with a 3000 s timeout (task.toml).",
+        "The verifier checks documentation pages by bytes and JSDoc by parsing, then runs each hidden case in its own Node process as nobody (tests/grade_ts.py).",
+        "A grader crash leaves reward -1 rather than a behavioral 0 (tests/test.sh)."
+      ],
+      "workflow": "A library maintainer finds that the runtime behavior of the form state and validation core has diverged from its published API reference and JSDoc examples. The engineer reads the reference pages, compares each documented behavior with what the code does, and corrects the implementation without editing the docs or changing the public API. Behavior that already matches the documentation has to stay as it is.",
+      "prompt_pattern": "A short brief naming the repository and the documentation in scope, stating that documentation wins over code, forbidding doc edits and API changes, and giving no list of the drifted behaviors."
+    },
+    {
+      "name": "serde-pipeline-ots",
+      "environment_mermaid": "flowchart LR\n  A[\"rust 1.97 bookworm toolchain with cargo, offline\"] --> B[\"Serde workspace in /workdir with the drift applied\"]\n  A --> C[\"tmux and git on the path, user agent, no network\"]\n  D[\"README.md, crates-io.md and doc comments in serde, serde_core, serde_derive\"] --> E[\"Agent reads docs and code\"]\n  B --> E\n  C --> E\n  F[\"instruction.md: fix drift from the documentation\"] --> E\n  E --> G[\"Edited implementation in the workdir, docs untouched\"]\n  G --> H[\"Final workdir copied into a separate verifier container\"]\n  H --> I[\"Documentation preserved check on pages and doc comments\"]\n  H --> J[\"Hidden behavior cases built and run as user nobody\"]\n  I --> K[\"Reward written by reward_writer, -1 if the grader crashes\"]\n  J --> K\n",
+      "environment_facts": [
+        "Toolchain image rust:1.97-bookworm pinned by digest, copied onto buildpack-deps bookworm, with git and tmux installed and user agent at uid 1000 (environment/Dockerfile).",
+        "Serde sources are copied to /workdir, dependencies are vendored from a pinned lock file and cargo is set to offline (environment/Dockerfile).",
+        "The documentation in scope is rEADME.md, crates-io.md, serde_core/README.md and the doc comments in serde, serde_core, serde_derive and serde_derive_internals (instruction.md).",
+        "The agent has no network and a 21600 s timeout. The verifier is a separate container built from tests/Dockerfile, run as root (task.toml).",
+        "The verifier checks documentation pages by bytes and Rust doc comments by lexing, then builds a harness of hidden cases as nobody and runs each case in its own process (tests/grade_rs.py).",
+        "A case that no longer compiles fails alone, any other build error fails every case, and a grader crash leaves reward -1 (tests/grade_rs.py, tests/test.sh)."
+      ],
+      "workflow": "A library engineer maintaining a serialization framework finds that its derive macros and data model behave differently from what the README and doc comments promise. The engineer reads the documented contract, finds where the implementation departs from it, and restores the documented behavior without editing the docs or altering the public API. Behavior that already matches the documentation must not change.",
+      "prompt_pattern": "A short brief naming the repository and the documentation in scope, stating that documentation wins over code, forbidding doc edits and public API changes, and giving no list of the drifted behaviors."
+    },
+    {
+      "name": "binrw-pipeline-ots",
+      "environment_mermaid": "flowchart LR\n  A[\"rust 1.97 bookworm toolchain with cargo, offline\"] --> B[\"binrw workspace in /workdir with the drift applied\"]\n  A --> C[\"tmux and git on the path, user agent, no network\"]\n  D[\"README.md, binrw/doc reference pages and comments in binrw/src and binrw_derive/src\"] --> E[\"Agent reads docs and code\"]\n  B --> E\n  C --> E\n  F[\"instruction.md: fix drift from the documentation\"] --> E\n  E --> G[\"Edited implementation in the workdir, docs untouched\"]\n  G --> H[\"Final workdir copied into a separate verifier container\"]\n  H --> I[\"Documentation preserved check on pages and doc comments\"]\n  H --> J[\"Hidden behavior cases built and run as user nobody\"]\n  I --> K[\"Reward written by reward_writer, -1 if the grader crashes\"]\n  J --> K\n",
+      "environment_facts": [
+        "Toolchain image rust:1.97-bookworm pinned by digest, copied onto buildpack-deps bookworm, with git and tmux installed and user agent at uid 1000 (environment/Dockerfile).",
+        "binrw sources are copied to /workdir, dependencies are vendored from a pinned lock file and cargo is set to offline (environment/Dockerfile).",
+        "The documentation in scope is rEADME.md, the reference pages under binrw/doc and the doc and behavioral comments in binrw/src and binrw_derive/src (instruction.md).",
+        "The agent has no network and a 21600 s timeout. The verifier is a separate container built from tests/Dockerfile, run as root (task.toml).",
+        "The verifier checks documentation pages by bytes and Rust doc comments by lexing, then builds a harness of hidden cases as nobody and runs each case in its own process (tests/grade_rs.py).",
+        "A case that no longer compiles fails alone, any other build error fails every case, and a grader crash leaves reward -1 (tests/grade_rs.py, tests/test.sh)."
+      ],
+      "workflow": "A library engineer maintaining a binary parsing crate with derive macros finds that reading and writing behavior has drifted from its reference pages and doc comments. The engineer compares each documented directive and example with what the macros and runtime do, and repairs the implementation without editing the docs or altering the public API. Behavior that already matches the documentation must not change.",
+      "prompt_pattern": "A short brief naming the repository and the documentation in scope, stating that documentation wins over code, forbidding doc edits and public API changes, and giving no list of the drifted behaviors."
+    }
+  ]
+}

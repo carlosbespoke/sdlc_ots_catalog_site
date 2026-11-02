@@ -1,0 +1,733 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 2400,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "9985ddda65d2de049fe793732e12dec3e74a0221f9c76ccf231173182a51bd71",
+  "documentation.json": "6e139984073434cffd8d01c3ac4bd28d5b1fb7b044a83c3c813ce46c093cc251",
+  "driver.py": "75949fb3beaa10888376e4c8956ac0603075b87cf32badb7d9b637dfebc50999",
+  "expected.json": "fc6818667b57ca0087eb9dbf80f4a8b09bb907659a4303b432f4ea2fb8d1a787"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "GROUP-F2P-CSV-SEPARATOR",
+    "kind": "f2p",
+    "requirement": "helper.csv() joins its non-empty arguments with its default separator, a comma followed by one space.",
+    "tests": [
+     "OBS-0001",
+     "OBS-0002"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-DATE-UNIT",
+    "kind": "f2p",
+    "requirement": "helper.is_date_unit() returns True only when the expression's name is one of DATE_UNITS (case-insensitively), and False for None.",
+    "tests": [
+     "OBS-0003",
+     "OBS-0004",
+     "OBS-0005"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-NEW-NAME",
+    "kind": "f2p",
+    "requirement": "helper.find_new_name() returns the base when it is not taken, otherwise the first free name in base_2, base_3, ...",
+    "tests": [
+     "OBS-0006",
+     "OBS-0007",
+     "OBS-0008",
+     "OBS-0009",
+     "OBS-0010",
+     "OBS-0011",
+     "OBS-0012"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-NORMALIZE-TABLE-NAME",
+    "kind": "f2p",
+    "requirement": "normalize_table_name() normalizes the table name with the given dialect's identifier rules.",
+    "tests": [
+     "OBS-0013"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-TRANSFORM-REPLACED",
+    "kind": "f2p",
+    "requirement": "Expression.transform() does not visit the nodes of a subtree that the transformation function returned in place of a node (already transformed nodes are excluded).",
+    "tests": [
+     "OBS-0014",
+     "OBS-0015",
+     "OBS-0016",
+     "OBS-0017",
+     "OBS-0018",
+     "OBS-0019",
+     "OBS-0020",
+     "OBS-0021",
+     "OBS-0022",
+     "OBS-0023",
+     "OBS-0024",
+     "OBS-0025"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-POP-SIBLINGS",
+    "kind": "f2p",
+    "requirement": "Expression.pop() removes exactly that expression from its parent's list, so later pops of the remaining siblings remove the intended nodes.",
+    "tests": [
+     "OBS-0026",
+     "OBS-0027",
+     "OBS-0028",
+     "OBS-0029",
+     "OBS-0030",
+     "OBS-0031",
+     "OBS-0032",
+     "OBS-0033",
+     "OBS-0034",
+     "OBS-0035",
+     "OBS-0036",
+     "OBS-0037"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-SEQ-GET",
+    "kind": "p2p",
+    "requirement": "helper.seq_get() returns the element at an index (negative indices count from the end) or None.",
+    "tests": [
+     "OBS-0038",
+     "OBS-0039",
+     "OBS-0040",
+     "OBS-0041"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-LISTS",
+    "kind": "p2p",
+    "requirement": "ensure_list(), ensure_collection() and flatten() wrap and flatten values as documented.",
+    "tests": [
+     "OBS-0042",
+     "OBS-0043",
+     "OBS-0044",
+     "OBS-0045",
+     "OBS-0046",
+     "OBS-0047",
+     "OBS-0048"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-CSV",
+    "kind": "p2p",
+    "requirement": "helper.csv() returns an empty string for no arguments and a single argument unchanged.",
+    "tests": [
+     "OBS-0049",
+     "OBS-0050"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-NEW-NAME",
+    "kind": "p2p",
+    "requirement": "find_new_name() returns a free base unchanged and name_sequence() yields prefix0, prefix1, ...",
+    "tests": [
+     "OBS-0051",
+     "OBS-0052",
+     "OBS-0053"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-SPLIT",
+    "kind": "p2p",
+    "requirement": "split_num_words() splits and pads from the start or the end as documented.",
+    "tests": [
+     "OBS-0054",
+     "OBS-0055",
+     "OBS-0056",
+     "OBS-0057",
+     "OBS-0058",
+     "OBS-0059"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-ITERABLE",
+    "kind": "p2p",
+    "requirement": "is_iterable() is true for lists and dicts and false for strings and numbers.",
+    "tests": [
+     "OBS-0060",
+     "OBS-0061",
+     "OBS-0062",
+     "OBS-0063"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-DATE-UNIT",
+    "kind": "p2p",
+    "requirement": "is_date_unit() is True for the names in DATE_UNITS, case-insensitively.",
+    "tests": [
+     "OBS-0064",
+     "OBS-0065"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-DEPTH",
+    "kind": "p2p",
+    "requirement": "dict_depth() returns the nesting depth of a dictionary as documented.",
+    "tests": [
+     "OBS-0066",
+     "OBS-0067",
+     "OBS-0068",
+     "OBS-0069",
+     "OBS-0070"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-BOOL",
+    "kind": "p2p",
+    "requirement": "to_bool() converts true/false strings and booleans and returns other values unchanged.",
+    "tests": [
+     "OBS-0071",
+     "OBS-0072",
+     "OBS-0073",
+     "OBS-0074",
+     "OBS-0075",
+     "OBS-0076",
+     "OBS-0077",
+     "OBS-0078",
+     "OBS-0079",
+     "OBS-0080"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-RANGES",
+    "kind": "p2p",
+    "requirement": "merge_ranges() merges overlapping and touching ranges as documented.",
+    "tests": [
+     "OBS-0081",
+     "OBS-0082",
+     "OBS-0083",
+     "OBS-0084",
+     "OBS-0085",
+     "OBS-0086"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-IDENTIFIER",
+    "kind": "p2p",
+    "requirement": "to_identifier() quotes names that are not safe identifiers and copies identifiers it is given.",
+    "tests": [
+     "OBS-0087",
+     "OBS-0088",
+     "OBS-0089",
+     "OBS-0090"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-TABLE-NAME",
+    "kind": "p2p",
+    "requirement": "table_name() and normalize_table_name() render dotted table names as documented.",
+    "tests": [
+     "OBS-0091",
+     "OBS-0092",
+     "OBS-0093",
+     "OBS-0094",
+     "OBS-0095"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-CONVERT",
+    "kind": "p2p",
+    "requirement": "exp.convert() turns Python values into the documented SQL literals.",
+    "tests": [
+     "OBS-0096",
+     "OBS-0097",
+     "OBS-0098",
+     "OBS-0099",
+     "OBS-0100",
+     "OBS-0101"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-ANON",
+    "kind": "p2p",
+    "requirement": "anonymize()/render() replace sensitive tokens with consistent length-preserving aliases.",
+    "tests": [
+     "OBS-0102",
+     "OBS-0103",
+     "OBS-0104",
+     "OBS-0105",
+     "OBS-0106",
+     "OBS-0107"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-DIFF",
+    "kind": "p2p",
+    "requirement": "diff() returns the documented sequence of edit operations.",
+    "tests": [
+     "OBS-0108",
+     "OBS-0109",
+     "OBS-0110",
+     "OBS-0111",
+     "OBS-0112",
+     "OBS-0113"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-SQL",
+    "kind": "p2p",
+    "requirement": "parse_one() and Expression.sql() round-trip and pretty-print queries.",
+    "tests": [
+     "OBS-0114",
+     "OBS-0115",
+     "OBS-0116",
+     "OBS-0117"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-AST-TRANSFORM",
+    "kind": "p2p",
+    "requirement": "Expression.transform() visits every node when the function returns nodes unchanged.",
+    "tests": [
+     "OBS-0118",
+     "OBS-0119",
+     "OBS-0120",
+     "OBS-0121"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REPLAY-AST-POP",
+    "kind": "p2p",
+    "requirement": "Expression.pop() removes the expression from its parent and returns it.",
+    "tests": [
+     "OBS-0122",
+     "OBS-0123",
+     "OBS-0124",
+     "OBS-0125",
+     "OBS-0126",
+     "OBS-0127",
+     "OBS-0128",
+     "OBS-0129",
+     "OBS-0130",
+     "OBS-0131",
+     "OBS-0132"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-EXPRESSIONS-BUILDERS",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.expressions.builders produce their documented output.",
+    "tests": [
+     "OBS-0133"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-EXPRESSIONS-CORE",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.expressions.core produce their documented output.",
+    "tests": [
+     "OBS-0134"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-EXPRESSIONS-DML",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.expressions.dml produce their documented output.",
+    "tests": [
+     "OBS-0135"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-EXPRESSIONS-QUERY",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.expressions.query produce their documented output.",
+    "tests": [
+     "OBS-0136"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-HELPER",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.helper produce their documented output.",
+    "tests": [
+     "OBS-0137"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-ANNOTATE-TYPES",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.annotate_types produce their documented output.",
+    "tests": [
+     "OBS-0138"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-CANONICALIZE-INTERNAL-NAMES",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.canonicalize_internal_names produce their documented output.",
+    "tests": [
+     "OBS-0139"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-ELIMINATE-CTES",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.eliminate_ctes produce their documented output.",
+    "tests": [
+     "OBS-0140"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-ELIMINATE-JOINS",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.eliminate_joins produce their documented output.",
+    "tests": [
+     "OBS-0141"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-ELIMINATE-SUBQUERIES",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.eliminate_subqueries produce their documented output.",
+    "tests": [
+     "OBS-0142"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-MERGE-SUBQUERIES",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.merge_subqueries produce their documented output.",
+    "tests": [
+     "OBS-0143"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-NORMALIZE",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.normalize produce their documented output.",
+    "tests": [
+     "OBS-0144"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-NORMALIZE-IDENTIFIERS",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.normalize_identifiers produce their documented output.",
+    "tests": [
+     "OBS-0145"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-OPTIMIZE-JOINS",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.optimize_joins produce their documented output.",
+    "tests": [
+     "OBS-0146"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-PUSHDOWN-PREDICATES",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.pushdown_predicates produce their documented output.",
+    "tests": [
+     "OBS-0147"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-PUSHDOWN-PROJECTIONS",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.pushdown_projections produce their documented output.",
+    "tests": [
+     "OBS-0148"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-QUALIFY",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.qualify produce their documented output.",
+    "tests": [
+     "OBS-0149"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-QUALIFY-COLUMNS",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.qualify_columns produce their documented output.",
+    "tests": [
+     "OBS-0150"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-QUALIFY-TABLES",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.qualify_tables produce their documented output.",
+    "tests": [
+     "OBS-0151"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-SCOPE",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.scope produce their documented output.",
+    "tests": [
+     "OBS-0152"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-SIMPLIFY",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.simplify produce their documented output.",
+    "tests": [
+     "OBS-0153"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-OPTIMIZER-UNNEST-SUBQUERIES",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.optimizer.unnest_subqueries produce their documented output.",
+    "tests": [
+     "OBS-0154"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-SCHEMA",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.schema produce their documented output.",
+    "tests": [
+     "OBS-0155"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-TIME",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.time produce their documented output.",
+    "tests": [
+     "OBS-0156"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-TRANSFORMS",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.transforms produce their documented output.",
+    "tests": [
+     "OBS-0157"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-TRIE",
+    "kind": "p2p",
+    "requirement": "The docstring examples in sqlglot.trie produce their documented output.",
+    "tests": [
+     "OBS-0158"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-README-MD",
+    "kind": "p2p",
+    "requirement": "The python examples of README.md run as the page shows.",
+    "tests": [
+     "OBS-0159"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-POSTS-AST-PRIMER-MD",
+    "kind": "p2p",
+    "requirement": "The python examples of posts/ast_primer.md run as the page shows.",
+    "tests": [
+     "OBS-0160"
+    ]
+   },
+   {
+    "id": "GROUP-DOC-POSTS-ONBOARDING-MD",
+    "kind": "p2p",
+    "requirement": "The python examples of posts/onboarding.md run as the page shows.",
+    "tests": [
+     "OBS-0161"
+    ]
+   },
+   {
+    "id": "GROUP-COV-API",
+    "kind": "p2p",
+    "requirement": "parse(), parse_one(), transpile() and tokenize() behave as their docstrings and README describe.",
+    "tests": [
+     "OBS-0162",
+     "OBS-0163",
+     "OBS-0164",
+     "OBS-0165",
+     "OBS-0166",
+     "OBS-0167"
+    ]
+   },
+   {
+    "id": "GROUP-COV-ERRORS",
+    "kind": "p2p",
+    "requirement": "ParseError carries structured errors, ErrorLevel controls raising, and UnsupportedError is raised at ErrorLevel.RAISE (errors.py, README Parser/Unsupported Errors).",
+    "tests": [
+     "OBS-0168",
+     "OBS-0169",
+     "OBS-0170",
+     "OBS-0171",
+     "OBS-0172"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TOKENIZER",
+    "kind": "p2p",
+    "requirement": "The Tokenizer turns SQL into Tokens with type, text, line, column and comments (tokens.py, onboarding Tokenizer).",
+    "tests": [
+     "OBS-0173",
+     "OBS-0174",
+     "OBS-0175",
+     "OBS-0176"
+    ]
+   },
+   {
+    "id": "GROUP-COV-GENERATOR",
+    "kind": "p2p",
+    "requirement": "Expression.sql()/Generator options pretty, identify, normalize, pad, leading_comma and comments behave as documented (generator.py).",
+    "tests": [
+     "OBS-0177",
+     "OBS-0178",
+     "OBS-0179",
+     "OBS-0180"
+    ]
+   },
+   {
+    "id": "GROUP-COV-PARSER",
+    "kind": "p2p",
+    "requirement": "The Parser builds expression trees from tokens and honours error_level and parse_into (parser.py).",
+    "tests": [
+     "OBS-0181",
+     "OBS-0182",
+     "OBS-0183",
+     "OBS-0184"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SCHEMA",
+    "kind": "p2p",
+    "requirement": "MappingSchema stores nested table schemas and answers column_names, get_column_type and has_column (schema.py).",
+    "tests": [
+     "OBS-0185",
+     "OBS-0186",
+     "OBS-0187",
+     "OBS-0188"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SERDE",
+    "kind": "p2p",
+    "requirement": "serde.dump() serializes an expression tree and load() restores it (serde.py).",
+    "tests": [
+     "OBS-0189"
+    ]
+   },
+   {
+    "id": "GROUP-COV-JSONPATH",
+    "kind": "p2p",
+    "requirement": "jsonpath.parse() turns a JSON path string into a JSONPath expression (jsonpath.py).",
+    "tests": [
+     "OBS-0190",
+     "OBS-0191"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TIME",
+    "kind": "p2p",
+    "requirement": "time.format_time() maps a format string through a mapping/trie as documented (time.py).",
+    "tests": [
+     "OBS-0192"
+    ]
+   },
+   {
+    "id": "GROUP-COV-LINEAGE",
+    "kind": "p2p",
+    "requirement": "lineage() returns the Node graph of a column's upstream expressions (lineage.py, onboarding Column Level Lineage).",
+    "tests": [
+     "OBS-0193",
+     "OBS-0194"
+    ]
+   },
+   {
+    "id": "GROUP-COV-PLANNER",
+    "kind": "p2p",
+    "requirement": "planner.Plan builds a DAG of Scan/Join/Aggregate/Sort steps from an optimized query (planner.py).",
+    "tests": [
+     "OBS-0195"
+    ]
+   },
+   {
+    "id": "GROUP-COV-EXECUTOR",
+    "kind": "p2p",
+    "requirement": "executor.execute() runs SQL over Python dict tables and returns a Table (README SQL Execution, executor/).",
+    "tests": [
+     "OBS-0196",
+     "OBS-0197",
+     "OBS-0198"
+    ]
+   },
+   {
+    "id": "GROUP-COV-OPTIMIZER",
+    "kind": "p2p",
+    "requirement": "optimize() applies its rules with a schema, and canonicalize/isolate_table_selects rewrite as documented (optimizer/).",
+    "tests": [
+     "OBS-0199",
+     "OBS-0200",
+     "OBS-0201",
+     "OBS-0202",
+     "OBS-0203"
+    ]
+   },
+   {
+    "id": "GROUP-COV-EXPR-TREE",
+    "kind": "p2p",
+    "requirement": "Expression navigation: find, find_all, walk/bfs/dfs, parent_select, alias_or_name, output_name, replace and copy (expressions/core.py, ast_primer).",
+    "tests": [
+     "OBS-0204",
+     "OBS-0205",
+     "OBS-0206",
+     "OBS-0207",
+     "OBS-0208"
+    ]
+   },
+   {
+    "id": "GROUP-COV-EXPR-CLASSES",
+    "kind": "p2p",
+    "requirement": "Expression classes in expressions/ (functions, data types, DDL, DML, properties, constraints) parse and generate as documented.",
+    "tests": [
+     "OBS-0209",
+     "OBS-0210",
+     "OBS-0211",
+     "OBS-0212",
+     "OBS-0213",
+     "OBS-0214"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TRANSFORMS",
+    "kind": "p2p",
+    "requirement": "transforms.py rewrites (eliminate_distinct_on, eliminate_qualify, unnest_to_explode) work as documented.",
+    "tests": [
+     "OBS-0215",
+     "OBS-0216",
+     "OBS-0217"
+    ]
+   },
+   {
+    "id": "GROUP-COV-HELPER",
+    "kind": "p2p",
+    "requirement": "helper.py utilities (seq_get, ensure_list, tsort, while_changing, first, camel_to_snake_case, is_iso_date) behave as documented.",
+    "tests": [
+     "OBS-0218",
+     "OBS-0219",
+     "OBS-0220"
+    ]
+   }
+  ]
+ }
+}

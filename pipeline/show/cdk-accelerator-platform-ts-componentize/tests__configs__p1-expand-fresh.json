@@ -1,0 +1,94 @@
+{
+ "stage": "prod",
+ "account": "111111111111",
+ "region": "us-east-1",
+ "project": "orion",
+ "network": {
+  "cidr": "10.96.0.0/16",
+  "maxAzs": 4,
+  "natGateways": 2
+ },
+ "artifactBuckets": {
+  "xlswz.g6": {
+   "transitionDays": 35,
+   "noncurrentDays": 150
+  },
+  "storage": {
+   "transitionDays": 45,
+   "noncurrentDays": 120
+  },
+  "reports": {
+   "transitionDays": 60,
+   "noncurrentDays": 180
+  },
+  "artifacts": {
+   "transitionDays": 45,
+   "noncurrentDays": 120
+  }
+ },
+ "stages": {
+  "hkcs-xhpttc": {
+   "desiredCount": 3,
+   "cpu": 1024,
+   "memoryMiB": 2048,
+   "queueVisibilitySeconds": 75,
+   "listenerPriority": 40
+  },
+  "qa": {
+   "desiredCount": 2,
+   "cpu": 512,
+   "memoryMiB": 1024,
+   "queueVisibilitySeconds": 60,
+   "listenerPriority": 20
+  },
+  "dev": {
+   "desiredCount": 1,
+   "cpu": 256,
+   "memoryMiB": 512,
+   "queueVisibilitySeconds": 45,
+   "listenerPriority": 10
+  },
+  "uat": {
+   "desiredCount": 2,
+   "cpu": 512,
+   "memoryMiB": 1024,
+   "queueVisibilitySeconds": 90,
+   "listenerPriority": 30
+  }
+ },
+ "container": {
+  "image": "public.ecr.aws/docker/library/httpd:2.4",
+  "port": 9090,
+  "healthCheckPath": "/ready",
+  "deregistrationSeconds": 35
+ },
+ "notificationEmails": [
+  "delivery-a@example.com",
+  "delivery-b@example.com",
+  "security@example.com"
+ ],
+ "eventRules": {
+  "plwsx-ncqp": {
+   "source": "aws.ecr",
+   "detailType": "ECR Image Scan",
+   "states": [
+    "COMPLETE"
+   ]
+  },
+  "deployment-state": {
+   "source": "aws.ecs",
+   "detailType": "ECS Deployment State Change"
+  },
+  "build-failed": {
+   "source": "aws.codebuild",
+   "detailType": "CodeBuild Build State Change",
+   "states": [
+    "FAILED"
+   ]
+  }
+ },
+ "logRetentionDays": 90,
+ "queueRetentionDays": 7,
+ "notificationMemoryMiB": 512,
+ "notificationTimeoutSeconds": 25
+}

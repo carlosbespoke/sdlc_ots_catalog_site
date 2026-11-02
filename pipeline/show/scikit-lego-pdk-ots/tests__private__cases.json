@@ -1,0 +1,494 @@
+[
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'linear', 'quantile_range': [25, 75]}, 'queries': [[[-100, -100], [100, 100]], [[8, 48], [20, 60]]], 'train': [[0, 40], [8, 48], [20, 60], [32, 72]]})\n",
+  "id": "OBS-0001"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'lower', 'quantile_range': [25, 75]}, 'queries': [[[-100, -100], [100, 100]], [[8, 48], [20, 60]]], 'train': [[0, 40], [8, 48], [20, 60], [32, 72]]})\n",
+  "id": "OBS-0002"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'lower', 'quantile_range': [25, 75]}, 'queries': [[[-100], [100]]], 'train': [[0], [8], [20], [32]]})\n",
+  "id": "OBS-0003"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'higher', 'quantile_range': [25, 75]}, 'queries': [[[-100, -100], [100, 100]], [[8, 48], [20, 60]]], 'train': [[0, 40], [8, 48], [20, 60], [32, 72]]})\n",
+  "id": "OBS-0004"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'higher', 'quantile_range': [25, 75]}, 'queries': [[[-100], [100]]], 'train': [[0], [8], [20], [32]]})\n",
+  "id": "OBS-0005"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'midpoint', 'quantile_range': [25, 75]}, 'queries': [[[-100, -100], [100, 100]], [[8, 48], [20, 60]]], 'train': [[0, 40], [8, 48], [20, 60], [32, 72]]})\n",
+  "id": "OBS-0006"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'midpoint', 'quantile_range': [25, 75]}, 'queries': [[[-100], [100]]], 'train': [[0], [8], [20], [32]]})\n",
+  "id": "OBS-0007"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'nearest', 'quantile_range': [25, 75]}, 'queries': [[[-100, -100], [100, 100]], [[8, 48], [20, 60]]], 'train': [[0, 40], [8, 48], [20, 60], [32, 72]]})\n",
+  "id": "OBS-0008"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'nearest', 'quantile_range': [25, 75]}, 'queries': [[[-100], [100]]], 'train': [[0], [8], [20], [32]]})\n",
+  "id": "OBS-0009"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {}, 'queries': [[[-50, -50], [500, 500]]], 'refit': [[60, 200], [80, 220], [100, 240]], 'train': [[0, 100], [20, 120], [40, 140]]})\n",
+  "id": "OBS-0010"
+ },
+ {
+  "code": "result = observe({'global': True, 'op': 'group', 'params': {'quantile_range': [0, 100]}, 'queries': [[[1, 50], [0, 50], [1, 150], [0, -10]], [[0, 25], [1, 115]]], 'train': [[0, 0], [1, 100], [0, 20], [1, 120], [0, 40], [1, 140]]})\n",
+  "id": "OBS-0011"
+ },
+ {
+  "code": "result = observe({'global': False, 'op': 'group', 'params': {'quantile_range': [0, 100]}, 'queries': [[[1, 50], [0, 50], [1, 150], [0, -10]], [[0, 25], [1, 115]]], 'train': [[0, 0], [1, 100], [0, 20], [1, 120], [0, 40], [1, 140]]})\n",
+  "id": "OBS-0012"
+ },
+ {
+  "code": "result = observe({'op': 'group', 'params': {'quantile_range': [0, 100]}, 'queries': [[[2, -100], [2, 500]]], 'train': [[0, 0], [1, 100], [0, 20], [1, 120], [0, 40], [1, 140]]})\n",
+  "id": "OBS-0013"
+ },
+ {
+  "code": "result = observe({'op': 'group', 'params': {'quantile_range': [0, 100]}, 'queries': [[[0, -10], [1, 1000]]], 'refit': [[0, 200], [1, 300], [0, 240], [1, 340]], 'train': [[0, 0], [1, 100], [0, 20], [1, 120], [0, 40], [1, 140]]})\n",
+  "id": "OBS-0014"
+ },
+ {
+  "code": "result = observe({'groups': [0, 1], 'op': 'group', 'params': {'quantile_range': [0, 100]}, 'queries': [[[1, 0, -20], [0, 0, 1000], [1, 1, 1000]]], 'train': [[0, 0, 100], [1, 0, 200], [0, 0, 140], [1, 0, 240]]})\n",
+  "id": "OBS-0015"
+ },
+ {
+  "code": "result = observe({'columns': ['key', 'value'], 'frame': True, 'groups': ['key'], 'op': 'group', 'params': {'quantile_range': [0, 100]}, 'queries': [[['b', 50], ['a', 50], ['c', 500]]], 'train': [['a', 0], ['b', 100], ['a', 40], ['b', 140]]})\n",
+  "id": "OBS-0016"
+ },
+ {
+  "code": "result = observe({'op': 'group', 'queries': [[[1, 110], [0, 10], [2, 70]]], 'scaler': True, 'train': [[0, 0], [1, 100], [0, 20], [1, 120], [0, 40], [1, 140]]})\n",
+  "id": "OBS-0017"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'linear', 'quantile_range': [25, 75]}, 'queries': [[[-100], [100]]], 'train': [[0], [8], [20], [32]]})\n",
+  "id": "OBS-0018"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {}, 'queries': [[[-50], [10], [500]], [[30], [25]]], 'train': [[0], [20], [40]]})\n",
+  "id": "OBS-0019"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'discard_infs': False}, 'queries': [[[None], ['-inf'], ['inf'], [10]]], 'train': [[None], ['inf'], ['-inf'], [0], [20], [40]]})\n",
+  "id": "OBS-0020"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'discard_infs': True}, 'queries': [[[None], ['-inf'], ['inf'], [10]]], 'train': [[None], ['inf'], ['-inf'], [0], [20], [40]]})\n",
+  "id": "OBS-0021"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'linear', 'quantile_range': [0, 100]}, 'queries': [[[-1], [8], [100], [None]]], 'train': [[8], [8], [8]]})\n",
+  "id": "OBS-0022"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'linear', 'quantile_range': [50, 50]}, 'queries': [[[-1], [8], [100], [None]]], 'train': [[8], [8], [8]]})\n",
+  "id": "OBS-0023"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'linear', 'quantile_range': [25, 75]}, 'queries': [[[-10], [100]]], 'train': [[0], [8], [16], [24], [32]]})\n",
+  "id": "OBS-0024"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'lower', 'quantile_range': [0, 100]}, 'queries': [[[-1], [8], [100], [None]]], 'train': [[8], [8], [8]]})\n",
+  "id": "OBS-0025"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'lower', 'quantile_range': [50, 50]}, 'queries': [[[-1], [8], [100], [None]]], 'train': [[8], [8], [8]]})\n",
+  "id": "OBS-0026"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'lower', 'quantile_range': [25, 75]}, 'queries': [[[-10], [100]]], 'train': [[0], [8], [16], [24], [32]]})\n",
+  "id": "OBS-0027"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'higher', 'quantile_range': [0, 100]}, 'queries': [[[-1], [8], [100], [None]]], 'train': [[8], [8], [8]]})\n",
+  "id": "OBS-0028"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'higher', 'quantile_range': [50, 50]}, 'queries': [[[-1], [8], [100], [None]]], 'train': [[8], [8], [8]]})\n",
+  "id": "OBS-0029"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'higher', 'quantile_range': [25, 75]}, 'queries': [[[-10], [100]]], 'train': [[0], [8], [16], [24], [32]]})\n",
+  "id": "OBS-0030"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'midpoint', 'quantile_range': [0, 100]}, 'queries': [[[-1], [8], [100], [None]]], 'train': [[8], [8], [8]]})\n",
+  "id": "OBS-0031"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'midpoint', 'quantile_range': [50, 50]}, 'queries': [[[-1], [8], [100], [None]]], 'train': [[8], [8], [8]]})\n",
+  "id": "OBS-0032"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'midpoint', 'quantile_range': [25, 75]}, 'queries': [[[-10], [100]]], 'train': [[0], [8], [16], [24], [32]]})\n",
+  "id": "OBS-0033"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'nearest', 'quantile_range': [0, 100]}, 'queries': [[[-1], [8], [100], [None]]], 'train': [[8], [8], [8]]})\n",
+  "id": "OBS-0034"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'nearest', 'quantile_range': [50, 50]}, 'queries': [[[-1], [8], [100], [None]]], 'train': [[8], [8], [8]]})\n",
+  "id": "OBS-0035"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'interpolation': 'nearest', 'quantile_range': [25, 75]}, 'queries': [[[-10], [100]]], 'train': [[0], [8], [16], [24], [32]]})\n",
+  "id": "OBS-0036"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'copy': True, 'quantile_range': [0, 100]}, 'queries': [[[10], [20], [30]]], 'train': [[0], [20], [40]]})\n",
+  "id": "OBS-0037"
+ },
+ {
+  "code": "result = observe({'op': 'cap', 'params': {'copy': False, 'quantile_range': [0, 100]}, 'queries': [[[10], [20], [30]]], 'train': [[0], [20], [40]]})\n",
+  "id": "OBS-0038"
+ },
+ {
+  "code": "result = observe({'op': 'cap_validation', 'params': {'quantile_range': [-1, 90]}, 'train': [[0], [1]]})\n",
+  "id": "OBS-0039"
+ },
+ {
+  "code": "result = observe({'op': 'cap_validation', 'params': {'quantile_range': [5, 101]}, 'train': [[0], [1]]})\n",
+  "id": "OBS-0040"
+ },
+ {
+  "code": "result = observe({'op': 'cap_validation', 'params': {'quantile_range': [90, 10]}, 'train': [[0], [1]]})\n",
+  "id": "OBS-0041"
+ },
+ {
+  "code": "result = observe({'op': 'cap_validation', 'params': {'quantile_range': [5]}, 'train': [[0], [1]]})\n",
+  "id": "OBS-0042"
+ },
+ {
+  "code": "result = observe({'op': 'cap_validation', 'params': {'quantile_range': 'bad'}, 'train': [[0], [1]]})\n",
+  "id": "OBS-0043"
+ },
+ {
+  "code": "result = observe({'op': 'cap_validation', 'params': {'interpolation': 'bad'}, 'train': [[0], [1]]})\n",
+  "id": "OBS-0044"
+ },
+ {
+  "code": "result = observe({'op': 'cap_validation', 'train': [[None], ['inf']]})\n",
+  "id": "OBS-0045"
+ },
+ {
+  "code": "result = observe({'op': 'cap_validation', 'train': [[0, None], [1, '-inf']]})\n",
+  "id": "OBS-0046"
+ },
+ {
+  "code": "result = observe({'op': 'cap_validation', 'queries': [[[0, 1]]], 'train': [[0], [1]]})\n",
+  "id": "OBS-0047"
+ },
+ {
+  "code": "result = observe({'op': 'cap_validation', 'query': [[1]], 'unfitted': True})\n",
+  "id": "OBS-0048"
+ },
+ {
+  "code": "result = observe({'global': False, 'op': 'group', 'queries': [[[2, 50]]], 'train': [[0, 0], [1, 100], [0, 20], [1, 120], [0, 40], [1, 140]]})\n",
+  "id": "OBS-0049"
+ },
+ {
+  "code": "result = observe({'groups': None, 'op': 'group', 'params': {'quantile_range': [0, 100]}, 'queries': [[[-50], [10], [500]]], 'train': [[0], [20], [40]]})\n",
+  "id": "OBS-0050"
+ },
+ {
+  "code": "result = observe({'global': False, 'op': 'group', 'params': {'quantile_range': [0, 100]}, 'queries': [[[0, -50], [0, 25], [0, 500]]], 'train': [[0, 0], [0, 20], [0, 40]]})\n",
+  "id": "OBS-0051"
+ },
+ {
+  "code": "result = observe({'groups': None, 'op': 'group', 'params': {'quantile_range': [25, 75]}, 'queries': [[[-50], [10], [500]]], 'train': [[0], [20], [40]]})\n",
+  "id": "OBS-0052"
+ },
+ {
+  "code": "result = observe({'global': False, 'op': 'group', 'params': {'quantile_range': [25, 75]}, 'queries': [[[0, -50], [0, 25], [0, 500]]], 'train': [[0, 0], [0, 20], [0, 40]]})\n",
+  "id": "OBS-0053"
+ },
+ {
+  "code": "result = observe({'groups': None, 'op': 'group', 'params': {'quantile_range': [50, 50]}, 'queries': [[[-50], [10], [500]]], 'train': [[0], [20], [40]]})\n",
+  "id": "OBS-0054"
+ },
+ {
+  "code": "result = observe({'global': False, 'op': 'group', 'params': {'quantile_range': [50, 50]}, 'queries': [[[0, -50], [0, 25], [0, 500]]], 'train': [[0, 0], [0, 20], [0, 40]]})\n",
+  "id": "OBS-0055"
+ },
+ {
+  "code": "result = observe({'op': 'group', 'params': {'quantile_range': [0, 100]}, 'queries': [[[1, 10], [0, 30]]], 'train': [[0, 0], [1, 0], [0, 40], [1, 40]]})\n",
+  "id": "OBS-0056"
+ },
+ {
+  "code": "result = observe({'op': 'group', 'queries': [[[0, 10], [0, 30]]], 'scaler': True, 'train': [[0, 0], [0, 40]]})\n",
+  "id": "OBS-0057"
+ },
+ {
+  "code": "result = observe({'groups': None, 'op': 'group', 'queries': [[[10], [30]]], 'scaler': True, 'train': [[0], [40]]})\n",
+  "id": "OBS-0058"
+ },
+ {
+  "code": "result = observe({'op': 'group', 'queries': [[[0, 1, 2]]], 'train': [[0, 0], [1, 100], [0, 20], [1, 120], [0, 40], [1, 140]]})\n",
+  "id": "OBS-0059"
+ },
+ {
+  "code": "\nfrom sklearn.compose import ColumnTransformer\nfrom sklego.preprocessing import DictMapper\nX = pd.DataFrame({\"city_pop\": [\"Amsterdam\", \"Leiden\", \"Utrecht\", \"None\", \"Haarlem\"]})\nmapper = {\"Amsterdam\": 1_181_817, \"Leiden\": 130_181, \"Utrecht\": 367_984, \"Haarlem\": 165_396}\nct = ColumnTransformer([(\"dictmapper\", DictMapper(mapper, 0), [\"city_pop\"])])\nresult = rnd(ct.fit_transform(X))\n",
+  "id": "OBS-0060"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import DictMapper\nX = np.array([[\"a\", \"b\"], [\"c\", \"a\"], [\"b\", \"z\"]], dtype=object)\nm = DictMapper({\"a\": 1, \"b\": 2, \"c\": 3}, -1).fit(X)\nresult = [rnd(m.transform(X)), m.n_features_in_]\n",
+  "id": "OBS-0061"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import IdentityTransformer\ndf = pd.DataFrame({\"name\": [\"Swen\", \"Victor\", \"Alex\"], \"length\": [1.82, 1.85, 1.80], \"shoesize\": [42, 44, 45]})\nt = IdentityTransformer()\nout = t.fit_transform(df)\nresult = [isinstance(out, pd.DataFrame), out.equals(df), t.n_samples_, t.n_features_in_]\n",
+  "id": "OBS-0062"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import IdentityTransformer\ndf = pd.DataFrame({\"length\": [1.82, 1.85, 1.80], \"shoesize\": [42, 44, 45]})\nout = IdentityTransformer(check_X=True).fit_transform(df)\nresult = [isinstance(out, np.ndarray), rnd(out)]\n",
+  "id": "OBS-0063"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import RandomAdder\nrng = np.random.RandomState(0)\nX_train, X_test = rng.randn(50, 3), rng.randn(20, 3)\na = RandomAdder(noise=0.5, random_state=42).fit(X_train, rng.randn(50))\nnoisy = a.transform(X_train)\nresult = [bool(np.all(noisy != X_train)), bool(np.array_equal(a.transform(X_test), X_test)), a.n_features_in_]\n",
+  "id": "OBS-0064"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import RandomAdder\nX = np.random.RandomState(1).randn(400, 2)\ny = np.zeros(400)\nfirst = RandomAdder(noise=2.0, random_state=7).fit(X, y).transform(X)\nsecond = RandomAdder(noise=2.0, random_state=7).fit(X, y).transform(X)\nspread = float(np.std(first - X))\nresult = [bool(np.array_equal(first, second)), 1.7 < spread < 2.3]\n",
+  "id": "OBS-0065"
+ },
+ {
+  "code": "\nfrom sklearn.covariance import EllipticEnvelope\nfrom sklego.preprocessing import OutlierRemover\nrng = np.random.RandomState(0)\nX = np.vstack([rng.randn(60, 2), [[25.0, 25.0], [-30.0, 30.0]]])\nr = OutlierRemover(EllipticEnvelope(contamination=0.04, random_state=0), refit=True).fit(X)\nkept = r.transform_train(X)\nX_new = np.array([[0.0, 0.0], [40.0, -40.0]])\nresult = [kept.shape[0], bool(np.any(np.all(kept == [25.0, 25.0], axis=1))), rnd(r.transform(X_new)),\n          type(r.estimator_).__name__]\n",
+  "id": "OBS-0066"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import MonotonicSplineTransformer\nX = np.linspace(0, 10, 40).reshape(-1, 1)\nout = MonotonicSplineTransformer(n_knots=4).fit_transform(X)\nresult = [out.shape[0], bool(np.all(np.diff(out, axis=0) >= -1e-9))]\n",
+  "id": "OBS-0067"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import MonotonicSplineTransformer\nX = np.column_stack([np.linspace(0, 1, 30), np.linspace(5, -5, 30)])\nt = MonotonicSplineTransformer(n_knots=3, degree=3).fit(X)\nout = t.transform(X)\nhalf = out.shape[1] // 2\nresult = [out.shape[1] % 2 == 0, bool(np.all(np.diff(out[:, :half], axis=0) >= -1e-9)),\n          bool(np.all(np.diff(out[:, half:], axis=0) <= 1e-9))]\n",
+  "id": "OBS-0068"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import Ridge\nfrom sklego.preprocessing import LinearEmbedder\nrng = np.random.RandomState(0)\nX = rng.randn(30, 3)\ny = X @ np.array([2.0, -1.0, 0.5]) + 0.01 * rng.randn(30)\ne = LinearEmbedder().fit(X, y)\nref = Ridge(fit_intercept=False).fit(X, y).coef_\nresult = [rnd(e.coef_), bool(np.allclose(e.coef_.ravel(), ref)), bool(np.allclose(e.transform(X), X * ref)),\n          e.n_features_in_]\n",
+  "id": "OBS-0069"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LinearRegression\nfrom sklego.preprocessing import LinearEmbedder\nX = np.array([[1.0, 0.0], [0.0, 1.0], [1.0, 1.0], [2.0, 1.0]])\ny = 3 * X[:, 0] - 2 * X[:, 1]\ne = LinearEmbedder(estimator=LinearRegression()).fit(X, y)\nresult = [rnd(e.coef_), rnd(e.transform(X)), type(e.estimator_).__name__]\n",
+  "id": "OBS-0070"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import ColumnDropper\ndf = pd.DataFrame({\"name\": [\"Swen\", \"Victor\"], \"length\": [1.82, 1.85], \"shoesize\": [42, 44]})\nd = ColumnDropper([\"name\"]).fit(df)\nout = d.transform(df)\nresult = [list(out.columns), list(d.feature_names_), list(ColumnDropper(\"length\").fit_transform(df).columns)]\n",
+  "id": "OBS-0071"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import ColumnDropper\ndf = pd.DataFrame({\"a\": [1, 2], \"b\": [3, 4]})\nresult = [raises(ColumnDropper([\"zzz\"]).fit, df), raises(ColumnDropper([\"a\", \"b\"]).fit, df),\n          raises(ColumnDropper([\"a\"]).fit, np.array([[1, 2]]))]\n",
+  "id": "OBS-0072"
+ },
+ {
+  "code": "\nimport polars as pl\nfrom sklego.preprocessing import ColumnDropper\ndf = pl.DataFrame({\"a\": [1, 2], \"b\": [3, 4], \"c\": [5, 6]})\nout = ColumnDropper([\"b\"]).fit_transform(df)\nresult = [type(out).__module__.split(\".\")[0], list(out.columns)]\n",
+  "id": "OBS-0073"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import ColumnSelector\ndf = pd.DataFrame({\"name\": [\"Swen\", \"Victor\"], \"length\": [1.82, 1.85], \"shoesize\": [42, 44]})\ns = ColumnSelector([\"length\", \"shoesize\"]).fit(df)\nresult = [list(s.transform(df).columns), list(s.columns_), list(ColumnSelector(\"name\").fit_transform(df).columns)]\n",
+  "id": "OBS-0074"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import ColumnSelector\ndf = pd.DataFrame({\"a\": [1, 2], \"b\": [3, 4]})\nresult = [raises(ColumnSelector([\"zzz\"]).fit, df), raises(ColumnSelector([]).fit, df),\n          raises(ColumnSelector([\"a\"]).fit, np.array([[1, 2]]))]\n",
+  "id": "OBS-0075"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import TypeSelector\ndf = pd.DataFrame({\"a\": [1, 2], \"b\": [1.5, 2.5], \"c\": [\"x\", \"y\"], \"d\": [True, False]})\nresult = [list(TypeSelector(include=[\"number\"]).fit_transform(df).columns),\n          list(TypeSelector(exclude=[\"number\"]).fit_transform(df).columns),\n          list(TypeSelector(include=[\"object\"]).fit_transform(df).columns)]\n",
+  "id": "OBS-0076"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import TypeSelector\ndf = pd.DataFrame({\"a\": [1, 2], \"b\": [1.5, 2.5]})\nother = pd.DataFrame({\"a\": [\"1\", \"2\"], \"b\": [1.5, 2.5]})\ns = TypeSelector(include=[\"number\"]).fit(df)\nresult = [raises(TypeSelector(include=[\"object\"]).fit, df), raises(s.transform, other)]\n",
+  "id": "OBS-0077"
+ },
+ {
+  "code": "\nimport polars as pl\nfrom sklego.preprocessing import TypeSelector\ndf = pl.DataFrame({\"a\": [1, 2], \"b\": [\"x\", \"y\"], \"c\": [0.5, 1.5]})\nresult = [list(TypeSelector(include=\"number\").fit_transform(df).columns),\n          list(TypeSelector(include=\"string\").fit_transform(df).columns)]\n",
+  "id": "OBS-0078"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import FormulaicTransformer\ndf = pd.DataFrame({\"a\": [1.0, 2.0, 3.0, 4.0], \"b\": [10.0, 20.0, 30.0, 40.0], \"c\": [\"x\", \"y\", \"x\", \"y\"]})\nt = FormulaicTransformer(\"a + np.log(b)\").fit(df)\nout = t.transform(df)\nresult = [isinstance(out, np.ndarray), rnd(np.asarray(out))]\n",
+  "id": "OBS-0079"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import FormulaicTransformer\ndf = pd.DataFrame({\"a\": [1.0, 2.0, 3.0, 4.0], \"c\": [\"x\", \"y\", \"x\", \"y\"]})\nout = FormulaicTransformer(\"a + c - 1\", return_type=\"pandas\").fit_transform(df)\nresult = [isinstance(out, pd.DataFrame), list(out.columns), rnd(out.to_numpy())]\n",
+  "id": "OBS-0080"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import FormulaicTransformer\ndf = pd.DataFrame({\"a\": [1.0, 2.0, 3.0], \"b\": [0.0, 1.0, 0.0]})\nout = FormulaicTransformer(\"a + b\", return_type=\"sparse\").fit_transform(df)\nresult = [hasattr(out, \"toarray\"), rnd(out.toarray())]\n",
+  "id": "OBS-0081"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import IntervalEncoder\nrng = np.random.RandomState(0)\nx = np.sort(rng.uniform(0, 10, 200))\ny = np.sin(x) + 0.1 * rng.randn(200)\nX = x.reshape(-1, 1)\ninc = IntervalEncoder(n_chunks=8, method=\"increasing\").fit(X, y).transform(X).ravel()\ndec = IntervalEncoder(n_chunks=8, method=\"decreasing\").fit(X, y).transform(X).ravel()\nresult = [bool(np.all(np.diff(inc) >= -1e-9)), bool(np.all(np.diff(dec) <= 1e-9))]\n",
+  "id": "OBS-0082"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import IntervalEncoder\nX = np.linspace(0, 1, 50).reshape(-1, 1)\ny = X.ravel() * 2\nt = IntervalEncoder(n_chunks=5).fit(X, y)\nresult = [t.transform(X).shape, raises(IntervalEncoder(method=\"nope\").fit, X, y),\n          raises(IntervalEncoder(n_chunks=0).fit, X, y)]\n",
+  "id": "OBS-0083"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import OrthogonalTransformer\nX = np.random.RandomState(0).randn(20, 3)\nQ = OrthogonalTransformer().fit_transform(X)\ngram = Q.T @ Q\nresult = [Q.shape, bool(np.allclose(gram - np.diag(np.diag(gram)), 0, atol=1e-8))]\n",
+  "id": "OBS-0084"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import OrthogonalTransformer\nX = np.random.RandomState(1).randn(15, 3)\nQ = OrthogonalTransformer(normalize=True).fit_transform(X)\nresult = [bool(np.allclose(Q.T @ Q, np.eye(3), atol=1e-8))]\n",
+  "id": "OBS-0085"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import InformationFilter\nX = np.random.RandomState(0).randn(30, 4)\nout = InformationFilter(columns=[0]).fit_transform(X)\nresult = [out.shape, bool(np.allclose(out.T @ X[:, 0], 0, atol=1e-8))]\n",
+  "id": "OBS-0086"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import InformationFilter\nrng = np.random.RandomState(2)\ndf = pd.DataFrame(rng.randn(25, 3), columns=[\"s\", \"a\", \"b\"])\nout = InformationFilter(columns=[\"s\"]).fit_transform(df)\nresult = [np.asarray(out).shape, bool(np.allclose(np.asarray(out).T @ df[\"s\"].to_numpy(), 0, atol=1e-8))]\n",
+  "id": "OBS-0087"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import RepeatingBasisFunction\ndf = pd.DataFrame({\"day\": np.arange(1, 366) % 365, \"x\": np.ones(365)})\nrbf = RepeatingBasisFunction(column=\"day\", n_periods=12, input_range=(0, 365), remainder=\"drop\")\nout = rbf.fit_transform(df)\nresult = [out.shape, bool(np.allclose(out[0], out[-1], atol=0.05)), int(np.argmax(out[0]))]\n",
+  "id": "OBS-0088"
+ },
+ {
+  "code": "\nfrom sklego.preprocessing import RepeatingBasisFunction\ndf = pd.DataFrame({\"day\": [1, 2, 3, 4, 5, 6, 7], \"x\": [10, 20, 30, 40, 50, 60, 70]})\nout = RepeatingBasisFunction(column=\"day\", n_periods=7, input_range=(1, 7), remainder=\"passthrough\").fit_transform(df)\nresult = [out.shape, rnd(out[:, -1])]\n",
+  "id": "OBS-0089"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LinearRegression\nfrom sklego.meta import EstimatorTransformer\nX = np.array([[1.0], [2.0], [3.0], [4.0]])\ny = 2 * X.ravel() + 1\nt = EstimatorTransformer(LinearRegression()).fit(X, y)\nresult = [rnd(t.transform(X)), rnd(t.transform(np.array([[10.0]])))]\n",
+  "id": "OBS-0090"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LinearRegression\nfrom sklego.meta import EstimatorTransformer\nX = np.array([[1.0], [2.0], [3.0], [4.0]])\nY = np.column_stack([X.ravel(), -X.ravel()])\nout = EstimatorTransformer(LinearRegression()).fit(X, Y).transform(X)\nresult = [out.shape, rnd(out)]\n",
+  "id": "OBS-0091"
+ },
+ {
+  "code": "\nfrom sklearn.pipeline import make_pipeline, make_union\nfrom sklearn.linear_model import LinearRegression, Ridge\nfrom sklego.meta import EstimatorTransformer\nX = np.array([[1.0, 0.0], [2.0, 1.0], [3.0, 0.0], [4.0, 1.0]])\ny = X[:, 0] * 3.0\nunion = make_union(EstimatorTransformer(LinearRegression()), EstimatorTransformer(Ridge(alpha=0.0)))\nout = make_pipeline(union, LinearRegression()).fit(X, y)\nresult = [union.transform(X).shape, rnd(out.predict(X))]\n",
+  "id": "OBS-0092"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LogisticRegression\nfrom sklego.meta import ConfusionBalancer\nrng = np.random.RandomState(0)\nX = np.concatenate([rng.normal(0, 1, (50, 2)), rng.normal(2, 1, (100, 2))])\ny = np.concatenate([np.zeros(50), np.ones(100)])\ncb = ConfusionBalancer(LogisticRegression(solver=\"lbfgs\"), alpha=0.1, cfm_smooth=0.1).fit(X, y)\np = cb.predict_proba(X)\nresult = [p.shape, bool(np.allclose(p.sum(axis=1), 1.0)), rnd(cb.classes_),\n          bool(np.array_equal(cb.predict(X), cb.classes_[p.argmax(axis=1)]))]\n",
+  "id": "OBS-0093"
+ },
+ {
+  "code": "\nfrom sklego.meta._decay_utils import linear_decay, exponential_decay\nX, y = np.zeros((5, 1)), np.zeros(5)\nresult = [rnd(linear_decay(X, y)), rnd(linear_decay(X, y, min_value=0.5, max_value=2.0)),\n          rnd(exponential_decay(X, y, decay_rate=0.5))]\n",
+  "id": "OBS-0094"
+ },
+ {
+  "code": "\nfrom sklego.meta._decay_utils import stepwise_decay, sigmoid_decay\nX, y = np.zeros((8, 1)), np.zeros(8)\ns = stepwise_decay(X, y, n_steps=4)\ng = sigmoid_decay(X, y)\nresult = [rnd(s), bool(np.all(np.diff(s) >= 0)), bool(np.all(np.diff(g) >= -1e-12)), rnd(g[-1] > g[0])]\n",
+  "id": "OBS-0095"
+ },
+ {
+  "code": "\nfrom sklego.meta._decay_utils import linear_decay, exponential_decay, sigmoid_decay\nX, y = np.zeros((5, 1)), np.zeros(5)\nresult = [raises(linear_decay, X, y, min_value=2.0, max_value=1.0), raises(exponential_decay, X, y, decay_rate=1.5),\n          raises(sigmoid_decay, X, y, min_value=3.0, max_value=1.0)]\n",
+  "id": "OBS-0096"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LinearRegression\nfrom sklego.meta import DecayEstimator\nX = np.arange(6, dtype=float).reshape(-1, 1)\ny = np.array([0.0, 1.0, 2.0, 3.0, 4.0, 5.0])\nd = DecayEstimator(LinearRegression(), decay_func=\"linear\").fit(X, y)\nresult = [rnd(d.weights_), rnd(d.predict(np.array([[10.0]])))]\n",
+  "id": "OBS-0097"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LinearRegression\nfrom sklego.meta import DecayEstimator\nX = np.arange(4, dtype=float).reshape(-1, 1)\ny = np.array([0.0, 0.0, 10.0, 10.0])\nd = DecayEstimator(LinearRegression(), decay_func=lambda X, y: np.array([0.0, 0.0, 1.0, 1.0])).fit(X, y)\ne = DecayEstimator(LinearRegression(), decay_kwargs={\"decay_rate\": 0.5}).fit(X, y)\nresult = [rnd(d.weights_), rnd(d.predict(np.array([[3.0]]))), rnd(e.weights_)]\n",
+  "id": "OBS-0098"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LinearRegression\nfrom sklego.meta import GroupedPredictor\ndf = pd.DataFrame({\"g\": [\"a\", \"a\", \"a\", \"b\", \"b\", \"b\"], \"x\": [1.0, 2.0, 3.0, 1.0, 2.0, 3.0]})\ny = np.array([1.0, 2.0, 3.0, 10.0, 20.0, 30.0])\nm = GroupedPredictor(LinearRegression(), groups=[\"g\"]).fit(df, y)\nq = pd.DataFrame({\"g\": [\"a\", \"b\"], \"x\": [4.0, 4.0]})\nresult = [rnd(m.predict(q)), sorted(str(k) for k in m.estimators_)]\n",
+  "id": "OBS-0099"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LinearRegression\nfrom sklego.meta import GroupedRegressor\ndf = pd.DataFrame({\"g\": [\"a\", \"a\", \"b\", \"b\"], \"x\": [1.0, 2.0, 1.0, 2.0]})\ny = np.array([1.0, 2.0, 3.0, 4.0])\nq = pd.DataFrame({\"g\": [\"zzz\"], \"x\": [3.0]})\non = GroupedRegressor(LinearRegression(), groups=[\"g\"], use_global_model=True).fit(df, y)\noff = GroupedRegressor(LinearRegression(), groups=[\"g\"], use_global_model=False).fit(df, y)\nresult = [rnd(on.predict(q)), raises(off.predict, q)]\n",
+  "id": "OBS-0100"
+ },
+ {
+  "code": "\nfrom sklearn.dummy import DummyRegressor\nfrom sklego.meta import GroupedPredictor\nX = np.array([[0, 1.0], [0, 2.0], [1, 3.0], [1, 4.0]])\ny = np.array([1.0, 3.0, 10.0, 20.0])\nm = GroupedPredictor(DummyRegressor(), groups=0).fit(X, y)\nresult = rnd(m.predict(np.array([[0, 9.0], [1, 9.0]])))\n",
+  "id": "OBS-0101"
+ },
+ {
+  "code": "\nfrom sklego.meta._shrinkage_utils import constant_shrinkage, equal_shrinkage, relative_shrinkage, min_n_obs_shrinkage\nsizes = [10, 6, 2]\nresult = [rnd(constant_shrinkage(sizes, alpha=0.5)), rnd(equal_shrinkage(sizes)), rnd(relative_shrinkage(sizes)),\n          rnd(min_n_obs_shrinkage(sizes, min_n_obs=5))]\n",
+  "id": "OBS-0102"
+ },
+ {
+  "code": "\nfrom sklearn.dummy import DummyRegressor\nfrom sklego.meta import GroupedPredictor\ndf = pd.DataFrame({\"m\": [\"x\", \"x\", \"x\", \"x\", \"y\", \"y\"], \"s\": [\"p\", \"p\", \"q\", \"q\", \"r\", \"r\"], \"f\": [0.0] * 6})\ny = np.array([1.0, 1.0, 3.0, 3.0, 8.0, 8.0])\nout = {}\nfor shrink, kw in [(\"equal\", {}), (\"relative\", {}), (\"constant\", {\"alpha\": 0.5}), (\"min_n_obs\", {\"min_n_obs\": 3})]:\n    m = GroupedPredictor(DummyRegressor(), groups=[\"m\", \"s\"], shrinkage=shrink, **({\"shrinkage_kwargs\": kw} if kw else {})).fit(df, y)\n    out[shrink] = rnd(m.predict(df.iloc[[0, 2, 4]]))\nresult = out\n",
+  "id": "OBS-0103"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LogisticRegression\nfrom sklego.meta import GroupedClassifier\ndf = pd.DataFrame({\"g\": [\"a\"] * 6 + [\"b\"] * 6, \"x\": [0.0, 1.0, 2.0, 3.0, 4.0, 5.0] * 2})\ny = np.array([0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0])\nm = GroupedClassifier(LogisticRegression(), groups=[\"g\"]).fit(df, y)\nq = pd.DataFrame({\"g\": [\"a\", \"a\", \"b\", \"b\"], \"x\": [0.0, 5.0, 0.0, 5.0]})\np = m.predict_proba(q)\nresult = [rnd(m.predict(q)), rnd(m.classes_), p.shape, bool(np.allclose(p.sum(axis=1), 1.0))]\n",
+  "id": "OBS-0104"
+ },
+ {
+  "code": "\nfrom sklearn.dummy import DummyRegressor\nfrom sklego.meta import HierarchicalRegressor\ndf = pd.DataFrame({\"m\": [\"x\", \"x\", \"x\", \"x\", \"y\", \"y\"], \"s\": [\"p\", \"p\", \"q\", \"q\", \"r\", \"r\"], \"f\": [0.0] * 6})\ny = np.array([1.0, 1.0, 3.0, 3.0, 8.0, 8.0])\nm = HierarchicalRegressor(DummyRegressor(), groups=[\"m\", \"s\"]).fit(df, y)\nq = pd.DataFrame({\"m\": [\"x\", \"x\", \"y\", \"x\"], \"s\": [\"p\", \"q\", \"r\", \"new\"], \"f\": [0.0] * 4})\nresult = [rnd(m.predict(q)), len(m.estimators_)]\n",
+  "id": "OBS-0105"
+ },
+ {
+  "code": "\nfrom sklearn.dummy import DummyRegressor\nfrom sklego.meta import HierarchicalRegressor\ndf = pd.DataFrame({\"m\": [\"x\", \"x\", \"y\", \"y\"], \"f\": [0.0] * 4})\ny = np.array([1.0, 3.0, 10.0, 20.0])\nm = HierarchicalRegressor(DummyRegressor(), groups=[\"m\"], fallback_method=\"raise\").fit(df, y)\nresult = [rnd(m.predict(df.iloc[[0, 2]])), raises(m.predict, pd.DataFrame({\"m\": [\"zzz\"], \"f\": [0.0]}))]\n",
+  "id": "OBS-0106"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LogisticRegression\nfrom sklego.meta import HierarchicalClassifier\ndf = pd.DataFrame({\"g\": [\"a\"] * 6 + [\"b\"] * 6, \"x\": [0.0, 1.0, 2.0, 3.0, 4.0, 5.0] * 2})\ny = np.array([0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0])\nm = HierarchicalClassifier(LogisticRegression(), groups=[\"g\"]).fit(df, y)\np = m.predict_proba(df)\nresult = [rnd(m.predict(df.iloc[[0, 5, 6, 11]])), p.shape, bool(np.allclose(p.sum(axis=1), 1.0))]\n",
+  "id": "OBS-0107"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LogisticRegression\nfrom sklego.meta import OrdinalClassifier\nX = np.arange(12, dtype=float).reshape(-1, 1)\ny = np.array([1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3])\nm = OrdinalClassifier(LogisticRegression()).fit(X, y)\np = m.predict_proba(X)\nresult = [rnd(m.classes_), p.shape, bool(np.allclose(p.sum(axis=1), 1.0)), len(m.estimators_),\n          rnd(m.predict(np.array([[0.0], [5.5], [11.0]])))]\n",
+  "id": "OBS-0108"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LogisticRegression\nfrom sklego.meta import OrdinalClassifier\nX = np.arange(12, dtype=float).reshape(-1, 1)\ny = np.array([0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2])\nm = OrdinalClassifier(LogisticRegression(), use_calibration=True, calibration_kwargs={\"cv\": 2}).fit(X, y)\np = m.predict_proba(X)\nresult = [p.shape, bool(np.allclose(p.sum(axis=1), 1.0)), raises(OrdinalClassifier(LogisticRegression()).fit, X, np.zeros(12))]\n",
+  "id": "OBS-0109"
+ },
+ {
+  "code": "\nfrom sklearn.covariance import EllipticEnvelope\nfrom sklego.meta import OutlierClassifier\nrng = np.random.RandomState(0)\nX = np.vstack([rng.randn(40, 1), [[30.0], [-30.0]]])\ny = np.array([0] * 40 + [1, 1])\nm = OutlierClassifier(EllipticEnvelope(contamination=0.05, random_state=0)).fit(X, y)\np = m.predict_proba(np.array([[0.0], [50.0]]))\nresult = [rnd(m.predict(np.array([[0.0], [50.0], [-50.0]]))), p.shape, bool(np.allclose(p.sum(axis=1), 1.0)),\n          bool(p[1, 1] > p[0, 1])]\n",
+  "id": "OBS-0110"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LinearRegression\nfrom sklego.meta import RegressionOutlierDetector\nx = np.arange(20, dtype=float)\nt = 2 * x + 1\nt[5] += 40.0\nt[12] -= 40.0\nX = np.column_stack([x, t])\nm = RegressionOutlierDetector(LinearRegression(), column=1).fit(X)\nresult = [rnd(m.predict(X)), rnd(np.where(m.predict(X) == -1)[0])]\n",
+  "id": "OBS-0111"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LinearRegression\nfrom sklego.meta import RegressionOutlierDetector\nx = np.arange(10, dtype=float)\nX = np.column_stack([3 * x, x])\nm = RegressionOutlierDetector(LinearRegression(), column=0, lower=1.0, upper=1.0, method=\"absolute\").fit(X)\nq = np.array([[3.0, 1.0], [5.0, 1.0], [1.5, 1.0], [3.5, 1.0]])\nresult = rnd(m.predict(q))\n",
+  "id": "OBS-0112"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LogisticRegression\nfrom sklego.meta import SubjectiveClassifier\nrng = np.random.RandomState(0)\nX = np.concatenate([rng.normal(0, 1, (40, 2)), rng.normal(2, 1, (40, 2))])\ny = np.array([0] * 40 + [1] * 40)\nbase = LogisticRegression().fit(X, y).predict_proba(X)\nm = SubjectiveClassifier(LogisticRegression(), prior={0: 0.9, 1: 0.1}, evidence=\"predict_proba\").fit(X, y)\nexpected = base * np.array([0.9, 0.1])\nexpected = expected / expected.sum(axis=1, keepdims=True)\nresult = [bool(np.allclose(m.predict_proba(X), expected)), rnd(m.classes_)]\n",
+  "id": "OBS-0113"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LogisticRegression\nfrom sklego.meta import SubjectiveClassifier\nrng = np.random.RandomState(0)\nX = np.concatenate([rng.normal(0, 1, (40, 2)), rng.normal(2, 1, (40, 2))])\ny = np.array([0] * 40 + [1] * 40)\nm = SubjectiveClassifier(LogisticRegression(), prior={0: 0.5, 1: 0.5}, evidence=\"confusion_matrix\").fit(X, y)\np = m.predict_proba(X)\nresult = [p.shape, bool(np.allclose(p.sum(axis=1), 1.0)),\n          raises(SubjectiveClassifier(LogisticRegression(), prior={0: 0.5, 1: 0.6}).fit, X, y),\n          raises(SubjectiveClassifier(LogisticRegression(), prior={0: 0.5, 7: 0.5}).fit, X, y)]\n",
+  "id": "OBS-0114"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LogisticRegression\nfrom sklego.meta import Thresholder\nX = np.linspace(-3, 3, 40).reshape(-1, 1)\ny = (X.ravel() > 0).astype(int)\nbase = LogisticRegression().fit(X, y)\np = base.predict_proba(X)[:, 1]\nout = {}\nfor th in (0.1, 0.5, 0.9):\n    pred = Thresholder(LogisticRegression(), threshold=th).fit(X, y).predict(X)\n    out[str(th)] = [int(pred.sum()), bool(np.array_equal(pred, (p > th).astype(int)))]\nresult = out\n",
+  "id": "OBS-0115"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LogisticRegression\nfrom sklego.meta import Thresholder\nX = np.linspace(-3, 3, 30).reshape(-1, 1)\ny = np.array([0, 1, 2] * 10)\nresult = raises(Thresholder(LogisticRegression(), threshold=0.5).fit, X, y)\n",
+  "id": "OBS-0116"
+ },
+ {
+  "code": "\nfrom sklearn.tree import DecisionTreeClassifier\nfrom sklearn.linear_model import LinearRegression\nfrom sklego.meta import ZeroInflatedRegressor\nX = np.array([[0.0], [1.0], [2.0], [3.0], [10.0], [11.0], [12.0], [13.0]])\ny = np.array([0.0, 0.0, 0.0, 0.0, 20.0, 22.0, 24.0, 26.0])\nm = ZeroInflatedRegressor(DecisionTreeClassifier(random_state=0), LinearRegression()).fit(X, y)\nresult = rnd(m.predict(np.array([[1.5], [14.0]])))\n",
+  "id": "OBS-0117"
+ },
+ {
+  "code": "\nfrom sklearn.tree import DecisionTreeClassifier\nfrom sklearn.linear_model import LinearRegression\nfrom sklego.meta import ZeroInflatedRegressor\nX = np.arange(6, dtype=float).reshape(-1, 1)\nresult = raises(ZeroInflatedRegressor(DecisionTreeClassifier(), LinearRegression()).fit, X, np.zeros(6))\n",
+  "id": "OBS-0118"
+ },
+ {
+  "code": "\nfrom sklearn.linear_model import LogisticRegression, LinearRegression\nfrom sklearn.cluster import KMeans\nfrom sklearn.ensemble import IsolationForest\nfrom sklego.base import ProbabilisticClassifier, Clusterer, OutlierModel\nresult = [isinstance(LogisticRegression(), ProbabilisticClassifier), isinstance(LinearRegression(), ProbabilisticClassifier),\n          isinstance(KMeans(), Clusterer), isinstance(LinearRegression(), Clusterer),\n          isinstance(IsolationForest(), OutlierModel), isinstance(LinearRegression(), OutlierModel)]\n",
+  "id": "OBS-0119"
+ },
+ {
+  "code": "\nfrom sklego.common import as_list, expanding_list, flatten, sliding_window\nresult = [as_list(\"a\"), as_list([\"a\", \"b\"]), as_list(None), expanding_list([\"a\", \"b\", \"c\"]), expanding_list(\"a\"),\n          list(flatten([[1, [2, 3]], [4]])), [list(w) for w in sliding_window([1, 2, 3, 4, 5], window_size=2, step_size=2)]]\n",
+  "id": "OBS-0120"
+ },
+ {
+  "code": "\nfrom sklearn.base import BaseEstimator\nfrom sklego.common import TrainOnlyTransformerMixin\nclass Plus(TrainOnlyTransformerMixin, BaseEstimator):\n    def fit(self, X, y=None):\n        return super().fit(X, y)\n    def transform_train(self, X, y=None):\n        return X + 100\nX_train = np.arange(6, dtype=float).reshape(3, 2)\nX_test = X_train + 1\nt = Plus().fit(X_train)\nresult = [rnd(t.transform(X_train)), rnd(t.transform(X_test)), t.n_features_in_, raises(t.transform, np.zeros((2, 5)))]\n",
+  "id": "OBS-0121"
+ },
+ {
+  "code": "\nfrom sklego.notinstalled import NotInstalledPackage\npkg = NotInstalledPackage(\"missingpkg\")\nresult = [raises(getattr, pkg, \"anything\"), raises(getattr, pkg, \"fit\")]\n",
+  "id": "OBS-0122"
+ },
+ {
+  "code": "\nimport sklego\nresult = sklego.__version__\n",
+  "id": "OBS-0123"
+ }
+]

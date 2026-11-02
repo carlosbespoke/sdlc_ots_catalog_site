@@ -1,0 +1,323 @@
+{
+ "schema": "livesvc/v1",
+ "task_type": "access_model",
+ "tool": "terraform",
+ "backends": [
+  "postgres",
+  "vault"
+ ],
+ "providers": [
+  "hashicorp/vault",
+  "cyrilgdn/postgresql"
+ ],
+ "repo_dir": "/workspace/platform",
+ "inventory_file": "inventory.auto.tfvars.json",
+ "backend_file": "backend.tf",
+ "verifier_owned": [
+  "versions.tf",
+  "providers.tf",
+  "backend.tf",
+  "variables.tf",
+  "inventory.auto.tfvars.json"
+ ],
+ "core_checks": [
+  "vault.kvdata",
+  "vault.transit:*",
+  "vault.entities",
+  "vault.user:*",
+  "vault.policy:breakglass",
+  "vault.policy:sre-oncall",
+  "vault.group:sre",
+  "vault.auth:userpass",
+  "vault.mount:transit",
+  "pg.data",
+  "pg.role:metabase",
+  "pg.role:replicator",
+  "pg.role:dba_team",
+  "pg.db:metabase",
+  "pg.login:metabase",
+  "pg.login:replicator"
+ ],
+ "core_if_kept": [
+  "vault.client:*"
+ ],
+ "observe": {
+  "extra_paths": [
+   "sys/policies/acl/probe",
+   "sys/auth/probe",
+   "transit/encrypt/payments-tokenization",
+   "transit/keys/payments-tokenization",
+   "secret/config",
+   "secret/data/probe",
+   "secret/metadata/probe",
+   "auth/approle/role/probe",
+   "database/config/probe",
+   "database/creds/probe",
+   "identity/group/name/probe"
+  ]
+ },
+ "probes": [
+  {
+   "name": "grow",
+   "summary": "a new team with existing people, a new schema it owns, a new workload, a workload gains an environment",
+   "patch": {
+    "teams": {
+     "radiology": {
+      "members": [
+       "nina.berg",
+       "tom.okeke"
+      ]
+     }
+    },
+    "schemas": {
+     "imaging": {
+      "owner_team": "radiology"
+     }
+    },
+    "workloads": {
+     "pacs-bridge": {
+      "team": "radiology",
+      "environments": [
+       "prod",
+       "staging"
+      ],
+      "database": {
+       "imaging": "write",
+       "patient": "read"
+      }
+     },
+     "registry-sync": {
+      "environments": [
+       "prod",
+       "staging"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "name": "shrink",
+   "summary": "workloads decommissioned, a workload leaves an environment, access and a member removed",
+   "patch": {
+    "teams": {
+     "clinical": {
+      "members": [
+       "sofia.reyes",
+       "noah.patel"
+      ]
+     }
+    },
+    "workloads": {
+     "sms-relay": null,
+     "audit-exporter": null,
+     "portal-web": {
+      "environments": [
+       "prod"
+      ]
+     },
+     "doctor-api": {
+      "database": {
+       "lab_results": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "update",
+   "summary": "lifetimes change, an access level changes, a workload changes team, a schema changes owning team",
+   "patch": {
+    "environments": {
+     "prod": {
+      "token_ttl": 2700,
+      "db_creds_ttl": 1800
+     },
+     "staging": {
+      "secret_id_ttl": 2592000,
+      "token_max_ttl": 28800
+     }
+    },
+    "schemas": {
+     "lab_results": {
+      "owner_team": "analytics"
+     }
+    },
+    "workloads": {
+     "claims-processor": {
+      "database": {
+       "patient": "write"
+      }
+     },
+     "invoice-renderer": {
+      "team": "integrations"
+     }
+    }
+   }
+  },
+  {
+   "name": "fresh",
+   "summary": "the same kind of growth under names nobody can list in advance (hidden salt)",
+   "tokens": {
+    "@TEAM@": "@WORD@",
+    "@SCHEMA@": "@WORD@_data",
+    "@WORKLOAD@": "@WORD@-sync"
+   },
+   "patch": {
+    "teams": {
+     "@TEAM@": {
+      "members": [
+       "yusuf.demir",
+       "ana.souza"
+      ]
+     }
+    },
+    "schemas": {
+     "@SCHEMA@": {
+      "owner_team": "@TEAM@"
+     }
+    },
+    "workloads": {
+     "@WORKLOAD@": {
+      "team": "@TEAM@",
+      "environments": [
+       "prod",
+       "staging"
+      ],
+      "database": {
+       "@SCHEMA@": "write",
+       "billing": "read"
+      }
+     },
+     "scim-bridge": {
+      "environments": [
+       "prod",
+       "staging"
+      ]
+     }
+    }
+   }
+  }
+ ],
+ "salt": "3f9c1e72a4",
+ "mistakes": [
+  {
+   "name": "keep_settings_dropped",
+   "expect": "below_one",
+   "why": "settings the model does not govern are reset by the import (secret_id_num_uses, token_num_uses, token_type, CIDR bindings, connection limits)",
+   "edits": [
+    {
+     "file": "adopt.tf",
+     "find": "  approle_keep = {\n    \"prod-doctor-api\"            = { secret_id_num_uses = 10 }\n    \"prod-registry-sync\"         = { token_no_default_policy = true }\n    \"prod-claims-processor\"      = { token_num_uses = 25 }\n    \"staging-appointment-worker\" = { secret_id_num_uses = 5 }\n    \"prod-session-cleaner\"       = { token_type = \"batch\" }\n    \"prod-billing-api\" = {\n      secret_id_bound_cidrs = [\"10.40.0.0/16\", \"127.0.0.1/32\"]\n      token_bound_cidrs     = [\"10.40.0.0/16\", \"127.0.0.1/32\"]\n    }\n  }\n",
+     "replace": "  approle_keep = {}\n"
+    },
+    {
+     "file": "adopt.tf",
+     "find": "  pg_role_keep = {\n    \"prod_clinical_reader\"      = { connection_limit = 20 }\n    \"prod_notifications_writer\" = { connection_limit = 50 }\n    \"prod_billing_writer\"       = { connection_limit = 40 }\n  }\n",
+     "replace": "  pg_role_keep = {}\n"
+    }
+   ]
+  },
+  {
+   "name": "no_admin_option",
+   "expect": "below_one",
+   "why": "vault_admin_<env> cannot grant the roles it does not administer: credentials of several roles are not issued",
+   "edits": [
+    {
+     "file": "postgres.tf",
+     "find": "# PostgreSQL 16+: vault_admin_<env> can only grant the group roles it administers.\nresource \"postgresql_grant_role\" \"vault_admin\" {\n  for_each          = local.group_roles\n  role              = \"vault_admin_${each.value.env}\"\n  grant_role        = postgresql_role.group[each.key].name\n  with_admin_option = true\n}\n\n",
+     "replace": ""
+    }
+   ]
+  },
+  {
+   "name": "default_privileges_as_postgres",
+   "expect": "below_one",
+   "why": "default privileges for the wrong role: tables the owner creates get nothing",
+   "edits": [
+    {
+     "file": "postgres.tf",
+     "find": "  owner       = postgresql_role.owner[each.value.env_schema].name\n  role        = postgresql_role.group[each.key].name\n  object_type = \"table\"",
+     "replace": "  owner       = \"postgres\"\n  role        = postgresql_role.group[each.key].name\n  object_type = \"table\""
+    }
+   ]
+  },
+  {
+   "name": "public_left",
+   "expect": "below_one",
+   "why": "PUBLIC keeps USAGE and SELECT on the billing schema",
+   "edits": [
+    {
+     "file": "postgres.tf",
+     "find": "# Nobody outside the model: PUBLIC holds nothing on the application schemas and their tables.\nresource \"postgresql_grant\" \"public_schema\" {\n  for_each    = local.env_schemas\n  database    = each.value.database\n  schema      = postgresql_schema.schema[each.key].name\n  role        = \"public\"\n  object_type = \"schema\"\n  privileges  = []\n}\n\nresource \"postgresql_grant\" \"public_tables\" {\n  for_each    = local.env_schemas\n  database    = each.value.database\n  schema      = postgresql_schema.schema[each.key].name\n  role        = \"public\"\n  object_type = \"table\"\n  privileges  = []\n}\n\n",
+     "replace": ""
+    }
+   ]
+  },
+  {
+   "name": "static_imports",
+   "expect": "below_one",
+   "why": "import blocks that do not follow the inventory break the apply when a workload is decommissioned",
+   "edits": [
+    {
+     "file": "adopt.tf",
+     "find": "import {\n  for_each = { for k, p in local.pairs : k => p if contains(local.existing.workload_roles, k) }\n  to       = vault_policy.workload[each.key]",
+     "replace": "import {\n  for_each = toset(local.existing.workload_roles)\n  to       = vault_policy.workload[each.key]"
+    }
+   ]
+  },
+  {
+   "name": "bootstrap_password",
+   "expect": "zero",
+   "gate": "apply",
+   "why": "the bootstrap password was rotated away: Vault cannot verify the connection",
+   "edits": [
+    {
+     "file": "vault.tf",
+     "find": "    username       = \"vault_admin_${each.key}\"\n",
+     "replace": "    username       = \"vault_admin_${each.key}\"\n    password       = \"vault-admin-${each.key}-bootstrap-2024\"\n"
+    }
+   ]
+  },
+  {
+   "name": "retired_kept",
+   "expect": "below_one",
+   "why": "forgetting a retired object instead of destroying it leaves apps-read-all in Vault",
+   "edits": [
+    {
+     "file": "adopt.tf",
+     "find": "# ---- phase 0: same objects, new addresses",
+     "replace": "removed {\n  from = vault_policy.apps_read_all\n  lifecycle {\n    destroy = false\n  }\n}\n\n# ---- phase 0: same objects, new addresses"
+    }
+   ]
+  },
+  {
+   "name": "role_ids_changed",
+   "expect": "zero",
+   "why": "new role IDs lock out every production client (core check)",
+   "edits": [
+    {
+     "file": "vault.tf",
+     "find": "  role_name      = each.key\n  token_policies = [vault_policy.workload[each.key].name]",
+     "replace": "  role_name      = each.key\n  role_id        = \"${each.key}-rid\"\n  token_policies = [vault_policy.workload[each.key].name]"
+    }
+   ]
+  },
+  {
+   "name": "no_connect_grants",
+   "expect": "below_one",
+   "why": "once PUBLIC loses CONNECT, credentials cannot connect unless their group roles may",
+   "edits": [
+    {
+     "file": "postgres.tf",
+     "find": "resource \"postgresql_grant\" \"connect\" {\n  for_each    = local.group_roles\n  database    = each.value.database\n  role        = postgresql_role.group[each.key].name\n  object_type = \"database\"\n  privileges  = [\"CONNECT\"]\n}\n\n",
+     "replace": ""
+    },
+    {
+     "file": "postgres.tf",
+     "find": "  depends_on = [postgresql_grant.vault_admin_connect, postgresql_grant.connect]\n",
+     "replace": "  depends_on = [postgresql_grant.vault_admin_connect]\n"
+    }
+   ]
+  }
+ ]
+}

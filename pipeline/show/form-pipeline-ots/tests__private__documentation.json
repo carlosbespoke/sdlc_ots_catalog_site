@@ -1,0 +1,2302 @@
+{
+ "comments": "off",
+ "format": "spec-drift-doc-sequence-v3",
+ "modules": {},
+ "pages": {
+  "docs/reference/classes/FieldApi.md": "bc175a2b49a70e9350b81daf85b8dfd8a8b37511b9dba5492a42d76fcf854625",
+  "docs/reference/classes/FieldGroupApi.md": "096e14b3edb3ee5f61f15c7e17d73e3f77ad3464e4d93554f3e72b90dc631e4e",
+  "docs/reference/classes/FormApi.md": "d5dbd6fe69c679aa4058a3bd0e29ce372d209b9bb55256dd4d5d2823b9eac55c",
+  "docs/reference/classes/FormGroupApi.md": "f90751f54b11ca09be2ad2290f6222c778056f6760abe769b958b607a1ad7eca",
+  "docs/reference/functions/createFieldMap.md": "68b398af8122071e916fbbbdc5c30e1e68388ee73baee939b8f8d8a920349d44",
+  "docs/reference/functions/deepCopy.md": "b64e3a1a1d7258142b5841f09622a688dba6ddb121e0adf899b0d7b3a416daa4",
+  "docs/reference/functions/evaluate.md": "a1426e9ef744c4d0e8c496f65f1a360eab9bd71a6e6b38163c74d010ecf40ee0",
+  "docs/reference/functions/formOptions.md": "c011c049e255e94118bef3e511cd09d00eceb8329f74f662cc2ca8426017cb29",
+  "docs/reference/functions/isGlobalFormValidationError.md": "ab2c391e82a619b683af36fbc80feac3f4977725110a23d07934bda5fa3a1c9b",
+  "docs/reference/functions/isStandardSchemaValidator.md": "f62a5efc6bb2a554214b6c629958577f6a67e9ed4cf113332b132a8c16ad2e2d",
+  "docs/reference/functions/mergeForm.md": "5ae2f531074526d55ebda83a83d60b04b8454fee71af5026c9ef6ae7f027f0c9",
+  "docs/reference/functions/revalidateLogic.md": "6ac2f55fc64c9f8084a9400f1149d824a6bf39df6042198b2e961f92bfb5ad82",
+  "docs/reference/functions/uuid.md": "5fbd16c7bb06c61c1f45d6c55a6a9ed9cb46c358110f0316d015c94f319895bd",
+  "docs/reference/index.md": "468faa02e51eb0f7d8adf3e5d4c65258f41f11570f3609f445b20dea814c2479",
+  "docs/reference/interfaces/AnyDeepKeyAndValue.md": "6996d4970d94281d26264ed8eccb00126897d737a55849370a1489b977efef27",
+  "docs/reference/interfaces/ArrayDeepKeyAndValue.md": "6c19bdde7efee7e2ac812d863946c34fc70b6423a5f650cb58551baead946491",
+  "docs/reference/interfaces/BaseFormOptions.md": "34bbf221864dd09b18ddc731d462a4abcd111218d452c573499058db3364bd94",
+  "docs/reference/interfaces/FieldApiOptions.md": "423833f70f0602ef183de75242258601bf3be9bef8ecbe409e87ff6182e98b58",
+  "docs/reference/interfaces/FieldGroupOptions.md": "95e418892618af2483dd0df42bf6d447f1ebe0cf99063b8c300d9b888d72e759",
+  "docs/reference/interfaces/FieldGroupState.md": "40c2dc827bd782d44e5a657df539b915b75891e39723f02df5ae78165a00646b",
+  "docs/reference/interfaces/FieldListeners.md": "2b36a2cdbc8ae7cf7b1aa7c638f5360f9df8c85f76d596de63c4b690369bc56c",
+  "docs/reference/interfaces/FieldOptions.md": "92ce30611cf8349fa6142b627173b532ee166d403a8524567501631e484afa0d",
+  "docs/reference/interfaces/FieldValidators.md": "3b89079e7047940535d57bde3b856be7607a6a01314d1f68edc49851ff89132d",
+  "docs/reference/interfaces/FormGroupApiOptions.md": "7464f299689b0a169357b5f4e4dfa3cd63234d73cbac32a4f861eec85a5d4941",
+  "docs/reference/interfaces/FormGroupListeners.md": "006ac0bce2f09771485b16aa69f6707d0085973bd7c0f4fc8ecff5e56329f4c5",
+  "docs/reference/interfaces/FormGroupMeta.md": "61b40047a588d4f988868f41a1cfc8c4d4369bcdb0cecf0591661c55328e74c3",
+  "docs/reference/interfaces/FormGroupOptions.md": "1088512340586a0a52dfa204a9ed7baf1255b17b17dcbf9dd653550f38f916a8",
+  "docs/reference/interfaces/FormGroupState.md": "cb3bd4bf35eeb876eb45510cb0eb04e4007d6ec7d7e03fa9311d18aaf25661df",
+  "docs/reference/interfaces/FormGroupStoreState.md": "44f0bdbc9ca794297dabb99411e728928d409992b4466c7dbb210de57df8e5bb",
+  "docs/reference/interfaces/FormGroupValidators.md": "36de1f771663e4d49c3ed68cced0759fe551088589dc289222c0461148b0ef59",
+  "docs/reference/interfaces/FormListeners.md": "985e0c96aeb3f32419e4aad097046591b8505830657af38b94209d4f51edd9a9",
+  "docs/reference/interfaces/FormListenersPropsField.md": "1e063ec18d83cc68e3e4e9a980f9b55c64b2549b0f0e18cb1a8c409f370d4b4f",
+  "docs/reference/interfaces/FormListenersPropsGroup.md": "81383509156bee62f8c9556caab789415ad4037948232ca3b828bfe570bd90ab",
+  "docs/reference/interfaces/FormOptions.md": "9c08d0ef7b8a5a7fd0d21cec1c9d5ec27dabfed7142f36378a53d203d06f1e92",
+  "docs/reference/interfaces/FormState.md": "93fd9b5669009caff968e4d5e84e07457af652c4742751270a0f3ee7a599ef99",
+  "docs/reference/interfaces/FormValidators.md": "f5dfe9f98232d9a606e32efc4c37c0195c24605ddaa0bb6cc06c118746b0aa79",
+  "docs/reference/interfaces/ObjectDeepKeyAndValue.md": "795c172e760a1d5ffbba832c2b5bc5f8734cfc64aeba15efacb2b96270fa22fd",
+  "docs/reference/interfaces/StandardSchemaV1Issue.md": "b673a7d101a97f51bfa95ccf1fbcb2f4d85268c17512c85d18bf5028cdf7c682",
+  "docs/reference/interfaces/TupleDeepKeyAndValue.md": "047649b0641af130975df8c5921497bb97a7f3cda02cfe7f8f8b6a544b189d2c",
+  "docs/reference/interfaces/UnknownDeepKeyAndValue.md": "37a4a290518a10275672a370caa22fa7f7ca7ef1ec264918322d97a5d92fee9f",
+  "docs/reference/interfaces/ValidationLogicProps.md": "698804e47a7630c5ee1b2f77e8863d4ad07dc8705a7fd13c7fd34604a51eaa76",
+  "docs/reference/interfaces/ValidationLogicValidatorsFn.md": "85cff66956cdd8dc47bfdf313abe111e59aaa3ba3fccfd86496f0e9de43c4267",
+  "docs/reference/type-aliases/AllObjectKeys.md": "c2061bbdcf65847661816f141d06ead9b3b798d6d1b78c9963558ed8f903e044",
+  "docs/reference/type-aliases/AllTupleKeys.md": "ada8206056cd2084448a2908504f2b0d18e17730522da15bb6bfa90b2e01fe0b",
+  "docs/reference/type-aliases/AnyBaseFormState.md": "027f731e99757b9f181b57a4393ba7ddd1465dbb2efa15e6bbde9b10768f92cd",
+  "docs/reference/type-aliases/AnyFieldApi.md": "5213b684036bb3d8bd335b6f4205ef5c1530f3594aacef52ccaebbdc1193c9af",
+  "docs/reference/type-aliases/AnyFieldGroupApi.md": "2271aaa95d944806034a33ceb7279a8a79e3cb1c0e6087321f5960a783854db1",
+  "docs/reference/type-aliases/AnyFieldMeta.md": "ec196c2d860a33604f78889ddc6b64df62e81a81d0ad3ab522f9eddfb25f31e5",
+  "docs/reference/type-aliases/AnyFormApi.md": "da5b20f46548c4e623be6e967a56bb5adef4186ae5661cd3f1a7b80e15b0e39a",
+  "docs/reference/type-aliases/AnyFormGroupApi.md": "6004b855bb968439e9f0fb52ae4260143ed42e3fa2bcadd1d5c3d606cf509c5b",
+  "docs/reference/type-aliases/AnyFormGroupMeta.md": "93a6c26c5e52013fb5e0afc4646ad1352e329862bd4e931ac7213b5ccce75c25",
+  "docs/reference/type-aliases/AnyFormOptions.md": "9a70e542bd5dd103cae19097ef02462310b517b7bbd425da283de2afc011ac0b",
+  "docs/reference/type-aliases/AnyFormState.md": "253d5ec4802ade72a19ed296e80a94cb47a727d6616c965a38bf6da4be18c6ac",
+  "docs/reference/type-aliases/ArrayAccessor.md": "eb985bb243955a75f70b497651229b5670275f15583e6758ac443bc1bbcf5c98",
+  "docs/reference/type-aliases/BaseFormState.md": "72b3716bf2ca2522382a9bd911a4708c5edb8c8837cbee1063339864020ed405",
+  "docs/reference/type-aliases/BroadcastFormApi.md": "cd9d557c193291e9e01e1258ab0736e6cf010341cfaa5e6d0e844f9da40224fa",
+  "docs/reference/type-aliases/BroadcastFormId.md": "003421fa00b614a429a6dc96f606ef5f337c4e6dd68c3e6f1282ecd4850b6d1c",
+  "docs/reference/type-aliases/BroadcastFormState.md": "a0777ea5c0ac46aa1c58891299bff4fbd907ccd01b84d1a24158eca3a021beaf",
+  "docs/reference/type-aliases/BroadcastFormSubmissionState.md": "a65c2bdeafa8c456048ceeec4f4dd57d28ca9cfd2a0e9b50fda4ebd8f51ffb6f",
+  "docs/reference/type-aliases/DeepKeyAndValueArray.md": "1709cbfb6e1924274a148b198d7adc752cc3c136b6601a9ad61e891ecbb303d0",
+  "docs/reference/type-aliases/DeepKeyAndValueObject.md": "04262f4049e11732c78cd15ed79ccebcccb9ca10e9736accc017300a2bc16ff8",
+  "docs/reference/type-aliases/DeepKeyAndValueTuple.md": "d671702bd46dc65f02db3dab05b2077d4daf2ded05b32fd0c114ae392810c149",
+  "docs/reference/type-aliases/DeepKeys.md": "d636143dc3dc08beeed5088c59bcf70ccc234b09dd27394720cbe283d5af24ee",
+  "docs/reference/type-aliases/DeepKeysAndValues.md": "93bd3e0b41521adc4929680f72223bfaa5438cd6a06e7302f53c219d6e5eb3f1",
+  "docs/reference/type-aliases/DeepKeysAndValuesImpl.md": "cde4b3b971f1d6498f7c5ab5def50cea6eed90a5b6bbe9ad0bc1e316ac2e751e",
+  "docs/reference/type-aliases/DeepKeysOfType.md": "54b52560bc5615f0916fbc46fad7dfde7eea53abb8458450263599255aaf255d",
+  "docs/reference/type-aliases/DeepRecord.md": "633600e73f50c2902e926b0f2d415ab0ea0a5da547c64aa485e079409bb101ba",
+  "docs/reference/type-aliases/DeepValue.md": "699922ceaad531b536f2684146061137d3d6ff6a93fc0349e93935e2c0e055a1",
+  "docs/reference/type-aliases/DerivedFormState.md": "bfc6e7d07bc9389b537dba390e5fa49e0c8233ca954bb7f430512b80276a904f",
+  "docs/reference/type-aliases/EventClientEventMap.md": "9aa7f53fcb78740bf62ad15225b6901c8e3ada83a3b50a7a719758c7aabb5f3a",
+  "docs/reference/type-aliases/EventClientEventNames.md": "fab47ca2009e26b81e26963197582a934b543566cff55b6b67ac77808ecaa16a",
+  "docs/reference/type-aliases/ExtractGlobalFormError.md": "22c09381ec0e45b0aae2538fe3d252cdaeab07f904a34811583a0ce080d26002",
+  "docs/reference/type-aliases/FieldsMap.md": "d68ef542d924f33f10561f5981b9f057ca3bb3e7ece8c43c7e0a6d5d9342f633",
+  "docs/reference/type-aliases/FormValidateFn.md": "d9b41911dfa2b2d4d6c5fb7392537a153157cb761930fdae33baa1e767405904",
+  "docs/reference/type-aliases/FormValidationError.md": "f7d8353b975e8d0a3339a9d275dee72780f17f10b8d9e86b2fb4b0cb80d43fd8",
+  "docs/reference/type-aliases/FormValidator.md": "8e81f9be8afbacff0ddebb4dbd925c5c712f8be17c6bb6a9d1747a332492bb19",
+  "docs/reference/type-aliases/Nullable.md": "bae15eb2c7bca6cd6ba9d4526b82c0fe5610e3f7e1c0dc5f9091cd8aadf41b34",
+  "docs/reference/type-aliases/ObjectAccessor.md": "aced87ca2a95f9123bd42efebdfd4260ad6045b954e9975c7d8f0220bdfd3822",
+  "docs/reference/type-aliases/ObjectValue.md": "1630a5842bedb6cee0337892513726194acb104f87c609b6bf6896ff431a7f88",
+  "docs/reference/type-aliases/StandardSchemaV1.md": "ea1103e646acff09f1714fc83c6ab1b81014665fc9fa533e94f6b6a0234fe337",
+  "docs/reference/type-aliases/TStandardSchemaValidatorIssue.md": "4c7a729401abb06131c27754fcddc4d7534a6f8275ea40f82902ec70bba1be15",
+  "docs/reference/type-aliases/TStandardSchemaValidatorValue.md": "4a05efea9a23abc6dab27a6044dcdd0c4fe27f5276a4c78cb245f44c7ee09d14",
+  "docs/reference/type-aliases/TupleAccessor.md": "8f38c6b59f003365f6113a9116a802cfb6a385f9d278c408ce8d956ee078c0b4",
+  "docs/reference/type-aliases/UnknownAccessor.md": "7f2e03092598f3c1dbb4259cb9f45e4444eb162047a8f049e0995ce75d06737c",
+  "docs/reference/type-aliases/UnwrapFieldAsyncValidateOrFn.md": "c9de578d27a30cdf97b72dfc4b56f60c7c04a1e991b6ea7b972d89868c258424",
+  "docs/reference/type-aliases/UnwrapFieldValidateOrFn.md": "2d141dee72460a53d58e736b76bbbfd6231b022f914484dedd56d4d329d9310b",
+  "docs/reference/type-aliases/UnwrapFormAsyncValidateOrFn.md": "ecdb9867d9078c1a451ac56a7261b0c36aeceb5069eebf488a9da6f151ffb684",
+  "docs/reference/type-aliases/UnwrapFormValidateOrFn.md": "8212d1b98537012ab46d51f3e69f50aaef22d67dc1e44d1e154474fcf1e4eef0",
+  "docs/reference/type-aliases/Updater.md": "490ea5fc79323d043eda0584eb57509084bd6beb8e8abb16f135b8a93e0aa726",
+  "docs/reference/type-aliases/UpdaterFn.md": "1b197bde6c40b8188df5bf4046c8e22f32f650f1f0d394314ebac9aeb1c7a759",
+  "docs/reference/type-aliases/ValidationError.md": "ec18173d48db27c955be57c7a55c21a6a581a71fb5f2b07b6c44e59727b3b0e0",
+  "docs/reference/type-aliases/ValidationLogicFn.md": "d011ffb20d929375afc7ae88fffd8a150929832413da6c4e565813daad0c5580",
+  "docs/reference/type-aliases/ValidationMeta.md": "d25b99935e80565d231fa8837847c21fcec3b39e4860ddb32aa101cf3377acd5",
+  "docs/reference/type-aliases/ValidationSource.md": "22cf1cce5b3f98fc1a9ab3c0273d488f954c8567094bb8c20612505554f0081a",
+  "docs/reference/variables/defaultValidationLogic.md": "fd6f7fbdd5f6f318fcba7b0775ce513056d18b05d5c1a1446d744d7275c09fc8",
+  "docs/reference/variables/formEventClient.md": "53a119266763ea765617d1f39b1618f962e753b2927bfc5ebeeded487205d045",
+  "docs/reference/variables/standardSchemaValidators.md": "3d4b55b92beec685dd9e72da62d6a8de41e56322947afc2d98c96dd527108b98",
+  "docs/reference/variables/throttleFormState.md": "387d0876beaad947ce8b5ac08fb3f6d5350f5290713e8aa29b3f1f2b008cd64c"
+ },
+ "ts_files": {
+  "packages/form-core/src/EventClient.ts": {
+   "comments": {},
+   "entries": []
+  },
+  "packages/form-core/src/FieldApi.ts": {
+   "comments": {},
+   "entries": [
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "type_alias_declaration FieldValidateFn"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "type_alias_declaration FieldValidateAsyncFn"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "type_alias_declaration FieldListenerFn"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "type_alias_declaration FieldValidateOrFn"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "type_alias_declaration FieldAsyncValidateOrFn"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "5eb013b012220e058c352b7b18b982f2c7e44f889f9f1c54726c528d62a5e50a",
+     [
+      "property_signature FieldValidators.onMount"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "277c1e200e32549ad7bba79df2b08aeac610cf48f2af87cb764a2b11365076ee",
+     [
+      "property_signature FieldValidators.onChange"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "938eea11080a1d2fa530e9b43ca79cdaabe52180725dfc6b89537b02bb5b4caa",
+     [
+      "property_signature FieldValidators.onChangeAsync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "3453bf30dfb70844b0e2139768c160379fec3a2d15849c8107f48231730120ed",
+     [
+      "property_signature FieldValidators.onChangeAsyncDebounceMs"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "6e345d059d0fb32047337270f487fa1afbda5c71e0d17485b2a35b205983f1d2",
+     [
+      "property_signature FieldValidators.onChangeListenTo"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "320e966a3f614259c8809075696fc08402cfea732b9866907765e65233f1869a",
+     [
+      "property_signature FieldValidators.onBlur"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "6be1db55681efcebaab8e0242a86370ae9616fbbac087473927d8afc889f5b41",
+     [
+      "property_signature FieldValidators.onBlurAsync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "a4a6e4f5493a8e7d14ad352e69acf2cacfe296681935049c18438296b532cb8c",
+     [
+      "property_signature FieldValidators.onBlurAsyncDebounceMs"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "a771e03545948bc48a051ebcb6c3e93db446d7132a1a72a6b34a95d82d9b52c4",
+     [
+      "property_signature FieldValidators.onBlurListenTo"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "7b7dedfa86c1d01366859f6b33c473dcdcfa33f8e54dc426c7a6cc13c14af6ba",
+     [
+      "property_signature FieldValidators.onSubmit"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "d2ceb64e80592f200ec5f4923e447e2678d58020d1552b477f3f07c10db25277",
+     [
+      "property_signature FieldValidators.onSubmitAsync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "027c38992dcc7420b82b63e54459b5dc02aae739b8516edea0638fb7e7f6f5b3",
+     [
+      "property_signature FieldExtraOptions.validators"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "4dc0a7df8be137bb325f3d2f119909298cb41bd8f42226997b24427fcca7d808",
+     [
+      "property_signature FieldExtraOptions.listeners"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "6ed62668c8b93da7595139ba0e6b9aa82774efe2a9a72510f24e51a0208afb3d",
+     [
+      "interface_declaration FieldOptions"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "5a1b43ec5b6730b5dd93d4e2160d6c8583daf4b1cad518c576999274ae7d5d59",
+     [
+      "type_alias_declaration AnyFieldApi"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "3880705f0b6b0b89654f1e1b314b6bae22c3f02aaf49dabe5aeeb8944da4ddc2",
+     [
+      "class_declaration FieldApi"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "90c4f1faa6f461375a4702af15043b46a866b4b1c6f485aa3567203a94abc832",
+     [
+      "class_declaration FieldApi"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "5b20fbfc2ba9652b44b83ba8034a0a6867b3ab45e98ed8c12662204369896bc6",
+     [
+      "property_declaration FieldApi.form"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "d92f027088ffca528e1788cc4b12ed1aee2620ea1fcc9370edc28909d339f4dd",
+     [
+      "property_declaration FieldApi.name"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "7a890266f81fffbbd956e756f33fb5b63ed2d82348c3c117dec8cf541a80ea3b",
+     [
+      "property_declaration FieldApi.options"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "4e2a9e0cf37d51c0a63d1246277d7c513e6c540c887e6f8e8216e8b1937d1bcc",
+     [
+      "property_declaration FieldApi.store"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "575aa303879ceb41eec0e12faac0f54701f95d54ee0b49f3b22e60200941d87a",
+     [
+      "get_accessor FieldApi.state"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "f48fb81214c8ad81ed66ebc960b6450f088b25dce143c33f3e6e48750ea95555",
+     [
+      "constructor FieldApi.constructor"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "method_declaration FieldApi.runValidator"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "c9fe9122047e727a5e2a90d22127a2f2f7e6f8c3bcfeef74b396083a00761a2e",
+     [
+      "property_declaration FieldApi.mount"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "049563e7bab20e9c57b0c5938f9f06f0cd50729f8a6d3e4c2464a0f1c81fab57",
+     [
+      "property_declaration FieldApi.update"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "548eecb14dcabc4d98bd084ee9413c9016a05d33592e1ab31d5e927ab9931ce5",
+     [
+      "property_declaration FieldApi.getValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "9d06f151256f876d7da6dc618b2f6502c62811b23fe669bd083f46a2fe2eb2ce",
+     [
+      "property_declaration FieldApi.setValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "4012e0d5186c07647829a409031ef700fd123cfa2896d3c5c8b2c1bfd8d546d5",
+     [
+      "property_declaration FieldApi.setMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "a4e852d841a12638231410cd09ccefb6eaabf060f696f86d4f347272b939f641",
+     [
+      "property_declaration FieldApi.getInfo"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "66f6cacd97cb2b4a0f0ac56bf778011417cc497d38c7ac723a7eb26e303133da",
+     [
+      "property_declaration FieldApi.pushValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "130738a1a55351162c59487d42b3e46864ac9cdad7a9d57baf69932ec6f21429",
+     [
+      "property_declaration FieldApi.insertValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "f016169f8ea883996a6ae05038612fa050d5476c1da6d75519db577901d6dd06",
+     [
+      "property_declaration FieldApi.replaceValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "333fbacf2b1aad617b1a68e4832b827a3c7759820fd7f0de81fd2696d03bef32",
+     [
+      "property_declaration FieldApi.removeValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "2c7ef99f51d01fd55eb590c50d8cfed66171cc1904e8061d61c840f955eabaa8",
+     [
+      "property_declaration FieldApi.swapValues"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "eecc5e1a476faf94ce6d8f113387cd5624ae81cb80b55047b0e9878b6534e7f3",
+     [
+      "property_declaration FieldApi.moveValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "b00cdbc1aeecf644f05d60afbd935354e82de78fc9ea3c3a9bf936cc486a4381",
+     [
+      "property_declaration FieldApi.clearValues"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FieldApi.getLinkedFields"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FieldApi.validateSync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "d833142a1ddbb7b59c687f01b1e341241672665f19a5890a458754c894174357",
+     [
+      "variable_statement FieldApi.validateSync.submitErrKey"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "b8f542bb3a93ba49008a38192bcfe09ffd08b10667cfa680c6381cf85c1cb189",
+     [
+      "method_declaration FieldApi.startValidation"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "c1a99b8b5ac1fc4932b9ebf564efcc8903adb1acdf750d28c9a1e020d70cb8e4",
+     [
+      "method_declaration FieldApi.endValidation"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FieldApi.validateAsync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "6679a585e6dc04fe1c23129153116130d58145b17c26bb481e9d81dcd7beff2e",
+     [
+      "variable_statement FieldApi.validateAsync.validatesPromises"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "8b1686620108b42b5a0a22e757a3c3491ed9a906b30a7d27f28da1f7e46b9af4",
+     [
+      "property_declaration FieldApi.validate"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "17787e1409f2c78df0480714ed329b8ae282d7801cdc2587389764544a7cc4ae",
+     [
+      "property_declaration FieldApi.handleChange"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "e6ce9ab3fdb029ac42ddbcfc4e2154d4de7583b4a8332c971980959dba7e31b5",
+     [
+      "property_declaration FieldApi.handleBlur"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "5430d4a95e0a473f73ac4cfe6fe3d0192e9a39d7d62906171315ae7f99bc2c87",
+     [
+      "property_declaration FieldApi.setErrorMap"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "036a4eca533cbafcd115751a105eea4687fe10699440fd3a12afb227979930d4",
+     [
+      "property_declaration FieldApi.parseValueWithSchema"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "036a4eca533cbafcd115751a105eea4687fe10699440fd3a12afb227979930d4",
+     [
+      "property_declaration FieldApi.parseValueWithSchemaAsync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FieldApi.triggerOnChangeListener"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FieldApi.triggerOnSubmitListener"
+     ]
+    ]
+   ]
+  },
+  "packages/form-core/src/FieldGroupApi.ts": {
+   "comments": {},
+   "entries": [
+    [
+     "jsdoc",
+     0,
+     "a94001074b0aa19a27be969f7965164d55b35c9e48ad71abacf86075e63fc50d",
+     [
+      "property_signature FieldGroupState.values"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "14bcdfca0a143669500e9dd06a3e40abad20d58b9883859d7943afcedc224917",
+     [
+      "interface_declaration FieldGroupOptions"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "81ee9c52a941416bd631f877f2b116aff14cbdd0acc7fa9a6d524dcc451d4ac3",
+     [
+      "property_signature FieldGroupOptions.fields"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "dee7a9142ebb616ba875eb4c1710f5c4396e55bfb31daa2bf14ccf46606d872a",
+     [
+      "property_signature FieldGroupOptions.defaultValues"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "e4401412da67c508ba17df2a6acca2bcf7de0699b45d88eca023c938fbb0b3fd",
+     [
+      "property_signature FieldGroupOptions.onSubmitMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "6fd33b1a5fe1fb5cbaee0825c2e73f6fec9454a2c120ef066ff44fdc893afef3",
+     [
+      "property_declaration FieldGroupApi.form"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "852c2bd119f77a7219a65f3f9465fa2b1dce19be71cb790bf4afa984bff1b31d",
+     [
+      "property_declaration FieldGroupApi.getFormFieldName"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "67aa8386c7b8d71637a41b2d09acbf647b15e1c685f270f2af45d5d910671676",
+     [
+      "property_declaration FieldGroupApi.getFormFieldOptions"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "dfae1b6c5c68dbb7b70372d561c63a79e0d9c283f468d580e21185c8bb7213f3",
+     [
+      "constructor FieldGroupApi.constructor"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "fb4abaec0f05ec7c5fa641da7d33273e1c5158da104c10baa4c334abb2155a79",
+     [
+      "property_declaration FieldGroupApi.mount"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "e967dde75f434c89c20ecc2ae6946ebc12093c78d54b88d9180d8e5daaf09d11",
+     [
+      "property_declaration FieldGroupApi.validateArrayFieldsStartingFrom"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "e3551a37c2adc9739435a8d1ad78a1fe7c1d971f2b03f9c6fc43126229dd944d",
+     [
+      "property_declaration FieldGroupApi.validateField"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "4d9a585405a6abab52ec59da27519960dce3a136d4f9bffa880bed3537cbb7b9",
+     [
+      "method_declaration FieldGroupApi.handleSubmit"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "a39f1acbceba6db66b922c1d72e565b9b555423f6cd8a06c234306e41cdf3177",
+     [
+      "property_declaration FieldGroupApi.getFieldValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "5ad5efbeb60ac22da6b90e274d9f2ce3a33bac6cad94264bdaee012afe531db7",
+     [
+      "property_declaration FieldGroupApi.getFieldMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "fdf243cfcd5e73528d66ae8b611acf0f97f814e8349a083c89e7a20dd705c642",
+     [
+      "property_declaration FieldGroupApi.setFieldMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "f5836257842a6a86f377ef7450156039e1da95ba6888b6851a21daaf8f1d67fa",
+     [
+      "property_declaration FieldGroupApi.setFieldValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "fa1bb8add6251587fe96e82abe378cc2216fdd12be62b5c3dc7269e1e7bb43df",
+     [
+      "property_declaration FieldGroupApi.deleteField"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "1279be8da722b7c9d577a76ee155b1015f1be0337177cdc54f11f6bab029b220",
+     [
+      "property_declaration FieldGroupApi.pushFieldValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "17aa11fd8aa6bfd988a8ea4e9076a786addb73dd9f17201bd88aada9998b6482",
+     [
+      "property_declaration FieldGroupApi.insertFieldValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "c4f7cc7d488f5164f86227d9c23dba0d9a7a7c8f88aa0151822332055aa51545",
+     [
+      "property_declaration FieldGroupApi.replaceFieldValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "05949e8dcef4024b26827daf89ed9d35faebea50034b80cd9ffaec0c43ca56b7",
+     [
+      "property_declaration FieldGroupApi.removeFieldValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "06b3c50d6eaab5d2c3584e4a68de48e2cfb682819288745cf6cafb32878ff545",
+     [
+      "property_declaration FieldGroupApi.swapFieldValues"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "0e1b602b9a9cdcbe024c0d6271c94f5455d22972df162c2937aa067b47aa568a",
+     [
+      "property_declaration FieldGroupApi.moveFieldValues"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "ab78bbbf07210ceedc82e4965e99de795a7d133ac5fa454bfe86993590e2b0dd",
+     [
+      "property_declaration FieldGroupApi.resetField"
+     ]
+    ]
+   ]
+  },
+  "packages/form-core/src/FormApi.ts": {
+   "comments": {},
+   "entries": [
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "type_alias_declaration FormErrorMapFromValidator"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "type_alias_declaration FormValidateOrFn"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "type_alias_declaration FormValidateAsyncFn"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "type_alias_declaration FormAsyncValidateOrFn"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "0436c380cbf2a968f3942e9e815f4efaf05da3875c427af3ed58d629797437b2",
+     [
+      "property_signature FormValidators.onMount"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "34aa0dd88c055881259a8e9e1dc0c12b0d8b939f5ddb9a2ec477a7da788de8cd",
+     [
+      "property_signature FormValidators.onChange"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "602ef59de6c5c97ca507812938f7df1457980bdc076cdf5cfaa832a33558ff19",
+     [
+      "property_signature FormValidators.onChangeAsync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "0706ce5eedfd2aa79e0c3384ef609b7f6fb5286aa5831de9b522fa8333491620",
+     [
+      "property_signature FormValidators.onChangeAsyncDebounceMs"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "44cd9164606480fe9305ced55f13f9b432854458d537fd39d837c7442ac14296",
+     [
+      "property_signature FormValidators.onBlur"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "7231fdf20433c7a41fbc193859232301029ed96a5b71341c47555165dc638059",
+     [
+      "property_signature FormValidators.onBlurAsync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "0706ce5eedfd2aa79e0c3384ef609b7f6fb5286aa5831de9b522fa8333491620",
+     [
+      "property_signature FormValidators.onBlurAsyncDebounceMs"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "585ffceedcbff1ff52bcb04c10b4caa7796b50b456f14b2886ac7f0c5de8ff29",
+     [
+      "interface_declaration BaseFormOptions"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "2a273c355d8ead694a12f599fab6bdee69362a7fff3715360357863783844b8b",
+     [
+      "property_signature BaseFormOptions.defaultValues"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "81cb918d64977c7b322cb15a744fed905f8cdd642a204361ab7f5522b2e62ed4",
+     [
+      "property_signature BaseFormOptions.onSubmitMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "5f743eb2a5edeb6095efa3459b6a7399b9de5d7b847cf5022b962eedb46937fb",
+     [
+      "interface_declaration FormOptions"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "8b404d15e663579874430863637a7a2b364108eb412b30f9fbbabce84d89c4bf",
+     [
+      "property_signature FormOptions.formId"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "b15f710c266adfc34595f7aabc92592ca19517e0de04d0598af6012ec324d818",
+     [
+      "property_signature FormOptions.defaultState"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "9d621842c94c6914201e424234f8ca222d17e68a25ad10e6790f04138ab2aee2",
+     [
+      "property_signature FormOptions.asyncAlways"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "924fdf8550131fc7244ce167dfb18ef1014fa9feaaf4c555c369766cab120602",
+     [
+      "property_signature FormOptions.asyncDebounceMs"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "0bc5d3bbd84f33792e4b3d9474b798d626177721978c8c1fe3a0e3cc73f6ad38",
+     [
+      "property_signature FormOptions.canSubmitWhenInvalid"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "b838709d32f29e448f08c1c5edc54b0043ea7c39bd26daa1faf4e3982e54f625",
+     [
+      "property_signature FormOptions.validators"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "e6417ec1b471815cdee26579c05cbc714b714565f071ba542dc4759a8acbd425",
+     [
+      "property_signature FormOptions.listeners"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "0b4afbddde6a286b400434edc515d9fd15daa0f67b1ff38f406f08716cf05613",
+     [
+      "property_signature FormOptions.onSubmit"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "0ba2b61d3c53d8a84e38b8fafb690509574ff263ca0d8aceb926de2ceb239a11",
+     [
+      "property_signature FormOptions.onSubmitInvalid"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "5fbc09aa53ba1ce5b5caa423aafe2708fe9860b635c5aa043f6ce40b381180b2",
+     [
+      "type_alias_declaration ValidationMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "88afbce005e586a13c4c6282d8c0f388663c4c2261310a72a1ac54f4fc977755",
+     [
+      "property_signature ValidationMeta.lastAbortController"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "1f946cd5c933462c4edd8034345e2fd6bb5189568b151e9e2fd22b1d95739c1a",
+     [
+      "type_alias_declaration BaseFormState"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "34e7fc8f0ca3137d36962527c154fd4ec8b75bc063aaa7b771dd8392fcfc1ddf",
+     [
+      "property_signature BaseFormState.values"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "a36613d8ff4694e99e99cf3e449c5487bb95771da16687144d55a2fd86c60aa0",
+     [
+      "property_signature BaseFormState.errorMap"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "43918df2406c606e725a05bd6dc2ae91a14322a6581973a7eadd0ce44a3caa8e",
+     [
+      "property_signature BaseFormState.validationMetaMap"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "9e9f463ab896dc8298303cd932f237a393c89c79f4dcc52f3bb272d61c3339cb",
+     [
+      "property_signature BaseFormState.fieldMetaBase"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "d47dd385582609da841725013c91bcdb4b3cdf8bbe7d55b626937621b28aa2e2",
+     [
+      "property_signature BaseFormState.formGroupStateBase"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "b8845c1732d216ace25894c437702c92a20ebcee5b7a1a20218f448901aaddf2",
+     [
+      "property_signature BaseFormState.isSubmitting"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "459c5db8f26389817f4b16259fafcec4500e6dea8746f4b58e5dde7e43a23cc5",
+     [
+      "property_signature BaseFormState.isSubmitted"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "496d614c7d2a26bab133da860fec4b6dfc1f7d9ed2e4d9a029ceef3e13a8db22",
+     [
+      "property_signature BaseFormState.isValidating"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "837129b96eedc946f91f06ece87984527dbec1f1bdaab83360c111a313d2b421",
+     [
+      "property_signature BaseFormState.submissionAttempts"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "9bdae03458152c628501221adf7f57fb9d438550edc520a66e0a6dd3550a36db",
+     [
+      "property_signature BaseFormState.isSubmitSuccessful"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_signature BaseFormState._force_re_eval"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "6d1d0f1597db15ab658a91ae87eb3cdf696669fc1e0af4b44e64addf99529d1f",
+     [
+      "property_signature DerivedFormState.isFormValidating"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "40dde10a6969f2f75f488f60d967f22373c28c86f4be476a5d9340f054fb1e88",
+     [
+      "property_signature DerivedFormState.isFormValid"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "9961294c6758113f2aa9c4615bff8353ebc9299a073b67fe1e6c2c1c24ecf35d",
+     [
+      "property_signature DerivedFormState.errors"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "2b57f1c2c40a43ddaf58610971f0562acf8caf84033f559ab0d48a4ef52b5613",
+     [
+      "property_signature DerivedFormState.isFieldsValidating"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "fb8b980a52bd72f87402cac108a549af42bb1ad169351461a14af49427c1ca60",
+     [
+      "property_signature DerivedFormState.isFieldsValid"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "ee4954621958453211c7ec17a8133eb667dec028a815204a4357d73fa82b0081",
+     [
+      "property_signature DerivedFormState.isTouched"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "8e8e0636438d38f946c33ee54fe2ec477a6937cca6110765f73504bc8729cce1",
+     [
+      "property_signature DerivedFormState.isBlurred"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "a69746eba4e59d04fbd120e6f50ef8986470a29685f084fc71cc7e78f975fbd6",
+     [
+      "property_signature DerivedFormState.isDirty"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "4b02c6ffc739f9dfb31fcf126a025927b07f20b9e79901a60e8c4439da377b4d",
+     [
+      "property_signature DerivedFormState.isPristine"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "248202bd02901083bf0a72c400bd8bb1addf922fa37848e94265198b22b19ee5",
+     [
+      "property_signature DerivedFormState.isDefaultValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "6bc363f7d387cdb863b9a7911532565964230110041269ef2fb6dce3c5acf0ca",
+     [
+      "property_signature DerivedFormState.isValid"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "3d400bf8c9188413fa76921897fad8d9df72dd1774717677b41c901d2716b640",
+     [
+      "property_signature DerivedFormState.canSubmit"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "3ba91904925ede7c539623fa27b407f6d48d821a51e5e7c32a9592c1ab9ecd82",
+     [
+      "property_signature DerivedFormState.fieldMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "721f8cc30dda0a8e61edf73ddcf90f3ea2d9cbda41046c26e70d5c50dc1f87db",
+     [
+      "type_alias_declaration AnyFormApi"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "3880705f0b6b0b89654f1e1b314b6bae22c3f02aaf49dabe5aeeb8944da4ddc2",
+     [
+      "class_declaration FormApi"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "854bd44381c8f25cd7b33d4601db1b6e17c485c01b19033a606d4b4a90c98625",
+     [
+      "class_declaration FormApi"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "7b5f29a06f997dab922914890520afc442aa689ee7a2591c25c5b9620cfd5d59",
+     [
+      "property_declaration FormApi.options"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "46e4641cc64d9df32a7d459cda0a37b87720af8ca2163b4ddf3aa5349d2b8821",
+     [
+      "property_declaration FormApi.formGroupMetaDerived"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "3868b28e87ff9c9b025e0f080a7d71939bdded7b0a71a45c9a28137178aa1d1f",
+     [
+      "property_declaration FormApi.fieldInfo"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "0daec39ef0192f6609bc9074714a1ff257cf672c65b2fe1e1ac3055028de36c6",
+     [
+      "property_declaration FormApi.formGroupApis"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FormApi.timeoutIds"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FormApi._formId"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FormApi._devtoolsSubmissionOverride"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "21374c3936426f802826fba88fd6954b6b4701d7bd8577b683fa36375b541901",
+     [
+      "constructor FormApi.constructor"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "method_declaration FormApi.runValidator"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "06b0c0ed291c10ed7de11190ad99dda552df610da473f88c06a88b79059ea0ab",
+     [
+      "property_declaration FormApi.update"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "3d7019904e95aa55d58a8d7b9fea02ad9ec7d05ecea9f43205ee8525fb9e92dc",
+     [
+      "property_declaration FormApi.reset"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "8cd84ab5cf73c89c5b2d0750b4b9b1d376e6d664673cdb9ee1489cea45b08eb4",
+     [
+      "property_declaration FormApi.validateAllFields"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "e967dde75f434c89c20ecc2ae6946ebc12093c78d54b88d9180d8e5daaf09d11",
+     [
+      "property_declaration FormApi.validateArrayFieldsStartingFrom"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "ba2d0160b9626c62fafcb622f01734389d30d3b19a709c936b928a2721ad445b",
+     [
+      "property_declaration FormApi.validateField"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "6df583a58a3cd5f2ebe50056ddd9a6a01223536301e46249e49bae192f17dc93",
+     [
+      "property_declaration FormApi.validateSync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "8e9800c0b71f1d75fea128e3c9fbd5917aba1bfc8e0094d7bcdcfe649dff158f",
+     [
+      "variable_statement FormApi.validateSync.submitErrKey"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "743aceea0402b01e36da04143558e05d1e24f6417cf81ed94492ebb0302036cd",
+     [
+      "variable_statement FormApi.validateSync.serverErrKey"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FormApi.validateAsync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "ae7d67e7008bb49c507ef9e6b9486cd32186d59876379476ea251f6604028406",
+     [
+      "variable_statement FormApi.validateAsync.promises"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FormApi.validate"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "4d9a585405a6abab52ec59da27519960dce3a136d4f9bffa880bed3537cbb7b9",
+     [
+      "property_declaration FormApi._handleSubmit"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "5452f4f558408f368f9406cd65c67f2fa92db3cd6111e6ce0518214a57bcd587",
+     [
+      "property_declaration FormApi.getFieldValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "0931d57f8fb00c95ad3da58c80a1e837c3a1894cc075d492bb9a30e63376e37a",
+     [
+      "property_declaration FormApi.getFieldMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "835bec56ec40ec44167132bd4a6a35143ffcb46a60f44cda6dbcc95c43a4b715",
+     [
+      "property_declaration FormApi.getFormGroupMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "c969f9ea15f0eab3f8e970f691f80479297739165dba849f42c69f39d97f86ac",
+     [
+      "property_declaration FormApi.getFieldInfo"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "35d94e7b1685e8d5c6fa3a90dd7514951de459331d5197308b4dea3c44553e88",
+     [
+      "property_declaration FormApi.setFieldMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "319c70609a2127a4e8ae6a9f564919511004dd4ad7b5176ec1b3dc29ab4ef678",
+     [
+      "property_declaration FormApi.resetFieldMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "d3f494089f683407162d39b911075ef7dc84d06dd95c463efdcf917532bddaa0",
+     [
+      "property_declaration FormApi.setFieldValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "27880558650e651a5ce5874eeecca83deeca49ce66a4fe412c966226fe30a875",
+     [
+      "property_declaration FormApi.pushFieldValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "8495fe7fac8f5336dfc2c8cfae36875473b3217f137c3bb433fa6d40931c65a4",
+     [
+      "property_declaration FormApi.replaceFieldValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "936770aa3f229fd81c46e1b858b06006fafea06342e114bfbe3cf274ec697506",
+     [
+      "property_declaration FormApi.removeFieldValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "6b2946815fa825c3a4675af350ccf904112ad9a1d323908e6f448fcfce81384c",
+     [
+      "property_declaration FormApi.swapFieldValues"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "9c69704abff87e4ac7e38524a461fb0fb1918b482086284d5d6a5ca28e5b8d79",
+     [
+      "property_declaration FormApi.moveFieldValues"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "3dd66e310cafbba3cce7100c1f34d9949f0d601198f352b79099711d8bfca8e5",
+     [
+      "property_declaration FormApi.clearFieldValues"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "f5dac56d854f0bf143f4e9517f073994e281b7fb3a2763565ef556ec0d610771",
+     [
+      "property_declaration FormApi.resetField"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "fefc8c5ba0026ffb157f36ba9b58c635eea9d4906752d63779f1ddb8dea6aba9",
+     [
+      "property_declaration FormApi.setErrorMap"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "0b0f913242f4e11dfbe5a70c4a3cc5f5e26c093b664b94889dfcfaaa31ef4e47",
+     [
+      "property_declaration FormApi.getAllErrors"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "b93a244e754e0816f73eb972d5dc04f0372133f8d7af610a496f6428e505f88c",
+     [
+      "property_declaration FormApi.parseValuesWithSchema"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "b93a244e754e0816f73eb972d5dc04f0372133f8d7af610a496f6428e505f88c",
+     [
+      "property_declaration FormApi.parseValuesWithSchemaAsync"
+     ]
+    ]
+   ]
+  },
+  "packages/form-core/src/FormGroupApi.ts": {
+   "comments": {},
+   "entries": [
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "type_alias_declaration FormGroupValidateFn"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "type_alias_declaration FormGroupValidateOrFn"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "type_alias_declaration FormGroupValidateAsyncFn"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "type_alias_declaration FormGroupAsyncValidateOrFn"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "type_alias_declaration FormGroupListenerFn"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "0690bd0331ad0f088cad57ddb5a62e7dce2cc094b695abea10471d286bf45ec8",
+     [
+      "property_signature FormGroupValidators.onMount"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "277c1e200e32549ad7bba79df2b08aeac610cf48f2af87cb764a2b11365076ee",
+     [
+      "property_signature FormGroupValidators.onChange"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "938eea11080a1d2fa530e9b43ca79cdaabe52180725dfc6b89537b02bb5b4caa",
+     [
+      "property_signature FormGroupValidators.onChangeAsync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "3453bf30dfb70844b0e2139768c160379fec3a2d15849c8107f48231730120ed",
+     [
+      "property_signature FormGroupValidators.onChangeAsyncDebounceMs"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "d6a56b9b25863201fb58fa1f56e286fa218a8acb26529c7413326bf96e54aa1d",
+     [
+      "property_signature FormGroupValidators.onBlur"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "320e966a3f614259c8809075696fc08402cfea732b9866907765e65233f1869a",
+     [
+      "property_signature FormGroupValidators.onBlur"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "6be1db55681efcebaab8e0242a86370ae9616fbbac087473927d8afc889f5b41",
+     [
+      "property_signature FormGroupValidators.onBlurAsync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "a4a6e4f5493a8e7d14ad352e69acf2cacfe296681935049c18438296b532cb8c",
+     [
+      "property_signature FormGroupValidators.onBlurAsyncDebounceMs"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "d6a56b9b25863201fb58fa1f56e286fa218a8acb26529c7413326bf96e54aa1d",
+     [
+      "property_signature FormGroupValidators.onSubmit"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "76123a8ba629da0dbde19b038ecdbfe6a813c9696f2111d5285a7ab16736eb46",
+     [
+      "property_signature FormGroupValidators.onSubmit"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "977764756124902968779c1efd76f6fea8ba9a9bc56323a901af4f97bbbce8b7",
+     [
+      "property_signature FormGroupValidators.onSubmitAsync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "7b20b946493fcb12343cf90a7cd5e8ffe6588d9f1db657b4635d14f2f0ff4d02",
+     [
+      "property_signature FormGroupExtraOptions.validators"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "dc66d301534e53e0093494a29d0305621e4b7373c839c11cc8a29b6c252be2fc",
+     [
+      "property_signature FormGroupExtraOptions.canSubmitWhenInvalid"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "439e898bf5974a3c8acecf4b738a04d40d9c1a9e262ddf72f0c9cb7bec87c35f",
+     [
+      "property_signature FormGroupExtraOptions.listeners"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "64d9fd9c7ec26e79385441f6ebe2af1fbfc6a51d870492f415938adc9857f400",
+     [
+      "property_signature FormGroupExtraOptions.validationLogic"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "81cb918d64977c7b322cb15a744fed905f8cdd642a204361ab7f5522b2e62ed4",
+     [
+      "property_signature FormGroupExtraOptions.onSubmitMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "9658b548904e57524bbd52675e455df018ec54ecac018a8cf516c35cccbdfd19",
+     [
+      "property_signature FormGroupExtraOptions.onGroupSubmit"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "fe4245484a57c6047354cb526ec44267fe2bcc8ab5e4b524c3856b3b3784fc5b",
+     [
+      "property_signature FormGroupExtraOptions.onGroupSubmitInvalid"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "2d9eb7155d17b569aeef8fcd0eb4bd825d767252d0d41fcdef73d8038fe8a366",
+     [
+      "property_signature FormGroupState.isSubmitting"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "7056dd08f4ec28d126126747d2f7c8e3f978c033d41d16bc6565560a7db2aad9",
+     [
+      "property_signature FormGroupState.isSubmitted"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "c144bee93d3261ea608e57388ebdf34383404df33b27cccd3f636aebc191bd31",
+     [
+      "property_signature FormGroupState.isValidating"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "837129b96eedc946f91f06ece87984527dbec1f1bdaab83360c111a313d2b421",
+     [
+      "property_signature FormGroupState.submissionAttempts"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "9bdae03458152c628501221adf7f57fb9d438550edc520a66e0a6dd3550a36db",
+     [
+      "property_signature FormGroupState.isSubmitSuccessful"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "d8e2714be00bb622c4bf483957d78b06b7e025b4919fcd25ee5493e7340ebecd",
+     [
+      "type_alias_declaration AnyFormGroupApi"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "549f14eb6063c5a911017c7d3325510d16b9fca6153f1efd977a1d8627edfaa6",
+     [
+      "interface_declaration FormGroupMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "e9c1550fcea9bc5c8718bcee5dafcbf445f9eb114ee08b8f39b0a8c7e8de3cf2",
+     [
+      "type_alias_declaration AnyFormGroupMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "89f54540d436bcea06e7a97887d2ed1ed0e2535dcb67fe4ebcc47ab4b517380a",
+     [
+      "property_signature FormGroupStoreState.value"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "9f4f49e63b8d3d3a91b067902fa56511dbb8fdfdece4b82c9c534d5cc9e191c9",
+     [
+      "property_signature FormGroupStoreState.meta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "ae92f62cf00fa23b4559e1948c0d889e8cdf12f863cc86cdfd70bf17ff6ef36d",
+     [
+      "function_declaration getDefaultFormGroupMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "5b20fbfc2ba9652b44b83ba8034a0a6867b3ab45e98ed8c12662204369896bc6",
+     [
+      "property_declaration FormGroupApi.form"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "d92f027088ffca528e1788cc4b12ed1aee2620ea1fcc9370edc28909d339f4dd",
+     [
+      "property_declaration FormGroupApi.name"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "7a890266f81fffbbd956e756f33fb5b63ed2d82348c3c117dec8cf541a80ea3b",
+     [
+      "property_declaration FormGroupApi.options"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "4e2a9e0cf37d51c0a63d1246277d7c513e6c540c887e6f8e8216e8b1937d1bcc",
+     [
+      "property_declaration FormGroupApi.store"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "575aa303879ceb41eec0e12faac0f54701f95d54ee0b49f3b22e60200941d87a",
+     [
+      "get_accessor FormGroupApi.state"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "06e638b74c97e949b0a2619c0c6b7f6a821e03f4ee12dd9c83e3372a612302f0",
+     [
+      "property_declaration FormGroupApi.setFormGroupState"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "b32f7809c2f172b95aa66f0e3db6a268702b2b1a8c9abf14a9531ad2c9be8bb8",
+     [
+      "property_declaration FormGroupApi._lastDistributedFieldNames"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "049563e7bab20e9c57b0c5938f9f06f0cd50729f8a6d3e4c2464a0f1c81fab57",
+     [
+      "property_declaration FormGroupApi.update"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "method_declaration FormGroupApi.runValidator"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "9d06f151256f876d7da6dc618b2f6502c62811b23fe669bd083f46a2fe2eb2ce",
+     [
+      "property_declaration FormGroupApi.setValue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "4012e0d5186c07647829a409031ef700fd123cfa2896d3c5c8b2c1bfd8d546d5",
+     [
+      "property_declaration FormGroupApi.setMeta"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "020697db85b251d8b298606b80c76c509c333380e383e94ada8e766d44446e7b",
+     [
+      "property_declaration FormGroupApi.getInfo"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FormGroupApi.getRelatedFields"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FormGroupApi.getRelatedFieldMetasDerived"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "da453bc2109117bbcbbd59f00ef55c9548372b47af5ae396b511dbc90461c642",
+     [
+      "property_declaration FormGroupApi.buildChildFieldName"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "e857826a5eb28b1a0de40c7a8b3c3eb585d600b31fb66ce9afe4913f0bdb4a79",
+     [
+      "property_declaration FormGroupApi.distributeFieldErrors"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FormGroupApi.validateSync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "dbe6d11e2b6b315c8bd10e40a1b84655a4040c077694d992c4e7a31656dbd207",
+     [
+      "variable_statement FormGroupApi.validateSync.submitErrKey"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FormGroupApi.validateAsync"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "2c9488598c1a3272f5bb7ca90cb512ff7cb7fa8ea781e641ebaf4104c610ba65",
+     [
+      "variable_statement FormGroupApi.validateAsync.validatesPromises"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "23ef7d87060f6b3661446fb77fd686f84a22b1f12d896b5afef4cb2a40b7924c",
+     [
+      "property_declaration FormGroupApi.validateAllFields"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "e7186584f1c5e4f11410e8d353cbc5b8f617381a2cfb29731b4c331102cddeee",
+     [
+      "property_declaration FormGroupApi.validate"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FormGroupApi.triggerOnChangeListener"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "03dbe09fd3e38c807e8d6a5362809c2dd3f1af2b3a63a5ac6140d94183abced4",
+     [
+      "property_declaration FormGroupApi.triggerOnSubmitListener"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "15e8d54e76d03dd2ae5132bbd2e322a0d25e468b71f1f9deb8648eea1f22480c",
+     [
+      "property_declaration FormGroupApi._handleSubmit"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "eb4f68f8ff7fa9e49c5d4dd8eca35b1ca9600c09b19b945acac735438ff5b3e8",
+     [
+      "function_declaration isGlobalGroupValidationError"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "2cd677cf01e75e809edf6a505086a0a969cff6e51ba8619de096edd480053d67",
+     [
+      "function_declaration remapStandardSchemaResultForGroup"
+     ]
+    ]
+   ]
+  },
+  "packages/form-core/src/ValidationLogic.ts": {
+   "comments": {},
+   "entries": [
+    [
+     "jsdoc",
+     0,
+     "3bad5d0bcc97588519a04b43f67747a73347d140a4abb768e7696cd9a2c940aa",
+     [
+      "property_signature ValidationLogicProps.group"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "e175d5fb50649cace669fd01973acdfaa08303e07f4927c49609c5440a5e4959",
+     [
+      "property_signature RevalidateLogicProps.mode"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "1f3549d4a0eeedc8cda11e3d17b791fa3cf65d060674c95dd72e2e123c1a51b2",
+     [
+      "property_signature RevalidateLogicProps.modeAfterSubmission"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "7a3955c9f802d8772e73a456c582964980a0281b1da8a68b196d36e0e4c2847d",
+     [
+      "variable_statement revalidateLogic"
+     ]
+    ]
+   ]
+  },
+  "packages/form-core/src/formOptions.ts": {
+   "comments": {},
+   "entries": []
+  },
+  "packages/form-core/src/index.ts": {
+   "comments": {},
+   "entries": []
+  },
+  "packages/form-core/src/mergeForm.ts": {
+   "comments": {},
+   "entries": [
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+      "function_declaration mutateMergeDeep"
+     ]
+    ]
+   ]
+  },
+  "packages/form-core/src/metaHelper.ts": {
+   "comments": {},
+   "entries": [
+    [
+     "jsdoc",
+     0,
+     "ec5b921cb43fb83c24286da3f63e7ae9cd0e02aab0f9e312c0d7a7e3dd0c65a6",
+     [
+      "function_declaration metaHelper.bumpArrayVersion"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "87190d64fb8a75383658543b4de8c29d19e93368b4b445d8b7c6d3774ee4f107",
+     [
+      "function_declaration metaHelper.handleArrayMove"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "b3567c3b88319e10df9feffb92f1024137bb89deff80fbe8f416da6fabe9d51a",
+     [
+      "function_declaration metaHelper.handleArrayRemove"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "59611d40539309dac5653e681114e7b3f66f7f644f4de903b736535057f36dba",
+     [
+      "function_declaration metaHelper.handleArraySwap"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "72453cbdcde5558e3fc9a00fe5c9bed106453ab175ced96bdd7b0b8899e0103a",
+     [
+      "function_declaration metaHelper.handleArrayInsert"
+     ]
+    ]
+   ]
+  },
+  "packages/form-core/src/standardSchemaValidator.ts": {
+   "comments": {},
+   "entries": [
+    [
+     "jsdoc",
+     0,
+     "bef218419c8012a47022638eb45f124cef49d431d130c421fb38212b9c85c7ca",
+     [
+      "type_alias_declaration StandardSchemaV1"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "52d55c6f8fbbe8ca4c7914b7d9fa3aab02766234dfedf7c69d26bdeec3b25d4b",
+     [
+      "property_signature StandardSchemaV1.~standard"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "32c687171f8b63565790378de35c8680750ac7216731b510036615a0f77758aa",
+     [
+      "interface_declaration StandardSchemaV1Props"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "e3a56899dc62d5ec7d4b861bfd9bf39bfa2532496db2e31894c0bcc6d73040fa",
+     [
+      "property_signature StandardSchemaV1Props.version"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "4b6536f09e7402230f564125a52b55046d00933dc09fc1c441fc39097b2c8043",
+     [
+      "property_signature StandardSchemaV1Props.vendor"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "30f8667d67b2b829f19beac992c7b816e669d37f96eea3ed93e64faf04d1e9b5",
+     [
+      "property_signature StandardSchemaV1Props.validate"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "3a767bd05ea22ac5e2d2941c81849b110f465221b9d0e1eab730b79b3fa48358",
+     [
+      "property_signature StandardSchemaV1Props.types"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "64c76709365a0c4636b7e3614dbc2378d83dd8173a1230eaff8ab2ee95ebe4d9",
+     [
+      "type_alias_declaration StandardSchemaV1Result"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "70399546920367a429c2b509ead8767313f3bf45ef384372a9230955c3644a93",
+     [
+      "interface_declaration StandardSchemaV1SuccessResult"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "bdb7abf979c0d777e3618947e3a42eb2ca694d8e165d2370b67656f691836c02",
+     [
+      "property_signature StandardSchemaV1SuccessResult.value"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "790d7fc0ac6aa510838f5ee3a804f526f9af47480945a0dce846f3c9b5c807e0",
+     [
+      "property_signature StandardSchemaV1SuccessResult.issues"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "9d638893c80dded89332b4a96c979a5e14cb15d25521d0f892288d8921bdfc3d",
+     [
+      "interface_declaration StandardSchemaV1FailureResult"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "3e9d887d8a4bf454845348db8ce663bd5e94298aa71f802622df409167e6a930",
+     [
+      "property_signature StandardSchemaV1FailureResult.issues"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "aad43cb0c63c8b50572b64a06266b60202e52da87d9c4d7c3692a0ba8c00fed0",
+     [
+      "interface_declaration StandardSchemaV1Issue"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "d9c9e925bbb76dbf512967f9c7a47674a8875f53855a7c7b169bdfd2b15bdaf6",
+     [
+      "property_signature StandardSchemaV1Issue.message"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "35292a08bcd0bacf69458da3154615fd0e03597ce881f04e8331d72494c8e278",
+     [
+      "property_signature StandardSchemaV1Issue.path"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "6e95623aba8bf74989c86ce773a483e37596102f58801ad198e5853aca54f0f9",
+     [
+      "interface_declaration StandardSchemaV1PathSegment"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "452d3aa34019da2373af269207682957848615579ee93988affeb38342244305",
+     [
+      "property_signature StandardSchemaV1PathSegment.key"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "ac408f608e5a0b0f565550c2227557ef4a082babc5b18790e8e95eda26669814",
+     [
+      "interface_declaration StandardSchemaV1Types"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "e46ecfa3fb4b980f875bb1073ce34a346dec4cfab2b6d61e8ca70c73f9a38114",
+     [
+      "property_signature StandardSchemaV1Types.input"
+     ]
+    ],
+    [
+     "jsdoc",
+     0,
+     "16c79854e0cc6c7b8353d7a1e33d61d7eef717dfa87af7b2d5dec5bf63c5277f",
+     [
+      "property_signature StandardSchemaV1Types.output"
+     ]
+    ]
+   ]
+  },
+  "packages/form-core/src/transform.ts": {
+   "comments": {},
+   "entries": [
+    [
+     "jsdoc",
+     0,
+     "21ae063b44d1055238b350f3567c38101678c5b8fc0d319a376b01b746e53032",
+     [
+  

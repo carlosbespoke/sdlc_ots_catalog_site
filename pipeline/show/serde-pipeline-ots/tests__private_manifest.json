@@ -1,0 +1,366 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade_rs.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 2100,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "aca9d110c5db60da8eb45e769ba1ee2717182260b4a1bf36d8ba1493ce5ecf65",
+  "documentation.json": "88a88baae72c36fc017bab70a9133a73b582c42d3fb06a0b9f830049a41e99db",
+  "expected.json": "a65af79232dd5d24e72f9acc267bc3d4022033cc99daddb49c6ed8b4db7d7818",
+  "harness.json": "387567fc4403316b489ca2181c0443fa1aea113c0c5b60e0d56b507c148eadea",
+  "harness/Cargo.toml.in": "cf60916308d307f2960abee2757c53dc2ada8d43cb687e6eb17ad995fb0b0e23",
+  "harness/main.rs": "e86dda06372ea7146408eaec542e90f977c9bc998e3a9752e9dc1e82a8f43f35",
+  "harness/prelude.rs": "c98d46b5d3c8c5a960b54b8126410644f24d99c054cb052268450242d5abc11c",
+  "rslex": "606de09b54f314ef2edb38fdaeb5b28fdf48aa77b1d720a380cabc4c7e8a2535"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "GROUP-P2P-ACCESS-ADAPTERS",
+    "kind": "p2p",
+    "requirement": "SeqAccessDeserializer, MapAccessDeserializer, EnumAccessDeserializer wrap the corresponding access traits; forward_to_deserialize_any forwards hinted methods. (serde_core/src/de/value.rs: access deserializers)",
+    "tests": [
+     "OBS-0001",
+     "OBS-0002",
+     "OBS-0003",
+     "OBS-0004"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-BORROWED-BYTES-ADAPTER",
+    "kind": "f2p",
+    "requirement": "BorrowedBytesDeserializer always dispatches to visit_borrowed_bytes. (serde_core/src/de/value.rs: borrowed-bytes-adapter)",
+    "tests": [
+     "OBS-0005",
+     "OBS-0006"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-BORROWED-STRING-ADAPTER",
+    "kind": "f2p",
+    "requirement": "BorrowedStrDeserializer enables borrowed string deserialization. (serde_core/src/de/value.rs: borrowed-string-adapter)",
+    "tests": [
+     "OBS-0007",
+     "OBS-0008"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-CHAR-UTF8",
+    "kind": "f2p",
+    "requirement": "Visitor::visit_char forwards the input character as a one-character string. (serde_core/src/de/mod.rs: char-utf8)",
+    "tests": [
+     "OBS-0009",
+     "OBS-0010"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-COLLECT-MAP-PAIRS",
+    "kind": "f2p",
+    "requirement": "Serializer::collect_map serializes every pair yielded by the iterator. (serde_core/src/ser/mod.rs: collect-map-pairs)",
+    "tests": [
+     "OBS-0011",
+     "OBS-0012"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-COLLECT-SEQUENCE-ITEMS",
+    "kind": "f2p",
+    "requirement": "Serializer::collect_seq serializes every item yielded by the iterator. (serde_core/src/ser/mod.rs: collect-sequence-items)",
+    "tests": [
+     "OBS-0013",
+     "OBS-0014"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-CORE-FRAMEWORK",
+    "kind": "p2p",
+    "requirement": "Serde provides generic Serialize and Deserialize implementations for Rust data structures. (serde_core/README.md: framework)",
+    "tests": [
+     "OBS-0015",
+     "OBS-0016"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-ERRORS",
+    "kind": "p2p",
+    "requirement": "Visitor defaults reject unexpected types using invalid_type; invalid_value describes unsuitable values; Expected delegates to Visitor::expecting and custom constructs deserialization errors. (serde_core/src/de/mod.rs: Error, Unexpected, Expected)",
+    "tests": [
+     "OBS-0017"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-IMPOSSIBLE",
+    "kind": "p2p",
+    "requirement": "Impossible provides compound associated types for a Serializer that supports scalar values but rejects sequences. (serde_core/src/ser/impossible.rs: Impossible example)",
+    "tests": [
+     "OBS-0018"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-NTH-ELEMENT",
+    "kind": "p2p",
+    "requirement": "IgnoredAny permits selecting the nth sequence value while consuming the ignored prefix and suffix; a missing selected value reports invalid_length. (serde_core/src/de/ignored_any.rs: NthElement example)",
+    "tests": [
+     "OBS-0019"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-PRIVATE-DE",
+    "kind": "p2p",
+    "requirement": "Missing optional fields deserialize as None while required missing fields error; internally tagged enums find their tag and untagged enums may retry captured content. (serde/src/private/de.rs: missing_field and tagged content)",
+    "tests": [
+     "OBS-0020",
+     "OBS-0021",
+     "OBS-0022",
+     "OBS-0023"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-COVER-1-SERIALIZER",
+    "kind": "p2p",
+    "requirement": "Primitive Serialize implementations pass their value to the corresponding Serializer method; Serializer defaults reject i128 and u128 and default to human-readable mode. (serde_core/src/ser/mod.rs: primitive serialization and defaults)",
+    "tests": [
+     "OBS-0024"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-CRATES-FRAMEWORK",
+    "kind": "p2p",
+    "requirement": "Serde provides generic Serialize and Deserialize implementations for Rust data structures. (crates-io.md: framework)",
+    "tests": [
+     "OBS-0025",
+     "OBS-0026"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-DESERIALIZER-DISPATCH",
+    "kind": "p2p",
+    "requirement": "Deserialize::deserialize_in_place replaces a value; Deserializer defaults to human-readable; value deserializers forward hints. (serde_core/src/de/mod.rs: Deserialize and Deserializer)",
+    "tests": [
+     "OBS-0027",
+     "OBS-0028",
+     "OBS-0029",
+     "OBS-0030"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-ENUM-PAYLOADS",
+    "kind": "p2p",
+    "requirement": "EnumAccess exposes a variant identifier; VariantAccess reads newtype, tuple and struct variant payloads. (serde_core/src/de/mod.rs: EnumAccess and VariantAccess)",
+    "tests": [
+     "OBS-0031",
+     "OBS-0032",
+     "OBS-0033",
+     "OBS-0034"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-IGNORED-ANY",
+    "kind": "p2p",
+    "requirement": "IgnoredAny discards values of arbitrary types, consuming complete sequences and maps. (serde_core/src/de/ignored_any.rs: IgnoredAny)",
+    "tests": [
+     "OBS-0035",
+     "OBS-0036",
+     "OBS-0037"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-MAP-ENTRY-PAYLOAD",
+    "kind": "f2p",
+    "requirement": "SerializeMap::serialize_entry delegates the key and value to their respective methods. (serde_core/src/ser/mod.rs: map-entry-payload)",
+    "tests": [
+     "OBS-0038",
+     "OBS-0039"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-MAP-PENDING-VALUE",
+    "kind": "f2p",
+    "requirement": "MapDeserializer::end does not reject a pending value after its key was read. (serde_core/src/de/value.rs: map-pending-value)",
+    "tests": [
+     "OBS-0040",
+     "OBS-0041"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-MAP-PRESERVED",
+    "kind": "p2p",
+    "requirement": "MapAccess::next_key and next_value return the actual key and value. (serde_core/src/de/mod.rs: MapAccess next_key next_value)",
+    "tests": [
+     "OBS-0042",
+     "OBS-0043",
+     "OBS-0044",
+     "OBS-0045"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-OWNED-BYTES-CONTENT",
+    "kind": "f2p",
+    "requirement": "Visitor::visit_byte_buf forwards the complete byte buffer to visit_bytes. (serde_core/src/de/mod.rs: owned-bytes-content)",
+    "tests": [
+     "OBS-0046",
+     "OBS-0047"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-OWNED-STRING-CONTENT",
+    "kind": "f2p",
+    "requirement": "Visitor::visit_string forwards the complete string to visit_str. (serde_core/src/de/mod.rs: owned-string-content)",
+    "tests": [
+     "OBS-0048",
+     "OBS-0049"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-INTERNAL-CONTEXT",
+    "kind": "p2p",
+    "requirement": "Ctxt::new has no errors; check consumes collected errors; dropping an unchecked context panics outside unwinding. (serde_derive/src/internals/ctxt.rs: Ctxt)",
+    "tests": [
+     "OBS-0050",
+     "OBS-0051",
+     "OBS-0052"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-OWNED-COW-VALUES",
+    "kind": "p2p",
+    "requirement": "StringDeserializer and CowStrDeserializer deserialize the string value they hold without altering its contents. (serde_core/src/de/value.rs: StringDeserializer and CowStrDeserializer)",
+    "tests": [
+     "OBS-0053",
+     "OBS-0054",
+     "OBS-0055"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-README-FRAMEWORK",
+    "kind": "p2p",
+    "requirement": "Serde provides generic Serialize and Deserialize implementations for Rust data structures. (README.md: framework)",
+    "tests": [
+     "OBS-0056",
+     "OBS-0057"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-SEEDED-ACCESS",
+    "kind": "p2p",
+    "requirement": "Seed access returns data and exhaustion; EnumAccess::variant and unit_variant deserialize a unit variant. (serde_core/src/de/mod.rs: access seeds and enum variants)",
+    "tests": [
+     "OBS-0058",
+     "OBS-0059",
+     "OBS-0060",
+     "OBS-0061"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-SEQUENCE-HINTS",
+    "kind": "p2p",
+    "requirement": "IntoDeserializer wraps a value; SeqDeserializer::deserialize_seq passes sequence access to Visitor::visit_seq. (serde_core/src/de/value.rs: IntoDeserializer and SeqDeserializer)",
+    "tests": [
+     "OBS-0062",
+     "OBS-0063"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-SEQUENCE-PRESERVED",
+    "kind": "p2p",
+    "requirement": "SeqDeserializer iterates over a sequence and Deserialize reads all elements. (serde_core/src/de/value.rs: SeqDeserializer)",
+    "tests": [
+     "OBS-0064",
+     "OBS-0065",
+     "OBS-0066",
+     "OBS-0067"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-SEQUENCE-TAIL-VALIDATION",
+    "kind": "f2p",
+    "requirement": "SeqDeserializer::end rejects any remaining sequence elements. (serde_core/src/de/value.rs: sequence-tail-validation)",
+    "tests": [
+     "OBS-0068",
+     "OBS-0069"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-SERIALIZER-PRESERVED",
+    "kind": "p2p",
+    "requirement": "Serializer::collect_str uses Display; serialize_some, serialize_bytes, serialize_newtype_struct preserve payload. (serde_core/src/ser/mod.rs: Serializer)",
+    "tests": [
+     "OBS-0070",
+     "OBS-0071",
+     "OBS-0072",
+     "OBS-0073"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-SKIP-FIELDS",
+    "kind": "p2p",
+    "requirement": "SerializeStruct and SerializeStructVariant::skip_field do nothing; Serializer::is_human_readable defaults true. (serde_core/src/ser/mod.rs: skip_field and is_human_readable)",
+    "tests": [
+     "OBS-0074",
+     "OBS-0075",
+     "OBS-0076"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-VALUE-HINTS",
+    "kind": "p2p",
+    "requirement": "Value deserializers expose boolean, string, bytes and unit option input through hinted deserialization. (serde_core/src/de/value.rs: primitive value deserializers)",
+    "tests": [
+     "OBS-0077",
+     "OBS-0078",
+     "OBS-0079",
+     "OBS-0080"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-VISITOR-BORROWED-BYTES",
+    "kind": "p2p",
+    "requirement": "visit_borrowed_bytes forwards to visit_bytes; unsigned narrow inputs forward to visit_u64. (serde_core/src/de/mod.rs: Visitor unsigned and borrowed fallbacks)",
+    "tests": [
+     "OBS-0081",
+     "OBS-0082",
+     "OBS-0083",
+     "OBS-0084"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-VISITOR-REJECTION-PRESERVED",
+    "kind": "p2p",
+    "requirement": "Visitor defaults reject boolean, unsigned, floating point, and unit input. (serde_core/src/de/mod.rs: Visitor rejection defaults)",
+    "tests": [
+     "OBS-0085",
+     "OBS-0086",
+     "OBS-0087",
+     "OBS-0088"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-VISITOR-SIGNED-PRESERVED",
+    "kind": "p2p",
+    "requirement": "Visitor::visit_i8, visit_i16, visit_i32 forward to visit_i64; visit_borrowed_str forwards to visit_str. (serde_core/src/de/mod.rs: Visitor numeric and borrowed fallbacks)",
+    "tests": [
+     "OBS-0089",
+     "OBS-0090",
+     "OBS-0091",
+     "OBS-0092"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-WIDE-SIGNED-REJECTION",
+    "kind": "f2p",
+    "requirement": "Visitor::visit_i128 rejects by default even when visit_i64 is implemented. (serde_core/src/de/mod.rs: wide-signed-rejection)",
+    "tests": [
+     "OBS-0093",
+     "OBS-0094"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   }
+  ]
+ }
+}

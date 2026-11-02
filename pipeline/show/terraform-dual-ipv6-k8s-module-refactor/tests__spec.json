@@ -1,0 +1,2258 @@
+{
+ "schema": 1,
+ "modules": [
+  "network",
+  "bootstrap",
+  "platform",
+  "observability"
+ ],
+ "ownership": {
+  "aws_autoscaling_group.primary_master": "platform",
+  "aws_autoscaling_group.primary_worker": "platform",
+  "aws_autoscaling_group.secondary_master": "platform",
+  "aws_autoscaling_group.secondary_worker": "platform",
+  "aws_cloudwatch_log_group.primary_master": "platform",
+  "aws_cloudwatch_log_group.primary_worker": "platform",
+  "aws_cloudwatch_log_group.secondary_master": "platform",
+  "aws_cloudwatch_log_group.secondary_worker": "platform",
+  "aws_cloudwatch_metric_alarm.primary_worker_capacity": "observability",
+  "aws_cloudwatch_metric_alarm.secondary_worker_capacity": "observability",
+  "aws_dynamodb_table.bootstrap": "bootstrap",
+  "aws_eip.primary_nat64": "network",
+  "aws_eip.secondary_nat64": "network",
+  "aws_iam_instance_profile.primary_master": "platform",
+  "aws_iam_instance_profile.primary_worker": "platform",
+  "aws_iam_instance_profile.secondary_master": "platform",
+  "aws_iam_instance_profile.secondary_worker": "platform",
+  "aws_iam_role.primary_master": "platform",
+  "aws_iam_role.primary_worker": "platform",
+  "aws_iam_role.secondary_master": "platform",
+  "aws_iam_role.secondary_worker": "platform",
+  "aws_iam_role_policy.primary_master": "platform",
+  "aws_iam_role_policy.primary_worker": "platform",
+  "aws_iam_role_policy.secondary_master": "platform",
+  "aws_iam_role_policy.secondary_worker": "platform",
+  "aws_internet_gateway.primary": "network",
+  "aws_internet_gateway.secondary": "network",
+  "aws_kms_alias.bootstrap": "bootstrap",
+  "aws_kms_key.bootstrap": "bootstrap",
+  "aws_launch_template.primary_master": "platform",
+  "aws_launch_template.primary_worker": "platform",
+  "aws_launch_template.secondary_master": "platform",
+  "aws_launch_template.secondary_worker": "platform",
+  "aws_nat_gateway.primary": "network",
+  "aws_nat_gateway.secondary": "network",
+  "aws_route.primary_public_ipv4": "network",
+  "aws_route.primary_public_ipv6": "network",
+  "aws_route.primary_workload_ipv4": "network",
+  "aws_route.primary_workload_nat64": "network",
+  "aws_route.secondary_public_ipv4": "network",
+  "aws_route.secondary_public_ipv6": "network",
+  "aws_route.secondary_workload_ipv4": "network",
+  "aws_route.secondary_workload_nat64": "network",
+  "aws_route_table.primary_public": "network",
+  "aws_route_table.primary_workload": "network",
+  "aws_route_table.secondary_public": "network",
+  "aws_route_table.secondary_workload": "network",
+  "aws_route_table_association.primary_public": "network",
+  "aws_route_table_association.primary_workload": "network",
+  "aws_route_table_association.secondary_public": "network",
+  "aws_route_table_association.secondary_workload": "network",
+  "aws_s3_bucket.bootstrap": "bootstrap",
+  "aws_s3_bucket_lifecycle_configuration.bootstrap": "bootstrap",
+  "aws_s3_bucket_public_access_block.bootstrap": "bootstrap",
+  "aws_s3_bucket_server_side_encryption_configuration.bootstrap": "bootstrap",
+  "aws_s3_bucket_versioning.bootstrap": "bootstrap",
+  "aws_s3_object.pool_bootstrap": "bootstrap",
+  "aws_security_group.primary_master": "platform",
+  "aws_security_group.primary_worker": "platform",
+  "aws_security_group.secondary_master": "platform",
+  "aws_security_group.secondary_worker": "platform",
+  "aws_security_group_rule.primary_master_api": "platform",
+  "aws_security_group_rule.primary_master_egress_ipv4": "platform",
+  "aws_security_group_rule.primary_master_egress_ipv6": "platform",
+  "aws_security_group_rule.primary_worker_egress_ipv4": "platform",
+  "aws_security_group_rule.primary_worker_egress_ipv6": "platform",
+  "aws_security_group_rule.primary_worker_to_master": "platform",
+  "aws_security_group_rule.secondary_master_api": "platform",
+  "aws_security_group_rule.secondary_master_egress_ipv4": "platform",
+  "aws_security_group_rule.secondary_master_egress_ipv6": "platform",
+  "aws_security_group_rule.secondary_worker_egress_ipv4": "platform",
+  "aws_security_group_rule.secondary_worker_egress_ipv6": "platform",
+  "aws_security_group_rule.secondary_worker_to_master": "platform",
+  "aws_sns_topic.alerts": "observability",
+  "aws_sns_topic_subscription.alerts": "observability",
+  "aws_sqs_queue.alerts": "observability",
+  "aws_sqs_queue_policy.alerts": "observability",
+  "aws_ssm_parameter.network_catalog": "bootstrap",
+  "aws_ssm_parameter.worker_catalog": "bootstrap",
+  "aws_subnet.primary_public": "network",
+  "aws_subnet.primary_workload": "network",
+  "aws_subnet.secondary_public": "network",
+  "aws_subnet.secondary_workload": "network",
+  "aws_vpc.primary": "network",
+  "aws_vpc.secondary": "network"
+ },
+ "direct_modules": true,
+ "no_count": true,
+ "key_dimensions": {
+  "az": {
+   "variable": "availability_zones",
+   "keys": {
+    "aws_eip.primary_nat64[0]": "us-east-1b",
+    "aws_eip.primary_nat64[1]": "us-east-1c",
+    "aws_eip.primary_nat64[2]": "us-east-1a",
+    "aws_eip.secondary_nat64[0]": "us-east-1b",
+    "aws_eip.secondary_nat64[1]": "us-east-1c",
+    "aws_eip.secondary_nat64[2]": "us-east-1a",
+    "aws_nat_gateway.primary[0]": "us-east-1b",
+    "aws_nat_gateway.primary[1]": "us-east-1c",
+    "aws_nat_gateway.primary[2]": "us-east-1a",
+    "aws_nat_gateway.secondary[0]": "us-east-1b",
+    "aws_nat_gateway.secondary[1]": "us-east-1c",
+    "aws_nat_gateway.secondary[2]": "us-east-1a",
+    "aws_route.primary_workload_ipv4[0]": "us-east-1b",
+    "aws_route.primary_workload_ipv4[1]": "us-east-1c",
+    "aws_route.primary_workload_ipv4[2]": "us-east-1a",
+    "aws_route.primary_workload_nat64[0]": "us-east-1b",
+    "aws_route.primary_workload_nat64[1]": "us-east-1c",
+    "aws_route.primary_workload_nat64[2]": "us-east-1a",
+    "aws_route.secondary_workload_ipv4[0]": "us-east-1b",
+    "aws_route.secondary_workload_ipv4[1]": "us-east-1c",
+    "aws_route.secondary_workload_ipv4[2]": "us-east-1a",
+    "aws_route.secondary_workload_nat64[0]": "us-east-1b",
+    "aws_route.secondary_workload_nat64[1]": "us-east-1c",
+    "aws_route.secondary_workload_nat64[2]": "us-east-1a",
+    "aws_route_table.primary_workload[0]": "us-east-1b",
+    "aws_route_table.primary_workload[1]": "us-east-1c",
+    "aws_route_table.primary_workload[2]": "us-east-1a",
+    "aws_route_table.secondary_workload[0]": "us-east-1b",
+    "aws_route_table.secondary_workload[1]": "us-east-1c",
+    "aws_route_table.secondary_workload[2]": "us-east-1a",
+    "aws_route_table_association.primary_public[0]": "us-east-1b",
+    "aws_route_table_association.primary_public[1]": "us-east-1c",
+    "aws_route_table_association.primary_public[2]": "us-east-1a",
+    "aws_route_table_association.primary_workload[0]": "us-east-1b",
+    "aws_route_table_association.primary_workload[1]": "us-east-1c",
+    "aws_route_table_association.primary_workload[2]": "us-east-1a",
+    "aws_route_table_association.secondary_public[0]": "us-east-1b",
+    "aws_route_table_association.secondary_public[1]": "us-east-1c",
+    "aws_route_table_association.secondary_public[2]": "us-east-1a",
+    "aws_route_table_association.secondary_workload[0]": "us-east-1b",
+    "aws_route_table_association.secondary_workload[1]": "us-east-1c",
+    "aws_route_table_association.secondary_workload[2]": "us-east-1a",
+    "aws_subnet.primary_public[0]": "us-east-1b",
+    "aws_subnet.primary_public[1]": "us-east-1c",
+    "aws_subnet.primary_public[2]": "us-east-1a",
+    "aws_subnet.primary_workload[0]": "us-east-1b",
+    "aws_subnet.primary_workload[1]": "us-east-1c",
+    "aws_subnet.primary_workload[2]": "us-east-1a",
+    "aws_subnet.secondary_public[0]": "us-east-1b",
+    "aws_subnet.secondary_public[1]": "us-east-1c",
+    "aws_subnet.secondary_public[2]": "us-east-1a",
+    "aws_subnet.secondary_workload[0]": "us-east-1b",
+    "aws_subnet.secondary_workload[1]": "us-east-1c",
+    "aws_subnet.secondary_workload[2]": "us-east-1a"
+   },
+   "add": {
+    "key": "us-east-1f",
+    "value": {
+     "order": 25,
+     "primary_public_cidr": "172.20.3.0/24",
+     "primary_workload_cidr": "172.20.64.0/20",
+     "secondary_public_cidr": "172.21.3.0/24",
+     "secondary_workload_cidr": "172.21.64.0/20"
+    },
+    "created_values": [
+     {
+      "base": "aws_subnet.primary_public",
+      "attr": "availability_zone",
+      "value": "us-east-1f"
+     },
+     {
+      "base": "aws_subnet.primary_public",
+      "attr": "cidr_block",
+      "value": "172.20.3.0/24"
+     },
+     {
+      "base": "aws_subnet.primary_workload",
+      "attr": "availability_zone",
+      "value": "us-east-1f"
+     },
+     {
+      "base": "aws_subnet.primary_workload",
+      "attr": "cidr_block",
+      "value": "172.20.64.0/20"
+     },
+     {
+      "base": "aws_subnet.secondary_public",
+      "attr": "availability_zone",
+      "value": "us-east-1f"
+     },
+     {
+      "base": "aws_subnet.secondary_public",
+      "attr": "cidr_block",
+      "value": "172.21.3.0/24"
+     },
+     {
+      "base": "aws_subnet.secondary_workload",
+      "attr": "availability_zone",
+      "value": "us-east-1f"
+     },
+     {
+      "base": "aws_subnet.secondary_workload",
+      "attr": "cidr_block",
+      "value": "172.21.64.0/20"
+     },
+     {
+      "base": "aws_subnet.primary_public",
+      "attr": "tags",
+      "value": {
+       "Project": "v6mesh",
+       "Environment": "prod",
+       "Owner": "soloio-platform",
+       "CostCenter": "cc-6204",
+       "ManagedBy": "terraform",
+       "Name": "v6mesh-prod-alpha-public-us-east-1f",
+       "Tier": "public",
+       "Placement": "us-east-1f:25"
+      }
+     },
+     {
+      "base": "aws_subnet.primary_public",
+      "attr": "tags_all",
+      "value": {
+       "Project": "v6mesh",
+       "Environment": "prod",
+       "Owner": "soloio-platform",
+       "CostCenter": "cc-6204",
+       "ManagedBy": "terraform",
+       "Name": "v6mesh-prod-alpha-public-us-east-1f",
+       "Tier": "public",
+       "Placement": "us-east-1f:25"
+      }
+     }
+    ]
+   },
+   "remove": "us-east-1b",
+   "allowed_updates": {
+    "aws_autoscaling_group.primary_master": [
+     "availability_zones",
+     "vpc_zone_identifier"
+    ],
+    "aws_autoscaling_group.secondary_master": [
+     "availability_zones",
+     "vpc_zone_identifier"
+    ],
+    "aws_autoscaling_group.primary_worker[0]": [
+     "availability_zones",
+     "vpc_zone_identifier"
+    ],
+    "aws_autoscaling_group.primary_worker[1]": [
+     "availability_zones",
+     "vpc_zone_identifier"
+    ],
+    "aws_autoscaling_group.primary_worker[2]": [
+     "availability_zones",
+     "vpc_zone_identifier"
+    ],
+    "aws_autoscaling_group.secondary_worker[0]": [
+     "availability_zones",
+     "vpc_zone_identifier"
+    ],
+    "aws_autoscaling_group.secondary_worker[1]": [
+     "availability_zones",
+     "vpc_zone_identifier"
+    ],
+    "aws_autoscaling_group.secondary_worker[2]": [
+     "availability_zones",
+     "vpc_zone_identifier"
+    ],
+    "aws_ssm_parameter.network_catalog": [
+     "value"
+    ]
+   },
+   "required_updates": {
+    "aws_autoscaling_group.primary_master": [
+     "vpc_zone_identifier"
+    ],
+    "aws_autoscaling_group.secondary_master": [
+     "vpc_zone_identifier"
+    ],
+    "aws_autoscaling_group.primary_worker[0]": [
+     "vpc_zone_identifier"
+    ],
+    "aws_autoscaling_group.primary_worker[1]": [
+     "vpc_zone_identifier"
+    ],
+    "aws_autoscaling_group.primary_worker[2]": [
+     "vpc_zone_identifier"
+    ],
+    "aws_autoscaling_group.secondary_worker[0]": [
+     "vpc_zone_identifier"
+    ],
+    "aws_autoscaling_group.secondary_worker[1]": [
+     "vpc_zone_identifier"
+    ],
+    "aws_autoscaling_group.secondary_worker[2]": [
+     "vpc_zone_identifier"
+    ],
+    "aws_ssm_parameter.network_catalog": [
+     "value"
+    ]
+   }
+  },
+  "pool": {
+   "variable": "worker_pools",
+   "keys": {
+    "aws_autoscaling_group.primary_worker[0]": "gateway",
+    "aws_autoscaling_group.primary_worker[1]": "system",
+    "aws_autoscaling_group.primary_worker[2]": "mesh",
+    "aws_autoscaling_group.secondary_worker[0]": "gateway",
+    "aws_autoscaling_group.secondary_worker[1]": "system",
+    "aws_autoscaling_group.secondary_worker[2]": "mesh",
+    "aws_cloudwatch_log_group.primary_worker[0]": "gateway",
+    "aws_cloudwatch_log_group.primary_worker[1]": "system",
+    "aws_cloudwatch_log_group.primary_worker[2]": "mesh",
+    "aws_cloudwatch_log_group.secondary_worker[0]": "gateway",
+    "aws_cloudwatch_log_group.secondary_worker[1]": "system",
+    "aws_cloudwatch_log_group.secondary_worker[2]": "mesh",
+    "aws_cloudwatch_metric_alarm.primary_worker_capacity[0]": "gateway",
+    "aws_cloudwatch_metric_alarm.primary_worker_capacity[1]": "system",
+    "aws_cloudwatch_metric_alarm.primary_worker_capacity[2]": "mesh",
+    "aws_cloudwatch_metric_alarm.secondary_worker_capacity[0]": "gateway",
+    "aws_cloudwatch_metric_alarm.secondary_worker_capacity[1]": "system",
+    "aws_cloudwatch_metric_alarm.secondary_worker_capacity[2]": "mesh",
+    "aws_iam_instance_profile.primary_worker[0]": "gateway",
+    "aws_iam_instance_profile.primary_worker[1]": "system",
+    "aws_iam_instance_profile.primary_worker[2]": "mesh",
+    "aws_iam_instance_profile.secondary_worker[0]": "gateway",
+    "aws_iam_instance_profile.secondary_worker[1]": "system",
+    "aws_iam_instance_profile.secondary_worker[2]": "mesh",
+    "aws_iam_role.primary_worker[0]": "gateway",
+    "aws_iam_role.primary_worker[1]": "system",
+    "aws_iam_role.primary_worker[2]": "mesh",
+    "aws_iam_role.secondary_worker[0]": "gateway",
+    "aws_iam_role.secondary_worker[1]": "system",
+    "aws_iam_role.secondary_worker[2]": "mesh",
+    "aws_iam_role_policy.primary_worker[0]": "gateway",
+    "aws_iam_role_policy.primary_worker[1]": "system",
+    "aws_iam_role_policy.primary_worker[2]": "mesh",
+    "aws_iam_role_policy.secondary_worker[0]": "gateway",
+    "aws_iam_role_policy.secondary_worker[1]": "system",
+    "aws_iam_role_policy.secondary_worker[2]": "mesh",
+    "aws_launch_template.primary_worker[0]": "gateway",
+    "aws_launch_template.primary_worker[1]": "system",
+    "aws_launch_template.primary_worker[2]": "mesh",
+    "aws_launch_template.secondary_worker[0]": "gateway",
+    "aws_launch_template.secondary_worker[1]": "system",
+    "aws_launch_template.secondary_worker[2]": "mesh",
+    "aws_s3_object.pool_bootstrap[0]": "gateway",
+    "aws_s3_object.pool_bootstrap[1]": "system",
+    "aws_s3_object.pool_bootstrap[2]": "mesh",
+    "aws_security_group.primary_worker[0]": "gateway",
+    "aws_security_group.primary_worker[1]": "system",
+    "aws_security_group.primary_worker[2]": "mesh",
+    "aws_security_group.secondary_worker[0]": "gateway",
+    "aws_security_group.secondary_worker[1]": "system",
+    "aws_security_group.secondary_worker[2]": "mesh",
+    "aws_security_group_rule.primary_worker_egress_ipv4[0]": "gateway",
+    "aws_security_group_rule.primary_worker_egress_ipv4[1]": "system",
+    "aws_security_group_rule.primary_worker_egress_ipv4[2]": "mesh",
+    "aws_security_group_rule.primary_worker_egress_ipv6[0]": "gateway",
+    "aws_security_group_rule.primary_worker_egress_ipv6[1]": "system",
+    "aws_security_group_rule.primary_worker_egress_ipv6[2]": "mesh",
+    "aws_security_group_rule.primary_worker_to_master[0]": "gateway",
+    "aws_security_group_rule.primary_worker_to_master[1]": "system",
+    "aws_security_group_rule.primary_worker_to_master[2]": "mesh",
+    "aws_security_group_rule.secondary_worker_egress_ipv4[0]": "gateway",
+    "aws_security_group_rule.secondary_worker_egress_ipv4[1]": "system",
+    "aws_security_group_rule.secondary_worker_egress_ipv4[2]": "mesh",
+    "aws_security_group_rule.secondary_worker_egress_ipv6[0]": "gateway",
+    "aws_security_group_rule.secondary_worker_egress_ipv6[1]": "system",
+    "aws_security_group_rule.secondary_worker_egress_ipv6[2]": "mesh",
+    "aws_security_group_rule.secondary_worker_to_master[0]": "gateway",
+    "aws_security_group_rule.secondary_worker_to_master[1]": "system",
+    "aws_security_group_rule.secondary_worker_to_master[2]": "mesh"
+   },
+   "add": {
+    "key": "sentinel",
+    "value": {
+     "order": 25,
+     "instance_type": "c6i.large",
+     "disk_size": 70,
+     "min_size": 2,
+     "max_size": 6,
+     "desired_size": 3
+    },
+    "created_values": [
+     {
+      "base": "aws_iam_role.primary_worker",
+      "attr": "tags",
+      "value": {
+       "Project": "v6mesh",
+       "Environment": "prod",
+       "Owner": "soloio-platform",
+       "CostCenter": "cc-6204",
+       "ManagedBy": "terraform",
+       "Name": "v6mesh-prod-alpha-sentinel",
+       "Cluster": "v6mesh-prod-alpha",
+       "Pool": "sentinel",
+       "Placement": "sentinel:25"
+      }
+     },
+     {
+      "base": "aws_launch_template.primary_worker",
+      "attr": "instance_type",
+      "value": "c6i.large"
+     },
+     {
+      "base": "aws_launch_template.secondary_worker",
+      "attr": "instance_type",
+      "value": "c6i.large"
+     },
+     {
+      "base": "aws_launch_template.primary_worker",
+      "attr": "block_device_mappings",
+      "value": [
+       {
+        "device_name": "/dev/sda1",
+        "ebs": [
+         {
+          "delete_on_termination": "true",
+          "volume_size": 70,
+          "volume_type": "gp3"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "base": "aws_launch_template.secondary_worker",
+      "attr": "block_device_mappings",
+      "value": [
+       {
+        "device_name": "/dev/sda1",
+        "ebs": [
+         {
+          "delete_on_termination": "true",
+          "volume_size": 70,
+          "volume_type": "gp3"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "base": "aws_autoscaling_group.primary_worker",
+      "attr": "min_size",
+      "value": 2
+     },
+     {
+      "base": "aws_autoscaling_group.primary_worker",
+      "attr": "max_size",
+      "value": 6
+     },
+     {
+      "base": "aws_autoscaling_group.primary_worker",
+      "attr": "desired_capacity",
+      "value": 3
+     },
+     {
+      "base": "aws_autoscaling_group.secondary_worker",
+      "attr": "min_size",
+      "value": 2
+     },
+     {
+      "base": "aws_autoscaling_group.secondary_worker",
+      "attr": "max_size",
+      "value": 6
+     },
+     {
+      "base": "aws_autoscaling_group.secondary_worker",
+      "attr": "desired_capacity",
+      "value": 3
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.primary_worker_capacity",
+      "attr": "threshold",
+      "value": 2
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.secondary_worker_capacity",
+      "attr": "threshold",
+      "value": 2
+     },
+     {
+      "base": "aws_iam_role.primary_worker",
+      "attr": "tags_all",
+      "value": {
+       "Project": "v6mesh",
+       "Environment": "prod",
+       "Owner": "soloio-platform",
+       "CostCenter": "cc-6204",
+       "ManagedBy": "terraform",
+       "Name": "v6mesh-prod-alpha-sentinel",
+       "Cluster": "v6mesh-prod-alpha",
+       "Pool": "sentinel",
+       "Placement": "sentinel:25"
+      }
+     }
+    ]
+   },
+   "remove": "gateway",
+   "allowed_updates": {
+    "aws_ssm_parameter.worker_catalog": [
+     "value"
+    ]
+   },
+   "required_updates": {
+    "aws_ssm_parameter.worker_catalog": [
+     "value"
+    ]
+   }
+  }
+ },
+ "variables": {
+  "project": {
+   "default": "v6mesh",
+   "type": "string"
+  },
+  "environment": {
+   "default": "prod",
+   "type": "string"
+  },
+  "primary_vpc_cidr": {
+   "default": "172.20.0.0/16",
+   "type": "string"
+  },
+  "secondary_vpc_cidr": {
+   "default": "172.21.0.0/16",
+   "type": "string"
+  },
+  "availability_zones": {
+   "default": {
+    "us-east-1b": {
+     "order": 10,
+     "primary_public_cidr": "172.20.0.0/24",
+     "primary_workload_cidr": "172.20.16.0/20",
+     "secondary_public_cidr": "172.21.0.0/24",
+     "secondary_workload_cidr": "172.21.16.0/20"
+    },
+    "us-east-1c": {
+     "order": 20,
+     "primary_public_cidr": "172.20.1.0/24",
+     "primary_workload_cidr": "172.20.32.0/20",
+     "secondary_public_cidr": "172.21.1.0/24",
+     "secondary_workload_cidr": "172.21.32.0/20"
+    },
+    "us-east-1a": {
+     "order": 30,
+     "primary_public_cidr": "172.20.2.0/24",
+     "primary_workload_cidr": "172.20.48.0/20",
+     "secondary_public_cidr": "172.21.2.0/24",
+     "secondary_workload_cidr": "172.21.48.0/20"
+    }
+   },
+   "type": "map(object({ order = number, primary_public_cidr = string, primary_workload_cidr = string, secondary_public_cidr = string, secondary_workload_cidr = string }))"
+  },
+  "worker_pools": {
+   "default": {
+    "gateway": {
+     "order": 10,
+     "instance_type": "t3.small",
+     "disk_size": 30,
+     "min_size": 2,
+     "max_size": 4,
+     "desired_size": 2
+    },
+    "system": {
+     "order": 20,
+     "instance_type": "t3.medium",
+     "disk_size": 40,
+     "min_size": 2,
+     "max_size": 5,
+     "desired_size": 2
+    },
+    "mesh": {
+     "order": 30,
+     "instance_type": "t3.large",
+     "disk_size": 60,
+     "min_size": 1,
+     "max_size": 3,
+     "desired_size": 1
+    }
+   },
+   "type": "map(object({ order = number, instance_type = string, disk_size = number, min_size = number, max_size = number, desired_size = number }))"
+  },
+  "tags": {
+   "default": {
+    "Owner": "soloio-platform",
+    "CostCenter": "cc-6204",
+    "ManagedBy": "terraform"
+   },
+   "type": "map(string)"
+  },
+  "node_ami_id": {
+   "default": "ami-0009de7aaac3fdbb1",
+   "type": "string"
+  },
+  "master_instance_type": {
+   "default": "t3.medium",
+   "type": "string"
+  },
+  "log_retention_days": {
+   "default": 30,
+   "type": "number"
+  },
+  "bootstrap_version_retention_days": {
+   "default": 30,
+   "type": "number"
+  },
+  "alarm_period_seconds": {
+   "default": 60,
+   "type": "number"
+  }
+ },
+ "probes": [
+  {
+   "name": "add_az",
+   "kind": "key_add",
+   "dimension": "az",
+   "reference_outputs": {
+    "primary_vpc_id": {
+     "after": "vpc-0485af1cf5cfb981c",
+     "unknown": false
+    },
+    "secondary_vpc_id": {
+     "after": "vpc-54a56f6650f1d9ea1",
+     "unknown": false
+    },
+    "primary_workload_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-d7519410a2902c21b",
+      "us-east-1b": "subnet-59179d9efd38a9561",
+      "us-east-1c": "subnet-3aaa0def9fc0da322"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "secondary_workload_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-9dea94dadb912f7cb",
+      "us-east-1b": "subnet-02c4b2f2d59261bff",
+      "us-east-1c": "subnet-47019f1280dc24d56"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "primary_nat64_public_ips": {
+     "after": {
+      "us-east-1a": "127.65.65.68",
+      "us-east-1b": "127.156.27.33",
+      "us-east-1c": "127.126.177.119"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "secondary_nat64_public_ips": {
+     "after": {
+      "us-east-1a": "127.25.163.207",
+      "us-east-1b": "127.19.182.131",
+      "us-east-1c": "127.133.175.11"
+     },
+     "unknown": {
+      "us-east-1f": true
+     }
+    },
+    "primary_worker_asg_names": {
+     "after": {
+      "gateway": "v6mesh-prod-alpha-gateway",
+      "mesh": "v6mesh-prod-alpha-mesh",
+      "system": "v6mesh-prod-alpha-system"
+     },
+     "unknown": false
+    },
+    "secondary_worker_asg_names": {
+     "after": {
+      "gateway": "v6mesh-prod-beta-gateway",
+      "mesh": "v6mesh-prod-beta-mesh",
+      "system": "v6mesh-prod-beta-system"
+     },
+     "unknown": false
+    },
+    "bootstrap_bucket_name": {
+     "after": "v6mesh-prod-bootstrap-93c699",
+     "unknown": false
+    },
+    "bootstrap_object_keys": {
+     "after": {
+      "gateway": "v6mesh/prod/pools/gateway.env",
+      "mesh": "v6mesh/prod/pools/mesh.env",
+      "system": "v6mesh/prod/pools/system.env"
+     },
+     "unknown": false
+    },
+    "alerts_topic_arn": {
+     "after": "arn:aws:sns:us-east-1:123456789012:v6mesh-prod-cluster-alerts",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_autoscaling_group.primary_master": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ],
+      "filled": {
+       "after": [
+        "us-east-1a",
+        "us-east-1b",
+        "us-east-1c"
+       ],
+       "unknown": null
+      }
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-3aaa0def9fc0da322",
+        "subnet-59179d9efd38a9561",
+        "subnet-99bd65d0e51c6bf6f",
+        "subnet-d7519410a2902c21b"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_autoscaling_group.secondary_master": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ],
+      "filled": {
+       "after": [
+        "us-east-1a",
+        "us-east-1b",
+        "us-east-1c"
+       ],
+       "unknown": null
+      }
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-02c4b2f2d59261bff",
+        "subnet-47019f1280dc24d56",
+        "subnet-9dea94dadb912f7cb",
+        "subnet-f45c4223eb0dc1699"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_autoscaling_group.primary_worker[0]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ],
+      "filled": {
+       "after": [
+        "us-east-1a",
+        "us-east-1b",
+        "us-east-1c"
+       ],
+       "unknown": null
+      }
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-3aaa0def9fc0da322",
+        "subnet-59179d9efd38a9561",
+        "subnet-99bd65d0e51c6bf6f",
+        "subnet-d7519410a2902c21b"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_autoscaling_group.primary_worker[1]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ],
+      "filled": {
+       "after": [
+        "us-east-1a",
+        "us-east-1b",
+        "us-east-1c"
+       ],
+       "unknown": null
+      }
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-3aaa0def9fc0da322",
+        "subnet-59179d9efd38a9561",
+        "subnet-99bd65d0e51c6bf6f",
+        "subnet-d7519410a2902c21b"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_autoscaling_group.primary_worker[2]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ],
+      "filled": {
+       "after": [
+        "us-east-1a",
+        "us-east-1b",
+        "us-east-1c"
+       ],
+       "unknown": null
+      }
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-3aaa0def9fc0da322",
+        "subnet-59179d9efd38a9561",
+        "subnet-99bd65d0e51c6bf6f",
+        "subnet-d7519410a2902c21b"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_autoscaling_group.secondary_worker[0]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ],
+      "filled": {
+       "after": [
+        "us-east-1a",
+        "us-east-1b",
+        "us-east-1c"
+       ],
+       "unknown": null
+      }
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-02c4b2f2d59261bff",
+        "subnet-47019f1280dc24d56",
+        "subnet-9dea94dadb912f7cb",
+        "subnet-f45c4223eb0dc1699"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_autoscaling_group.secondary_worker[1]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ],
+      "filled": {
+       "after": [
+        "us-east-1a",
+        "us-east-1b",
+        "us-east-1c"
+       ],
+       "unknown": null
+      }
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-02c4b2f2d59261bff",
+        "subnet-47019f1280dc24d56",
+        "subnet-9dea94dadb912f7cb",
+        "subnet-f45c4223eb0dc1699"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_autoscaling_group.secondary_worker[2]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ],
+      "filled": {
+       "after": [
+        "us-east-1a",
+        "us-east-1b",
+        "us-east-1c"
+       ],
+       "unknown": null
+      }
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "subnet-02c4b2f2d59261bff",
+        "subnet-47019f1280dc24d56",
+        "subnet-9dea94dadb912f7cb",
+        "subnet-f45c4223eb0dc1699"
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_ssm_parameter.network_catalog": {
+     "value": {
+      "after": "{\"environment\":\"prod\",\"project\":\"v6mesh\",\"zones\":[\"us-east-1b\",\"us-east-1c\",\"us-east-1f\",\"us-east-1a\"]}",
+      "unknown": null,
+      "filled": {
+       "after": "{\"environment\":\"prod\",\"project\":\"v6mesh\",\"zones\":[\"us-east-1b\",\"us-east-1c\",\"us-east-1f\",\"us-east-1a\"]}",
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_az",
+   "kind": "key_remove",
+   "dimension": "az",
+   "reference_outputs": {
+    "primary_vpc_id": {
+     "after": "vpc-0485af1cf5cfb981c",
+     "unknown": false
+    },
+    "secondary_vpc_id": {
+     "after": "vpc-54a56f6650f1d9ea1",
+     "unknown": false
+    },
+    "primary_workload_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-d7519410a2902c21b",
+      "us-east-1c": "subnet-3aaa0def9fc0da322"
+     },
+     "unknown": false
+    },
+    "secondary_workload_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-9dea94dadb912f7cb",
+      "us-east-1c": "subnet-47019f1280dc24d56"
+     },
+     "unknown": false
+    },
+    "primary_nat64_public_ips": {
+     "after": {
+      "us-east-1a": "127.65.65.68",
+      "us-east-1c": "127.126.177.119"
+     },
+     "unknown": false
+    },
+    "secondary_nat64_public_ips": {
+     "after": {
+      "us-east-1a": "127.25.163.207",
+      "us-east-1c": "127.133.175.11"
+     },
+     "unknown": false
+    },
+    "primary_worker_asg_names": {
+     "after": {
+      "gateway": "v6mesh-prod-alpha-gateway",
+      "mesh": "v6mesh-prod-alpha-mesh",
+      "system": "v6mesh-prod-alpha-system"
+     },
+     "unknown": false
+    },
+    "secondary_worker_asg_names": {
+     "after": {
+      "gateway": "v6mesh-prod-beta-gateway",
+      "mesh": "v6mesh-prod-beta-mesh",
+      "system": "v6mesh-prod-beta-system"
+     },
+     "unknown": false
+    },
+    "bootstrap_bucket_name": {
+     "after": "v6mesh-prod-bootstrap-93c699",
+     "unknown": false
+    },
+    "bootstrap_object_keys": {
+     "after": {
+      "gateway": "v6mesh/prod/pools/gateway.env",
+      "mesh": "v6mesh/prod/pools/mesh.env",
+      "system": "v6mesh/prod/pools/system.env"
+     },
+     "unknown": false
+    },
+    "alerts_topic_arn": {
+     "after": "arn:aws:sns:us-east-1:123456789012:v6mesh-prod-cluster-alerts",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_autoscaling_group.primary_master": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": null
+     },
+     "vpc_zone_identifier": {
+      "after": [
+       "subnet-3aaa0def9fc0da322",
+       "subnet-d7519410a2902c21b"
+      ],
+      "unknown": null
+     }
+    },
+    "aws_autoscaling_group.secondary_master": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": null
+     },
+     "vpc_zone_identifier": {
+      "after": [
+       "subnet-47019f1280dc24d56",
+       "subnet-9dea94dadb912f7cb"
+      ],
+      "unknown": null
+     }
+    },
+    "aws_autoscaling_group.primary_worker[0]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": null
+     },
+     "vpc_zone_identifier": {
+      "after": [
+       "subnet-3aaa0def9fc0da322",
+       "subnet-d7519410a2902c21b"
+      ],
+      "unknown": null
+     }
+    },
+    "aws_autoscaling_group.primary_worker[1]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": null
+     },
+     "vpc_zone_identifier": {
+      "after": [
+       "subnet-3aaa0def9fc0da322",
+       "subnet-d7519410a2902c21b"
+      ],
+      "unknown": null
+     }
+    },
+    "aws_autoscaling_group.primary_worker[2]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": null
+     },
+     "vpc_zone_identifier": {
+      "after": [
+       "subnet-3aaa0def9fc0da322",
+       "subnet-d7519410a2902c21b"
+      ],
+      "unknown": null
+     }
+    },
+    "aws_autoscaling_group.secondary_worker[0]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": null
+     },
+     "vpc_zone_identifier": {
+      "after": [
+       "subnet-47019f1280dc24d56",
+       "subnet-9dea94dadb912f7cb"
+      ],
+      "unknown": null
+     }
+    },
+    "aws_autoscaling_group.secondary_worker[1]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": null
+     },
+     "vpc_zone_identifier": {
+      "after": [
+       "subnet-47019f1280dc24d56",
+       "subnet-9dea94dadb912f7cb"
+      ],
+      "unknown": null
+     }
+    },
+    "aws_autoscaling_group.secondary_worker[2]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": null
+     },
+     "vpc_zone_identifier": {
+      "after": [
+       "subnet-47019f1280dc24d56",
+       "subnet-9dea94dadb912f7cb"
+      ],
+      "unknown": null
+     }
+    },
+    "aws_ssm_parameter.network_catalog": {
+     "value": {
+      "after": "{\"environment\":\"prod\",\"project\":\"v6mesh\",\"zones\":[\"us-east-1c\",\"us-east-1a\"]}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "update_az",
+   "kind": "key_update",
+   "dimension": "az",
+   "updates": {
+    "us-east-1b": {
+     "order": 11,
+     "primary_public_cidr": "172.20.4.0/24",
+     "primary_workload_cidr": "172.20.80.0/20",
+     "secondary_public_cidr": "172.21.4.0/24",
+     "secondary_workload_cidr": "172.21.80.0/20"
+    },
+    "us-east-1c": {
+     "order": 21,
+     "primary_public_cidr": "172.20.5.0/24",
+     "primary_workload_cidr": "172.20.96.0/20",
+     "secondary_public_cidr": "172.21.5.0/24",
+     "secondary_workload_cidr": "172.21.96.0/20"
+    },
+    "us-east-1a": {
+     "order": 31,
+     "primary_public_cidr": "172.20.6.0/24",
+     "primary_workload_cidr": "172.20.112.0/20",
+     "secondary_public_cidr": "172.21.6.0/24",
+     "secondary_workload_cidr": "172.21.112.0/20"
+    }
+   },
+   "expect": [
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.primary_public",
+     "attr": "cidr_block",
+     "value": "172.20.4.0/24"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.primary_workload",
+     "attr": "cidr_block",
+     "value": "172.20.80.0/20"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.secondary_public",
+     "attr": "cidr_block",
+     "value": "172.21.4.0/24"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.secondary_workload",
+     "attr": "cidr_block",
+     "value": "172.21.80.0/20"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.primary_public",
+     "attr": "cidr_block",
+     "value": "172.20.5.0/24"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.primary_workload",
+     "attr": "cidr_block",
+     "value": "172.20.96.0/20"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.secondary_public",
+     "attr": "cidr_block",
+     "value": "172.21.5.0/24"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.secondary_workload",
+     "attr": "cidr_block",
+     "value": "172.21.96.0/20"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.primary_public",
+     "attr": "cidr_block",
+     "value": "172.20.6.0/24"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.primary_workload",
+     "attr": "cidr_block",
+     "value": "172.20.112.0/20"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.secondary_public",
+     "attr": "cidr_block",
+     "value": "172.21.6.0/24"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.secondary_workload",
+     "attr": "cidr_block",
+     "value": "172.21.112.0/20"
+    },
+    {
+     "key": "us-east-1b",
+     "base": "aws_subnet.primary_public",
+     "attr": "tags.Placement",
+     "value": "us-east-1b:11"
+    },
+    {
+     "key": "us-east-1c",
+     "base": "aws_subnet.primary_public",
+     "attr": "tags.Placement",
+     "value": "us-east-1c:21"
+    },
+    {
+     "key": "us-east-1a",
+     "base": "aws_subnet.primary_public",
+     "attr": "tags.Placement",
+     "value": "us-east-1a:31"
+    }
+   ],
+   "reference_outputs": {
+    "primary_vpc_id": {
+     "after": "vpc-0485af1cf5cfb981c",
+     "unknown": false
+    },
+    "secondary_vpc_id": {
+     "after": "vpc-54a56f6650f1d9ea1",
+     "unknown": false
+    },
+    "primary_workload_subnet_ids": {
+     "after": {},
+     "unknown": {
+      "us-east-1a": true,
+      "us-east-1b": true,
+      "us-east-1c": true
+     }
+    },
+    "secondary_workload_subnet_ids": {
+     "after": {},
+     "unknown": {
+      "us-east-1a": true,
+      "us-east-1b": true,
+      "us-east-1c": true
+     }
+    },
+    "primary_nat64_public_ips": {
+     "after": {
+      "us-east-1a": "127.65.65.68",
+      "us-east-1b": "127.156.27.33",
+      "us-east-1c": "127.126.177.119"
+     },
+     "unknown": false
+    },
+    "secondary_nat64_public_ips": {
+     "after": {
+      "us-east-1a": "127.25.163.207",
+      "us-east-1b": "127.19.182.131",
+      "us-east-1c": "127.133.175.11"
+     },
+     "unknown": false
+    },
+    "primary_worker_asg_names": {
+     "after": {
+      "gateway": "v6mesh-prod-alpha-gateway",
+      "mesh": "v6mesh-prod-alpha-mesh",
+      "system": "v6mesh-prod-alpha-system"
+     },
+     "unknown": false
+    },
+    "secondary_worker_asg_names": {
+     "after": {
+      "gateway": "v6mesh-prod-beta-gateway",
+      "mesh": "v6mesh-prod-beta-mesh",
+      "system": "v6mesh-prod-beta-system"
+     },
+     "unknown": false
+    },
+    "bootstrap_bucket_name": {
+     "after": "v6mesh-prod-bootstrap-93c699",
+     "unknown": false
+    },
+    "bootstrap_object_keys": {
+     "after": {
+      "gateway": "v6mesh/prod/pools/gateway.env",
+      "mesh": "v6mesh/prod/pools/mesh.env",
+      "system": "v6mesh/prod/pools/system.env"
+     },
+     "unknown": false
+    },
+    "alerts_topic_arn": {
+     "after": "arn:aws:sns:us-east-1:123456789012:v6mesh-prod-cluster-alerts",
+     "unknown": false
+    }
+   },
+   "reference_replaced": [
+    "aws_nat_gateway.primary[0]",
+    "aws_nat_gateway.primary[1]",
+    "aws_nat_gateway.primary[2]",
+    "aws_nat_gateway.secondary[0]",
+    "aws_nat_gateway.secondary[1]",
+    "aws_nat_gateway.secondary[2]",
+    "aws_route_table_association.primary_public[0]",
+    "aws_route_table_association.primary_public[1]",
+    "aws_route_table_association.primary_public[2]",
+    "aws_route_table_association.primary_workload[0]",
+    "aws_route_table_association.primary_workload[1]",
+    "aws_route_table_association.primary_workload[2]",
+    "aws_route_table_association.secondary_public[0]",
+    "aws_route_table_association.secondary_public[1]",
+    "aws_route_table_association.secondary_public[2]",
+    "aws_route_table_association.secondary_workload[0]",
+    "aws_route_table_association.secondary_workload[1]",
+    "aws_route_table_association.secondary_workload[2]",
+    "aws_subnet.primary_public[0]",
+    "aws_subnet.primary_public[1]",
+    "aws_subnet.primary_public[2]",
+    "aws_subnet.primary_workload[0]",
+    "aws_subnet.primary_workload[1]",
+    "aws_subnet.primary_workload[2]",
+    "aws_subnet.secondary_public[0]",
+    "aws_subnet.secondary_public[1]",
+    "aws_subnet.secondary_public[2]",
+    "aws_subnet.secondary_workload[0]",
+    "aws_subnet.secondary_workload[1]",
+    "aws_subnet.secondary_workload[2]"
+   ],
+   "update_values": {
+    "aws_autoscaling_group.primary_master": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ]
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_autoscaling_group.secondary_master": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ]
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_autoscaling_group.primary_worker[0]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ]
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_autoscaling_group.primary_worker[1]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ]
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_autoscaling_group.primary_worker[2]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ]
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_autoscaling_group.secondary_worker[0]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ]
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_autoscaling_group.secondary_worker[1]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ]
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_autoscaling_group.secondary_worker[2]": {
+     "availability_zones": {
+      "after": [
+       "us-east-1a",
+       "us-east-1b",
+       "us-east-1c"
+      ],
+      "unknown": [
+       false,
+       false,
+       false
+      ]
+     },
+     "vpc_zone_identifier": {
+      "after": null,
+      "unknown": true
+     }
+    },
+    "aws_ssm_parameter.network_catalog": {
+     "value": {
+      "after": "{\"environment\":\"prod\",\"project\":\"v6mesh\",\"zones\":[\"us-east-1b\",\"us-east-1c\",\"us-east-1a\"]}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "add_worker_pool",
+   "kind": "key_add",
+   "dimension": "pool",
+   "reference_outputs": {
+    "primary_vpc_id": {
+     "after": "vpc-0485af1cf5cfb981c",
+     "unknown": false
+    },
+    "secondary_vpc_id": {
+     "after": "vpc-54a56f6650f1d9ea1",
+     "unknown": false
+    },
+    "primary_workload_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-d7519410a2902c21b",
+      "us-east-1b": "subnet-59179d9efd38a9561",
+      "us-east-1c": "subnet-3aaa0def9fc0da322"
+     },
+     "unknown": false
+    },
+    "secondary_workload_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-9dea94dadb912f7cb",
+      "us-east-1b": "subnet-02c4b2f2d59261bff",
+      "us-east-1c": "subnet-47019f1280dc24d56"
+     },
+     "unknown": false
+    },
+    "primary_nat64_public_ips": {
+     "after": {
+      "us-east-1a": "127.65.65.68",
+      "us-east-1b": "127.156.27.33",
+      "us-east-1c": "127.126.177.119"
+     },
+     "unknown": false
+    },
+    "secondary_nat64_public_ips": {
+     "after": {
+      "us-east-1a": "127.25.163.207",
+      "us-east-1b": "127.19.182.131",
+      "us-east-1c": "127.133.175.11"
+     },
+     "unknown": false
+    },
+    "primary_worker_asg_names": {
+     "after": {
+      "gateway": "v6mesh-prod-alpha-gateway",
+      "mesh": "v6mesh-prod-alpha-mesh",
+      "sentinel": "v6mesh-prod-alpha-sentinel",
+      "system": "v6mesh-prod-alpha-system"
+     },
+     "unknown": false
+    },
+    "secondary_worker_asg_names": {
+     "after": {
+      "gateway": "v6mesh-prod-beta-gateway",
+      "mesh": "v6mesh-prod-beta-mesh",
+      "sentinel": "v6mesh-prod-beta-sentinel",
+      "system": "v6mesh-prod-beta-system"
+     },
+     "unknown": false
+    },
+    "bootstrap_bucket_name": {
+     "after": "v6mesh-prod-bootstrap-93c699",
+     "unknown": false
+    },
+    "bootstrap_object_keys": {
+     "after": {
+      "gateway": "v6mesh/prod/pools/gateway.env",
+      "mesh": "v6mesh/prod/pools/mesh.env",
+      "sentinel": "v6mesh/prod/pools/sentinel.env",
+      "system": "v6mesh/prod/pools/system.env"
+     },
+     "unknown": false
+    },
+    "alerts_topic_arn": {
+     "after": "arn:aws:sns:us-east-1:123456789012:v6mesh-prod-cluster-alerts",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_ssm_parameter.worker_catalog": {
+     "value": {
+      "after": "{\"environment\":\"prod\",\"pools\":[\"gateway\",\"system\",\"sentinel\",\"mesh\"],\"project\":\"v6mesh\"}",
+      "unknown": null,
+      "filled": {
+       "after": "{\"environment\":\"prod\",\"pools\":[\"gateway\",\"system\",\"sentinel\",\"mesh\"],\"project\":\"v6mesh\"}",
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_worker_pool",
+   "kind": "key_remove",
+   "dimension": "pool",
+   "reference_outputs": {
+    "primary_vpc_id": {
+     "after": "vpc-0485af1cf5cfb981c",
+     "unknown": false
+    },
+    "secondary_vpc_id": {
+     "after": "vpc-54a56f6650f1d9ea1",
+     "unknown": false
+    },
+    "primary_workload_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-d7519410a2902c21b",
+      "us-east-1b": "subnet-59179d9efd38a9561",
+      "us-east-1c": "subnet-3aaa0def9fc0da322"
+     },
+     "unknown": false
+    },
+    "secondary_workload_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-9dea94dadb912f7cb",
+      "us-east-1b": "subnet-02c4b2f2d59261bff",
+      "us-east-1c": "subnet-47019f1280dc24d56"
+     },
+     "unknown": false
+    },
+    "primary_nat64_public_ips": {
+     "after": {
+      "us-east-1a": "127.65.65.68",
+      "us-east-1b": "127.156.27.33",
+      "us-east-1c": "127.126.177.119"
+     },
+     "unknown": false
+    },
+    "secondary_nat64_public_ips": {
+     "after": {
+      "us-east-1a": "127.25.163.207",
+      "us-east-1b": "127.19.182.131",
+      "us-east-1c": "127.133.175.11"
+     },
+     "unknown": false
+    },
+    "primary_worker_asg_names": {
+     "after": {
+      "mesh": "v6mesh-prod-alpha-mesh",
+      "system": "v6mesh-prod-alpha-system"
+     },
+     "unknown": false
+    },
+    "secondary_worker_asg_names": {
+     "after": {
+      "mesh": "v6mesh-prod-beta-mesh",
+      "system": "v6mesh-prod-beta-system"
+     },
+     "unknown": false
+    },
+    "bootstrap_bucket_name": {
+     "after": "v6mesh-prod-bootstrap-93c699",
+     "unknown": false
+    },
+    "bootstrap_object_keys": {
+     "after": {
+      "mesh": "v6mesh/prod/pools/mesh.env",
+      "system": "v6mesh/prod/pools/system.env"
+     },
+     "unknown": false
+    },
+    "alerts_topic_arn": {
+     "after": "arn:aws:sns:us-east-1:123456789012:v6mesh-prod-cluster-alerts",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_ssm_parameter.worker_catalog": {
+     "value": {
+      "after": "{\"environment\":\"prod\",\"pools\":[\"system\",\"mesh\"],\"project\":\"v6mesh\"}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "update_worker_pools",
+   "kind": "key_update",
+   "dimension": "pool",
+   "updates": {
+    "gateway": {
+     "order": 12,
+     "instance_type": "m6i.large",
+     "disk_size": 35,
+     "min_size": 3,
+     "max_size": 6,
+     "desired_size": 3
+    },
+    "system": {
+     "order": 22,
+     "instance_type": "c6i.large",
+     "disk_size": 50,
+     "min_size": 3,
+     "max_size": 7,
+     "desired_size": 4
+    },
+    "mesh": {
+     "order": 32,
+     "instance_type": "r6i.large",
+     "disk_size": 80,
+     "min_size": 2,
+     "max_size": 5,
+     "desired_size": 2
+    }
+   },
+   "expect": [
+    {
+     "key": "gateway",
+     "base": "aws_launch_template.primary_worker",
+     "attr": "instance_type",
+     "value": "m6i.large"
+    },
+    {
+     "key": "gateway",
+     "base": "aws_launch_template.primary_worker",
+     "attr": "block_device_mappings[0].ebs[0].volume_size",
+     "value": 35
+    },
+    {
+     "key": "gateway",
+     "base": "aws_launch_template.secondary_worker",
+     "attr": "instance_type",
+     "value": "m6i.large"
+    },
+    {
+     "key": "gateway",
+     "base": "aws_launch_template.secondary_worker",
+     "attr": "block_device_mappings[0].ebs[0].volume_size",
+     "value": 35
+    },
+    {
+     "key": "gateway",
+     "base": "aws_autoscaling_group.primary_worker",
+     "attr": "min_size",
+     "value": 3
+    },
+    {
+     "key": "gateway",
+     "base": "aws_autoscaling_group.primary_worker",
+     "attr": "max_size",
+     "value": 6
+    },
+    {
+     "key": "gateway",
+     "base": "aws_autoscaling_group.primary_worker",
+     "attr": "desired_capacity",
+     "value": 3
+    },
+    {
+     "key": "gateway",
+     "base": "aws_autoscaling_group.secondary_worker",
+     "attr": "min_size",
+     "value": 3
+    },
+    {
+     "key": "gateway",
+     "base": "aws_autoscaling_group.secondary_worker",
+     "attr": "max_size",
+     "value": 6
+    },
+    {
+     "key": "gateway",
+     "base": "aws_autoscaling_group.secondary_worker",
+     "attr": "desired_capacity",
+     "value": 3
+    },
+    {
+     "key": "gateway",
+     "base": "aws_cloudwatch_metric_alarm.primary_worker_capacity",
+     "attr": "threshold",
+     "value": 3
+    },
+    {
+     "key": "gateway",
+     "base": "aws_cloudwatch_metric_alarm.secondary_worker_capacity",
+     "attr": "threshold",
+     "value": 3
+    },
+    {
+     "key": "system",
+     "base": "aws_launch_template.primary_worker",
+     "attr": "instance_type",
+     "value": "c6i.large"
+    },
+    {
+     "key": "system",
+     "base": "aws_launch_template.primary_worker",
+     "attr": "block_device_mappings[0].ebs[0].volume_size",
+     "value": 50
+    },
+    {
+     "key": "system",
+     "base": "aws_launch_template.secondary_worker",
+     "attr": "instance_type",
+     "value": "c6i.large"
+    },
+    {
+     "key": "system",
+     "base": "aws_launch_template.secondary_worker",
+     "attr": "block_device_mappings[0].ebs[0].volume_size",
+     "value": 50
+    },
+    {
+     "key": "system",
+     "base": "aws_autoscaling_group.primary_worker",
+     "attr": "min_size",
+     "value": 3
+    },
+    {
+     "key": "system",
+     "base": "aws_autoscaling_group.primary_worker",
+     "attr": "max_size",
+     "value": 7
+    },
+    {
+     "key": "system",
+     "base": "aws_autoscaling_group.primary_worker",
+     "attr": "desired_capacity",
+     "value": 4
+    },
+    {
+     "key": "system",
+     "base": "aws_autoscaling_group.secondary_worker",
+     "attr": "min_size",
+     "value": 3
+    },
+    {
+     "key": "system",
+     "base": "aws_autoscaling_group.secondary_worker",
+     "attr": "max_size",
+     "value": 7
+    },
+    {
+     "key": "system",
+     "base": "aws_autoscaling_group.secondary_worker",
+     "attr": "desired_capacity",
+     "value": 4
+    },
+    {
+     "key": "system",
+     "base": "aws_cloudwatch_metric_alarm.primary_worker_capacity",
+     "attr": "threshold",
+     "value": 3
+    },
+    {
+     "key": "system",
+     "base": "aws_cloudwatch_metric_alarm.secondary_worker_capacity",
+     "attr": "threshold",
+     "value": 3
+    },
+    {
+     "key": "mesh",
+     "base": "aws_launch_template.primary_worker",
+     "attr": "instance_type",
+     "value": "r6i.large"
+    },
+    {
+     "key": "mesh",
+     "base": "aws_launch_template.primary_worker",
+     "attr": "block_device_mappings[0].ebs[0].volume_size",
+     "value": 80
+    },
+    {
+     "key": "mesh",
+     "base": "aws_launch_template.secondary_worker",
+     "attr": "instance_type",
+     "value": "r6i.large"
+    },
+    {
+     "key": "mesh",
+     "base": "aws_launch_template.secondary_worker",
+     "attr": "block_device_mappings[0].ebs[0].volume_size",
+     "value": 80
+    },
+    {
+     "key": "mesh",
+     "base": "aws_autoscaling_group.primary_worker",
+     "attr": "min_size",
+     "value": 2
+    },
+    {
+     "key": "mesh",
+     "base": "aws_autoscaling_group.primary_worker",
+     "attr": "max_size",
+     "value": 5
+    },
+    {
+     "key": "mesh",
+     "base": "aws_autoscaling_group.primary_worker",
+     "attr": "desired_capacity",
+     "value": 2
+    },
+    {
+     "key": "mesh",
+     "base": "aws_autoscaling_group.secondary_worker",
+     "attr": "min_size",
+     "value": 2
+    },
+    {
+     "key": "mesh",
+     "base": "aws_autoscaling_group.secondary_worker",
+     "attr": "max_size",
+     "value": 5
+    },
+    {
+     "key": "mesh",
+     "base": "aws_autoscaling_group.secondary_worker",
+     "attr": "desired_capacity",
+     "value": 2
+    },
+    {
+     "key": "mesh",
+     "base": "aws_cloudwatch_metric_alarm.primary_worker_capacity",
+     "attr": "threshold",
+     "value": 2
+    },
+    {
+     "key": "mesh",
+     "base": "aws_cloudwatch_metric_alarm.secondary_worker_capacity",
+     "attr": "threshold",
+     "value": 2
+    },
+    {
+     "key": "gateway",
+     "base": "aws_iam_role.primary_worker",
+     "attr": "tags.Placement",
+     "value": "gateway:12"
+    },
+    {
+     "key": "system",
+     "base": "aws_iam_role.primary_worker",
+     "attr": "tags.Placement",
+     "value": "system:22"
+    },
+    {
+     "key": "mesh",
+     "base": "aws_iam_role.primary_worker",
+     "attr": "tags.Placement",
+     "value": "mesh:32"
+    }
+   ],
+   "reference_outputs": {
+    "primary_vpc_id": {
+     "after": "vpc-0485af1cf5cfb981c",
+     "unknown": false
+    },
+    "secondary_vpc_id": {
+     "after": "vpc-54a56f6650f1d9ea1",
+     "unknown": false
+    },
+    "primary_workload_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-d7519410a2902c21b",
+      "us-east-1b": "subnet-59179d9efd38a9561",
+      "us-east-1c": "subnet-3aaa0def9fc0da322"
+     },
+     "unknown": false
+    },
+    "secondary_workload_subnet_ids": {
+     "after": {
+      "us-east-1a": "subnet-9dea94dadb912f7cb",
+      "us-east-1b": "subnet-02c4b2f2d59261bff",
+      "us-east-1c": "subnet-47019f1280dc24d56"
+     },
+     "unknown": false
+    },
+    "primary_nat64_public_ips": {
+     "after": {
+      "us-east-1a": "127.65.65.68",
+      "us-east-1b": "127.156.27.33",
+      "us-east-1c": "127.126.177.119"
+     },
+     "unknown": false
+    },
+    "secondary_nat64_public_ips": {
+     "after": {
+      "us-east-1a": "127.25.163.207",
+      "us-east-1b": "127.19.182.131",
+      "us-east-1c": "127.133.175.11"
+     },
+     "unknown": false
+    },
+    "primary_worker_asg_names": {
+     "after": {
+      "gateway": "v6mesh-prod-alpha-gateway",
+      "mesh": "v6mesh-prod-alpha-mesh",
+      "system": "v6mesh-prod-alpha-system"
+     },
+     "unknown": false
+    },
+    "secondary_worker_asg_names": {
+     "after": {
+      "gateway": "v6mesh-prod-beta-gateway",
+      "mesh": "v6mesh-prod-beta-mesh",
+      "system": "v6mesh-prod-beta-system"
+     },
+     "unknown": false
+    },
+    "bootstrap_bucket_name": {
+     "after": "v6mesh-prod-bootstrap-93c699",
+     "unknown": false
+    },
+    "bootstrap_object_keys": {
+     "after": {
+      "gateway": "v6mesh/prod/pools/gateway.env",
+      "mesh": "v6mesh/prod/pools/mesh.env",
+      "system": "v6mesh/prod/pools/system.env"
+     },
+     "unknown": false
+    },
+    "alerts_topic_arn": {
+     "after": "arn:aws:sns:us-east-1:123456789012:v6mesh-prod-cluster-alerts",
+     "unknown": false
+    }
+   },
+   "reference_replaced": [],
+   "update_values": {
+    "aws_ssm_parameter.worker_catalog": {
+     "value": {
+      "after": "{\"environment\":\"prod\",\"pools\":[\"gateway\",\"system\",\"mesh\"],\"project\":\"v6mesh\"}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "project_var",
+   "kind": "rename",
+   "variable": "project",
+   "old": "v6mesh",
+   "new": "meshx",
+   "name_outputs": [
+    "bootstrap_bucket_name",
+    "bootstrap_object_keys",
+    "primary_worker_asg_names",
+    "secondary_worker_asg_names"
+   ],
+   "swap_fields": [
+    {
+     "base": "aws_launch_template.primary_master",
+     "attr": "user_data"
+    },
+    {
+     "base": "aws_launch_template.secondary_master",
+     "attr": "user_data"
+    },
+    {
+     "base": "aws_launch_template.primary_worker",
+     "attr": "user_data"
+    },
+    {
+     "base": "aws_launch_template.secondary_worker",
+     "attr": "user_data"
+    },
+    {
+     "base": "aws_s3_object.pool_bootstrap",
+     "attr": "key"
+    },
+    {
+     "base": "aws_s3_object.pool_bootstrap",
+     "attr": "content"
+    },
+    {
+     "legacy": "aws_ssm_parameter.network_catalog",
+     "attr": "value"
+    },
+    {
+     "legacy": "aws_ssm_parameter.worker_catalog",
+     "attr": "value"
+    },
+    {
+     "base": "aws_cloudwatch_metric_alarm.primary_worker_capacity",
+     "attr": "namespace"
+    },
+    {
+     "base": "aws_cloudwatch_metric_alarm.primary_worker_capacity",
+     "attr": "dimensions"
+    },
+    {
+     "base": "aws_cloudwatch_metric_alarm.secondary_worker_capacity",
+     "attr": "namespace"
+    },
+    {
+     "base": "aws_cloudwatch_metric_alarm.secondary_worker_capacity",
+     "attr": "dimensions"
+    },
+    {
+     "legacy": "aws_s3_bucket_lifecycle_configuration.bootstrap",
+     "attr": "rule"
+    }
+   ]
+  },
+  {
+   "name": "environment_var",
+   "kind": "rename",
+   "variable": "environment",
+   "old": "prod",
+   "new": "staging",
+   "name_outputs": [
+    "bootstrap_bucket_name",
+    "bootstrap_object_keys",
+    "primary_worker_asg_names",
+    "secondary_worker_asg_names"
+   ],
+   "swap_fields": [
+    {
+     "base": "aws_launch_template.primary_master",
+     "attr": "user_data"
+    },
+    {
+     "base": "aws_launch_template.secondary_master",
+     "attr": "user_data"
+    },
+    {
+     "base": "aws_launch_template.primary_worker",
+     "attr": "user_data"
+    },
+    {
+     "base": "aws_launch_template.secondary_worker",
+     "attr": "user_data"
+    },
+    {
+     "base": "aws_s3_object.pool_bootstrap",
+     "attr": "key"
+    },
+    {
+     "base": "aws_s3_object.pool_bootstrap",
+     "attr": "content"
+    },
+    {
+     "legacy": "aws_ssm_parameter.network_catalog",
+     "attr": "value"
+    },
+    {
+     "legacy": "aws_ssm_parameter.worker_catalog",
+     "attr": "value"
+    },
+    {
+     "base": "aws_cloudwatch_metric_alarm.primary_worker_capacity",
+     "attr": "namespace"
+    },
+    {
+     "base": "aws_cloudwatch_metric_alarm.primary_worker_capacity",
+     "attr": "dimensions"
+    },
+    {
+     "base": "aws_cloudwatch_metric_alarm.secondary_worker_capacity",
+     "attr": "namespace"
+    },
+    {
+     "base": "aws_cloudwatch_metric_alarm.secondary_worker_capacity",
+     "attr": "dimensions"
+    },
+    {
+     "legacy": "aws_s3_bucket_lifecycle_configuration.bootstrap",
+     "attr": "rule"
+    }
+   ],
+   "user_data": [
+    {
+     "legacy": "aws_launch_template.primary_master",
+     "line_prefix": "ENVIRONMENT="

@@ -1,0 +1,1347 @@
+{
+ "schema": 1,
+ "modules": [
+  "identity",
+  "messaging",
+  "workflow",
+  "edge"
+ ],
+ "ownership": {
+  "aws_cognito_user_pool.user_pool": "identity",
+  "aws_cognito_user_pool_client.user_pool_client": "identity",
+  "aws_iam_role.lambda_execution": "identity",
+  "aws_iam_policy.lambda_execution": "identity",
+  "aws_iam_role_policy_attachment.lambda_execution": "identity",
+  "aws_dynamodb_table.audience": "messaging",
+  "aws_sns_topic.audience": "messaging",
+  "aws_sqs_queue.audience": "messaging",
+  "aws_sns_topic_subscription.audience_queue": "messaging",
+  "aws_cloudwatch_metric_alarm.audience_queue_depth": "messaging",
+  "aws_ssm_parameter.audience_registry": "messaging",
+  "aws_sns_topic_policy.audience": "messaging",
+  "aws_sns_topic.operations": "messaging",
+  "aws_sqs_queue.audit": "messaging",
+  "aws_sns_topic_subscription.operations_audit": "messaging",
+  "aws_cloudwatch_log_group.stage": "workflow",
+  "aws_sqs_queue.stage_dlq": "workflow",
+  "aws_lambda_function.stage": "workflow",
+  "aws_cloudwatch_metric_alarm.stage_errors": "workflow",
+  "aws_iam_role_policy.stage": "workflow",
+  "aws_sqs_queue_policy.stage_dlq": "workflow",
+  "aws_ssm_parameter.stage_registry": "workflow",
+  "aws_iam_policy.audience_access": "workflow",
+  "aws_iam_policy.workflow_execution": "workflow",
+  "aws_iam_role_policy_attachment.workflow_execution": "workflow",
+  "aws_cloudwatch_log_group.workflow": "workflow",
+  "aws_lambda_permission.api_gateway": "edge",
+  "aws_iam_role.api_gateway": "edge",
+  "aws_iam_policy.api_gateway": "edge",
+  "aws_iam_role_policy_attachment.api_gateway": "edge",
+  "aws_api_gateway_rest_api.api": "edge",
+  "aws_api_gateway_resource.user_onboarding": "edge",
+  "aws_api_gateway_method.post": "edge",
+  "aws_api_gateway_integration.step_functions": "edge",
+  "aws_api_gateway_method_response.accepted": "edge",
+  "aws_api_gateway_integration_response.accepted": "edge",
+  "aws_api_gateway_deployment.api": "edge",
+  "aws_api_gateway_stage.prod": "edge",
+  "aws_kms_key.content": "edge",
+  "aws_kms_alias.content": "edge",
+  "aws_s3_bucket.user_onboarding": "edge",
+  "aws_s3_bucket_versioning.user_onboarding": "edge",
+  "aws_s3_bucket_website_configuration.user_onboarding": "edge",
+  "aws_s3_bucket_public_access_block.user_onboarding": "edge",
+  "aws_s3_bucket_server_side_encryption_configuration.user_onboarding": "edge",
+  "aws_s3_bucket_policy.user_onboarding": "edge"
+ },
+ "direct_modules": true,
+ "no_count": true,
+ "key_dimensions": {
+  "workflow_stage": {
+   "variable": "workflow_stages",
+   "keys": {
+    "aws_cloudwatch_log_group.stage[0]": "validate-user-data",
+    "aws_cloudwatch_log_group.stage[1]": "send-welcome-email",
+    "aws_cloudwatch_log_group.stage[2]": "setup-user-preferences",
+    "aws_cloudwatch_log_group.stage[3]": "create-cognito-user",
+    "aws_cloudwatch_log_group.stage[4]": "store-premium-users",
+    "aws_sqs_queue.stage_dlq[0]": "validate-user-data",
+    "aws_sqs_queue.stage_dlq[1]": "send-welcome-email",
+    "aws_sqs_queue.stage_dlq[2]": "setup-user-preferences",
+    "aws_sqs_queue.stage_dlq[3]": "create-cognito-user",
+    "aws_sqs_queue.stage_dlq[4]": "store-premium-users",
+    "aws_lambda_function.stage[0]": "validate-user-data",
+    "aws_lambda_function.stage[1]": "send-welcome-email",
+    "aws_lambda_function.stage[2]": "setup-user-preferences",
+    "aws_lambda_function.stage[3]": "create-cognito-user",
+    "aws_lambda_function.stage[4]": "store-premium-users",
+    "aws_cloudwatch_metric_alarm.stage_errors[0]": "validate-user-data",
+    "aws_cloudwatch_metric_alarm.stage_errors[1]": "send-welcome-email",
+    "aws_cloudwatch_metric_alarm.stage_errors[2]": "setup-user-preferences",
+    "aws_cloudwatch_metric_alarm.stage_errors[3]": "create-cognito-user",
+    "aws_cloudwatch_metric_alarm.stage_errors[4]": "store-premium-users",
+    "aws_iam_role_policy.stage[0]": "validate-user-data",
+    "aws_iam_role_policy.stage[1]": "send-welcome-email",
+    "aws_iam_role_policy.stage[2]": "setup-user-preferences",
+    "aws_iam_role_policy.stage[3]": "create-cognito-user",
+    "aws_iam_role_policy.stage[4]": "store-premium-users",
+    "aws_lambda_permission.api_gateway[0]": "validate-user-data",
+    "aws_lambda_permission.api_gateway[1]": "send-welcome-email",
+    "aws_lambda_permission.api_gateway[2]": "setup-user-preferences",
+    "aws_lambda_permission.api_gateway[3]": "create-cognito-user",
+    "aws_lambda_permission.api_gateway[4]": "store-premium-users",
+    "aws_sqs_queue_policy.stage_dlq[0]": "validate-user-data",
+    "aws_sqs_queue_policy.stage_dlq[1]": "send-welcome-email",
+    "aws_sqs_queue_policy.stage_dlq[2]": "setup-user-preferences",
+    "aws_sqs_queue_policy.stage_dlq[3]": "create-cognito-user",
+    "aws_sqs_queue_policy.stage_dlq[4]": "store-premium-users",
+    "aws_ssm_parameter.stage_registry[0]": "validate-user-data",
+    "aws_ssm_parameter.stage_registry[1]": "send-welcome-email",
+    "aws_ssm_parameter.stage_registry[2]": "setup-user-preferences",
+    "aws_ssm_parameter.stage_registry[3]": "create-cognito-user",
+    "aws_ssm_parameter.stage_registry[4]": "store-premium-users",
+    "aws_ssm_parameter.stage_registry[5]": null
+   },
+   "add": {
+    "key": "eligibility-review",
+    "value": {
+     "memory_size": 448,
+     "timeout": 27,
+     "log_retention": 120,
+     "queue_visibility": 70,
+     "error_threshold": 6,
+     "entry_priority": 5
+    },
+    "created_values": [
+     {
+      "base": "aws_lambda_function.stage",
+      "attr": "memory_size",
+      "value": 448
+     },
+     {
+      "base": "aws_lambda_function.stage",
+      "attr": "timeout",
+      "value": 27
+     },
+     {
+      "base": "aws_cloudwatch_log_group.stage",
+      "attr": "retention_in_days",
+      "value": 120
+     },
+     {
+      "base": "aws_sqs_queue.stage_dlq",
+      "attr": "visibility_timeout_seconds",
+      "value": 70
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.stage_errors",
+      "attr": "threshold",
+      "value": 6
+     },
+     {
+      "base": "aws_ssm_parameter.stage_registry",
+      "attr": "description",
+      "value": "Entry priority 5"
+     }
+    ]
+   },
+   "remove": "validate-user-data",
+   "allowed_updates": {
+    "aws_iam_policy.workflow_execution": [
+     "policy"
+    ],
+    "aws_iam_policy.audience_access[0]": [
+     "policy"
+    ],
+    "aws_iam_policy.audience_access[1]": [
+     "policy"
+    ],
+    "aws_iam_policy.audience_access[2]": [
+     "policy"
+    ],
+    "aws_ssm_parameter.stage_registry[5]": [
+     "value"
+    ],
+    "aws_iam_policy.api_gateway": [
+     "policy"
+    ],
+    "aws_api_gateway_integration.step_functions": [
+     "uri",
+     "request_templates"
+    ]
+   },
+   "required_updates": {
+    "aws_iam_policy.workflow_execution": [
+     "policy"
+    ],
+    "aws_iam_policy.audience_access[0]": [
+     "policy"
+    ],
+    "aws_iam_policy.audience_access[1]": [
+     "policy"
+    ],
+    "aws_iam_policy.audience_access[2]": [
+     "policy"
+    ],
+    "aws_ssm_parameter.stage_registry[5]": [
+     "value"
+    ],
+    "aws_iam_policy.api_gateway": [
+     "policy"
+    ],
+    "aws_api_gateway_integration.step_functions": [
+     "uri",
+     "request_templates"
+    ]
+   }
+  },
+  "audience": {
+   "variable": "audiences",
+   "keys": {
+    "aws_dynamodb_table.audience[0]": "driver-partner",
+    "aws_dynamodb_table.audience[1]": "personal-rider",
+    "aws_dynamodb_table.audience[2]": "business-rider",
+    "aws_sns_topic.audience[0]": "driver-partner",
+    "aws_sns_topic.audience[1]": "personal-rider",
+    "aws_sns_topic.audience[2]": "business-rider",
+    "aws_sqs_queue.audience[0]": "driver-partner",
+    "aws_sqs_queue.audience[1]": "personal-rider",
+    "aws_sqs_queue.audience[2]": "business-rider",
+    "aws_sns_topic_subscription.audience_queue[0]": "driver-partner",
+    "aws_sns_topic_subscription.audience_queue[1]": "personal-rider",
+    "aws_sns_topic_subscription.audience_queue[2]": "business-rider",
+    "aws_cloudwatch_metric_alarm.audience_queue_depth[0]": "driver-partner",
+    "aws_cloudwatch_metric_alarm.audience_queue_depth[1]": "personal-rider",
+    "aws_cloudwatch_metric_alarm.audience_queue_depth[2]": "business-rider",
+    "aws_ssm_parameter.audience_registry[0]": "driver-partner",
+    "aws_ssm_parameter.audience_registry[1]": "personal-rider",
+    "aws_ssm_parameter.audience_registry[2]": "business-rider",
+    "aws_iam_policy.audience_access[0]": "driver-partner",
+    "aws_iam_policy.audience_access[1]": "personal-rider",
+    "aws_iam_policy.audience_access[2]": "business-rider",
+    "aws_sns_topic_policy.audience[0]": "driver-partner",
+    "aws_sns_topic_policy.audience[1]": "personal-rider",
+    "aws_sns_topic_policy.audience[2]": "business-rider",
+    "aws_ssm_parameter.audience_registry[3]": null
+   },
+   "add": {
+    "key": "campus-commuter",
+    "value": {
+     "message_retention_seconds": 259200,
+     "alarm_threshold": 55,
+     "delivery_window": "overnight"
+    },
+    "created_values": [
+     {
+      "base": "aws_sqs_queue.audience",
+      "attr": "message_retention_seconds",
+      "value": 259200
+     },
+     {
+      "base": "aws_cloudwatch_metric_alarm.audience_queue_depth",
+      "attr": "threshold",
+      "value": 55
+     },
+     {
+      "base": "aws_ssm_parameter.audience_registry",
+      "attr": "value",
+      "value": "{\"alarm_threshold\":55,\"audience\":\"campus-commuter\",\"delivery_window\":\"overnight\",\"retention_seconds\":259200}"
+     }
+    ]
+   },
+   "remove": "driver-partner",
+   "allowed_updates": {
+    "aws_iam_policy.lambda_execution": [
+     "policy"
+    ],
+    "aws_iam_policy.workflow_execution": [
+     "policy"
+    ],
+    "aws_lambda_function.stage[0]": [
+     "environment"
+    ],
+    "aws_lambda_function.stage[1]": [
+     "environment"
+    ],
+    "aws_lambda_function.stage[2]": [
+     "environment"
+    ],
+    "aws_lambda_function.stage[3]": [
+     "environment"
+    ],
+    "aws_lambda_function.stage[4]": [
+     "environment"
+    ],
+    "aws_ssm_parameter.audience_registry[3]": [
+     "value"
+    ]
+   },
+   "required_updates": {
+    "aws_iam_policy.lambda_execution": [
+     "policy"
+    ],
+    "aws_iam_policy.workflow_execution": [
+     "policy"
+    ],
+    "aws_lambda_function.stage[0]": [
+     "environment"
+    ],
+    "aws_lambda_function.stage[1]": [
+     "environment"
+    ],
+    "aws_lambda_function.stage[2]": [
+     "environment"
+    ],
+    "aws_lambda_function.stage[3]": [
+     "environment"
+    ],
+    "aws_lambda_function.stage[4]": [
+     "environment"
+    ],
+    "aws_ssm_parameter.audience_registry[3]": [
+     "value"
+    ]
+   }
+  }
+ },
+ "variables": {
+  "project": {
+   "default": "ridenroll",
+   "type": "string"
+  },
+  "environment": {
+   "default": "prod",
+   "type": "string"
+  },
+  "workflow_stages": {
+   "default": {
+    "validate-user-data": {
+     "memory_size": 192,
+     "timeout": 12,
+     "log_retention": 14,
+     "queue_visibility": 30,
+     "error_threshold": 8,
+     "entry_priority": 10
+    },
+    "send-welcome-email": {
+     "memory_size": 256,
+     "timeout": 18,
+     "log_retention": 30,
+     "queue_visibility": 45,
+     "error_threshold": 4,
+     "entry_priority": 20
+    },
+    "setup-user-preferences": {
+     "memory_size": 320,
+     "timeout": 24,
+     "log_retention": 60,
+     "queue_visibility": 60,
+     "error_threshold": 3,
+     "entry_priority": 40
+    },
+    "create-cognito-user": {
+     "memory_size": 384,
+     "timeout": 30,
+     "log_retention": 90,
+     "queue_visibility": 75,
+     "error_threshold": 2,
+     "entry_priority": 30
+    },
+    "store-premium-users": {
+     "memory_size": 224,
+     "timeout": 15,
+     "log_retention": 30,
+     "queue_visibility": 40,
+     "error_threshold": 5,
+     "entry_priority": 50
+    }
+   },
+   "type": "map(object({ memory_size = number, timeout = number, log_retention = number, queue_visibility = number, error_threshold = number, entry_priority = number }))"
+  },
+  "audiences": {
+   "default": {
+    "driver-partner": {
+     "message_retention_seconds": 345600,
+     "alarm_threshold": 40,
+     "delivery_window": "always"
+    },
+    "personal-rider": {
+     "message_retention_seconds": 172800,
+     "alarm_threshold": 80,
+     "delivery_window": "daytime"
+    },
+    "business-rider": {
+     "message_retention_seconds": 604800,
+     "alarm_threshold": 20,
+     "delivery_window": "business-hours"
+    }
+   },
+   "type": "map(object({ message_retention_seconds = number, alarm_threshold = number, delivery_window = string }))"
+  },
+  "tags": {
+   "default": {
+    "Owner": "onboarding-platform",
+    "CostCenter": "cc-2741",
+    "ManagedBy": "terraform"
+   },
+   "type": "map(string)"
+  },
+  "stage_queue_message_retention_seconds": {
+   "default": 1209600,
+   "type": "number"
+  },
+  "audience_queue_visibility_timeout": {
+   "default": 45,
+   "type": "number"
+  },
+  "workflow_log_retention_days": {
+   "default": 90,
+   "type": "number"
+  },
+  "audit_queue_message_retention_seconds": {
+   "default": 1209600,
+   "type": "number"
+  },
+  "user_pool_minimum_password_length": {
+   "default": 12,
+   "type": "number"
+  },
+  "kms_deletion_window_in_days": {
+   "default": 30,
+   "type": "number"
+  },
+  "api_response_status_code": {
+   "default": "202",
+   "type": "string"
+  }
+ },
+ "probes": [
+  {
+   "name": "add_workflow_stage",
+   "kind": "key_add",
+   "dimension": "workflow_stage",
+   "reference_outputs": {
+    "api_invoke_url": {
+     "after": "https://ye1c9v6yfv.execute-api.us-east-1.amazonaws.com/ridenroll-prod",
+     "unknown": false
+    },
+    "user_pool_id": {
+     "after": "us-east-1_00751c2d4e7d4b5881f93f2c64cd172a",
+     "unknown": false
+    },
+    "help_bucket_name": {
+     "after": "ridenroll-prod-help-8f31",
+     "unknown": false
+    },
+    "stage_function_names": {
+     "after": {
+      "create-cognito-user": "ridenroll-prod-create-cognito-user",
+      "eligibility-review": "ridenroll-prod-eligibility-review",
+      "send-welcome-email": "ridenroll-prod-send-welcome-email",
+      "setup-user-preferences": "ridenroll-prod-setup-user-preferences",
+      "store-premium-users": "ridenroll-prod-store-premium-users",
+      "validate-user-data": "ridenroll-prod-validate-user-data"
+     },
+     "unknown": false
+    },
+    "stage_log_group_names": {
+     "after": {
+      "create-cognito-user": "/aws/lambda/ridenroll-prod-create-cognito-user",
+      "eligibility-review": "/aws/lambda/ridenroll-prod-eligibility-review",
+      "send-welcome-email": "/aws/lambda/ridenroll-prod-send-welcome-email",
+      "setup-user-preferences": "/aws/lambda/ridenroll-prod-setup-user-preferences",
+      "store-premium-users": "/aws/lambda/ridenroll-prod-store-premium-users",
+      "validate-user-data": "/aws/lambda/ridenroll-prod-validate-user-data"
+     },
+     "unknown": false
+    },
+    "audience_table_names": {
+     "after": {
+      "business-rider": "ridenroll-prod-business-rider-profiles",
+      "driver-partner": "ridenroll-prod-driver-partner-profiles",
+      "personal-rider": "ridenroll-prod-personal-rider-profiles"
+     },
+     "unknown": false
+    },
+    "audience_topic_arns": {
+     "after": {
+      "business-rider": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications",
+      "driver-partner": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications",
+      "personal-rider": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications"
+     },
+     "unknown": false
+    },
+    "operations_topic_arn": {
+     "after": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-operations",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_iam_policy.workflow_execution": {
+     "policy": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-validate-user-data\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-eligibility-review\"]},{\"Action\":[\"logs:CreateLogDelivery\",\"logs:GetLogDelivery\",\"logs:UpdateLogDelivery\",\"logs:DeleteLogDelivery\",\"logs:ListLogDeliveries\",\"logs:PutResourcePolicy\",\"logs:DescribeResourcePolicies\",\"logs:DescribeLogGroups\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"dynamodb:GetItem\",\"dynamodb:PutItem\",\"sns:Publish\",\"sqs:SendMessage\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-driver-partner-profiles\",\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-personal-rider-profiles\",\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-business-rider-profiles\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-driver-partner-events\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-personal-rider-events\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-business-rider-events\"]}],\"Version\":\"2012-10-17\"}",
+       "unknown": null
+      }
+     }
+    },
+    "aws_iam_policy.audience_access[0]": {
+     "policy": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-validate-user-data\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-eligibility-review\"]}],\"Version\":\"2012-10-17\"}",
+       "unknown": null
+      }
+     }
+    },
+    "aws_iam_policy.audience_access[1]": {
+     "policy": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-validate-user-data\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-eligibility-review\"]}],\"Version\":\"2012-10-17\"}",
+       "unknown": null
+      }
+     }
+    },
+    "aws_iam_policy.audience_access[2]": {
+     "policy": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-validate-user-data\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-eligibility-review\"]}],\"Version\":\"2012-10-17\"}",
+       "unknown": null
+      }
+     }
+    },
+    "aws_ssm_parameter.stage_registry[5]": {
+     "value": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-validate-user-data,arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email,arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences,arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user,arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users,arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-eligibility-review",
+       "unknown": null
+      }
+     }
+    },
+    "aws_iam_policy.api_gateway": {
+     "policy": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-eligibility-review\"}],\"Version\":\"2012-10-17\"}",
+       "unknown": null
+      }
+     }
+    },
+    "aws_api_gateway_integration.step_functions": {
+     "uri": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-eligibility-review/invocations",
+       "unknown": null
+      }
+     },
+     "request_templates": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": {
+        "application/json": "{\"entryWorker\":\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-eligibility-review\",\"environment\":\"prod\",\"input\":\"$util.escapeJavaScript($input.json('$'))\",\"project\":\"ridenroll\"}"
+       },
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_workflow_stage",
+   "kind": "key_remove",
+   "dimension": "workflow_stage",
+   "reference_outputs": {
+    "api_invoke_url": {
+     "after": "https://ye1c9v6yfv.execute-api.us-east-1.amazonaws.com/ridenroll-prod",
+     "unknown": false
+    },
+    "user_pool_id": {
+     "after": "us-east-1_00751c2d4e7d4b5881f93f2c64cd172a",
+     "unknown": false
+    },
+    "help_bucket_name": {
+     "after": "ridenroll-prod-help-8f31",
+     "unknown": false
+    },
+    "stage_function_names": {
+     "after": {
+      "create-cognito-user": "ridenroll-prod-create-cognito-user",
+      "send-welcome-email": "ridenroll-prod-send-welcome-email",
+      "setup-user-preferences": "ridenroll-prod-setup-user-preferences",
+      "store-premium-users": "ridenroll-prod-store-premium-users"
+     },
+     "unknown": false
+    },
+    "stage_log_group_names": {
+     "after": {
+      "create-cognito-user": "/aws/lambda/ridenroll-prod-create-cognito-user",
+      "send-welcome-email": "/aws/lambda/ridenroll-prod-send-welcome-email",
+      "setup-user-preferences": "/aws/lambda/ridenroll-prod-setup-user-preferences",
+      "store-premium-users": "/aws/lambda/ridenroll-prod-store-premium-users"
+     },
+     "unknown": false
+    },
+    "audience_table_names": {
+     "after": {
+      "business-rider": "ridenroll-prod-business-rider-profiles",
+      "driver-partner": "ridenroll-prod-driver-partner-profiles",
+      "personal-rider": "ridenroll-prod-personal-rider-profiles"
+     },
+     "unknown": false
+    },
+    "audience_topic_arns": {
+     "after": {
+      "business-rider": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications",
+      "driver-partner": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications",
+      "personal-rider": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications"
+     },
+     "unknown": false
+    },
+    "operations_topic_arn": {
+     "after": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-operations",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_iam_policy.workflow_execution": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users\"]},{\"Action\":[\"logs:CreateLogDelivery\",\"logs:GetLogDelivery\",\"logs:UpdateLogDelivery\",\"logs:DeleteLogDelivery\",\"logs:ListLogDeliveries\",\"logs:PutResourcePolicy\",\"logs:DescribeResourcePolicies\",\"logs:DescribeLogGroups\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"dynamodb:GetItem\",\"dynamodb:PutItem\",\"sns:Publish\",\"sqs:SendMessage\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-driver-partner-profiles\",\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-personal-rider-profiles\",\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-business-rider-profiles\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-driver-partner-events\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-personal-rider-events\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-business-rider-events\"]}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_iam_policy.audience_access[0]": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users\"]}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_iam_policy.audience_access[1]": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users\"]}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_iam_policy.audience_access[2]": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users\"]}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_ssm_parameter.stage_registry[5]": {
+     "value": {
+      "after": "arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email,arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences,arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user,arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users",
+      "unknown": null
+     }
+    },
+    "aws_iam_policy.api_gateway": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\"}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_api_gateway_integration.step_functions": {
+     "uri": {
+      "after": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email/invocations",
+      "unknown": null
+     },
+     "request_templates": {
+      "after": {
+       "application/json": "{\"entryWorker\":\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"environment\":\"prod\",\"input\":\"$util.escapeJavaScript($input.json('$'))\",\"project\":\"ridenroll\"}"
+      },
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "update_workflow_stages",
+   "kind": "key_update",
+   "dimension": "workflow_stage",
+   "updates": {
+    "validate-user-data": {
+     "memory_size": 208,
+     "timeout": 13,
+     "log_retention": 150,
+     "queue_visibility": 31,
+     "error_threshold": 9,
+     "entry_priority": 9
+    },
+    "send-welcome-email": {
+     "memory_size": 288,
+     "timeout": 19,
+     "log_retention": 60,
+     "queue_visibility": 46,
+     "error_threshold": 5,
+     "entry_priority": 9
+    },
+    "setup-user-preferences": {
+     "memory_size": 352,
+     "timeout": 25,
+     "log_retention": 90,
+     "queue_visibility": 61,
+     "error_threshold": 4,
+     "entry_priority": 35
+    },
+    "create-cognito-user": {
+     "memory_size": 416,
+     "timeout": 31,
+     "log_retention": 120,
+     "queue_visibility": 76,
+     "error_threshold": 3,
+     "entry_priority": 25
+    },
+    "store-premium-users": {
+     "memory_size": 240,
+     "timeout": 16,
+     "log_retention": 14,
+     "queue_visibility": 41,
+     "error_threshold": 6,
+     "entry_priority": 45
+    }
+   },
+   "expect": [
+    {
+     "key": "validate-user-data",
+     "base": "aws_lambda_function.stage",
+     "attr": "memory_size",
+     "value": 208
+    },
+    {
+     "key": "validate-user-data",
+     "base": "aws_lambda_function.stage",
+     "attr": "timeout",
+     "value": 13
+    },
+    {
+     "key": "validate-user-data",
+     "base": "aws_cloudwatch_log_group.stage",
+     "attr": "retention_in_days",
+     "value": 150
+    },
+    {
+     "key": "validate-user-data",
+     "base": "aws_sqs_queue.stage_dlq",
+     "attr": "visibility_timeout_seconds",
+     "value": 31
+    },
+    {
+     "key": "validate-user-data",
+     "base": "aws_cloudwatch_metric_alarm.stage_errors",
+     "attr": "threshold",
+     "value": 9
+    },
+    {
+     "key": "validate-user-data",
+     "base": "aws_ssm_parameter.stage_registry",
+     "attr": "description",
+     "value": "Entry priority 9"
+    },
+    {
+     "key": "send-welcome-email",
+     "base": "aws_lambda_function.stage",
+     "attr": "memory_size",
+     "value": 288
+    },
+    {
+     "key": "send-welcome-email",
+     "base": "aws_lambda_function.stage",
+     "attr": "timeout",
+     "value": 19
+    },
+    {
+     "key": "send-welcome-email",
+     "base": "aws_cloudwatch_log_group.stage",
+     "attr": "retention_in_days",
+     "value": 60
+    },
+    {
+     "key": "send-welcome-email",
+     "base": "aws_sqs_queue.stage_dlq",
+     "attr": "visibility_timeout_seconds",
+     "value": 46
+    },
+    {
+     "key": "send-welcome-email",
+     "base": "aws_cloudwatch_metric_alarm.stage_errors",
+     "attr": "threshold",
+     "value": 5
+    },
+    {
+     "key": "send-welcome-email",
+     "base": "aws_ssm_parameter.stage_registry",
+     "attr": "description",
+     "value": "Entry priority 9"
+    },
+    {
+     "key": "setup-user-preferences",
+     "base": "aws_lambda_function.stage",
+     "attr": "memory_size",
+     "value": 352
+    },
+    {
+     "key": "setup-user-preferences",
+     "base": "aws_lambda_function.stage",
+     "attr": "timeout",
+     "value": 25
+    },
+    {
+     "key": "setup-user-preferences",
+     "base": "aws_cloudwatch_log_group.stage",
+     "attr": "retention_in_days",
+     "value": 90
+    },
+    {
+     "key": "setup-user-preferences",
+     "base": "aws_sqs_queue.stage_dlq",
+     "attr": "visibility_timeout_seconds",
+     "value": 61
+    },
+    {
+     "key": "setup-user-preferences",
+     "base": "aws_cloudwatch_metric_alarm.stage_errors",
+     "attr": "threshold",
+     "value": 4
+    },
+    {
+     "key": "setup-user-preferences",
+     "base": "aws_ssm_parameter.stage_registry",
+     "attr": "description",
+     "value": "Entry priority 35"
+    },
+    {
+     "key": "create-cognito-user",
+     "base": "aws_lambda_function.stage",
+     "attr": "memory_size",
+     "value": 416
+    },
+    {
+     "key": "create-cognito-user",
+     "base": "aws_lambda_function.stage",
+     "attr": "timeout",
+     "value": 31
+    },
+    {
+     "key": "create-cognito-user",
+     "base": "aws_cloudwatch_log_group.stage",
+     "attr": "retention_in_days",
+     "value": 120
+    },
+    {
+     "key": "create-cognito-user",
+     "base": "aws_sqs_queue.stage_dlq",
+     "attr": "visibility_timeout_seconds",
+     "value": 76
+    },
+    {
+     "key": "create-cognito-user",
+     "base": "aws_cloudwatch_metric_alarm.stage_errors",
+     "attr": "threshold",
+     "value": 3
+    },
+    {
+     "key": "create-cognito-user",
+     "base": "aws_ssm_parameter.stage_registry",
+     "attr": "description",
+     "value": "Entry priority 25"
+    },
+    {
+     "key": "store-premium-users",
+     "base": "aws_lambda_function.stage",
+     "attr": "memory_size",
+     "value": 240
+    },
+    {
+     "key": "store-premium-users",
+     "base": "aws_lambda_function.stage",
+     "attr": "timeout",
+     "value": 16
+    },
+    {
+     "key": "store-premium-users",
+     "base": "aws_cloudwatch_log_group.stage",
+     "attr": "retention_in_days",
+     "value": 14
+    },
+    {
+     "key": "store-premium-users",
+     "base": "aws_sqs_queue.stage_dlq",
+     "attr": "visibility_timeout_seconds",
+     "value": 41
+    },
+    {
+     "key": "store-premium-users",
+     "base": "aws_cloudwatch_metric_alarm.stage_errors",
+     "attr": "threshold",
+     "value": 6
+    },
+    {
+     "key": "store-premium-users",
+     "base": "aws_ssm_parameter.stage_registry",
+     "attr": "description",
+     "value": "Entry priority 45"
+    }
+   ],
+   "reference_outputs": {
+    "api_invoke_url": {
+     "after": "https://ye1c9v6yfv.execute-api.us-east-1.amazonaws.com/ridenroll-prod",
+     "unknown": false
+    },
+    "user_pool_id": {
+     "after": "us-east-1_00751c2d4e7d4b5881f93f2c64cd172a",
+     "unknown": false
+    },
+    "help_bucket_name": {
+     "after": "ridenroll-prod-help-8f31",
+     "unknown": false
+    },
+    "stage_function_names": {
+     "after": {
+      "create-cognito-user": "ridenroll-prod-create-cognito-user",
+      "send-welcome-email": "ridenroll-prod-send-welcome-email",
+      "setup-user-preferences": "ridenroll-prod-setup-user-preferences",
+      "store-premium-users": "ridenroll-prod-store-premium-users",
+      "validate-user-data": "ridenroll-prod-validate-user-data"
+     },
+     "unknown": false
+    },
+    "stage_log_group_names": {
+     "after": {
+      "create-cognito-user": "/aws/lambda/ridenroll-prod-create-cognito-user",
+      "send-welcome-email": "/aws/lambda/ridenroll-prod-send-welcome-email",
+      "setup-user-preferences": "/aws/lambda/ridenroll-prod-setup-user-preferences",
+      "store-premium-users": "/aws/lambda/ridenroll-prod-store-premium-users",
+      "validate-user-data": "/aws/lambda/ridenroll-prod-validate-user-data"
+     },
+     "unknown": false
+    },
+    "audience_table_names": {
+     "after": {
+      "business-rider": "ridenroll-prod-business-rider-profiles",
+      "driver-partner": "ridenroll-prod-driver-partner-profiles",
+      "personal-rider": "ridenroll-prod-personal-rider-profiles"
+     },
+     "unknown": false
+    },
+    "audience_topic_arns": {
+     "after": {
+      "business-rider": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications",
+      "driver-partner": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications",
+      "personal-rider": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications"
+     },
+     "unknown": false
+    },
+    "operations_topic_arn": {
+     "after": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-operations",
+     "unknown": false
+    }
+   },
+   "reference_replaced": [],
+   "update_values": {
+    "aws_iam_policy.workflow_execution": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-validate-user-data\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users\"]},{\"Action\":[\"logs:CreateLogDelivery\",\"logs:GetLogDelivery\",\"logs:UpdateLogDelivery\",\"logs:DeleteLogDelivery\",\"logs:ListLogDeliveries\",\"logs:PutResourcePolicy\",\"logs:DescribeResourcePolicies\",\"logs:DescribeLogGroups\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"dynamodb:GetItem\",\"dynamodb:PutItem\",\"sns:Publish\",\"sqs:SendMessage\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-driver-partner-profiles\",\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-personal-rider-profiles\",\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-business-rider-profiles\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-driver-partner-events\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-personal-rider-events\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-business-rider-events\"]}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_iam_policy.audience_access[0]": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-validate-user-data\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users\"]}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_iam_policy.audience_access[1]": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-validate-user-data\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users\"]}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_iam_policy.audience_access[2]": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-validate-user-data\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users\"]}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_ssm_parameter.stage_registry[5]": {
+     "value": {
+      "after": "arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-validate-user-data,arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email,arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences,arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user,arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users",
+      "unknown": null
+     }
+    },
+    "aws_iam_policy.api_gateway": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\"}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_api_gateway_integration.step_functions": {
+     "uri": {
+      "after": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email/invocations",
+      "unknown": null
+     },
+     "request_templates": {
+      "after": {
+       "application/json": "{\"entryWorker\":\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"environment\":\"prod\",\"input\":\"$util.escapeJavaScript($input.json('$'))\",\"project\":\"ridenroll\"}"
+      },
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "add_audience",
+   "kind": "key_add",
+   "dimension": "audience",
+   "reference_outputs": {
+    "api_invoke_url": {
+     "after": "https://ye1c9v6yfv.execute-api.us-east-1.amazonaws.com/ridenroll-prod",
+     "unknown": false
+    },
+    "user_pool_id": {
+     "after": "us-east-1_00751c2d4e7d4b5881f93f2c64cd172a",
+     "unknown": false
+    },
+    "help_bucket_name": {
+     "after": "ridenroll-prod-help-8f31",
+     "unknown": false
+    },
+    "stage_function_names": {
+     "after": {
+      "create-cognito-user": "ridenroll-prod-create-cognito-user",
+      "send-welcome-email": "ridenroll-prod-send-welcome-email",
+      "setup-user-preferences": "ridenroll-prod-setup-user-preferences",
+      "store-premium-users": "ridenroll-prod-store-premium-users",
+      "validate-user-data": "ridenroll-prod-validate-user-data"
+     },
+     "unknown": false
+    },
+    "stage_log_group_names": {
+     "after": {
+      "create-cognito-user": "/aws/lambda/ridenroll-prod-create-cognito-user",
+      "send-welcome-email": "/aws/lambda/ridenroll-prod-send-welcome-email",
+      "setup-user-preferences": "/aws/lambda/ridenroll-prod-setup-user-preferences",
+      "store-premium-users": "/aws/lambda/ridenroll-prod-store-premium-users",
+      "validate-user-data": "/aws/lambda/ridenroll-prod-validate-user-data"
+     },
+     "unknown": false
+    },
+    "audience_table_names": {
+     "after": {
+      "business-rider": "ridenroll-prod-business-rider-profiles",
+      "campus-commuter": "ridenroll-prod-campus-commuter-profiles",
+      "driver-partner": "ridenroll-prod-driver-partner-profiles",
+      "personal-rider": "ridenroll-prod-personal-rider-profiles"
+     },
+     "unknown": false
+    },
+    "audience_topic_arns": {
+     "after": {
+      "business-rider": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications",
+      "driver-partner": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications",
+      "personal-rider": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications"
+     },
+     "unknown": {
+      "campus-commuter": true
+     }
+    },
+    "operations_topic_arn": {
+     "after": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-operations",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_iam_policy.lambda_execution": {
+     "policy": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"Statement\":[{\"Action\":[\"logs:CreateLogStream\",\"logs:PutLogEvents\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:logs:us-east-1:123456789012:log-group:/aws/lambda/ridenroll-prod-*:*\"},{\"Action\":[\"dynamodb:GetItem\",\"dynamodb:PutItem\",\"sns:Publish\",\"sqs:SendMessage\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-driver-partner-profiles\",\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-personal-rider-profiles\",\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-business-rider-profiles\",\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-campus-commuter-profiles\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-campus-commuter-notifications\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-driver-partner-events\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-personal-rider-events\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-business-rider-events\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-campus-commuter-events\"]},{\"Action\":[\"cognito-idp:AdminCreateUser\",\"cognito-idp:AdminSetUserPassword\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_00751c2d4e7d4b5881f93f2c64cd172a\"}],\"Version\":\"2012-10-17\"}",
+       "unknown": null
+      }
+     }
+    },
+    "aws_iam_policy.workflow_execution": {
+     "policy": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-validate-user-data\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users\"]},{\"Action\":[\"logs:CreateLogDelivery\",\"logs:GetLogDelivery\",\"logs:UpdateLogDelivery\",\"logs:DeleteLogDelivery\",\"logs:ListLogDeliveries\",\"logs:PutResourcePolicy\",\"logs:DescribeResourcePolicies\",\"logs:DescribeLogGroups\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"dynamodb:GetItem\",\"dynamodb:PutItem\",\"sns:Publish\",\"sqs:SendMessage\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-driver-partner-profiles\",\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-personal-rider-profiles\",\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-business-rider-profiles\",\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-campus-commuter-profiles\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-campus-commuter-notifications\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-driver-partner-events\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-personal-rider-events\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-business-rider-events\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-campus-commuter-events\"]}],\"Version\":\"2012-10-17\"}",
+       "unknown": null
+      }
+     }
+    },
+    "aws_lambda_function.stage[0]": {
+     "environment": {
+      "after": [
+       {}
+      ],
+      "unknown": [
+       {
+        "variables": true
+       }
+      ],
+      "filled": {
+       "after": [
+        {
+         "variables": {
+          "APP_ENV": "prod",
+          "APP_PROJECT": "ridenroll",
+          "AUDIENCE_TABLES": "ridenroll-prod-driver-partner-profiles,ridenroll-prod-personal-rider-profiles,ridenroll-prod-business-rider-profiles,ridenroll-prod-campus-commuter-profiles",
+          "AUDIENCE_TOPICS": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-campus-commuter-notifications",
+          "STAGE_NAME": "validate-user-data",
+          "USER_POOL_ID": "us-east-1_00751c2d4e7d4b5881f93f2c64cd172a",
+          "WORKFLOW_ID": "ridenroll-prod-onboarding"
+         }
+        }
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_lambda_function.stage[1]": {
+     "environment": {
+      "after": [
+       {}
+      ],
+      "unknown": [
+       {
+        "variables": true
+       }
+      ],
+      "filled": {
+       "after": [
+        {
+         "variables": {
+          "APP_ENV": "prod",
+          "APP_PROJECT": "ridenroll",
+          "AUDIENCE_TABLES": "ridenroll-prod-driver-partner-profiles,ridenroll-prod-personal-rider-profiles,ridenroll-prod-business-rider-profiles,ridenroll-prod-campus-commuter-profiles",
+          "AUDIENCE_TOPICS": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-campus-commuter-notifications",
+          "STAGE_NAME": "send-welcome-email",
+          "USER_POOL_ID": "us-east-1_00751c2d4e7d4b5881f93f2c64cd172a",
+          "WORKFLOW_ID": "ridenroll-prod-onboarding"
+         }
+        }
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_lambda_function.stage[2]": {
+     "environment": {
+      "after": [
+       {}
+      ],
+      "unknown": [
+       {
+        "variables": true
+       }
+      ],
+      "filled": {
+       "after": [
+        {
+         "variables": {
+          "APP_ENV": "prod",
+          "APP_PROJECT": "ridenroll",
+          "AUDIENCE_TABLES": "ridenroll-prod-driver-partner-profiles,ridenroll-prod-personal-rider-profiles,ridenroll-prod-business-rider-profiles,ridenroll-prod-campus-commuter-profiles",
+          "AUDIENCE_TOPICS": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-campus-commuter-notifications",
+          "STAGE_NAME": "setup-user-preferences",
+          "USER_POOL_ID": "us-east-1_00751c2d4e7d4b5881f93f2c64cd172a",
+          "WORKFLOW_ID": "ridenroll-prod-onboarding"
+         }
+        }
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_lambda_function.stage[3]": {
+     "environment": {
+      "after": [
+       {}
+      ],
+      "unknown": [
+       {
+        "variables": true
+       }
+      ],
+      "filled": {
+       "after": [
+        {
+         "variables": {
+          "APP_ENV": "prod",
+          "APP_PROJECT": "ridenroll",
+          "AUDIENCE_TABLES": "ridenroll-prod-driver-partner-profiles,ridenroll-prod-personal-rider-profiles,ridenroll-prod-business-rider-profiles,ridenroll-prod-campus-commuter-profiles",
+          "AUDIENCE_TOPICS": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-campus-commuter-notifications",
+          "STAGE_NAME": "create-cognito-user",
+          "USER_POOL_ID": "us-east-1_00751c2d4e7d4b5881f93f2c64cd172a",
+          "WORKFLOW_ID": "ridenroll-prod-onboarding"
+         }
+        }
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_lambda_function.stage[4]": {
+     "environment": {
+      "after": [
+       {}
+      ],
+      "unknown": [
+       {
+        "variables": true
+       }
+      ],
+      "filled": {
+       "after": [
+        {
+         "variables": {
+          "APP_ENV": "prod",
+          "APP_PROJECT": "ridenroll",
+          "AUDIENCE_TABLES": "ridenroll-prod-driver-partner-profiles,ridenroll-prod-personal-rider-profiles,ridenroll-prod-business-rider-profiles,ridenroll-prod-campus-commuter-profiles",
+          "AUDIENCE_TOPICS": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-campus-commuter-notifications",
+          "STAGE_NAME": "store-premium-users",
+          "USER_POOL_ID": "us-east-1_00751c2d4e7d4b5881f93f2c64cd172a",
+          "WORKFLOW_ID": "ridenroll-prod-onboarding"
+         }
+        }
+       ],
+       "unknown": null
+      }
+     }
+    },
+    "aws_ssm_parameter.audience_registry[3]": {
+     "value": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-driver-partner-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-campus-commuter-notifications",
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_audience",
+   "kind": "key_remove",
+   "dimension": "audience",
+   "reference_outputs": {
+    "api_invoke_url": {
+     "after": "https://ye1c9v6yfv.execute-api.us-east-1.amazonaws.com/ridenroll-prod",
+     "unknown": false
+    },
+    "user_pool_id": {
+     "after": "us-east-1_00751c2d4e7d4b5881f93f2c64cd172a",
+     "unknown": false
+    },
+    "help_bucket_name": {
+     "after": "ridenroll-prod-help-8f31",
+     "unknown": false
+    },
+    "stage_function_names": {
+     "after": {
+      "create-cognito-user": "ridenroll-prod-create-cognito-user",
+      "send-welcome-email": "ridenroll-prod-send-welcome-email",
+      "setup-user-preferences": "ridenroll-prod-setup-user-preferences",
+      "store-premium-users": "ridenroll-prod-store-premium-users",
+      "validate-user-data": "ridenroll-prod-validate-user-data"
+     },
+     "unknown": false
+    },
+    "stage_log_group_names": {
+     "after": {
+      "create-cognito-user": "/aws/lambda/ridenroll-prod-create-cognito-user",
+      "send-welcome-email": "/aws/lambda/ridenroll-prod-send-welcome-email",
+      "setup-user-preferences": "/aws/lambda/ridenroll-prod-setup-user-preferences",
+      "store-premium-users": "/aws/lambda/ridenroll-prod-store-premium-users",
+      "validate-user-data": "/aws/lambda/ridenroll-prod-validate-user-data"
+     },
+     "unknown": false
+    },
+    "audience_table_names": {
+     "after": {
+      "business-rider": "ridenroll-prod-business-rider-profiles",
+      "personal-rider": "ridenroll-prod-personal-rider-profiles"
+     },
+     "unknown": false
+    },
+    "audience_topic_arns": {
+     "after": {
+      "business-rider": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications",
+      "personal-rider": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications"
+     },
+     "unknown": false
+    },
+    "operations_topic_arn": {
+     "after": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-operations",
+     "unknown": false
+    }
+   },
+   "update_values": {
+    "aws_iam_policy.lambda_execution": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"logs:CreateLogStream\",\"logs:PutLogEvents\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:logs:us-east-1:123456789012:log-group:/aws/lambda/ridenroll-prod-*:*\"},{\"Action\":[\"dynamodb:GetItem\",\"dynamodb:PutItem\",\"sns:Publish\",\"sqs:SendMessage\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-personal-rider-profiles\",\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-business-rider-profiles\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-personal-rider-events\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-business-rider-events\"]},{\"Action\":[\"cognito-idp:AdminCreateUser\",\"cognito-idp:AdminSetUserPassword\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_00751c2d4e7d4b5881f93f2c64cd172a\"}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_iam_policy.workflow_execution": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"lambda:InvokeFunction\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-validate-user-data\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-send-welcome-email\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-setup-user-preferences\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-create-cognito-user\",\"arn:aws:lambda:us-east-1:123456789012:function:ridenroll-prod-store-premium-users\"]},{\"Action\":[\"logs:CreateLogDelivery\",\"logs:GetLogDelivery\",\"logs:UpdateLogDelivery\",\"logs:DeleteLogDelivery\",\"logs:ListLogDeliveries\",\"logs:PutResourcePolicy\",\"logs:DescribeResourcePolicies\",\"logs:DescribeLogGroups\"],\"Effect\":\"Allow\",\"Resource\":\"*\"},{\"Action\":[\"dynamodb:GetItem\",\"dynamodb:PutItem\",\"sns:Publish\",\"sqs:SendMessage\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-personal-rider-profiles\",\"arn:aws:dynamodb:us-east-1:123456789012:table/ridenroll-prod-business-rider-profiles\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications\",\"arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-personal-rider-events\",\"arn:aws:sqs:us-east-1:123456789012:ridenroll-prod-business-rider-events\"]}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_lambda_function.stage[0]": {
+     "environment": {
+      "after": [
+       {
+        "variables": {
+         "APP_ENV": "prod",
+         "APP_PROJECT": "ridenroll",
+         "AUDIENCE_TABLES": "ridenroll-prod-personal-rider-profiles,ridenroll-prod-business-rider-profiles",
+         "AUDIENCE_TOPICS": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications",
+         "STAGE_NAME": "validate-user-data",
+         "USER_POOL_ID": "us-east-1_00751c2d4e7d4b5881f93f2c64cd172a",
+         "WORKFLOW_ID": "ridenroll-prod-onboarding"
+        }
+       }
+      ],
+      "unknown": null
+     }
+    },
+    "aws_lambda_function.stage[1]": {
+     "environment": {
+      "after": [
+       {
+        "variables": {
+         "APP_ENV": "prod",
+         "APP_PROJECT": "ridenroll",
+         "AUDIENCE_TABLES": "ridenroll-prod-personal-rider-profiles,ridenroll-prod-business-rider-profiles",
+         "AUDIENCE_TOPICS": "arn:aws:sns:us-east-1:123456789012:ridenroll-prod-personal-rider-notifications,arn:aws:sns:us-east-1:123456789012:ridenroll-prod-business-rider-notifications",
+         "STAGE_NAME": "send-welcome-email",
+         "USER_POOL_ID": "us-east-1_00751c2d4e7d4b5881f93f2c64cd172a",
+         "WORKFLOW_ID": "ridenroll-prod-onboarding"
+        }
+       }
+      ],
+      "unknown": null
+     }
+    },
+    "aws_lambda_function.stage[2]": {
+     "environment": {
+      "after": [
+       {
+        "variables": {
+         "APP_ENV": 

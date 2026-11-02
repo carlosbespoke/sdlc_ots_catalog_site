@@ -1,0 +1,178 @@
+{
+  "motivation": {
+    "problems": "Platform engineers in this catalog restructure infrastructure code that is already running. The most common task is a flat Terraform root module that has to become local modules with for_each keys, for example terraform-arcgis-enterprise-module-refactor, terraform-shortly-production-module-refactor and terraform-armada-ecs-module-refactor. The change must reach production as address moves only, because the team cannot plan against a live account. A second pattern is replacing positional count with stable keys for zones, services or stages, as in terraform-froggy-adserver-api-module-refactor, where operations were indexed in several historical orders. A third is extracting reusable components from an app that builds everything inline, as in cdk-skytrail-platform-ts-componentize, where synthesized output must not change. The showcase set adds two further problems: moving a stack between tools while a preview stays clean (the Pulumi ports) and bringing a stack under a policy pack without replacing resources (policy-waivers-example).",
+    "how_tasks_exemplify": "Each task ships a copy of the stack with its recorded production state or recorded templates, an offline toolchain and no network. The Terraform refactor tasks include a CI script that plans with refresh disabled and runs conftest on the plan. The instruction states module ownership, key rules, root variables with today's defaults and outputs. A separate verifier container holds its own pristine state, plans the agent's configuration, and then plans hidden changes such as an added key under a fresh name, a removed key or a changed entry. The CDK task compares synthesized templates for hidden configurations. The Pulumi tasks run previews against an imported stack and against a copy with swapped generated IDs. Most tasks score zero when a gate fails.",
+    "prompt_patterns": [
+      "A refactor request for a named production stack that lists target modules, ownership, key rules, root variables and outputs, and requires a plan of moves only (terraform-earthobs-stac-module-refactor).",
+      "A componentization request that lists every construct class with its path, props and public properties, and requires identical synthesized templates (cdk-accelerator-platform-ts-componentize).",
+      "A migration brief for an imported stack with an empty program, with naming, config and equivalence rules and banned options (pulumi-cats-vs-dogs-ts-migration).",
+      "A compliance remediation request with numbered requirements, a policy pack, a guardrail spec and an exceptions register, graded with hidden variable probes (policy-waivers-example).",
+      "A bulleted list of needs followed by constraints to keep working, such as a clean preview and unchanged owned files (pulumi-atlasgrid-ecs-ts-migration)."
+    ],
+    "open_questions": [
+      "The tasks file contains 29 Terraform module refactors and one CDK task. Pulumi ports and policy remediation appear only in the showcase set, so their share of the 325 tasks is UNKNOWN.",
+      "policy-waivers-example sits in the SRE-xai-ots batch and the other Terraform tasks in IaC-ots. The files do not say how the two batches differ in origin or authoring.",
+      "Seniority labels in the input (all Senior) are not stated in any task file, so their source is UNKNOWN.",
+      "The README files and instructions name real open-source projects and companies as the origin of some stacks, but task.toml leaves source_repository empty. Whether these stacks are derived from public repositories is UNKNOWN.",
+      "The Terraform tasks say a pristine state exists in the verifier, but the grader and spec were only skimmed for the Terraform tasks. Details of the hidden probes for the Terraform refactors beyond what instruction.md states were not reviewed.",
+      "Reference solutions and the full grade.py logic were deliberately not described, so the catalog owner should confirm how much of the grading detail may be published.",
+      "Show folders outside the showcase list, such as terraform-csyeapp-production-policy-remediation, were not read."
+    ]
+  },
+  "tasks": [
+    {
+      "name": "terraform-earthobs-stac-module-refactor",
+      "environment_mermaid": "flowchart LR\n  A[\"debian bookworm-slim agent container, no network\"] --> B[\"Flat Terraform stack in workspace/infra\"]\n  A --> C[\"terraform 1.16.4 and conftest on PATH\"]\n  C --> D[\"Offline AWS provider 5.100.0 mirror\"]\n  B --> E[\"terraform.tfstate recorded production state\"]\n  B --> F[\"policies directory with CI guardrail rules\"]\n  B --> G[\"scripts/ci-plan.sh init validate plan and conftest\"]\n  H[\"Instruction and README\"] --> I[\"Agent writes network data and services modules\"]\n  I --> J[\"Root module with variables and outputs only\"]\n  J --> K[\"Separate verifier container with no network\"]\n  L[\"Verifier own pristine state and policies\"] --> K\n  K --> M[\"Gates then 29 requirement checks, 0 if a gate or core check fails\"]\n",
+      "environment_facts": [
+        "Base image debian:bookworm-slim pinned by digest, with terraform 1.16.4 and conftest 0.70.1 installed (environment/Dockerfile).",
+        "The AWS provider 5.100.0 comes from an offline filesystem mirror and HTTP proxies point at a dead loopback address, so the agent has no AWS access (environment/Dockerfile).",
+        "Working directory /workspace/infra is a git repository with one commit and a clean plan; the stack has 155 AWS resources across 14 services (environment/Dockerfile, task.toml).",
+        "The verifier runs in a separate container with its own pristine state and the agent's /workspace/infra copied in as an artifact (task.toml, tests/Dockerfile, tests/test.sh).",
+        "Grading is partial: 0 if any gate or core check fails, otherwise passed over 29 requirement checks (task.toml).",
+        "Agent timeout is 21600 seconds and the expert time estimate is 300 minutes (task.toml)."
+      ],
+      "workflow": "A platform engineer inherits a flat, count-indexed Terraform root module for a live sandbox stack and has to split it into network, data and services modules. The change must reach production as address moves only, so the engineer works from the recorded state and the CI plan, not from a live account. The instruction also asks for for_each keys by availability zone and processing stage, root variables that default to today's values, and unchanged outputs.",
+      "prompt_pattern": "A maintenance request for a named stack that lists module ownership, key rules, root variables and outputs, and states that the plan against recorded state must contain moves only."
+    },
+    {
+      "name": "terraform-dual-ipv6-k8s-module-refactor",
+      "environment_mermaid": "flowchart LR\n  A[\"debian bookworm-slim agent container, no network\"] --> B[\"Flat Terraform stack in workspace/infra\"]\n  A --> C[\"terraform 1.16.4 and conftest on PATH\"]\n  C --> D[\"Offline AWS provider 5.100.0 mirror\"]\n  B --> E[\"terraform.tfstate recorded production state\"]\n  B --> F[\"policies directory with CI guardrail rules\"]\n  B --> G[\"scripts/ci-plan.sh init validate plan and conftest\"]\n  H[\"Instruction and README\"] --> I[\"Agent writes network bootstrap platform and observability modules\"]\n  I --> J[\"Root module with variables and outputs only\"]\n  J --> K[\"Separate verifier container with no network\"]\n  L[\"Verifier own pristine state and policies\"] --> K\n  K --> M[\"Gates then 33 requirement checks, 0 if a gate or core check fails\"]\n",
+      "environment_facts": [
+        "Base image debian:bookworm-slim pinned by digest, built from the same terraform and offline provider mirror layer as the other refactor tasks (environment/Dockerfile).",
+        "The stack has 167 AWS resources across 11 services and covers two self-managed IPv6 Kubernetes clusters, alpha and beta, each with its own VPC (task.toml, environment/infra/README.md).",
+        "The instruction requires four local modules: network, bootstrap, platform and observability (instruction.md).",
+        "Resources are keyed independently by availability zone and worker pool (task.toml).",
+        "CI runs scripts/ci-plan.sh, which plans with -refresh=false and then applies the policies in policies/ (instruction.md).",
+        "Grading is partial over 33 requirement checks, with gates and core checks that zero the result (task.toml)."
+      ],
+      "workflow": "A platform engineer maintains the Terraform for two test Kubernetes clusters whose VPCs, NAT64 gateways, auto scaling groups and worker pools were written with positional count. The engineer needs to restructure it into four modules and make clusters, zones and pools data-driven, without any resource being replaced. The check is the plan against the recorded production state.",
+      "prompt_pattern": "A refactor request for an IPv6 Kubernetes stack that names four target modules and constrains the result to a plan of moves against recorded state."
+    },
+    {
+      "name": "policy-waivers-example",
+      "environment_mermaid": "flowchart LR\n  A[\"debian bookworm-slim agent container, no network\"] --> B[\"GGJam production stack in workspace/infra\"]\n  A --> C[\"terraform 1.16.4 and conftest on PATH\"]\n  C --> D[\"Offline AWS provider 5.100.0 mirror\"]\n  B --> E[\"terraform.tfstate recorded production state\"]\n  B --> F[\"policies pack in Rego with README and EXCEPTIONS.md\"]\n  B --> G[\"policies/GUARDRAILS.md spec of 8 hidden deploy guardrails\"]\n  B --> H[\"exceptions/register.json read by conftest as data\"]\n  I[\"Agent edits configuration and register\"] --> J[\"scripts/ci-plan.sh init validate plan conftest\"]\n  K[\"Separate verifier container with no network\"] --> L[\"Own policy pack and own guardrail code on the plan\"]\n  K --> M[\"Hidden var-file probes for site components channels lanes and CIDRs\"]\n  L --> N[\"Reward 1 only if every gate and probe passes\"]\n  M --> N\n",
+      "environment_facts": [
+        "Base image debian:bookworm-slim pinned by digest with terraform 1.16.4 and conftest installed from an offline mirror layer (environment/Dockerfile).",
+        "The stack has about 270 resources across the AWS services listed in the instruction, and terraform.tfstate is the recorded production state (instruction.md).",
+        "CI runs scripts/ci-plan.sh: offline init, validate, plan with -refresh=false, then conftest with the exceptions directory as data (tests/trusted/scripts/ci-plan.sh, instruction.md).",
+        "Eight deploy-stage guardrails are specified only in policies/GUARDRAILS.md and are evaluated by the grader's own code (instruction.md).",
+        "The verifier runs generality probes through -var-file plans, including hidden values for admin_cidr_blocks, ghost_db_backup_days and new keys for site_components, delivery_channels and build_lanes (instruction.md, tests/probes/).",
+        "Grading is binary and all gates and 8 probes must pass (task.toml)."
+      ],
+      "workflow": "A cloud security engineer owns the change that brings a production stack and its exceptions register into line with a policy pack after a quarterly review. Findings that can be fixed in place must be fixed, and only findings that need a resource replacement may be waived in the register. Every production resource must stay at its address and be updated in place, and the fixes must still hold when the team adds, removes or retunes collection entries.",
+      "prompt_pattern": "A compliance remediation request that points to a policy pack, a deploy-stage guardrail spec and an exceptions register, and lists numbered requirements covering in-place-only updates, allowed new resource types and hidden generality probes."
+    },
+    {
+      "name": "terraform-pseudopoll-serverless-module-refactor",
+      "environment_mermaid": "flowchart LR\n  A[\"debian bookworm-slim agent container, no network\"] --> B[\"Flat Terraform stack in workspace/infra\"]\n  A --> C[\"terraform 1.16.4 and conftest on PATH\"]\n  C --> D[\"Offline AWS provider 5.100.0 mirror\"]\n  B --> E[\"terraform.tfstate recorded production state\"]\n  B --> F[\"policies directory with CI guardrail rules\"]\n  B --> G[\"scripts/ci-plan.sh init validate plan and conftest\"]\n  H[\"Instruction and README\"] --> I[\"Agent writes network data compute events and api modules\"]\n  I --> J[\"Root module with variables and outputs only\"]\n  J --> K[\"Separate verifier container with no network\"]\n  L[\"Verifier own pristine state and policies\"] --> K\n  K --> M[\"Gates then 48 requirement checks, 0 if a gate or core check fails\"]\n",
+      "environment_facts": [
+        "Base image debian:bookworm-slim pinned by digest with the shared terraform 1.16.4 and offline AWS provider mirror layer (environment/Dockerfile).",
+        "The stack has 214 AWS resources across 13 services: a REST API, Lambda microservices, SQS, DynamoDB and EventBridge choreography (task.toml, environment/infra/README.md).",
+        "Five local modules are required: network, data, compute, events and api (instruction.md).",
+        "Resources are keyed by microservice, choreography event, API operation and notification channel (task.toml).",
+        "The README says some original resources are absent from this offline production-state snapshot (environment/infra/README.md).",
+        "Grading is partial over 48 requirement checks, with gates and core checks that zero the result (task.toml)."
+      ],
+      "workflow": "A platform engineer takes over a serverless application whose Lambda, queue and API resources were indexed by list position and wants them modular and keyed by service, event and operation. The engineer has to move addresses without any change to deployed functions, queues or API stages. The recorded state and CI plan are the evidence.",
+      "prompt_pattern": "A refactor request for a serverless stack that lists five modules and their owned resources and requires a moves-only plan against recorded state."
+    },
+    {
+      "name": "cdk-accelerator-platform-ts-componentize",
+      "environment_mermaid": "flowchart LR\n  A[\"debian bookworm-slim agent container, no network\"] --> B[\"CDK app in workspace/accelerator-platform\"]\n  A --> C[\"node 22 and cdk CLI from linked node_modules\"]\n  B --> D[\"NetworkStack DeliveryStack OperationsStack\"]\n  B --> E[\"lib/config.ts schema and config/prod.json and staging.json\"]\n  B --> F[\"deployed directory with recorded production templates\"]\n  B --> G[\"scripts/ci.sh tsc code rules synth and template compare\"]\n  H[\"Instruction lists 16 construct classes with props and paths\"] --> I[\"Agent writes lib/components/*.ts\"]\n  I --> D\n  J[\"Separate verifier container\"] --> K[\"Own synth of prod staging and 8 hidden configs\"]\n  K --> L[\"Compare with expected templates allowing a component tag\"]\n  J --> M[\"Provenance layout interface and code rule checks\"]\n  L --> N[\"All or nothing reward\"]\n  M --> N\n",
+      "environment_facts": [
+        "Base image debian:bookworm-slim pinned by digest, with node 22 and the cdk CLI installed from a locked toolchain under /opt (environment/Dockerfile).",
+        "Working directory /workspace/accelerator-platform is a git repository whose scripts/ci.sh passes at build time (environment/Dockerfile).",
+        "scripts/ci.sh runs tsc, the code rules, a synth of every stage in deployed/ and a comparison with the recorded templates, ignoring only the component tag (tests/trusted/scripts/ci.sh).",
+        "Production synthesizes 158 resources and staging 120 resources, in about 160 resources across three stacks (task.toml).",
+        "The grader checks 16 component layouts, 8 hidden configurations including variants with fresh entry names, and 19 interfaces (task.toml).",
+        "Grading is all-or-nothing and network access is disabled (task.toml)."
+      ],
+      "workflow": "A platform engineer receives a CDK app whose stacks build everything inline and has to turn it into reusable constructs for a team that wants to share them. The CloudFormation output for the deployed environments must not change, apart from a component tag. The engineer works from the recorded templates and synth results.",
+      "prompt_pattern": "A componentization request that spells out every construct class with its path, props and public properties, and requires identical synthesized templates for any valid configuration."
+    },
+    {
+      "name": "pulumi-cats-vs-dogs-ts-migration",
+      "environment_mermaid": "flowchart LR\n  A[\"python 3.11 slim agent container, no network\"] --> B[\"Terraform repo in workspace/terraform with four modules\"]\n  B --> C[\"terraform.tfstate production state and offline plan\"]\n  A --> D[\"Pulumi project cats-vs-dogs in workspace/pulumi\"]\n  D --> E[\"Empty index.ts and owned Pulumi.yaml tsconfig package.json\"]\n  A --> F[\"pulumi 3.267.0 and aws plugin 6.83.0 and node 22\"]\n  F --> G[\"Local backend workspace/pulumi-state with imported dev stack\"]\n  H[\"Instruction and READMEs\"] --> I[\"Agent writes index.ts\"]\n  I --> J[\"pulumi preview refresh false must show no changes\"]\n  K[\"Separate verifier\"] --> L[\"Previews with changed config against the reference port\"]\n  K --> M[\"Preview on a copy with every generated ID swapped\"]\n  L --> N[\"Reward 1 if all gates and 32 checks pass\"]\n  M --> N\n",
+      "environment_facts": [
+        "Base image python:3.11-slim-bookworm pinned by digest, with Pulumi 3.267.0 and the aws plugin 6.83.0 installed (environment/Dockerfile).",
+        "The Terraform source in /workspace/terraform has modules network, platform, services and observability and a production terraform.tfstate (instruction.md, environment/workspace/terraform/README.md).",
+        "A local backend at /workspace/pulumi-state already holds the imported dev stack, and index.ts declares nothing (instruction.md, environment/workspace/pulumi/README.md).",
+        "The source platform has 198 resources across 13 AWS services and three key maps (task.toml).",
+        "Banned: resource options such as protect, ignoreChanges and aliases, StackReference, .get() lookups and any production-generated ID in the program (instruction.md).",
+        "Grading is binary: type-check, offline run, clean preview against production and against a copy with swapped IDs, then 32 configuration and drift checks (task.toml)."
+      ],
+      "workflow": "A platform engineer moves a platform from Terraform to Pulumi after the team has bulk-imported production into a Pulumi stack. The program must adopt every imported resource under the right component and name, so the preview is clean, and must behave like the Terraform when inputs change. The engineer checks it with terraform plan and pulumi preview, both offline.",
+      "prompt_pattern": "A migration request describing an imported stack with an empty program, with naming, configuration and equivalence rules and a list of banned Pulumi options."
+    },
+    {
+      "name": "terraform-multi-model-router-module-refactor",
+      "environment_mermaid": "flowchart LR\n  A[\"debian bookworm-slim agent container, no network\"] --> B[\"Flat Terraform stack in workspace/infra\"]\n  A --> C[\"terraform 1.16.4 and conftest on PATH\"]\n  C --> D[\"Offline AWS provider 5.100.0 mirror\"]\n  B --> E[\"terraform.tfstate recorded production state\"]\n  B --> F[\"policies directory with CI guardrail rules\"]\n  B --> G[\"scripts/ci-plan.sh init validate plan and conftest\"]\n  H[\"Instruction and README\"] --> I[\"Agent writes eight local modules\"]\n  I --> J[\"Root module with variables and outputs only\"]\n  J --> K[\"Separate verifier container with no network\"]\n  L[\"Verifier own pristine state and policies\"] --> K\n  K --> M[\"Gates then 50 requirement checks, 0 if a gate fails\"]\n",
+      "environment_facts": [
+        "Base image debian:bookworm-slim pinned by digest with the shared terraform 1.16.4 and offline AWS provider mirror layer (environment/Dockerfile).",
+        "The stack has 215 AWS resources across 11 services and runs three model services behind one load balancer (task.toml, environment/infra/README.md).",
+        "Eight modules are required: network, security, identity, artifacts, compute, routing, observability and queues (instruction.md).",
+        "Resources are keyed by availability zone, model service, asynchronous inference queue and public entrypoint (task.toml).",
+        "The README describes lists indexed by position and production values repeated across files (environment/infra/README.md).",
+        "Grading is partial over 50 requirement checks and its stated zeroing rules list gates only, with no core checks (task.toml)."
+      ],
+      "workflow": "A platform engineer is asked to bring a production ML routing stack up to the team's module standard. The work spans eight modules with several independent keys, so each resource must land in the right module and keep its state address through a move. The engineer relies on the recorded state and the CI plan.",
+      "prompt_pattern": "A refactor request for a model-serving stack that names eight modules and their ownership and requires a moves-only plan against recorded state."
+    },
+    {
+      "name": "pulumi-atlasgrid-ecs-ts-migration",
+      "environment_mermaid": "flowchart LR\n  A[\"python 3.11 slim agent container, no network\"] --> B[\"Terraform repo in workspace/terraform with six modules\"]\n  B --> C[\"terraform.tfstate production state and offline plan\"]\n  A --> D[\"Pulumi project atlasgrid-ecs in workspace/pulumi\"]\n  D --> E[\"Empty index.ts and owned Pulumi.yaml tsconfig package.json templates\"]\n  A --> F[\"pulumi 3.267.0 and aws plugin 6.83.0 and node 22\"]\n  F --> G[\"Local backend workspace/pulumi-state with imported dev stack\"]\n  H[\"Instruction in task list form\"] --> I[\"Agent writes index.ts\"]\n  I --> J[\"pulumi preview refresh false must show no changes\"]\n  K[\"Separate verifier\"] --> L[\"Previews with changed config compared with reference port\"]\n  K --> M[\"Preview on a copy with every generated ID swapped\"]\n  L --> N[\"Binary reward, 17 checks plus gates\"]\n  M --> N\n",
+      "environment_facts": [
+        "Base image python:3.11-slim-bookworm pinned by digest with Pulumi 3.267.0 and the aws plugin 6.83.0 (environment/Dockerfile).",
+        "The Terraform source has six modules: network, identity, edge, cluster, workloads and observability, plus a production terraform.tfstate (instruction.md, environment/workspace/terraform/README.md).",
+        "The platform has 177 resources across 15 AWS services and two key maps for availability zones and workload services (task.toml).",
+        "templates/userdata.sh.tpl in the Pulumi project copies the cluster module's template and must stay unchanged (instruction.md).",
+        "Each module call becomes a ComponentResource typed atlasgrid:modules:<Module> (instruction.md).",
+        "Grading is binary: gates, core checks and 17 checks that compare planned operations, resource state and outputs with the reference port (task.toml)."
+      ],
+      "workflow": "A platform engineer ports an ECS platform from Terraform to Pulumi on top of an already imported stack. The engineer has to reproduce module structure, for_each naming and Terraform defaults so the preview shows no changes, and also reproduce what Terraform would plan under new inputs. Drift in the stack must be reverted as Terraform would.",
+      "prompt_pattern": "A migration brief written as a bulleted list of needs, with naming and equivalence rules, constraints on Pulumi options and the checks to keep passing."
+    },
+    {
+      "name": "terraform-tfe-airgap-production-module-refactor",
+      "environment_mermaid": "flowchart LR\n  A[\"debian bookworm-slim agent container, no network\"] --> B[\"Flat Terraform stack in workspace/infra\"]\n  A --> C[\"terraform 1.16.4 and conftest on PATH\"]\n  C --> D[\"Offline AWS provider 5.100.0 mirror\"]\n  B --> E[\"terraform.tfstate recorded production state\"]\n  B --> F[\"policies directory with CI guardrail rules\"]\n  B --> G[\"scripts/ci-plan.sh init validate plan and conftest\"]\n  H[\"Instruction and README\"] --> I[\"Agent writes network platform and compute modules\"]\n  I --> J[\"Root module with variables and outputs only\"]\n  J --> K[\"Separate verifier container with no network\"]\n  L[\"Verifier own pristine state and policies\"] --> K\n  K --> M[\"Gates then 28 requirement checks, 0 if a gate or core check fails\"]\n",
+      "environment_facts": [
+        "Base image debian:bookworm-slim pinned by digest with the shared terraform 1.16.4 and offline AWS provider mirror layer (environment/Dockerfile).",
+        "The stack has 107 AWS resources across 12 services and covers a Terraform Enterprise air-gap install in us-east-1 (task.toml, environment/infra/README.md).",
+        "Three modules are required: network, platform and compute (instruction.md).",
+        "Keys are generalized by availability zone and artifact (task.toml).",
+        "The README names an S3-staged artifact intake with queues, parameters, logs and alarms (environment/infra/README.md).",
+        "Grading is partial over 28 requirement checks, with gates and core checks that zero the result (task.toml)."
+      ],
+      "workflow": "A platform engineer maintains the production stack for a self-hosted Terraform Enterprise install and has to turn flat, positional resources into three modules with stable keys. The air-gap artifacts and the network tiers must keep their deployed addresses. The engineer proves it with an offline plan against the recorded state.",
+      "prompt_pattern": "A refactor request for a self-hosted platform stack that fixes three modules and key rules and requires a moves-only plan."
+    },
+    {
+      "name": "pulumi-cognito-nakama-py-migration",
+      "environment_mermaid": "flowchart LR\n  A[\"python 3.11 slim agent container, no network\"] --> B[\"Terraform repo in workspace/terraform with six modules\"]\n  B --> C[\"terraform.tfstate production state and offline plan\"]\n  A --> D[\"Pulumi project cognito-nakama in workspace/pulumi\"]\n  D --> E[\"Placeholder __main__.py and owned Pulumi.yaml and Pulumi.dev.yaml\"]\n  A --> F[\"pulumi 3.267.0 and pulumi_aws 6.83.0 on python 3.11\"]\n  F --> G[\"Local backend workspace/pulumi-state with imported dev stack\"]\n  H[\"Instruction and READMEs\"] --> I[\"Agent writes __main__.py\"]\n  I --> J[\"pulumi preview refresh false must show no changes\"]\n  K[\"Separate verifier\"] --> L[\"Read only copy run with no state or passphrase\"]\n  K --> M[\"Previews with changed config compared with Terraform plans\"]\n  L --> N[\"Reward 1 if all gates and 40 checks pass\"]\n  M --> N\n",
+      "environment_facts": [
+        "Base image python:3.11-slim-bookworm pinned by digest with Pulumi 3.267.0 and the aws plugin 6.83.0 installed (environment/Dockerfile).",
+        "The Terraform source in /workspace/terraform describes a Cognito-backed Nakama game service with a production terraform.tfstate (instruction.md, environment/workspace/terraform/README.md).",
+        "The imported dev stack is in a local backend and the entry point __main__.py is a placeholder (instruction.md, environment/workspace/pulumi/README.md).",
+        "The source stack has 257 resources across 14 AWS services and four interacting key maps (task.toml).",
+        "Components are cognito:modules:Network, Security, Messaging, Runtime, Operations and Observability, and only the parent and depends_on resource options are allowed (instruction.md).",
+        "Grading is binary: gates, then 40 checks covering 39 configuration changes and the drift revert (task.toml)."
+      ],
+      "workflow": "A platform engineer ports a game backend from Terraform to Pulumi in Python after production has been imported into a Pulumi stack. The program has to match the imported URNs and reproduce Terraform behavior, including defaults, key ordering and unknown values, so previews stay clean and later changes plan the same way. The engineer compares terraform plan and pulumi preview offline.",
+      "prompt_pattern": "A conversational request to write a faithful Python port of a Terraform stack onto an imported Pulumi stack, with URN, config, ordering and banned-option rules."
+    },
+    {
+      "name": "terraform-csyeapp-production-policy-remediation",
+      "environment_mermaid": "flowchart LR\n  A[\"debian bookworm slim agent container, no network\"] --> B[\"terraform 1.16.4 and conftest 0.70.1 on the path\"]\n  A --> C[\"AWS provider 5.100.0 from a local mirror\"]\n  A --> D[\"Stack in /workspace/infra with recorded terraform.tfstate\"]\n  D --> E[\"OPA policy pack in policies with README\"]\n  D --> F[\"scripts/ci-plan.sh: init, validate, plan, conftest\"]\n  G[\"instruction.md: allowlist of in place updates\"] --> H[\"Agent edits the HCL\"]\n  B --> H\n  D --> H\n  E --> H\n  H --> I[\"Edited /workspace/infra collected as artifact\"]\n  I --> J[\"Separate verifier with pristine state and its own policy pack\"]\n  J --> K[\"Static bans, plan checks, 12 probe var files, fresh key probes\"]\n  K --> L[\"Binary reward, -1 if the grader crashes\"]\n",
+      "environment_facts": [
+        "Base image debian:bookworm-slim pinned by digest with Terraform 1.16.4, conftest 0.70.1, git, jq, python3 and tmux; the AWS provider 5.100.0 and archive provider are installed in a local mirror (environment/Dockerfile).",
+        "The stack is copied to /workspace/infra, committed to a git repository and initialized offline, with proxy variables pointing at a dead address (environment/Dockerfile).",
+        "scripts/ci-plan.sh runs init, validate, a refresh-free plan against the recorded state, and conftest with all namespaces over policies/ (tests/trusted/scripts/ci-plan.sh).",
+        "The policy pack is a set of Rego rules documented per rule id in policies/README.md, covering EC2, Lambda, DynamoDB, RDS and IAM, among others (environment/infra/policies/README.md).",
+        "The grader plans against its own pristine state and policy pack and runs 12 probe var files in tests/probes (tests/spec.json, task.toml).",
+        "Grading is binary and needs every gate and probe to pass, with a 21600 s agent timeout and no network (task.toml)."
+      ],
+      "workflow": "A cloud security engineer owns the production infrastructure code for a web application and finds CI red because the platform policy pack rejects the plan, although the plan against the recorded state is clean. The engineer has to remediate the logging, least-privilege and cost rules while keeping every recorded resource at its address, touching only an allowlist of arguments, and keeping the fixes valid when channels, buckets, tags or retention inputs change.",
+      "prompt_pattern": "A CI-failure ticket with a bulleted change allowlist, retention and ownership rules, a keep-working list and offline setup notes, and no list of the failing policy rules."
+    }
+  ]
+}

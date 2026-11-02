@@ -1,0 +1,255 @@
+0 python-statemachine-structured-declarative-3d6e | Python1 |  | python-statemachine cannot currently provide precise, structured diagnostics for declarative statech
+1 pyupgrade-alias-aware-imported-api-modernization | Python1 |  | Pyupgrade should modernize imported APIs even when callers use explicit module or member aliases. Al
+2 pyupgrade-annotation-evaluation-profiles | Python1 |  | pyupgrade cannot yet select a coherent annotation evaluation profile while preserving runtime meanin
+3 pyupgrade-selective-rewrite-suppression-8893 | Python1 |  | pyupgrade cannot suppress individual rewrites from source comments while continuing unrelated safe m
+4 ramalama-canonical-model-identity-receipts | Python1 | python@sha256:ff12c273 | ramalama cannot produce transport-neutral, immutable model identity receipts for offline provenance,
+5 ramalama-policy-aware-container-execution-e634 | Python1 | python@sha256:ff12c273 | RamaLama cannot yet attest effective container decisions or enforce one execution policy before work
+6 ramalama-runtime-compatibility-preflight-reports | Python1 | python@sha256:ff12c273 | Ramalama cannot preflight whether a selected runtime can execute a resolved model on the requested h
+7 redis-operator-content-addressed-94ed | Python1 | golang@sha256:81dc45d0 | Make referenced Redis configuration content part of workload identity so Secret and ConfigMap change
+8 regclient-conditional-registry-read-revalidation | Python1 | golang@sha256:6c2a5538 | regclient cannot reuse resource identity across manifest, blob, tag-list, and repository-list reads 
+9 regclient-functional-option-diagnostic-reports | Python1 | golang@sha256:2a0ba12e | regclient cannot diagnose unsafe option combinations before constructing typed values. Add checked c
+10 regclient-manifest-dependency-graphs-and-376d | Python1 | golang@sha256:2a0ba12e | Let callers inspect a manifest's direct descriptor relationships and collect a complete image reacha
+11 requests-bounded-replayable-request-bodies | Python1 | python@sha256:94c362db | `ReplayMode` is a Enum. A `Session.replay_policy` covers preparation and transmission; a per-request
+12 restic-backend-integrity-evidence | Python1 | golang@sha256:154bd700 | restic cannot use trustworthy, object-bound backend evidence to verify encrypted objects without unn
+13 restic-conditional-backend-writes | Python1 | golang@sha256:154bd700 | restic cannot prevent stale repository writers from replacing newer published indexes. Add atomic co
+14 restic-deterministic-provider-native-bulk-removal | Python1 | golang@sha256:154bd700 | restic cannot deterministically reconcile every requested object after bulk removal succeeds, partia
+15 restish-stream-completion-receipts | Python1 |  | Restish cannot publish a machine-readable completion receipt for a logical streamed invocation. Add 
+16 revdiff-coherent-immutable-review-snapshots | Python1 | golang@sha256:a688600c | revdiff cannot keep a review tied to one source state while that source changes. Add immutable snaps
+17 revdiff-dual-revision-source-inspection | Python1 | golang@sha256:a688600c | Add source inspection without changing review or editor behavior. ContentRequest returns byte-exact 
+18 rich-context-aware-inspection-redaction | Python1 | python@sha256:2e32f7d3 | Rich cannot contextually redact sensitive inspection content while preserving protection through for
+19 rich-incremental-jupyter-region-snapshots | Python1 | python@sha256:2e32f7d3 | Rich cannot capture immutable structural snapshots of notebook renderables without losing renderer-o
+20 rich-inspection-provenance-and-source-mapping | Python1 | python@sha256:2e32f7d3 | Rich cannot trace rendered inspection content to the object member or source substring that produced
+21 rich-reversible-style-transformation-receipts | Python1 | python@sha256:2e32f7d3 | Rich cannot record, replay, or reverse the style transformations made while rendering. Add optional 
+22 rich-style-cascade-policies | Python1 | python@sha256:2e32f7d3 | Give callers an opt-in, inspectable style cascade that applies named precedence policies across Rich
+23 risor-generalized-object-keyed-collections | Python1 |  | Risor cannot currently use Objects as equality-consistent map keys and set members. Support both run
+24 risor-structural-patterns-across-runtime-objects | Python1 |  | Risor cannot yet structurally match nested objects and lists, bind values for guarded arms, or captu
+25 risor-transactional-runtime-object-isolation-5ce3 | Python1 |  | Let Risor embedders create transactional, independently usable copies of runtime object graphs and o
+26 rod-hierarchical-cdp-resource-budgets | Python1 | golang@sha256:3d699e4d | rod cannot bound concurrent CDP calls and transferred bytes across browser, page, element, native tr
+27 sacred-observer-coordinated-run-leases | Python1 | python@sha256:a36c24f9 | Sacred cannot keep competing workers from executing the same logical run. Add observer-coordinated l
+28 sacred-sensitive-configuration-values-across-b886 | Python1 | python@sha256:b99029c9 | Sacred cannot protect scalar or nested configuration values while keeping them usable by commands. A
+29 sarama-broker-response-admission-and-quarantine | Python1 |  | Sarama cannot detect decoded Kafka broker responses that contradict their requests before changing c
+30 sarama-deterministic-broker-exchange-capture-6934 | Python1 | golang@sha256:a688600c | Sarama cannot capture bounded, deterministic broker exchange transcripts or replay them offline with
+31 sarama-deterministic-consumer-group-a1a8 | Python1 |  | Sarama cannot capture deterministic consumer-group rebalance histories or replay them locally throug
+32 sarama-protocol-response-health-ledger-and-1589 | Python1 | golang@sha256:a688600c | Sarama cannot share inspectable, broker-local health evidence across Kafka exchanges. Build a common
+33 sdns-automatic-recovery-of-failed-dns-listeners | Python1 | golang@sha256:ded31c68 | Keep configured DNS endpoints available by automatically recreating failed listeners under an operat
+34 sdns-transport-response-consistency-attestations | Python1 | golang@sha256:ded31c68 | sdns cannot show that DNS responses retain consistent semantics across decoded and raw writes, norma
+35 semble-auditable-ranking-explanations | Python1 | python@sha256:782412e8 | Semble cannot currently explain why a search result appeared or how its final score was produced. Ad
+36 semble-installable-mcp-launch-profiles | Python1 | python@sha256:782412e8 | semble does not support reusable named local launch profiles for consistent content scope, snippet l
+37 semble-verifiable-index-attestations | Python1 | python@sha256:392307d2 | Semble cannot prove that every index representation belongs to the same ordered generation. Add dura
+38 server-client-python-bounded-rest-exchange-9133 | Python1 |  | Give Tableau Server Client callers one coherent, opt-in budget for the resources consumed by a REST 
+39 sh-actionable-recovered-syntax-edit-plans | Python1 | golang@sha256:a688600c | mvdan.cc/sh/v3 cannot yet turn incomplete shell syntax into an actionable recovery plan. Add `Recove
+40 sh-diagnostic-bearing-recovered-syntax-trees | Python1 | golang@sha256:9fdc884a | mvdan.cc/sh/v3 cannot currently carry parser recovery as a first-class result through every consumer
+41 shell-plugins-composable-multi-credential-2805 | Python1 |  | The shell-plugins SDK cannot provision several ordered credential usages as one deterministic, owner
+42 shell-plugins-renewable-provisioning-leases | Python1 |  | Long-running commands in shell-plugins cannot renew provisioned credentials through stable leases wi
+43 shell-plugins-selective-least-privilege-00b8 | Python1 |  | Give callers least-privilege control over credential provisioning across environment, command-line, 
+44 skillspector-batch-enrichment-provenance-ledger | Python1 | python:3.12-slim@sha25 | `contrib.batch_scan` cannot safely trace multilingual enrichment from provider resolution through la
+45 skupper-confined-filesystem-event-admission-1358 | Python1 |  | Skupper cannot confine non-Kubernetes filesystem processing to verified objects beneath each namespa
+46 skupper-durable-filesystem-reconciliation-c8e0 | Python1 |  | Skupper cannot durably resume interrupted filesystem work or expose namespace-scoped reconciliation 
+47 skupper-optimistic-connector-preconditions | Python1 |  | Skupper lacks interoperable optimistic preconditions for connector mutations on Kubernetes and files
+48 sloth-ownership-safe-kubernetes-resource-1680 | Python1 |  | Sloth cannot safely converge every Kubernetes object emitted by a transform, including heterogeneous
+49 sloth-snapshot-consistent-slo-read-sessions | Python1 |  | Sloth cannot keep SLO pagination, details, and ranges tied to one catalog revision while providers r
+50 spook-dependency-faithful-condition-replay | Python1 | python@sha256:bee107eb | Spook cannot capture a condition decision and deterministically replay it after its external depende
+51 spook-explainable-condition-assessments | Python1 | python@sha256:bee107eb | Give users a structured explanation whenever a Spook condition is evaluated, including the decision,
+52 sqlit-portable-query-execution-budgets | Python1 |  | Give callers one portable execution budget for direct, sequential, transactional, worker, CLI, and T
+53 sqlit-portable-query-plan-inspection | Python1 |  | SQLit cannot inspect provider-neutral query plans through saved connections, services, or the CLI wi
+54 starlette-boundary-transformation-reports | Python1 | python@sha256:dbbe4ceb | Starlette cannot report configuration casts, route parameter conversion, and WebSocket codecs unifor
+55 starlette-inbound-message-lineage | Python1 | python@sha256:ecac9e21 | Give Starlette applications stable, inspectable lineage for every inbound HTTP and WebSocket message
+56 stone-soup-measurement-coordinate-schemas-2b28 | Python1 | python@sha256:0a06143d | Stone Soup cannot distinguish equal-shaped measurements with different coordinate meaning. Add schem
+57 streamlink-cooperative-output-cancellation-cf3f | Python1 | python@sha256:9ab8d9c8 | Streamlink cannot cooperatively cancel outputs with consistent lifecycle state and truthful byte acc
+58 streamlink-end-to-end-utility-provenance | Python1 | python@sha256:bfb689a7 | Streamlink cannot explain how stream results are derived across utilities, HTTP handling, validation
+59 streamlink-scoped-resource-budgets-for-656e | Python1 | python@sha256:bfb689a7 | Streamlink cannot bound resource use in plugin parsing, traversal, imports, caching, and URL transfo
+60 streamlink-verified-complete-chunk-output-0e85 | Python1 | python@sha256:82bc3c53 | Streamlink cannot verify byte delivery across files, HTTP connections, player transports, and record
+61 stripe-cli-context-scoped-outbound-82e6 | Python1 | golang@sha256:53eeac89 | Stripe CLI cannot isolate outbound destination policy per invocation without global mutable state. I
+62 stripe-cli-drainable-streaming-sessions | Python1 | golang@sha256:53eeac89 | Stripe CLI cannot gracefully drain long-running webhook, log-tail, websocket, and local gRPC session
+63 strix-run-artifact-integrity-and-degraded-f088 | Python1 | python@sha256:392307d2 | Strix cannot prove whether a stored run is complete, degraded, corrupt, legacy, or unavailable. Buil
+64 strix-structured-cloud-failure-provenance | Python1 | python@sha256:581429e3 | Give every managed-cloud failure one safe, structured provenance record across command preparation, 
+65 strix-versioned-recoverable-local-credential-678a | Python1 | python@sha256:392307d2 | Strix cannot safely migrate credentials or recover interrupted writes today. Make each store accept 
+66 suggestarr-provider-conditional-response-cache | Python1 |  | api_service cannot share repeated provider reads without risking results, errors, authentication, or
+67 swanlab-accelerator-sample-quality-reports | Python1 | python@sha256:b99029c9 | Swanlab cannot currently expose immutable accelerator reports with vendor identity, metric observati
+68 swanlab-live-accelerator-topology-reconciliation | Python1 | python@sha256:a36c24f9 | Support live accelerator topology changes without allowing positional device enumeration to corrupt 
+69 takopi-audience-aware-progress-disclosure | Python1 | python@sha256:bfb689a7 | Takopi cannot apply audience-aware disclosure to progress messages, so private and group conversatio
+70 takopi-bounded-telegram-progress-envelopes | Python1 | python@sha256:9ab8d9c8 | Takopi cannot bound Telegram progress updates without losing usable run identity. Add declared capac
+71 takopi-causally-ordered-progress-revisions | Python1 | python@sha256:9ab8d9c8 | Takopi cannot causally order progress messages across asynchronous production, rendering, and Telegr
+72 takopi-recoverable-telegram-progress-checkpoints | Python1 | python@sha256:9ab8d9c8 | Takopi cannot recover Telegram progress across process restarts. Make active, queued, and terminal w
+73 tau-provider-stream-outcome-attestation | Python1 | python@sha256:581429e3 | tau_agent cannot yet give each provider response a provider-neutral, immutable history without chang
+74 tau-verified-session-integrity-checkpoints | Python1 | python@sha256:581429e3 | Tau cannot prove exact history prefixes with portable, branch-scoped integrity checkpoints without c
+75 throttled-py-bounded-resilient-store-operations | Python1 | python@sha256:581429e3 | Give store callers one bounded, cancellable, retry-aware operation policy across synchronous and asy
+76 throttled-py-fenced-expiring-store-leases | Python1 | python@sha256:392307d2 | throttled cannot elect one current owner for single-writer work or reject expired or superseded owne
+77 throttled-py-reversible-rate-limit-reservations | Python1 | python@sha256:dbbe4ceb | Allow callers to reserve rate-limit capacity before fallible work, then commit successful work or ca
+78 tortoise-orm-portable-collision-safe-schema-5099 | Python1 | python@sha256:94c362db | Support reversible, collision-safe migration batches that rename tables, fields, indexes, and constr
+79 tortoise-orm-portable-offline-migration-74bf | Python1 | python@sha256:dbbe4ceb | Allow Tortoise ORM users to carry an applied migration history between environments and inspect migr
+80 tortoise-orm-portable-per-statement-d498 | Python1 | python@sha256:782412e8 | Applications can place one portable deadline on an ORM operation instead of relying on driver-specif
+81 trainer-framework-specific-ml-policy-09c9 | Python1 | golang@sha256:2a0ba12e | Let callers inspect a stable, pre-materialization explanation of how Kubeflow Trainer resolves ML po
+82 trdsql-multi-result-export-documents | Python1 |  | trdsql cannot export multiple result-producing SQL statements as one ordered document with independe
+83 trdsql-resumable-byte-equivalent-exports | Python1 |  | trdsql cannot resume interrupted long-running exports from durable progress while preserving uninter
+84 trdsql-structured-reader-diagnostics-and-row-cd87 | Python1 |  | trdsql lacks structured malformed-input diagnostics and deterministic handling of recoverable record
+85 umoci-configurable-layer-compression-profiles | Python1 |  | umoci cannot configure gzip, zstd, or uncompressed OCI layers through one compression profile shared
+86 watchtower-container-selector-expressions | Python1 | golang@sha256:69a7b978 | Watchtower cannot target container updates with one composable selector across names, images, labels
+87 watchtower-durable-scan-completion-ledger | Python1 | golang@sha256:69a7b978 | Watchtower does not retain durable scan-attempt history across run-once, HTTP, and scheduled executi
+88 watermill-idempotent-publication-across-cf55 | Python1 |  | Watermill cannot safely repeat a logical publication after concurrent calls or ambiguous failure wit
+89 watermill-managed-subscription-outcomes | Python1 |  | Give Watermill subscribers an opt-in managed lifecycle that preserves the existing message stream wh
+90 waza-compliance-remediation-transactions | Python1 |  | Let users preview checker-owned remediation for skill-readiness problems and safely apply the automa
+91 wechatpy-atomic-shared-quota-windows | Python1 | python@sha256:a02e9c54 | wechatpy cannot coordinate outbound WeChat request budgets across workers and protocol clients. Buil
+92 wechatpy-replay-safe-callback-consumption | Python1 | python@sha256:782412e8 | wechatpy cannot consume authenticated WeChat callbacks exactly once, recognize retries, or recover f
+93 whale-durable-idempotent-intent-delivery | Python1 | golang@sha256:47ce5636 | Whale cannot durably track protocol intent delivery across its terminal runtime and JSON-lines app-s
+94 whale-durable-tool-invocation-replay | Python1 | golang@sha256:47ce5636 | The agent runtime cannot safely retry tool invocations across concurrent turns, cancellation, or pro
+95 whichllm-hardware-detection-evidence-and-1d4f | Python1 | python@sha256:528257d4 | whichllm cannot explain how GPU evidence and uncertainty shape its recommendations. Carry trustworth
+96 whichllm-topology-aware-multi-gpu-recommendations | Python1 | python@sha256:a36c24f9 | whichllm cannot make multi-GPU recommendations from the device groups a machine can actually use. Ma
+97 xgo-incremental-source-graph-refresh | Python1 | golang@sha256:3b4a1151 | xgo cannot reuse unchanged parsing and generation work across source revisions or identify the exact
+98 xgo-relocatable-deep-node-clones | Python1 | golang@sha256:81dc45d0 | Provide relocatable deep cloning for ordinary and XGo syntax, parser package graphs, gopq views, com
+99 xgo-uniform-structural-child-edges-for-every-node | Python1 | golang@sha256:3b4a1151 | XGo lacks a uniform view of ordered structural children across ordinary, query, compiler-proxy, and 
+100 yunikorn-core-bounded-metrics-cardinality-4f35 | Python1 | golang@sha256:a688600c | Apache YuniKorn lacks a common cardinality boundary for dynamic Prometheus dimensions in queue, runt
+101 yunikorn-core-causal-scheduler-mutation-traces | Python1 | golang@sha256:2a0ba12e | Apache YuniKorn cannot track node, application, and allocation updates from RM admission through sch
+102 yunikorn-core-isolated-metrics-domains-for-9922 | Python1 | golang@sha256:9fdc884a | YuniKorn cannot run concurrent service contexts with independently gathered Prometheus metrics witho
+103 zap-coordinated-destination-reopening-for-85b9 | Python1 |  | 
+104 zha-device-handlers-atomic-tuya-thermostat-6a4e | Python1 | python@sha256:782412e8 | ZHA Device Handlers cannot atomically write Tuya thermostat attributes with stable, unique transacti
+105 zha-device-handlers-atomic-tuya-thermostat-891d | Python1 | python@sha256:392307d2 | zhaquirks cannot configure Tuya thermostats as atomic, report-backed transactions. Add transactions 
+106 zha-device-handlers-universal-tuya-weekly-ee27 | Python1 | python@sha256:581429e3 | zha-device-handlers cannot inspect and edit weekly programs consistently across incompatible Tuya th
+107 zoekt-search-match-provenance | Python1 |  | Zoekt cannot currently report which positive query operands produced each file, filename, content, a
+108 zoekt-structured-search-termination-reports | Python1 |  | Let search callers reliably distinguish complete exhaustion from limits, deadlines, cancellation, an
+109 zog-context-cancellable-schema-execution | Python1 |  | Zog cannot safely cancel active parsing or validation. Build reusable cooperative cancellation at sc
+110 zog-parse-and-validation-execution-receipts | Python1 |  | zog cannot currently explain how parsing or validation reached its result. Add durable execution rec
+111 zog-presence-aware-merge-parsing | Python1 |  | zog cannot merge partial input into an existing destination without erasing omitted state. Add prese
+112 agentscope-4891ba7a-blind20-v8 | Python82 |  | # AgentScope misbehaving across model integrations, middleware, permissions and storage backends — w
+113 aiogram-7a7c3502-blind20 | Python74 |  | # aiogram: repairing eighteen silent behaviour regressions without a test suite A program of mine th
+114 atlantis-d163012f-blind30 | Go64,Python2 |  | # Diagnosing a Broken Atlantis Server Without a Test Suite The repository has received 30 separate u
+115 caddy-l4-42db5690-blind30 | Go96,Python2 |  | # caddy-l4-regen This is the piece of software that sits on a bare port, works out from the first by
+116 casbin-e275c6cf-blind29 | Go80,Python2 | golang@sha256:c6a5b930 | # casbin-regen We use this library to decide whether a subject may take an action on an object, to k
+117 code-generator-eec8939e-blind30 | Go84,Python2 |  | # code-generator-regen The repository has received 30 separate undocumented edits. What follows is e
+118 coroot-cbd7450e-blind26 | Go76,Python2 |  | # coroot: 26 undocumented behaviour changes to diagnose without a test suite Agents report what they
+119 coveragepy-e14c88af-blind20-v4 | Python66 |  | # coveragepy: measurement, reporting, config and pattern matching all misbehaving, without a test su
+120 dasel-70fd28f3-blind26 | Go72,Python2 |  | # dasel-regen We upgraded to a build of this tool cut from the current tree, and a large amount of r
+121 dragonfly-0a80e1f5-blind20 | Go48,Python2 |  | # Dragonfly: twenty injected faults, no test suite to find them with This library drives a sandbox m
+122 dtls-f26320b2-blind29 | Go88,Python2 |  | # pion/dtls: 29 injected faults to find without a test suite This library lets two programs agree on
+123 elasticsearch_exporter-54487773-blind18 | Go44,Python2 |  | # elasticsearch_exporter: eighteen undocumented edits, diagnosed without a test suite A program that
+124 fantasy-49fe8d5e-blind18 | Go56,Python2 |  | # Fantasy: pinning down eighteen behaviour regressions without a test suite After picking up a recen
+125 filebrowser-833d9088-blind29 | Go92,Python2 | golang@sha256:e401dae1 | # File Browser answers wrongly all over: diagnose 29 injected one-line faults without a test suite T
+126 fx-63eb255a-blind30 | Go92,Python2 |  | # fx-regen This is a terminal browser for structured data documents: you hand it a file, it draws th
+127 fzf-bd4efa27-misled30 | Go116,Python2 |  | # fzf misreads keys, miscounts rows and misorders matches — diagnosing it without a test suite This 
+128 gauge-33012412-blind30 | Go100,Python2 |  | # Diagnosing a Go specification-running command-line tool without a test suite This is a command-lin
+129 gh-dash-4ea7c39f-blind27 | Go92,Python2 |  | # gh-dash: twenty-seven unrelated misbehaviours to diagnose without a test suite Since picking up th
+130 gitleaks-b58d3f10-blind29 | Go92,Python2 | golang@sha256:1a6d4452 | # Gitleaks gives wrong answers while scanning, excluding and writing results — without a test suite 
+131 gocron-cc444c2a-blind16 | Go20,Python2 |  | # gocron: wrong next-run times, missing printed messages and lost executions, without a test suite W
+132 goss-b3093595-blind28 | Go100,Python2 |  | # goss-regen The repository has received 28 separate undocumented edits. The tool takes a written de
+133 gqlgen-0da7f1ea-blind28 | Go76,Python2 |  | # gqlgen: twenty-eight quiet misbehaviours, diagnosed without a test suite The repository has receiv
+134 import-linter-2c00e871-blind30 | Python82 |  | # import-linter-regen We use this tool to write down which parts of a codebase are allowed to depend
+135 isort-fad14135-blind26 | Python70 |  | # isort-regen A tool that tidies the block of declarations at the top of a Python file — the ones th
+136 jd-15edb8bf-blind29 | Go84,Python2 |  | # jd: wrong comparisons, inverted exit statuses and failing patch application, without a test suite 
+137 jjui-a0520167-blind30 | Go80,Python2 |  | # jjui-regen Working with a recent build of this keyboard-driven terminal front end for a version co
+138 kafka-python-eaa45b7d-blind29 | Python86 |  | # python-broker-client: repairing wide-ranging misbehaviour without a test suite This is the library
+139 keploy-a05cabbc-blind30 | Go100,Python2 | golang@sha256:116d58cb | # keploy-regen We moved to a fresh build of the tool we use to capture the traffic an application ma
+140 kool-bb95d1be-blind30 | Go96,Python2 |  | # kool-regen This is the tool I type at a terminal to bring a project's containers up, reach inside 
+141 kubernetes-ingress-2aa26b8d-blind30 | Go96,Python2 |  | # A Kubernetes proxy configuration agent misbehaves everywhere — diagnosed without a test suite We r
+142 leafwiki-8ecfa7d6-blind28 | Go84,Python2 |  | # leafwiki: widespread quiet misbehaviour, diagnosed without a test suite A self-hosted server for a
+143 lefthook-95ce21a8-blind29 | Go92,Python2 |  | # Lefthook misbehaves from hook wiring to file narrowing, without a test suite The repository has re
+144 lipgloss-77047a83-blind30 | Go84,Python2 |  | # lipgloss-regen An application built on this library lays out formatted text for a character-cell s
+145 litestream-6d61ef5d-blind30 | Go84,Python2 |  | # litestream-regen The repository has received 30 separate undocumented edits. This software keeps a
+146 mangle-8edad8d3-blind30 | Go92,Python2 |  | # Repairing google/mangle's Datalog toolchain without a test suite I use this to write rules over st
+147 marmot-e1b780ee-blind30 | Go92,Python2 |  | # marmot-regen People sign in to this thing, feed descriptions of their company's data into it, look
+148 matcha-5198d8f0-blind30 | Go104,Python2 |  | # matcha-regen This is a terminal mail program, and someone who uses it every day wrote down what we
+149 micromdm-904493b9-blind27 | Go76,Python2 |  | # micromdm: twenty-seven quiet misbehaviours, reported without a test suite We took a fresh checkout
+150 model-runner-5a3112fd-blind30 | Go96,Python2 |  | # docker/model-runner: wrong answers and outright failures across the CLI and server, without a test
+151 mp4ff-745651cf-blind30 | Go88,Python2 |  | # mp4ff-regen Working with this media container library after a routine update, a scattered pile of 
+152 mypy_boto3_builder-98e1054a-blind30 | Python110 |  | # mypy_boto3_builder: repairing scattered regressions without a test suite This tool takes a cloud p
+153 nano-dbf22c70-blind19 | Go40,Python2 |  | # nano: nineteen quiet regressions to diagnose without a test suite I moved my realtime game backend
+154 nanobot-e8fd3779-blind30 | Go96,Python2 |  | # nanobot: thirty wrong answers to track down without a test suite The repository has received 30 se
+155 napalm-820a06b2-blind17 | Python58 |  | # napalm: diagnosing a batch of undocumented regressions without a test suite We automate a mixed fl
+156 napalm-820a06b2-blind20-v2 | Python50 |  | # napalm: diagnosing broken drivers and helpers without a test suite Everyday work through this libr
+157 nezha-c3c165c1-blind30 | Go88,Python2 |  | # Nezha: thirty behaviour regressions to find without a test suite Working through a fresh build of 
+158 oras-799bb3e9-blind30 | Go108,Python2 |  | # A command-line client for OCI registries misbehaving in thirty places, and shipped without a test 
+159 ormar-e2c8a526-blind28 | Python90 |  | # ormar answers wrong on saving, querying, ordering and dumping — without a test suite A fresh check
+160 pendulum-5ad098bc-blind20-v1 | Python54 |  | # Pendulum: repairing a date/time library without a test suite I have been leaning on this library a
+161 pyscn-1ab776e3-blind29 | Go80,Python2 |  | # Python code-quality CLI: wrong scores, dropped paths and swallowed errors, diagnosed without a tes
+162 python-polylith-cb0ac4b0-blind28 | Python78 |  | # Diagnosing broken workspace behaviour in python-polylith without a test suite This checkout holds 
+163 python-prompt-toolkit-583b3412-blind30 | Python90 |  | # python-prompt-toolkit: diagnosing widespread input, suggestion and rendering misbehaviour without 
+164 quant-mind-638d16a4-blind30 | Python98 |  | # A research-article processing toolkit misbehaving across the board, without a test suite I use thi
+165 quant-mind-638d16a4-blind30 | Python98 |  | # LLMQuant research toolkit: repairing widespread misbehaviour without a test suite A kit for gather
+166 quic-go-e937eb8f-blind30 | Go100,Python2 |  | # quic-go-regen An application built on this library dials a peer, brings a link up, moves data over
+167 rain-b7e7b820-blind30 | Go100,Python2 |  | # rain — a peer-to-peer transfer client giving wrong answers from the remote interface down to the w
+168 revive-1de82437-blind30 | Go120,Python2 |  | # revive gives wrong verdicts all over — diagnosing it without a test suite We point this tool at ou
+169 scriggo-2f437fb8-blind25 | Go60,Python2 |  | # scriggo-regen An application uses this to embed a scripting layer and to render pages, and both ha
+170 semble-92184916-blind30 | Python78 |  | # Repairing a semantic code-retrieval toolkit without a test suite Someone points this tool at a dir
+171 semble-92184916-blind30 | Python78 |  | # Semble answers wrongly from top to bottom — diagnose it without a test suite This tool reads a fol
+172 sh-a04df9f0-blind29 | Go76,Python2 |  | # Diagnosing 29 undocumented behaviour changes in mvdan/sh without a test suite This software turns 
+173 shell-operator-742b3baf-blind29 | Go96,Python2 |  | # Diagnosing shell-operator's injected misbehaviour without a test suite I run an installation that 
+174 streamlink-c3c2e98c-blind26-v1 | Python90 |  | # Repairing 26 undocumented behaviour regressions in a command-line video downloader without a test 
+175 tablib-c8ff4e17-blind29 | Python70 |  | # Tablib gives wrong answers on almost every conversion path, diagnosed without a test suite This li
+176 termdash-4b322f4b-blind30 | Go84,Python2 |  | # A terminal dashboard toolkit gone quietly wrong, without a test suite The repository has received 
+177 terragrunt-18410a16-blind29 | Go68,Python2 |  | # Terragrunt behaving wrongly in many places, diagnosed without a test suite The repository has rece
+178 typeagent-py-4524f3e2-blind30 | Python98 |  | # typeagent-py: diagnosing 30 injected faults without a test suite A round of maintenance left this 
+179 umoci-f5d1219a-blind28 | Go88,Python2 |  | # OCI image tool: diagnosing widespread misbehaviour without a test suite This is the command-line t
+180 validator-f9944c58-blind30 | Go104,Python2 | golang@sha256:e401dae1 | # Repairing go-playground/validator without a test suite The repository has received 30 separate und
+181 waveterm-a4447c15-blind30 | Go100,Python2 | golang@sha256:e401dae1 | # Waveterm: diagnosing thirty behaviour regressions without a test suite The repository has received
+182 webdav-f869dd62-blind24 | Go32,Python2 |  | # hacdias/webdav: repairing a WebDAV server without a test suite This is a server that publishes fol
+183 werkzeug-ef518e42-blind20-v1 | Python74 |  | # Werkzeug: hunting twenty regressions without a test suite A program built on this library — the la
+184 werkzeug-ef518e42-blind20-v6 | Python66 |  | # Werkzeug: diagnosing twenty behavioural regressions without a test suite A program built on this l
+185 wings-d6116827-blind29 | Go80,Python2 |  | # pterodactyl/wings: tracking down widespread daemon misbehaviour without a test suite A node built 
+186 zha-device-handlers-b139f815-blind20-v1 | Python66 |  | # zha-device-handlers: many device quirks report the wrong state — diagnose and repair without a tes
+187 zha-device-handlers-b139f815-blind30 | Python102 |  | # ZHA quirks collection: diagnosing thirty regressions without a test suite Everything below was obs
+188 acme-dns-43b0acaa-blind28-ots | Go60,Python2 |  | # ACME challenge DNS service returns wrong answers in twenty-eight places — diagnose without a test 
+189 afero-768f1fb0-blind25-ots | Go56,Python2 |  | # Afero: wrong answers from wildcard lookups, archives, overlays and temp paths — diagnosing without
+190 agentcookie-e498e93b-blind30-ots | Go92,Python2 |  | # agentcookie behaves wrongly across every command — diagnose without a test suite I use this tool t
+191 agentic-context-engine-96f7c9cf-blind30-ots | Python94 |  | # agentic-context-engine gives wrong answers across learning, capture conversion and tooling — diagn
+192 agentops-f8e907b9-blind14-ots | Python50 |  | # agentops: span attributes, client bootstrap and session startup all misbehaving, without a test su
+193 agentscope-4891ba7a-blind20-v8-ots | Python82 |  | # AgentScope misbehaving across model integrations, middleware, permissions and storage backends — w
+194 aiogram-7a7c3502-blind20-ots | Python74 |  | # aiogram: repairing eighteen silent behaviour regressions without a test suite A program of mine th
+195 answer-3b9f1370-blind25-ots | Go72,Python2 | golang@sha256:e401dae1 | # apache/answer: repairing 25 undocumented misbehaviours without a test suite This is the back end o
+196 argo-events-b3af946b-blind26-ots | Go100,Python2 |  | # A Kubernetes event-driven automation platform gives inverted answers everywhere, without a test su
+197 ariadne-38059a47-blind20-v2-ots | Python62 |  | # Ariadne: nineteen behavioural regressions to find without a test suite The repository has received
+198 atlantis-d163012f-blind30-ots | Go64,Python2 |  | # Diagnosing a Broken Atlantis Server Without a Test Suite The repository has received 30 separate u
+199 autoresearchclaw-e2e23c93-blind20-ots | Python82 |  | # AutoResearchClaw: repairing twenty scattered regressions without a test suite I have been driving 
+200 aws-iam-authenticator-3642f9e5-blind29-ots | Go72,Python2 |  | # aws-iam-authenticator: authentication and identity resolution give wrong answers, without a test s
+201 azqr-54b86100-blind16-ots | Go40,Python2 |  | # A cloud assessment CLI that now misreports from the command line down to its reports, without a te
+202 bdwgc-2547e33a-blind27 | C72,Python2 |  | # bdwgc: repairing a garbage collector without a test suite The repository has received 27 separate 
+203 bubbles-355f960a-blind17-ots | Go48,Python2 |  | # charmbracelet/bubbles: tracking down seventeen behaviour regressions without a test suite The repo
+204 buffalo-2aa98683-blind28-ots | Go96,Python2 |  | # Buffalo web framework misbehaving from startup to response, without a test suite An application bu
+205 bumble-7fdeef5c-blind30-ots | Python86 |  | # Bumble Bluetooth stack: 30 injected faults to diagnose without a test suite An application built o
+206 caddy-l4-42db5690-blind30-ots | Go96,Python2 |  | # caddy-l4-regen This is the piece of software that sits on a bare port, works out from the first by
+207 calcurse-8b44a54f-blind17 | C52,Python2 |  | # calcurse: repairing a calendar manager without a test suite The repository has received 17 separat
+208 canopy-9a629f6b-blind28-ots | Go84,Python2 | golang@sha256:116d58cb | # Canopy: diagnosing a blockchain node gone wrong without a test suite This source tree builds a nod
+209 capstone-fab08515-blind30 | C120,Python2 |  | # Diagnosing 30 injected faults in capstone without a test suite The repository has received 30 sepa
+210 casbin-e275c6cf-blind29-ots | Go80,Python2 | golang@sha256:c6a5b930 | # casbin-regen We use this library to decide whether a subject may take an action on an object, to k
+211 chamber-5f93f5f3-blind22-ots | Go40,Python2 |  | # segmentio/chamber: diagnosing wrong secret output, search and tag behaviour without a test suite T
+212 circumflex-a2c2986e-blind19-ots | Go36,Python2 |  | # circumflex: nineteen silent rendering and navigation regressions without a test suite The reposito
+213 cli-301d0e16-blind23-ots | Go68,Python2 |  | # cli-regen We took a build of the address toolkit this week — the one you run in a terminal to pull
+214 cliamp-2b6b27f1-blind30-ots | Go96,Python2 |  | # cliamp gives wrong answers across playback, storage and scripting — without a test suite The repos
+215 cloudflare-ddns-ec9ca53d-blind30-ots | Go96,Python2 |  | # cloudflare-ddns-regen This program watches which addresses a machine currently holds, keeps the pu
+216 cobra-adbc8813-blind26-ots | Go52,Python2 |  | # Repairing a Go CLI-building library without a test suite We vendor this library and lean on it to 
+217 code-generator-eec8939e-blind30-ots | Go84,Python2 |  | # code-generator-regen The repository has received 30 separate undocumented edits. What follows is e
+218 collections-c-dbedaf95-blind21 | C52,Python2 |  | # Collections-C: diagnosing 21 injected faults without a test suite The repository has received 21 s
+219 controller-tools-3311c8d5-blind30-ots | Go96,Python2 |  | # controller-tools: generated manifests are wrong, empty, or crash the run — diagnosis without a tes
+220 coroot-cbd7450e-blind26-ots | Go76,Python2 |  | # coroot: 26 undocumented behaviour changes to diagnose without a test suite Agents report what they
+221 coturn-dcdfddd0-blind26 | C76,Python2 |  | # Diagnosing coturn server misbehaviour without a test suite The repository has received 26 separate
+222 coveragepy-e14c88af-blind20-v4-ots | Python66 |  | # coveragepy: measurement, reporting, config and pattern matching all misbehaving, without a test su
+223 cyclopts-954e72e1-blind20-ots | Python78 |  | # Diagnosing cyclopts without a test suite I've been upgrading an internal tool built on this librar
+224 dasel-70fd28f3-blind26-ots | Go72,Python2 |  | # dasel-regen We upgraded to a build of this tool cut from the current tree, and a large amount of r
+225 dcmtk-32520a28-blind16 | C48,Python2 |  | # DCMTK character set conversion gone wrong, without a test suite The repository has received 16 sep
+226 ddns-updater-4b180875-blind30-ots | Go76,Python2 |  | # Dynamic DNS client: thirty behaviour changes to diagnose without a test suite The repository has r
+227 devtui-7d0e0c02-blind22-ots | Go48,Python2 |  | # devtui: hunting 22 undocumented edits without a test suite This is the small box of text utilities
+228 dhcp-c308df0f-blind29-ots | Go88,Python2 |  | # dhcp-regen A Go program uses this library to ask for automatically assigned network addresses and 
+229 discrawl-54eb70cf-blind30-ots | Go80,Python2 |  | # discrawl: thirty silent behaviour changes to find without a test suite This is a command-line tool
+230 django-extensions-32ddfb04-blind30-ots | Python94 |  | # A Django helper toolkit misbehaving from the interactive shell to the command line, without a test
+231 django-machina-5ecfad38-blind20-ots | Python70 |  | # django-machina: twenty behavioural regressions across forums, permissions, polls and tracking — wi
+232 double-entry-generator-639ea224-blind29-ots | Go64,Python2 |  | # double-entry-generator-regen I put a season of downloaded bank, card and shopping statements, alon
+233 dragonfly-0a80e1f5-blind20-ots | Go48,Python2 |  | # Dragonfly: twenty injected faults, no test suite to find them with This library drives a sandbox m
+234 dry-8aaa648c-blind30-ots | Go92,Python2 |  | # dry: widespread wrong answers and silent misbehaviour to repair without a test suite This is a ful
+235 dtls-f26320b2-blind29-ots | Go88,Python2 |  | # pion/dtls: 29 injected faults to find without a test suite This library lets two programs agree on
+236 dvc-56e59829-blind11-ots | Python38 |  | # DVC: eleven undocumented edits, no test suite to find them I drive this tool from the command line
+237 elasticsearch_exporter-54487773-blind18-ots | Go44,Python2 |  | # elasticsearch_exporter: eighteen undocumented edits, diagnosed without a test suite A program that
+238 espeak-ng-699e7969-blind28 | C100,Python2 |  | # Diagnosing a multilingual text-to-audio library without a test suite The repository has received 2
+239 faker-4eced9f3-blind25-ots | Python70 | python@sha256:2e32f7d3 | # Faker: 25 undocumented behaviour regressions to track down without a test suite I have been genera
+240 falcon-ea2b14d3-blind28-ots | Python86 |  | # Falcon: restoring drifted framework behaviour without a test suite A web service built on this lib
+241 fantasy-49fe8d5e-blind18-ots | Go56,Python2 |  | # Fantasy: pinning down eighteen behaviour regressions without a test suite After picking up a recen
+242 fastfetch-aaa9153f-blind16 | C52,Python2 |  | # fastfetch: repairing sixteen injected faults without a test suite The repository has received 16 s
+243 feishu-cli-fbe60e01-blind30-ots | Go100,Python2 |  | # feishu-cli-regen This is a terminal tool for driving a team workspace — its chats, its documents, 
+244 ffuf-8162f487-blind30-ots | Go84,Python2 | golang@sha256:c6a5b930 | # A command-line web fuzzer misbehaving in thirty places, without a test suite A command-line tool t
+245 filebrowser-833d9088-blind29-ots | Go92,Python2 | golang@sha256:e401dae1 | # File Browser answers wrongly all over: diagnose 29 injected one-line faults without a test suite T
+246 flask-2a8a38b0-blind20-v1-ots | Python58 |  | # Flask: misbehaving JSON, blueprints, views and CLI — diagnose and repair without a test suite The 
+247 fx-63eb255a-blind30-ots | Go76,Python2 |  | # fx-regen This is a terminal browser for structured data documents: you hand it a file, it draws th
+248 fzf-bd4efa27-blind30-ots | Go80,Python2 |  | # fzf misreads keys, miscounts rows and misorders matches — diagnosing it without a test suite This 
+249 gauge-33012412-blind30-ots | Go100,Python2 |  | # Diagnosing a Go specification-running command-line tool without a test suite This is a command-lin
+250 gh-dash-4ea7c39f-blind27-ots | Go92,Python2 |  | # gh-dash: twenty-seven unrelated misbehaviours to diagnose without a test suite Since picking up th
+251 gitleaks-b58d3f10-blind29-ots | Go92,Python2 | golang@sha256:1a6d4452 | # Gitleaks gives wrong answers while scanning, excluding and writing results — without a test suite 
+252 go-app-98e447c0-blind30-ots | Go72,Python2 |  | # go-app-regen Someone using this toolkit to build and publish a browser front end finds it wrong in
+253 go-critic-325d070a-blind26-ots | Go100,Python2 |  | # go-critic hands back the wrong advice almost everywhere, without a test suite We run this tool ove
+254 go-dockerclient-c08eda54-blind28-ots | Go92,Python2 |  | # Diagnosing go-dockerclient's wrong answers and misrouted requests without a test suite Driving a w

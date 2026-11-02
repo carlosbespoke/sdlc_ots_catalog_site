@@ -1,0 +1,53 @@
+FROM mirror.gcr.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+
+ARG REPO_URL=https://github.com/mdomke/schwifty.git
+ARG BASE_COMMIT=e40e32fdc99e42d222deb55a1dd350f18fb1cf1d
+ENV CI=1 PIP_DISABLE_PIP_VERSION_CHECK=1 PYTHONDONTWRITEBYTECODE=1
+
+RUN set -eu; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+      bash build-essential ca-certificates curl file git jq less procps vim-tiny; \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" \
+    && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD \
+    && test "$(git -C /app rev-parse HEAD)" = "$BASE_COMMIT" \
+    && git -C /app remote remove origin && rm -f /app/.git/FETCH_HEAD
+
+# The same environment as environment/Dockerfile: the project's uv.lock, every extra and group,
+# the package editable.
+ENV UV_PROJECT_ENVIRONMENT=/opt/venv UV_PYTHON_DOWNLOADS=never UV_LINK_MODE=copy
+RUN set -eu; pip install -q uv==0.12.23; \
+    cd /app && uv sync -q --frozen --all-extras --all-groups --python /usr/local/bin/python3.12; \
+    rm -rf /root/.cache/uv; \
+    chmod -R go-w /opt/venv
+ENV UV_NO_SYNC=1 UV_OFFLINE=1 UV_FROZEN=1
+
+# The grader's interpreter: root-owned, outside the repository, never on the submission's path.
+COPY grader-requirements.txt /opt/dp-grader-requirements.txt
+RUN set -eu; python -m venv /opt/dp-grader-venv; \
+    /opt/dp-grader-venv/bin/pip install -q -r /opt/dp-grader-requirements.txt; \
+    chmod -R go-w /opt/dp-grader-venv
+
+COPY grader.py /tests/grader.py
+COPY config.json /tests/config.json
+COPY test.patch /tests/test.patch
+COPY test.sh /tests/test.sh
+COPY extract_base_pytest.py /tests/extract_base_pytest.py
+RUN chmod +x /tests/test.sh && useradd --create-home --uid 1500 dpapp
+
+# Check the staged hidden suite compiles, then restore the tree, and pin the repository suite's
+# pytest config, rootdir and plugins from the base tree.
+RUN set -eu; \
+    git -C /app apply --whitespace=nowarn /tests/test.patch; \
+    GRADE_DIR=/tmp/warm bash /app/test.sh stage; \
+    GRADE_DIR=/tmp/warm bash /tmp/warm/test.sh pin-base; \
+    chmod 600 /opt/dp-base/base-pytest.* /tests/extract_base_pytest.py; \
+    GRADE_DIR=/tmp/warm bash /tmp/warm/test.sh build-tests; \
+    rm -rf /tmp/warm; \
+    git -C /app checkout -q -- .; git -C /app clean -qfd -- tests; \
+    test -z "$(git -C /app status --porcelain)"
+
+CMD ["/bin/bash"]

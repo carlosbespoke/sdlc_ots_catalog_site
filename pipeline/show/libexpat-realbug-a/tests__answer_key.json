@@ -1,0 +1,181 @@
+{
+  "mode": "realbug",
+  "repo": "libexpat",
+  "workdir": "/workspace/repo",
+  "language": "c",
+  "test_cmd": "ctest --test-dir build -j 2",
+  "ctest_cmd": "ctest --test-dir build -j 2 --timeout 60",
+  "build_cmd": "cmake -S expat -B build >/dev/null && cmake --build build -j \"$(nproc)\"",
+  "build_dir": "build",
+  "configure_cmd": "cmake -S expat -B build >/dev/null",
+  "make_cmd": "cmake --build build -j \"$(nproc)\"",
+  "weights": {
+    "repair": 0.5,
+    "report": 0.5
+  },
+  "run_tests_as": "agent",
+  "source_roots": [
+    "expat/lib"
+  ],
+  "restored_paths": [
+    "expat/tests",
+    "testdata"
+  ],
+  "allowed_failing": [],
+  "build_budget": 300,
+  "ctest_budget": 180,
+  "verifier_timeout": 4740.0,
+  "c_sniff_baseline": {
+    "expat/examples/outline.c": [
+      "exit(-1)",
+      "exit(-1)",
+      "exit(-1)"
+    ],
+    "expat/lib/xmlparse.c": [
+      "constchar*constvalueornull=getenv(variablename)",
+      "constintfd=open(,o_rdonly)",
+      "syscall(sys_getrandom,currenttarget,bytestowrite,getrandomflags)"
+    ],
+    "expat/xmlwf/unixfilemap.c": [
+      "p=(void*)mmap((void*)0,(size_t)nbytes,prot_read,map_file|map_private,"
+    ],
+    "expat/xmlwf/xmlfile.c": [
+      "exit(1)"
+    ],
+    "expat/xmlwf/xmlwf.c": [
+      "exit(rc)",
+      "exit(xmlwf_exit_internal_error)",
+      "exit(xmlwf_exit_internal_error)",
+      "exit(xmlwf_exit_usage_error)",
+      "exit(xmlwf_exit_usage_error)"
+    ]
+  },
+  "c_sniff_big": {},
+  "rca_contract": 1,
+  "completion_proof": {
+    "env": "RB_WITNESS_FILE",
+    "token": "RBWITNESS",
+    "harness": "minicheck",
+    "files": [
+      "expat/tests/minicheck.c"
+    ]
+  },
+  "bugs": [
+    {
+      "id": "libexpat-0c5dbd0bb0a5",
+      "sites": [
+        {
+          "file": "expat/lib/xmlparse.c",
+          "function": "accountingGetCurrentAmplification"
+        }
+      ],
+      "f2p": [
+        "runtests",
+        "runtestspp"
+      ],
+      "expected_tests": [
+        "runtests",
+        "runtestspp"
+      ],
+      "witness": {
+        "runtests": "100%: Checks: 336, Failed: 0",
+        "runtestspp": "100%: Checks: 336, Failed: 0"
+      },
+      "skipped_in_gold": [],
+      "hidden_files": [
+        {
+          "path": "expat/tests/runtests.c",
+          "blob": "hidden/0/0",
+          "sha256": "200e0134442d6ca75c77087a981bfefb6d5f98de402e555110c498104a63eb54"
+        }
+      ]
+    },
+    {
+      "id": "libexpat-30d93b149d3d",
+      "sites": [
+        {
+          "file": "expat/lib/xmlparse.c",
+          "function": "internalEntityProcessor"
+        }
+      ],
+      "f2p": [
+        "runtests",
+        "runtestspp"
+      ],
+      "expected_tests": [
+        "runtests",
+        "runtestspp"
+      ],
+      "witness": {
+        "runtests": "100%: Checks: 336, Failed: 0",
+        "runtestspp": "100%: Checks: 336, Failed: 0"
+      },
+      "skipped_in_gold": [],
+      "hidden_files": [
+        {
+          "path": "expat/tests/runtests.c",
+          "blob": "hidden/1/0",
+          "sha256": "68315ce7656654f48552ada0a27858eac6a2af9b7e2c69835b687bc60c7264c8"
+        }
+      ]
+    },
+    {
+      "id": "libexpat-8e5c789e8d3b",
+      "sites": [
+        {
+          "file": "expat/lib/xmlparse.c",
+          "function": "XML_GetBuffer"
+        }
+      ],
+      "f2p": [
+        "runtests",
+        "runtestspp"
+      ],
+      "expected_tests": [
+        "runtests",
+        "runtestspp"
+      ],
+      "witness": {
+        "runtests": "100%: Checks: 336, Failed: 0",
+        "runtestspp": "100%: Checks: 336, Failed: 0"
+      },
+      "skipped_in_gold": [],
+      "hidden_files": [
+        {
+          "path": "expat/tests/runtests.c",
+          "blob": "hidden/2/0",
+          "sha256": "11943aa19453de295e747676cd4495c4046960f3d057d8302460ffe3a1900bc9"
+        }
+      ]
+    },
+    {
+      "id": "libexpat-e567e550f1be",
+      "sites": [
+        {
+          "file": "expat/lib/xmltok.c",
+          "function": "doParseXmlDecl"
+        }
+      ],
+      "f2p": [
+        "runtests",
+        "runtestspp"
+      ],
+      "expected_tests": [
+        "runtests",
+        "runtestspp"
+      ],
+      "witness": {
+        "runtests": "100%: Checks: 336, Failed: 0",
+        "runtestspp": "100%: Checks: 336, Failed: 0"
+      },
+      "skipped_in_gold": [],
+      "hidden_files": [
+        {
+          "path": "expat/tests/runtests.c",
+          "blob": "hidden/3/0",
+          "sha256": "07181df13a51752c0337a460c4154f9621af8a1843a8a701e744dbdaf47d5a96"
+        }
+      ]
+    }
+  ]
+}

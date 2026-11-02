@@ -1,0 +1,218 @@
+[
+ {
+  "code": "from nbgrader.preprocessors import ClearSolutions\nresult = ClearSolutions().text_stub\n",
+  "id": "OBS-0001"
+ },
+ {
+  "code": "from nbgrader.preprocessors import ClearSolutions\nanswer = cell(\"markdown\", \"Explain your plot:\\n=== BEGIN SOLUTION\\nThe curve rises.\\n=== END SOLUTION\",\n              grade=True, solution=True, grade_id=\"w1\", points=1.0)\nresult = sources(run(ClearSolutions(), nb(answer)))\n",
+  "id": "OBS-0002"
+ },
+ {
+  "code": "from nbgrader.preprocessors import ClearSolutions\nanswer = cell(\"code\", 'def foo(bar):\\n    \"\"\"Prints `bar`.\"\"\"\\n    ### BEGIN SOLUTION\\n    print(bar)\\n    ### END SOLUTION',\n              solution=True, grade_id=\"foo\")\nresult = sources(run(ClearSolutions(), nb(answer)))\n",
+  "id": "OBS-0003"
+ },
+ {
+  "code": "from nbgrader.preprocessors import ClearSolutions\nanswer = cell(\"code\", \"for i in range(3):\\n    if i:\\n        # BEGIN SOLUTION\\n        x = i\\n        # END SOLUTION\\nprint(x)\",\n              solution=True, grade_id=\"loop\")\npre = ClearSolutions(code_stub={\"python\": \"# your code here\\n# (all of it)\\nraise NotImplementedError\"})\nresult = sources(run(pre, nb(answer)))\n",
+  "id": "OBS-0004"
+ },
+ {
+  "code": "from nbgrader.preprocessors import ClearSolutions\nanswer = cell(\"markdown\", \"The answer is 42.\", grade=True, solution=True, grade_id=\"w1\", points=2.0)\npre = ClearSolutions(text_stub=\"WRITE HERE\", code_stub={\"python\": \"CODE HERE\"})\nresult = sources(run(pre, nb(answer)))\n",
+  "id": "OBS-0005"
+ },
+ {
+  "code": "from nbgrader.preprocessors import ClearSolutions\nanswer = cell(\"code\", \"def square(x):\\n    return x * x\", solution=True, grade_id=\"sq\")\npre = ClearSolutions(text_stub=\"WRITE HERE\", code_stub={\"python\": \"CODE HERE\"})\nresult = sources(run(pre, nb(answer)))\n",
+  "id": "OBS-0006"
+ },
+ {
+  "code": "from nbgrader.preprocessors import ClearHiddenTests\ntests = cell(\"code\", \"assert squares(1) == [1]\\n### BEGIN HIDDEN TESTS\\nassert squares(2) == [1, 4]\\n### END HIDDEN TESTS\",\n             grade=True, grade_id=\"t1\", points=1.0, locked=True)\nresult = sources(run(ClearHiddenTests(), nb(tests)))\n",
+  "id": "OBS-0007"
+ },
+ {
+  "code": "from nbgrader.preprocessors import ClearHiddenTests\ntests = cell(\"code\", \"assert(squares(1), [1]);\\n// BEGIN HIDDEN TESTS\\nassert(squares(2), [1, 4]);\\n// END HIDDEN TESTS\\nconsole.log('checked');\",\n             grade=True, grade_id=\"t2\", points=1.0, locked=True)\nresult = sources(run(ClearHiddenTests(), nb(tests, language=\"javascript\")))\n",
+  "id": "OBS-0008"
+ },
+ {
+  "code": "from nbgrader.preprocessors import IncludeHeaderFooter\nsave(\"header.ipynb\", nb(cell(\"markdown\", \"Course header\")))\nsave(\"footer.ipynb\", nb(cell(\"markdown\", \"Course footer\")))\nbody = nb(cell(\"markdown\", \"Problem 1\"), cell(\"code\", \"x = 1\"))\nresult = sources(run(IncludeHeaderFooter(header=\"header.ipynb\", footer=\"footer.ipynb\"), body))\n",
+  "id": "OBS-0009"
+ },
+ {
+  "code": "from nbgrader.preprocessors import IncludeHeaderFooter\nsave(\"header.ipynb\", nb(cell(\"markdown\", \"Name:\"), cell(\"markdown\", \"Collaborators:\")))\nbody = nb(cell(\"markdown\", \"Problem 1\"))\nresult = sources(run(IncludeHeaderFooter(header=\"header.ipynb\"), body))\n",
+  "id": "OBS-0010"
+ },
+ {
+  "code": "gb = gradebook()\none_cell_course(gb, points=3.0)\ngrade = gb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\")\ngrade.auto_score = 3.0\ngrade.manual_score = 1.0\ngb.db.commit()\nresult = [gb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\").score,\n          gb.find_submission_notebook(\"p1\", \"ps1\", \"hacker\").score,\n          gb.find_submission(\"ps1\", \"hacker\").score]\ngb.close()\n",
+  "id": "OBS-0011"
+ },
+ {
+  "code": "gb = gradebook()\none_cell_course(gb, points=4.0)\ngrade = gb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\")\ngrade.auto_score = 0.0\ngrade.manual_score = 2.5\ngb.db.commit()\nresult = [gb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\").score, gb.find_student(\"hacker\").score]\ngb.close()\n",
+  "id": "OBS-0012"
+ },
+ {
+  "code": "from nbgrader.preprocessors import SaveAutoGrades\ngb = gradebook()\none_cell_course(gb, points=3.0)\ngb.close()\nsubmitted = nb(cell(\"code\", \"assert 1 + 1 == 2\", grade=True, grade_id=\"g1\", points=3.0, locked=True))\nrun(SaveAutoGrades(), submitted, res())\ngb = gradebook()\ngrade = gb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\")\nfirst = [grade.auto_score, grade.needs_manual_grade]\ngrade.manual_score = 2.0\ngb.db.commit()\ngb.close()\nrun(SaveAutoGrades(), submitted, res())\ngb = gradebook()\ngrade = gb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\")\nresult = [first, [grade.auto_score, grade.manual_score, grade.needs_manual_grade]]\ngb.close()\n",
+  "id": "OBS-0013"
+ },
+ {
+  "code": "from nbgrader.preprocessors import SaveAutoGrades\ngb = gradebook()\none_cell_course(gb, points=2.0)\ngrade = gb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\")\ngrade.manual_score = 0.5\ngb.db.commit()\ngb.close()\nsubmitted = nb(cell(\"code\", \"assert True\", grade=True, grade_id=\"g1\", points=2.0, locked=True))\nrun(SaveAutoGrades(), submitted, res())\ngb = gradebook()\nresult = [gb.find_submission_notebook(\"p1\", \"ps1\", \"hacker\").needs_manual_grade,\n          gb.find_submission(\"ps1\", \"hacker\").needs_manual_grade]\ngb.close()\n",
+  "id": "OBS-0014"
+ },
+ {
+  "code": "from nbgrader.plugins import LateSubmissionPlugin\nplugin = LateSubmissionPlugin()\nresult = [plugin.penalty_method, plugin.late_submission_penalty(\"hacker\", 5.0, 3600.0)]\n",
+  "id": "OBS-0015"
+ },
+ {
+  "code": "from nbgrader.preprocessors import AssignLatePenalties\ngb = gradebook()\none_cell_course(gb, points=3.0, duedate=when(\"2026-01-10 12:00:00\"))\nsubmission = gb.find_submission(\"ps1\", \"hacker\")\nsubmission.timestamp = when(\"2026-01-10 13:00:00\")\ngb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\").auto_score = 2.0\ngb.db.commit()\ngb.close()\nrun(AssignLatePenalties(), nb(cell(\"markdown\", \"x\")), res())\ngb = gradebook()\nsubmission = gb.find_submission(\"ps1\", \"hacker\")\nresult = [submission.total_seconds_late,\n          gb.find_submission_notebook(\"p1\", \"ps1\", \"hacker\").late_submission_penalty,\n          submission.late_submission_penalty]\ngb.close()\n",
+  "id": "OBS-0016"
+ },
+ {
+  "code": "gb = gradebook()\ngb.add_assignment(\"ps1\", duedate=when(\"2026-01-10 12:00:00\"))\ngb.add_student(\"hacker\")\ngb.add_submission(\"ps1\", \"hacker\", timestamp=\"2026-01-10 14:00:00\")\ngb.grant_extension(\"ps1\", \"hacker\", hours=3)\nresult = gb.find_submission(\"ps1\", \"hacker\").total_seconds_late\ngb.close()\n",
+  "id": "OBS-0017"
+ },
+ {
+  "code": "gb = gradebook()\ngb.add_assignment(\"ps1\", duedate=when(\"2026-01-10 12:00:00\"))\ngb.add_student(\"hacker\")\ngb.add_submission(\"ps1\", \"hacker\", timestamp=\"2026-01-10 14:00:00\")\ngb.grant_extension(\"ps1\", \"hacker\", minutes=30)\nresult = gb.find_submission(\"ps1\", \"hacker\").total_seconds_late\ngb.close()\n",
+  "id": "OBS-0018"
+ },
+ {
+  "code": "gb = gradebook()\ngb.add_assignment(\"ps1\", duedate=when(\"2026-01-10 12:00:00\"))\ngb.add_student(\"hacker\")\ngb.add_submission(\"ps1\", \"hacker\")\ngb.grant_extension(\"ps1\", \"hacker\", days=2)\ngb.grant_extension(\"ps1\", \"hacker\", days=1)\nsubmission = gb.find_submission(\"ps1\", \"hacker\")\nresult = [seconds(submission.extension), str(submission.duedate)]\ngb.close()\n",
+  "id": "OBS-0019"
+ },
+ {
+  "code": "gb = gradebook()\ngb.add_assignment(\"ps1\", duedate=when(\"2026-01-10 12:00:00\"))\ngb.add_student(\"hacker\")\ngb.add_submission(\"ps1\", \"hacker\")\ngb.grant_extension(\"ps1\", \"hacker\", hours=5)\ngb.grant_extension(\"ps1\", \"hacker\", minutes=30)\nresult = seconds(gb.find_submission(\"ps1\", \"hacker\").extension)\ngb.close()\n",
+  "id": "OBS-0020"
+ },
+ {
+  "code": "from nbgrader.preprocessors import ClearSolutions\nanswer = cell(\"code\", \"x = 0\\n### BEGIN SOLUTION\\nx = 42\\n### END SOLUTION\\nprint(x)\", solution=True, grade_id=\"a\")\nplain = cell(\"code\", \"# BEGIN SOLUTION\\ny = 1\\n# END SOLUTION\", solution=True, grade_id=\"b\")\nresult = sources(run(ClearSolutions(), nb(answer, plain)))\n",
+  "id": "OBS-0021"
+ },
+ {
+  "code": "from nbgrader.preprocessors import ClearSolutions\nresult = ClearSolutions().code_stub[\"python\"]\n",
+  "id": "OBS-0022"
+ },
+ {
+  "code": "from traitlets.config import Config\nfrom nbgrader.preprocessors import ClearSolutions\ncfg = Config()\ncfg.ClearSolutions.begin_solution_delimeter = \"BEGIN MY SOLUTION\"\ncfg.ClearSolutions.end_solution_delimeter = \"END MY SOLUTION\"\ncfg.ClearSolutions.code_stub = {\"python\": \"# your code here\\nraise NotImplementedError\",\n                                \"javascript\": \"// your code here\\nthrow new Error();\"}\npython = nb(cell(\"code\", \"### BEGIN MY SOLUTION\\nz = 3\\n### END MY SOLUTION\", solution=True, grade_id=\"p\"))\nscript = nb(cell(\"code\", \"// BEGIN MY SOLUTION\\nconsole.log(bar);\\n// END MY SOLUTION\", solution=True, grade_id=\"j\"),\n            language=\"javascript\")\nresult = [sources(run(ClearSolutions(config=cfg), python)), sources(run(ClearSolutions(config=cfg), script))]\n",
+  "id": "OBS-0023"
+ },
+ {
+  "code": "from traitlets.config import Config\nfrom nbgrader.preprocessors import ClearSolutions\ncfg = Config()\ncfg.ClearSolutions.text_stub = \"Please replace this text with your response.\"\nanswer = cell(\"markdown\", \"Why?\\n### BEGIN SOLUTION\\nBecause.\\n### END SOLUTION\", grade=True, solution=True,\n              grade_id=\"w\", points=1.0)\nresult = sources(run(ClearSolutions(config=cfg), nb(answer)))\n",
+  "id": "OBS-0024"
+ },
+ {
+  "code": "from nbgrader.preprocessors import ClearHiddenTests\npre = ClearHiddenTests()\nvisible = cell(\"code\", \"assert squares(1) == [1]\\nassert squares(3) == [1, 4, 9]\", grade=True, grade_id=\"t\",\n               points=1.0, locked=True)\nresult = [pre.begin_test_delimeter, pre.end_test_delimeter, sources(run(pre, nb(visible)))]\n",
+  "id": "OBS-0025"
+ },
+ {
+  "code": "from traitlets.config import Config\nfrom nbgrader.preprocessors import ClearHiddenTests\ncfg = Config()\ncfg.ClearHiddenTests.begin_test_delimeter = \"VERBORGE TOESTE BEGIN\"\ncfg.ClearHiddenTests.end_test_delimeter = \"VERBORGE TOESTE EINDIG\"\npre = ClearHiddenTests(config=cfg)\nkept = cell(\"code\", \"### BEGIN HIDDEN TESTS\\nassert f(2) == 4\\n### END HIDDEN TESTS\", grade=True, grade_id=\"t\",\n            points=1.0, locked=True)\nresult = [pre.begin_test_delimeter, sources(run(pre, nb(kept)))]\n",
+  "id": "OBS-0026"
+ },
+ {
+  "code": "from nbgrader.nbgraderformat import MetadataValidator\ndef check(points):\n    return err(MetadataValidator().validate_nb, nb(cell(\"code\", \"assert True\", grade=True, grade_id=\"t\",\n                                                      points=points, locked=True)))\nresult = [check(0.0), check(2.5), check(-1.0)]\n",
+  "id": "OBS-0027"
+ },
+ {
+  "code": "from nbgrader.preprocessors import ComputeChecksums\nnotebook = nb(cell(\"code\", \"assert f(1) == 2\", grade=True, grade_id=\"t\", points=1.0, locked=True),\n              cell(\"markdown\", \"Answer here.\", grade=True, solution=True, grade_id=\"w\", points=1.0),\n              cell(\"markdown\", \"Plain text\"))\nrun(ComputeChecksums(), notebook)\nmetas = [raw(item.metadata.get(\"nbgrader\", {})) for item in notebook.cells]\nresult = [[sorted(meta) for meta in metas], [meta.get(\"cell_type\") for meta in metas]]\n",
+  "id": "OBS-0028"
+ },
+ {
+  "code": "from nbgrader.preprocessors import ComputeChecksums\noriginal = nb(cell(\"code\", \"assert f(1) == 2\", grade=True, grade_id=\"t\", points=1.0, locked=True))\nedited = nb(cell(\"code\", \"assert True\", grade=True, grade_id=\"t\", points=1.0, locked=True))\nsame_again = nb(cell(\"code\", \"assert f(1) == 2\", grade=True, grade_id=\"t\", points=1.0, locked=True))\nsums = [run(ComputeChecksums(), item).cells[0].metadata.nbgrader[\"checksum\"] for item in (original, edited, same_again)]\nresult = [{\"same\": [sums[0], sums[1]]}, {\"same\": [sums[0], sums[2]]}]\n",
+  "id": "OBS-0029"
+ },
+ {
+  "code": "ROOT, api, generated = course()\nrelease = load(os.path.join(ROOT, \"release\", \"ps1\", \"p1.ipynb\"))\nresult = [generated[\"success\"], listing(os.path.join(ROOT, \"release\")), sources(release)[:3],\n          [sorted(raw(item.metadata.get(\"nbgrader\", {}))) for item in release.cells]]\n",
+  "id": "OBS-0030"
+ },
+ {
+  "code": "ROOT, api, generated = course()\ngb = gradebook(os.path.join(ROOT, \"gradebook.db\"))\nassignment = gb.find_assignment(\"ps1\")\nresult = [[item.name for item in assignment.notebooks], assignment.max_score, assignment.max_code_score,\n          assignment.max_written_score, sorted(api.get_source_assignments())]\ngb.close()\n",
+  "id": "OBS-0031"
+ },
+ {
+  "code": "ROOT, api, generated = course()\nimport shutil\nstudent = os.path.join(ROOT, \"submitted\", \"hacker\", \"ps1\")\nos.makedirs(student)\nwork = load(os.path.join(ROOT, \"release\", \"ps1\", \"p1.ipynb\"))\nwork.cells[1].source = \"def add5(x):\\n    return x + 5\"\nwork.cells[3].source = \"It adds five.\"\nsave(os.path.join(student, \"p1.ipynb\"), work)\ngraded = api.autograde(\"ps1\", \"hacker\")\nout = load(os.path.join(ROOT, \"autograded\", \"hacker\", \"ps1\", \"p1.ipynb\"))\nstream = \"\".join(o.get(\"text\", \"\") for o in out.cells[2].outputs if o.get(\"output_type\") == \"stream\")\nsub = api.get_submission(\"ps1\", \"hacker\")\nresult = [graded[\"success\"], stream, sub[\"score\"], sub[\"code_score\"], sub[\"max_score\"], sub[\"needs_manual_grade\"]]\n",
+  "id": "OBS-0032"
+ },
+ {
+  "code": "ROOT, api, generated = course()\nstudent = os.path.join(ROOT, \"submitted\", \"bitdiddle\", \"ps1\")\nos.makedirs(student)\nwork = load(os.path.join(ROOT, \"release\", \"ps1\", \"p1.ipynb\"))\nwork.cells[1].source = \"def add5(x):\\n    return x + 4\"\nwork.cells[2].source = \"pass\"\nsave(os.path.join(student, \"p1.ipynb\"), work)\ngraded = api.autograde(\"ps1\", \"bitdiddle\")\nout = load(os.path.join(ROOT, \"autograded\", \"bitdiddle\", \"ps1\", \"p1.ipynb\"))\ngb = gradebook(os.path.join(ROOT, \"gradebook.db\"))\ngrade = gb.find_grade(\"test_add5\", \"p1\", \"ps1\", \"bitdiddle\")\nresult = [graded[\"success\"], out.cells[2].source.splitlines()[0], grade.auto_score, grade.score,\n          gb.find_submission(\"ps1\", \"bitdiddle\").code_score]\ngb.close()\n",
+  "id": "OBS-0033"
+ },
+ {
+  "code": "from nbgrader.preprocessors import ClearOutput\nfirst = cell(\"code\", \"print(1)\")\nfirst.outputs = [new_output(\"stream\", name=\"stdout\", text=\"1\\n\")]\nfirst.execution_count = 3\nsecond = cell(\"code\", \"2\")\nsecond.outputs = [new_output(\"execute_result\", data={\"text/plain\": \"2\"}, execution_count=4)]\nresult = [len(item.outputs) for item in run(ClearOutput(), nb(first, second)).cells]\n",
+  "id": "OBS-0034"
+ },
+ {
+  "code": "from traitlets.config import Config\nfrom nbconvert.exporters import NotebookExporter\ncfg = Config()\ncfg.Exporter.preprocessors = [\"nbgrader.preprocessors.ClearSolutions\"]\nnotebook = nb(cell(\"code\", \"### BEGIN SOLUTION\\nanswer = 6 * 7\\n### END SOLUTION\", solution=True, grade_id=\"q\"))\nbody, _ = NotebookExporter(config=cfg).from_notebook_node(notebook)\nresult = sources(nbformat.reads(body, as_version=4))\n",
+  "id": "OBS-0035"
+ },
+ {
+  "code": "from traitlets.config import Config\nfrom nbgrader.apps.api import NbGraderAPI\nfrom nbgrader.coursedir import CourseDirectory\nroot = os.path.abspath(\"course\")\nos.makedirs(root)\nwith open(os.path.join(root, \"autotests.yml\"), \"w\") as handle:\n    handle.write(\"\"\"python3:\n    setup: \"from hashlib import sha1\"\n    hash: 'sha1({{snippet}}.encode(\"utf-8\")+b\"{{salt}}\").hexdigest()'\n    dispatch: \"type({{snippet}})\"\n    normalize: \"str({{snippet}})\"\n    check: 'assert {{snippet}} == \\\"\\\"\\\"{{value}}\\\"\\\"\\\", \\\"\\\"\\\"{{message}}\\\"\\\"\\\"'\n    success: \"print('Success!')\"\n    templates:\n        default:\n            - test: \"type({{snippet}})\"\n              fail: \"type of {{snippet}} is not correct\"\n            - test: \"{{snippet}}\"\n              fail: \"value of {{snippet}} is not correct\"\n        int:\n            - test: \"type({{snippet}})\"\n              fail: \"type of {{snippet}} is not int\"\n            - test: \"{{snippet}}\"\n              fail: \"value of {{snippet}} is not correct\"\n\"\"\")\nsource = nb(cell(\"code\", \"### BEGIN SOLUTION\\ndef foo(x):\\n    return x + 5\\n### END SOLUTION\", solution=True,\n                 grade_id=\"foo\"),\n            cell(\"code\", \"### AUTOTEST foo(3)\", grade=True, grade_id=\"t_foo\", points=1.0, locked=True))\nsource.metadata[\"kernelspec\"] = {\"name\": \"python3\", \"display_name\": \"Python 3\", \"language\": \"python\"}\nsave(os.path.join(root, \"source\", \"ps1\", \"p1.ipynb\"), source)\ncfg = Config()\ncfg.CourseDirectory.root = root\ncfg.CourseDirectory.course_id = \"course101\"\nos.chdir(root)\ngenerated = NbGraderAPI(coursedir=CourseDirectory(config=cfg), config=cfg).generate_assignment(\"ps1\")\nrelease = load(os.path.join(root, \"release\", \"ps1\", \"p1.ipynb\"))\nresult = [generated[\"success\"], [line for line in release.cells[1].source.splitlines() if line.strip()]]\n",
+  "id": "OBS-0036"
+ },
+ {
+  "code": "from nbgrader.api import MissingEntry\ngb = gradebook()\ngb.add_assignment(\"ps1\")\ngb.add_notebook(\"p1\", \"ps1\")\ngb.add_grade_cell(\"g1\", \"p1\", \"ps1\", max_score=6.0, cell_type=\"code\")\ngb.add_grade_cell(\"g2\", \"p1\", \"ps1\", max_score=3.0, cell_type=\"markdown\")\ngb.add_student(\"hacker\")\ngb.add_student(\"bitdiddle\")\ngb.add_submission(\"ps1\", \"hacker\")\ngb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\").auto_score = 3.0\ngb.db.commit()\nrows = []\nfor assignment in gb.assignments:\n    for student in gb.students:\n        try:\n            score = gb.find_submission(assignment.name, student.id).score\n        except MissingEntry:\n            score = 0.0\n        rows.append([student.id, assignment.name, assignment.max_score, score])\nresult = sorted(rows)\ngb.close()\n",
+  "id": "OBS-0037"
+ },
+ {
+  "code": "gb = gradebook()\ngb.add_assignment(\"ps1\", duedate=when(\"2026-01-10 12:00:00\"))\nfor name in (\"early\", \"late\"):\n    gb.add_student(name)\ngb.add_submission(\"ps1\", \"early\", timestamp=\"2026-01-10 11:00:00\")\ngb.add_submission(\"ps1\", \"late\", timestamp=\"2026-01-10 14:30:00\")\nresult = [gb.find_submission(\"ps1\", name).total_seconds_late for name in (\"early\", \"late\")]\ngb.close()\n",
+  "id": "OBS-0038"
+ },
+ {
+  "code": "gb = gradebook()\ngb.add_assignment(\"ps1\", duedate=when(\"2026-01-10 12:00:00\"))\ngb.add_student(\"hacker\")\ngb.add_submission(\"ps1\", \"hacker\", timestamp=\"2026-01-10 13:00:00 America/Los_Angeles\")\nsubmission = gb.find_submission(\"ps1\", \"hacker\")\nresult = [str(submission.timestamp), submission.total_seconds_late]\ngb.close()\n",
+  "id": "OBS-0039"
+ },
+ {
+  "code": "gb = gradebook()\ngb.add_assignment(\"ps1\", duedate=when(\"2026-01-10 12:00:00\"))\ngb.add_student(\"hacker\")\ngb.add_submission(\"ps1\", \"hacker\")\ngb.grant_extension(\"ps1\", \"hacker\", days=1, hours=2)\nsubmission = gb.find_submission(\"ps1\", \"hacker\")\nfirst = [seconds(submission.extension), str(submission.duedate)]\ngb.grant_extension(\"ps1\", \"hacker\")\nsubmission = gb.find_submission(\"ps1\", \"hacker\")\nresult = [first, [seconds(submission.extension), str(submission.duedate)]]\ngb.close()\n",
+  "id": "OBS-0040"
+ },
+ {
+  "code": "gb = gradebook()\ngb.add_assignment(\"ps1\")\ngb.add_notebook(\"p1\", \"ps1\")\ngb.add_grade_cell(\"g1\", \"p1\", \"ps1\", max_score=3.0, cell_type=\"code\")\ngb.add_grade_cell(\"g2\", \"p1\", \"ps1\", max_score=2.0, cell_type=\"markdown\")\ngb.add_grade_cell(\"g3\", \"p1\", \"ps1\", max_score=1.0, cell_type=\"code\")\ngb.add_student(\"hacker\")\ngb.add_submission(\"ps1\", \"hacker\")\ngb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\").auto_score = 2.0\ngb.find_grade(\"g2\", \"p1\", \"ps1\", \"hacker\").manual_score = 1.5\ngb.db.commit()\ngrades = [gb.find_grade(name, \"p1\", \"ps1\", \"hacker\").score for name in (\"g1\", \"g2\", \"g3\")]\nnotebook = gb.find_submission_notebook(\"p1\", \"ps1\", \"hacker\")\nresult = [grades, notebook.score, notebook.max_score, notebook.code_score, notebook.written_score]\ngb.close()\n",
+  "id": "OBS-0041"
+ },
+ {
+  "code": "from nbgrader.preprocessors import SaveAutoGrades\ngb = gradebook()\none_cell_course(gb, points=3.0)\ngb.close()\nsubmitted = nb(cell(\"code\", \"assert True\", grade=True, grade_id=\"g1\", points=3.0, locked=True))\nrun(SaveAutoGrades(), submitted, res())\ngb = gradebook()\ngrade = gb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\")\nfirst = [grade.auto_score, grade.manual_score, grade.needs_manual_grade]\ngrade.manual_score = 2.0\ngb.db.commit()\ngb.close()\nrun(SaveAutoGrades(), submitted, res())\ngb = gradebook()\nresult = [first, gb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\").manual_score]\ngb.close()\n",
+  "id": "OBS-0042"
+ },
+ {
+  "code": "from nbgrader.plugins import LateSubmissionPlugin\nplugin = LateSubmissionPlugin(penalty_method=\"zero\")\nresult = [plugin.late_submission_penalty(\"hacker\", 4.0, 60.0), plugin.late_submission_penalty(\"hacker\", 1.5, 7200.0)]\n",
+  "id": "OBS-0043"
+ },
+ {
+  "code": "from traitlets.config import Config\nfrom nbgrader.preprocessors import AssignLatePenalties\ngb = gradebook()\none_cell_course(gb, points=3.0, duedate=when(\"2026-01-10 12:00:00\"))\ngb.find_submission(\"ps1\", \"hacker\").timestamp = when(\"2026-01-10 12:30:00\")\ngb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\").auto_score = 2.0\ngb.db.commit()\ngb.close()\ncfg = Config()\ncfg.LateSubmissionPlugin.penalty_method = \"zero\"\nrun(AssignLatePenalties(config=cfg), nb(cell(\"markdown\", \"x\")), res())\ngb = gradebook()\nresult = [gb.find_submission_notebook(\"p1\", \"ps1\", \"hacker\").late_submission_penalty,\n          gb.find_submission(\"ps1\", \"hacker\").late_submission_penalty]\ngb.close()\n",
+  "id": "OBS-0044"
+ },
+ {
+  "code": "import sys\nwith open(\"late.py\", \"w\") as handle:\n    handle.write(\"from nbgrader.plugins import BasePlugin\\n\\n\"\n                 \"class SubMarks(BasePlugin):\\n\"\n                 \"    def late_submission_penalty(self, student_id, score, total_seconds_late):\\n\"\n                 \"        hours_late = total_seconds_late / 3600\\n\"\n                 \"        return round(hours_late, 0)\\n\")\nsys.path.insert(0, os.getcwd())\nfrom traitlets.config import Config\nfrom nbgrader.preprocessors import AssignLatePenalties\ngb = gradebook()\none_cell_course(gb, points=5.0, duedate=when(\"2026-01-10 12:00:00\"))\ngb.find_submission(\"ps1\", \"hacker\").timestamp = when(\"2026-01-10 14:40:00\")\ngb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\").auto_score = 4.0\ngb.db.commit()\ngb.close()\ncfg = Config()\ncfg.AssignLatePenalties.plugin_class = \"late.SubMarks\"\nrun(AssignLatePenalties(config=cfg), nb(cell(\"markdown\", \"x\")), res())\ngb = gradebook()\nresult = gb.find_submission_notebook(\"p1\", \"ps1\", \"hacker\").late_submission_penalty\ngb.close()\n",
+  "id": "OBS-0045"
+ },
+ {
+  "code": "import zipfile\nfrom nbgrader.plugins import ExtractorPlugin\nos.makedirs(\"archive\")\nos.makedirs(\"extracted\")\nwith zipfile.ZipFile(os.path.join(\"archive\", \"ps1_hacker.zip\"), \"w\") as archive:\n    archive.writestr(\"problem1.ipynb\", \"{}\")\n    archive.writestr(\"data/sample.txt\", \"1 2 3\")\nwith open(os.path.join(\"archive\", \"notes.txt\"), \"w\") as handle:\n    handle.write(\"late\")\nExtractorPlugin().extract(os.path.abspath(\"archive\"), os.path.abspath(\"extracted\"))\nresult = listing(\"extracted\")\n",
+  "id": "OBS-0046"
+ },
+ {
+  "code": "from nbgrader.plugins import FileNameCollectorPlugin\nplugin = FileNameCollectorPlugin(named_regexp=r\".*_(?P<student_id>\\w+)_attempt_(?P<timestamp>[0-9\\-]+)_(?P<file_id>\\w+)\")\nhit = plugin.collect(os.path.abspath(\"ps1_hacker_attempt_2016-01-30-15-30-10_problem1.ipynb\"))\nmiss = plugin.collect(os.path.abspath(\"readme.ipynb\"))\nresult = [sorted(hit.items()), miss]\n",
+  "id": "OBS-0047"
+ },
+ {
+  "code": "from nbgrader.plugins import ExportPlugin\nclass Names(ExportPlugin):\n    def export(self, gradebook):\n        with open(self.to, \"w\") as handle:\n            handle.write(\",\".join(student.id for student in gradebook.students))\ngb = gradebook()\ngb.add_student(\"hacker\")\ngb.add_student(\"bitdiddle\")\nNames(to=\"names.csv\").export(gb)\nbase = err(ExportPlugin().export, gb)\ngb.close()\nresult = [open(\"names.csv\").read(), base]\n",
+  "id": "OBS-0048"
+ },
+ {
+  "code": "from nbgrader.coursedir import CourseDirectory\ncd = CourseDirectory(root=\"/srv/course101\")\nresult = [cd.format_path(cd.submitted_directory, \"hacker\", \"Problem Set 1\"),\n          cd.format_path(cd.autograded_directory, \"bitdiddle\", \"ps1\"),\n          [cd.source_directory, cd.release_directory, cd.submitted_directory, cd.autograded_directory,\n           cd.feedback_directory]]\n",
+  "id": "OBS-0049"
+ },
+ {
+  "code": "gb = gradebook()\ngb.add_student(\"hacker\", first_name=\"Alyssa\", last_name=\"Hacker\")\ngb.update_or_create_student(\"hacker\", email=\"alyssa@example.org\")\ngb.update_or_create_student(\"bitdiddle\", first_name=\"Ben\")\nstudent = gb.find_student(\"hacker\")\nbefore = [student.first_name, student.last_name, student.email, gb.find_student(\"bitdiddle\").first_name,\n          sorted(s.id for s in gb.students)]\ngb.remove_student(\"bitdiddle\")\nresult = [before, sorted(s.id for s in gb.students)]\ngb.close()\n",
+  "id": "OBS-0050"
+ },
+ {
+  "code": "gb = gradebook()\ngb.add_assignment(\"ps1\", duedate=when(\"2026-02-01 09:00:00\"))\ngb.add_notebook(\"p2\", \"ps1\")\ngb.add_notebook(\"p1\", \"ps1\")\ngb.add_grade_cell(\"a\", \"p1\", \"ps1\", max_score=2.0, cell_type=\"code\")\ngb.add_grade_cell(\"b\", \"p2\", \"ps1\", max_score=3.5, cell_type=\"markdown\")\nassignment = gb.find_assignment(\"ps1\")\nresult = [str(assignment.duedate), sorted(n.name for n in assignment.notebooks), assignment.max_score,\n          assignment.max_code_score, assignment.max_written_score]\ngb.close()\n",
+  "id": "OBS-0051"
+ },
+ {
+  "code": "gb = gradebook()\none_cell_course(gb)\nresult = [gb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\").needs_manual_grade,\n          gb.find_submission_notebook(\"p1\", \"ps1\", \"hacker\").needs_manual_grade,\n          gb.find_submission(\"ps1\", \"hacker\").needs_manual_grade]\ngb.close()\n",
+  "id": "OBS-0052"
+ },
+ {
+  "code": "gb = gradebook()\none_cell_course(gb)\ngb.find_grade(\"g1\", \"p1\", \"ps1\", \"hacker\").needs_manual_grade = False\ngb.db.commit()\nresult = [gb.find_submission_notebook(\"p1\", \"ps1\", \"hacker\").needs_manual_grade,\n          gb.find_submission(\"ps1\", \"hacker\").needs_manual_grade]\ngb.close()\n",
+  "id": "OBS-0053"
+ },
+ {
+  "code": "from nbgrader.dbutil import upgrade\ngb = gradebook()\ngb.add_student(\"hacker\")\ngb.close()\noutcome = err(upgrade, db_url())\ngb = gradebook()\nresult = [outcome, [s.id for s in gb.students]]\ngb.close()\n",
+  "id": "OBS-0054"
+ }
+]

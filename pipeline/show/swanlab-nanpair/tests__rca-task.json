@@ -1,0 +1,41 @@
+{
+  "format": "rca-task",
+  "version": 1,
+  "source": {
+    "repository": "https://github.com/SwanHubX/SwanLab.git",
+    "commit": "6d50bc3dd2ff16a76618755e8f857442c215f808",
+    "voyager": "SwanHubX__SwanLab.6d50bc3d"
+  },
+  "language": "python",
+  "test_command": "python -m pytest -p no:cacheprovider -q",
+  "strip": [
+    ".github",
+    ".pre-commit-config.yaml"
+  ],
+  "omit_tests": {
+    "globs": [
+      "**/tests/",
+      "**/test_*.py",
+      "**/*_test.py",
+      "**/conftest.py"
+    ],
+    "keep": []
+  },
+  "overlay": {
+    "path": "faults",
+    "files": {
+      "swanlab/deprecated/local.py": "1d817b3a52ddfb58a1a8ca4e7e1aaf9993481a2b6767ab1113ae92f4d2845c6e",
+      "swanlab/sdk/internal/run/transforms/scalar/__init__.py": "d3d33225ac2dbed268640c2786e835cf4fc96f1df70437cd309a6e86b1a10c99"
+    },
+    "removed": [],
+    "executable": []
+  },
+  "trees": {
+    "algorithm": "spec-drift-tree-v1",
+    "pristine": "690f34e59ff17c306745309a816b0d93db770b9d5416bb3a863da0bf6eda8f1b",
+    "solver": "d459b408fa0a3b7f77f8965a6325d3aadcf205e0f90666e9463411b4980f8f90"
+  },
+  "workspace": {
+    "root": "/workdir"
+  }
+}

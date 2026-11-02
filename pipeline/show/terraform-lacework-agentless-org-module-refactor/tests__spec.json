@@ -1,0 +1,1549 @@
+{
+ "schema": 1,
+ "modules": [
+  "network",
+  "data",
+  "identity",
+  "orchestration"
+ ],
+ "ownership": {
+  "aws_vpc.agentless_scan_vpc": "network",
+  "aws_subnet.agentless_scan_public_subnet": "network",
+  "aws_internet_gateway.agentless_scan_gateway": "network",
+  "aws_route_table.agentless_scan_route_table": "network",
+  "aws_route.agentless_scan_route": "network",
+  "aws_route_table_association.agentless_scan_route_table_association": "network",
+  "aws_default_security_group.default": "network",
+  "aws_security_group.agentless_scan_sec_group": "network",
+  "aws_flow_log.agentless_scan_vpc_flow_log": "network",
+  "aws_kms_key.agentless_scan_logs": "orchestration",
+  "aws_kms_alias.agentless_scan_logs": "orchestration",
+  "aws_ecs_cluster.agentless_scan_ecs_cluster": "orchestration",
+  "aws_cloudwatch_log_group.agentless_scan": "orchestration",
+  "aws_ecs_task_definition.agentless_scan": "orchestration",
+  "aws_cloudwatch_event_rule.agentless_scan": "orchestration",
+  "aws_cloudwatch_event_target.agentless_scan": "orchestration",
+  "aws_sns_topic.agentless_scan_alerts": "orchestration",
+  "aws_cloudwatch_metric_alarm.agentless_scan_failures": "orchestration",
+  "aws_iam_role.monitored_snapshot_role": "identity",
+  "aws_iam_policy.monitored_snapshot_policy": "identity",
+  "aws_iam_role_policy_attachment.monitored_snapshot_policy": "identity",
+  "aws_iam_role.agentless_scan_ecs_task_role": "identity",
+  "aws_iam_role.agentless_scan_ecs_execution_role": "identity",
+  "aws_iam_role.agentless_scan_ecs_event_role": "identity",
+  "aws_iam_role.agentless_scan_cross_account_role": "identity",
+  "aws_iam_policy.agentless_scan_task_policy": "identity",
+  "aws_iam_policy.agentless_allow_cloudwatch_policy": "identity",
+  "aws_iam_policy.agentless_s3_write_policy": "identity",
+  "aws_iam_policy.agentless_ecs_task_mgmt_policy": "identity",
+  "aws_iam_role_policy_attachment.agentless_scan_task_policy": "identity",
+  "aws_iam_role_policy_attachment.agentless_scan_execution_managed": "identity",
+  "aws_iam_role_policy_attachment.agentless_scan_cloudwatch": "identity",
+  "aws_iam_role_policy_attachment.agentless_scan_event_managed": "identity",
+  "aws_iam_role_policy_attachment.agentless_scan_s3_write": "identity",
+  "aws_iam_role_policy_attachment.agentless_scan_ecs_management": "identity",
+  "aws_s3_bucket.agentless_scan_bucket": "data",
+  "aws_s3_bucket_ownership_controls.agentless_scan_bucket": "data",
+  "aws_s3_bucket_public_access_block.agentless_scan_bucket": "data",
+  "aws_s3_bucket_server_side_encryption_configuration.agentless_scan_bucket": "data",
+  "aws_s3_bucket_versioning.agentless_scan_bucket": "data",
+  "aws_s3_bucket_lifecycle_configuration.agentless_scan_bucket": "data",
+  "aws_s3_bucket_policy.agentless_scan_bucket": "data",
+  "aws_secretsmanager_secret.agentless_scan_secret": "data",
+  "aws_secretsmanager_secret_version.agentless_scan_secret": "data"
+ },
+ "direct_modules": true,
+ "no_count": true,
+ "key_dimensions": {
+  "region": {
+   "variable": "scanning_regions",
+   "keys": {
+    "aws_vpc.agentless_scan_vpc[0]": "us-west-2",
+    "aws_subnet.agentless_scan_public_subnet[0]": "us-west-2",
+    "aws_internet_gateway.agentless_scan_gateway[0]": "us-west-2",
+    "aws_route_table.agentless_scan_route_table[0]": "us-west-2",
+    "aws_route.agentless_scan_route[0]": "us-west-2",
+    "aws_route_table_association.agentless_scan_route_table_association[0]": "us-west-2",
+    "aws_default_security_group.default[0]": "us-west-2",
+    "aws_security_group.agentless_scan_sec_group[0]": "us-west-2",
+    "aws_flow_log.agentless_scan_vpc_flow_log[0]": "us-west-2",
+    "aws_kms_key.agentless_scan_logs[0]": "us-west-2",
+    "aws_kms_alias.agentless_scan_logs[0]": "us-west-2",
+    "aws_ecs_cluster.agentless_scan_ecs_cluster[0]": "us-west-2",
+    "aws_cloudwatch_log_group.agentless_scan[0]": "us-west-2",
+    "aws_ecs_task_definition.agentless_scan[0]": "us-west-2",
+    "aws_cloudwatch_event_rule.agentless_scan[0]": "us-west-2",
+    "aws_cloudwatch_event_target.agentless_scan[0]": "us-west-2",
+    "aws_sns_topic.agentless_scan_alerts[0]": "us-west-2",
+    "aws_cloudwatch_metric_alarm.agentless_scan_failures[0]": "us-west-2",
+    "aws_vpc.agentless_scan_vpc[1]": "eu-west-1",
+    "aws_subnet.agentless_scan_public_subnet[1]": "eu-west-1",
+    "aws_internet_gateway.agentless_scan_gateway[1]": "eu-west-1",
+    "aws_route_table.agentless_scan_route_table[1]": "eu-west-1",
+    "aws_route.agentless_scan_route[1]": "eu-west-1",
+    "aws_route_table_association.agentless_scan_route_table_association[1]": "eu-west-1",
+    "aws_default_security_group.default[1]": "eu-west-1",
+    "aws_security_group.agentless_scan_sec_group[1]": "eu-west-1",
+    "aws_flow_log.agentless_scan_vpc_flow_log[1]": "eu-west-1",
+    "aws_kms_key.agentless_scan_logs[1]": "eu-west-1",
+    "aws_kms_alias.agentless_scan_logs[1]": "eu-west-1",
+    "aws_ecs_cluster.agentless_scan_ecs_cluster[1]": "eu-west-1",
+    "aws_cloudwatch_log_group.agentless_scan[1]": "eu-west-1",
+    "aws_ecs_task_definition.agentless_scan[1]": "eu-west-1",
+    "aws_cloudwatch_event_rule.agentless_scan[1]": "eu-west-1",
+    "aws_cloudwatch_event_target.agentless_scan[1]": "eu-west-1",
+    "aws_sns_topic.agentless_scan_alerts[1]": "eu-west-1",
+    "aws_cloudwatch_metric_alarm.agentless_scan_failures[1]": "eu-west-1",
+    "aws_vpc.agentless_scan_vpc[2]": "us-east-1",
+    "aws_subnet.agentless_scan_public_subnet[2]": "us-east-1",
+    "aws_internet_gateway.agentless_scan_gateway[2]": "us-east-1",
+    "aws_route_table.agentless_scan_route_table[2]": "us-east-1",
+    "aws_route.agentless_scan_route[2]": "us-east-1",
+    "aws_route_table_association.agentless_scan_route_table_association[2]": "us-east-1",
+    "aws_default_security_group.default[2]": "us-east-1",
+    "aws_security_group.agentless_scan_sec_group[2]": "us-east-1",
+    "aws_flow_log.agentless_scan_vpc_flow_log[2]": "us-east-1",
+    "aws_kms_key.agentless_scan_logs[2]": "us-east-1",
+    "aws_kms_alias.agentless_scan_logs[2]": "us-east-1",
+    "aws_ecs_cluster.agentless_scan_ecs_cluster[2]": "us-east-1",
+    "aws_cloudwatch_log_group.agentless_scan[2]": "us-east-1",
+    "aws_ecs_task_definition.agentless_scan[2]": "us-east-1",
+    "aws_cloudwatch_event_rule.agentless_scan[2]": "us-east-1",
+    "aws_cloudwatch_event_target.agentless_scan[2]": "us-east-1",
+    "aws_sns_topic.agentless_scan_alerts[2]": "us-east-1",
+    "aws_cloudwatch_metric_alarm.agentless_scan_failures[2]": "us-east-1",
+    "aws_vpc.agentless_scan_vpc[3]": "ap-northeast-1",
+    "aws_subnet.agentless_scan_public_subnet[3]": "ap-northeast-1",
+    "aws_internet_gateway.agentless_scan_gateway[3]": "ap-northeast-1",
+    "aws_route_table.agentless_scan_route_table[3]": "ap-northeast-1",
+    "aws_route.agentless_scan_route[3]": "ap-northeast-1",
+    "aws_route_table_association.agentless_scan_route_table_association[3]": "ap-northeast-1",
+    "aws_default_security_group.default[3]": "ap-northeast-1",
+    "aws_security_group.agentless_scan_sec_group[3]": "ap-northeast-1",
+    "aws_flow_log.agentless_scan_vpc_flow_log[3]": "ap-northeast-1",
+    "aws_kms_key.agentless_scan_logs[3]": "ap-northeast-1",
+    "aws_kms_alias.agentless_scan_logs[3]": "ap-northeast-1",
+    "aws_ecs_cluster.agentless_scan_ecs_cluster[3]": "ap-northeast-1",
+    "aws_cloudwatch_log_group.agentless_scan[3]": "ap-northeast-1",
+    "aws_ecs_task_definition.agentless_scan[3]": "ap-northeast-1",
+    "aws_cloudwatch_event_rule.agentless_scan[3]": "ap-northeast-1",
+    "aws_cloudwatch_event_target.agentless_scan[3]": "ap-northeast-1",
+    "aws_sns_topic.agentless_scan_alerts[3]": "ap-northeast-1",
+    "aws_cloudwatch_metric_alarm.agentless_scan_failures[3]": "ap-northeast-1",
+    "aws_vpc.agentless_scan_vpc[4]": "ca-central-1",
+    "aws_subnet.agentless_scan_public_subnet[4]": "ca-central-1",
+    "aws_internet_gateway.agentless_scan_gateway[4]": "ca-central-1",
+    "aws_route_table.agentless_scan_route_table[4]": "ca-central-1",
+    "aws_route.agentless_scan_route[4]": "ca-central-1",
+    "aws_route_table_association.agentless_scan_route_table_association[4]": "ca-central-1",
+    "aws_default_security_group.default[4]": "ca-central-1",
+    "aws_security_group.agentless_scan_sec_group[4]": "ca-central-1",
+    "aws_flow_log.agentless_scan_vpc_flow_log[4]": "ca-central-1",
+    "aws_kms_key.agentless_scan_logs[4]": "ca-central-1",
+    "aws_kms_alias.agentless_scan_logs[4]": "ca-central-1",
+    "aws_ecs_cluster.agentless_scan_ecs_cluster[4]": "ca-central-1",
+    "aws_cloudwatch_log_group.agentless_scan[4]": "ca-central-1",
+    "aws_ecs_task_definition.agentless_scan[4]": "ca-central-1",
+    "aws_cloudwatch_event_rule.agentless_scan[4]": "ca-central-1",
+    "aws_cloudwatch_event_target.agentless_scan[4]": "ca-central-1",
+    "aws_sns_topic.agentless_scan_alerts[4]": "ca-central-1",
+    "aws_cloudwatch_metric_alarm.agentless_scan_failures[4]": "ca-central-1",
+    "aws_vpc.agentless_scan_vpc[5]": "eu-central-1",
+    "aws_subnet.agentless_scan_public_subnet[5]": "eu-central-1",
+    "aws_internet_gateway.agentless_scan_gateway[5]": "eu-central-1",
+    "aws_route_table.agentless_scan_route_table[5]": "eu-central-1",
+    "aws_route.agentless_scan_route[5]": "eu-central-1",
+    "aws_route_table_association.agentless_scan_route_table_association[5]": "eu-central-1",
+    "aws_default_security_group.default[5]": "eu-central-1",
+    "aws_security_group.agentless_scan_sec_group[5]": "eu-central-1",
+    "aws_flow_log.agentless_scan_vpc_flow_log[5]": "eu-central-1",
+    "aws_kms_key.agentless_scan_logs[5]": "eu-central-1",
+    "aws_kms_alias.agentless_scan_logs[5]": "eu-central-1",
+    "aws_ecs_cluster.agentless_scan_ecs_cluster[5]": "eu-central-1",
+    "aws_cloudwatch_log_group.agentless_scan[5]": "eu-central-1",
+    "aws_ecs_task_definition.agentless_scan[5]": "eu-central-1",
+    "aws_cloudwatch_event_rule.agentless_scan[5]": "eu-central-1",
+    "aws_cloudwatch_event_target.agentless_scan[5]": "eu-central-1",
+    "aws_sns_topic.agentless_scan_alerts[5]": "eu-central-1",
+    "aws_cloudwatch_metric_alarm.agentless_scan_failures[5]": "eu-central-1",
+    "aws_cloudwatch_metric_alarm.agentless_scan_failures[6]": null
+   },
+   "add": {
+    "key": "ap-southeast-2",
+    "value": {
+     "vpc_cidr": "10.72.96.0/20",
+     "subnet_cidr": "10.72.96.0/24",
+     "priority": 35
+    },
+    "created_values": [
+     {
+      "base": "aws_vpc.agentless_scan_vpc",
+      "attr": "cidr_block",
+      "value": "10.72.96.0/20"
+     },
+     {
+      "base": "aws_subnet.agentless_scan_public_subnet",
+      "attr": "cidr_block",
+      "value": "10.72.96.0/24"
+     },
+     {
+      "base": "aws_kms_key.agentless_scan_logs",
+      "attr": "description",
+      "value": "lacework-prod agentless logs for ap-southeast-2 at rollout priority 35"
+     }
+    ]
+   },
+   "remove": "us-west-2",
+   "allowed_updates": {
+    "aws_iam_policy.agentless_scan_task_policy": [
+     "policy"
+    ],
+    "aws_iam_policy.agentless_ecs_task_mgmt_policy": [
+     "policy"
+    ],
+    "aws_cloudwatch_metric_alarm.agentless_scan_failures[6]": [
+     "alarm_actions"
+    ]
+   },
+   "required_updates": {
+    "aws_iam_policy.agentless_scan_task_policy": [
+     "policy"
+    ],
+    "aws_iam_policy.agentless_ecs_task_mgmt_policy": [
+     "policy"
+    ],
+    "aws_cloudwatch_metric_alarm.agentless_scan_failures[6]": [
+     "alarm_actions"
+    ]
+   }
+  },
+  "account": {
+   "variable": "monitored_accounts",
+   "keys": {
+    "aws_iam_role.monitored_snapshot_role[0]": "payments",
+    "aws_iam_policy.monitored_snapshot_policy[0]": "payments",
+    "aws_iam_role_policy_attachment.monitored_snapshot_policy[0]": "payments",
+    "aws_iam_role.monitored_snapshot_role[1]": "shared-services",
+    "aws_iam_policy.monitored_snapshot_policy[1]": "shared-services",
+    "aws_iam_role_policy_attachment.monitored_snapshot_policy[1]": "shared-services",
+    "aws_iam_role.monitored_snapshot_role[2]": "analytics",
+    "aws_iam_policy.monitored_snapshot_policy[2]": "analytics",
+    "aws_iam_role_policy_attachment.monitored_snapshot_policy[2]": "analytics",
+    "aws_iam_role.monitored_snapshot_role[3]": "commerce",
+    "aws_iam_policy.monitored_snapshot_policy[3]": "commerce",
+    "aws_iam_role_policy_attachment.monitored_snapshot_policy[3]": "commerce",
+    "aws_iam_role.monitored_snapshot_role[4]": "identity",
+    "aws_iam_policy.monitored_snapshot_policy[4]": "identity",
+    "aws_iam_role_policy_attachment.monitored_snapshot_policy[4]": "identity",
+    "aws_iam_role.monitored_snapshot_role[5]": "management",
+    "aws_iam_policy.monitored_snapshot_policy[5]": "management",
+    "aws_iam_role_policy_attachment.monitored_snapshot_policy[5]": "management"
+   },
+   "add": {
+    "key": "research-archive",
+    "value": {
+     "account_id": "777788889999",
+     "priority": 35
+    },
+    "created_values": [
+     {
+      "base": "aws_iam_policy.monitored_snapshot_policy",
+      "attr": "description",
+      "value": "lacework-prod snapshot policy for research-archive at rollout priority 35"
+     },
+     {
+      "base": "aws_iam_policy.monitored_snapshot_policy",
+      "attr": "policy",
+      "value": {
+       "Version": "2012-10-17",
+       "Statement": [
+        {
+         "Sid": "LaceworkProdDescribeResearchArchive",
+         "Effect": "Allow",
+         "Action": [
+          "ec2:DescribeInstances",
+          "ec2:DescribeSnapshots",
+          "organizations:DescribeAccount"
+         ],
+         "Resource": "*",
+         "Condition": {
+          "StringEquals": {
+           "aws:ResourceAccount": "777788889999"
+          }
+         }
+        },
+        {
+         "Sid": "LaceworkProdSnapshotsResearchArchive",
+         "Effect": "Allow",
+         "Action": [
+          "ec2:CreateSnapshot",
+          "ec2:DeleteSnapshot",
+          "ec2:CreateTags"
+         ],
+         "Resource": "*"
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "remove": "payments",
+   "allowed_updates": {
+    "aws_iam_policy.agentless_scan_task_policy": [
+     "policy"
+    ]
+   },
+   "required_updates": {
+    "aws_iam_policy.agentless_scan_task_policy": [
+     "policy"
+    ]
+   }
+  }
+ },
+ "variables": {
+  "project": {
+   "default": "lacework",
+   "type": "string"
+  },
+  "environment": {
+   "default": "prod",
+   "type": "string"
+  },
+  "scanning_regions": {
+   "default": {
+    "us-west-2": {
+     "vpc_cidr": "10.72.0.0/20",
+     "subnet_cidr": "10.72.0.0/24",
+     "priority": 10
+    },
+    "eu-west-1": {
+     "vpc_cidr": "10.72.16.0/20",
+     "subnet_cidr": "10.72.16.0/24",
+     "priority": 20
+    },
+    "us-east-1": {
+     "vpc_cidr": "10.72.32.0/20",
+     "subnet_cidr": "10.72.32.0/24",
+     "priority": 30
+    },
+    "ap-northeast-1": {
+     "vpc_cidr": "10.72.48.0/20",
+     "subnet_cidr": "10.72.48.0/24",
+     "priority": 40
+    },
+    "ca-central-1": {
+     "vpc_cidr": "10.72.64.0/20",
+     "subnet_cidr": "10.72.64.0/24",
+     "priority": 50
+    },
+    "eu-central-1": {
+     "vpc_cidr": "10.72.80.0/20",
+     "subnet_cidr": "10.72.80.0/24",
+     "priority": 60
+    }
+   },
+   "type": "map(object({ vpc_cidr = string, subnet_cidr = string, priority = number }))"
+  },
+  "monitored_accounts": {
+   "default": {
+    "payments": {
+     "account_id": "111122223333",
+     "priority": 10
+    },
+    "shared-services": {
+     "account_id": "222233334444",
+     "priority": 20
+    },
+    "analytics": {
+     "account_id": "333344445555",
+     "priority": 30
+    },
+    "commerce": {
+     "account_id": "444455556666",
+     "priority": 40
+    },
+    "identity": {
+     "account_id": "555566667777",
+     "priority": 50
+    },
+    "management": {
+     "account_id": "666677778888",
+     "priority": 60
+    }
+   },
+   "type": "map(object({ account_id = string, priority = number }))"
+  },
+  "tags": {
+   "default": {
+    "Owner": "cloud-security",
+    "CostCenter": "sec-2048",
+    "ManagedBy": "terraform",
+    "Compliance": "soc2"
+   },
+   "type": "map(string)"
+  },
+  "bucket_force_destroy": {
+   "default": true,
+   "type": "bool"
+  },
+  "bucket_sse_algorithm": {
+   "default": "AES256",
+   "type": "string"
+  },
+  "work_expiration_days": {
+   "default": 7,
+   "type": "number"
+  },
+  "scan_expiration_days": {
+   "default": 30,
+   "type": "number"
+  },
+  "secret_recovery_days": {
+   "default": 7,
+   "type": "number"
+  },
+  "long_session_duration": {
+   "default": 43200,
+   "type": "number"
+  },
+  "short_session_duration": {
+   "default": 3600,
+   "type": "number"
+  },
+  "task_cpu": {
+   "default": 2048,
+   "type": "number"
+  },
+  "task_memory": {
+   "default": 4096,
+   "type": "number"
+  },
+  "container_image": {
+   "default": "public.ecr.aws/p5r4i7k7/sidekick:latest",
+   "type": "string"
+  },
+  "log_retention_days": {
+   "default": 30,
+   "type": "number"
+  },
+  "kms_deletion_window_days": {
+   "default": 14,
+   "type": "number"
+  },
+  "scan_schedule": {
+   "default": "rate(1 hour)",
+   "type": "string"
+  },
+  "event_task_count": {
+   "default": 1,
+   "type": "number"
+  },
+  "alarm_period_seconds": {
+   "default": 300,
+   "type": "number"
+  },
+  "alarm_threshold": {
+   "default": 1,
+   "type": "number"
+  },
+  "alarm_evaluation_periods": {
+   "default": 2,
+   "type": "number"
+  },
+  "alarm_treat_missing_data": {
+   "default": "notBreaching",
+   "type": "string"
+  }
+ },
+ "probes": [
+  {
+   "name": "add_region",
+   "kind": "key_add",
+   "dimension": "region",
+   "update_values": {
+    "aws_iam_policy.agentless_scan_task_policy": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::lacework-prod-agentless-scans\",\"arn:aws:s3:::lacework-prod-agentless-scans/*\"],\"Sid\":\"LaceworkProdBucket\"},{\"Action\":[\"ecs:RunTask\",\"ecs:StopTask\",\"ecs:DescribeTasks\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-west-2-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-west-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-east-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ap-southeast-2-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ap-northeast-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ca-central-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-central-1-cluster/*\"],\"Sid\":\"LaceworkProdRegionalClusters\"},{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:iam::111122223333:role/lacework-prod-agentless-payments-snapshot-role\",\"arn:aws:iam::222233334444:role/lacework-prod-agentless-shared-services-snapshot-role\",\"arn:aws:iam::333344445555:role/lacework-prod-agentless-analytics-snapshot-role\",\"arn:aws:iam::444455556666:role/lacework-prod-agentless-commerce-snapshot-role\",\"arn:aws:iam::555566667777:role/lacework-prod-agentless-identity-snapshot-role\",\"arn:aws:iam::666677778888:role/lacework-prod-agentless-management-snapshot-role\"],\"Sid\":\"LaceworkProdMonitoredAccounts\"}],\"Version\":\"2012-10-17\"}",
+      "unknown": null,
+      "filled": {
+       "after": "{\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::lacework-prod-agentless-scans\",\"arn:aws:s3:::lacework-prod-agentless-scans/*\"],\"Sid\":\"LaceworkProdBucket\"},{\"Action\":[\"ecs:RunTask\",\"ecs:StopTask\",\"ecs:DescribeTasks\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-west-2-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-west-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-east-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ap-southeast-2-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ap-northeast-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ca-central-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-central-1-cluster/*\"],\"Sid\":\"LaceworkProdRegionalClusters\"},{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:iam::111122223333:role/lacework-prod-agentless-payments-snapshot-role\",\"arn:aws:iam::222233334444:role/lacework-prod-agentless-shared-services-snapshot-role\",\"arn:aws:iam::333344445555:role/lacework-prod-agentless-analytics-snapshot-role\",\"arn:aws:iam::444455556666:role/lacework-prod-agentless-commerce-snapshot-role\",\"arn:aws:iam::555566667777:role/lacework-prod-agentless-identity-snapshot-role\",\"arn:aws:iam::666677778888:role/lacework-prod-agentless-management-snapshot-role\"],\"Sid\":\"LaceworkProdMonitoredAccounts\"}],\"Version\":\"2012-10-17\"}",
+       "unknown": null
+      }
+     }
+    },
+    "aws_iam_policy.agentless_ecs_task_mgmt_policy": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"ecs:RunTask\",\"ecs:StopTask\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-us-west-2-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-eu-west-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-us-east-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-ap-southeast-2-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-ap-northeast-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-ca-central-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-eu-central-1-cluster:*\"],\"Sid\":\"LaceworkProdRegionalTaskManagement\"}],\"Version\":\"2012-10-17\"}",
+      "unknown": null,
+      "filled": {
+       "after": "{\"Statement\":[{\"Action\":[\"ecs:RunTask\",\"ecs:StopTask\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-us-west-2-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-eu-west-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-us-east-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-ap-southeast-2-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-ap-northeast-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-ca-central-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-eu-central-1-cluster:*\"],\"Sid\":\"LaceworkProdRegionalTaskManagement\"}],\"Version\":\"2012-10-17\"}",
+       "unknown": null
+      }
+     }
+    },
+    "aws_cloudwatch_metric_alarm.agentless_scan_failures[6]": {
+     "alarm_actions": {
+      "after": null,
+      "unknown": true,
+      "filled": {
+       "after": [
+        "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-ap-northeast-1-alerts",
+        "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-ap-southeast-2-alerts",
+        "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-ca-central-1-alerts",
+        "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-eu-central-1-alerts",
+        "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-eu-west-1-alerts",
+        "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-us-east-1-alerts",
+        "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-us-west-2-alerts"
+       ],
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_region",
+   "kind": "key_remove",
+   "dimension": "region",
+   "update_values": {
+    "aws_iam_policy.agentless_scan_task_policy": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::lacework-prod-agentless-scans\",\"arn:aws:s3:::lacework-prod-agentless-scans/*\"],\"Sid\":\"LaceworkProdBucket\"},{\"Action\":[\"ecs:RunTask\",\"ecs:StopTask\",\"ecs:DescribeTasks\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-west-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-east-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ap-northeast-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ca-central-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-central-1-cluster/*\"],\"Sid\":\"LaceworkProdRegionalClusters\"},{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:iam::111122223333:role/lacework-prod-agentless-payments-snapshot-role\",\"arn:aws:iam::222233334444:role/lacework-prod-agentless-shared-services-snapshot-role\",\"arn:aws:iam::333344445555:role/lacework-prod-agentless-analytics-snapshot-role\",\"arn:aws:iam::444455556666:role/lacework-prod-agentless-commerce-snapshot-role\",\"arn:aws:iam::555566667777:role/lacework-prod-agentless-identity-snapshot-role\",\"arn:aws:iam::666677778888:role/lacework-prod-agentless-management-snapshot-role\"],\"Sid\":\"LaceworkProdMonitoredAccounts\"}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_iam_policy.agentless_ecs_task_mgmt_policy": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"ecs:RunTask\",\"ecs:StopTask\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-eu-west-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-us-east-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-ap-northeast-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-ca-central-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-eu-central-1-cluster:*\"],\"Sid\":\"LaceworkProdRegionalTaskManagement\"}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_cloudwatch_metric_alarm.agentless_scan_failures[6]": {
+     "alarm_actions": {
+      "after": [
+       "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-ap-northeast-1-alerts",
+       "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-ca-central-1-alerts",
+       "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-eu-central-1-alerts",
+       "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-eu-west-1-alerts",
+       "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-us-east-1-alerts"
+      ],
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "update_region_networks",
+   "kind": "key_update",
+   "dimension": "region",
+   "updates": {
+    "us-west-2": {
+     "vpc_cidr": "10.73.0.0/20",
+     "subnet_cidr": "10.73.0.0/24",
+     "priority": 65
+    },
+    "eu-west-1": {
+     "vpc_cidr": "10.73.16.0/20",
+     "subnet_cidr": "10.73.16.0/24",
+     "priority": 55
+    },
+    "us-east-1": {
+     "vpc_cidr": "10.73.32.0/20",
+     "subnet_cidr": "10.73.32.0/24",
+     "priority": 45
+    },
+    "ap-northeast-1": {
+     "vpc_cidr": "10.73.48.0/20",
+     "subnet_cidr": "10.73.48.0/24",
+     "priority": 35
+    },
+    "ca-central-1": {
+     "vpc_cidr": "10.73.64.0/20",
+     "subnet_cidr": "10.73.64.0/24",
+     "priority": 25
+    },
+    "eu-central-1": {
+     "vpc_cidr": "10.73.80.0/20",
+     "subnet_cidr": "10.73.80.0/24",
+     "priority": 15
+    }
+   },
+   "expect": [
+    {
+     "key": "us-west-2",
+     "base": "aws_kms_key.agentless_scan_logs",
+     "attr": "description",
+     "value": "lacework-prod agentless logs for us-west-2 at rollout priority 65"
+    },
+    {
+     "key": "eu-west-1",
+     "base": "aws_kms_key.agentless_scan_logs",
+     "attr": "description",
+     "value": "lacework-prod agentless logs for eu-west-1 at rollout priority 55"
+    },
+    {
+     "key": "us-east-1",
+     "base": "aws_kms_key.agentless_scan_logs",
+     "attr": "description",
+     "value": "lacework-prod agentless logs for us-east-1 at rollout priority 45"
+    },
+    {
+     "key": "ap-northeast-1",
+     "base": "aws_kms_key.agentless_scan_logs",
+     "attr": "description",
+     "value": "lacework-prod agentless logs for ap-northeast-1 at rollout priority 35"
+    },
+    {
+     "key": "ca-central-1",
+     "base": "aws_kms_key.agentless_scan_logs",
+     "attr": "description",
+     "value": "lacework-prod agentless logs for ca-central-1 at rollout priority 25"
+    },
+    {
+     "key": "eu-central-1",
+     "base": "aws_kms_key.agentless_scan_logs",
+     "attr": "description",
+     "value": "lacework-prod agentless logs for eu-central-1 at rollout priority 15"
+    },
+    {
+     "key": "us-west-2",
+     "base": "aws_vpc.agentless_scan_vpc",
+     "attr": "cidr_block",
+     "value": "10.73.0.0/20"
+    },
+    {
+     "key": "us-west-2",
+     "base": "aws_subnet.agentless_scan_public_subnet",
+     "attr": "cidr_block",
+     "value": "10.73.0.0/24"
+    },
+    {
+     "key": "eu-west-1",
+     "base": "aws_vpc.agentless_scan_vpc",
+     "attr": "cidr_block",
+     "value": "10.73.16.0/20"
+    },
+    {
+     "key": "eu-west-1",
+     "base": "aws_subnet.agentless_scan_public_subnet",
+     "attr": "cidr_block",
+     "value": "10.73.16.0/24"
+    },
+    {
+     "key": "us-east-1",
+     "base": "aws_vpc.agentless_scan_vpc",
+     "attr": "cidr_block",
+     "value": "10.73.32.0/20"
+    },
+    {
+     "key": "us-east-1",
+     "base": "aws_subnet.agentless_scan_public_subnet",
+     "attr": "cidr_block",
+     "value": "10.73.32.0/24"
+    },
+    {
+     "key": "ap-northeast-1",
+     "base": "aws_vpc.agentless_scan_vpc",
+     "attr": "cidr_block",
+     "value": "10.73.48.0/20"
+    },
+    {
+     "key": "ap-northeast-1",
+     "base": "aws_subnet.agentless_scan_public_subnet",
+     "attr": "cidr_block",
+     "value": "10.73.48.0/24"
+    },
+    {
+     "key": "ca-central-1",
+     "base": "aws_vpc.agentless_scan_vpc",
+     "attr": "cidr_block",
+     "value": "10.73.64.0/20"
+    },
+    {
+     "key": "ca-central-1",
+     "base": "aws_subnet.agentless_scan_public_subnet",
+     "attr": "cidr_block",
+     "value": "10.73.64.0/24"
+    },
+    {
+     "key": "eu-central-1",
+     "base": "aws_vpc.agentless_scan_vpc",
+     "attr": "cidr_block",
+     "value": "10.73.80.0/20"
+    },
+    {
+     "key": "eu-central-1",
+     "base": "aws_subnet.agentless_scan_public_subnet",
+     "attr": "cidr_block",
+     "value": "10.73.80.0/24"
+    }
+   ],
+   "reference_replaced": [
+    "aws_default_security_group.default[0]",
+    "aws_default_security_group.default[1]",
+    "aws_default_security_group.default[2]",
+    "aws_default_security_group.default[3]",
+    "aws_default_security_group.default[4]",
+    "aws_default_security_group.default[5]",
+    "aws_ecs_task_definition.agentless_scan[0]",
+    "aws_ecs_task_definition.agentless_scan[1]",
+    "aws_ecs_task_definition.agentless_scan[2]",
+    "aws_ecs_task_definition.agentless_scan[3]",
+    "aws_ecs_task_definition.agentless_scan[4]",
+    "aws_ecs_task_definition.agentless_scan[5]",
+    "aws_flow_log.agentless_scan_vpc_flow_log[0]",
+    "aws_flow_log.agentless_scan_vpc_flow_log[1]",
+    "aws_flow_log.agentless_scan_vpc_flow_log[2]",
+    "aws_flow_log.agentless_scan_vpc_flow_log[3]",
+    "aws_flow_log.agentless_scan_vpc_flow_log[4]",
+    "aws_flow_log.agentless_scan_vpc_flow_log[5]",
+    "aws_route.agentless_scan_route[0]",
+    "aws_route.agentless_scan_route[1]",
+    "aws_route.agentless_scan_route[2]",
+    "aws_route.agentless_scan_route[3]",
+    "aws_route.agentless_scan_route[4]",
+    "aws_route.agentless_scan_route[5]",
+    "aws_route_table.agentless_scan_route_table[0]",
+    "aws_route_table.agentless_scan_route_table[1]",
+    "aws_route_table.agentless_scan_route_table[2]",
+    "aws_route_table.agentless_scan_route_table[3]",
+    "aws_route_table.agentless_scan_route_table[4]",
+    "aws_route_table.agentless_scan_route_table[5]",
+    "aws_route_table_association.agentless_scan_route_table_association[0]",
+    "aws_route_table_association.agentless_scan_route_table_association[1]",
+    "aws_route_table_association.agentless_scan_route_table_association[2]",
+    "aws_route_table_association.agentless_scan_route_table_association[3]",
+    "aws_route_table_association.agentless_scan_route_table_association[4]",
+    "aws_route_table_association.agentless_scan_route_table_association[5]",
+    "aws_security_group.agentless_scan_sec_group[0]",
+    "aws_security_group.agentless_scan_sec_group[1]",
+    "aws_security_group.agentless_scan_sec_group[2]",
+    "aws_security_group.agentless_scan_sec_group[3]",
+    "aws_security_group.agentless_scan_sec_group[4]",
+    "aws_security_group.agentless_scan_sec_group[5]",
+    "aws_subnet.agentless_scan_public_subnet[0]",
+    "aws_subnet.agentless_scan_public_subnet[1]",
+    "aws_subnet.agentless_scan_public_subnet[2]",
+    "aws_subnet.agentless_scan_public_subnet[3]",
+    "aws_subnet.agentless_scan_public_subnet[4]",
+    "aws_subnet.agentless_scan_public_subnet[5]",
+    "aws_vpc.agentless_scan_vpc[0]",
+    "aws_vpc.agentless_scan_vpc[1]",
+    "aws_vpc.agentless_scan_vpc[2]",
+    "aws_vpc.agentless_scan_vpc[3]",
+    "aws_vpc.agentless_scan_vpc[4]",
+    "aws_vpc.agentless_scan_vpc[5]"
+   ],
+   "update_values": {
+    "aws_iam_policy.agentless_scan_task_policy": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::lacework-prod-agentless-scans\",\"arn:aws:s3:::lacework-prod-agentless-scans/*\"],\"Sid\":\"LaceworkProdBucket\"},{\"Action\":[\"ecs:RunTask\",\"ecs:StopTask\",\"ecs:DescribeTasks\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-west-2-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-west-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-east-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ap-northeast-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ca-central-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-central-1-cluster/*\"],\"Sid\":\"LaceworkProdRegionalClusters\"},{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:iam::111122223333:role/lacework-prod-agentless-payments-snapshot-role\",\"arn:aws:iam::222233334444:role/lacework-prod-agentless-shared-services-snapshot-role\",\"arn:aws:iam::333344445555:role/lacework-prod-agentless-analytics-snapshot-role\",\"arn:aws:iam::444455556666:role/lacework-prod-agentless-commerce-snapshot-role\",\"arn:aws:iam::555566667777:role/lacework-prod-agentless-identity-snapshot-role\",\"arn:aws:iam::666677778888:role/lacework-prod-agentless-management-snapshot-role\"],\"Sid\":\"LaceworkProdMonitoredAccounts\"}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_iam_policy.agentless_ecs_task_mgmt_policy": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"ecs:RunTask\",\"ecs:StopTask\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-us-west-2-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-eu-west-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-us-east-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-ap-northeast-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-ca-central-1-cluster:*\",\"arn:aws:ecs:*:*:task-definition/lacework-prod-agentless-eu-central-1-cluster:*\"],\"Sid\":\"LaceworkProdRegionalTaskManagement\"}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    },
+    "aws_cloudwatch_metric_alarm.agentless_scan_failures[6]": {
+     "alarm_actions": {
+      "after": [
+       "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-ap-northeast-1-alerts",
+       "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-ca-central-1-alerts",
+       "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-eu-central-1-alerts",
+       "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-eu-west-1-alerts",
+       "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-us-east-1-alerts",
+       "arn:aws:sns:us-east-1:123456789012:lacework-prod-agentless-us-west-2-alerts"
+      ],
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "add_monitored_account",
+   "kind": "key_add",
+   "dimension": "account",
+   "update_values": {
+    "aws_iam_policy.agentless_scan_task_policy": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::lacework-prod-agentless-scans\",\"arn:aws:s3:::lacework-prod-agentless-scans/*\"],\"Sid\":\"LaceworkProdBucket\"},{\"Action\":[\"ecs:RunTask\",\"ecs:StopTask\",\"ecs:DescribeTasks\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-west-2-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-west-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-east-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ap-northeast-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ca-central-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-central-1-cluster/*\"],\"Sid\":\"LaceworkProdRegionalClusters\"},{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:iam::111122223333:role/lacework-prod-agentless-payments-snapshot-role\",\"arn:aws:iam::222233334444:role/lacework-prod-agentless-shared-services-snapshot-role\",\"arn:aws:iam::333344445555:role/lacework-prod-agentless-analytics-snapshot-role\",\"arn:aws:iam::777788889999:role/lacework-prod-agentless-research-archive-snapshot-role\",\"arn:aws:iam::444455556666:role/lacework-prod-agentless-commerce-snapshot-role\",\"arn:aws:iam::555566667777:role/lacework-prod-agentless-identity-snapshot-role\",\"arn:aws:iam::666677778888:role/lacework-prod-agentless-management-snapshot-role\"],\"Sid\":\"LaceworkProdMonitoredAccounts\"}],\"Version\":\"2012-10-17\"}",
+      "unknown": null,
+      "filled": {
+       "after": "{\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::lacework-prod-agentless-scans\",\"arn:aws:s3:::lacework-prod-agentless-scans/*\"],\"Sid\":\"LaceworkProdBucket\"},{\"Action\":[\"ecs:RunTask\",\"ecs:StopTask\",\"ecs:DescribeTasks\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-west-2-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-west-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-east-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ap-northeast-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ca-central-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-central-1-cluster/*\"],\"Sid\":\"LaceworkProdRegionalClusters\"},{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:iam::111122223333:role/lacework-prod-agentless-payments-snapshot-role\",\"arn:aws:iam::222233334444:role/lacework-prod-agentless-shared-services-snapshot-role\",\"arn:aws:iam::333344445555:role/lacework-prod-agentless-analytics-snapshot-role\",\"arn:aws:iam::777788889999:role/lacework-prod-agentless-research-archive-snapshot-role\",\"arn:aws:iam::444455556666:role/lacework-prod-agentless-commerce-snapshot-role\",\"arn:aws:iam::555566667777:role/lacework-prod-agentless-identity-snapshot-role\",\"arn:aws:iam::666677778888:role/lacework-prod-agentless-management-snapshot-role\"],\"Sid\":\"LaceworkProdMonitoredAccounts\"}],\"Version\":\"2012-10-17\"}",
+       "unknown": null
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "remove_monitored_account",
+   "kind": "key_remove",
+   "dimension": "account",
+   "update_values": {
+    "aws_iam_policy.agentless_scan_task_policy": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::lacework-prod-agentless-scans\",\"arn:aws:s3:::lacework-prod-agentless-scans/*\"],\"Sid\":\"LaceworkProdBucket\"},{\"Action\":[\"ecs:RunTask\",\"ecs:StopTask\",\"ecs:DescribeTasks\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-west-2-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-west-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-east-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ap-northeast-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ca-central-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-central-1-cluster/*\"],\"Sid\":\"LaceworkProdRegionalClusters\"},{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:iam::222233334444:role/lacework-prod-agentless-shared-services-snapshot-role\",\"arn:aws:iam::333344445555:role/lacework-prod-agentless-analytics-snapshot-role\",\"arn:aws:iam::444455556666:role/lacework-prod-agentless-commerce-snapshot-role\",\"arn:aws:iam::555566667777:role/lacework-prod-agentless-identity-snapshot-role\",\"arn:aws:iam::666677778888:role/lacework-prod-agentless-management-snapshot-role\"],\"Sid\":\"LaceworkProdMonitoredAccounts\"}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "update_monitored_account_ids",
+   "kind": "key_update",
+   "dimension": "account",
+   "updates": {
+    "payments": {
+     "account_id": "711122223333",
+     "priority": 65
+    },
+    "shared-services": {
+     "account_id": "722233334444",
+     "priority": 55
+    },
+    "analytics": {
+     "account_id": "733344445555",
+     "priority": 45
+    },
+    "commerce": {
+     "account_id": "744455556666",
+     "priority": 35
+    },
+    "identity": {
+     "account_id": "755566667777",
+     "priority": 25
+    },
+    "management": {
+     "account_id": "766677778888",
+     "priority": 15
+    }
+   },
+   "expect": [
+    {
+     "key": "payments",
+     "base": "aws_iam_policy.monitored_snapshot_policy",
+     "attr": "description",
+     "value": "lacework-prod snapshot policy for payments at rollout priority 65"
+    },
+    {
+     "key": "shared-services",
+     "base": "aws_iam_policy.monitored_snapshot_policy",
+     "attr": "description",
+     "value": "lacework-prod snapshot policy for shared-services at rollout priority 55"
+    },
+    {
+     "key": "analytics",
+     "base": "aws_iam_policy.monitored_snapshot_policy",
+     "attr": "description",
+     "value": "lacework-prod snapshot policy for analytics at rollout priority 45"
+    },
+    {
+     "key": "commerce",
+     "base": "aws_iam_policy.monitored_snapshot_policy",
+     "attr": "description",
+     "value": "lacework-prod snapshot policy for commerce at rollout priority 35"
+    },
+    {
+     "key": "identity",
+     "base": "aws_iam_policy.monitored_snapshot_policy",
+     "attr": "description",
+     "value": "lacework-prod snapshot policy for identity at rollout priority 25"
+    },
+    {
+     "key": "management",
+     "base": "aws_iam_policy.monitored_snapshot_policy",
+     "attr": "description",
+     "value": "lacework-prod snapshot policy for management at rollout priority 15"
+    },
+    {
+     "key": "payments",
+     "base": "aws_iam_policy.monitored_snapshot_policy",
+     "attr": "policy",
+     "value": {
+      "Version": "2012-10-17",
+      "Statement": [
+       {
+        "Sid": "LaceworkProdDescribePayments",
+        "Effect": "Allow",
+        "Action": [
+         "ec2:DescribeInstances",
+         "ec2:DescribeSnapshots",
+         "organizations:DescribeAccount"
+        ],
+        "Resource": "*",
+        "Condition": {
+         "StringEquals": {
+          "aws:ResourceAccount": "711122223333"
+         }
+        }
+       },
+       {
+        "Sid": "LaceworkProdSnapshotsPayments",
+        "Effect": "Allow",
+        "Action": [
+         "ec2:CreateSnapshot",
+         "ec2:DeleteSnapshot",
+         "ec2:CreateTags"
+        ],
+        "Resource": "*"
+       }
+      ]
+     }
+    },
+    {
+     "key": "shared-services",
+     "base": "aws_iam_policy.monitored_snapshot_policy",
+     "attr": "policy",
+     "value": {
+      "Version": "2012-10-17",
+      "Statement": [
+       {
+        "Sid": "LaceworkProdDescribeSharedServices",
+        "Effect": "Allow",
+        "Action": [
+         "ec2:DescribeInstances",
+         "ec2:DescribeSnapshots",
+         "organizations:DescribeAccount"
+        ],
+        "Resource": "*",
+        "Condition": {
+         "StringEquals": {
+          "aws:ResourceAccount": "722233334444"
+         }
+        }
+       },
+       {
+        "Sid": "LaceworkProdSnapshotsSharedServices",
+        "Effect": "Allow",
+        "Action": [
+         "ec2:CreateSnapshot",
+         "ec2:DeleteSnapshot",
+         "ec2:CreateTags"
+        ],
+        "Resource": "*"
+       }
+      ]
+     }
+    },
+    {
+     "key": "analytics",
+     "base": "aws_iam_policy.monitored_snapshot_policy",
+     "attr": "policy",
+     "value": {
+      "Version": "2012-10-17",
+      "Statement": [
+       {
+        "Sid": "LaceworkProdDescribeAnalytics",
+        "Effect": "Allow",
+        "Action": [
+         "ec2:DescribeInstances",
+         "ec2:DescribeSnapshots",
+         "organizations:DescribeAccount"
+        ],
+        "Resource": "*",
+        "Condition": {
+         "StringEquals": {
+          "aws:ResourceAccount": "733344445555"
+         }
+        }
+       },
+       {
+        "Sid": "LaceworkProdSnapshotsAnalytics",
+        "Effect": "Allow",
+        "Action": [
+         "ec2:CreateSnapshot",
+         "ec2:DeleteSnapshot",
+         "ec2:CreateTags"
+        ],
+        "Resource": "*"
+       }
+      ]
+     }
+    },
+    {
+     "key": "commerce",
+     "base": "aws_iam_policy.monitored_snapshot_policy",
+     "attr": "policy",
+     "value": {
+      "Version": "2012-10-17",
+      "Statement": [
+       {
+        "Sid": "LaceworkProdDescribeCommerce",
+        "Effect": "Allow",
+        "Action": [
+         "ec2:DescribeInstances",
+         "ec2:DescribeSnapshots",
+         "organizations:DescribeAccount"
+        ],
+        "Resource": "*",
+        "Condition": {
+         "StringEquals": {
+          "aws:ResourceAccount": "744455556666"
+         }
+        }
+       },
+       {
+        "Sid": "LaceworkProdSnapshotsCommerce",
+        "Effect": "Allow",
+        "Action": [
+         "ec2:CreateSnapshot",
+         "ec2:DeleteSnapshot",
+         "ec2:CreateTags"
+        ],
+        "Resource": "*"
+       }
+      ]
+     }
+    },
+    {
+     "key": "identity",
+     "base": "aws_iam_policy.monitored_snapshot_policy",
+     "attr": "policy",
+     "value": {
+      "Version": "2012-10-17",
+      "Statement": [
+       {
+        "Sid": "LaceworkProdDescribeIdentity",
+        "Effect": "Allow",
+        "Action": [
+         "ec2:DescribeInstances",
+         "ec2:DescribeSnapshots",
+         "organizations:DescribeAccount"
+        ],
+        "Resource": "*",
+        "Condition": {
+         "StringEquals": {
+          "aws:ResourceAccount": "755566667777"
+         }
+        }
+       },
+       {
+        "Sid": "LaceworkProdSnapshotsIdentity",
+        "Effect": "Allow",
+        "Action": [
+         "ec2:CreateSnapshot",
+         "ec2:DeleteSnapshot",
+         "ec2:CreateTags"
+        ],
+        "Resource": "*"
+       }
+      ]
+     }
+    },
+    {
+     "key": "management",
+     "base": "aws_iam_policy.monitored_snapshot_policy",
+     "attr": "policy",
+     "value": {
+      "Version": "2012-10-17",
+      "Statement": [
+       {
+        "Sid": "LaceworkProdDescribeManagement",
+        "Effect": "Allow",
+        "Action": [
+         "ec2:DescribeInstances",
+         "ec2:DescribeSnapshots",
+         "organizations:DescribeAccount"
+        ],
+        "Resource": "*",
+        "Condition": {
+         "StringEquals": {
+          "aws:ResourceAccount": "766677778888"
+         }
+        }
+       },
+       {
+        "Sid": "LaceworkProdSnapshotsManagement",
+        "Effect": "Allow",
+        "Action": [
+         "ec2:CreateSnapshot",
+         "ec2:DeleteSnapshot",
+         "ec2:CreateTags"
+        ],
+        "Resource": "*"
+       }
+      ]
+     }
+    }
+   ],
+   "may_change": [
+    {
+     "legacy": "aws_iam_policy.agentless_scan_task_policy",
+     "attr": "policy"
+    }
+   ],
+   "reference_replaced": [
+    "aws_iam_policy.monitored_snapshot_policy[0]",
+    "aws_iam_policy.monitored_snapshot_policy[1]",
+    "aws_iam_policy.monitored_snapshot_policy[2]",
+    "aws_iam_policy.monitored_snapshot_policy[3]",
+    "aws_iam_policy.monitored_snapshot_policy[4]",
+    "aws_iam_policy.monitored_snapshot_policy[5]",
+    "aws_iam_role_policy_attachment.monitored_snapshot_policy[0]",
+    "aws_iam_role_policy_attachment.monitored_snapshot_policy[1]",
+    "aws_iam_role_policy_attachment.monitored_snapshot_policy[2]",
+    "aws_iam_role_policy_attachment.monitored_snapshot_policy[3]",
+    "aws_iam_role_policy_attachment.monitored_snapshot_policy[4]",
+    "aws_iam_role_policy_attachment.monitored_snapshot_policy[5]"
+   ],
+   "update_values": {
+    "aws_iam_policy.agentless_scan_task_policy": {
+     "policy": {
+      "after": "{\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::lacework-prod-agentless-scans\",\"arn:aws:s3:::lacework-prod-agentless-scans/*\"],\"Sid\":\"LaceworkProdBucket\"},{\"Action\":[\"ecs:RunTask\",\"ecs:StopTask\",\"ecs:DescribeTasks\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-west-2-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-west-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-us-east-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ap-northeast-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-ca-central-1-cluster/*\",\"arn:aws:ecs:*:*:task/lacework-prod-agentless-eu-central-1-cluster/*\"],\"Sid\":\"LaceworkProdRegionalClusters\"},{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:iam::766677778888:role/lacework-prod-agentless-management-snapshot-role\",\"arn:aws:iam::755566667777:role/lacework-prod-agentless-identity-snapshot-role\",\"arn:aws:iam::744455556666:role/lacework-prod-agentless-commerce-snapshot-role\",\"arn:aws:iam::733344445555:role/lacework-prod-agentless-analytics-snapshot-role\",\"arn:aws:iam::722233334444:role/lacework-prod-agentless-shared-services-snapshot-role\",\"arn:aws:iam::711122223333:role/lacework-prod-agentless-payments-snapshot-role\"],\"Sid\":\"LaceworkProdMonitoredAccounts\"}],\"Version\":\"2012-10-17\"}",
+      "unknown": null
+     }
+    }
+   }
+  },
+  {
+   "name": "project_var",
+   "kind": "rename",
+   "variable": "project",
+   "old": "lacework",
+   "new": "prism",
+   "name_outputs": [
+    "scan_bucket_name",
+    "scan_secret_arn",
+    "regional_cluster_arns",
+    "regional_log_group_names",
+    "monitored_snapshot_role_arns",
+    "monitored_snapshot_policy_arns",
+    "task_role_arn",
+    "cross_account_role_arn"
+   ],
+   "swap_fields": [
+    {
+     "base": "aws_iam_policy.agentless_scan_task_policy",
+     "attr": "policy"
+    },
+    {
+     "base": "aws_iam_policy.agentless_allow_cloudwatch_policy",
+     "attr": "policy"
+    },
+    {
+     "base": "aws_iam_policy.agentless_s3_write_policy",
+     "attr": "policy"
+    },
+    {
+     "base": "aws_iam_policy.agentless_ecs_task_mgmt_policy",
+     "attr": "policy"
+    },
+    {
+     "base": "aws_iam_policy.monitored_snapshot_policy",
+     "attr": "policy"
+    },
+    {
+     "base": "aws_iam_role.agentless_scan_cross_account_role",
+     "attr": "assume_role_policy"
+    },
+    {
+     "base": "aws_iam_role.monitored_snapshot_role",
+     "attr": "assume_role_policy"
+    },
+    {
+     "base": "aws_s3_bucket_policy.agentless_scan_bucket",
+     "attr": "policy"
+    },
+    {
+     "base": "aws_secretsmanager_secret_version.agentless_scan_secret",
+     "attr": "secret_string"
+    },
+    {
+     "base": "aws_ecs_task_definition.agentless_scan",
+     "attr": "container_definitions"
+    },
+    {
+     "base": "aws_cloudwatch_event_target.agentless_scan",
+     "attr": "input"
+    }
+   ]
+  },
+  {
+   "name": "environment_var",
+   "kind": "rename",
+   "variable": "environment",
+   "old": "prod",
+   "new": "staging",
+   "name_outputs": [
+    "scan_bucket_name",
+    "scan_secret_arn",
+    "regional_cluster_arns",
+    "regional_log_group_names",
+    "monitored_snapshot_role_arns",
+    "monitored_snapshot_policy_arns",
+    "task_role_arn",
+    "cross_account_role_arn"
+   ],
+   "swap_fields": [
+    {
+     "base": "aws_iam_policy.agentless_scan_task_policy",
+     "attr": "policy"
+    },
+    {
+     "base": "aws_iam_policy.agentless_allow_cloudwatch_policy",
+     "attr": "policy"
+    },
+    {
+     "base": "aws_iam_policy.agentless_s3_write_policy",
+     "attr": "policy"
+    },
+    {
+     "base": "aws_iam_policy.agentless_ecs_task_mgmt_policy",
+     "attr": "policy"
+    },
+    {
+     "base": "aws_iam_policy.monitored_snapshot_policy",
+     "attr": "policy"
+    },
+    {
+     "base": "aws_iam_role.agentless_scan_cross_account_role",
+     "attr": "assume_role_policy"
+    },
+    {
+     "base": "aws_iam_role.monitored_snapshot_role",
+     "attr": "assume_role_policy"
+    },
+    {
+     "base": "aws_s3_bucket_policy.agentless_scan_bucket",
+     "attr": "policy"
+    },
+    {
+     "base": "aws_secretsmanager_secret_version.agentless_scan_secret",
+     "attr": "secret_string"
+    },
+    {
+     "base": "aws_ecs_task_definition.agentless_scan",
+     "attr": "container_definitions"
+    },
+    {
+     "base": "aws_cloudwatch_event_target.agentless_scan",
+     "attr": "input"
+    }
+   ]
+  },
+  {
+   "name": "tags_var",
+   "kind": "tags",
+   "variable": "tags",
+   "common_keys": [
+    "Owner",
+    "CostCenter",
+    "ManagedBy",
+    "Compliance"
+   ],
+   "value": {
+    "Owner": "security-platform",
+    "ManagedBy": "terraform",
+    "DataClass": "restricted"
+   }
+  },
+  {
+   "name": "bucket_force_destroy_var",
+   "kind": "set",
+   "vars": {
+    "bucket_force_destroy": false
+   },
+   "expect": [
+    {
+     "legacy": "aws_s3_bucket.agentless_scan_bucket",
+     "attr": "force_destroy",
+     "value": false
+    }
+   ],
+   "reference_replaced": []
+  },
+  {
+   "name": "bucket_sse_algorithm_var",
+   "kind": "set",
+   "vars": {
+    "bucket_sse_algorithm": "aws:kms"
+   },
+   "expect": [
+    {
+     "legacy": "aws_s3_bucket_server_side_encryption_configuration.agentless_scan_bucket",
+     "attr": "rule[0].apply_server_side_encryption_by_default[0].sse_algorithm",
+     "value": "aws:kms"
+    }
+   ],
+   "reference_replaced": []
+  },
+  {
+   "name": "work_expiration_days_var",
+   "kind": "set",
+   "vars": {
+    "work_expiration_days": 11
+   },
+   "expect": [
+    {
+     "legacy": "aws_s3_bucket_lifecycle_configuration.agentless_scan_bucket",
+     "attr": "rule[0].expiration[0].days",
+     "value": 11
+    }
+   ],
+   "reference_replaced": []
+  },
+  {
+   "name": "scan_expiration_days_var",
+   "kind": "set",
+   "vars": {
+    "scan_expiration_days": 45
+   },
+   "expect": [
+    {
+     "legacy": "aws_s3_bucket_lifecycle_configuration.agentless_scan_bucket",
+     "attr": "rule[1].expiration[0].days",
+     "value": 45
+    }
+   ],
+   "reference_replaced": []
+  },
+  {
+   "name": "secret_recovery_days_var",
+   "kind": "set",
+   "vars": {
+    "secret_recovery_days": 14
+   },
+   "expect": [
+    {
+     "legacy": "aws_secretsmanager_secret.agentless_scan_secret",
+     "attr": "recovery_window_in_days",
+     "value": 14
+    }
+   ],
+   "reference_replaced": []
+  },
+  {
+   "name": "long_session_duration_var",
+   "kind": "set",
+   "vars": {
+    "long_session_duration": 36000
+   },
+   "expect": [
+    {
+     "legacy": "aws_iam_role.agentless_scan_ecs_task_role",
+     "attr": "max_session_duration",
+     "value": 36000
+    },
+    {
+     "base": "aws_iam_role.monitored_snapshot_role",
+     "attr": "max_session_duration",
+     "value": 36000
+    }
+   ],
+   "reference_replaced": []
+  },
+  {
+   "name": "short_session_duration_var",
+   "kind": "set",
+   "vars": {
+    "short_session_duration": 7200
+   },
+   "expect": [
+    {
+     "legacy": "aws_iam_role.agentless_scan_ecs_execution_role",
+     "attr": "max_session_duration",
+     "value": 7200
+    },
+    {
+     "legacy": "aws_iam_role.agentless_scan_ecs_event_role",
+     "attr": "max_session_duration",
+     "value": 7200
+    },
+    {
+     "legacy": "aws_iam_role.agentless_scan_cross_account_role",
+     "attr": "max_session_duration",
+     "value": 7200
+    }
+   ],
+   "reference_replaced": []
+  },
+  {
+   "name": "task_cpu_var",
+   "kind": "set",
+   "vars": {
+    "task_cpu": 1024
+   },
+   "expect": [
+    {
+     "base": "aws_ecs_task_definition.agentless_scan",
+     "attr": "cpu",
+     "value": "1024"
+    },
+    {
+     "base": "aws_ecs_task_definition.agentless_scan",
+     "attr": "container_definitions",
+     "contains": "\"cpu\":1024"
+    }
+   ],
+   "reference_replaced": [
+    "aws_ecs_task_definition.agentless_scan[0]",
+    "aws_ecs_task_definition.agentless_scan[1]",
+    "aws_ecs_task_definition.agentless_scan[2]",
+    "aws_ecs_task_definition.agentless_scan[3]",
+    "aws_ecs_task_definition.agentless_scan[4]",
+    "aws_ecs_task_definition.agentless_scan[5]"
+   ]
+  },
+  {
+   "name": "task_memory_var",
+   "kind": "set",
+   "vars": {
+    "task_memory": 2048
+   },
+   "expect": [
+    {
+     "base": "aws_ecs_task_definition.agentless_scan",
+     "attr": "memory",
+     "value": "2048"
+    },
+    {
+     "base": "aws_ecs_task_definition.agentless_scan",
+     "attr": "container_definitions",
+     "contains": "\"memory\":2048"
+    }
+   ],
+   "reference_replaced": [
+    "aws_ecs_task_definition.agentless_scan[0]",
+    "aws_ecs_task_definition.agentless_scan[1]",
+    "aws_ecs_task_definition.agentless_scan[2]",
+    "aws_ecs_task_definition.agentless_scan[3]",
+    "aws_ecs_task_definition.agentless_scan[4]",
+    "aws_ecs_task_definition.agentless_scan[5]"
+   ]
+  },
+  {
+   "name": "container_image_var",
+   "kind": "set",
+   "vars": {
+    "container_image": "public.ecr.aws/p5r4i7k7/sidekick:stable"
+   },
+   "expect": [
+    {
+     "base": "aws_ecs_task_definition.agentless_scan",
+     "attr": "container_definitions",
+     "contains": "public.ecr.aws/p5r4i7k7/sidekick:stable"
+    }
+   ],
+   "reference_replaced": [
+    "aws_ecs_task_definition.agentless_scan[0]",
+    "aws_ecs_task_definition.agentless_scan[1]",
+    "aws_ecs_task_definition.agentless_scan[2]",
+    "aws_ecs_task_definition.agentless_scan[3]",
+    "aws_ecs_task_definition.agentless_scan[4]",
+    "aws_ecs_task_definition.agentless_scan[5]"
+   ]
+  },
+  {
+   "name": "log_retention_days_var",
+   "kind": "set",
+   "vars": {
+    "log_retention_days": 60
+   },
+   "expect": [
+    {
+     "base": "aws_cloudwatch_log_group.agentless_scan",
+     "attr": "retention_in_days",
+     "value": 60
+    }
+   ],
+   "reference_replaced": []
+  },
+  {
+   "name": "kms_deletion_window_days_var",
+   "kind": "set",
+   "vars": {
+    "kms_deletion_window_days": 20
+   },
+   "expect": [
+    {
+     "base": "aws_kms_key.agentless_scan_logs",
+     "attr": "deletion_window_in_days",
+     "value": 20
+    }
+   ],
+   "reference_replaced": []
+  },
+  {
+   "name": "scan_schedule_var",
+   "kind": "set",
+   "vars": {
+    "scan_schedule": "rate(2 hours)"
+   },
+   "expect": [
+    {
+     "base": "aws_cloudwatch_event_rule.agentless_scan",
+     "attr": "schedule_expression",
+     "value": "rate(2 hours)"
+    }
+   ],
+   "reference_replaced": []
+  },
+  {
+   "name": "event_task_count_var",
+   "kind": "set",
+   "vars": {
+    "event_task_count": 2
+   },
+   "expect": [
+    {
+     "base": "aws_cloudwatch_event_target.agentless_scan",
+     "attr": "ecs_target[0].task_count",
+     "value": 2
+    }
+   ],
+   "reference_replaced": []
+  },
+  {
+   "name": "alarm_period_seconds_var",
+   "kind": "set",
+   "vars": {
+    "alarm_period_seconds": 600
+   },
+   "expect": [
+    {
+     "base": "aws_cloudwatch_metric_alarm.agentless_scan_failures",
+     "attr": "period",
+     "value": 600
+    }
+   ],
+   "reference_replaced": []
+  },
+  {
+   "name": "alarm_threshold_var",
+   "kind": "set",
+   "vars": {
+    "alarm_threshold": 3
+   },
+   "expect": [
+    {
+     "base": "aws_cloudwatch_metric_alarm.agentless_scan_failures",
+     "attr": "threshold",
+     "value": 3
+    }
+   ],
+   "reference_replaced": []
+  },
+  {
+   "name": "alarm_evaluation_periods_var",
+   "kind": "set",
+   "vars": {
+    "alarm_evaluation_periods": 4
+   },
+   "expect": [
+    {
+     "base": "aws_cloudwatch_metric_alarm.agentless_scan_failures",
+     "attr": "evaluation_periods",
+     "value": 4
+    }
+   ],
+   "reference_replaced": []
+  },
+  {
+   "name": "alarm_treat_missing_data_var",
+   "kind": "set",
+   "vars": {
+   

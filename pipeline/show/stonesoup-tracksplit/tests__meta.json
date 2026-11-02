@@ -1,0 +1,15 @@
+{
+  "root_causes": [
+    {"accept": [{"file": "stonesoup/types/array.py", "function": "Matrix.__array_ufunc__"}]},
+    {"accept": [{"file": "stonesoup/deleter/time.py", "function": "UpdateTimeStepsDeleter.check_for_deletion"}]}
+  ],
+  "default_reproducer": "stonesoup/tests/test_repro.py",
+  "fix_tests": ["fix/probe_1.py", "fix/probe_2.py", "fix/probe_3.py"],
+  "alt_fixes": ["alt_fix_1.patch", "alt_fix_2.patch"],
+  "runtime_fix": {"kind": "pythonpath", "path": "runtime_fix"},
+  "p2p": {
+    "command": "python -m pytest -p no:cacheprovider -q stonesoup",
+    "selection": "every test passing on buggy + gold (recorded at verifier build into /opt/rca/p2p_baseline.txt)",
+    "excluded": []
+  }
+}

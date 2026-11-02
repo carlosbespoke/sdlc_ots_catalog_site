@@ -1,0 +1,38 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-xmltodict-etl"
+description = "Preserve nullable values and inherited whitespace in XML exports"
+authors = []
+keywords = ["python", "data-processing", "etl"]
+
+[metadata]
+task_id = "pdk-xmltodict-etl"
+display_title = "Nullable partner XML"
+repository_url = "https://github.com/martinblech/xmltodict.git"
+base_commit_hash = "6e29fba282e68631034dd2722a413b4e35276584"
+language = "python"
+category = "data_processing"
+archetype = "etl"
+
+[verifier]
+environment_mode = "separate"
+# At least 3x one full grade (both suites) on 4 CPUs, and never below 1800.
+timeout_sec = 1800
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached 6e29fba282e68631034dd2722a413b4e35276584 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+
+[environment]
+allow_internet = false
+build_timeout_sec = 2400
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+timeout_sec = 21600

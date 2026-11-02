@@ -1,0 +1,17 @@
+schema_version = "1.4"
+# Separate verifier: Harbor copies the agent's final /workdir into a fresh container
+# built from tests/Dockerfile. Nothing from tests/ is placed in the agent's container.
+artifacts = ["/workdir"]
+[agent]
+user = "agent"
+timeout_sec = 14400
+network_mode = "no-network"
+[verifier]
+user = "root"
+environment_mode = "separate"
+network_mode = "no-network"
+timeout_sec = 3600
+[environment]
+workdir = "/workdir"
+network_mode = "no-network"
+build_timeout_sec = 1800

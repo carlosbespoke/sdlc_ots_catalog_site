@@ -1,0 +1,32 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+[task]
+name = "authored/kin-openapi-explicit-field-presence-across-27d7"
+description = ""
+authors = []
+keywords = []
+[metadata]
+task_id = "kin-openapi-explicit-field-presence-across-27d7"
+display_title = "Explicit Field Presence Across OpenAPI Models"
+repository_url = "https://github.com/getkin/kin-openapi.git"
+base_commit_hash = "e7ecca9a44a420e0687072d30916fcd6a6bfba07"
+language = "go"
+category = "feature_request"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 2400
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached e7ecca9a44a420e0687072d30916fcd6a6bfba07 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+[agent]
+user = "agent"
+timeout_sec = 21600
+[environment]
+allow_internet = false
+network_mode = "no-network"
+build_timeout_sec = 1800
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

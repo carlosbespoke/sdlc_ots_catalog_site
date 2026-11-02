@@ -1,0 +1,473 @@
+<h1 align="center">throttled-py</h1>
+<p align="center">
+    <em>🔧 Python rate limiting library with multiple algorithms (Fixed Window, Sliding Window, Token Bucket, Leaky Bucket & GCRA) and storage backends (Redis, In-Memory).</em>
+</p>
+
+<p align="center">
+    <a href="https://github.com/ZhuoZhuoCrayon/throttled-py">
+        <img src="https://img.shields.io/badge/python-%3E%3D3.10-green?logo=python" alt="Python">
+    </a>
+     <a href="https://github.com/ZhuoZhuoCrayon/throttled-py">
+        <img src="https://codecov.io/gh/ZhuoZhuoCrayon/throttled-py/graph/badge.svg" alt="Coverage Status">
+    </a>
+     <a href="https://pypi.org/project/throttled-py/">
+        <img src="https://img.shields.io/pypi/v/throttled-py.svg" alt="Coverage Status">
+    </a>
+     <a href="https://pepy.tech/projects/throttled-py">
+        <img src="https://static.pepy.tech/personalized-badge/throttled-py?period=total&units=INTERNATIONAL_SYSTEM&left_color=GRAY&right_color=GREEN&left_text=downloads" alt="Downloads">
+    </a>
+    <a href="https://github.com/ZhuoZhuoCrayon/throttled-py/issues">
+        <img src="https://img.shields.io/badge/issue-welcome-blue.svg?logo=github" alt="Welcome Issue">
+    </a>
+    <a href="https://hellogithub.com/repository/fb094234bf744e108f4ce7d3326a5cb1" target="_blank">
+        <img src="https://api.hellogithub.com/v1/widgets/recommend.svg?rid=fb094234bf744e108f4ce7d3326a5cb1&claim_uid=RzCXpndJ3LrMbUH&theme=small" alt="Featured｜HelloGitHub" />
+    </a>
+</p>
+
+[简体中文](https://github.com/ZhuoZhuoCrayon/throttled-py/blob/main/README_ZH.md) | English
+
+[🔰 Installation](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#-installation) | [🎨 Quick Start](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#-quick-start) | [📝 Usage](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#-usage) | [⚙️ Data Models](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#%EF%B8%8F-data-models--configuration) | [📊 Benchmarks](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#-benchmarks) | [🍃 Inspiration](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#-inspiration) | [📚 Version History](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#-version-history) | [📄 License](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#-license)
+
+
+## ✨ Features
+
+* Supports both synchronous and [asynchronous](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#3-asynchronous) (`async / await`).
+* Provides storage backends: [Redis(Standalone/Sentinel/Cluster)](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#redis), [In-Memory (with support for key expiration and eviction; its rate limiting operations run under a lock)](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#in-memory).
+* Supports multiple rate limiting algorithms: [Fixed Window](https://github.com/ZhuoZhuoCrayon/throttled-py/tree/main/docs/basic#21-%E5%9B%BA%E5%AE%9A%E7%AA%97%E5%8F%A3%E8%AE%A1%E6%95%B0%E5%99%A8), [Sliding Window](https://github.com/ZhuoZhuoCrayon/throttled-py/blob/main/docs/basic/readme.md#22-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3), [Token Bucket](https://github.com/ZhuoZhuoCrayon/throttled-py/blob/main/docs/basic/readme.md#23-%E4%BB%A4%E7%89%8C%E6%A1%B6), [Leaky Bucket](https://github.com/ZhuoZhuoCrayon/throttled-py/blob/main/docs/basic/readme.md#24-%E6%BC%8F%E6%A1%B6) & [Generic Cell Rate Algorithm (GCRA)](https://github.com/ZhuoZhuoCrayon/throttled-py/blob/main/docs/basic/readme.md#25-gcra).
+* Supports [configuration of rate limiting algorithms](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#3-algorithms) and provides flexible [quota configuration](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#4-quota-configuration).
+* Supports immediate response and [wait-retry](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#wait--retry) modes, and provides [function call](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#function-call), [decorator](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#decorator), and [context manager](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#context-manager) modes.
+* Can be used together with the [MCP](https://modelcontextprotocol.io/introduction) [Python SDK](https://github.com/modelcontextprotocol/python-sdk) to provide rate limiting support for model dialog processes (throttled-py ships no MCP-specific module).
+* Official [FastAPI integration](https://throttled-py.readthedocs.io/en/latest/contrib/fastapi.html) with async decorator-based rate limiting, `RateLimit-Limit` / `RateLimit-Remaining` / `RateLimit-Reset` headers, and HTTP 429 handling.
+* Sample performance measurements are reported under [Benchmarks](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#-benchmarks).
+
+
+## 🔰 Installation
+
+```shell
+$ pip install throttled-py
+```
+
+> Note: `v3.x` requires Python `>=3.10`. If you are using Python `3.8/3.9`, install `throttled-py<3.0.0`.
+
+### 1) Optional Dependencies
+
+Starting from [v2.0.0](https://github.com/ZhuoZhuoCrayon/throttled-py/releases/tag/v2.0.0), only core dependencies are installed by default.
+
+To enable additional features, install optional dependencies as follows (multiple extras can be comma-separated):
+
+```shell
+$ pip install "throttled-py[redis]"
+
+$ pip install "throttled-py[otel]"
+
+$ pip install "throttled-py[redis,otel]"
+```
+
+| Extra       | Description                       |
+|-------------|-----------------------------------|
+| `memory`    | In-Memory backend is available by default (`memory` extra installs no additional dependencies). |
+| `redis`     | Use Redis as storage backend.     |
+| `otel`      | Enable OpenTelemetry hook support. |
+| `fastapi`   | [FastAPI integration](https://throttled-py.readthedocs.io/en/latest/contrib/fastapi.html) with decorator-based rate limiting. |
+
+
+## 🎨 Quick Start
+
+### 1) Core API
+
+* `limit`: Deduct requests and return [**RateLimitResult**](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#1-ratelimitresult).
+* `peek`: Check current rate limit state for a key (returns [**RateLimitState**](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#2-ratelimitstate)).
+
+### 2) Example
+
+```python
+from throttled import RateLimiterType, Throttled, utils
+
+throttle = Throttled(
+    # 📈 Use Token Bucket algorithm
+    using=RateLimiterType.TOKEN_BUCKET.value,
+    # 🪣 Set quota: 1,000 tokens per second (limit), bucket size 1,000 (burst)
+    quota="1000/s burst 1000",
+    # 📁 By default, global MemoryStore is used as the storage backend.
+)
+
+def call_api() -> bool:
+    # 💧 Deduct 1 token for key="/ping"
+    result = throttle.limit("/ping", cost=1)
+    return result.limited
+
+if __name__ == "__main__":
+    # 💻 Sample output (timing-dependent) on Python 3.12.10, Linux 5.4.119-1-tlinux4-0009.1, Arch: x86_64, Specs: 2C4G.
+    # ✅ Total: 100000, 🕒 Latency: 0.0068 ms/op, 🚀 Throughput: 122513 req/s (--)
+    # ❌ Denied: 98000 requests
+    benchmark: utils.Benchmark = utils.Benchmark()
+    denied_num: int = sum(benchmark.serial(call_api, 100_000))
+    print(f"❌ Denied: {denied_num} requests")
+```
+
+### 3) Asynchronous
+
+The core API is the same for synchronous and asynchronous code. Just replace `from throttled import ...` with `from throttled.asyncio import ...` in your code and `await` the `limit` / `peek` calls.
+
+For example, rewrite `2) Example` to asynchronous:
+
+```python
+import asyncio
+from throttled.asyncio import RateLimiterType, Throttled, utils
+
+throttle = Throttled(
+    using=RateLimiterType.TOKEN_BUCKET.value,
+    quota="1000/s burst 1000",
+)
+
+
+async def call_api() -> bool:
+    result = await throttle.limit("/ping", cost=1)
+    return result.limited
+
+
+async def main():
+    benchmark: utils.Benchmark = utils.Benchmark()
+    denied_num: int = sum(await benchmark.async_serial(call_api, 100_000))
+    print(f"❌ Denied: {denied_num} requests")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+
+## 📝 Usage
+
+### 1) Basic Usage
+
+#### Function Call
+
+```python
+from throttled import Throttled
+
+# Default: In-Memory storage, Token Bucket algorithm, 60 reqs / min.
+throttle = Throttled()
+
+# Deduct 1 request -> RateLimitResult with limited=False,
+# state=RateLimitState(limit=60, remaining=59, reset_after=1, retry_after=0)
+print(throttle.limit("key", 1).state)
+# Check state -> RateLimitState(limit=60, remaining=59, reset_after=1, retry_after=0)
+print(throttle.peek("key"))
+
+# Try to deduct 60 requests (limited, so nothing is deducted) -> RateLimitResult with limited=True,
+# state=RateLimitState(limit=60, remaining=59, reset_after=1, retry_after=1)
+print(throttle.limit("key", 60).state)
+```
+
+#### Decorator
+
+```python
+from throttled import Throttled, exceptions
+
+@Throttled(key="/ping", quota="1/m")
+def ping() -> str:
+    return "ping"
+
+ping()
+
+try:
+    ping()  # Raises LimitedError
+except exceptions.LimitedError as exc:
+    print(exc)  # Rate limit exceeded: remaining=0, reset_after=60, retry_after=60.
+```
+
+#### Context Manager
+
+You can use the context manager to limit the code block. When access is allowed, return [**RateLimitResult**](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#1-ratelimitresult).
+
+If the limit is exceeded or the retry timeout is exceeded, it will raise [**LimitedError**](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#limitederror).
+
+```python
+from throttled import Throttled, exceptions
+
+def call_api():
+    print("doing something...")
+
+throttle: Throttled = Throttled(key="/api/v1/users/", quota="1/m")
+with throttle as rate_limit_result:
+    print(f"limited: {rate_limit_result.limited}")
+    call_api()
+
+try:
+    with throttle:
+        call_api()
+except exceptions.LimitedError as exc:
+    print(exc)  # Rate limit exceeded: remaining=0, reset_after=60, retry_after=60.
+```
+
+#### Wait & Retry
+
+By default, rate limiting returns [**RateLimitResult**](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#1-ratelimitresult) immediately.
+
+You can specify a **`timeout`** to enable wait-and-retry behavior. The rate limiter will wait according to the `retry_after` value in [**RateLimitState**](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#2-ratelimitstate) and retry automatically; if `retry_after` is greater than `timeout`, it returns immediately without waiting.
+
+Returns the final [**RateLimitResult**](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#1-ratelimitresult) when the request is allowed, the timeout is reached, or the next `retry_after` exceeds the timeout.
+
+```python
+from throttled import RateLimiterType, Throttled, utils
+
+throttle = Throttled(
+    using=RateLimiterType.GCRA.value,
+    quota="100/s burst 100",
+    # ⏳ Set timeout=1 to enable wait-and-retry (returns the last result if the next retry would wait longer than 1 second or the request is still limited once 1 second has elapsed)
+    timeout=1,
+)
+
+def call_api() -> bool:
+    # ⬆️⏳ Function-level timeout overrides global timeout
+    result = throttle.limit("/ping", cost=1, timeout=1)
+    return result.limited
+
+if __name__ == "__main__":
+    # 👇 Sample output (timing-dependent); the actual QPS is close to the preset quota (100 req/s):
+    # ✅ Total: 1000, 🕒 Latency: 35.8103 ms/op, 🚀 Throughput: 111 req/s (--)
+    # ❌ Denied: 8 requests
+    benchmark: utils.Benchmark = utils.Benchmark()
+    denied_num: int = sum(benchmark.concurrent(call_api, 1_000, workers=4))
+    print(f"❌ Denied: {denied_num} requests")
+```
+
+### 2) Storage Backends
+
+#### Redis
+
+You only need very simple configuration, and it supports connecting to Redis standalone, sentinel, and cluster modes.
+
+The following example uses Redis as the storage backend, `options` supports the configuration items listed in [RedisStore Options](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#redisstore-options).
+
+```python
+from throttled import RateLimiterType, Throttled, store
+
+@Throttled(
+    key="/api/products",
+    using=RateLimiterType.TOKEN_BUCKET.value,
+    quota="1/m",
+    store=store.RedisStore(
+        # Standalone mode
+        server="redis://127.0.0.1:6379/0",
+        # Sentinel mode
+        # server="redis+sentinel://:yourpassword@host1:26379,host2:26379/mymaster"
+        # Cluster mode
+        # server="redis+cluster://:yourpassword@host1:6379,host2:6379",
+        options={}
+    ),
+)
+def products() -> list:
+    return [{"name": "iPhone"}, {"name": "MacBook"}]
+
+products()  # Success
+products()  # Raises LimitedError
+```
+
+#### In-Memory
+
+By default, a global `MemoryStore` instance with a maximum capacity of 1024 is used as the storage backend when no storage backend is specified. Therefore, **it is usually not necessary to manually create** a `MemoryStore` instance.
+
+Different instances mean different storage spaces, if you want to throttle the same Key at different locations in your program, make sure that Throttled receives the same MemoryStore and uses the same algorithm (`using`) and a consistent [`Quota`](https://github.com/ZhuoZhuoCrayon/throttled-py?tab=readme-ov-file#3-quota).
+
+The following example uses memory as the storage backend and throttles the same Key on ping and pong:
+
+```python
+from throttled import Throttled, store
+
+mem_store = store.MemoryStore()
+
+@Throttled(key="ping-pong", quota="1/m", store=mem_store)
+def ping() -> str: return "ping"
+
+@Throttled(key="ping-pong", quota="1/m", store=mem_store)
+def pong() -> str: return "pong"
+
+ping()  # Success
+pong()  # Raises LimitedError
+```
+
+### 3) Algorithms
+
+The rate limiting algorithm is specified by the **`using`** parameter. The supported algorithms are as follows:
+
+* [Fixed window](https://github.com/ZhuoZhuoCrayon/throttled-py/tree/main/docs/basic#21-%E5%9B%BA%E5%AE%9A%E7%AA%97%E5%8F%A3%E8%AE%A1%E6%95%B0%E5%99%A8): `RateLimiterType.FIXED_WINDOW.value`
+* [Sliding window](https://github.com/ZhuoZhuoCrayon/throttled-py/blob/main/docs/basic/readme.md#22-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3): `RateLimiterType.SLIDING_WINDOW.value`
+* [Token Bucket](https://github.com/ZhuoZhuoCrayon/throttled-py/blob/main/docs/basic/readme.md#23-%E4%BB%A4%E7%89%8C%E6%A1%B6): `RateLimiterType.TOKEN_BUCKET.value`
+* [Leaky Bucket](https://github.com/ZhuoZhuoCrayon/throttled-py/blob/main/docs/basic/readme.md#24-%E6%BC%8F%E6%A1%B6): `RateLimiterType.LEAKING_BUCKET.value`
+* [Generic Cell Rate Algorithm, GCRA](https://github.com/ZhuoZhuoCrayon/throttled-py/blob/main/docs/basic/readme.md#25-gcra): `RateLimiterType.GCRA.value`
+
+```python
+from throttled import RateLimiterType, Throttled
+
+throttle = Throttled(
+    # 🌟Specifying a current limiting algorithm
+    using=RateLimiterType.FIXED_WINDOW.value, 
+    quota="1/m"
+)
+assert throttle.limit("key", 2).limited is True
+```
+
+### 4) Quota Configuration
+
+```python
+from throttled import Throttled
+
+throttle = Throttled(
+    key="/api/ping",
+    quota="100/s",
+    # quota="100/s burst 200",
+    # quota="100 per second",
+    # quota="100 per second burst 200",
+)
+
+
+if __name__ == "__main__":
+    print(throttle.limit())
+```
+
+* *[1]* `quota` accepts a readable string with these patterns:
+
+  * `n / unit`
+  * `n / unit burst <burst>`
+  * `n per unit`
+  * `n per unit burst <burst>`
+
+* *[2]* `unit` supports `s / m / h / d / w`.
+
+* *[3]* `burst` is the bucket capacity, i.e. the maximum number of requests that can pass in a spike, and takes effect for: `TOKEN_BUCKET` / `LEAKING_BUCKET` / `GCRA`.
+
+* *[4]* If `burst` is omitted in string mode, it defaults to `n` in the same rule.
+  For example, `1/s` is equivalent to `1/s burst 1`.
+
+
+## ⚙️ Data Models & Configuration
+
+### 1) RateLimitResult
+
+RateLimitResult represents the result after executing the RateLimiter for the given key.
+
+| Field     | Type           | Description                                                                             |
+|-----------|----------------|-----------------------------------------------------------------------------------------|
+| `limited` | bool           | Limited represents whether this request is limited: `True` means it is not allowed to pass. |
+| `state`   | RateLimitState | RateLimitState represents the state of the RateLimiter for the given key after this request. |
+
+### 2) RateLimitState
+
+RateLimitState represents the current state of the rate limiter for the given key.
+
+| Field         | Type  | Description                                                                                                                          |
+|---------------|-------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `limit`       | int   | Limit represents the maximum number of requests allowed to pass in the initial state.                                                |
+| `remaining`   | int   | Remaining represents the maximum number of requests allowed to pass for the given key in the current state. For a limited `SLIDING_WINDOW` request it is computed as if the request's cost had been consumed, so it can be lower than what can still pass. |
+| `reset_after` | int or float | ResetAfter represents the time in seconds for the RateLimiter to return to its initial state. In the initial state, Limit=Remaining. For `FIXED_WINDOW` it is the time until the current window ends, and for `SLIDING_WINDOW` it is always the full period. |
+| `retry_after` | int or float | RetryAfter represents the time in seconds for the request to be retried, 0 if the request is allowed. For `SLIDING_WINDOW` a retry after `retry_after` can still be limited. A request whose cost exceeds the limit (bucket capacity) can never pass, so retrying it after `retry_after` is still limited. In a state returned by `peek`, it is always 0 except with `GCRA`. |
+
+### 3) Quota
+
+Quota represents the quota limit configuration.
+
+| Field   | Type | Description                                                                                                    |
+|---------|------|----------------------------------------------------------------------------------------------------------------|
+| `burst` | int  | The bucket capacity, i.e. the maximum number of requests that can pass in a spike (supports Token / Leaky Bucket, GCRA). Defaults to 0 when `Quota` is built directly (for these algorithms, a zero-capacity bucket that limits every request with a positive cost); `per_*` helpers and quota strings default it to the limit. |
+| `rate`  | Rate | The base rate limit configuration.                                                                             |
+
+### 4) Rate
+
+Rate represents the rate limit configuration.
+
+| Field    | Type               | Description                                                         |
+|----------|--------------------|---------------------------------------------------------------------|
+| `period` | datetime.timedelta | The time period for which the rate limit applies.                   |
+| `limit`  | int                | The maximum number of requests allowed within the specified period. For Token / Leaky Bucket and GCRA it sets the refill rate, while `burst` sets the capacity. |
+
+### 5) Store Configuration
+
+#### Common Parameters
+
+| Param     | Description                                                                      | Default                      |
+|-----------|----------------------------------------------------------------------------------|------------------------------|
+| `server`  | Redis connection URL: a `redis+sentinel://` or `redis+cluster://` URL selects Sentinel or Cluster mode, and any other URL (such as `redis://`) is used as a standalone Redis URL. | `"redis://localhost:6379/0"` |
+| `options` | Storage-specific configurations                                                  | `{}`                         |
+
+#### RedisStore Options
+
+RedisStore is developed based on the Redis API provided by [redis-py](https://github.com/redis/redis-py).
+
+In terms of Redis connection configuration management, the configuration naming of [django-redis](https://github.com/jazzband/django-redis) is basically used to reduce the learning cost.
+
+| Parameter                  | Description                                                                                                                                                 | Default                                                                                                                                                                                                                                                                                                                                                                       |
+|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `SOCKET_TIMEOUT`           | ConnectionPool parameters.                                                                                                                                  | `null`                                                                                                                                                                                                                                                                                                                                                                        |
+| `SOCKET_CONNECT_TIMEOUT`   | ConnectionPool parameters.                                                                                                                                  | `null`                                                                                                                                                                                                                                                                                                                                                                        |
+| `CONNECTION_POOL_KWARGS`   | [ConnectionPool construction parameters](https://redis.readthedocs.io/en/stable/connections.html#connectionpool).                                           | `{}`                                                                                                                                                                                                                                                                                                                                                                          |
+| `REDIS_CLIENT_KWARGS`      | [RedisClient construction parameters](https://redis.readthedocs.io/en/stable/connections.html#redis.Redis).                                                 | `{}`                                                                                                                                                                                                                                                                                                                                                                          |
+| `SENTINEL_KWARGS`          | [Sentinel construction parameters](https://redis.readthedocs.io/en/stable/connections.html#id1): passed as its `sentinel_kwargs` argument.                     | `{}`                                                                                                                                                                                                                                                                                                                                                                          |
+| `CONNECTION_FACTORY_CLASS` | ConnectionFactory is used to create and maintain [ConnectionPool](https://redis.readthedocs.io/en/stable/connections.html#redis.connection.ConnectionPool) (`ClusterConnectionFactory` connects without creating one). | Automatically select via the `server` scheme by default. <br />Standalone: `"throttled.store.ConnectionFactory"` <br />Sentinel:`"throttled.store.SentinelConnectionFactory"`<br />Cluster: `"throttled.store.ClusterConnectionFactory"`                                                                                                                                      |
+| `REDIS_CLIENT_CLASS`       | RedisClient import path.                                                                                                                                    | Automatically select sync/async mode by default.<br />Sync(Standalone/Sentinel): `"redis.Redis"`<br />Async(Standalone/Sentinel): `"redis.asyncio.Redis"`<br />Sync(Cluster): ``"redis.cluster.RedisCluster"``<br />Async(Cluster): ``"redis.asyncio.cluster.RedisCluster"``                                                                                    |
+| `CONNECTION_POOL_CLASS`    | ConnectionPool import path.                                                                                                                                 | Automatically select via the `server` scheme and sync/async mode by default.<br />Sync(Standalone): `"redis.ConnectionPool"`<br />Async(Standalone): `"redis.asyncio.ConnectionPool"`<br />Sync(Sentinel): `"redis.SentinelConnectionPool"`<br />Async(Sentinel): `"redis.asyncio.SentinelConnectionPool"`<br />Cluster: no connection pool is created, but the path is still imported (default `"redis.ConnectionPool"`) |
+| `SENTINEL_CLASS`           | Sentinel import path.                                                                                                                                       | Automatically select sync/async mode by default.<br />Sync: `"redis.Sentinel"`<br />Async: `"redis.asyncio.Sentinel"`                                                                                                                                                                                                                                                         |
+
+#### MemoryStore Options
+
+MemoryStore is essentially a [LRU Cache](https://en.wikipedia.org/wiki/Cache_replacement_policies#LRU) based on memory with expiration time.
+
+| Parameter  | Description                                                                                                                          | Default |
+|------------|--------------------------------------------------------------------------------------------------------------------------------------|---------|
+| `MAX_SIZE` | Maximum capacity. When storing a new key would make the number of stored key-value pairs exceed `MAX_SIZE`, the least recently used key is eliminated first, according to the LRU policy. | `1024`  |
+
+### 6) Exception
+
+All exception classes defined in `throttled.exceptions` are `throttled.exceptions.BaseThrottledError` or inherit from it.
+
+#### LimitedError
+
+When a request is throttled in decorator or context manager mode, an exception is thrown, such as: `Rate limit exceeded: remaining=0, reset_after=60, retry_after=60.`.
+
+| Field               | Type              | Description                                                   |
+|---------------------|-------------------|---------------------------------------------------------------|
+| `rate_limit_result` | `RateLimitResult` or `None` | The result after executing the RateLimiter for the given key (`None` when the error is created without a result). |
+
+#### DataError
+
+Thrown when the parameter is invalid, such as: `Invalid key: None, must be a non-empty key.`.
+
+
+## 📊 Benchmarks
+
+### 1) Test Environment
+- **Python Version**: 3.13.1 (CPython implementation)
+- **Operating System**: macOS Darwin 23.6.0 (ARM64 architecture)
+- **Redis Version**: 7.x (local connection)
+
+### 2) Performance Metrics
+> Throughput in req/s, Latency in ms/op, measured in the environment above (results vary by machine).
+
+| Algorithm Type     | In-Memory (Single-thread) | In-Memory (16 threads)     | Redis (Single-thread) | Redis (16 threads)  |
+|--------------------|---------------------------|----------------------------|-----------------------|---------------------|
+| **Baseline** *[1]* | **1,692,307 / 0.0002**    | **135,018 / 0.0004** *[2]* | **17,324 / 0.0571**   | **16,803 / 0.9478** |
+| Fixed Window       | 369,635 / 0.0023          | 57,275 / 0.2533            | 16,233 / 0.0610       | 15,835 / 1.0070     |
+| Sliding Window     | 265,215 / 0.0034          | 49,721 / 0.2996            | 12,605 / 0.0786       | 13,371 / 1.1923     |
+| Token Bucket       | 365,678 / 0.0023          | 54,597 / 0.2821            | 13,643 / 0.0727       | 13,219 / 1.2057     |
+| Leaky Bucket       | 364,296 / 0.0023          | 54,136 / 0.2887            | 13,628 / 0.0727       | 12,579 / 1.2667     |
+| GCRA               | 373,906 / 0.0023          | 53,994 / 0.2895            | 12,901 / 0.0769       | 12,861 / 1.2391     |
+
+* *[1] Baseline: In-Memory - `dict[key] += 1`, Redis - `INCRBY key increment`*.
+* *[2] In-Memory concurrent baseline uses `threading.RLock` for thread safety.*
+* *[3] Performance: In-Memory - ~2.4-6.4x `dict[key] += 1` operations, Redis - ~1.06-1.37x `INCRBY key increment` operations.*
+* *[4] Benchmark code: [tests/benchmarks/test_throttled.py](https://github.com/ZhuoZhuoCrayon/throttled-py/blob/main/tests/benchmarks/test_throttled.py).*
+
+
+## 🍃 Inspiration
+
+[Rate Limiting, Cells, and GCRA](https://brandur.org/rate-limiting), by [Brandur Leach](https://github.com/brandur)
+
+
+## 📚 Version History
+
+[See CHANGELOG](https://github.com/ZhuoZhuoCrayon/throttled-py/blob/main/CHANGELOG_EN.rst)
+
+
+## 📄 License
+
+[The MIT License](https://github.com/ZhuoZhuoCrayon/throttled-py/blob/main/LICENSE)

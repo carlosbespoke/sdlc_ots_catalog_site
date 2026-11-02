@@ -1,0 +1,60 @@
+schema_version = "1.3"
+artifacts = ["/logs/artifacts"]
+
+[task]
+name = "bespokelabsai/h3-17f-687c550d"
+description = "A pinned checkout of the uber/h3 C library has had seventeen one-line faults injected across its source tree, and the test suite has been removed. Users report wrong numbers from ground-coverage and edge-length measurements, unreliable neighbour and grid-walking results, broken round trips through flat-grid coordinates and child positions, misplaced cell corners, and region-covering calls that return cells outside the shape, drop cells along its boundary, mis-estimate the cell count and accept undefined option values. The agent receives the faulted tree and must restore the behaviour described and name each faulted function."
+authors = []
+keywords = ["diagnosis", "root-cause", "fault-chain", "c", "ctest"]
+
+[metadata]
+task_id = "h3-17f-687c550d"
+display_title = "uber/h3: diagnosing seventeen injected faults without a test suite"
+display_description = "A pinned checkout of the uber/h3 C library has had seventeen one-line faults injected across its source tree, and the test suite has been removed. Users report wrong numbers from ground-coverage and edge-length measurements, unreliable neighbour and grid-walking results, broken round trips through flat-grid coordinates and child positions, misplaced cell corners, and region-covering calls that return cells outside the shape, drop cells along its boundary, mis-estimate the cell count and accept undefined option values. The agent receives the faulted tree and must restore the behaviour described and name each faulted function."
+category = "bugfix"
+difficulty = "hard"
+language = "c"
+repository_url = "https://github.com/uber/h3.git"
+base_commit_hash = "cd62033b337b128ea7c4749f2302143b424187fc"
+target_test = ""
+fault_count = 17
+fault_files = "src/h3lib/lib/area.c;src/h3lib/lib/baseCells.c;src/h3lib/lib/directedEdge.c;src/h3lib/lib/h3Index.c;src/h3lib/lib/latLng.c;src/h3lib/lib/linkedGeo.c;src/h3lib/lib/localij.c;src/h3lib/lib/polyfill.c;src/h3lib/lib/polygon.c;src/h3lib/lib/vertex.c"
+fault_ids = "30f3832c,68afe501,df1d6c38,9a4ddc4f,1ee58913,f4f18288,8c5d09f1,44366fd5,ec3203e3,f1ea76f6,2e6fcc4b,2b27c3ee,eb27a658,8071b094,5ebcdca3,4b54932b,8655b801"
+why_hard = "17 edits across 10 files, one per function, and the repository's own suite is the only thing that shows them"
+generated_by = "voyager-diagnosis-pipeline"
+
+# Dual-container (separate) verifier, which the Voyager OTS spec requires of every task
+# (2026-09-29). Grading runs in its OWN container, built from tests/Dockerfile: the same
+# environment/Dockerfile the agent's image comes from, plus root-owned /tests layers the
+# agent image never holds. Nothing the agent did at run time reaches that container except
+# what the collect command below hands over - /logs/artifacts/worktree.tgz (the working
+# tree without .git) and /logs/artifacts/rca.json - and tests/grade.py adopts only source
+# files out of the archive. So the agent's .git, its venv, its home directory, its
+# processes and anything it planted outside the source roots never meet the grader. The
+# grader still runs as root (user below) and drops to the agent account for every suite run
+# (answer_key run_tests_as = "agent"). No [verifier.environment] block: Harbor then gives
+# the verifier a fresh copy of [environment] below, so one declaration governs both
+# containers' network, cpus, memory and storage.
+[verifier]
+environment_mode = "separate"
+user = "root"
+timeout_sec = 2700.0
+[[verifier.collect]]
+command = "bash -c 'mkdir -p /logs/artifacts && cd /workspace/repo && tar czf /logs/artifacts/worktree.tgz --exclude=./.git . ; cp -f /app/rca.json /logs/artifacts/rca.json 2>/dev/null || true'"
+service = "main"
+timeout_sec = 300
+
+# The solving agent's own budget, per language. Horizon applies it as written, with no
+# multiplier. AGENT_TIMEOUT_SEC holds the numbers and the reason.
+[agent]
+timeout_sec = 21600.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+os = "linux"
+workdir = "/workspace/repo"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

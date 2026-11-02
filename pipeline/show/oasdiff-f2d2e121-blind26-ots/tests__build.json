@@ -1,0 +1,699 @@
+{
+  "schema": 1,
+  "generator": {
+    "file": "build_task.py",
+    "git_revision": "02264438e6ceb8914092df10faa04bb011fc4dab",
+    "uncommitted": false,
+    "sha256": "c68f598ac1371bf96ee91fba9197c481a5004b3a5bda60f91c8d7b274e71b819",
+    "written_by_build": true
+  },
+  "grader_sha256": "e4cf2240c24c48e6f25324b896cffc88bee852dbd07492eb798ea6f255d063ca",
+  "grader_template": "b053fa8096610dd30952a1af7bc54293384980b4e52c0eb9559c181466045eec",
+  "grader_template_commit": "ea4954b9184fdeffbc301c15cf12c82195528822",
+  "args": {
+    "ids": "28ea0acb,60bbfced,3e62ff92,ce6047e7,4305f14a,92646771,5f919edb,0e3e3e8a,5e9ad715,498c4452,3b2bbd4c,472ec4da,dc2dff97,e250cabc,be1c803d,f2bb679e,1d69e791,9fa7b8d4,1d0bad9f,f7380785,8edddd6f,d2c46129,2a5c9255,cefc4cec,0853960d,b06084d0",
+    "test": "",
+    "repo": "oasdiff",
+    "repo_url": "https://github.com/oasdiff/oasdiff.git",
+    "commit": "f2d2e1211a88f119a7eda535161e0a10d3f429e6",
+    "base_image": "diagvgen-base-oasdiff__oasdiff-f2d2e121",
+    "workdir": "/workspace/repo",
+    "test_cmd": "go test -count=1 ./...",
+    "language": "go",
+    "baseline_failures": 0,
+    "source_roots": [
+      "checker",
+      "diff",
+      "formatters",
+      "internal",
+      "validate"
+    ],
+    "hide_tests": true,
+    "symptom": "I use this program to compare two versions of an API description and be told what changed between them and whether any of it would break existing callers. Something went through this codebase and quietly changed one line here and one line there; the result is that a lot of unrelated runs now come back wrong, and nothing prints a warning while doing it. The repository has received 26 separate undocumented edits. What follows is what I actually did and what actually came back.\n\nAsking what changed about what a client is allowed to send, the answers are wrong in several places at once. Comparing a base document against a revision that adds parameters to endpoints already present in both, the newly required query and header parameters and the newly optional ones are no longer listed the way they were; seven entries about added parameters used to come back, and what comes back now is another set entirely. The same trouble shows up when I list every change between two sample documents and ask for extra attributes to be carried through: the total count of entries is off, and the entry that should carry the beta and extension attributes is no longer where it was. When a parameter's schema has a property whose list of accepted types gains or loses a member, nothing is reported about that property being widened or narrowed, although the same widening and narrowing reported directly on the parameter itself still arrives. Where a query parameter and a property nested in a parameter schema switch between accepting null and not, with the type written as a list that includes null, the expected pair of entries about that does not both come back, in either direction of the comparison. Changing a request body property default from 10 to 20 no longer yields the entry naming the old and the new value, and removing defaults outright \u2014 one on a text/plain body, one on a JSON property \u2014 no longer yields the two removal entries. Adding a maximum length of 15 to a request body property that had none is no longer reported. A request parameter that gains an exclusive minimum is no longer flagged. Removing one of the permitted values from the vendor extension that enumerates allowed values on a request body property yields nothing at all, so the pointer back to line 20 of the base file, where the removed value stood, is gone with it.\n\nAsking what changed about what comes back to a client is no better. Comparing two documents where the mapping that tells a client which alternative shape a reply takes gains one key, drops another and repoints a third, essentially nothing about those additions, deletions and re-targetings is reported, neither for the body itself nor for the mapping on a property nested inside one of the alternatives; five entries were expected and they are not there. Dropping a maximum length of 13 from a response body schema no longer reports the limit being removed, even with every rule turned on. Moving the properties of a body inside a set of alternatives used to come back as exactly one breaking entry per body; now the comparison floods out all the mechanical consequences instead \u2014 properties reported as removed, required ones reported as having become optional, alternatives reported as added, and the top-level type reported as changed to any \u2014 and it does this for request bodies and response bodies alike, instead of the single wrapping entry at error level.\n\nReading the wording of the entries that do arrive, some of them describe the wrong thing. A query parameter that becomes deprecated is still noticed, but the sentence it produces is wrong: it tacks a stability note onto the message when the document declares no stability, and it leaves the stability note out when the document does declare one; the sunset date part of the sentence reads as before in both. Going the other way, comparing a document whose endpoint is deprecated against one where the deprecation has been taken away produces no entry at all, so the endpoint coming back into service is never announced. And wherever a change inside an unnamed alternative is described, that alternative is numbered one too high: the first alternative of a list is called number two, and a pair of them reads as the second and third. Alternatives referred to by schema name read as before.\n\nReading the high-level tally at the top of a comparison, it now claims nothing changed among the labels that group endpoints, although two of them did change; the counts for paths, servers, schemas, headers, parameters, request bodies, responses and security schemes are all still right. Worse, comparing a pair of 3.1 documents whose declared identifier for the terms the document is published under goes from MIT to Apache-2.0, the result carries no information about those terms whatsoever \u2014 the identifier change simply is not in there. This one missing piece has more than one cause and needs more than one repair: the emptiness verdict for that part of the result is inverted, so a populated section is thrown away as if it held nothing, and two separate steps that assemble it bail out on success instead of on failure, so the old and new identifier never get recorded. Nothing shows up until all three are dealt with.\n\nAsking for the result in the various shapes I normally consume it in fails in as many ways. Rendered as HTML, or as plain text, I get a document that no longer contains the \"New Endpoints: None\" section at all; both of those two renderings behave as though they had been routed somewhere else. Comparing two whole directories of files merged into a single pair no longer prints the one deleted endpoint it should print, and asking to upload such a merged comparison for sharing ends with a non-zero exit code where it used to finish at zero. Asking for the XML shape a build system reads, when the change list is empty, no longer emits the single passing case saying no breaking changes were detected \u2014 the zero-change document comes out looking like something else entirely. Rendering an empty, nil set of single-document findings as JSON, or as YAML, returns something other than the empty list [] that both used to produce. And in the machine-readable listing of the rules used when reporting all changes, every entry comes back without a severity, so I can no longer see at which level each rule fires; the listing of the single-document screening rules still carries both an id and a severity for every entry.\n\nSteering a run from the command line has its own two faults. Passing extra key=value metadata alongside a run, an entry that begins with an equals sign \u2014 that is, one with an empty key \u2014 is now swallowed silently instead of being refused with the \"expected key=value\" complaint; entries containing no equals sign at all, and repeated keys, are still refused, a value that itself contains equals signs still splits on the first one only, and an empty value is still accepted. Running with a suppression file aimed at two removals of shared definitions, far more than those two entries vanish from the output: lines in that file now silence findings they do not name, and the surviving count falls well short of everything-minus-two.\n\nFinally, screening a single document on its own, the complaint about a format that is defined for one type but attached to another has gone quiet. A document with an integer property carrying a date-time format, an integer carrying double, and a third such property nested deeper in a schema produces no findings where three used to be raised, each naming the type the format actually belongs to. And in a document where a property's type is written as a list of a real type together with null, the same complaint says nothing about a uuid format sitting on an integer, where one finding naming that property used to come back \u2014 two distinct problems that both have to be fixed before this complaint reports anything usefully again.",
+    "drop_paths": "",
+    "title": "oasdiff: wrong answers all over the comparison output, to be diagnosed without a test suite",
+    "description": "The oasdiff repository at a pinned commit has had 26 one-line faults injected across unrelated areas of its behaviour, and the test suite has been removed from the tree. The agent receives only the faulted sources and a user-level report of the misbehaviour: missing or wrong entries when comparing two API documents, garbled report wording and numbering, broken rendering in several output shapes, a summary that under-counts, a rules listing without severities, over-eager suppression from an ignore file, silent acceptance of a malformed command-line entry, and a document check that has stopped producing findings. It must localize each fault from behaviour alone, repair the behaviour, and name the faulted functions.",
+    "allow": "symptom-leak"
+  },
+  "base_dockerfile_sha256": "2b37de6becbbe1057ca9b27adc5b6d1faab264385ff4b3fc9569c89e7ec95d55",
+  "base_dockerfile_text": "# Generated by voyager repo-pipeline. Reproduces oasdiff/oasdiff@f2d2e1211a88f119a7eda535161e0a10d3f429e6\nFROM --platform=linux/amd64 golang@sha256:116d58cbd88c1297624acc6e967a060012422bacf9930927e23fb719189c6f36\nENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8\nENV CGO_ENABLED=1\nENV GOFLAGS=-buildvcs=false\nENV GOCACHE=/workspace/.cache/go-build\nENV GOMODCACHE=/go/pkg/mod\nENV GOTOOLCHAIN=local\nENV SOURCE_DATE_EPOCH=0\nRUN echo REPOPIPELINE_STAGE=system_packages \\\n    && apt-get update -qq \\\n    && apt-get install -y -qq --no-install-recommends build-essential ca-certificates git \\\n    && rm -rf /var/lib/apt/lists/*\n# Keep the toolchain visible to login shells (`bash -lc`), not just `ENV`:\n# /etc/profile rebuilds PATH and would otherwise discard the ENV entry.\nRUN printf 'export CGO_ENABLED=\"1\"\\nexport GOFLAGS=\"-buildvcs=false\"\\nexport GOCACHE=\"/workspace/.cache/go-build\"\\nexport GOMODCACHE=\"/go/pkg/mod\"\\nexport GOTOOLCHAIN=\"local\"\\nexport PATH=\"/usr/local/go/bin:/go/bin:$PATH\"\\n' > /etc/profile.d/00-repopipeline.sh && chmod 0644 /etc/profile.d/00-repopipeline.sh\nRUN useradd -m -u 1000 -s /bin/bash agent 2>/dev/null || true \\\n    && git config --system --add safe.directory /workspace/repo\nRUN echo REPOPIPELINE_STAGE=clone \\\n    && git init -q /workspace/repo \\\n    && cd /workspace/repo \\\n    && git remote add origin https://github.com/oasdiff/oasdiff.git \\\n    && git fetch --depth 1 origin f2d2e1211a88f119a7eda535161e0a10d3f429e6 \\\n    && git checkout -q FETCH_HEAD \\\n    && git submodule update --init --recursive --depth 1 2>/dev/null || true\nWORKDIR /workspace/repo\nRUN echo REPOPIPELINE_STAGE=cache_dirs && mkdir -p /workspace/.cache/go-build /go/pkg/mod\nRUN echo REPOPIPELINE_STAGE=install \\\n    && go mod download all\nRUN echo REPOPIPELINE_STAGE=build \\\n    && go build ./... \\\n    && chown -R agent:agent /workspace/repo /workspace/.cache/go-build /go/pkg/mod /go 2>/dev/null || true\nLABEL org.opencontainers.image.source=\"https://github.com/oasdiff/oasdiff\" \\\n      org.opencontainers.image.revision=\"f2d2e1211a88f119a7eda535161e0a10d3f429e6\" \\\n      io.voyager.repo=\"oasdiff/oasdiff\" \\\n      io.voyager.language=\"go\" \\\n      io.voyager.toolchain=\"go1.26\" \\\n      io.voyager.test-command=\"go test ./...\"",
+  "faults": [
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestNewRequestNonPathParameter_DetectsNewRequiredPathsAndNewOperations",
+        "github.com/oasdiff/oasdiff/internal::Test_ChangelogWithAttributes"
+      ],
+      "id": "28ea0acb",
+      "kind": "flip_comparison",
+      "path": "checker/check_new_request_non_path_default_parameter.go",
+      "func": "NewRequestNonPathDefaultParameterCheck",
+      "line": 20,
+      "before": "len(pathItem.Revision.Operations()) == 0",
+      "after": "len(pathItem.Revision.Operations()) != 0"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/validate::TestLintTypeFormatMismatch",
+        "github.com/oasdiff/oasdiff/validate::TestLintTypeFormatMismatch_NullableTypeArray"
+      ],
+      "id": "60bbfced",
+      "kind": "flip_comparison",
+      "path": "validate/lint_type_format_mismatch.go",
+      "func": "mismatchedFormatOwner",
+      "line": 72,
+      "before": "s.Type == nil",
+      "after": "s.Type != nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/diff::TestSummary"
+      ],
+      "id": "3e62ff92",
+      "kind": "swap_boolean_operator",
+      "path": "diff/tags_diff.go",
+      "func": "TagsDiff.Empty",
+      "line": 31,
+      "before": "len(tagsDiff.Added) == 0 &&\n\t\tlen(tagsDiff.Deleted) == 0 &&\n\t\tlen(tagsDiff.Modified) == 0",
+      "after": "len(tagsDiff.Added) == 0 &&\n\t\tlen(tagsDiff.Deleted) == 0 ||\n\t\tlen(tagsDiff.Modified) == 0"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/internal::Test_ComposedMode",
+        "github.com/oasdiff/oasdiff/internal::Test_OpenWithComposedAllowed"
+      ],
+      "id": "ce6047e7",
+      "kind": "flip_comparison",
+      "path": "internal/diff.go",
+      "func": "composedDiff",
+      "line": 177,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/formatters::TestJUnitFormatter_RenderChangelog_Success"
+      ],
+      "id": "4305f14a",
+      "kind": "flip_comparison",
+      "path": "formatters/format_junit.go",
+      "func": "JUnitFormatter.RenderChangelog",
+      "line": 75,
+      "before": "len(changes) == 0",
+      "after": "len(changes) != 0"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestResponseDiscriminatorUpdatedCheckMappingChanging"
+      ],
+      "id": "92646771",
+      "kind": "flip_comparison",
+      "path": "checker/check_response_discriminator_updated.go",
+      "func": "processDiscriminatorDiff",
+      "line": 130,
+      "before": "propertyName == \"\"",
+      "after": "propertyName != \"\""
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/internal::Test_DiffHtml",
+        "github.com/oasdiff/oasdiff/internal::Test_DiffText"
+      ],
+      "id": "5f919edb",
+      "kind": "flip_comparison",
+      "path": "internal/diff.go",
+      "func": "runDiff",
+      "line": 36,
+      "before": "flags.getFormat() == string(formatters.FormatJSON)",
+      "after": "flags.getFormat() != string(formatters.FormatJSON)"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/internal::TestParseReviewMeta/leading_=_(empty_key)_is_an_error"
+      ],
+      "id": "0e3e3e8a",
+      "kind": "flip_comparison",
+      "path": "internal/open_review.go",
+      "func": "parseReviewMeta",
+      "line": 268,
+      "before": "i <= 0",
+      "after": "i < 0"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestListOfTypesRemainingUncoveredLines/parameter_property_widening_case",
+        "github.com/oasdiff/oasdiff/checker::TestListOfTypesUncoveredPaths/parameter_property_list_of_types_changes"
+      ],
+      "id": "5e9ad715",
+      "kind": "flip_comparison",
+      "path": "checker/check_request_parameter_list_of_types_changed.go",
+      "func": "RequestParameterListOfTypesChangedCheck",
+      "line": 46,
+      "before": "paramDiff.SchemaDiff != nil",
+      "after": "paramDiff.SchemaDiff == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestRequestBodyDefaultValueRemoving",
+        "github.com/oasdiff/oasdiff/checker::TestRequestPropertyDefaultValueChanged"
+      ],
+      "id": "498c4452",
+      "kind": "flip_comparison",
+      "path": "checker/check_request_property_default_value_changed.go",
+      "func": "RequestPropertyDefaultValueChangedCheck",
+      "line": 48,
+      "before": "defaultValueDiff.To == nil",
+      "after": "defaultValueDiff.To != nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestResponsePropertyAnyOfModified",
+        "github.com/oasdiff/oasdiff/diff::TestSubschemaString_Empty"
+      ],
+      "id": "3b2bbd4c",
+      "kind": "change_constant",
+      "path": "diff/modified_subschemas.go",
+      "func": "Subschema.String",
+      "line": 57,
+      "before": "1",
+      "after": "2"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestParameterTypeArrayNullability/became_not_nullable",
+        "github.com/oasdiff/oasdiff/checker::TestParameterTypeArrayNullability/became_nullable"
+      ],
+      "id": "472ec4da",
+      "kind": "flip_comparison",
+      "path": "checker/check_request_parameter_became_nullable.go",
+      "func": "RequestParameterBecameNullableCheck",
+      "line": 49,
+      "before": "propertyDiff.Base == nil",
+      "after": "propertyDiff.Base != nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestParameterDeprecated_MessageIncludesSunset",
+        "github.com/oasdiff/oasdiff/checker::TestParameterDeprecated_MessageIncludesSunsetAndStability"
+      ],
+      "id": "dc2dff97",
+      "kind": "flip_comparison",
+      "path": "checker/check_api_deprecation.go",
+      "func": "formatDeprecationDetailsWithSunset",
+      "line": 39,
+      "before": "stability != \"\"",
+      "after": "stability == \"\""
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestRequestPropertyOneOfWrappingIsBreaking",
+        "github.com/oasdiff/oasdiff/checker::TestResponsePropertyOneOfWrappingIsBreaking"
+      ],
+      "id": "e250cabc",
+      "kind": "flip_comparison",
+      "path": "diff/one_of_wrapping_diff.go",
+      "func": "getOneOfWrappingDiff",
+      "line": 56,
+      "before": "len(revision.OneOf) == 0",
+      "after": "len(revision.OneOf) != 0",
+      "breaks_nonlocal_ok": true,
+      "breaks_nonlocal_ok_note": "rebuild for PR 141's Go build-cache purge; fault set already screened and reviewed on the version being replaced, and this build re-verified that every break still runs"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestRequestPropertyMaxLengthSetCheck"
+      ],
+      "id": "be1c803d",
+      "kind": "flip_comparison",
+      "path": "checker/check_request_property_max_length_set.go",
+      "func": "RequestPropertyMaxLengthSetCheck",
+      "line": 28,
+      "before": "maxLengthDiff.From != nil",
+      "after": "maxLengthDiff.From == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/diff::TestOpenAPI31_LicenseIdentifier"
+      ],
+      "id": "f2bb679e",
+      "kind": "flip_comparison",
+      "path": "diff/license_diff.go",
+      "func": "LicenseDiff.Empty",
+      "line": 19,
+      "before": "diff == nil",
+      "after": "diff != nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestBreaking_ResponseMaxLengthToNil"
+      ],
+      "id": "1d69e791",
+      "kind": "flip_comparison",
+      "path": "checker/check_response_property_max_length_unset.go",
+      "func": "ResponsePropertyMaxLengthUnsetCheck",
+      "line": 17,
+      "before": "maxLengthDiff.From != nil",
+      "after": "maxLengthDiff.From == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestRequestParameterExclusiveMinSet"
+      ],
+      "id": "9fa7b8d4",
+      "kind": "flip_comparison",
+      "path": "checker/check_request_parameters_min_set.go",
+      "func": "RequestParameterMinSetCheck",
+      "line": 39,
+      "before": "entry.diff.To == nil",
+      "after": "entry.diff.To != nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestApiDeprecated_DetectsReactivatedOperations"
+      ],
+      "id": "1d0bad9f",
+      "kind": "swap_boolean_operator",
+      "path": "checker/check_api_deprecation.go",
+      "func": "APIDeprecationCheck",
+      "line": 64,
+      "before": "operationDiff.DeprecatedDiff.To == nil || operationDiff.DeprecatedDiff.To == false",
+      "after": "operationDiff.DeprecatedDiff.To == nil && operationDiff.DeprecatedDiff.To == false"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/internal::Test_ChecksSubcommandsListTheirRules/oasdiff_checks_changelog_--format_json"
+      ],
+      "id": "f7380785",
+      "kind": "change_constant",
+      "path": "internal/checks_changelog.go",
+      "func": "outputChangelogRules",
+      "line": 67,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/diff::TestOpenAPI31_LicenseIdentifier"
+      ],
+      "id": "8edddd6f",
+      "kind": "flip_comparison",
+      "path": "diff/license_diff.go",
+      "func": "getLicenseDiff",
+      "line": 25,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestIgnoreComponent"
+      ],
+      "id": "d2c46129",
+      "kind": "swap_boolean_operator",
+      "path": "checker/component_change.go",
+      "func": "ComponentChange.MatchIgnore",
+      "line": 44,
+      "before": "strings.Contains(ignoreLine, strings.ToLower(c.GetUncolorizedText(l))) &&\n\t\tstrings.Contains(ignoreLine, \"components\")",
+      "after": "strings.Contains(ignoreLine, strings.ToLower(c.GetUncolorizedText(l))) ||\n\t\tstrings.Contains(ignoreLine, \"components\")"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestRequestPropertyXExtensibleEnumValueRemovedCheck",
+        "github.com/oasdiff/oasdiff/checker::TestRequestPropertyXExtensibleEnumValueRemoved_WithSources"
+      ],
+      "id": "2a5c9255",
+      "kind": "flip_comparison",
+      "path": "checker/check_request_property_x_extensible_enum_value_removed.go",
+      "func": "RequestPropertyXExtensibleEnumValueRemovedCheck",
+      "line": 24,
+      "before": "p.propertyDiff.ExtensionsDiff.Modified[diff.XExtensibleEnumExtension] == nil",
+      "after": "p.propertyDiff.ExtensionsDiff.Modified[diff.XExtensibleEnumExtension] != nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/diff::TestOpenAPI31_LicenseIdentifier"
+      ],
+      "id": "cefc4cec",
+      "kind": "flip_comparison",
+      "path": "diff/license_diff.go",
+      "func": "getLicenseDiffInternal",
+      "line": 56,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/formatters::TestJsonFormatter_RenderValidate_Nil",
+        "github.com/oasdiff/oasdiff/formatters::TestYamlFormatter_RenderValidate_Nil"
+      ],
+      "id": "0853960d",
+      "kind": "flip_comparison",
+      "path": "formatters/format_json.go",
+      "func": "emptyDocFor",
+      "line": 76,
+      "before": "t.Kind() == reflect.Pointer",
+      "after": "t.Kind() != reflect.Pointer"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/oasdiff/oasdiff/validate::TestLintTypeFormatMismatch",
+        "github.com/oasdiff/oasdiff/validate::TestLintTypeFormatMismatch_NullableTypeArray"
+      ],
+      "id": "b06084d0",
+      "kind": "flip_comparison",
+      "path": "validate/lint_type_format_mismatch.go",
+      "func": "withoutNullType",
+      "line": 114,
+      "before": "t != \"null\"",
+      "after": "t == \"null\""
+    }
+  ],
+  "baseline_failing_names": [],
+  "causes": [
+    {
+      "file": "checker/check_new_request_non_path_default_parameter.go",
+      "function": "NewRequestNonPathDefaultParameterCheck",
+      "qualname": "NewRequestNonPathDefaultParameterCheck",
+      "id": "28ea0acb",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestNewRequestNonPathParameter_DetectsNewRequiredPathsAndNewOperations",
+        "github.com/oasdiff/oasdiff/internal::Test_ChangelogWithAttributes"
+      ]
+    },
+    {
+      "file": "validate/lint_type_format_mismatch.go",
+      "function": "mismatchedFormatOwner",
+      "qualname": "mismatchedFormatOwner",
+      "id": "60bbfced",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/validate::TestLintTypeFormatMismatch",
+        "github.com/oasdiff/oasdiff/validate::TestLintTypeFormatMismatch_NullableTypeArray"
+      ]
+    },
+    {
+      "file": "diff/tags_diff.go",
+      "function": "TagsDiff.Empty",
+      "qualname": "TagsDiff.Empty",
+      "id": "3e62ff92",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/diff::TestSummary"
+      ]
+    },
+    {
+      "file": "internal/diff.go",
+      "function": "composedDiff",
+      "qualname": "composedDiff",
+      "id": "ce6047e7",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/internal::Test_ComposedMode",
+        "github.com/oasdiff/oasdiff/internal::Test_OpenWithComposedAllowed"
+      ]
+    },
+    {
+      "file": "formatters/format_junit.go",
+      "function": "JUnitFormatter.RenderChangelog",
+      "qualname": "JUnitFormatter.RenderChangelog",
+      "id": "4305f14a",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/formatters::TestJUnitFormatter_RenderChangelog_Success"
+      ]
+    },
+    {
+      "file": "checker/check_response_discriminator_updated.go",
+      "function": "processDiscriminatorDiff",
+      "qualname": "processDiscriminatorDiff",
+      "id": "92646771",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestResponseDiscriminatorUpdatedCheckMappingChanging"
+      ]
+    },
+    {
+      "file": "internal/diff.go",
+      "function": "runDiff",
+      "qualname": "runDiff",
+      "id": "5f919edb",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/internal::Test_DiffHtml",
+        "github.com/oasdiff/oasdiff/internal::Test_DiffText"
+      ]
+    },
+    {
+      "file": "internal/open_review.go",
+      "function": "parseReviewMeta",
+      "qualname": "parseReviewMeta",
+      "id": "0e3e3e8a",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/internal::TestParseReviewMeta/leading_=_(empty_key)_is_an_error"
+      ]
+    },
+    {
+      "file": "checker/check_request_parameter_list_of_types_changed.go",
+      "function": "RequestParameterListOfTypesChangedCheck",
+      "qualname": "RequestParameterListOfTypesChangedCheck",
+      "id": "5e9ad715",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestListOfTypesRemainingUncoveredLines/parameter_property_widening_case",
+        "github.com/oasdiff/oasdiff/checker::TestListOfTypesUncoveredPaths/parameter_property_list_of_types_changes"
+      ]
+    },
+    {
+      "file": "checker/check_request_property_default_value_changed.go",
+      "function": "RequestPropertyDefaultValueChangedCheck",
+      "qualname": "RequestPropertyDefaultValueChangedCheck",
+      "id": "498c4452",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestRequestBodyDefaultValueRemoving",
+        "github.com/oasdiff/oasdiff/checker::TestRequestPropertyDefaultValueChanged"
+      ]
+    },
+    {
+      "file": "diff/modified_subschemas.go",
+      "function": "Subschema.String",
+      "qualname": "Subschema.String",
+      "id": "3b2bbd4c",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestResponsePropertyAnyOfModified",
+        "github.com/oasdiff/oasdiff/diff::TestSubschemaString_Empty"
+      ]
+    },
+    {
+      "file": "checker/check_request_parameter_became_nullable.go",
+      "function": "RequestParameterBecameNullableCheck",
+      "qualname": "RequestParameterBecameNullableCheck",
+      "id": "472ec4da",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestParameterTypeArrayNullability/became_not_nullable",
+        "github.com/oasdiff/oasdiff/checker::TestParameterTypeArrayNullability/became_nullable"
+      ]
+    },
+    {
+      "file": "checker/check_api_deprecation.go",
+      "function": "formatDeprecationDetailsWithSunset",
+      "qualname": "formatDeprecationDetailsWithSunset",
+      "id": "dc2dff97",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestParameterDeprecated_MessageIncludesSunset",
+        "github.com/oasdiff/oasdiff/checker::TestParameterDeprecated_MessageIncludesSunsetAndStability"
+      ]
+    },
+    {
+      "file": "diff/one_of_wrapping_diff.go",
+      "function": "getOneOfWrappingDiff",
+      "qualname": "getOneOfWrappingDiff",
+      "id": "e250cabc",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestRequestPropertyOneOfWrappingIsBreaking",
+        "github.com/oasdiff/oasdiff/checker::TestResponsePropertyOneOfWrappingIsBreaking"
+      ]
+    },
+    {
+      "file": "checker/check_request_property_max_length_set.go",
+      "function": "RequestPropertyMaxLengthSetCheck",
+      "qualname": "RequestPropertyMaxLengthSetCheck",
+      "id": "be1c803d",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestRequestPropertyMaxLengthSetCheck"
+      ]
+    },
+    {
+      "file": "diff/license_diff.go",
+      "function": "LicenseDiff.Empty",
+      "qualname": "LicenseDiff.Empty",
+      "id": "f2bb679e",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/diff::TestOpenAPI31_LicenseIdentifier"
+      ]
+    },
+    {
+      "file": "checker/check_response_property_max_length_unset.go",
+      "function": "ResponsePropertyMaxLengthUnsetCheck",
+      "qualname": "ResponsePropertyMaxLengthUnsetCheck",
+      "id": "1d69e791",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestBreaking_ResponseMaxLengthToNil"
+      ]
+    },
+    {
+      "file": "checker/check_request_parameters_min_set.go",
+      "function": "RequestParameterMinSetCheck",
+      "qualname": "RequestParameterMinSetCheck",
+      "id": "9fa7b8d4",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestRequestParameterExclusiveMinSet"
+      ]
+    },
+    {
+      "file": "checker/check_api_deprecation.go",
+      "function": "APIDeprecationCheck",
+      "qualname": "APIDeprecationCheck",
+      "id": "1d0bad9f",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestApiDeprecated_DetectsReactivatedOperations"
+      ]
+    },
+    {
+      "file": "internal/checks_changelog.go",
+      "function": "outputChangelogRules",
+      "qualname": "outputChangelogRules",
+      "id": "f7380785",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/internal::Test_ChecksSubcommandsListTheirRules/oasdiff_checks_changelog_--format_json"
+      ]
+    },
+    {
+      "file": "diff/license_diff.go",
+      "function": "getLicenseDiff",
+      "qualname": "getLicenseDiff",
+      "id": "8edddd6f",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/diff::TestOpenAPI31_LicenseIdentifier"
+      ]
+    },
+    {
+      "file": "checker/component_change.go",
+      "function": "ComponentChange.MatchIgnore",
+      "qualname": "ComponentChange.MatchIgnore",
+      "id": "d2c46129",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestIgnoreComponent"
+      ]
+    },
+    {
+      "file": "checker/check_request_property_x_extensible_enum_value_removed.go",
+      "function": "RequestPropertyXExtensibleEnumValueRemovedCheck",
+      "qualname": "RequestPropertyXExtensibleEnumValueRemovedCheck",
+      "id": "2a5c9255",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/checker::TestRequestPropertyXExtensibleEnumValueRemovedCheck",
+        "github.com/oasdiff/oasdiff/checker::TestRequestPropertyXExtensibleEnumValueRemoved_WithSources"
+      ]
+    },
+    {
+      "file": "diff/license_diff.go",
+      "function": "getLicenseDiffInternal",
+      "qualname": "getLicenseDiffInternal",
+      "id": "cefc4cec",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/diff::TestOpenAPI31_LicenseIdentifier"
+      ]
+    },
+    {
+      "file": "formatters/format_json.go",
+      "function": "emptyDocFor",
+      "qualname": "emptyDocFor",
+      "id": "0853960d",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/formatters::TestJsonFormatter_RenderValidate_Nil",
+        "github.com/oasdiff/oasdiff/formatters::TestYamlFormatter_RenderValidate_Nil"
+      ]
+    },
+    {
+      "file": "validate/lint_type_format_mismatch.go",
+      "function": "withoutNullType",
+      "qualname": "withoutNullType",
+      "id": "b06084d0",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/oasdiff/oasdiff/validate::TestLintTypeFormatMismatch",
+        "github.com/oasdiff/oasdiff/validate::TestLintTypeFormatMismatch_NullableTypeArray"
+      ]
+    }
+  ],
+  "formatter_pass": {
+    "tool": "gofmt",
+    "formatted": [
+      "checker/check_api_deprecation.go",
+      "checker/check_new_request_non_path_default_parameter.go",
+      "checker/check_request_parameter_became_nullable.go",
+      "checker/check_request_parameter_list_of_types_changed.go",
+      "checker/check_request_parameters_min_set.go",
+      "checker/check_request_property_default_value_changed.go",
+      "checker/check_request_property_max_length_set.go",
+      "checker/check_request_property_x_extensible_enum_value_removed.go",
+      "checker/check_response_discriminator_updated.go",
+      "checker/check_response_property_max_length_unset.go",
+      "checker/component_change.go",
+      "diff/license_diff.go",
+      "diff/modified_subschemas.go",
+      "diff/one_of_wrapping_diff.go",
+      "diff/tags_diff.go",
+      "formatters/format_json.go",
+      "formatters/format_junit.go",
+      "internal/checks_changelog.go",
+      "internal/diff.go",
+      "internal/open_review.go",
+      "validate/lint_type_format_mismatch.go"
+    ],
+    "raw": []
+  },
+  "rebuild": "python3 build_task.py --faults-file <this file> --ids <args.ids> and the rest of args above; --base-dockerfile can be written out of base_dockerfile_text"
+}

@@ -1,0 +1,59 @@
+schema_version = "1.3"
+artifacts = ["/logs/artifacts"]
+
+[task]
+name = "bespokelabsai/zha-device-handlers-30f-0bd6082a"
+description = "A user-facing bug report describes wide-ranging misbehaviour across a Zigbee home-automation quirks repository: wrong scaling of temperature, power and illuminance readings, alarm reports that never propagate, remotes whose presses vanish or land on the wrong key, blinds that move the wrong way or report impossible positions, heating controls that send the wrong frames, pinned constant values that no longer read back, and definitions that fail to load. The agent receives the faulted source tree without any test suite and must localize each defect from the described behaviour alone, repair it, and name the functions that were edited."
+authors = []
+keywords = ["diagnosis", "root-cause", "fault-chain", "python", "pytest"]
+
+[metadata]
+task_id = "zha-device-handlers-30f-0bd6082a"
+display_title = "ZHA quirks collection: diagnosing thirty regressions without a test suite"
+display_description = "A user-facing bug report describes wide-ranging misbehaviour across a Zigbee home-automation quirks repository: wrong scaling of temperature, power and illuminance readings, alarm reports that never propagate, remotes whose presses vanish or land on the wrong key, blinds that move the wrong way or report impossible positions, heating controls that send the wrong frames, pinned constant values that no longer read back, and definitions that fail to load. The agent receives the faulted source tree without any test suite and must localize each defect from the described behaviour alone, repair it, and name the functions that were edited."
+category = "bugfix"
+difficulty = "hard"
+language = "python"
+repository_url = "https://github.com/zigpy/zha-device-handlers.git"
+base_commit_hash = "b139f815ce3e23496eda0107d40410cad2b82357"
+target_test = ""
+fault_count = 30
+fault_files = "zhaquirks/bituo/spm01.py;zhaquirks/builder/builder.py;zhaquirks/candeo/__init__.py;zhaquirks/clusters.py;zhaquirks/device.py;zhaquirks/konke/__init__.py;zhaquirks/legrand/cable_outlet.py;zhaquirks/linkind/motion.py;zhaquirks/linxura/button.py;zhaquirks/philips/__init__.py;zhaquirks/schneiderelectric/outlet.py;zhaquirks/sinope/__init__.py;zhaquirks/smartwings/wm25lz.py;zhaquirks/sonoff/zbm5.py;zhaquirks/thirdreality/night_light.py;zhaquirks/tuya/__init__.py;zhaquirks/tuya/builder/__init__.py;zhaquirks/tuya/ts0601_electric_heating.py;zhaquirks/tuya/tuya_co.py;zhaquirks/tuya/tuya_smoke.py;zhaquirks/ubisys/cover_j1.py;zhaquirks/xiaomi/__init__.py;zhaquirks/xiaomi/aqara/roller_curtain_e1.py;zhaquirks/xiaomi/aqara/switch_acn047.py;zhaquirks/xiaomi/aqara/thermostat_agl001.py"
+fault_ids = "0cab6148,0b4167c8,096c9b59,c4050a5b,557b8c24,867be627,0d4b5b43,d88c4b0b,e77f4065,fc341357,bf1dbfbd,8d8e1760,2d833aee,c27e49be,25df3a64,e84ca6ca,66c658d0,6b165a0e,32b0c92c,fec4a003,3c6a0283,b792bcd3,d76d992b,46343a64,f135da0d,898b8029,35ce80d5,03b112a3,9a832d9c,427284ac"
+why_hard = "30 edits across 25 files, one per function, and the repository's own suite is the only thing that shows them"
+generated_by = "voyager-diagnosis-pipeline"
+
+# A separate verifier, rebuilt from the same Dockerfile in its own container. Grading
+# needs to see what the agent left behind, so the agent's working tree is collected and
+# extracted there. Sharing the agent's container instead put the git history, the
+# interpreter and the answer key all within its reach, and each one turned out to be a
+# way of scoring without doing the work.
+[verifier]
+environment_mode = "shared"
+user = "root"
+timeout_sec = 2400.0
+[[verifier.collect]]
+command = "bash -c 'mkdir -p /logs/artifacts && cd /workspace/repo && tar czf /logs/artifacts/worktree.tgz --exclude=./.git . ; cp -f /app/rca.json /logs/artifacts/rca.json 2>/dev/null || true ; cp -f /app/RESEARCH_AND_PLANNING.md /logs/artifacts/RESEARCH_AND_PLANNING.md 2>/dev/null || true'"
+service = "main"
+timeout_sec = 300
+# memory_mb was 4096 and is 8192. A pytest process was OOM killed at 2.09 GB inside a
+# 4 GB container while falcon's 4253 test suite ran, and a process killed partway through
+# collection reports a handful of tests and an error, which the reference solution gate
+# reads as a task defect. It does not reproduce when the box is quiet, so it presents as a
+# flaky gate. A limit is a cap and not a reservation, so raising it costs nothing on a
+# repository that does not need it. The one interaction to know about: containers all run
+# inside docker-limited.slice at MemoryMax=58G, so a high enough build concurrency can
+# still reach the slice limit, and the answer there is fewer concurrent builds rather than
+# a smaller per container cap.
+[agent]
+timeout_sec = 21600.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+os = "linux"
+workdir = "/workspace/repo"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

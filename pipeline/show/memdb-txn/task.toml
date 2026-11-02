@@ -1,0 +1,29 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+[task]
+name = "authored/fb-go-memdb-txn"
+description = ""
+[metadata]
+task_id = "fb-go-memdb-txn"
+display_title = "github.com/hashicorp/go-memdb: memdb-txn"
+language = "go"
+category = "feature-implementation"
+repository_url = "https://github.com/hashicorp/go-memdb"
+upstream_commit = "0f077dd1e96afe2b98dcc5741222d2cf700d8686"
+base_commit_hash = "HEAD"
+[verifier]
+environment_mode = "separate"
+timeout_sec = 2400
+[[verifier.collect]]
+command = "bash -lc 'cd /app && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached $(git rev-parse -q --verify refs/tags/mig-base || git rev-list --max-parents=0 HEAD | tail -n 1) > /logs/artifacts/model.patch 2>/dev/null || true'"
+service = "main"
+timeout_sec = 60
+[environment]
+allow_internet = false
+build_timeout_sec = 1800
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+[agent]
+timeout_sec = 21600

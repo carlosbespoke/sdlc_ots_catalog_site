@@ -1,0 +1,365 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 1200,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "c6d4df78e35009dd179b57039ea4eccd606a794410fcbed767f8e7a0bc99fc3a",
+  "documentation.json": "1e066e0c0e3259c994f9877eb707bf27bc2a4ef462bc9365cafdefececf0a18c",
+  "driver.py": "35ce1f674c4e1834fcab062a8eb782d827e221945fad4a90f611e028f6184461",
+  "expected.json": "4d191e9cd0a5cd9785da8f0bd2cb5f63d0aca213f63b395a52dbe8c6830a796b"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "GROUP-0001",
+    "kind": "f2p",
+    "requirement": "from_request creates a durable WebhookEventTrigger, validates and processes in a transaction, emits lifecycle signals in stage order with documented sender and arguments, skips processing after false validation, records and re-raises ordinary processing errors, and rolls back receiver writes while retaining trigger diagnostics. Valid processing stores and associates an Event; repeated IDs do not repeat event receivers. Failed deliveries can retry. Event-specific dispatch follows the same registration rules as direct Event.process.",
+    "tests": [
+     "OBS-0001",
+     "OBS-0002",
+     "OBS-0003",
+     "OBS-0004",
+     "OBS-0005",
+     "OBS-0006"
+    ]
+   },
+   {
+    "id": "GROUP-0002",
+    "kind": "f2p",
+    "requirement": "Event.process creates and dispatches new events transactionally, rolls back event and receiver writes on an ordinary receiver exception and propagates it, and returns existing event IDs without redispatch. Supported exact event types dispatch to receivers registered for a single name or list/tuple, with sender Event and the saved event argument; unsupported types do not dispatch. Empty subscriptions receive no events. Failed events can be retried.",
+    "tests": [
+     "OBS-0007",
+     "OBS-0008",
+     "OBS-0009",
+     "OBS-0010"
+    ]
+   },
+   {
+    "id": "GROUP-0003",
+    "kind": "f2p",
+    "requirement": "All endpoint validation methods require id and livemode. Disabled validation accepts an otherwise complete envelope. Signature validation uses the endpoint secret with case-insensitive headers, except that in DEBUG a nonempty forwarding-secret header takes precedence. Valid signatures pass and mismatched signatures fail; zero SDK tolerance disables the age check.",
+    "tests": [
+     "OBS-0011",
+     "OBS-0012",
+     "OBS-0013"
+    ]
+   },
+   {
+    "id": "GROUP-0004",
+    "kind": "p2p",
+    "requirement": "from_request creates a durable WebhookEventTrigger, validates and processes in a transaction, emits lifecycle signals in stage order with documented sender and arguments, skips processing after false validation, records and re-raises ordinary processing errors, and rolls back receiver writes while retaining trigger diagnostics. Valid processing stores and associates an Event; repeated IDs do not repeat event receivers. Failed deliveries can retry. Event-specific dispatch follows the same registration rules as direct Event.process.",
+    "tests": [
+     "OBS-0014",
+     "OBS-0015",
+     "OBS-0016",
+     "OBS-0017",
+     "OBS-0018",
+     "OBS-0019"
+    ]
+   },
+   {
+    "id": "GROUP-0005",
+    "kind": "p2p",
+    "requirement": "Event.process creates and dispatches new events transactionally, rolls back event and receiver writes on an ordinary receiver exception and propagates it, and returns existing event IDs without redispatch. Supported exact event types dispatch to receivers registered for a single name or list/tuple, with sender Event and the saved event argument; unsupported types do not dispatch. Empty subscriptions receive no events. Failed events can be retried.",
+    "tests": [
+     "OBS-0020",
+     "OBS-0021",
+     "OBS-0022",
+     "OBS-0023",
+     "OBS-0024",
+     "OBS-0025"
+    ]
+   },
+   {
+    "id": "GROUP-0006",
+    "kind": "p2p",
+    "requirement": "All endpoint validation methods require id and livemode. Disabled validation accepts an otherwise complete envelope. Signature validation uses the endpoint secret with case-insensitive headers, except that in DEBUG a nonempty forwarding-secret header takes precedence. Valid signatures pass and mismatched signatures fail; zero SDK tolerance disables the age check.",
+    "tests": [
+     "OBS-0026",
+     "OBS-0027",
+     "OBS-0028",
+     "OBS-0029",
+     "OBS-0030",
+     "OBS-0031",
+     "OBS-0032",
+     "OBS-0033",
+     "OBS-0034",
+     "OBS-0035",
+     "OBS-0036",
+     "OBS-0037"
+    ]
+   },
+   {
+    "id": "GROUP-COV-API-KEYS",
+    "kind": "p2p",
+    "requirement": "settings.md / api_keys.md: STRIPE_TEST_SECRET_KEY is used when STRIPE_LIVE_MODE is False and STRIPE_LIVE_SECRET_KEY when it is True; a set STRIPE_SECRET_KEY supplies the default key regardless of the mode; get_default_api_key(True/False) prefers the nonempty live/test key and falls back to that default, and get_default_api_key(None) uses the default directly; get_api_keys lists the distinct nonempty settings keys",
+    "tests": [
+     "OBS-0038",
+     "OBS-0039",
+     "OBS-0040",
+     "OBS-0041",
+     "OBS-0042"
+    ]
+   },
+   {
+    "id": "GROUP-COV-API-VERSION",
+    "kind": "p2p",
+    "requirement": "settings.md / api_versions.md: STRIPE_API_VERSION, when absent, is taken from stripe.api_version; a falsey value falls back to DEFAULT_STRIPE_API_VERSION; an explicit setting is used as is",
+    "tests": [
+     "OBS-0043",
+     "OBS-0044"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SETTINGS",
+    "kind": "p2p",
+    "requirement": "settings.md: DJSTRIPE_SUBSCRIBER_MODEL defaults to AUTH_USER_MODEL; DJSTRIPE_SUBSCRIBER_MODEL_REQUEST_CALLBACK defaults to request.user and a configured callable (or dotted path) is used; DJSTRIPE_SUBSCRIBER_CUSTOMER_KEY defaults to \"djstripe_subscriber\"; DJSTRIPE_WEBHOOK_VALIDATION defaults to \"verify_signature\" and DJSTRIPE_WEBHOOK_URL to r\"^webhook/$\"; by default idempotency keys are stored and reused through the IdempotencyKey model",
+    "tests": [
+     "OBS-0045",
+     "OBS-0046",
+     "OBS-0047",
+     "OBS-0048",
+     "OBS-0049",
+     "OBS-0050"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CHECKS",
+    "kind": "p2p",
+    "requirement": "settings.md: dj-stripe raises a system check error (djstripe.E002 / djstripe.E003) if DJSTRIPE_FOREIGN_KEY_TO_FIELD is unset or invalid; \"id\" and \"djstripe_id\" are accepted",
+    "tests": [
+     "OBS-0051"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DB-API-KEYS",
+    "kind": "p2p",
+    "requirement": "api_keys.md: a key saved from the administration only needs its secret; dj-stripe detects whether it is a publishable, restricted or secret key and whether it is live or test, and for a secret key fetches the matching Account and associates the key with it; secret_redacted/redact_api_key redact like the Stripe dashboard; a key stored for an account is preferred over the settings keys, which remain the fallback",
+    "tests": [
+     "OBS-0052",
+     "OBS-0053",
+     "OBS-0054",
+     "OBS-0055",
+     "OBS-0056"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SYNC-IN-CODE",
+    "kind": "p2p",
+    "requirement": "manually_syncing_with_stripe.md: Model.sync_from_stripe_data(data) returns the dj-stripe instance created or updated from the data; related objects referenced by id are fetched and synced recursively; without api_key the secret key from settings is used",
+    "tests": [
+     "OBS-0057",
+     "OBS-0058",
+     "OBS-0059"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CUSTOMER-GET-OR-CREATE",
+    "kind": "p2p",
+    "requirement": "customers.md / Customer.get_or_create: the first call creates the customer in Stripe (email, full name, metadata with DJSTRIPE_SUBSCRIBER_CUSTOMER_KEY set to the subscriber pk, which overrides a supplied value) and stores it locally linked to the subscriber, returning created=True; later calls return the existing record with created=False; extra keyword arguments reach the Stripe create call",
+    "tests": [
+     "OBS-0060",
+     "OBS-0061",
+     "OBS-0062",
+     "OBS-0063"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CUSTOMER-HELPERS",
+    "kind": "p2p",
+    "requirement": "customers.md helper table + Customer docstrings: charge(Decimal) creates a Stripe charge for the customer in cents and returns the synced Charge (a non-Decimal amount raises ValueError); add_payment_method attaches the payment method and by default makes it the invoice default (set_default=False leaves the default alone); add_invoice_item adds an invoice item in cents; add_coupon applies a coupon object or id; send_invoice returns True after creating and paying an invoice and False when there is nothing to invoice; upcoming_invoice previews the customer's next invoice; purge deletes in Stripe, detaches the subscriber and records date_purged; credits/pending_charges follow the sign of the balance",
+    "tests": [
+     "OBS-0064",
+     "OBS-0065",
+     "OBS-0066",
+     "OBS-0067",
+     "OBS-0068",
+     "OBS-0069",
+     "OBS-0070",
+     "OBS-0071",
+     "OBS-0072"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SUBSCRIBE",
+    "kind": "p2p",
+    "requirement": "subscribing_customers.md: customer.subscribe(items=[{'price': p1}, {'price': p2}]) subscribes the customer to every listed price and subscribe(price=p) to one price, returning the synced Subscription; passing both items and price raises TypeError",
+    "tests": [
+     "OBS-0073",
+     "OBS-0074"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SUBSCRIPTION-FILTERS",
+    "kind": "p2p",
+    "requirement": "customers.md subscription queryset table: with_status(*statuses), active()/trialing()/past_due()/canceled()/incomplete(), period_current(at) (billing period or trial contains `at`), scheduled_for_cancellation(), for_product(product or id) compose, on Subscription.objects and on customer.subscriptions; is_period_current()/is_scheduled_for_cancellation() answer the same questions for one subscription",
+    "tests": [
+     "OBS-0075",
+     "OBS-0076",
+     "OBS-0077",
+     "OBS-0078"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SUBSCRIPTION-METHODS",
+    "kind": "p2p",
+    "requirement": "managing_subscriptions.md / Subscription docstrings: extend(delta) takes a positive timedelta and moves trial_end to the end of the current period (or the running trial) plus delta, without proration; a negative delta raises ValueError; cancel() deletes the subscription immediately, cancel(at_period_end=True) sets cancel_at_period_end instead (overridden to immediate during a trial); reactivate() clears cancel_at_period_end",
+    "tests": [
+     "OBS-0079",
+     "OBS-0080",
+     "OBS-0081",
+     "OBS-0082"
+    ]
+   },
+   {
+    "id": "GROUP-COV-WEBHOOK-VIEW",
+    "kind": "p2p",
+    "requirement": "webhooks.md / local_webhook_testing.md / ProcessWebhookView: the webhook URL is /stripe/webhook/<uuid>/ (djstripe:djstripe_webhook_by_uuid); a request without a Stripe signature header is rejected with 400 and an unknown endpoint UUID with 404, both before any trigger is created; a correctly signed event returns 200 and is stored; a bad signature returns 400 and logs 'Failed to verify header' (not in the HTTP body); signature tolerance is in seconds",
+    "tests": [
+     "OBS-0083",
+     "OBS-0084",
+     "OBS-0085",
+     "OBS-0086",
+     "OBS-0087",
+     "OBS-0088"
+    ]
+   },
+   {
+    "id": "GROUP-COV-WEBHOOK-RETRIEVE",
+    "kind": "p2p",
+    "requirement": "webhooks.md: retrieval validation (retrieve_event) fetches the event from Stripe by its id using the API version in its payload and the default key for its livemode, and rejects it when the fetched `data` differs",
+    "tests": [
+     "OBS-0089",
+     "OBS-0090"
+    ]
+   },
+   {
+    "id": "GROUP-COV-EVENTS",
+    "kind": "p2p",
+    "requirement": "webhooks.md event processing flow + Event/event_handlers docstrings: Event.parts/category/verb split the type; processing a new supported event stores it and dj-stripe's own receivers sync the object it carries (product, charge, payment method, subscription); a deleted event removes the local object; an unsupported type is stored without signals; djstripe_receiver refuses an event type dj-stripe does not support",
+    "tests": [
+     "OBS-0091",
+     "OBS-0092",
+     "OBS-0093",
+     "OBS-0094",
+     "OBS-0095",
+     "OBS-0096"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SYNC-MODELS-COMMAND",
+    "kind": "p2p",
+    "requirement": "manually_syncing_with_stripe.md / djstripe_sync_models: `djstripe_sync_models Product --api-keys KEY` syncs the listed models for the given keys only; explicit keys are prefix-validated (an invalid key is a CommandError) and need not exist in the database; without --api-keys every secret/restricted database key merged with the distinct nonempty settings keys is used; an unknown model name is a CommandError",
+    "tests": [
+     "OBS-0097",
+     "OBS-0098",
+     "OBS-0099"
+    ]
+   },
+   {
+    "id": "GROUP-COV-PROCESS-EVENTS-COMMAND",
+    "kind": "p2p",
+    "requirement": "manually_syncing_with_stripe.md / djstripe_process_events: with no options all events listed from Stripe are processed; --failed lists only events whose webhook delivery failed, --type filters by event type (wildcards allowed) and --ids processes specific events by id",
+    "tests": [
+     "OBS-0100",
+     "OBS-0101",
+     "OBS-0102"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CUSTOMER-COMMANDS",
+    "kind": "p2p",
+    "requirement": "management_commands.md: djstripe_init_customers creates Customer objects for subscribers that have none; djstripe_sync_customers syncs subscriber customer data with Stripe; djstripe_clear_expired_idempotency_keys deletes expired idempotency keys and keeps current ones",
+    "tests": [
+     "OBS-0103",
+     "OBS-0104",
+     "OBS-0105"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CHARGES-PAYMENT-METHODS",
+    "kind": "p2p",
+    "requirement": "Charge.refund: a full refund by default, a partial refund of a Decimal amount, never more than the unrefunded remainder, returning the synced Refund; Charge.capture captures and returns the synced charge; PaymentMethod.attach attaches to a customer (object or id) and returns the synced PaymentMethod; PaymentMethod.detach returns True when newly detached and False when it was already detached; ChargeManager.during selects charges created in a UTC month",
+    "tests": [
+     "OBS-0106",
+     "OBS-0107",
+     "OBS-0108",
+     "OBS-0109",
+     "OBS-0110"
+    ]
+   },
+   {
+    "id": "GROUP-COV-UTILS",
+    "kind": "p2p",
+    "requirement": "utils/fields/_stripe_errors/webhooks docstrings: convert_tstamp turns a unix timestamp into an aware UTC datetime (None stays None); get_id_from_stripe_data accepts an id string or an object dict; get_supported_currency_choices lists the account country's supported currencies as (code, CODE) choices; StripeDecimalCurrencyAmountField stores cents as a Decimal amount; get_remote_ip uses the first X-Forwarded-For entry (without port) or REMOTE_ADDR, else 0.0.0.0; object_is_absent recognises 'no such object' errors",
+    "tests": [
+     "OBS-0111",
+     "OBS-0112",
+     "OBS-0113",
+     "OBS-0114",
+     "OBS-0115"
+    ]
+   },
+   {
+    "id": "GROUP-COV-ADMIN",
+    "kind": "p2p",
+    "requirement": "webhooks.md: from the admin (/admin/djstripe/webhookendpoint/add/) an endpoint is created in Stripe with a dj-stripe UUID in its URL (base URL + /stripe/webhook/<uuid>/) and stored locally; a localhost/private base URL is refused (validate_public_url); the admin lists dj-stripe models and the 'Re-Sync Selected Instances' action asks for confirmation listing the selected objects",
+    "tests": [
+     "OBS-0116",
+     "OBS-0117",
+     "OBS-0118",
+     "OBS-0119"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SYSTEM-CHECKS",
+    "kind": "p2p",
+    "requirement": "checks.py docstrings: validate_stripe_api_version accepts YYYY-MM-DD (optionally with a beta suffix); an invalid STRIPE_API_VERSION is a critical check error; STRIPE_API_HOST outside DEBUG warns; a verify_signature endpoint without a secret is reported; DJSTRIPE_SUBSCRIBER_CUSTOMER_KEY must fit Stripe metadata keys",
+    "tests": [
+     "OBS-0120",
+     "OBS-0121"
+    ]
+   },
+   {
+    "id": "GROUP-COV-MIXINS",
+    "kind": "p2p",
+    "requirement": "mixins.py / settings.md: PaymentsContextMixin adds STRIPE_PUBLIC_KEY (the test or live publishable key per STRIPE_LIVE_MODE) and the prices to a view's context; SubscriptionMixin adds is_prices_plural, the request's subscriber's customer (created if missing) and its subscriptions; VerbosityAwareOutputMixin prints by verbosity",
+    "tests": [
+     "OBS-0122",
+     "OBS-0123",
+     "OBS-0124"
+    ]
+   },
+   {
+    "id": "GROUP-COV-MODELS",
+    "kind": "p2p",
+    "requirement": "Model docstrings: Account.business_url is the business profile URL (empty when absent) and an account displays its dashboard name; get_stripe_dashboard_url points at the test/live dashboard item (with the owner account prefix); Price.get_or_create returns an existing price or creates one in Stripe; Invoice.retry pays an unpaid invoice (True) and does nothing for a paid one (False); SubscriptionSchedule.release/cancel and PaymentIntent cancel/confirm/update call Stripe and return the synced object; StripeObject regains get/items/keys/values/pop/setdefault",
+    "tests": [
+     "OBS-0125",
+     "OBS-0126",
+     "OBS-0127",
+     "OBS-0128",
+     "OBS-0129",
+     "OBS-0130"
+    ]
+   },
+   {
+    "id": "GROUP-COV-STRIPE-LISTEN",
+    "kind": "p2p",
+    "requirement": "management_commands.md / local_webhook_testing.md: stripe_listen runs the Stripe CLI's `stripe listen`, wires the CLI's webhook signing secret into a local dj-stripe endpoint and forwards events to that endpoint's UUID URL (reused on the next run with the same secret); without the CLI binary it reports that and exits 1",
+    "tests": [
+     "OBS-0131",
+     "OBS-0132"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,19 @@
+{
+  "stage": "staging", "account": "111111111111", "region": "us-east-1", "project": "orion",
+  "network": { "cidr": "10.88.0.0/16", "maxAzs": 2, "natGateways": 1 },
+  "artifactBuckets": {
+    "storage": { "transitionDays": 30, "noncurrentDays": 60 },
+    "reports": { "transitionDays": 30, "noncurrentDays": 60 }
+  },
+  "stages": {
+    "dev": { "desiredCount": 1, "cpu": 256, "memoryMiB": 512, "queueVisibilitySeconds": 45, "listenerPriority": 10 },
+    "qa": { "desiredCount": 1, "cpu": 512, "memoryMiB": 1024, "queueVisibilitySeconds": 60, "listenerPriority": 20 }
+  },
+  "container": { "image": "public.ecr.aws/docker/library/nginx:1.27", "port": 8080, "healthCheckPath": "/healthz", "deregistrationSeconds": 20 },
+  "notificationEmails": ["platform-primary@accelerator.example"],
+  "eventRules": {
+    "build-failed": { "source": "aws.codebuild", "detailType": "CodeBuild Build State Change", "states": ["FAILED", "STOPPED"] },
+    "deployment-state": { "source": "aws.ecs", "detailType": "ECS Deployment State Change" }
+  },
+  "logRetentionDays": 14, "queueRetentionDays": 4, "notificationMemoryMiB": 256, "notificationTimeoutSeconds": 12
+}

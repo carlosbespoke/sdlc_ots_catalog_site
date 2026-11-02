@@ -1,0 +1,32 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+[task]
+name = "authored/go-tc-lossless-traffic-control-object-replay"
+description = ""
+authors = []
+keywords = []
+[metadata]
+task_id = "go-tc-lossless-traffic-control-object-replay"
+display_title = "Lossless Traffic-Control Object Replay"
+repository_url = "https://github.com/florianl/go-tc.git"
+base_commit_hash = "3ec4bd76ac821f612a12f50c5f4257e7ddf123db"
+language = "go"
+category = "feature_request"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 2400
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached 3ec4bd76ac821f612a12f50c5f4257e7ddf123db > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+[agent]
+user = "agent"
+timeout_sec = 21600
+[environment]
+allow_internet = false
+network_mode = "no-network"
+build_timeout_sec = 1800
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

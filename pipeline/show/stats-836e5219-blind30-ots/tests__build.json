@@ -1,0 +1,784 @@
+{
+  "schema": 1,
+  "generator": {
+    "file": "build_task.py",
+    "git_revision": "69670c36d04f4853c9a7ea601372fb48a81af964",
+    "uncommitted": false,
+    "sha256": "21999be0bbff6bcf97210c4dc41780c58d9ee76f5ec827086d3f118e782cec86",
+    "written_by_build": true
+  },
+  "grader_sha256": "e4cf2240c24c48e6f25324b896cffc88bee852dbd07492eb798ea6f255d063ca",
+  "grader_template": "b053fa8096610dd30952a1af7bc54293384980b4e52c0eb9559c181466045eec",
+  "grader_template_commit": "ea4954b9184fdeffbc301c15cf12c82195528822",
+  "args": {
+    "ids": "d64517d4,ca79a747,b0636b4f,d340108f,b38e4d97,e696fdce,f41d3d79,14f9fa4a,d2544cc8,bdce88a3,2157148b,269e832f,d3bd4ec8,b5c2970e,c36cc43c,f8603d3a,af35639d,e8a5837e,e639dd67,575cedac,d0955fa3,abcf64d5,41118ab7,dc12aded,2e5cd9ed,75a62d50,e2b1c504,34a35aab,69ba40b5,173a910f",
+    "test": "",
+    "repo": "stats",
+    "repo_url": "https://github.com/montanaflynn/stats.git",
+    "commit": "836e5219eeb43dcc5da33bfd2fc8d5c287bcd5b8",
+    "base_image": "diagvgen-base-montanaflynn__stats-836e5219",
+    "workdir": "/workspace/repo",
+    "test_cmd": "go test -count=1 ./...",
+    "language": "go",
+    "baseline_failures": 0,
+    "source_roots": [
+      "."
+    ],
+    "hide_tests": true,
+    "symptom": "I use this Go library to boil batches of measurements down to single figures and to compare one batch of readings against another. After upgrading to the current checkout, a great many calls give me answers I cannot reconcile with what they used to return, or with arithmetic I can do by hand, and elsewhere calls fail that used to work or stay quiet where they used to object. The repository has received 30 separate undocumented edits. Below is everything I was able to pin down from the outside, described by what I asked for and what came back.\n\nCondensing a single list into one figure goes wrong in several ways. Asking which value or values occur most often no longer returns the set that actually repeats most often; an eight-number list whose only repeated value is 5 does not report 5 on its own, and several other lists come back with a set that is simply not what repeats. The reciprocal-based average of 1, 2, 3, 4, 5 should round to 2.19 and instead comes back many times too large, the error growing as the list gets longer, although lists holding a zero or a negative are refused as before. The uncertainty figure for a list containing a zero entry now evaluates to not-a-number, while lists whose entries are all strictly positive still give what I expect. Multiplying every value together fails at both edges: a one-element list such as a lone 7 comes back with a complaint and a not-a-number instead of 7, and an empty list comes back with a number and no complaint at all, where it used to report the empty-input error and a not-a-number. The robust centre figure still reads 7.25 on a nineteen-value list but returns quietly on an empty one rather than complaining.\n\nWatching a list accumulate as it goes is broken at the edges. Running totals still give 1, 3, 6 for 1, 2, 3, but an empty list now comes back as an empty sequence with no complaint where the empty-input error used to come back, and a list holding a single value comes back with that complaint instead of echoing the value. Running peaks fail the same way: a list with a single value returns a complaint rather than echoing that value back, and an empty list returns a sequence with no complaint where the empty-input error used to come back, though three or more values still give the right sequence. Asking where things sit is no better. The position of the largest value is reported as a later occurrence than the first whenever the largest is repeated, so three equal values report the last of them and 1, 5, 2, 5 reports the second 5, while the position of the smallest value and the span between smallest and largest still come out as I expect. Asking for the value at a given share of the readings by ordinal position works at 25, 50, 75, 99 and 100, and empty lists, negative shares and shares above one hundred are still refused, but share zero of a hundred-and-one values never comes back with an answer where it used to hand over the smallest value. Asking what share of a list lies at or below a given figure is wrong in every case I checked: 3 within 1, 2, 3, 4 should come out at 62.5 and does not, a figure tying with several entries gives nonsense, and a figure matching nothing produces infinity instead of a percentage between zero and a hundred. Reading a y off a table of x/y pairs at an in-between x is also wrong, so 1.5 against x of 1 and 2 with y of 10 and 20 gives something other than 15 and every in-between point in a longer table is off, while query points landing exactly on a tabulated x or falling off either end still return the right value. Screening a fourteen-number list for unusually distant values sorts them into the wrong buckets: 15 and 18 no longer appear as the mild strays and -1000 and 100 are not reported as the severe ones, though an empty list is still refused.\n\nHanding these calls input they ought to argue about has become unpredictable in both directions. A whole family of them has stopped objecting to an empty list: squashing values through the S-shaped zero-to-one transform, turning a list into exponential proportions that add up to one, taking the ratio of a list's spread to its average, working out the order positions of the values, and holding values between a floor and a ceiling all accept an empty list silently instead of reporting the empty-input error. In the other direction, some guards no longer fire. Standardizing a list, so that each value is expressed as how many standard deviations it sits from the average, returns numbers for three identical values with no spread at all, rather than the divide-by-zero complaint, while a list such as 1, 2, 3 whose standard deviation is exactly one is now refused with that complaint, and averaging three values whose attached multipliers are all zero likewise returns a number instead of that complaint. Averaging after discarding a fraction from each end now accepts a fraction of exactly 0.5 and produces a value, whereas 1.0, a negative fraction and a not-a-number fraction are still refused with the bounds complaint and a not-a-number result; pulling the outermost fraction at each end in to the boundary values behaves identically, accepting 0.5 where it still refuses 1.0, negatives and not-a-number. A sliding-window average over an empty list reports the wrong failure, a bounds complaint rather than the empty-input one, while window sizes of zero, negative one, or larger than the list are still refused with the bounds complaint. And drawing one hundred values at random, with replacement, from a five-element list gives me back only ninety-nine values.\n\nComparing two groups, or fitting a shape through paired columns, is worse than wrong: it is misleading. Comparing two groups of five readings whose averages are 5.12 and 4.36, with the spread pooled from the readings themselves, returns a figure smaller than one in magnitude and a p value above 0.05, reporting no difference between two groups that plainly differ. The variant where I supply a known spread never gets that far at all: with a known spread of 0.5 it hands back a complaint instead of the roughly 2.4 figure and its small p value, and with a known spread of 1 on two eight-value lists it likewise fails to return a result. Fitting a straight line through points has lost a safeguard, so a single point on its own, and a set of points all sharing one x coordinate, are no longer refused with the bounds complaint but come back with a fitted series, while the exponential and logarithmic fits still refuse single points, constant x, non-positive x and zero y exactly as before. Measuring how far apart two equal-length coordinate lists are using an adjustable exponent has stopped validating altogether: empty lists, lists of different lengths, and a pair whose result overflows to infinity all come back without any complaint, while every other way of measuring separation in the same family still rejects empty lists.\n\nThree last things I noticed. Far out in the tail of the bell curve the numbers no longer match published reference values, so the tail probability above a large positive point, the probability below its mirror image, and the logarithms of both are all off, whereas the logarithm of the density at the same points still agrees to the last digit. Converting a mixed pile of values -- strings, integers, floating point values and timestamps thrown together -- into a list of numbers no longer survives every variety of input; at least one kind makes the conversion run past the end of its input and the call fails outright instead of producing the numbers. And the spread of the count of trials until a first success, for a success chance of 0.25, should be 12 and is not, and for a success chance of 0.5 should be 2 and is not.",
+    "drop_paths": "",
+    "title": "Repairing a batch of silent numeric faults in montanaflynn/stats without a test suite",
+    "description": "A Go statistics library at a pinned commit has been altered in thirty separate places by single-line edits, and the test suite has been removed from the tree the agent receives. Only a user-level report of misbehaviour is available: wrong summary figures, guards that no longer refuse degenerate input, guards that now refuse ordinary input, off-by-one traversals, and significance figures that claim no difference where one plainly exists. The agent must work backwards from the described behaviour to the thirty edits, restore the intended behaviour of each, and name the functions that were faulted.",
+    "allow": "symptom-leak"
+  },
+  "base_dockerfile_sha256": "99c2dc037847a8a792f1b54a1e30e53122099705bc2b1211c13be4c078c0f5e4",
+  "base_dockerfile_text": "# Generated by voyager repo-pipeline. Reproduces montanaflynn/stats@836e5219eeb43dcc5da33bfd2fc8d5c287bcd5b8\nFROM --platform=linux/amd64 golang@sha256:c6a5b9308b3f3095e8fde83c8bf4d68bd101fce606c1a0a1394522542509dda9\nENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8\nENV CGO_ENABLED=1\nENV GOFLAGS=-buildvcs=false\nENV GOCACHE=/workspace/.cache/go-build\nENV GOMODCACHE=/go/pkg/mod\nENV GOTOOLCHAIN=local\nENV SOURCE_DATE_EPOCH=0\nRUN echo REPOPIPELINE_STAGE=system_packages \\\n    && apt-get update -qq \\\n    && apt-get install -y -qq --no-install-recommends build-essential ca-certificates git \\\n    && rm -rf /var/lib/apt/lists/*\n# Keep the toolchain visible to login shells (`bash -lc`), not just `ENV`:\n# /etc/profile rebuilds PATH and would otherwise discard the ENV entry.\nRUN printf 'export CGO_ENABLED=\"1\"\\nexport GOFLAGS=\"-buildvcs=false\"\\nexport GOCACHE=\"/workspace/.cache/go-build\"\\nexport GOMODCACHE=\"/go/pkg/mod\"\\nexport GOTOOLCHAIN=\"local\"\\nexport PATH=\"/usr/local/go/bin:/go/bin:$PATH\"\\n' > /etc/profile.d/00-repopipeline.sh && chmod 0644 /etc/profile.d/00-repopipeline.sh\nRUN useradd -m -u 1000 -s /bin/bash agent 2>/dev/null || true \\\n    && git config --system --add safe.directory /workspace/repo\nRUN echo REPOPIPELINE_STAGE=clone \\\n    && git init -q /workspace/repo \\\n    && cd /workspace/repo \\\n    && git remote add origin https://github.com/montanaflynn/stats.git \\\n    && git fetch --depth 1 origin 836e5219eeb43dcc5da33bfd2fc8d5c287bcd5b8 \\\n    && git checkout -q FETCH_HEAD \\\n    && git submodule update --init --recursive --depth 1 2>/dev/null || true\nWORKDIR /workspace/repo\nRUN echo REPOPIPELINE_STAGE=cache_dirs && mkdir -p /workspace/.cache/go-build /go/pkg/mod\nRUN echo REPOPIPELINE_STAGE=install \\\n    && go mod download all\nRUN echo REPOPIPELINE_STAGE=build \\\n    && go build ./... \\\n    && chown -R agent:agent /workspace/repo /workspace/.cache/go-build /go/pkg/mod /go 2>/dev/null || true\nLABEL org.opencontainers.image.source=\"https://github.com/montanaflynn/stats\" \\\n      org.opencontainers.image.revision=\"836e5219eeb43dcc5da33bfd2fc8d5c287bcd5b8\" \\\n      io.voyager.repo=\"montanaflynn/stats\" \\\n      io.voyager.language=\"go\" \\\n      io.voyager.toolchain=\"go1.21\" \\\n      io.voyager.test-command=\"go test ./...\"",
+  "faults": [
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestHelperMethods",
+        "github.com/montanaflynn/stats::TestMode"
+      ],
+      "id": "d64517d4",
+      "kind": "change_constant",
+      "path": "mode.go",
+      "func": "Mode",
+      "line": 29,
+      "before": "1",
+      "after": "2"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestSampleWithReplacement"
+      ],
+      "id": "ca79a747",
+      "kind": "change_constant",
+      "path": "sample.go",
+      "func": "Sample",
+      "line": 22,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestInputsNotMutated",
+        "github.com/montanaflynn/stats::TestZTestTwoSample"
+      ],
+      "id": "b0636b4f",
+      "kind": "change_constant",
+      "path": "ztest.go",
+      "func": "ZTest",
+      "line": 31,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestPercentileOfScore"
+      ],
+      "id": "d340108f",
+      "kind": "swap_arithmetic_operator",
+      "path": "percentile_of_score.go",
+      "func": "PercentileOfScore",
+      "line": 25,
+      "before": "0.5*equal",
+      "after": "0.5/equal"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestHarmonicMean",
+        "github.com/montanaflynn/stats::TestNistHarmonicMean"
+      ],
+      "id": "b38e4d97",
+      "kind": "swap_arithmetic_operator",
+      "path": "mean.go",
+      "func": "HarmonicMean",
+      "line": 57,
+      "before": "1 / n",
+      "after": "1 * n"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestTrimmedMeanInvalidInput"
+      ],
+      "id": "e696fdce",
+      "kind": "flip_comparison",
+      "path": "trimmed_mean.go",
+      "func": "TrimmedMean",
+      "line": 22,
+      "before": "percent < 0.5",
+      "after": "percent <= 0.5"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::ExampleVarGeom",
+        "github.com/montanaflynn/stats::TestVarGeom"
+      ],
+      "id": "f41d3d79",
+      "kind": "change_constant",
+      "path": "geometric_distribution.go",
+      "func": "VarGeom",
+      "line": 42,
+      "before": "2",
+      "after": "3"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::ExampleInterp",
+        "github.com/montanaflynn/stats::TestInterp"
+      ],
+      "id": "14f9fa4a",
+      "kind": "swap_arithmetic_operator",
+      "path": "interp.go",
+      "func": "Interp",
+      "line": 41,
+      "before": "t*(fp[j]-fp[j-1])",
+      "after": "t/(fp[j]-fp[j-1])"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestSigmoidEmptyInput"
+      ],
+      "id": "d2544cc8",
+      "kind": "change_constant",
+      "path": "sigmoid.go",
+      "func": "Sigmoid",
+      "line": 10,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestCoefficientOfVariationEmptyInput"
+      ],
+      "id": "bdce88a3",
+      "kind": "change_constant",
+      "path": "coefficient_of_variation.go",
+      "func": "CoefficientOfVariation",
+      "line": 12,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestProduct",
+        "github.com/montanaflynn/stats::TestProductEmptyInput"
+      ],
+      "id": "2157148b",
+      "kind": "change_constant",
+      "path": "product.go",
+      "func": "Product",
+      "line": 11,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestZScoreZeroStandardDeviation"
+      ],
+      "id": "269e832f",
+      "kind": "change_constant",
+      "path": "zscore.go",
+      "func": "ZScore",
+      "line": 14,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestDataSetDistances"
+      ],
+      "id": "d3bd4ec8",
+      "kind": "flip_comparison",
+      "path": "distances.go",
+      "func": "MinkowskiDistance",
+      "line": 80,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestRegressionsRejectInvalidDomains/linear_constant_x",
+        "github.com/montanaflynn/stats::TestRegressionsRejectInvalidDomains/linear_single_point"
+      ],
+      "id": "b5c2970e",
+      "kind": "change_constant",
+      "path": "regression.go",
+      "func": "LinearRegression",
+      "line": 35,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestTTestTwoSample"
+      ],
+      "id": "c36cc43c",
+      "kind": "swap_arithmetic_operator",
+      "path": "ttest.go",
+      "func": "TTest",
+      "line": 38,
+      "before": "float64(n1-1)*var1",
+      "after": "float64(n1-1)/var1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestNormTail"
+      ],
+      "id": "f8603d3a",
+      "kind": "swap_arithmetic_operator",
+      "path": "norm.go",
+      "func": "normLogTail",
+      "line": 98,
+      "before": "1 / (z * z)",
+      "after": "1 * (z * z)"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestTrimean"
+      ],
+      "id": "af35639d",
+      "kind": "change_constant",
+      "path": "quartile.go",
+      "func": "Trimean",
+      "line": 66,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestPercentileNearestRank"
+      ],
+      "id": "e8a5837e",
+      "kind": "change_constant",
+      "path": "percentile.go",
+      "func": "PercentileNearestRank",
+      "line": 83,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestSoftMaxEmptyInput"
+      ],
+      "id": "e639dd67",
+      "kind": "change_constant",
+      "path": "softmax.go",
+      "func": "SoftMax",
+      "line": 9,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestLoadRawData"
+      ],
+      "id": "575cedac",
+      "kind": "flip_comparison",
+      "path": "load.go",
+      "func": "LoadRawData",
+      "line": 143,
+      "before": "i < len(t)",
+      "after": "i <= len(t)"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestWinsorizeInvalidInput"
+      ],
+      "id": "d0955fa3",
+      "kind": "flip_comparison",
+      "path": "winsorize.go",
+      "func": "Winsorize",
+      "line": 23,
+      "before": "percent < 0.5",
+      "after": "percent <= 0.5"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestMovingAverageInvalidInput"
+      ],
+      "id": "abcf64d5",
+      "kind": "change_constant",
+      "path": "rolling.go",
+      "func": "MovingAverage",
+      "line": 10,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestWeightedMeanZeroWeights"
+      ],
+      "id": "41118ab7",
+      "kind": "change_constant",
+      "path": "weighted_mean.go",
+      "func": "WeightedMean",
+      "line": 32,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestEntropy"
+      ],
+      "id": "dc12aded",
+      "kind": "change_constant",
+      "path": "entropy.go",
+      "func": "Entropy",
+      "line": 14,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestQuartileOutliers"
+      ],
+      "id": "2e5cd9ed",
+      "kind": "swap_arithmetic_operator",
+      "path": "outlier.go",
+      "func": "QuartileOutliers",
+      "line": 23,
+      "before": "1.5 * iqr",
+      "after": "1.5 / iqr"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestArgMax",
+        "github.com/montanaflynn/stats::TestFloat64DataArgMaxArgMinRangeMethods"
+      ],
+      "id": "75a62d50",
+      "kind": "flip_comparison",
+      "path": "extremes.go",
+      "func": "ArgMax",
+      "line": 18,
+      "before": "input.Get(i) > input.Get(index)",
+      "after": "input.Get(i) >= input.Get(index)"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestCumulativeMax"
+      ],
+      "id": "e2b1c504",
+      "kind": "change_constant",
+      "path": "cumulative.go",
+      "func": "CumulativeMax",
+      "line": 26,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestClipEmptyInput"
+      ],
+      "id": "34a35aab",
+      "kind": "change_constant",
+      "path": "clip.go",
+      "func": "Clip",
+      "line": 6,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestRankEmptyInput"
+      ],
+      "id": "69ba40b5",
+      "kind": "change_constant",
+      "path": "rank.go",
+      "func": "Rank",
+      "line": 7,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "github.com/montanaflynn/stats::TestCumulativeSum"
+      ],
+      "id": "173a910f",
+      "kind": "change_constant",
+      "path": "cumulative_sum.go",
+      "func": "CumulativeSum",
+      "line": 6,
+      "before": "0",
+      "after": "1"
+    }
+  ],
+  "baseline_failing_names": [],
+  "causes": [
+    {
+      "file": "mode.go",
+      "function": "Mode",
+      "qualname": "Mode",
+      "id": "d64517d4",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestHelperMethods",
+        "github.com/montanaflynn/stats::TestMode"
+      ]
+    },
+    {
+      "file": "sample.go",
+      "function": "Sample",
+      "qualname": "Sample",
+      "id": "ca79a747",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestSampleWithReplacement"
+      ]
+    },
+    {
+      "file": "ztest.go",
+      "function": "ZTest",
+      "qualname": "ZTest",
+      "id": "b0636b4f",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestInputsNotMutated",
+        "github.com/montanaflynn/stats::TestZTestTwoSample"
+      ]
+    },
+    {
+      "file": "percentile_of_score.go",
+      "function": "PercentileOfScore",
+      "qualname": "PercentileOfScore",
+      "id": "d340108f",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestPercentileOfScore"
+      ]
+    },
+    {
+      "file": "mean.go",
+      "function": "HarmonicMean",
+      "qualname": "HarmonicMean",
+      "id": "b38e4d97",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestHarmonicMean",
+        "github.com/montanaflynn/stats::TestNistHarmonicMean"
+      ]
+    },
+    {
+      "file": "trimmed_mean.go",
+      "function": "TrimmedMean",
+      "qualname": "TrimmedMean",
+      "id": "e696fdce",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestTrimmedMeanInvalidInput"
+      ]
+    },
+    {
+      "file": "geometric_distribution.go",
+      "function": "VarGeom",
+      "qualname": "VarGeom",
+      "id": "f41d3d79",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::ExampleVarGeom",
+        "github.com/montanaflynn/stats::TestVarGeom"
+      ]
+    },
+    {
+      "file": "interp.go",
+      "function": "Interp",
+      "qualname": "Interp",
+      "id": "14f9fa4a",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "github.com/montanaflynn/stats::ExampleInterp",
+        "github.com/montanaflynn/stats::TestInterp"
+      ]
+    },
+    {
+      "file": "sigmoid.go",
+      "function": "Sigmoid",
+      "qualname": "Sigmoid",
+      "id": "d2544cc8",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestSigmoidEmptyInput"
+      ]
+    },
+    {
+      "file": "coefficient_of_variation.go",
+      "function": "CoefficientOfVariation",
+      "qualname": "CoefficientOfVariation",
+      "id": "bdce88a3",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestCoefficientOfVariationEmptyInput"
+      ]
+    },
+    {
+      "file": "product.go",
+      "function": "Product",
+      "qualname": "Product",
+      "id": "2157148b",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestProduct",
+        "github.com/montanaflynn/stats::TestProductEmptyInput"
+      ]
+    },
+    {
+      "file": "zscore.go",
+      "function": "ZScore",
+      "qualname": "ZScore",
+      "id": "269e832f",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestZScoreZeroStandardDeviation"
+      ]
+    },
+    {
+      "file": "distances.go",
+      "function": "MinkowskiDistance",
+      "qualname": "MinkowskiDistance",
+      "id": "d3bd4ec8",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestDataSetDistances"
+      ]
+    },
+    {
+      "file": "regression.go",
+      "function": "LinearRegression",
+      "qualname": "LinearRegression",
+      "id": "b5c2970e",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestRegressionsRejectInvalidDomains/linear_constant_x",
+        "github.com/montanaflynn/stats::TestRegressionsRejectInvalidDomains/linear_single_point"
+      ]
+    },
+    {
+      "file": "ttest.go",
+      "function": "TTest",
+      "qualname": "TTest",
+      "id": "c36cc43c",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestTTestTwoSample"
+      ]
+    },
+    {
+      "file": "norm.go",
+      "function": "normLogTail",
+      "qualname": "normLogTail",
+      "id": "f8603d3a",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestNormTail"
+      ]
+    },
+    {
+      "file": "quartile.go",
+      "function": "Trimean",
+      "qualname": "Trimean",
+      "id": "af35639d",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestTrimean"
+      ]
+    },
+    {
+      "file": "percentile.go",
+      "function": "PercentileNearestRank",
+      "qualname": "PercentileNearestRank",
+      "id": "e8a5837e",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestPercentileNearestRank"
+      ]
+    },
+    {
+      "file": "softmax.go",
+      "function": "SoftMax",
+      "qualname": "SoftMax",
+      "id": "e639dd67",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestSoftMaxEmptyInput"
+      ]
+    },
+    {
+      "file": "load.go",
+      "function": "LoadRawData",
+      "qualname": "LoadRawData",
+      "id": "575cedac",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestLoadRawData"
+      ]
+    },
+    {
+      "file": "winsorize.go",
+      "function": "Winsorize",
+      "qualname": "Winsorize",
+      "id": "d0955fa3",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestWinsorizeInvalidInput"
+      ]
+    },
+    {
+      "file": "rolling.go",
+      "function": "MovingAverage",
+      "qualname": "MovingAverage",
+      "id": "abcf64d5",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestMovingAverageInvalidInput"
+      ]
+    },
+    {
+      "file": "weighted_mean.go",
+      "function": "WeightedMean",
+      "qualname": "WeightedMean",
+      "id": "41118ab7",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestWeightedMeanZeroWeights"
+      ]
+    },
+    {
+      "file": "entropy.go",
+      "function": "Entropy",
+      "qualname": "Entropy",
+      "id": "dc12aded",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestEntropy"
+      ]
+    },
+    {
+      "file": "outlier.go",
+      "function": "QuartileOutliers",
+      "qualname": "QuartileOutliers",
+      "id": "2e5cd9ed",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestQuartileOutliers"
+      ]
+    },
+    {
+      "file": "extremes.go",
+      "function": "ArgMax",
+      "qualname": "ArgMax",
+      "id": "75a62d50",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestArgMax",
+        "github.com/montanaflynn/stats::TestFloat64DataArgMaxArgMinRangeMethods"
+      ]
+    },
+    {
+      "file": "cumulative.go",
+      "function": "CumulativeMax",
+      "qualname": "CumulativeMax",
+      "id": "e2b1c504",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestCumulativeMax"
+      ]
+    },
+    {
+      "file": "clip.go",
+      "function": "Clip",
+      "qualname": "Clip",
+      "id": "34a35aab",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestClipEmptyInput"
+      ]
+    },
+    {
+      "file": "rank.go",
+      "function": "Rank",
+      "qualname": "Rank",
+      "id": "69ba40b5",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestRankEmptyInput"
+      ]
+    },
+    {
+      "file": "cumulative_sum.go",
+      "function": "CumulativeSum",
+      "qualname": "CumulativeSum",
+      "id": "173a910f",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/montanaflynn/stats::TestCumulativeSum"
+      ]
+    }
+  ],
+  "formatter_pass": {
+    "tool": "gofmt",
+    "formatted": [
+      "clip.go",
+      "coefficient_of_variation.go",
+      "cumulative.go",
+      "cumulative_sum.go",
+      "distances.go",
+      "entropy.go",
+      "extremes.go",
+      "geometric_distribution.go",
+      "interp.go",
+      "load.go",
+      "mean.go",
+      "mode.go",
+      "norm.go",
+      "outlier.go",
+      "percentile.go",
+      "percentile_of_score.go",
+      "product.go",
+      "quartile.go",
+      "rank.go",
+      "regression.go",
+      "rolling.go",
+      "sample.go",
+      "sigmoid.go",
+      "softmax.go",
+      "trimmed_mean.go",
+      "ttest.go",
+      "weighted_mean.go",
+      "winsorize.go",
+      "zscore.go",
+      "ztest.go"
+    ],
+    "raw": []
+  },
+  "rebuild": "python3 build_task.py --faults-file <this file> --ids <args.ids> and the rest of args above; --base-dockerfile can be written out of base_dockerfile_text"
+}

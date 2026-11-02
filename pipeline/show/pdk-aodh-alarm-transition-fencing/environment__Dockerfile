@@ -1,0 +1,66 @@
+# environment/Dockerfile for a Python task. FILL the values marked FILL, and pin the base image by
+# digest (docker buildx imagetools inspect python:<version>-slim-bookworm).
+FROM python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+
+# FILL: the repository and the base commit.
+ARG REPO_URL=https://opendev.org/openstack/aodh
+ARG BASE_COMMIT=d80b8884829c676a5d02b5d6dafbb74117f614a2
+ENV CI=1 PIP_DISABLE_PIP_VERSION_CHECK=1 PYTHONDONTWRITEBYTECODE=1
+
+# tmux and asciinema are required by Harbor's solver agent. FILL: the services the task needs
+# (single-container tasks); drop them for compose tasks.
+RUN set -eu; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+      tmux asciinema bash sudo build-essential ca-certificates curl git jq less lsof netcat-openbsd procps vim-tiny \
+      postgresql postgresql-client redis-server rabbitmq-server; \
+    rm -rf /var/lib/apt/lists/*
+
+RUN set -eu; \
+    service postgresql start; \
+    su postgres -c "psql -v ON_ERROR_STOP=1 -c \"ALTER USER postgres PASSWORD 'postgres'\""; \
+    service postgresql stop
+
+# The solver runs as the unprivileged user "agent" (task.toml: [agent] user = "agent"). agent is
+# created before the repository is fetched, and fetches, installs and builds it (USER agent below),
+# so it owns every file without a chown pass: a `chown -R` in its own layer copies the whole tree
+# (16 minutes and twice the image size on a large monorepo). It may start the image's services with
+# sudo (only /usr/sbin/service), since they need root. The image's default user is root again at
+# the end; switch back to root (USER root) only for steps that need it, such as apt-get.
+RUN set -eu; \
+    useradd -m -s /bin/bash agent; \
+    install -d -o agent -g agent /app /logs /logs/artifacts; \
+    git config --system --add safe.directory /app; \
+    echo 'agent ALL=(root) NOPASSWD: /usr/sbin/service' > /etc/sudoers.d/agent-services; \
+    chmod 440 /etc/sudoers.d/agent-services
+USER agent
+
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" \
+    && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD \
+    && test "$(git -C /app rev-parse HEAD)" = "$BASE_COMMIT"
+# The upstream evaluator cannot load its prometheus plugin here: with auth_type = none Keystone has
+# no Prometheus endpoint, observabilityclient raises TypeError, and every prometheus alarm is
+# skipped as an unsupported type. The fix (fall back to PROMETHEUS_HOST/PROMETHEUS_PORT) is
+# committed on top of it with a fixed identity and dates, so both images get the same base commit,
+# FIXED_BASE_COMMIT, which grading diffs against.
+ARG FIXED_BASE_COMMIT=6299ebe3a88f05552a37eb6105db69efd4897884
+RUN sed -i \
+      -e 's/^from oslo_config import cfg$/import types\n\n&/' \
+      -e 's/^from observabilityclient import rbac as obsc_rbac$/&\nfrom observabilityclient.utils import metric_utils\nfrom observabilityclient.v1 import python_api/' \
+      -e 's/^        \(self\._prom = client\.Client(.1., session, adapter_options=opts)\)$/        try:\n            \1\n        except TypeError:\n            # Keystone has no Prometheus endpoint (auth_type = none).\n            prom = metric_utils.get_prom_client_from_file_or_env()\n            self._prom = types.SimpleNamespace(prometheus_client=prom)\n            self._prom.query = python_api.QueryManager(self._prom)/' \
+      /app/aodh/evaluator/prometheus.py \
+    && GIT_AUTHOR_NAME=sd GIT_AUTHOR_EMAIL=sd@example.invalid GIT_COMMITTER_NAME=sd GIT_COMMITTER_EMAIL=sd@example.invalid \
+       GIT_AUTHOR_DATE='2026-01-01T00:00:00Z' GIT_COMMITTER_DATE='2026-01-01T00:00:00Z' \
+       git -C /app commit -q -am 'Fall back to PROMETHEUS_HOST/PORT when Keystone has no Prometheus endpoint' \
+    && test "$(git -C /app rev-parse HEAD)" = "$FIXED_BASE_COMMIT"
+
+# The repository's own environment, from its lock file, so the agent works offline. FILL: use the
+# repository's lock (requirements*.txt, uv.lock, poetry.lock) and its test extras.
+RUN set -eu; printf ".venv/\n" >> /app/.git/info/exclude; python -m venv /app/.venv; \
+    /app/.venv/bin/pip install -q -r requirements.txt -r test-requirements.txt; \
+    /app/.venv/bin/pip install -q -e . --no-deps psycopg[binary] psycopg2-binary redis pymysql pytest pluggy iniconfig stestr
+ENV PATH=/app/.venv/bin:$PATH
+
+USER root
+CMD ["/bin/bash"]

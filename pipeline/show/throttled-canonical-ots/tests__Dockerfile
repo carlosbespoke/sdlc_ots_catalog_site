@@ -1,0 +1,81 @@
+# syntax=docker/dockerfile:1
+# throttled-canonical-ots verifier image (Harbor separate-verifier mode). Toolchain section: identical to the
+# solver image (environment/Dockerfile) up to its solver starting state, so the grader observes the
+# candidate under the same interpreter, libraries and startup hooks (separate-verifier.py parity).
+# lock/requirements.txt is a byte copy of environment/requirements.txt (the solver image deletes its copy).
+# Base image: python:3.12-bookworm, pinned by digest.
+FROM --platform=linux/amd64 python@sha256:e91fec3d1ac69f04e4eddcd29c327e630ce34658cf31075bfa7e8b0e052bafea
+
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_INPUT=1 PIP_NO_CACHE_DIR=1 UV_NO_CACHE=1
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONHASHSEED=42
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH=/opt/venv/bin:$PATH
+ENV PYTHONPATH=/workdir
+ENV SOURCE_DATE_EPOCH=0
+
+# --- Agent harness prerequisites (driftflow/harness.py, ISSUE-103) ---
+# Harbor's TerminusV2 agent opens a tmux session in this container, records it, and drives the
+# solver through it. Without tmux every rollout dies at agent setup with "Failed to start tmux
+# session" before the agent takes a turn, and the whole cohort is lost.
+#
+# This layer needs build-time network for the package manager. Build with network enabled; that is
+# independent of the task's run-time isolation, which task.toml still declares as no-network. The
+# base image stays digest-pinned.
+#
+# Debian ships *.patch files under /usr/share/doc, which isolation probes that walk the filesystem
+# for private assets will flag. Drop the docs here rather than loosening a probe.
+RUN if command -v apt-get >/dev/null; then \
+        apt-get update && apt-get install -y --no-install-recommends \
+            asciinema ca-certificates git tmux \
+        && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man; \
+    elif command -v apk >/dev/null; then \
+        apk add --no-cache asciinema ca-certificates git tmux; \
+    fi
+# Fail the BUILD, not a paid cohort. Starting and tearing down a real session proves tmux works,
+# which `command -v` does not.
+RUN command -v git && command -v tmux \
+    && tmux -V \
+    && tmux -L harbor-build-smoke new-session -d -s smoke 'sleep 30' \
+    && tmux -L harbor-build-smoke has-session -t smoke \
+    && tmux -L harbor-build-smoke kill-server
+
+# Keep the toolchain visible to login shells (`bash -lc`), not just `ENV`: /etc/profile rebuilds
+# PATH and would otherwise discard the ENV entry.
+RUN printf 'export VIRTUAL_ENV="/opt/venv"\nexport PATH="/opt/venv/bin:$PATH"\nexport PYTHONPATH="/workdir"\nexport PYTHONDONTWRITEBYTECODE="1"\nexport PYTHONHASHSEED="42"\nexport TZ="UTC"\n' \
+      > /etc/profile.d/00-throttled.sh && chmod 0644 /etc/profile.d/00-throttled.sh
+
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/python -m pip install --no-cache-dir 'pip==25.2' 'setuptools==75.8.2' 'wheel==0.45.1' 'uv==0.12.3'
+
+# --- Solve-time dependencies. throttled-py has no required dependencies; its optional extras and the
+# libraries its documentation and tests describe are installed: redis-py (the `redis` extra), fakeredis with
+# Lua scripting (lupa) for an in-process Redis, FastAPI with Starlette and httpx (the `fastapi` extra and its
+# TestClient), opentelemetry-api and opentelemetry-sdk (the `otel` extra), pytest and pytest-asyncio. Versions
+# follow upstream's uv.lock, compiled hash-pinned with `uv pip compile --python-version 3.12 --exclude-newer
+# 2026-08-02 --generate-hashes` and installed without resolution. throttled itself is not installed: it is
+# imported from /workdir through PYTHONPATH (pure Python). There is no Redis server: the runtime has no network.
+COPY lock/requirements.txt /opt/requirements/requirements.txt
+RUN uv pip install --python /opt/venv/bin/python --no-deps --require-hashes --compile-bytecode \
+        -r /opt/requirements/requirements.txt \
+    && rm -rf /opt/requirements \
+    && /opt/venv/bin/python -m pip check
+
+RUN useradd -m -u 1000 -s /bin/bash agent 2>/dev/null || true \
+    && git config --system --add safe.directory /workdir
+
+# --- Verifier section ---------------------------------------------------------------------------
+# The same interpreter seal as the solver image, then the grading material in a root-only /tests.
+RUN find /opt/venv -name '*.pth' -print0 | xargs -0 -r grep -l /workdir | xargs -r rm -f \
+    && chown -R root:root /opt/venv \
+    && chmod -R go-w /opt/venv \
+    && /opt/venv/bin/python -c "import pytest; print('verifier interpreter sealed')"
+
+COPY . /tests
+RUN rm -rf /tests/Dockerfile /tests/lock \
+    && chown -R root:root /tests \
+    && chmod -R go-rwx /tests \
+    && mkdir -p /workdir /logs/verifier
+
+WORKDIR /workdir
+CMD ["sh", "-c", "sleep infinity"]

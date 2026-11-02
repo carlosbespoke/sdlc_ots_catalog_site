@@ -1,0 +1,2440 @@
+{
+ "Resources": {
+  "CoreVpcB2509D56": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.112.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ]
+   }
+  },
+  "CoreVpcpublicSubnet1Subnet57C122A2": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "10.112.0.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet1"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet1RouteTable012CBAD7": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet1"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet1RouteTableAssociationA624437D": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcpublicSubnet1RouteTable012CBAD7"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcpublicSubnet1Subnet57C122A2"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet1DefaultRoute93425BAB": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "CoreVpcIGWC3C68BEA"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcpublicSubnet1RouteTable012CBAD7"
+    }
+   },
+   "DependsOn": [
+    "CoreVpcVPCGWD1DFE535"
+   ]
+  },
+  "CoreVpcpublicSubnet1EIPC8580B93": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet1"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ]
+   }
+  },
+  "CoreVpcpublicSubnet1NATGateway1183ECF2": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "CoreVpcpublicSubnet1EIPC8580B93",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcpublicSubnet1Subnet57C122A2"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet1"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ]
+   },
+   "DependsOn": [
+    "CoreVpcpublicSubnet1DefaultRoute93425BAB",
+    "CoreVpcpublicSubnet1RouteTableAssociationA624437D"
+   ]
+  },
+  "CoreVpcpublicSubnet2SubnetB989FD57": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "10.112.1.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet2"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet2RouteTable63BCEF50": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet2"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet2RouteTableAssociationDB350D57": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcpublicSubnet2RouteTable63BCEF50"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcpublicSubnet2SubnetB989FD57"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet2DefaultRoute25DE20E2": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "CoreVpcIGWC3C68BEA"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcpublicSubnet2RouteTable63BCEF50"
+    }
+   },
+   "DependsOn": [
+    "CoreVpcVPCGWD1DFE535"
+   ]
+  },
+  "CoreVpcpublicSubnet2EIP7C6DA8F5": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet2"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ]
+   }
+  },
+  "CoreVpcpublicSubnet2NATGateway28DAC06C": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "CoreVpcpublicSubnet2EIP7C6DA8F5",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcpublicSubnet2SubnetB989FD57"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet2"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ]
+   },
+   "DependsOn": [
+    "CoreVpcpublicSubnet2DefaultRoute25DE20E2",
+    "CoreVpcpublicSubnet2RouteTableAssociationDB350D57"
+   ]
+  },
+  "CoreVpcpublicSubnet3Subnet4C24FB39": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1c",
+    "CidrBlock": "10.112.2.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet3"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet3RouteTableE97CF22F": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet3"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet3RouteTableAssociationA881AE6A": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcpublicSubnet3RouteTableE97CF22F"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcpublicSubnet3Subnet4C24FB39"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet3DefaultRoute57F9CA6E": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "CoreVpcIGWC3C68BEA"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcpublicSubnet3RouteTableE97CF22F"
+    }
+   },
+   "DependsOn": [
+    "CoreVpcVPCGWD1DFE535"
+   ]
+  },
+  "CoreVpcpublicSubnet3EIPBB2D2857": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet3"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ]
+   }
+  },
+  "CoreVpcpublicSubnet3NATGateway36DFD93D": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "CoreVpcpublicSubnet3EIPBB2D2857",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcpublicSubnet3Subnet4C24FB39"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet3"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ]
+   },
+   "DependsOn": [
+    "CoreVpcpublicSubnet3DefaultRoute57F9CA6E",
+    "CoreVpcpublicSubnet3RouteTableAssociationA881AE6A"
+   ]
+  },
+  "CoreVpcpublicSubnet4SubnetB5DB0456": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1d",
+    "CidrBlock": "10.112.3.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet4"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet4RouteTableAF470BEF": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet4"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet4RouteTableAssociationDB358D32": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcpublicSubnet4RouteTableAF470BEF"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcpublicSubnet4SubnetB5DB0456"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet4DefaultRouteF939960C": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "CoreVpcIGWC3C68BEA"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcpublicSubnet4RouteTableAF470BEF"
+    }
+   },
+   "DependsOn": [
+    "CoreVpcVPCGWD1DFE535"
+   ]
+  },
+  "CoreVpcpublicSubnet4EIPB6437346": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet4"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ]
+   }
+  },
+  "CoreVpcpublicSubnet4NATGateway1BD508C3": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "CoreVpcpublicSubnet4EIPB6437346",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcpublicSubnet4SubnetB5DB0456"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet4"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ]
+   },
+   "DependsOn": [
+    "CoreVpcpublicSubnet4DefaultRouteF939960C",
+    "CoreVpcpublicSubnet4RouteTableAssociationDB358D32"
+   ]
+  },
+  "CoreVpcpublicSubnet5SubnetF03669D3": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1e",
+    "CidrBlock": "10.112.4.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet5"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet5RouteTable893E6CF6": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet5"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet5RouteTableAssociation9FA59AE2": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcpublicSubnet5RouteTable893E6CF6"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcpublicSubnet5SubnetF03669D3"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet5DefaultRoute9BB5CCD6": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "CoreVpcIGWC3C68BEA"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcpublicSubnet5RouteTable893E6CF6"
+    }
+   },
+   "DependsOn": [
+    "CoreVpcVPCGWD1DFE535"
+   ]
+  },
+  "CoreVpcpublicSubnet6SubnetF636C60B": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1f",
+    "CidrBlock": "10.112.5.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet6"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet6RouteTable950DABF9": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/publicSubnet6"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet6RouteTableAssociation880199E4": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcpublicSubnet6RouteTable950DABF9"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcpublicSubnet6SubnetF636C60B"
+    }
+   }
+  },
+  "CoreVpcpublicSubnet6DefaultRouteBF5E1764": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "CoreVpcIGWC3C68BEA"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcpublicSubnet6RouteTable950DABF9"
+    }
+   },
+   "DependsOn": [
+    "CoreVpcVPCGWD1DFE535"
+   ]
+  },
+  "CoreVpcprivateSubnet1SubnetC785D5B6": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "10.112.16.0/20",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/privateSubnet1"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet1RouteTable5A682E68": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/privateSubnet1"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet1RouteTableAssociationFA8898D0": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcprivateSubnet1RouteTable5A682E68"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcprivateSubnet1SubnetC785D5B6"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet1DefaultRoute47032B0C": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "CoreVpcpublicSubnet1NATGateway1183ECF2"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcprivateSubnet1RouteTable5A682E68"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet2SubnetDD498F54": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "10.112.32.0/20",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/privateSubnet2"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet2RouteTable6F82B326": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/privateSubnet2"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet2RouteTableAssociationA0516A93": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcprivateSubnet2RouteTable6F82B326"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcprivateSubnet2SubnetDD498F54"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet2DefaultRoute784C9991": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "CoreVpcpublicSubnet2NATGateway28DAC06C"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcprivateSubnet2RouteTable6F82B326"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet3SubnetEF48DB93": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1c",
+    "CidrBlock": "10.112.48.0/20",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/privateSubnet3"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet3RouteTable754218F7": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/privateSubnet3"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet3RouteTableAssociation406DE5BD": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcprivateSubnet3RouteTable754218F7"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcprivateSubnet3SubnetEF48DB93"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet3DefaultRouteEA10FA86": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "CoreVpcpublicSubnet3NATGateway36DFD93D"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcprivateSubnet3RouteTable754218F7"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet4Subnet65D2FC9B": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1d",
+    "CidrBlock": "10.112.64.0/20",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/privateSubnet4"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet4RouteTable27CA6E73": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/privateSubnet4"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet4RouteTableAssociation01D5C8C5": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcprivateSubnet4RouteTable27CA6E73"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcprivateSubnet4Subnet65D2FC9B"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet4DefaultRoute3BEA2BC9": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "CoreVpcpublicSubnet4NATGateway1BD508C3"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcprivateSubnet4RouteTable27CA6E73"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet5SubnetBC000193": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1e",
+    "CidrBlock": "10.112.80.0/20",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/privateSubnet5"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet5RouteTableCF2C0B8C": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/privateSubnet5"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet5RouteTableAssociation3D0A99D4": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcprivateSubnet5RouteTableCF2C0B8C"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcprivateSubnet5SubnetBC000193"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet5DefaultRoute8ABFBD34": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "CoreVpcpublicSubnet1NATGateway1183ECF2"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcprivateSubnet5RouteTableCF2C0B8C"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet6Subnet72F768D4": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1f",
+    "CidrBlock": "10.112.96.0/20",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/privateSubnet6"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet6RouteTable5D63BB75": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/privateSubnet6"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet6RouteTableAssociation5229B177": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcprivateSubnet6RouteTable5D63BB75"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcprivateSubnet6Subnet72F768D4"
+    }
+   }
+  },
+  "CoreVpcprivateSubnet6DefaultRouteD9846629": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "CoreVpcpublicSubnet2NATGateway28DAC06C"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcprivateSubnet6RouteTable5D63BB75"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet1Subnet7D238AD9": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "10.112.112.0/20",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "workers"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/workersSubnet1"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet1RouteTableA50FEF12": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/workersSubnet1"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet1RouteTableAssociationADFAA511": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcworkersSubnet1RouteTableA50FEF12"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcworkersSubnet1Subnet7D238AD9"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet1DefaultRouteDBA8E330": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "CoreVpcpublicSubnet1NATGateway1183ECF2"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcworkersSubnet1RouteTableA50FEF12"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet2Subnet56862F40": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "10.112.128.0/20",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "workers"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/workersSubnet2"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet2RouteTableCB0610DD": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/workersSubnet2"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet2RouteTableAssociation6545EE5B": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcworkersSubnet2RouteTableCB0610DD"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcworkersSubnet2Subnet56862F40"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet2DefaultRoute60A46753": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "CoreVpcpublicSubnet2NATGateway28DAC06C"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcworkersSubnet2RouteTableCB0610DD"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet3SubnetA47D8C1C": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1c",
+    "CidrBlock": "10.112.144.0/20",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "workers"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/workersSubnet3"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet3RouteTable0A5D078C": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/workersSubnet3"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet3RouteTableAssociation37AC6CA1": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcworkersSubnet3RouteTable0A5D078C"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcworkersSubnet3SubnetA47D8C1C"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet3DefaultRoute6BEECD52": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "CoreVpcpublicSubnet3NATGateway36DFD93D"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcworkersSubnet3RouteTable0A5D078C"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet4SubnetE3B3AA35": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1d",
+    "CidrBlock": "10.112.160.0/20",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "workers"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/workersSubnet4"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet4RouteTable139B0CAB": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/workersSubnet4"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet4RouteTableAssociationD895B476": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcworkersSubnet4RouteTable139B0CAB"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcworkersSubnet4SubnetE3B3AA35"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet4DefaultRouteDF0D2444": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "CoreVpcpublicSubnet4NATGateway1BD508C3"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcworkersSubnet4RouteTable139B0CAB"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet5Subnet297350D1": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1e",
+    "CidrBlock": "10.112.176.0/20",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "workers"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/workersSubnet5"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet5RouteTable6042150F": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/workersSubnet5"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet5RouteTableAssociationDACC9360": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcworkersSubnet5RouteTable6042150F"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcworkersSubnet5Subnet297350D1"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet5DefaultRoute7DAE68D6": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "CoreVpcpublicSubnet3NATGateway36DFD93D"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcworkersSubnet5RouteTable6042150F"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet6SubnetAE7791FE": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1f",
+    "CidrBlock": "10.112.192.0/20",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "workers"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/workersSubnet6"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet6RouteTable1FA1C018": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/workersSubnet6"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet6RouteTableAssociation76F3BFC1": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "CoreVpcworkersSubnet6RouteTable1FA1C018"
+    },
+    "SubnetId": {
+     "Ref": "CoreVpcworkersSubnet6SubnetAE7791FE"
+    }
+   }
+  },
+  "CoreVpcworkersSubnet6DefaultRouteD46C4A7F": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "CoreVpcpublicSubnet4NATGateway1BD508C3"
+    },
+    "RouteTableId": {
+     "Ref": "CoreVpcworkersSubnet6RouteTable1FA1C018"
+    }
+   }
+  },
+  "CoreVpcIGWC3C68BEA": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "network"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ]
+   }
+  },
+  "CoreVpcVPCGWD1DFE535": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "CoreVpcIGWC3C68BEA"
+    },
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "CoreVpcRestrictDefaultSecurityGroupCustomResource460C7CAD": {
+   "Type": "Custom::VpcRestrictDefaultSG",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E",
+      "Arn"
+     ]
+    },
+    "DefaultSecurityGroupId": {
+     "Fn::GetAtt": [
+      "CoreVpcB2509D56",
+      "DefaultSecurityGroup"
+     ]
+    },
+    "Account": "111111111111"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyName": "Inline",
+      "PolicyDocument": {
+       "Version": "2012-10-17",
+       "Statement": [
+        {
+         "Effect": "Allow",
+         "Action": [
+          "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:AuthorizeSecurityGroupEgress",
+          "ec2:RevokeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupEgress"
+         ],
+         "Resource": [
+          {
+           "Fn::Join": [
+            "",
+            [
+             "arn:aws:ec2:us-east-1:111111111111:security-group/",
+             {
+              "Fn::GetAtt": [
+               "CoreVpcB2509D56",
+               "DefaultSecurityGroup"
+              ]
+             }
+            ]
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+     "S3Key": "02b51ab524e7bcf8f477de3e71e5f9a72e448301b26ba62e9e75a14f9c55a093.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "__entrypoint__.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs24.x",
+    "Description": "Lambda function for removing all inbound/outbound rules from the VPC default security group"
+   },
+   "DependsOn": [
+    "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+   ]
+  },
+  "CoreVpcS3EndpointFEE080E6": {
+   "Type": "AWS::EC2::VPCEndpoint",
+   "Properties": {
+    "RouteTableIds": [
+     {
+      "Ref": "CoreVpcprivateSubnet1RouteTable5A682E68"
+     },
+     {
+      "Ref": "CoreVpcprivateSubnet2RouteTable6F82B326"
+     },
+     {
+      "Ref": "CoreVpcprivateSubnet3RouteTable754218F7"
+     },
+     {
+      "Ref": "CoreVpcprivateSubnet4RouteTable27CA6E73"
+     },
+     {
+      "Ref": "CoreVpcprivateSubnet5RouteTableCF2C0B8C"
+     },
+     {
+      "Ref": "CoreVpcprivateSubnet6RouteTable5D63BB75"
+     },
+     {
+      "Ref": "CoreVpcworkersSubnet1RouteTableA50FEF12"
+     },
+     {
+      "Ref": "CoreVpcworkersSubnet2RouteTableCB0610DD"
+     },
+     {
+      "Ref": "CoreVpcworkersSubnet3RouteTable0A5D078C"
+     },
+     {
+      "Ref": "CoreVpcworkersSubnet4RouteTable139B0CAB"
+     },
+     {
+      "Ref": "CoreVpcworkersSubnet5RouteTable6042150F"
+     },
+     {
+      "Ref": "CoreVpcworkersSubnet6RouteTable1FA1C018"
+     },
+     {
+      "Ref": "CoreVpcpublicSubnet1RouteTable012CBAD7"
+     },
+     {
+      "Ref": "CoreVpcpublicSubnet2RouteTable63BCEF50"
+     },
+     {
+      "Ref": "CoreVpcpublicSubnet3RouteTableE97CF22F"
+     },
+     {
+      "Ref": "CoreVpcpublicSubnet4RouteTableAF470BEF"
+     },
+     {
+      "Ref": "CoreVpcpublicSubnet5RouteTable893E6CF6"
+     },
+     {
+      "Ref": "CoreVpcpublicSubnet6RouteTable950DABF9"
+     }
+    ],
+    "ServiceName": {
+     "Fn::Join": [
+      "",
+      [
+       "com.amazonaws.",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".s3"
+      ]
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "gateway"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcEndpointType": "Gateway",
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "VpcFlowLogsE6FFDEF9": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/nova/cwseuuu7/vpc-flow",
+    "RetentionInDays": 90,
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "flowlogs"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "CoreVpcFlowLogIAMRole8457AD74": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "vpc-flow-logs.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "flowlogs"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/FlowLog"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ]
+   }
+  },
+  "CoreVpcFlowLogIAMRoleDefaultPolicy65423BED": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:DescribeLogStreams",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "VpcFlowLogsE6FFDEF9",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CoreVpcFlowLogIAMRoleDefaultPolicy65423BED",
+    "Roles": [
+     {
+      "Ref": "CoreVpcFlowLogIAMRole8457AD74"
+     }
+    ]
+   }
+  },
+  "CoreVpcFlowLogDDA9CAC8": {
+   "Type": "AWS::EC2::FlowLog",
+   "Properties": {
+    "DeliverLogsPermissionArn": {
+     "Fn::GetAtt": [
+      "CoreVpcFlowLogIAMRole8457AD74",
+      "Arn"
+     ]
+    },
+    "LogDestinationType": "cloud-watch-logs",
+    "LogGroupName": {
+     "Ref": "VpcFlowLogsE6FFDEF9"
+    },
+    "MaxAggregationInterval": 600,
+    "ResourceId": {
+     "Ref": "CoreVpcB2509D56"
+    },
+    "ResourceType": "VPC",
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "flowlogs"
+     },
+     {
+      "Key": "Name",
+      "Value": "AcceleratorCwseuuu7Network/CoreVpc/FlowLog"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "TrafficType": "ALL"
+   }
+  },
+  "DeliverySecurityGroup6A9ACBBE": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Public accelerator load balancer",
+    "GroupName": "nova-cwseuuu7-delivery",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "10.112.0.0/16",
+      "Description": "Delivery traffic into the accelerator VPC",
+      "FromPort": 8443,
+      "IpProtocol": "tcp",
+      "ToPort": 8443
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Public accelerator traffic",
+      "FromPort": 80,
+      "IpProtocol": "tcp",
+      "ToPort": 80
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "security"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "RuntimeSecurityGroup228FFEFC": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Accelerator ECS task definitions",
+    "GroupName": "nova-cwseuuu7-runtime",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "security"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  },
+  "RuntimeSecurityGroupfromAcceleratorCwseuuu7NetworkDeliverySecurityGroupEFAF35AD84434F600905": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Application traffic from the accelerator load balancer",
+    "FromPort": 8443,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "RuntimeSecurityGroup228FFEFC",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "DeliverySecurityGroup6A9ACBBE",
+      "GroupId"
+     ]
+    },
+    "ToPort": 8443
+   }
+  },
+  "NotificationSecurityGroupC966E957": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Notification Lambda",
+    "GroupName": "nova-cwseuuu7-notifications",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "component",
+      "Value": "security"
+     },
+     {
+      "Key": "owner",
+      "Value": "accelerator-platform"
+     },
+     {
+      "Key": "stage",
+      "Value": "cwseuuu7"
+     }
+    ],
+    "VpcId": {
+     "Ref": "CoreVpcB2509D56"
+    }
+   }
+  }
+ },
+ "Outputs": {
+  "VpcId": {
+   "Value": {
+    "Ref": "CoreVpcB2509D56"
+   }
+  },
+  "PublishOutputFnGetAttDeliverySecurityGroup6A9ACBBEGroupIdC7CEA260": {
+   "Value": {
+    "Fn::GetAtt": [
+     "DeliverySecurityGroup6A9ACBBE",
+     "GroupId"
+    ]
+   }
+  },
+  "PublishOutputRefCoreVpcpublicSubnet1Subnet57C122A20B2CBD50": {
+   "Value": {
+    "Ref": "CoreVpcpublicSubnet1Subnet57C122A2"
+   }
+  },
+  "PublishOutputRefCoreVpcpublicSubnet2SubnetB989FD57CD1EF545": {
+   "Value": {
+    "Ref": "CoreVpcpublicSubnet2SubnetB989FD57"
+   }
+  },
+  "PublishOutputRefCoreVpcpublicSubnet3Subnet4C24FB3936E5C536": {
+   "Value": {
+    "Ref": "CoreVpcpublicSubnet3Subnet4C24FB39"
+   }
+  },
+  "PublishOutputRefCoreVpcpublicSubnet4SubnetB5DB0456A294B2C7": {
+   "Value": {
+    "Ref": "CoreVpcpublicSubnet4SubnetB5DB0456"
+   }
+  },
+  "PublishOutputRefCoreVpcpublicSubnet5SubnetF03669D3B1516809": {
+   "Value": {
+    "Ref": "CoreVpcpublicSubnet5SubnetF03669D3"
+   }
+  },
+  "PublishOutputRefCoreVpcpublicSubnet6SubnetF636C60BDB89D48E": {
+   "Value": {
+    "Ref": "CoreVpcpublicSubnet6SubnetF636C60B"
+   }
+  },
+  "PublishOutputRefCoreVpcB2509D563461A567": {
+   "Value": {
+    "Ref": "CoreVpcB2509D56"
+   }
+  },
+  "PublishOutputRefCoreVpcprivateSubnet1SubnetC785D5B620E01478": {
+   "Value": {
+    "Ref": "CoreVpcprivateSubnet1SubnetC785D5B6"
+   }
+  },
+  "PublishOutputRefCoreVpcprivateSubnet2SubnetDD498F54DF3FC5BA": {
+   "Value": {
+    "Ref": "CoreVpcprivateSubnet2SubnetDD498F54"
+   }
+  },
+  "PublishOutputRefCoreVpcprivateSubnet3SubnetEF48DB9398CE48E1": {
+   "Value": {
+    "Ref": "CoreVpcprivateSubnet3SubnetEF48DB93"
+   }
+  },
+  "PublishOutputRefCoreVpcprivateSubnet4Subnet65D2FC9BB08477B4": {
+   "Value": {
+    "Ref": "CoreVpcprivateSubnet4Subnet65D2FC9B"
+   }
+  },
+  "PublishOutputRefCoreVpcprivateSubnet5SubnetBC00019303D3EE6E": {
+   "Value": {
+    "Ref": "CoreVpcprivateSubnet5SubnetBC000193"
+   }
+  },
+  "PublishOutputRefCoreVpcprivateSubnet6Subnet72F768D4FC4ADA4E": {
+   "Value": {
+    "Ref": "CoreVpcprivateSubnet6Subnet72F768D4"
+   }
+  },
+  "PublishOutputFnGetAttNotificationSecurityGroupC966E957GroupId2875DA05": {
+   "Value": {
+    "Fn::GetAtt": [
+     "NotificationSecurityGroupC966E957",
+     "GroupId"
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

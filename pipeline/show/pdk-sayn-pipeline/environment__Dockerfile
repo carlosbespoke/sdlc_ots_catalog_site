@@ -1,0 +1,40 @@
+FROM mirror.gcr.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+
+ARG REPO_URL=https://github.com/173TECH/sayn.git
+ARG BASE_COMMIT=f6e2da51cfc9e110bd22a20f3ba10f147e0771b3
+ENV CI=1 PIP_DISABLE_PIP_VERSION_CHECK=1 PYTHONDONTWRITEBYTECODE=1 DO_NOT_TRACK=1
+
+# tmux and asciinema are required by Harbor's solver agent.
+RUN set -eu; \
+    apt-get update; \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -o Acquire::Retries=5 \
+      tmux asciinema bash build-essential ca-certificates curl file git jq less procps vim-tiny; \
+    rm -rf /var/lib/apt/lists/*
+
+# The repository at the base commit only: one commit, no remote, no reflog.
+WORKDIR /app
+RUN git init -q /app && git -C /app remote add origin "$REPO_URL" \
+    && git -C /app fetch -q --depth 1 origin "$BASE_COMMIT" && git -C /app checkout -q --detach FETCH_HEAD \
+    && test "$(git -C /app rev-parse HEAD)" = "$BASE_COMMIT" \
+    && git -C /app remote remove origin && rm -f /app/.git/FETCH_HEAD \
+    && git -C /app reflog expire --expire=now --all && git -C /app gc -q --prune=now
+
+# sayn's runtime and test dependencies at the versions poetry.lock pins, outside /app; the package
+# itself is installed editable so changes under /app apply without a reinstall.
+RUN set -eu; python -m venv /opt/venv; \
+    /opt/venv/bin/pip install -q \
+      Jinja2==3.1.3 MarkupSafe==2.1.3 SQLAlchemy==1.4.51 greenlet==3.0.3 pydantic==1.9.2 \
+      typing-extensions==4.9.0 ruamel.yaml==0.18.5 ruamel.yaml.clib==0.2.8 orjson==3.9.10 \
+      Click==8.0.4 halo==0.0.31 colorama==0.4.6 log-symbols==0.0.14 spinners==0.0.24 \
+      termcolor==2.4.0 six==1.16.0 \
+      pytest==7.4.4 iniconfig==2.0.0 pluggy==1.3.0 packaging==23.2; \
+    /opt/venv/bin/pip install -q -e /app --no-deps
+ENV PATH=/opt/venv/bin:$PATH
+# Login shells reset PATH from /etc/profile; keep the venv first there too.
+RUN printf '%s\n' 'case ":$PATH:" in *:/opt/venv/bin:*) ;; *) PATH="/opt/venv/bin:$PATH"; export PATH ;; esac' \
+      > /etc/profile.d/sayn-venv.sh
+
+# Sample data, outside /app.
+COPY data/ /data/
+
+CMD ["/bin/bash"]

@@ -1,0 +1,101 @@
+# syntax=docker/dockerfile:1
+# Verifier image (Harbor separate-verifier mode). Built from tests/ after the agent finishes.
+# Harbor starts it as a fresh container, copies the agent's final /workdir in (task.toml
+# `artifacts`), bind-mounts /logs/verifier and runs /tests/test.sh as root. The agent's container
+# is stopped by then and never receives anything from tests/.
+#
+# The toolchain section repeats environment/Dockerfile's interpreter and dependency layers
+# verbatim; the dependency layer installs tests/lock/requirements.txt, a byte copy of the solver build
+# context's requirements.txt (the solver image deletes its copy after installing), so the candidate is
+# observed with the interpreter and libraries it was written against. Keep the two in step:
+# `separate-verifier.py parity` compares the built images. Change environment/Dockerfile only when the solver
+# really needs it; its bytes key the QC cache.
+
+# --- Toolchain (from environment/Dockerfile) ---
+# agentscope-pdk-ots. /workdir carries agentscope-ai/agentscope at 4891ba7a448d6767985639583ba3d43c35a35ee3
+# with its documentation curation and the selected implementation drift already applied; the tree is shipped
+# in the solver image's build context; the verifier receives it as the agent's /workdir artifact.
+# Runtime has no network: everything solve-time and grade-time is installed here with exact, hash-pinned
+# versions (requirements.txt: the project's `[dev]` extra, which the colleague original's image installed).
+FROM python@sha256:2e32f7d302adc1c37428355c1e646897c0c53f4fd60b6a551245fb90ee129f91
+
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_INPUT=1 PIP_NO_CACHE_DIR=1
+ENV UV_NO_CACHE=1 UV_PYTHON_DOWNLOADS=never UV_PYTHON=/opt/venv/bin/python
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONHASHSEED=0
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH=/opt/venv/bin:$PATH
+ENV PYTHONPATH=/workdir/src
+ENV SOURCE_DATE_EPOCH=0
+
+# --- Agent harness prerequisites (driftflow/harness.py, ISSUE-103) ---
+# Harbor's TerminusV2 agent opens a tmux session in this container, records it, and drives
+# the solver through it. Without tmux every rollout dies at agent setup with "Failed to start
+# tmux session" before the agent takes a turn, and the whole cohort is lost. Nothing else in
+# the local gates notices, because none of them starts the real agent.
+#
+# This layer needs build-time network for the package manager. Build with network enabled;
+# that is independent of the task's run-time isolation, which task.toml still declares as
+# no-network. Keep the base image digest-pinned.
+#
+# The build packages are the ones the colleague original's image installed. Debian ships *.patch files
+# under /usr/share/doc, which isolation probes that walk the filesystem for private assets will flag.
+# Drop the docs here rather than loosening a probe.
+RUN if command -v apt-get >/dev/null; then \
+        apt-get update && apt-get install -y --no-install-recommends \
+            asciinema build-essential ca-certificates curl gfortran git libfreetype6-dev libpng-dev \
+            pkg-config tmux \
+        && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man; \
+    elif command -v apk >/dev/null; then \
+        apk add --no-cache asciinema ca-certificates git tmux; \
+    fi
+# Fail the BUILD, not a paid cohort. Starting and tearing down a real session proves tmux
+# works, which `command -v` does not.
+RUN command -v git && command -v tmux \
+    && tmux -V \
+    && tmux -L harbor-build-smoke new-session -d -s smoke 'sleep 30' \
+    && tmux -L harbor-build-smoke has-session -t smoke \
+    && tmux -L harbor-build-smoke kill-server
+
+# Keep the toolchain visible to login shells (`bash -lc`), not just `ENV`: /etc/profile rebuilds
+# PATH and would otherwise discard the ENV entry.
+RUN printf 'export VIRTUAL_ENV="/opt/venv"\nexport PATH="/opt/venv/bin:$PATH"\nexport PYTHONPATH="/workdir/src"\nexport PYTHONDONTWRITEBYTECODE="1"\nexport PYTHONHASHSEED="0"\nexport TZ="UTC"\n' \
+      > /etc/profile.d/00-agentscope.sh && chmod 0644 /etc/profile.d/00-agentscope.sh
+
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/python -m pip install --no-cache-dir 'pip==25.2' 'setuptools==75.8.2' 'wheel==0.45.1' 'uv==0.12.3'
+
+# --- Solve-time dependencies: every package `agentscope[dev]` resolves to at the pinned commit (resolved with
+# `uv pip compile --exclude-newer 2026-08-15`, hash-pinned). agentscope itself is not installed: the grader
+# imports the candidate's copy. The requirements file is copied into a throwaway directory and removed.
+COPY lock/requirements.txt /opt/requirements/requirements.txt
+RUN uv pip install --python /opt/venv/bin/python --no-deps --require-hashes --compile-bytecode \
+        -r /opt/requirements/requirements.txt \
+    && uv pip check --python /opt/venv/bin/python \
+    && rm -rf /opt/requirements /root/.cache /tmp/* /var/tmp/*
+
+RUN useradd -m -u 1000 -s /bin/bash agent 2>/dev/null || true \
+    && git config --system --add safe.directory /workdir
+
+# --- Verifier ---
+# No extra packages: the grader's observation children import the candidate's agentscope (a staged copy
+# of /workdir whose src/ directory is appended to sys.path after the standard library and site-packages)
+# with the same interpreter and libraries as the solver image. Seal that interpreter as the solver image
+# does: drop any .pth that would put /workdir on sys.path and keep the venv root-owned and not
+# group/other-writable.
+RUN find /opt/venv -name '*.pth' -print0 | xargs -0 -r grep -l /workdir | xargs -r rm -f \
+    && chown -R root:root /opt/venv \
+    && chmod -R go-w /opt/venv \
+    && /opt/venv/bin/python -c "import pydantic, qdrant_client, numpy; print('verifier interpreter sealed')"
+
+# The grader, its private material and the reward writer, root-only: candidate code that the
+# grader runs as an unprivileged user must not read them. /workdir stays empty in the image;
+# it arrives as the agent's artifact.
+COPY . /tests
+RUN rm -rf /tests/Dockerfile /tests/lock \
+    && chown -R root:root /tests \
+    && chmod -R go-rwx /tests \
+    && mkdir -p /workdir /logs/verifier
+
+WORKDIR /workdir
+CMD ["sh", "-c", "sleep infinity"]

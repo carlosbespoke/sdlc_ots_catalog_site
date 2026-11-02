@@ -1,0 +1,58 @@
+schema_version = "1.3"
+artifacts = ["/logs/artifacts"]
+
+[task]
+name = "bespokelabsai/oss-rebuild-18f-39476005"
+description = "A Go service and library collection for reproducing upstream package artifacts has been altered by 18 one-line edits, and its test suite has been removed. Users report a broad spread of misbehaviour: bit-set queries answering for positions that were never touched, download URLs for containers, Alpine packages, Python wheels, Java artifacts and npm tarballs no longer resolving to package identifiers, successful HTTP metadata responses being reported as failures, a caching repository fetch failing end to end and answering the wrong status code on malformed queries, tarball unpacking silently dropping entries, user-supplied normalization rules being rejected and then having no effect, container invocation emitting a blank flag and mangling phase scripts, and operation identifiers that cannot be turned back into the records they name. The agent must locate the faults from behaviour alone, repair each one, and name the functions that were edited."
+authors = []
+keywords = ["diagnosis", "root-cause", "fault-chain", "go", "go test"]
+
+[metadata]
+task_id = "oss-rebuild-18f-39476005"
+display_title = "A Go package-reproduction toolchain gives wrong answers in eighteen places, diagnosed without a test suite"
+display_description = "A Go service and library collection for reproducing upstream package artifacts has been altered by 18 one-line edits, and its test suite has been removed. Users report a broad spread of misbehaviour: bit-set queries answering for positions that were never touched, download URLs for containers, Alpine packages, Python wheels, Java artifacts and npm tarballs no longer resolving to package identifiers, successful HTTP metadata responses being reported as failures, a caching repository fetch failing end to end and answering the wrong status code on malformed queries, tarball unpacking silently dropping entries, user-supplied normalization rules being rejected and then having no effect, container invocation emitting a blank flag and mangling phase scripts, and operation identifiers that cannot be turned back into the records they name. The agent must locate the faults from behaviour alone, repair each one, and name the functions that were edited."
+category = "bugfix"
+difficulty = "hard"
+language = "go"
+repository_url = "https://github.com/google/oss-rebuild.git"
+base_commit_hash = "69b2d341a21b4a98df63025ce1cbc67cfe94fe63"
+target_test = ""
+fault_count = 18
+fault_files = "internal/api/apiservice/rebuild_lro.go;internal/bitmap/bitmap.go;internal/gitcache/client.go;internal/gitcache/server.go;internal/netclassify/classify.go;pkg/archive/tar.go;pkg/build/local/run_args.go;pkg/registry/cratesio/cratesio.go;pkg/registry/rubygems/rubygems.go;pkg/stabilize/custom.go"
+fault_ids = "caa974ef,d516433c,c8827d4b,35e5897f,85bc1ee2,22a22bb0,48ed68ce,216bf9ef,8b36bda4,aa9ec5b8,6fc85f31,26b786ef,7e94dac9,1a65813e,5b4aff20,8e2670a8,842578eb,fea6104b"
+why_hard = "18 edits across 10 files, one per function, and the repository's own suite is the only thing that shows them"
+generated_by = "voyager-diagnosis-pipeline"
+
+# Dual-container (separate) verifier, which the Voyager OTS spec requires of every task
+# (2026-09-29). Grading runs in its OWN container, built from tests/Dockerfile: the same
+# environment/Dockerfile the agent's image comes from, plus root-owned /tests layers the
+# agent image never holds. Nothing the agent did at run time reaches that container except
+# what the collect command below hands over - /logs/artifacts/worktree.tgz (the working
+# tree without .git) and /logs/artifacts/rca.json - and tests/grade.py adopts only source
+# files out of the archive. So the agent's .git, its venv, its home directory, its
+# processes and anything it planted outside the source roots never meet the grader. The
+# grader still runs as root (user below) and drops to the agent account for every suite run
+# (answer_key run_tests_as = "agent"). No [verifier.environment] block: Harbor then gives
+# the verifier a fresh copy of [environment] below, so one declaration governs both
+# containers' network, cpus, memory and storage.
+[verifier]
+environment_mode = "separate"
+user = "root"
+timeout_sec = 5580.0
+[[verifier.collect]]
+command = "bash -c 'mkdir -p /logs/artifacts && cd /workspace/repo && tar czf /logs/artifacts/worktree.tgz --exclude=./.git . ; cp -f /app/rca.json /logs/artifacts/rca.json 2>/dev/null || true'"
+service = "main"
+timeout_sec = 300
+
+[agent]
+timeout_sec = 21600.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+os = "linux"
+workdir = "/workspace/repo"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

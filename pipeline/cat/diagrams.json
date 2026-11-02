@@ -1,0 +1,1144 @@
+[
+ {
+  "slug": "programbench",
+  "key": "ex1",
+  "name": "bazel-contrib__bazel-gazelle.ed9d0f2",
+  "problem": "Only a compiled build-file generator and its user docs exist. The source code is not available, but a replacement is needed.",
+  "receives": [
+   {
+    "label": "Reference program\n(can run it, not read it)",
+    "icon": "binary-tree"
+   },
+   {
+    "label": "User documentation\n(reference pages)",
+    "icon": "book"
+   },
+   {
+    "label": "Compilers for several languages",
+    "icon": "terminal-2"
+   }
+  ],
+  "job": [
+   "Run the reference on varied inputs",
+   "Infer the rules it follows",
+   "Write a new implementation",
+   "Compare outputs with the reference"
+  ],
+  "deliver": [
+   {
+    "label": "Source project + build script\nthat produces the program"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden behavior tests\n(output, exit codes, files)",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Must match the reference\non every test",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "programbench",
+  "key": "ex2",
+  "name": "burntsushi__rust-snappy.29fcab5",
+  "problem": "Only a compiled compression tool and its user docs exist. The source code is not available, but a replacement is needed.",
+  "receives": [
+   {
+    "label": "Reference program\n(can run it, not read it)",
+    "icon": "binary-tree"
+   },
+   {
+    "label": "User documentation\n(reference pages)",
+    "icon": "book"
+   },
+   {
+    "label": "Compilers for several languages",
+    "icon": "terminal-2"
+   }
+  ],
+  "job": [
+   "Run the reference on varied inputs",
+   "Infer the rules it follows",
+   "Write a new implementation",
+   "Compare outputs with the reference"
+  ],
+  "deliver": [
+   {
+    "label": "Source project + build script\nthat produces the program"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden behavior tests\n(output, exit codes, files)",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Must match the reference\non every test",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "programbench",
+  "key": "ex3",
+  "name": "gabotechs__graphqxl.e14bc28",
+  "problem": "Only a compiled GraphQL schema tool and its user docs exist. The source code is not available, but a replacement is needed.",
+  "receives": [
+   {
+    "label": "Reference program\n(can run it, not read it)",
+    "icon": "binary-tree"
+   },
+   {
+    "label": "User documentation\n(reference pages)",
+    "icon": "book"
+   },
+   {
+    "label": "Compilers for several languages",
+    "icon": "terminal-2"
+   }
+  ],
+  "job": [
+   "Run the reference on varied inputs",
+   "Infer the rules it follows",
+   "Write a new implementation",
+   "Compare outputs with the reference"
+  ],
+  "deliver": [
+   {
+    "label": "Source project + build script\nthat produces the program"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden behavior tests\n(output, exit codes, files)",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Must match the reference\non every test",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "system-design",
+  "key": "ex1",
+  "name": "pdk-grist-fenced-doc-worker-failover",
+  "problem": "When a document worker stops or is cut off, its documents hang. Reassigning them naively lets the old worker overwrite newer edits when it returns.",
+  "receives": [
+   {
+    "label": "Collaborative document server codebase",
+    "icon": "typescript"
+   },
+   {
+    "label": "Written failover requirements\n(with time limits)",
+    "icon": "file-text"
+   },
+   {
+    "label": "Running stack\n(Redis, Postgres, object storage)",
+    "icon": "docker"
+   }
+  ],
+  "system": {
+   "label": "Document serving cluster",
+   "nodes": [
+    {
+     "id": "home",
+     "label": "Home servers",
+     "icon": "server"
+    },
+    {
+     "id": "w",
+     "label": "Document workers",
+     "icon": "nodedotjs"
+    },
+    {
+     "id": "redis",
+     "label": "Worker assignments",
+     "icon": "redis"
+    },
+    {
+     "id": "pg",
+     "label": "Document metadata",
+     "icon": "postgresql"
+    },
+    {
+     "id": "s3",
+     "label": "Saved document copies",
+     "icon": "minio"
+    }
+   ],
+   "edges": [
+    [
+     "home",
+     "redis",
+     "look up owner"
+    ],
+    [
+     "home",
+     "w",
+     "route requests"
+    ],
+    [
+     "w",
+     "redis",
+     "renew lease"
+    ],
+    [
+     "w",
+     "s3",
+     "flush state"
+    ],
+    [
+     "w",
+     "pg",
+     "metadata"
+    ]
+   ]
+  },
+  "job": [
+   "Detect workers that miss their lease",
+   "Hand documents to a healthy worker",
+   "Fence out the returning old worker",
+   "Keep normal edits working"
+  ],
+  "deliver": [
+   {
+    "label": "Changed server code that fences stale workers"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden scenario tests stop and resume workers",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "No lost edits and one owner per document",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "system-design",
+  "key": "ex2",
+  "name": "tests-half-go-diskfs-crash-recoverable-fat-metadata-62a2",
+  "problem": "The FAT disk-image library can be left half-updated if a write is interrupted. Users need changes that either fully commit or fully roll back.",
+  "receives": [
+   {
+    "label": "Go disk filesystem library",
+    "icon": "go"
+   },
+   {
+    "label": "Written requirements\n(transactions, recovery, copying)",
+    "icon": "file-text"
+   },
+   {
+    "label": "Sample disk images",
+    "icon": "folder"
+   }
+  ],
+  "system": {
+   "label": "Filesystem write path",
+   "nodes": [
+    {
+     "id": "api",
+     "label": "File and copy operations",
+     "icon": "go"
+    },
+    {
+     "id": "txn",
+     "label": "Transaction and recovery log",
+     "icon": "layers-subtract"
+    },
+    {
+     "id": "fat",
+     "label": "FAT tables and directories",
+     "icon": "database"
+    },
+    {
+     "id": "img",
+     "label": "Disk image",
+     "icon": "folder"
+    }
+   ],
+   "edges": [
+    [
+     "api",
+     "txn",
+     "begin / commit"
+    ],
+    [
+     "txn",
+     "fat",
+     "write entries"
+    ],
+    [
+     "fat",
+     "img",
+     "persist"
+    ],
+    [
+     "txn",
+     "img",
+     "replay on open"
+    ]
+   ]
+  },
+  "job": [
+   "Add transactions for FAT12, FAT16, FAT32",
+   "Make rollback restore touched entries",
+   "Replay or undo records when reopening",
+   "Make tree copy all-or-nothing"
+  ],
+  "deliver": [
+   {
+    "label": "Library code with crash-safe transactions"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests interrupt writes and reopen images",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Filesystem must stay coherent",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "system-design",
+  "key": "ex3",
+  "name": "pdk-immich-hard-storage-quota-holds",
+  "problem": "Parallel uploads can all pass the storage quota check on stale usage, and crashed uploads leave unfinished files, so users exceed their quota.",
+  "receives": [
+   {
+    "label": "Photo management server codebase",
+    "icon": "typescript"
+   },
+   {
+    "label": "Written quota requirements\n(with time limits)",
+    "icon": "file-text"
+   },
+   {
+    "label": "Running stack\n(database, cache, file storage)",
+    "icon": "docker"
+   }
+  ],
+  "system": {
+   "label": "Photo server",
+   "nodes": [
+    {
+     "id": "api",
+     "label": "API processes",
+     "icon": "nodedotjs"
+    },
+    {
+     "id": "pg",
+     "label": "Usage and assets",
+     "icon": "postgresql"
+    },
+    {
+     "id": "redis",
+     "label": "Shared counters",
+     "icon": "redis"
+    },
+    {
+     "id": "disk",
+     "label": "Stored originals",
+     "icon": "folder"
+    },
+    {
+     "id": "jobs",
+     "label": "Background jobs",
+     "icon": "bolt"
+    }
+   ],
+   "edges": [
+    [
+     "api",
+     "disk",
+     "stream upload"
+    ],
+    [
+     "api",
+     "redis",
+     "reserve bytes"
+    ],
+    [
+     "api",
+     "pg",
+     "commit usage"
+    ],
+    [
+     "jobs",
+     "pg",
+     "delete, resync"
+    ],
+    [
+     "jobs",
+     "disk",
+     "remove files"
+    ]
+   ]
+  },
+  "job": [
+   "Count upload bytes while they stream",
+   "Reserve and release quota across processes",
+   "Clean up aborted and crashed uploads",
+   "Release usage once per deletion"
+  ],
+  "deliver": [
+   {
+    "label": "Changed server code enforcing a hard quota"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests run concurrent and aborted uploads",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Quota never exceeded, usage exact",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "debugging",
+  "key": "ex1",
+  "name": "form-pipeline-ots",
+  "problem": "The form library's behavior has drifted away from its documentation in several places, so forms validate and update state differently than documented.",
+  "receives": [
+   {
+    "label": "Form state library codebase",
+    "icon": "typescript"
+   },
+   {
+    "label": "API reference and doc comments\n(the authority)",
+    "icon": "book"
+   },
+   {
+    "label": "Existing test suite",
+    "icon": "test-pipe"
+   }
+  ],
+  "job": [
+   "Read the documented behavior",
+   "Find where the code disagrees",
+   "Fix the code, not the docs",
+   "Keep public API unchanged"
+  ],
+  "deliver": [
+   {
+    "label": "Corrected library code"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests replay the documented behavior",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Matching behavior must not regress",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "debugging",
+  "key": "ex2",
+  "name": "libexpat-realbug-a",
+  "problem": "An XML parser library has four reported defects. Reports describe the symptoms only, and no test suite exists to point at the cause.",
+  "receives": [
+   {
+    "label": "XML parser library source",
+    "icon": "c"
+   },
+   {
+    "label": "Four written symptom reports",
+    "icon": "report-search"
+   },
+   {
+    "label": "Compiler and build tools",
+    "icon": "terminal-2"
+   }
+  ],
+  "job": [
+   "Reproduce each reported symptom",
+   "Trace each one to its cause",
+   "Fix the four defects",
+   "Avoid breaking other parsing"
+  ],
+  "deliver": [
+   {
+    "label": "Fixed library code for all four defects"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests exercise each reported case",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Existing behavior must stay intact",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "debugging",
+  "key": "ex3",
+  "name": "swanlab-nanpair",
+  "problem": "Diverged training runs rank first in the exported sweep results, so the team keeps picking broken models.",
+  "receives": [
+   {
+    "label": "Experiment tracking library",
+    "icon": "python"
+   },
+   {
+    "label": "Bug report from a user",
+    "icon": "bug"
+   },
+   {
+    "label": "Existing test suite",
+    "icon": "test-pipe"
+   }
+  ],
+  "job": [
+   "Reproduce the bad export",
+   "Find the real root cause",
+   "Fix it at the source",
+   "Add a failing-then-passing test"
+  ],
+  "deliver": [
+   {
+    "label": "Fixed library code + regression test"
+   },
+   {
+    "label": "Short root-cause note"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests cover the bug and related inputs",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Own test must fail before, pass after",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "feature-implementation",
+  "key": "ex1",
+  "name": "minab-secured-loan-origination",
+  "problem": "Loan accounts can be opened with no guarantors or collateral. The bank wants one secured origination path that does everything in a single transaction.",
+  "receives": [
+   {
+    "label": "Banking loan service codebase",
+    "icon": "openjdk"
+   },
+   {
+    "label": "Written origination requirements",
+    "icon": "file-text"
+   },
+   {
+    "label": "Existing loan test suite",
+    "icon": "test-pipe"
+   }
+  ],
+  "job": [
+   "Add the secured origination operation",
+   "Attach guarantors, collateral, audit record",
+   "Withdraw the borrower's other applications",
+   "Remove the old bare path"
+  ],
+  "deliver": [
+   {
+    "label": "Updated service and REST endpoint code"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests cover success and rejected requests",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Rejected request saves nothing",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "feature-implementation",
+  "key": "ex2",
+  "name": "memdb-txn",
+  "problem": "An in-memory database library has had its core methods replaced with placeholders that panic, so nothing can update, query or watch data.",
+  "receives": [
+   {
+    "label": "Database library with stubbed methods",
+    "icon": "go"
+   },
+   {
+    "label": "API comments and README",
+    "icon": "book"
+   },
+   {
+    "label": "Package rules and restrictions",
+    "icon": "list-check"
+   }
+  ],
+  "job": [
+   "Read the API comments and README",
+   "Implement transactions and deletes",
+   "Implement indexed queries and snapshots",
+   "Implement filters and watch sets"
+  ],
+  "deliver": [
+   {
+    "label": "Go source changes restoring the stubs"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests check restored behavior",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Existing index and schema behavior unchanged",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "infrastructure-as-code",
+  "key": "ex1",
+  "name": "terraform-dual-ipv6-k8s-module-refactor",
+  "problem": "Production cloud code is one flat Terraform module. It must be split into modules without touching any live infrastructure.",
+  "receives": [
+   {
+    "label": "Flat Terraform project",
+    "icon": "terraform"
+   },
+   {
+    "label": "Recorded production state",
+    "icon": "database"
+   },
+   {
+    "label": "Offline plan script and policy checks",
+    "icon": "checklist"
+   }
+  ],
+  "system": {
+   "label": "Infrastructure refactor",
+   "nodes": [
+    {
+     "id": "flat",
+     "label": "Flat Terraform code",
+     "icon": "terraform"
+    },
+    {
+     "id": "mods",
+     "label": "Four local modules",
+     "icon": "layers-subtract"
+    },
+    {
+     "id": "state",
+     "label": "Recorded production state",
+     "icon": "database"
+    },
+    {
+     "id": "plan",
+     "label": "Plan + policies",
+     "icon": "checklist"
+    }
+   ],
+   "edges": [
+    [
+     "flat",
+     "mods",
+     "split into"
+    ],
+    [
+     "mods",
+     "plan",
+     "planned by CI"
+    ],
+    [
+     "state",
+     "plan",
+     "compared with"
+    ]
+   ]
+  },
+  "job": [
+   "Split code into four modules",
+   "Map old resource addresses to new",
+   "Move the resources, change nothing",
+   "Run plan and policy checks"
+  ],
+  "deliver": [
+   {
+    "label": "Refactored Terraform configuration"
+   }
+  ],
+  "check": [
+   {
+    "label": "Plan against production state shows only moves",
+    "icon": "scale"
+   },
+   {
+    "label": "Guardrail policies must pass",
+    "icon": "shield-check"
+   }
+  ]
+ },
+ {
+  "slug": "infrastructure-as-code",
+  "key": "ex2",
+  "name": "pulumi-atlasgrid-ecs-ts-migration",
+  "problem": "An existing cloud platform is managed by Terraform. Its resources were imported into Pulumi, but the Pulumi program is empty and would delete everything.",
+  "receives": [
+   {
+    "label": "Terraform code and production state",
+    "icon": "terraform"
+   },
+   {
+    "label": "Pulumi project with empty program",
+    "icon": "pulumi"
+   },
+   {
+    "label": "Written naming and config rules",
+    "icon": "file-text"
+   }
+  ],
+  "system": {
+   "label": "Platform migration",
+   "nodes": [
+    {
+     "id": "tf",
+     "label": "Terraform modules",
+     "icon": "terraform"
+    },
+    {
+     "id": "state",
+     "label": "Production state",
+     "icon": "database"
+    },
+    {
+     "id": "pu",
+     "label": "Pulumi program",
+     "icon": "pulumi"
+    },
+    {
+     "id": "aws",
+     "label": "Container platform on AWS",
+     "icon": "amazonecs"
+    }
+   ],
+   "edges": [
+    [
+     "tf",
+     "state",
+     "manages"
+    ],
+    [
+     "pu",
+     "state",
+     "imported into"
+    ],
+    [
+     "pu",
+     "aws",
+     "previews changes to"
+    ]
+   ]
+  },
+  "job": [
+   "Read the Terraform modules and variables",
+   "Write matching Pulumi components",
+   "Reproduce names, config and outputs",
+   "Check the preview shows no changes"
+  ],
+  "deliver": [
+   {
+    "label": "TypeScript Pulumi program"
+   }
+  ],
+  "check": [
+   {
+    "label": "Preview must match Terraform's plan",
+    "icon": "scale"
+   },
+   {
+    "label": "Hidden tests vary inputs and drift",
+    "icon": "test-pipe"
+   }
+  ]
+ },
+ {
+  "slug": "infrastructure-as-code",
+  "key": "ex3",
+  "name": "cdk-accelerator-platform-ts-componentize",
+  "problem": "A cloud app defines every resource inline in three long stack definitions, so nothing is reusable. It must be split into components with exact structure.",
+  "receives": [
+   {
+    "label": "AWS CDK app in TypeScript",
+    "icon": "typescript"
+   },
+   {
+    "label": "Spec of components, props and paths",
+    "icon": "file-text"
+   },
+   {
+    "label": "Existing config types",
+    "icon": "file-code"
+   }
+  ],
+  "system": {
+   "label": "CDK app layout",
+   "nodes": [
+    {
+     "id": "stacks",
+     "label": "Three long stacks",
+     "icon": "amazonwebservices"
+    },
+    {
+     "id": "comp",
+     "label": "Reusable components",
+     "icon": "layers-subtract"
+    },
+    {
+     "id": "tpl",
+     "label": "Generated cloud template",
+     "icon": "cloud"
+    }
+   ],
+   "edges": [
+    [
+     "stacks",
+     "comp",
+     "split into"
+    ],
+    [
+     "comp",
+     "tpl",
+     "synthesize"
+    ]
+   ]
+  },
+  "job": [
+   "Read the component specification",
+   "Move resources into new components",
+   "Expose the required properties",
+   "Keep generated resources identical"
+  ],
+  "deliver": [
+   {
+    "label": "Component files and slimmed-down stacks"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests inspect component structure",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Generated template must not change",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "data-engineering",
+  "key": "ex1",
+  "name": "pdk-etlplus-pipeline",
+  "problem": "The order export switched from JSON to CSV, so the pipeline now fails validation and the summary totals come out wrong.",
+  "receives": [
+   {
+    "label": "Data pipeline tool codebase",
+    "icon": "python"
+   },
+   {
+    "label": "Order exports in JSON and CSV",
+    "icon": "table"
+   },
+   {
+    "label": "Pipeline configuration",
+    "icon": "settings"
+   }
+  ],
+  "system": {
+   "label": "Order pipeline",
+   "nodes": [
+    {
+     "id": "src",
+     "label": "Order exports",
+     "icon": "table"
+    },
+    {
+     "id": "val",
+     "label": "Validate and clean",
+     "icon": "python"
+    },
+    {
+     "id": "sum",
+     "label": "Summarize",
+     "icon": "chart-bar"
+    },
+    {
+     "id": "out",
+     "label": "Output files",
+     "icon": "file-text"
+    }
+   ],
+   "edges": [
+    [
+     "src",
+     "val",
+     "read CSV"
+    ],
+    [
+     "val",
+     "sum",
+     "clean records"
+    ],
+    [
+     "sum",
+     "out",
+     "write results"
+    ]
+   ]
+  },
+  "job": [
+   "Run the job on CSV and JSON",
+   "Find where CSV reading differs",
+   "Fix CSV handling in the tool",
+   "Cover chained jobs too"
+  ],
+  "deliver": [
+   {
+    "label": "Fixed pipeline tool code"
+   }
+  ],
+  "check": [
+   {
+    "label": "CSV must give the same result as JSON",
+    "icon": "scale"
+   },
+   {
+    "label": "Existing tests and lint checks pass",
+    "icon": "checklist"
+   }
+  ]
+ },
+ {
+  "slug": "data-engineering",
+  "key": "ex2",
+  "name": "pdk-databallpy-dataframe",
+  "problem": "Football tracking data from a new vendor gives absurd player speeds after halftime and camera dropouts, and smoothing ignores players.",
+  "receives": [
+   {
+    "label": "Sports data analysis library",
+    "icon": "python"
+   },
+   {
+    "label": "Sample tracking export",
+    "icon": "table"
+   },
+   {
+    "label": "Bug report with symptoms",
+    "icon": "bug"
+   }
+  ],
+  "job": [
+   "Reproduce the inflated speeds",
+   "Split data into continuous stretches",
+   "Compute each stretch on its own",
+   "Smooth players as well as ball"
+  ],
+  "deliver": [
+   {
+    "label": "Fixed library code"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests compare values per stretch",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Existing tests and lint stay clean",
+    "icon": "checklist"
+   }
+  ]
+ },
+ {
+  "slug": "data-engineering",
+  "key": "ex3",
+  "name": "pdk-xmltodict-etl",
+  "problem": "A partner's XML feed uses explicit nulls and meaningful whitespace. The XML-to-dictionary library must support both without changing defaults.",
+  "receives": [
+   {
+    "label": "XML conversion library",
+    "icon": "python"
+   },
+   {
+    "label": "Sample partner feed",
+    "icon": "file-code"
+   },
+   {
+    "label": "Written option requirements",
+    "icon": "file-text"
+   }
+  ],
+  "job": [
+   "Add opt-in null handling when parsing",
+   "Add opt-in whitespace preservation",
+   "Write nulls back out when generating XML",
+   "Keep default behavior unchanged"
+  ],
+  "deliver": [
+   {
+    "label": "Extended library code"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests round-trip nullable documents",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Default behavior must not change",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "migration",
+  "key": "ex1",
+  "name": "kookyleo--dagre-rs-xai",
+  "problem": "A dependency is moving from Rust to Go. The Go package exists only as empty stubs, and the original library must be matched exactly.",
+  "receives": [
+   {
+    "label": "Original Rust library source",
+    "icon": "rust"
+   },
+   {
+    "label": "Go package with stub bodies",
+    "icon": "go"
+   },
+   {
+    "label": "Local build and vet checker",
+    "icon": "tool"
+   }
+  ],
+  "job": [
+   "Read the original source closely",
+   "Fill in each Go stub",
+   "Match errors, edge cases, ordering",
+   "Run the checker repeatedly"
+  ],
+  "deliver": [
+   {
+    "label": "Completed Go package, same signatures"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests ported from the Rust suite",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Behavior must match the original",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "migration",
+  "key": "ex2",
+  "name": "java--nscuro--versatile--versatile-core-xai",
+  "problem": "A dependency is moving from Java to Go. The Go package exists only as empty stubs, and the original library must be matched exactly.",
+  "receives": [
+   {
+    "label": "Original Java library source",
+    "icon": "openjdk"
+   },
+   {
+    "label": "Go package with stub bodies",
+    "icon": "go"
+   },
+   {
+    "label": "Local build and vet checker",
+    "icon": "tool"
+   }
+  ],
+  "job": [
+   "Read the original source closely",
+   "Fill in each Go stub",
+   "Match errors, edge cases, ordering",
+   "Run the checker repeatedly"
+  ],
+  "deliver": [
+   {
+    "label": "Completed Go package, same signatures"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests ported from the Java suite",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Behavior must match the original",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "slug": "migration",
+  "key": "ex3",
+  "name": "java--argparse4j--argparse4j--main-xai",
+  "problem": "A dependency is moving from Java to Go. The Go package exists only as empty stubs, and the original library must be matched exactly.",
+  "receives": [
+   {
+    "label": "Original Java library source",
+    "icon": "openjdk"
+   },
+   {
+    "label": "Go package with stub bodies",
+    "icon": "go"
+   },
+   {
+    "label": "Local build and vet checker",
+    "icon": "tool"
+   }
+  ],
+  "job": [
+   "Read the original source closely",
+   "Fill in each Go stub",
+   "Match errors, edge cases, ordering",
+   "Run the checker repeatedly"
+  ],
+  "deliver": [
+   {
+    "label": "Completed Go package, same signatures"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests ported from the Java suite",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Behavior must match the original",
+    "icon": "scale"
+   }
+  ]
+ }
+]

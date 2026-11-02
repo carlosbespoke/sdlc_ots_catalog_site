@@ -1,0 +1,12 @@
+{
+  "root_causes": [
+    {"accept": [{"file": "swanlab/sdk/internal/run/transforms/scalar/__init__.py", "function": "Scalar.transform"}]},
+    {"accept": [{"file": "swanlab/deprecated/local.py", "function": "LocalCallbacker._handle_metric"}]}
+  ],
+  "default_reproducer": "tests/test_csv_diverged_runs.py",
+  "fix_tests": ["fix/probe_1.py", "fix/probe_2.py", "fix/probe_3.py", "fix/probe_4.py"],
+  "alt_fixes": ["alt_fix_1.patch", "alt_fix_2.patch"],
+  "runtime_fix": {"kind": "pythonpath", "path": "runtime_fix"},
+  "p2p": {"command": "python -m pytest -p no:cacheprovider -q",
+          "selection": "every test passing on buggy and on buggy + gold (recorded at verifier build)"}
+}

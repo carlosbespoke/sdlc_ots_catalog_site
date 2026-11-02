@@ -1,0 +1,45 @@
+{
+  "root_causes": [
+    {
+      "accept": [
+        {
+          "file": "pkg/compiler/symbol_table.go",
+          "function": "SymbolTable.Resolve"
+        }
+      ]
+    },
+    {
+      "accept": [
+        {
+          "file": "pkg/vm/frame.go",
+          "function": "frame.CaptureLocals"
+        }
+      ]
+    }
+  ],
+  "default_reproducer": "repro_test.go",
+  "fix_tests": [
+    "fix/probe_1_test.go",
+    "fix/probe_2_test.go",
+    "fix/probe_3_test.go",
+    "fix/probe_4_test.go"
+  ],
+  "alt_fixes": [
+    "alt_fix_1.patch",
+    "alt_fix_2.patch"
+  ],
+  "runtime_fix": {
+    "kind": "go-overlay",
+    "path": "runtime_fix"
+  },
+  "p2p": {
+    "command": "go test -json -count=1 ./...",
+    "selection": "every test passing on buggy + gold (recorded at verifier build in /opt/rca/p2p_baseline.txt)",
+    "excluded": [
+      {
+        "id": "github.com/deepnoodle-ai/risor/v2/pkg/compiler::TestMarshalCode3",
+        "why": "reflect-deep-equals unexported compiler symbol-table state after a MarshalCode/UnmarshalCode round trip; a correct fix that also memoizes a free-variable resolution on a nested block table (state the serialized form never carried) fails it, although the compiled instructions and runtime behaviour are identical"
+      }
+    ]
+  }
+}

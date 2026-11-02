@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light"><title>Data engineering | Bespoke Labs</title>
+<link rel="icon" href="data:,"><link rel="stylesheet" href="site.css"><script src="site.js" defer></script></head>
+<body id="top"><a class="skip" href="#content">Skip to content</a>
+<header class="band"><div class="band-in"><a class="brand" href="index.html"><img src="assets/bespoke-labs-logo.svg" alt="Bespoke Labs" width="162"></a>
+<span class="div" aria-hidden="true">/</span><div class="crumb"><a href="index.html">OTS catalogs</a> / Data engineering</div></div></header>
+<main id="content" tabindex="-1"><article id="catalog-content">
+<header class="hero"><h1 id="data-engineering">Data engineering</h1><div class="hero-meta" aria-hidden="true"></div></header>
+<div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,342 tasks">1,342</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="435 tasks">435</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="56 tasks">56</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="378 tasks">378</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="120 tasks">120</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="300 tasks">300</span></a><a href="data-engineering.html" aria-current="page"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="36 tasks">36</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#example-tasks-from-the-shortlist">Example tasks from the shortlist</a><a class="level-3" href="#example-1-data-pipelines-etl-python">Example 1: Data pipelines &amp; ETL (Python)</a><a class="level-3" href="#example-2-sports-analytics-python">Example 2: Sports analytics (Python)</a><a class="level-3" href="#example-3-data-formats-serialization-python">Example 3: Data formats &amp; serialization (Python)</a></nav></aside>
+<div class="reading">
+<h2 id="why-this-catalog">Why this catalog</h2>
+<h3 id="problems-engineers-face">Problems engineers face</h3>
+<p>Data engineers and analytics engineers repair pipelines and libraries after an upstream feed changes its shape. In these tasks a vendor or connector changes format and the next run produces wrong data without failing. Fivetran or Stripe exports start resending changed records, so dbt models show duplicates and stale totals. Files change encoding or layout: a sep= line in CSV, CONTINUE records in XLS, locale formats in sheets, new Parquet types. Incremental loaders mis-track state when a schema changes mid-run or a site is added. Nightly ordering and failure handling go wrong. Each report also expects results to be the same on reruns and no regression in existing tests.</p>
+<h3 id="how-the-tasks-reproduce-them">How the tasks reproduce them</h3>
+<p>Each task is a public repository checked out at a pinned commit in <code>/app</code>, with a Python virtual environment in <code>/opt/venv</code> and, where needed, dbt and DuckDB. Sample inputs such as CSV, Parquet, XML, SQLite files or seeds are copied to <code>/data</code> or sit in the project. The agent has no network access. The prompt gives the symptom and the required behavior, but no pointer to the faulty code. After the agent finishes, a separate verifier applies the agent's diff of <code>/app</code>, adds hidden tests, runs the repository's own checks and the hidden suite as an unprivileged user, and grades both reports. Some prompts add lint, type or changelog requirements.</p>
+<h3 id="typical-prompts">Typical prompts</h3>
+<ul>
+<li>A first person production symptom after a vendor or connector change, with a sample location in <code>/data</code>.</li>
+<li>A behavior spec in prose with edge cases, defaults and idempotence rules, ending with a request to fix the library without breaking existing tests.</li>
+<li>An opt-in feature request for a parser or loader, with defaults that must not change.</li>
+<li>A format or locale decoding failure where every sample file must read exactly as written.</li>
+<li>A dbt project fix that must stay in SQL models, macros and YAML and pass <code>dbt build</code>.</li>
+</ul>
+<h2 id="domain-breakdown">Domain breakdown</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Share of tasks by domain</h4></div><div class="fig-box"><img src="assets/data-engineering_domain.svg" alt="Share of tasks by domain" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Domain</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Sub-domain</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr class="group-header">
+<td><strong>Data engineering &amp; databases</strong></td>
+<td></td>
+<td class="numeric"><strong>82.4%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Data pipelines &amp; ETL</td>
+<td class="numeric">23.5%</td>
+</tr>
+<tr>
+<td></td>
+<td>Analytics engineering</td>
+<td class="numeric">17.6%</td>
+</tr>
+<tr>
+<td></td>
+<td>Databases &amp; storage engines</td>
+<td class="numeric">17.6%</td>
+</tr>
+<tr>
+<td></td>
+<td>Data validation</td>
+<td class="numeric">11.8%</td>
+</tr>
+<tr>
+<td></td>
+<td>Data formats &amp; serialization</td>
+<td class="numeric">11.8%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Scientific &amp; ML software</strong></td>
+<td></td>
+<td class="numeric"><strong>11.8%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Scientific computing, Sports analytics</td>
+<td class="numeric">11.8%</td>
+</tr>
+<tr class="group-header">
+<td><strong>Applications &amp; business domains</strong></td>
+<td></td>
+<td class="numeric"><strong>5.9%</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Payments &amp; banking</td>
+<td class="numeric">5.9%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="language-and-seniority">Language and seniority</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Primary language and seniority</h4></div><div class="fig-box"><img src="assets/data-engineering_metadata.svg" alt="Primary language and seniority" /></div></figure><h3 id="primary-language">Primary language</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Primary language</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python</td>
+<td class="numeric">88.2%</td>
+</tr>
+<tr>
+<td>SQL</td>
+<td class="numeric">11.8%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="seniority">Seniority</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Seniority</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mid-Senior</td>
+<td class="numeric">100.0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="model-pass-rates-across-the-catalog">Model pass rates across the catalog</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 0%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 20-80%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 100%</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">50%</td>
+<td class="numeric">0%</td>
+<td class="numeric">65%</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">74%</td>
+<td class="numeric">24%</td>
+<td class="numeric">6%</td>
+<td class="numeric">71%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/data-engineering_per_task.svg" alt="Per-task pass rate by model" /></div></figure><h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
+<p>A task's turn count is the average over its runs. A task is long horizon when that average is 200 or more turns.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Measure</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Average turn count</td>
+<td class="numeric">98.6</td>
+</tr>
+<tr>
+<td>Median turn count</td>
+<td class="numeric">90.4</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>50 to 188</td>
+</tr>
+<tr>
+<td>Long-horizon tasks (200+ turns)</td>
+<td>0% of tasks</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Turns per task</h4></div><div class="fig-box"><img src="assets/data-engineering_turns.svg" alt="Turns per task" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of tasks</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean turns</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% with 200+ turns</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">100%</td>
+<td class="numeric">79.9</td>
+<td class="numeric">1%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">100%</td>
+<td class="numeric">173.4</td>
+<td class="numeric">35%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="example-tasks-from-the-shortlist">Example tasks from the shortlist</h2>
+<nav class="task-chips" data-ui aria-label="Example tasks"><a href="#example-1-data-pipelines-etl-python">Example 1: Data pipelines &amp; ETL (Python)</a><a href="#example-2-sports-analytics-python">Example 2: Sports analytics (Python)</a><a href="#example-3-data-formats-serialization-python">Example 3: Data formats &amp; serialization (Python)</a></nav>
+<h3 id="example-1-data-pipelines-etl-python">Example 1: Data pipelines &amp; ETL (Python)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Data engineering</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Data engineering &amp; databases</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Data pipelines &amp; ETL</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Python</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Mid-Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>248 (google/gemini-4-argon), 108 (x-ai/grok-4.7)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: An export format switch with a failing command given verbatim and an equivalence requirement between two input formats.</p>
+<h4 id="prompt">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>Since the night of 2026-10-04 the order platform writes its nightly export as CSV instead of JSON. That first night it wrote both, so /data/orders has orders-2026-10-04.json and orders-2026-10-04.csv with the same orders, the CSV from the next night, and our pipeline config, /data/orders/pipeline.yml. The pipeline validates and cleans the export, then summarizes the cleaned CSV. On the CSV export, <code>etlplus run --config /data/orders/pipeline.yml --job order_summary</code> fails validation, and with validation turned off the summary totals are wrong.</p>
+<p>Any etlplus job that reads a CSV file should give the result it gives on the same records as JSON: every record exactly once with the same fields, and the same validation outcome, filter result, sort order and aggregate values. An empty cell is a missing value. This also holds for a job reading a CSV file that an earlier job in the run wrote. Values in the output files may stay text.</p>
+<p>Please fix etlplus in /app. The existing tests in /app/tests and the ruff, pydocstyle, pydoclint and mypy checks the project runs in CI have to keep passing. There's no network; the project's environment is installed in /opt/venv.</p>
+</div>
+</details>
+<h4 id="pass-rates">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">38%</td>
+<td class="numeric">0.38</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">0%</td>
+<td class="numeric">0.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-data-engineering-ex1.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work">How it maps to the work</h4>
+<p>A data engineer's nightly pipeline switched its export from JSON to CSV, so validation fails and totals are wrong. They fix the library so a CSV source gives the same records and results as JSON, including CSV written by an earlier job.</p>
+<h3 id="example-2-sports-analytics-python">Example 2: Sports analytics (Python)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Data engineering</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Scientific &amp; ML software</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Sports analytics</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Python</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Mid-Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>92 (google/gemini-4-argon), 39 (x-ai/grok-4.7)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A numeric symptom from real data with a precise definition of correct output per edge case and lint requirements.</p>
+<h4 id="prompt-2">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>We've switched to a new tracking vendor and load their exports straight into TrackingData, like <code>TrackingData(pd.read_csv(&quot;/data/tracking/match_2026-09-27.csv&quot;), provider=&quot;vendor&quot;, frame_rate=25)</code>. That file is a sample of Saturday's export. The physical numbers we get from it are off. add_velocity gives players speeds of 30 m/s and more right after halftime and around short camera dropouts, so the get_covered_distance totals and speed zone distances come out too high. Also, filter_tracking_data only smooths the ball; player positions don't change at all.</p>
+<p>A frame's values should only come from its own stretch, meaning the frames of one period with no missing frame number between them. For each stretch, add_velocity, add_acceleration and filter_tracking_data (ball and players) should give what their usual calculation gives on that stretch alone, taken in frame order. A stretch of a single frame gets NaN velocity and acceleration. When smoothing is asked for, a stretch with no more frames than the window length keeps its unsmoothed values. Data without a frame column is taken in row order with no missing frames, and data without a period_id column is one period.</p>
+<p>ruff check and ruff format --check on /app/databallpy and /app/tests have to stay clean, and the existing tests in /app/tests should keep passing.</p>
+<p>Could you find what's going on and fix it? There's no network here; databallpy is installed in editable mode from /app.</p>
+</div>
+</details>
+<h4 id="pass-rates-2">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">38%</td>
+<td class="numeric">0.38</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">100%</td>
+<td class="numeric">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-2">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-data-engineering-ex2.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work-2">How it maps to the work</h4>
+<p>A data engineer loads a new vendor's player tracking export and finds inflated speeds after halftime and camera dropouts. They fix the physical metric calculations so each contiguous stretch of frames is processed on its own.</p>
+<h3 id="example-3-data-formats-serialization-python">Example 3: Data formats &amp; serialization (Python)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Final category</td>
+<td>Data engineering</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Data engineering &amp; databases</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Data formats &amp; serialization</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Python</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Mid-Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>84 (google/gemini-4-argon), 43 (x-ai/grok-4.7)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Prompt shape: A feature request for a widely used library, written as a list of behaviors per option with compatibility constraints for existing behavior.</p>
+<h4 id="prompt-3">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>Our partner's XML feed now carries explicit nulls and text where padding matters. A sample is in <code>/data/partner-feed.xml</code>. Extend the existing <code>xmltodict.parse</code> and <code>xmltodict.unparse</code> APIs in <code>/app</code> so callers can opt into the new feed without changing the defaults.</p>
+<p>With <code>parse(..., xsi_nil=True)</code>, an element whose XML Schema instance <code>nil</code> attribute is <code>true</code> or <code>1</code> becomes <code>None</code>, regardless of its prefix, other attributes or text. Other values of <code>nil</code> and ordinary empty elements keep their existing behavior. This works with namespace processing on or off, and with streaming callbacks. With <code>parse(..., xml_space=True)</code>, <code>xml:space=&quot;preserve&quot;</code> retains text and comment whitespace exactly, including whitespace only text; descendants inherit this policy until <code>xml:space=&quot;default&quot;</code> restores the normal stripping rule. This also applies to streamed entries, even when the input arrives in byte chunks. The two options can be used together.</p>
+<p>With <code>unparse(..., xsi_nil=True)</code>, every <code>None</code> element, including nested elements and list entries, emits an explicit schema instance nil attribute with a valid namespace binding. Empty strings remain ordinary empty elements. A nullable document can be parsed, written and parsed again without losing its null locations. Without the new options, existing parsing and writing behavior must stay the same. Malformed XML and invalid UTF-8 still raise Expat errors, and entity declarations remain disabled by default with <code>ValueError</code>.</p>
+<p>The environment has Python 3.12, installed project dependencies and no network. The existing repository checks should still pass.</p>
+</div>
+</details>
+<h4 id="pass-rates-3">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean score</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">50%</td>
+<td class="numeric">0.50</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">50%</td>
+<td class="numeric">0.50</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-3">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-data-engineering-ex3.svg" alt="How the task works" /></div></figure><h4 id="how-it-maps-to-the-work-3">How it maps to the work</h4>
+<p>A data engineer ingests partner XML that now carries explicit nulls and whitespace that matters. They extend a parser and writer with opt-in options, keep defaults unchanged and make a document round trip without losing null positions.</p>
+
+<footer class="page-footer" data-ui><a class="back-top" href="#top">Back to top ↑</a><nav class="page-nav" aria-label="Previous and next catalogs"><a rel="prev" href="infrastructure-as-code.html"><small>Previous</small>Infrastructure as code</a><a rel="next" href="migration.html"><small>Next</small>Migration</a></nav>
+<p class="footer-word">Bespoke Labs · Task catalogs</p></footer></div></div></article></main>
+</body></html>

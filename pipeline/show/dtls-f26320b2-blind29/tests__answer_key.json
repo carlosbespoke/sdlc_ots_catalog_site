@@ -1,0 +1,345 @@
+{
+  "repo": "dtls",
+  "workdir": "/workspace/repo",
+  "target_test": "",
+  "language": "go",
+  "module": "github.com/pion/dtls/v3",
+  "test_cmd": "go test -count=1 ./...",
+  "baseline_failures": 0,
+  "weights": {
+    "repair": 0.5,
+    "report": 0.5
+  },
+  "run_tests_as": "agent",
+  "baseline_tests": 1441,
+  "baseline_skipped": 1,
+  "sabotage_passes": 0,
+  "suite_seconds": 61,
+  "probe_sites": 0,
+  "probe_calls": 0,
+  "source_roots": [
+    ".",
+    "internal/ciphersuite",
+    "internal/flight/flight12",
+    "internal/flight/flight13",
+    "internal/handshake",
+    "pkg/crypto/elliptic",
+    "pkg/crypto/signaturehash",
+    "pkg/protocol",
+    "pkg/protocol/extension/dtls13",
+    "pkg/protocol/handshake",
+    "pkg/protocol/recordlayer"
+  ],
+  "causes": [
+    {
+      "file": "internal/handshake/fsm.go",
+      "function": "handleRetransmitTimeout",
+      "qualname": "handleRetransmitTimeout",
+      "id": "efee1810",
+      "kind": "swap_arithmetic_operator",
+      "breaks": [
+        "github.com/pion/dtls/v3/internal/handshake::TestHandshakeFSMRetransmitTimeout/cap"
+      ]
+    },
+    {
+      "file": "pkg/protocol/extension/dtls13/early_data.go",
+      "function": "EarlyData.UnmarshalData",
+      "qualname": "EarlyData.UnmarshalData",
+      "id": "c29a7e9a",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/pion/dtls/v3/pkg/protocol/extension/dtls13::TestExtensionPayloadRoundTrips/early_data"
+      ]
+    },
+    {
+      "file": "state.go",
+      "function": "State.ExportKeyingMaterial",
+      "qualname": "State.ExportKeyingMaterial",
+      "id": "0cae8992",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/pion/dtls/v3::TestExportKeyingMaterial"
+      ]
+    },
+    {
+      "file": "errors.go",
+      "function": "invalidCipherSuiteError.Is",
+      "qualname": "invalidCipherSuiteError.Is",
+      "id": "619c21ad",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3::TestCipherSuiteConfiguration/Invalid_CipherSuite"
+      ]
+    },
+    {
+      "file": "conn.go",
+      "function": "reconstructSequenceNumber",
+      "qualname": "reconstructSequenceNumber",
+      "id": "ac47d87a",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/pion/dtls/v3::TestDTLS13ProtectedHandshakeRecordKeepsEpochAndSequence",
+        "github.com/pion/dtls/v3::TestProtocolVersionValidation/Client/ServerHelloVersion"
+      ]
+    },
+    {
+      "file": "internal/flight/flight13/extensions.go",
+      "function": "processClientHelloExtensions",
+      "qualname": "processClientHelloExtensions",
+      "id": "8ebdaf2d",
+      "kind": "invert_if_else",
+      "breaks": [
+        "github.com/pion/dtls/v3::TestFlight13_0ParseCapturesConnectionIDOffer/NonEmpty",
+        "github.com/pion/dtls/v3::TestFlight13_2ParseAcceptsRepeatedConnectionIDOffer/NonEmpty"
+      ]
+    },
+    {
+      "file": "pkg/protocol/handshake/message_new_connection_id.go",
+      "function": "MessageNewConnectionID.Marshal",
+      "qualname": "MessageNewConnectionID.Marshal",
+      "id": "da76957a",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3/pkg/protocol/handshake::TestMessageNewConnectionIDEmptyList",
+        "github.com/pion/dtls/v3/pkg/protocol/handshake::TestMessageNewConnectionIDMarshalErrors/invalid_usage"
+      ]
+    },
+    {
+      "file": "errors.go",
+      "function": "alertError.IsFatalOrCloseNotify",
+      "qualname": "alertError.IsFatalOrCloseNotify",
+      "id": "4dd6a43a",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3::TestNetTest/BasicIO",
+        "github.com/pion/dtls/v3::TestNetTest/PingPong"
+      ]
+    },
+    {
+      "file": "internal/flight/flight12/flight3handler.go",
+      "function": "handleResumption",
+      "qualname": "handleResumption",
+      "id": "9ec267c2",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3::TestSessionResume/resumed"
+      ]
+    },
+    {
+      "file": "internal/handshake/protected_flight.go",
+      "function": "protectedHandshakeFlight.verifyConnection",
+      "qualname": "protectedHandshakeFlight.verifyConnection",
+      "id": "9674dfab",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3::TestFlight13_3ParseRejectsServerIdentityCallbackErrors/VerifyConnection",
+        "github.com/pion/dtls/v3::TestFlight13_3ParseRejectsVerifyConnectionErrorWithoutServerCertificate"
+      ]
+    },
+    {
+      "file": "pkg/protocol/extension/dtls13/post_handshake_auth.go",
+      "function": "PostHandshakeAuth.UnmarshalData",
+      "qualname": "PostHandshakeAuth.UnmarshalData",
+      "id": "509ebfdc",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/pion/dtls/v3/pkg/protocol/extension/dtls13::TestExtensionPayloadRoundTrips/post_handshake_auth"
+      ]
+    },
+    {
+      "file": "pkg/protocol/extension/dtls13/psk_key_exchange_modes.go",
+      "function": "PSKKeyExchangeModes.UnmarshalData",
+      "qualname": "PSKKeyExchangeModes.UnmarshalData",
+      "id": "a3906313",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3/pkg/protocol/extension/dtls13::TestExtensionPayloadRoundTrips/psk_modes_preserve_unknown"
+      ]
+    },
+    {
+      "file": "internal/flight/flight13/flight1handler.go",
+      "function": "flight1Generate",
+      "qualname": "flight1Generate",
+      "id": "4e74d0e0",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/pion/dtls/v3::TestFlight13_1GenerateClientHelloIncludesX25519MLKEM768KeyShare"
+      ]
+    },
+    {
+      "file": "internal/handshake/reliable_flight.go",
+      "function": "reliableFlight.acknowledge",
+      "qualname": "reliableFlight.acknowledge",
+      "id": "4c97bf05",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "github.com/pion/dtls/v3/internal/handshake::TestHandshakeFSM13ACKProgress"
+      ]
+    },
+    {
+      "file": "pkg/protocol/handshake/message_client_hello.go",
+      "function": "MessageClientHello.Marshal",
+      "qualname": "MessageClientHello.Marshal",
+      "id": "5c14cf04",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/pion/dtls/v3/pkg/protocol/handshake::TestHandshakeMessageClientHello_SessionIDTooLong"
+      ]
+    },
+    {
+      "file": "pkg/protocol/recordlayer/inner_plaintext.go",
+      "function": "InnerPlaintext.Unmarshal",
+      "qualname": "InnerPlaintext.Unmarshal",
+      "id": "f9722cda",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3/pkg/protocol/recordlayer::TestInnerPlaintextAllowsEmptyContent"
+      ]
+    },
+    {
+      "file": "internal/flight/flight12/flight3handler.go",
+      "function": "flight3Generate",
+      "qualname": "flight3Generate",
+      "id": "0c0e62e0",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "github.com/pion/dtls/v3/internal/flight/flight12::TestFlight3GenerateReusesHookOnlyConnectionIDAfterVersionDowngrade/Empty",
+        "github.com/pion/dtls/v3/internal/flight/flight12::TestFlight3GenerateReusesHookOnlyConnectionIDAfterVersionDowngrade/NonEmpty"
+      ]
+    },
+    {
+      "file": "pkg/protocol/handshake/extensions.go",
+      "function": "extensionValueForContext",
+      "qualname": "extensionValueForContext",
+      "id": "3014298c",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3/pkg/protocol/handshake::TestMessageNewSessionTicket",
+        "github.com/pion/dtls/v3/pkg/protocol/handshake::TestPostHandshakeMessageDispatch/NewSessionTicket"
+      ]
+    },
+    {
+      "file": "internal/ciphersuite/tls_psk_with_aes_128_cbc_sha256.go",
+      "function": "TLSPskWithAes128CbcSha256.Init",
+      "qualname": "TLSPskWithAes128CbcSha256.Init",
+      "id": "9a9d6cb7",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/pion/dtls/v3::TestPSK/TLS_PSK_WITH_AES_128_CBC_SHA256"
+      ]
+    },
+    {
+      "file": "pkg/protocol/change_cipher_spec.go",
+      "function": "ChangeCipherSpec.Unmarshal",
+      "qualname": "ChangeCipherSpec.Unmarshal",
+      "id": "b0077162",
+      "kind": "swap_boolean_operator",
+      "breaks": [
+        "github.com/pion/dtls/v3/pkg/protocol::TestChangeCipherSpecInvalid"
+      ]
+    },
+    {
+      "file": "internal/handshake/handshake_context.go",
+      "function": "handshakeContext.transitionRequiresReaderPause",
+      "qualname": "handshakeContext.transitionRequiresReaderPause",
+      "id": "d7b63ee3",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3/internal/handshake::TestHandshakeFSM13ReaderPauseRequiredOnlyForQueueDrainingTransitions/server_protected_flight_already_activated"
+      ]
+    },
+    {
+      "file": "pkg/crypto/signaturehash/signaturehash.go",
+      "function": "Algorithm.Marshal",
+      "qualname": "Algorithm.Marshal",
+      "id": "69cb5493",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/pion/dtls/v3::TestFlight13_0ParseRequiresCertificateAuthClientHelloExtensions/AcceptsSignatureAlgorithmsAndSupportedGroups"
+      ]
+    },
+    {
+      "file": "internal/ciphersuite/tls_psk_with_aes_128_cbc_sha256.go",
+      "function": "TLSPskWithAes128CbcSha256.IsInitialized",
+      "qualname": "TLSPskWithAes128CbcSha256.IsInitialized",
+      "id": "bdbdf726",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3::TestPSK/TLS_PSK_WITH_AES_128_CBC_SHA256"
+      ]
+    },
+    {
+      "file": "internal/handshake/reliable_flight.go",
+      "function": "reliableFlight.pendingForMessage",
+      "qualname": "reliableFlight.pendingForMessage",
+      "id": "83d3759d",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3/internal/handshake::TestHandshakeFSM13ACKProgress"
+      ]
+    },
+    {
+      "file": "internal/handshake/handshake_context.go",
+      "function": "handshakeContext.afterSend",
+      "qualname": "handshakeContext.afterSend",
+      "id": "137a506b",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3/internal/handshake::TestHandshakeFSM13ServerFlight4KeepsReaderPausedThroughQueueDrain"
+      ]
+    },
+    {
+      "file": "internal/flight/flight13/flight1handler.go",
+      "function": "flight1Parse",
+      "qualname": "flight1Parse",
+      "id": "9376520c",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3::TestDTLS13HandshakeAndApplicationData",
+        "github.com/pion/dtls/v3::TestDTLS13RetransmittedClientFinalFlight",
+        "github.com/pion/dtls/v3::TestDTLS13ServerSendsFinalACK",
+        "github.com/pion/dtls/v3::TestFlight13ClientParseAppendsHRRTranscriptOrder",
+        "github.com/pion/dtls/v3::TestFlight13_1ParseStoresHelloRetryRequestSelectedGroup"
+      ]
+    },
+    {
+      "file": "pkg/crypto/elliptic/elliptic.go",
+      "function": "generateX25519MLKEM768ServerKeypair",
+      "qualname": "generateX25519MLKEM768ServerKeypair",
+      "id": "e14aa0fd",
+      "kind": "change_constant",
+      "breaks": [
+        "github.com/pion/dtls/v3/pkg/crypto/elliptic::TestGenerateKeypairForPeer_X25519MLKEM768ServerShare",
+        "github.com/pion/dtls/v3/pkg/crypto/prf::TestPreMasterSecret_X25519MLKEM768",
+        "github.com/pion/dtls/v3::TestDTLS13HandshakeAndApplicationData",
+        "github.com/pion/dtls/v3::TestDTLS13RetransmittedClientFinalFlight",
+        "github.com/pion/dtls/v3::TestDTLS13ServerSendsFinalACK",
+        "github.com/pion/dtls/v3::TestFlight13_1GenerateClientHelloIncludesX25519MLKEM768KeyShare",
+        "github.com/pion/dtls/v3::TestFlight13_2Parse/GeneratesX25519MLKEM768KeypairAfterMatchingCookie"
+      ]
+    },
+    {
+      "file": "pkg/protocol/handshake/message_new_connection_id.go",
+      "function": "MessageNewConnectionID.Unmarshal",
+      "qualname": "MessageNewConnectionID.Unmarshal",
+      "id": "ed57d1b5",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3/pkg/protocol/handshake::TestMessageNewConnectionIDEmptyList",
+        "github.com/pion/dtls/v3/pkg/protocol/handshake::TestMessageNewConnectionIDUnmarshalErrors/invalid_usage"
+      ]
+    },
+    {
+      "file": "config.go",
+      "function": "effectiveProtocolVersionRange",
+      "qualname": "effectiveProtocolVersionRange",
+      "id": "f8b8ed06",
+      "kind": "flip_comparison",
+      "breaks": [
+        "github.com/pion/dtls/v3::TestSelectedCipherSuitesConstrainProtocolVersion/DTLS12SuitesAndDTLS13CurvesAreRejected",
+        "github.com/pion/dtls/v3::TestSelectedCipherSuitesConstrainProtocolVersion/DTLS12SuitesSelectDTLS12",
+        "github.com/pion/dtls/v3::TestSelectedCipherSuitesConstrainProtocolVersion/DTLS13SuitesSelectDTLS13"
+      ]
+    }
+  ]
+}

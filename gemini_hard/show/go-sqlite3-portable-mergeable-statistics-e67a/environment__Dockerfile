@@ -1,0 +1,19 @@
+FROM golang@sha256:2a0ba12e116687098780d3ce700f9ce3cb340783779646aafbabed748fa6677c
+ARG BASE_COMMIT=d23e09cdb4c490b3aa09de52d7222d6eb3649223
+ENV DEBIAN_FRONTEND=noninteractive
+ENV GOTOOLCHAIN="local"
+ENV GOFLAGS="-short"
+RUN apt-get update && apt-get install -y --no-install-recommends bash build-essential ca-certificates curl gdb git jq less procps strace tmux=3.3a-3 && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+RUN git init -q . && git remote add origin https://github.com/ncruces/go-sqlite3.git && git fetch --depth 1 origin "$BASE_COMMIT" && git checkout -q FETCH_HEAD
+RUN test "$(git rev-parse HEAD)" = "$BASE_COMMIT"
+RUN go mod download
+RUN go mod verify
+RUN git config --system --add safe.directory /app
+RUN go test ./... && GOFLAGS= GOPROXY=https://proxy.golang.org,direct GOSUMDB=sum.golang.org go install github.com/ctrf-io/go-ctrf-json-reporter/cmd/go-ctrf-json-reporter@v0.1.0 && command -v go-ctrf-json-reporter && gopath="$(go env GOPATH)" && chown root:root "$gopath" && chmod 0755 "$gopath" && chown -R root:root "$gopath/bin" && chmod 0755 "$gopath/bin" && [ "$(stat -c '%u %a' "$gopath/bin")" = "0 755" ]
+RUN GOFLAGS= GOPROXY=https://proxy.golang.org,direct GOSUMDB=sum.golang.org go install github.com/ctrf-io/go-ctrf-json-reporter/cmd/go-ctrf-json-reporter@v0.1.0 && command -v go-ctrf-json-reporter
+RUN id -u agent >/dev/null 2>&1 || useradd -m -s /bin/bash agent 2>/dev/null || adduser -D -s /bin/sh agent 2>/dev/null || adduser --disabled-password --gecos "" agent; id -u agent >/dev/null
+RUN chown -R agent:agent /app; [ -d /workspace/.cache/go-build ] && chown -R agent:agent /workspace/.cache/go-build; [ -d /go/pkg/mod ] && chown -R agent:agent /go/pkg/mod; [ "$(stat -c '%U' /app)" = "agent" ]
+ENV GOFLAGS="-short"
+ENV GOTOOLCHAIN="local"
+CMD ["bash"]

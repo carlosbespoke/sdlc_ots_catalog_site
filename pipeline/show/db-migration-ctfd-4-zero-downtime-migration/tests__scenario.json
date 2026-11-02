@@ -1,0 +1,1632 @@
+{
+ "engine": "postgres16",
+ "tool": "alembic",
+ "task_type": "zero_downtime",
+ "artifact": "/workspace/ctfd",
+ "database": {
+  "name": "ctfd",
+  "role": "ctfd",
+  "password": "ctfd-app-7f3a9c"
+ },
+ "tool_config": {
+  "config": "alembic.ini",
+  "url_env": "DATABASE_URL",
+  "version_table": "alembic_version"
+ },
+ "frozen": [
+  "CTFd/constants/email.py",
+  "CTFd/utils/countries/__init__.py",
+  "LICENSE",
+  "MIGRATION_SPEC.md",
+  "NOTICE",
+  "app_queries/v1/challenges.sql",
+  "app_queries/v1/scoreboard.sql",
+  "app_queries/v1/submissions.sql",
+  "app_queries/v1/tracking.sql",
+  "app_queries/v1/users.sql",
+  "app_queries/v2/activity.sql",
+  "app_queries/v2/challenges.sql",
+  "app_queries/v2/scoreboard.sql",
+  "app_queries/v2/submissions.sql",
+  "app_queries/v2/users.sql",
+  "migrations/versions/0366ba6575ca_add_table_for_comments.py",
+  "migrations/versions/07dfbe5e1edc_add_format_to_pages.py",
+  "migrations/versions/080d29b15cd3_add_tokens_table.py",
+  "migrations/versions/0def790057c1_add_language_column_to_users_table.py",
+  "migrations/versions/1093835a1051_add_default_email_templates.py",
+  "migrations/versions/24ad6790bc3c_convert_rating_values_to_votes.py",
+  "migrations/versions/336b8c601b94_add_modules_and_audiences.py",
+  "migrations/versions/364b4efa1686_add_ratings_table.py",
+  "migrations/versions/46a278193a94_enable_millisecond_precision_in_mysql_.py",
+  "migrations/versions/48d8250d19bd_add_position_to_challenges.py",
+  "migrations/versions/4d3c1b59d011_add_next_id_to_challenges_table.py",
+  "migrations/versions/4e4d5a9ea000_add_type_to_awards.py",
+  "migrations/versions/4fe3eeed9a9d_add_attribution_to_challenges.py",
+  "migrations/versions/55623b100da8_add_target_column_to_tracking.py",
+  "migrations/versions/5c4996aeb2cb_add_sha1sum_field_to_files_require_.py",
+  "migrations/versions/5c98d9253f56_rename_core_beta_to_core.py",
+  "migrations/versions/6012fe8de495_add_connection_info_column_to_challenges.py",
+  "migrations/versions/62bf576b2cd3_add_solutions_table.py",
+  "migrations/versions/662d728ad7da_add_change_password_to_users.py",
+  "migrations/versions/67ebab6de598_add_dynamic_scoring_columns_to_.py",
+  "migrations/versions/75e8ab9a0014_add_fields_and_fieldentries_tables.py",
+  "migrations/versions/8275865e5992_add_scheduled_at_column_to_challenges.py",
+  "migrations/versions/8369118943a1_initial_revision.py",
+  "migrations/versions/9889b8c53673_add_brackets_table.py",
+  "migrations/versions/9e6f6578ca84_add_description_column_to_tokens_table.py",
+  "migrations/versions/a02c5bf43407_add_link_target_to_pages.py",
+  "migrations/versions/a03403986a32_add_theme_code_injections_to_configs.py",
+  "migrations/versions/a49ad66aa0f1_add_title_to_hint.py",
+  "migrations/versions/b295b033364d_add_ondelete_cascade_to_foreign_keys.py",
+  "migrations/versions/b5551cd26764_add_captain_column_to_teams.py",
+  "migrations/versions/e69a79ebffd3_add_cascade_delete_to_solutionfiles.py",
+  "migrations/versions/ef87d69ec29a_add_topics_and_challenge_topics_tables.py",
+  "migrations/versions/f63a9205d72f_add_ip_column_to_unlocks.py",
+  "migrations/versions/f73a96c97449_add_logic_column_to_challenges.py"
+ ],
+ "forbidden_paths": [],
+ "corpora": {
+  "v1": {
+   "path": "app_queries/v1"
+  },
+  "v2": {
+   "path": "app_queries/v2"
+  }
+ },
+ "traffic": {
+  "after_expand": [
+   {
+    "corpus": "v1",
+    "query": "v1_record_submission",
+    "params": {
+     "challenge_id": 5,
+     "user_id": 1007,
+     "team_id": 2309,
+     "ip": "10.20.30.40:8443",
+     "provided": "flag{guess}",
+     "type": "incorrect",
+     "date": "2026-10-02 08:15:00.250000"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_record_submission",
+    "params": {
+     "challenge_id": 6,
+     "user_id": 1007,
+     "team_id": 2309,
+     "ip": "[2001:db8::42]:51234",
+     "provided": "x",
+     "type": "ratelimited",
+     "date": "2026-10-02 08:15:30"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_record_solve",
+    "params": {
+     "challenge_id": 1,
+     "user_id": 1007,
+     "team_id": 2309,
+     "ip": "203.0.113.9, 10.0.0.1",
+     "provided": "flag{ok}",
+     "date": "2026-10-02 08:16:00"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_discard_submission",
+    "params": {
+     "id": 16
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_discard_submission",
+    "params": {
+     "id": 555
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_register",
+    "params": {
+     "name": "ada_second",
+     "password": "$bcrypt-sha256$v=2,t=2b,r=12$Qm9vdGNhbXBzYWx0$cGFzc3dvcmRoYXNoZXhhbXBsZTA",
+     "email": "ADA.MENSAH423@UNI.EXAMPLE.EDU",
+     "website": null,
+     "affiliation": "Independent",
+     "country": "Holland",
+     "team_id": 2309,
+     "created": "2026-10-02 09:00:00"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_update_profile",
+    "params": {
+     "id": 38,
+     "website": "https://ctf.example.dev",
+     "affiliation": "Ocean State College",
+     "country": "Brasil"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_change_email",
+    "params": {
+     "id": 423,
+     "email": "ada.mensah@uni.example.edu"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_set_requirements",
+    "params": {
+     "id": 8,
+     "requirements": "{\"prerequisites\": [\"5\", 7, 7, 8, 9999], \"anonymize\": true}"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_add_flag",
+    "params": {
+     "challenge_id": 19,
+     "type": "static",
+     "content": "flag{abc}",
+     "data": "Case_Insensitive "
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_unlock",
+    "params": {
+     "user_id": 1007,
+     "team_id": 2309,
+     "target": 3,
+     "type": "hints",
+     "date": "2026-10-02 10:00:00",
+     "ip": "10.0.0.1"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_track",
+    "params": {
+     "type": "challenges.open",
+     "ip": "10.0.0.1",
+     "user_id": 7,
+     "date": "2026-10-02 10:05:00",
+     "target": 12
+    }
+   }
+  ],
+  "after_backfill": [
+   {
+    "corpus": "v1",
+    "query": "v1_record_submission",
+    "params": {
+     "challenge_id": 8,
+     "user_id": 2222,
+     "team_id": 1468,
+     "ip": "  192.0.2.77\t",
+     "provided": "flag{p}",
+     "type": "partial",
+     "date": "2026-10-02 11:00:00"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_delete_account",
+    "params": {
+     "id": 217
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_change_email",
+    "params": {
+     "id": 1245,
+     "email": "chen.lamarr.new@corp.example.net"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_update_profile",
+    "params": {
+     "id": 65,
+     "website": null,
+     "affiliation": null,
+     "country": " r\u00e9union "
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_set_requirements",
+    "params": {
+     "id": 23,
+     "requirements": "{\"prerequisites\": \"4\"}"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_set_requirements",
+    "params": {
+     "id": 300,
+     "requirements": "{\"prerequisites\": [117, 485, \"12\"], \"anonymize\": \"true\"}"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_add_flag",
+    "params": {
+     "challenge_id": 30,
+     "type": "regex",
+     "content": "flag\\{x\\}",
+     "data": ""
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_unlock",
+    "params": {
+     "user_id": 2222,
+     "team_id": 1468,
+     "target": 2,
+     "type": "solutions",
+     "date": "2026-10-02 11:05:00",
+     "ip": "192.0.2.77"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_register",
+    "params": {
+     "name": "usa_player",
+     "password": "$bcrypt-sha256$v=2,t=2b,r=12$Qm9vdGNhbXBzYWx0$cGFzc3dvcmRoYXNoZXhhbXBsZTA",
+     "email": "usa.player@example.org",
+     "website": "https://usa.example",
+     "affiliation": null,
+     "country": "U.S.A.",
+     "team_id": 1468,
+     "created": "2026-10-02 11:10:00"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_track",
+    "params": {
+     "type": null,
+     "ip": "192.0.2.77",
+     "user_id": 2222,
+     "date": "2026-10-02 11:06:00",
+     "target": null
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_record_solve",
+    "params": {
+     "challenge_id": 2,
+     "user_id": 2222,
+     "team_id": 1468,
+     "ip": "unknown",
+     "provided": "flag{y}",
+     "date": "2026-10-02 11:20:00"
+    }
+   }
+  ],
+  "after_dual": [
+   {
+    "corpus": "v2",
+    "query": "v2_record_submission",
+    "params": {
+     "challenge_id": 9,
+     "user_id": 1007,
+     "team_id": 2309,
+     "ip": "2001:db8::7",
+     "provided": "flag{v2}",
+     "kind_id": 1,
+     "submitted_at": "2026-10-03T11:00:00.5+02:00"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_reclassify",
+    "params": {
+     "id": 600001,
+     "kind_id": 4
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_reclassify",
+    "params": {
+     "id": 37,
+     "kind_id": 1
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_reclassify",
+    "params": {
+     "id": 478,
+     "kind_id": 3
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_record_submission",
+    "params": {
+     "challenge_id": 10,
+     "user_id": 2222,
+     "team_id": 1468,
+     "ip": "unknown",
+     "provided": "z",
+     "type": "incorrect",
+     "date": "2026-10-03 11:30:00"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_save_profile",
+    "params": {
+     "user_id": 74,
+     "website": "https://example.de",
+     "affiliation": null,
+     "country_code": "DE"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_save_profile",
+    "params": {
+     "user_id": 65,
+     "website": null,
+     "affiliation": "Lighthouse University",
+     "country_code": "FR"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_register",
+    "params": {
+     "name": "fourplayer",
+     "password": "$bcrypt-sha256$v=2,t=2b,r=12$Qm9vdGNhbXBzYWx0$cGFzc3dvcmRoYXNoZXhhbXBsZTA",
+     "email": "Four.Player@Example.org ",
+     "team_id": 2309,
+     "created": "2026-10-03 09:00:00"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_save_profile_by_email",
+    "params": {
+     "email": "four.player@example.org",
+     "website": null,
+     "affiliation": "Example Corp",
+     "country_code": "SE"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_update_profile",
+    "params": {
+     "id": 40003,
+     "website": "https://four.example",
+     "affiliation": "Example Corp",
+     "country": "Sweden"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_change_email",
+    "params": {
+     "id": 1459,
+     "email": "x.1459@example.org"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_add_prerequisite",
+    "params": {
+     "challenge_id": 23,
+     "prerequisite_id": 5
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_remove_prerequisite",
+    "params": {
+     "challenge_id": 8,
+     "prerequisite_id": 7
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_set_anonymize",
+    "params": {
+     "id": 177,
+     "locked": true
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_set_requirements",
+    "params": {
+     "id": 200,
+     "requirements": "{\"prerequisites\": [31, \"32\"], \"anonymize\": false}"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_add_flag",
+    "params": {
+     "challenge_id": 21,
+     "type": "static",
+     "content": "flag{xyz}",
+     "case_insensitive": true
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_set_flag_case",
+    "params": {
+     "id": 26,
+     "case_insensitive": false
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_set_flag_case",
+    "params": {
+     "id": 27,
+     "case_insensitive": false
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_add_flag",
+    "params": {
+     "challenge_id": 30,
+     "type": "static",
+     "content": "flag{q}",
+     "data": "case_insensitive"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_unlock_hint",
+    "params": {
+     "user_id": 1007,
+     "team_id": 2309,
+     "hint_id": 4,
+     "date": "2026-10-03 10:00:00",
+     "ip": "10.0.0.2"
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_unlock",
+    "params": {
+     "user_id": 2222,
+     "team_id": 1468,
+     "target": 5,
+     "type": "hints",
+     "date": "2026-10-03 10:02:00",
+     "ip": "192.0.2.78"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_track",
+    "params": {
+     "type": "challenges.open",
+     "ip": "10.0.0.3",
+     "user_id": 7,
+     "date": "2026-10-03 10:05:00",
+     "target": 12
+    }
+   },
+   {
+    "corpus": "v1",
+    "query": "v1_track",
+    "params": {
+     "type": "challenges.open",
+     "ip": "10.0.0.4",
+     "user_id": 7,
+     "date": "2026-10-03 10:06:00",
+     "target": 13
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_delete_account",
+    "params": {
+     "id": 1354
+    }
+   }
+  ],
+  "after_contract": [
+   {
+    "corpus": "v2",
+    "query": "v2_record_submission",
+    "params": {
+     "challenge_id": 11,
+     "user_id": 2222,
+     "team_id": 1468,
+     "ip": null,
+     "provided": "flag{c}",
+     "kind_id": 5,
+     "submitted_at": "2026-10-04T00:30:00-05:00"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_record_solve",
+    "params": {
+     "challenge_id": 3,
+     "user_id": 1007,
+     "team_id": 2309,
+     "ip": "203.0.113.10",
+     "provided": "flag{s}",
+     "submitted_at": "2026-10-04T01:00:00Z"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_register",
+    "params": {
+     "name": "fiveplayer",
+     "password": "$bcrypt-sha256$v=2,t=2b,r=12$Qm9vdGNhbXBzYWx0$cGFzc3dvcmRoYXNoZXhhbXBsZTA",
+     "email": "  ADA.MENSAH423@uni.example.edu",
+     "team_id": 1468,
+     "created": "2026-10-04 09:00:00"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_change_email",
+    "params": {
+     "id": 40001,
+     "email": "second@example.org"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_add_prerequisite",
+    "params": {
+     "challenge_id": 30,
+     "prerequisite_id": 2
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_unlock_solution",
+    "params": {
+     "user_id": 2222,
+     "team_id": 1468,
+     "solution_id": 3,
+     "date": "2026-10-04 10:00:00",
+     "ip": "10.0.0.9"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_track",
+    "params": {
+     "type": null,
+     "ip": "10.0.0.9",
+     "user_id": 2222,
+     "date": "2026-10-04 10:01:00",
+     "target": null
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_set_flag_case",
+    "params": {
+     "id": 44,
+     "case_insensitive": true
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_save_profile",
+    "params": {
+     "user_id": 38,
+     "website": null,
+     "affiliation": null,
+     "country_code": "BR"
+    }
+   },
+   {
+    "corpus": "v2",
+    "query": "v2_reclassify",
+    "params": {
+     "id": 600004,
+     "kind_id": 2
+    }
+   }
+  ]
+ },
+ "invariants": {
+  "backfill": [
+   {
+    "name": "kinds_table",
+    "sql": "SELECT id, code, counts_as_attempt FROM submission_kinds ORDER BY id"
+   },
+   {
+    "name": "submission_kinds",
+    "sql": "SELECT kind_id, count(*) FROM submissions GROUP BY kind_id ORDER BY kind_id"
+   },
+   {
+    "name": "submitted_at",
+    "sql": "SELECT count(*) FILTER (WHERE submitted_at IS NULL), sum(extract(epoch FROM submitted_at))::numeric(24,3) FROM submissions"
+   },
+   {
+    "name": "ip_addr",
+    "sql": "SELECT count(ip_addr), md5(string_agg(id || '=' || host(ip_addr), ',' ORDER BY id)) FROM submissions WHERE ip_addr IS NOT NULL"
+   },
+   {
+    "name": "submissions_legacy",
+    "sql": "SELECT count(*), md5(string_agg(concat_ws('|', id, type, date, ip), ',' ORDER BY id)) FROM submissions"
+   },
+   {
+    "name": "email_normalized",
+    "sql": "SELECT count(email_normalized), md5(string_agg(id || '=' || email_normalized, ',' ORDER BY id)) FROM users WHERE email_normalized IS NOT NULL"
+   },
+   {
+    "name": "profiles",
+    "sql": "SELECT count(*), md5(string_agg(concat_ws('|', user_id, website, affiliation, country_code), ',' ORDER BY user_id)) FROM user_profiles"
+   },
+   {
+    "name": "users_legacy",
+    "sql": "SELECT count(*), md5(string_agg(concat_ws('|', id, email, website, affiliation, country), ',' ORDER BY id)) FROM users"
+   },
+   {
+    "name": "countries",
+    "sql": "SELECT count(*), md5(string_agg(code || '=' || name, ',' ORDER BY code)) FROM countries"
+   },
+   {
+    "name": "prerequisites",
+    "sql": "SELECT count(*), md5(string_agg(challenge_id || '>' || prerequisite_id, ',' ORDER BY challenge_id, prerequisite_id)) FROM challenge_prerequisites"
+   },
+   {
+    "name": "anonymize",
+    "sql": "SELECT coalesce(array_agg(id ORDER BY id), '{}') FROM challenges WHERE anonymize_locked"
+   },
+   {
+    "name": "requirements_legacy",
+    "sql": "SELECT md5(string_agg(id || ':' || coalesce(requirements::jsonb::text, '~'), ',' ORDER BY id)) FROM challenges"
+   },
+   {
+    "name": "flags",
+    "sql": "SELECT count(*), md5(string_agg(concat_ws('|', id, data, case_insensitive), ',' ORDER BY id)) FROM flags"
+   },
+   {
+    "name": "unlocks",
+    "sql": "SELECT count(*), md5(string_agg(concat_ws('|', id, type, target, hint_id, solution_id), ',' ORDER BY id)) FROM unlocks"
+   }
+  ],
+  "final": [
+   {
+    "name": "kinds_table",
+    "sql": "SELECT id, code, counts_as_attempt FROM submission_kinds ORDER BY id"
+   },
+   {
+    "name": "submission_kinds",
+    "sql": "SELECT kind_id, count(*) FROM submissions GROUP BY kind_id ORDER BY kind_id"
+   },
+   {
+    "name": "submitted_at",
+    "sql": "SELECT count(*), sum(extract(epoch FROM submitted_at))::numeric(24,3) FROM submissions"
+   },
+   {
+    "name": "ip_addr",
+    "sql": "SELECT count(ip_addr), md5(string_agg(id || '=' || host(ip_addr), ',' ORDER BY id)) FROM submissions WHERE ip_addr IS NOT NULL"
+   },
+   {
+    "name": "email_normalized",
+    "sql": "SELECT count(email_normalized), md5(string_agg(id || '=' || email_normalized, ',' ORDER BY id)) FROM users WHERE email_normalized IS NOT NULL"
+   },
+   {
+    "name": "profiles",
+    "sql": "SELECT (SELECT count(*) FROM users), count(*), md5(string_agg(concat_ws('|', user_id, website, affiliation, country_code), ',' ORDER BY user_id)) FROM user_profiles"
+   },
+   {
+    "name": "countries",
+    "sql": "SELECT count(*), md5(string_agg(code || '=' || name, ',' ORDER BY code)) FROM countries"
+   },
+   {
+    "name": "prerequisites",
+    "sql": "SELECT count(*), md5(string_agg(challenge_id || '>' || prerequisite_id, ',' ORDER BY challenge_id, prerequisite_id)) FROM challenge_prerequisites"
+   },
+   {
+    "name": "anonymize",
+    "sql": "SELECT coalesce(array_agg(id ORDER BY id), '{}') FROM challenges WHERE anonymize_locked"
+   },
+   {
+    "name": "flags",
+    "sql": "SELECT count(*), md5(string_agg(id || '|' || case_insensitive, ',' ORDER BY id)) FROM flags"
+   },
+   {
+    "name": "unlocks",
+    "sql": "SELECT count(*), md5(string_agg(concat_ws('|', id, type, hint_id, solution_id), ',' ORDER BY id)) FROM unlocks"
+   },
+   {
+    "name": "activity",
+    "sql": "SELECT count(*), max(id), md5(string_agg(concat_ws('|', id, type, ip, user_id, date, target), ',' ORDER BY id)) FROM user_activity"
+   }
+  ],
+  "downgrade": [
+   {
+    "name": "submissions_legacy",
+    "sql": "SELECT count(*), md5(string_agg(concat_ws('|', id, type, date, ip), ',' ORDER BY id)) FROM submissions"
+   },
+   {
+    "name": "users_legacy",
+    "sql": "SELECT count(*), md5(string_agg(concat_ws('|', id, email, website, affiliation, country), ',' ORDER BY id)) FROM users"
+   },
+   {
+    "name": "requirements_legacy",
+    "sql": "SELECT md5(string_agg(id || ':' || coalesce(requirements::jsonb::text, '~'), ',' ORDER BY id)) FROM challenges"
+   },
+   {
+    "name": "flags_legacy",
+    "sql": "SELECT count(*), md5(string_agg(concat_ws('|', id, data), ',' ORDER BY id)) FROM flags"
+   },
+   {
+    "name": "unlocks_legacy",
+    "sql": "SELECT count(*), md5(string_agg(concat_ws('|', id, type, target), ',' ORDER BY id)) FROM unlocks"
+   },
+   {
+    "name": "tracking",
+    "sql": "SELECT count(*), max(id) FROM tracking"
+   },
+   {
+    "name": "tracking_seq",
+    "sql": "SELECT last_value FROM tracking_id_seq"
+   }
+  ]
+ },
+ "catalog": {
+  "final": [
+   {
+    "table": "submission_kinds",
+    "columns": {
+     "id": {
+      "type": "smallint",
+      "not_null": true
+     },
+     "code": {
+      "type": "varchar(32)",
+      "not_null": true
+     },
+     "counts_as_attempt": {
+      "type": "boolean",
+      "not_null": true
+     }
+    },
+    "primary_key": [
+     "id"
+    ],
+    "unique": [
+     [
+      "code"
+     ]
+    ]
+   },
+   {
+    "table": "submissions",
+    "columns": {
+     "kind_id": {
+      "type": "smallint",
+      "not_null": true
+     },
+     "submitted_at": {
+      "type": "timestamptz",
+      "not_null": true
+     },
+     "ip_addr": {
+      "type": "inet"
+     }
+    },
+    "absent_columns": [
+     "type",
+     "date",
+     "ip"
+    ],
+    "foreign_keys": [
+     {
+      "columns": [
+       "kind_id"
+      ],
+      "references": "submission_kinds",
+      "ref_columns": [
+       "id"
+      ],
+      "on_delete": "restrict"
+     }
+    ],
+    "indexes": [
+     {
+      "columns": [
+       "kind_id",
+       "submitted_at"
+      ]
+     },
+     {
+      "columns": [
+       "user_id",
+       "submitted_at"
+      ]
+     }
+    ]
+   },
+   {
+    "table": "users",
+    "columns": {
+     "email_normalized": {
+      "type": "varchar(128)"
+     },
+     "email": {
+      "type": "varchar(128)"
+     }
+    },
+    "absent_columns": [
+     "website",
+     "affiliation",
+     "country"
+    ],
+    "unique": [
+     [
+      "email_normalized"
+     ]
+    ]
+   },
+   {
+    "table": "countries",
+    "columns": {
+     "code": {
+      "type": "char(2)",
+      "not_null": true
+     },
+     "name": {
+      "type": "varchar(64)",
+      "not_null": true
+     }
+    },
+    "primary_key": [
+     "code"
+    ]
+   },
+   {
+    "table": "user_profiles",
+    "columns": {
+     "user_id": {
+      "type": "integer",
+      "not_null": true
+     },
+     "website": {
+      "type": "varchar(128)"
+     },
+     "affiliation": {
+      "type": "varchar(128)"
+     },
+     "country_code": {
+      "type": "char(2)"
+     }
+    },
+    "primary_key": [
+     "user_id"
+    ],
+    "foreign_keys": [
+     {
+      "columns": [
+       "user_id"
+      ],
+      "references": "users",
+      "ref_columns": [
+       "id"
+      ],
+      "on_delete": "cascade"
+     },
+     {
+      "columns": [
+       "country_code"
+      ],
+      "references": "countries",
+      "ref_columns": [
+       "code"
+      ]
+     }
+    ]
+   },
+   {
+    "table": "challenge_prerequisites",
+    "columns": {
+     "challenge_id": {
+      "type": "integer",
+      "not_null": true
+     },
+     "prerequisite_id": {
+      "type": "integer",
+      "not_null": true
+     }
+    },
+    "primary_key": [
+     "challenge_id",
+     "prerequisite_id"
+    ],
+    "foreign_keys": [
+     {
+      "columns": [
+       "challenge_id"
+      ],
+      "references": "challenges",
+      "ref_columns": [
+       "id"
+      ],
+      "on_delete": "cascade"
+     },
+     {
+      "columns": [
+       "prerequisite_id"
+      ],
+      "references": "challenges",
+      "ref_columns": [
+       "id"
+      ],
+      "on_delete": "cascade"
+     }
+    ],
+    "checks": [
+     {
+      "contains": [
+       "challenge_id",
+       "<>",
+       "prerequisite_id"
+      ],
+      "describe": "(challenge_id <> prerequisite_id)"
+     }
+    ],
+    "indexes": [
+     {
+      "columns": [
+       "prerequisite_id"
+      ]
+     }
+    ]
+   },
+   {
+    "table": "challenges",
+    "columns": {
+     "anonymize_locked": {
+      "type": "boolean",
+      "not_null": true,
+      "default": "false"
+     }
+    },
+    "absent_columns": [
+     "requirements"
+    ]
+   },
+   {
+    "table": "flags",
+    "columns": {
+     "case_insensitive": {
+      "type": "boolean",
+      "not_null": true,
+      "default": "false"
+     }
+    },
+    "absent_columns": [
+     "data"
+    ]
+   },
+   {
+    "table": "unlocks",
+    "columns": {
+     "hint_id": {
+      "type": "integer"
+     },
+     "solution_id": {
+      "type": "integer"
+     },
+     "type": {
+      "type": "varchar(32)"
+     }
+    },
+    "absent_columns": [
+     "target"
+    ],
+    "foreign_keys": [
+     {
+      "columns": [
+       "hint_id"
+      ],
+      "references": "hints",
+      "ref_columns": [
+       "id"
+      ],
+      "on_delete": "cascade"
+     },
+     {
+      "columns": [
+       "solution_id"
+      ],
+      "references": "solutions",
+      "ref_columns": [
+       "id"
+      ],
+      "on_delete": "cascade"
+     }
+    ],
+    "checks": [
+     {
+      "contains": [
+       "num_nonnulls(hint_id, solution_id) = 1"
+      ],
+      "describe": "CHECK (num_nonnulls(hint_id, solution_id) = 1)"
+     }
+    ]
+   },
+   {
+    "table": "user_activity",
+    "columns": {
+     "user_id": {
+      "type": "integer"
+     },
+     "date": {
+      "type": "timestamp"
+     },
+     "ip": {
+      "type": "varchar(46)"
+     }
+    },
+    "indexes": [
+     {
+      "columns": [
+       "user_id",
+       "date"
+      ]
+     }
+    ]
+   },
+   {
+    "table": "tracking",
+    "exists": false
+   }
+  ]
+ },
+ "lock_rules": {
+  "rules": [
+   "concurrent_indexes",
+   "no_validation_scan",
+   "no_table_rewrite",
+   "batched_writes",
+   "lock_timeout"
+  ],
+  "max_rows_per_txn": 10000,
+  "lock_timeout_max_ms": 5000,
+  "scope": "all"
+ },
+ "graph": {
+  "base": "f63a9205d72f",
+  "targets": [
+   "ctfd4_expand",
+   "ctfd4_backfill",
+   "ctfd4_dual",
+   "ctfd4_contract"
+  ],
+  "last_is_head": true
+ },
+ "forbidden_patterns": [],
+ "snapshots": {
+  "visible": {
+   "salt": "lighthouse-2026",
+   "variant": "visible",
+   "recipe": [
+    {
+     "op": "sql",
+     "file": "pre.sql"
+    },
+    {
+     "op": "sql",
+     "file": "seed.sql"
+    },
+    {
+     "op": "dataset"
+    },
+    {
+     "op": "sql",
+     "file": "post.sql"
+    },
+    {
+     "op": "sql",
+     "file": "settings.sql",
+     "as": "admin"
+    },
+    {
+     "op": "finish"
+    }
+   ]
+  },
+  "hidden": {
+   "salt": "513d1342e7d62033439c61ca",
+   "variant": "hidden",
+   "recipe": [
+    {
+     "op": "sql",
+     "file": "pre.sql"
+    },
+    {
+     "op": "sql",
+     "file": "seed.sql"
+    },
+    {
+     "op": "dataset"
+    },
+    {
+     "op": "sql",
+     "file": "post.sql"
+    },
+    {
+     "op": "sql",
+     "file": "settings.sql",
+     "as": "admin"
+    },
+    {
+     "op": "finish"
+    }
+   ]
+  }
+ },
+ "scenarios": [
+  {
+   "name": "main",
+   "snapshot": "visible",
+   "ops": [
+    {
+     "id": "start",
+     "op": "assert_revision",
+     "expect": [
+      "f63a9205d72f"
+     ],
+     "gate": true,
+     "gate_name": "starting_revision",
+     "check": false,
+     "core": false
+    },
+    {
+     "id": "baseline",
+     "op": "catalog_capture"
+    },
+    {
+     "id": "expand",
+     "op": "migrate",
+     "target": "ctfd4_expand",
+     "gate": true,
+     "gate_name": "migrations_apply",
+     "locks": true,
+     "core": false
+    },
+    {
+     "id": "expand.v1",
+     "op": "queries",
+     "corpus": "v1",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "expand.traffic",
+     "op": "traffic",
+     "plan": "after_expand",
+     "core": false
+    },
+    {
+     "id": "expand.traffic.v1",
+     "op": "queries",
+     "corpus": "v1",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "backfill",
+     "op": "migrate",
+     "target": "ctfd4_backfill",
+     "gate": true,
+     "gate_name": "migrations_apply",
+     "locks": true,
+     "core": false
+    },
+    {
+     "id": "backfill.v1",
+     "op": "queries",
+     "corpus": "v1",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "backfill.invariants",
+     "op": "invariants",
+     "set": "backfill",
+     "core": true
+    },
+    {
+     "id": "backfill.traffic",
+     "op": "traffic",
+     "plan": "after_backfill",
+     "core": false
+    },
+    {
+     "id": "backfill.traffic.v1",
+     "op": "queries",
+     "corpus": "v1",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "dual",
+     "op": "migrate",
+     "target": "ctfd4_dual",
+     "gate": true,
+     "gate_name": "migrations_apply",
+     "locks": true,
+     "core": false
+    },
+    {
+     "id": "dual.v1",
+     "op": "queries",
+     "corpus": "v1",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "dual.v2",
+     "op": "queries",
+     "corpus": "v2",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "dual.traffic",
+     "op": "traffic",
+     "plan": "after_dual",
+     "core": false
+    },
+    {
+     "id": "dual.traffic.v1",
+     "op": "queries",
+     "corpus": "v1",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "dual.traffic.v2",
+     "op": "queries",
+     "corpus": "v2",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "contract",
+     "op": "migrate",
+     "target": "ctfd4_contract",
+     "gate": true,
+     "gate_name": "migrations_apply",
+     "locks": true,
+     "core": false
+    },
+    {
+     "id": "contract.v2",
+     "op": "queries",
+     "corpus": "v2",
+     "mode": "read",
+     "core": true
+    },
+    {
+     "id": "contract.invariants",
+     "op": "invariants",
+     "set": "final",
+     "core": true
+    },
+    {
+     "id": "contract.traffic",
+     "op": "traffic",
+     "plan": "after_contract",
+     "core": true
+    },
+    {
+     "id": "contract.traffic.v2",
+     "op": "queries",
+     "corpus": "v2",
+     "mode": "read",
+     "core": true
+    },
+    {
+     "id": "contract.catalog",
+     "op": "catalog",
+     "against": "final"
+    },
+    {
+     "id": "locks",
+     "op": "locks"
+    },
+    {
+     "id": "data",
+     "op": "table_data",
+     "skip": [
+      "alembic_version"
+     ],
+     "core": true
+    }
+   ]
+  },
+  {
+   "name": "hidden",
+   "snapshot": "hidden",
+   "ops": [
+    {
+     "id": "start",
+     "op": "assert_revision",
+     "expect": [
+      "f63a9205d72f"
+     ],
+     "gate": false,
+     "gate_name": "starting_revision",
+     "check": true,
+     "core": true
+    },
+    {
+     "id": "expand",
+     "op": "migrate",
+     "target": "ctfd4_expand",
+     "gate": false,
+     "gate_name": "migrations_apply",
+     "locks": false,
+     "core": true
+    },
+    {
+     "id": "expand.v1",
+     "op": "queries",
+     "corpus": "v1",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "expand.traffic",
+     "op": "traffic",
+     "plan": "after_expand",
+     "core": false
+    },
+    {
+     "id": "expand.traffic.v1",
+     "op": "queries",
+     "corpus": "v1",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "backfill",
+     "op": "migrate",
+     "target": "ctfd4_backfill",
+     "gate": false,
+     "gate_name": "migrations_apply",
+     "locks": false,
+     "core": true
+    },
+    {
+     "id": "backfill.v1",
+     "op": "queries",
+     "corpus": "v1",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "backfill.invariants",
+     "op": "invariants",
+     "set": "backfill",
+     "core": true
+    },
+    {
+     "id": "backfill.traffic",
+     "op": "traffic",
+     "plan": "after_backfill",
+     "core": false
+    },
+    {
+     "id": "backfill.traffic.v1",
+     "op": "queries",
+     "corpus": "v1",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "dual",
+     "op": "migrate",
+     "target": "ctfd4_dual",
+     "gate": false,
+     "gate_name": "migrations_apply",
+     "locks": false,
+     "core": true
+    },
+    {
+     "id": "dual.v1",
+     "op": "queries",
+     "corpus": "v1",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "dual.v2",
+     "op": "queries",
+     "corpus": "v2",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "dual.traffic",
+     "op": "traffic",
+     "plan": "after_dual",
+     "core": false
+    },
+    {
+     "id": "dual.traffic.v1",
+     "op": "queries",
+     "corpus": "v1",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "dual.traffic.v2",
+     "op": "queries",
+     "corpus": "v2",
+     "mode": "read",
+     "core": false
+    },
+    {
+     "id": "contract",
+     "op": "migrate",
+     "target": "ctfd4_contract",
+     "gate": false,
+     "gate_name": "migrations_apply",
+     "locks": false,
+     "core": true
+    },
+    {
+     "id": "contract.v2",
+     "op": "queries",
+     "corpus": "v2",
+     "mode": "read",
+     "core": true
+    },
+    {
+     "id": "contract.invariants",
+     "op": "invariants",
+     "set": "final",
+     "core": true
+    },
+    {
+     "id": "contract.traffic",
+     "op": "traffic",
+     "plan": "after_contract",
+     "core": true
+    },
+    {
+     "id": "contract.traffic.v2",
+     "op": "queries",
+     "corpus": "v2",
+     "mode": "read",
+     "core": true
+    },
+    {
+     "id": "data",
+     "op": "table_data",
+     "skip": [
+      "alembic_version"
+     ],
+     "core": true
+    }
+   ]
+  },
+  {
+   "name": "downgrade",
+   "snapshot": "visible",
+   "ops": [
+    {
+     "id": "baseline",
+     "op": "catalog_capture"
+    },
+    {
+     "id": "expand",
+     "op": "migrate",
+     "target": "ctfd4_expand",
+     "check": true
+    },
+    {
+     "id": "expand.traffic",
+     "op": "traffic",
+     "plan": "after_expand"
+    },
+    {
+     "id": "backfill",
+     "op": "migrate",
+     "target": "ctfd4_backfill",
+     "check": true
+    },
+    {
+     "id": "backfill.traffic",
+     "op": "traffic",
+     "plan": "after_backfill"
+    },
+    {
+     "id": "dual",
+     "op": "migrate",
+     "target": "ctfd4_dual",
+     "check": true
+    },
+    {
+     "id": "dual.traffic",
+     "op": "traffic",
+     "plan": "after_dual"
+    },
+    {
+     "id": "rollback",
+     "op": "rollback",
+     "target": "f63a9205d72f"
+    },
+    {
+     "id": "rollback.catalog",
+     "op": "catalog",
+     "against": "baseline"
+    },
+    {
+     "id": "rollback.v1",
+     "op": "queries",
+     "corpus": "v1",
+     "mode": "read"
+    },
+    {
+     "id": "rollback.invariants",
+     "op": "invariants",
+     "set": "downgrade"
+    },
+    {
+     "id": "data",
+     "op": "table_data",
+     "skip": [
+      "alembic_version"
+     ],
+     "core": true
+    }
+   ]
+  }
+ ],
+ "recipe": [
+  {
+   "op": "sql",
+   "file": "pre.sql"
+  },
+  {
+   "op": "sql",
+   "file": "seed.sql"
+  },
+  {
+   "op": "dataset"
+  },
+  {
+   "op": "sql",
+   "file": "post.sql"
+  },
+  {
+   "op": "sql",
+   "file": "settings.sql",
+   "as": "admin"
+  },
+  {
+   "op": "finish"
+  }
+ ]
+}

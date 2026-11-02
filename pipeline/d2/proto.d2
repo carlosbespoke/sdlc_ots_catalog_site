@@ -1,0 +1,42 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+    pad: 24
+  }
+}
+direction: right
+classes: {
+  zone: {style: {fill: "#fbf9f4"; stroke: "#11484e"; stroke-width: 2; font-color: "#11484e"; border-radius: 0; font-size: 16; bold: false}}
+  item: {style: {fill: "#ffffff"; stroke: "#cfcac2"; font-color: "#11484e"; border-radius: 2; font-size: 14}}
+  goal: {style: {fill: "#11484e"; stroke: "#11484e"; font-color: "#ffffff"; border-radius: 2; font-size: 14; bold: true}}
+  check: {style: {fill: "#d4e8e3"; stroke: "#1f6f6a"; font-color: "#11484e"; border-radius: 2; font-size: 14}}
+  problem: {style: {fill: "#fdecea"; stroke: "#f44029"; font-color: "#c83220"; border-radius: 2; font-size: 14; stroke-dash: 3}}
+  hidden: {style: {fill: "#f0ece4"; stroke: "#9a9590"; font-color: "#625f5d"; stroke-dash: 4; font-size: 14}}
+}
+problem: "Problem\nRebuild a Bazel BUILD-file generator\nwithout its source code" {class: problem}
+gets: "What the agent receives" {
+  class: zone
+  ref: "Reference program\n(execute-only, can run but not read)" {class: item; icon: https://icons.terrastruct.com/essentials%2F112-server.svg}
+  docs: "User documentation\n(4 reference pages)" {class: item; icon: https://icons.terrastruct.com/essentials%2F257-file.svg}
+  tools: "Toolchains\nGo · Rust · C/C++" {class: item; icon: https://icons.terrastruct.com/dev%2Fgo.svg}
+}
+work: "Agent's job" {
+  class: zone
+  probe: "Probe the reference\nwith inputs" {class: item}
+  build: "Write a new program\nin any language" {class: item}
+  probe -> build
+}
+out: "Deliverable" {
+  class: zone
+  src: "Source project + compile.sh\n→ ./executable" {class: goal}
+}
+verify: "How it is checked" {
+  class: zone
+  hidden: "Hidden behavior tests\n(outputs, exit codes, files)" {class: hidden}
+  cmp: "Compare against\nthe reference" {class: check}
+  hidden -> cmp
+}
+problem -> gets
+gets -> work: "observe"
+work -> out: "build"
+out -> verify: "rebuild offline"

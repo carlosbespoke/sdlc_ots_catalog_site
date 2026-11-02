@@ -1,0 +1,2116 @@
+{
+ "observations": {
+  "OBS-0001": {
+   "value": {
+    "effects": [
+     "acct_effect_1"
+    ],
+    "events": [
+     "evt_replay_0"
+    ],
+    "lifecycle": [
+     {
+      "instance": true,
+      "name": "webhook_pre_validate",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_post_validate",
+      "sender": true,
+      "valid": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_process",
+      "sender": true
+     },
+     {
+      "api_key": "sk_test_replay",
+      "instance": true,
+      "name": "webhook_post_process",
+      "sender": true
+     }
+    ],
+    "lifecycle_write": true,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "billing.alert.triggered"
+     }
+    ],
+    "results": [
+     {
+      "processed": true,
+      "valid": true
+     }
+    ],
+    "triggers": [
+     {
+      "error": false,
+      "event": true,
+      "processed": true,
+      "traceback": false,
+      "valid": true
+     }
+    ]
+   }
+  },
+  "OBS-0002": {
+   "value": {
+    "effects": [
+     "acct_effect_1"
+    ],
+    "events": [
+     "evt_replay"
+    ],
+    "lifecycle": [
+     {
+      "instance": true,
+      "name": "webhook_pre_validate",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_post_validate",
+      "sender": true,
+      "valid": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_process",
+      "sender": true
+     },
+     {
+      "api_key": "sk_test_replay",
+      "instance": true,
+      "name": "webhook_post_process",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_validate",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_post_validate",
+      "sender": true,
+      "valid": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_process",
+      "sender": true
+     },
+     {
+      "api_key": "sk_test_replay",
+      "instance": true,
+      "name": "webhook_post_process",
+      "sender": true
+     }
+    ],
+    "lifecycle_write": true,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "balance.available"
+     }
+    ],
+    "results": [
+     {
+      "processed": true,
+      "valid": true
+     },
+     {
+      "processed": true,
+      "valid": true
+     }
+    ],
+    "triggers": [
+     {
+      "error": false,
+      "event": true,
+      "processed": true,
+      "traceback": false,
+      "valid": true
+     },
+     {
+      "error": false,
+      "event": true,
+      "processed": true,
+      "traceback": false,
+      "valid": true
+     }
+    ]
+   }
+  },
+  "OBS-0003": {
+   "value": {
+    "effects": [],
+    "events": [],
+    "lifecycle": [
+     {
+      "instance": true,
+      "name": "webhook_pre_validate",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_post_validate",
+      "sender": true,
+      "valid": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_process",
+      "sender": true
+     },
+     {
+      "api_key": "sk_test_replay",
+      "data": "",
+      "exception": "ValueError",
+      "instance": true,
+      "name": "webhook_processing_error",
+      "sender": true
+     }
+    ],
+    "lifecycle_write": false,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "balance.available"
+     }
+    ],
+    "results": [
+     {
+      "error": "ValueError"
+     }
+    ],
+    "triggers": [
+     {
+      "error": true,
+      "event": false,
+      "processed": false,
+      "traceback": true,
+      "valid": true
+     }
+    ]
+   }
+  },
+  "OBS-0004": {
+   "value": {
+    "effects": [
+     "acct_effect_2"
+    ],
+    "events": [
+     "evt_replay"
+    ],
+    "lifecycle": [
+     {
+      "instance": true,
+      "name": "webhook_pre_validate",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_post_validate",
+      "sender": true,
+      "valid": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_process",
+      "sender": true
+     },
+     {
+      "api_key": "sk_test_replay",
+      "data": "",
+      "exception": "ValueError",
+      "instance": true,
+      "name": "webhook_processing_error",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_validate",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_post_validate",
+      "sender": true,
+      "valid": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_process",
+      "sender": true
+     },
+     {
+      "api_key": "sk_test_replay",
+      "instance": true,
+      "name": "webhook_post_process",
+      "sender": true
+     }
+    ],
+    "lifecycle_write": true,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "balance.available"
+     },
+     {
+      "saved": true,
+      "sender": true,
+      "type": "balance.available"
+     }
+    ],
+    "results": [
+     {
+      "error": "ValueError"
+     },
+     {
+      "processed": true,
+      "valid": true
+     }
+    ],
+    "triggers": [
+     {
+      "error": true,
+      "event": false,
+      "processed": false,
+      "traceback": true,
+      "valid": true
+     },
+     {
+      "error": false,
+      "event": true,
+      "processed": true,
+      "traceback": false,
+      "valid": true
+     }
+    ]
+   }
+  },
+  "OBS-0005": {
+   "value": {
+    "effects": [],
+    "events": [],
+    "lifecycle": [
+     {
+      "instance": true,
+      "name": "webhook_pre_validate",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_post_validate",
+      "sender": true,
+      "valid": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_process",
+      "sender": true
+     },
+     {
+      "api_key": "sk_test_replay",
+      "data": "",
+      "exception": "ValueError",
+      "instance": true,
+      "name": "webhook_processing_error",
+      "sender": true
+     }
+    ],
+    "lifecycle_write": false,
+    "received": [],
+    "results": [
+     {
+      "error": "ValueError"
+     }
+    ],
+    "triggers": [
+     {
+      "error": true,
+      "event": false,
+      "processed": false,
+      "traceback": true,
+      "valid": true
+     }
+    ]
+   }
+  },
+  "OBS-0006": {
+   "value": {
+    "effects": [],
+    "events": [],
+    "lifecycle": [
+     {
+      "instance": true,
+      "name": "webhook_pre_validate",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_post_validate",
+      "sender": true,
+      "valid": false
+     }
+    ],
+    "lifecycle_write": false,
+    "received": [],
+    "results": [
+     {
+      "processed": false,
+      "valid": false
+     }
+    ],
+    "triggers": [
+     {
+      "error": false,
+      "event": false,
+      "processed": false,
+      "traceback": false,
+      "valid": false
+     }
+    ]
+   }
+  },
+  "OBS-0007": {
+   "value": {
+    "effects": [
+     "acct_effect_1"
+    ],
+    "events": [
+     "evt_replay_0"
+    ],
+    "lifecycle": [],
+    "lifecycle_write": false,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "billing.alert.triggered"
+     }
+    ],
+    "results": [
+     {
+      "id": "evt_replay_0",
+      "type": "billing.alert.triggered"
+     }
+    ],
+    "triggers": []
+   }
+  },
+  "OBS-0008": {
+   "value": {
+    "effects": [
+     "acct_effect_1"
+    ],
+    "events": [
+     "evt_replay"
+    ],
+    "lifecycle": [],
+    "lifecycle_write": false,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "balance.available"
+     }
+    ],
+    "results": [
+     {
+      "id": "evt_replay",
+      "type": "balance.available"
+     },
+     {
+      "id": "evt_replay",
+      "type": "balance.available"
+     }
+    ],
+    "triggers": []
+   }
+  },
+  "OBS-0009": {
+   "value": {
+    "effects": [],
+    "events": [],
+    "lifecycle": [],
+    "lifecycle_write": false,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "balance.available"
+     }
+    ],
+    "results": [
+     {
+      "error": "ValueError"
+     }
+    ],
+    "triggers": []
+   }
+  },
+  "OBS-0010": {
+   "value": {
+    "effects": [
+     "acct_effect_2"
+    ],
+    "events": [
+     "evt_replay"
+    ],
+    "lifecycle": [],
+    "lifecycle_write": false,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "balance.available"
+     },
+     {
+      "saved": true,
+      "sender": true,
+      "type": "balance.available"
+     }
+    ],
+    "results": [
+     {
+      "error": "ValueError"
+     },
+     {
+      "id": "evt_replay",
+      "type": "balance.available"
+     }
+    ],
+    "triggers": []
+   }
+  },
+  "OBS-0011": {
+   "value": {
+    "valid": false
+   }
+  },
+  "OBS-0012": {
+   "value": {
+    "valid": false
+   }
+  },
+  "OBS-0013": {
+   "value": {
+    "valid": true
+   }
+  },
+  "OBS-0014": {
+   "value": {
+    "effects": [
+     "acct_effect_1"
+    ],
+    "events": [
+     "evt_replay_0"
+    ],
+    "lifecycle": [
+     {
+      "instance": true,
+      "name": "webhook_pre_validate",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_post_validate",
+      "sender": true,
+      "valid": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_process",
+      "sender": true
+     },
+     {
+      "api_key": "sk_test_replay",
+      "instance": true,
+      "name": "webhook_post_process",
+      "sender": true
+     }
+    ],
+    "lifecycle_write": true,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "balance.available"
+     }
+    ],
+    "results": [
+     {
+      "processed": true,
+      "valid": true
+     }
+    ],
+    "triggers": [
+     {
+      "error": false,
+      "event": true,
+      "processed": true,
+      "traceback": false,
+      "valid": true
+     }
+    ]
+   }
+  },
+  "OBS-0015": {
+   "value": {
+    "effects": [
+     "acct_effect_1"
+    ],
+    "events": [
+     "evt_replay_0"
+    ],
+    "lifecycle": [
+     {
+      "instance": true,
+      "name": "webhook_pre_validate",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_post_validate",
+      "sender": true,
+      "valid": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_process",
+      "sender": true
+     },
+     {
+      "api_key": "sk_test_replay",
+      "instance": true,
+      "name": "webhook_post_process",
+      "sender": true
+     }
+    ],
+    "lifecycle_write": true,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "balance.available"
+     }
+    ],
+    "results": [
+     {
+      "processed": true,
+      "valid": true
+     }
+    ],
+    "triggers": [
+     {
+      "error": false,
+      "event": true,
+      "processed": true,
+      "traceback": false,
+      "valid": true
+     }
+    ]
+   }
+  },
+  "OBS-0016": {
+   "value": {
+    "effects": [
+     "acct_effect_1"
+    ],
+    "events": [
+     "evt_replay_0"
+    ],
+    "lifecycle": [
+     {
+      "instance": true,
+      "name": "webhook_pre_validate",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_post_validate",
+      "sender": true,
+      "valid": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_process",
+      "sender": true
+     },
+     {
+      "api_key": "sk_test_replay",
+      "instance": true,
+      "name": "webhook_post_process",
+      "sender": true
+     }
+    ],
+    "lifecycle_write": true,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "balance.available"
+     }
+    ],
+    "results": [
+     {
+      "processed": true,
+      "valid": true
+     }
+    ],
+    "triggers": [
+     {
+      "error": false,
+      "event": true,
+      "processed": true,
+      "traceback": false,
+      "valid": true
+     }
+    ]
+   }
+  },
+  "OBS-0017": {
+   "value": {
+    "effects": [
+     "acct_effect_1"
+    ],
+    "events": [
+     "evt_replay_0"
+    ],
+    "lifecycle": [
+     {
+      "instance": true,
+      "name": "webhook_pre_validate",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_post_validate",
+      "sender": true,
+      "valid": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_process",
+      "sender": true
+     },
+     {
+      "api_key": "sk_test_replay",
+      "instance": true,
+      "name": "webhook_post_process",
+      "sender": true
+     }
+    ],
+    "lifecycle_write": true,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "billing.alert.triggered"
+     }
+    ],
+    "results": [
+     {
+      "processed": true,
+      "valid": true
+     }
+    ],
+    "triggers": [
+     {
+      "error": false,
+      "event": true,
+      "processed": true,
+      "traceback": false,
+      "valid": true
+     }
+    ]
+   }
+  },
+  "OBS-0018": {
+   "value": {
+    "effects": [],
+    "events": [
+     "evt_replay_0"
+    ],
+    "lifecycle": [
+     {
+      "instance": true,
+      "name": "webhook_pre_validate",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_post_validate",
+      "sender": true,
+      "valid": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_process",
+      "sender": true
+     },
+     {
+      "api_key": "sk_test_replay",
+      "instance": true,
+      "name": "webhook_post_process",
+      "sender": true
+     }
+    ],
+    "lifecycle_write": true,
+    "received": [],
+    "results": [
+     {
+      "processed": true,
+      "valid": true
+     }
+    ],
+    "triggers": [
+     {
+      "error": false,
+      "event": true,
+      "processed": true,
+      "traceback": false,
+      "valid": true
+     }
+    ]
+   }
+  },
+  "OBS-0019": {
+   "value": {
+    "effects": [],
+    "events": [
+     "evt_replay_0"
+    ],
+    "lifecycle": [
+     {
+      "instance": true,
+      "name": "webhook_pre_validate",
+      "sender": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_post_validate",
+      "sender": true,
+      "valid": true
+     },
+     {
+      "instance": true,
+      "name": "webhook_pre_process",
+      "sender": true
+     },
+     {
+      "api_key": "sk_test_replay",
+      "instance": true,
+      "name": "webhook_post_process",
+      "sender": true
+     }
+    ],
+    "lifecycle_write": true,
+    "received": [],
+    "results": [
+     {
+      "processed": true,
+      "valid": true
+     }
+    ],
+    "triggers": [
+     {
+      "error": false,
+      "event": true,
+      "processed": true,
+      "traceback": false,
+      "valid": true
+     }
+    ]
+   }
+  },
+  "OBS-0020": {
+   "value": {
+    "effects": [
+     "acct_effect_1"
+    ],
+    "events": [
+     "evt_replay_0"
+    ],
+    "lifecycle": [],
+    "lifecycle_write": false,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "balance.available"
+     }
+    ],
+    "results": [
+     {
+      "id": "evt_replay_0",
+      "type": "balance.available"
+     }
+    ],
+    "triggers": []
+   }
+  },
+  "OBS-0021": {
+   "value": {
+    "effects": [
+     "acct_effect_1"
+    ],
+    "events": [
+     "evt_replay_0"
+    ],
+    "lifecycle": [],
+    "lifecycle_write": false,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "balance.available"
+     }
+    ],
+    "results": [
+     {
+      "id": "evt_replay_0",
+      "type": "balance.available"
+     }
+    ],
+    "triggers": []
+   }
+  },
+  "OBS-0022": {
+   "value": {
+    "effects": [
+     "acct_effect_1"
+    ],
+    "events": [
+     "evt_replay_0"
+    ],
+    "lifecycle": [],
+    "lifecycle_write": false,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "balance.available"
+     }
+    ],
+    "results": [
+     {
+      "id": "evt_replay_0",
+      "type": "balance.available"
+     }
+    ],
+    "triggers": []
+   }
+  },
+  "OBS-0023": {
+   "value": {
+    "effects": [
+     "acct_effect_1"
+    ],
+    "events": [
+     "evt_replay_0"
+    ],
+    "lifecycle": [],
+    "lifecycle_write": false,
+    "received": [
+     {
+      "saved": true,
+      "sender": true,
+      "type": "billing.alert.triggered"
+     }
+    ],
+    "results": [
+     {
+      "id": "evt_replay_0",
+      "type": "billing.alert.triggered"
+     }
+    ],
+    "triggers": []
+   }
+  },
+  "OBS-0024": {
+   "value": {
+    "effects": [],
+    "events": [
+     "evt_replay_0"
+    ],
+    "lifecycle": [],
+    "lifecycle_write": false,
+    "received": [],
+    "results": [
+     {
+      "id": "evt_replay_0",
+      "type": "unknown.event"
+     }
+    ],
+    "triggers": []
+   }
+  },
+  "OBS-0025": {
+   "value": {
+    "effects": [],
+    "events": [
+     "evt_replay_0"
+    ],
+    "lifecycle": [],
+    "lifecycle_write": false,
+    "received": [],
+    "results": [
+     {
+      "id": "evt_replay_0",
+      "type": "balance.available"
+     }
+    ],
+    "triggers": []
+   }
+  },
+  "OBS-0026": {
+   "value": {
+    "valid": true
+   }
+  },
+  "OBS-0027": {
+   "value": {
+    "valid": false
+   }
+  },
+  "OBS-0028": {
+   "value": {
+    "valid": false
+   }
+  },
+  "OBS-0029": {
+   "value": {
+    "valid": true
+   }
+  },
+  "OBS-0030": {
+   "value": {
+    "valid": false
+   }
+  },
+  "OBS-0031": {
+   "value": {
+    "valid": true
+   }
+  },
+  "OBS-0032": {
+   "value": {
+    "valid": true
+   }
+  },
+  "OBS-0033": {
+   "value": {
+    "valid": false
+   }
+  },
+  "OBS-0034": {
+   "value": {
+    "valid": true
+   }
+  },
+  "OBS-0035": {
+   "value": {
+    "valid": true
+   }
+  },
+  "OBS-0036": {
+   "value": {
+    "valid": true
+   }
+  },
+  "OBS-0037": {
+   "value": {
+    "valid": true
+   }
+  },
+  "OBS-0038": {
+   "value": [
+    "sk_test_a",
+    "sk_live_b"
+   ]
+  },
+  "OBS-0039": {
+   "value": [
+    "sk_test_default",
+    "sk_test_default",
+    "sk_live_b",
+    "sk_test_a"
+   ]
+  },
+  "OBS-0040": {
+   "value": [
+    "sk_test_default",
+    "sk_test_default",
+    "sk_test_default"
+   ]
+  },
+  "OBS-0041": {
+   "value": [
+    [
+     "sk_live_b",
+     "sk_test_a"
+    ],
+    2,
+    [
+     "sk_test_a"
+    ]
+   ]
+  },
+  "OBS-0042": {
+   "value": [
+    "pk_test_x",
+    "pk_live_y"
+   ]
+  },
+  "OBS-0043": {
+   "value": [
+    "2020-08-27",
+    true,
+    true
+   ]
+  },
+  "OBS-0044": {
+   "value": [
+    "2019-05-16",
+    true
+   ]
+  },
+  "OBS-0045": {
+   "value": [
+    true,
+    "auth.User"
+   ]
+  },
+  "OBS-0046": {
+   "value": [
+    "the-user",
+    "the-org",
+    "the-org"
+   ]
+  },
+  "OBS-0047": {
+   "value": [
+    [
+     "djstripe_subscriber",
+     "verify_signature",
+     "^webhook/$"
+    ],
+    [
+     "org_id",
+     "retrieve_event"
+    ]
+   ]
+  },
+  "OBS-0048": {
+   "value": [
+    true,
+    true,
+    2
+   ]
+  },
+  "OBS-0049": {
+   "value": "customer|create:1|True"
+  },
+  "OBS-0050": {
+   "value": [
+    "User",
+    "ImproperlyConfigured",
+    "ImproperlyConfigured"
+   ]
+  },
+  "OBS-0051": {
+   "value": {
+    "djstripe_id": [],
+    "id": [],
+    "invalid": [
+     "djstripe.E003"
+    ],
+    "unset": [
+     "djstripe.E002"
+    ]
+   }
+  },
+  "OBS-0052": {
+   "value": [
+    true,
+    "secret",
+    false,
+    "acct_owner",
+    [
+     [
+      "secret",
+      false,
+      "acct_owner"
+     ]
+    ],
+    [
+     [
+      "GET",
+      "/v1/account"
+     ]
+    ],
+    true
+   ]
+  },
+  "OBS-0053": {
+   "value": [
+    [
+     [
+      true,
+      "publishable",
+      true,
+      null
+     ],
+     [
+      true,
+      "publishable",
+      false,
+      null
+     ]
+    ],
+    []
+   ]
+  },
+  "OBS-0054": {
+   "value": [
+    true,
+    "restricted",
+    true,
+    "acct_restricted",
+    false,
+    [
+     "__all__",
+     "secret"
+    ]
+   ]
+  },
+  "OBS-0055": {
+   "value": [
+    "sk_live_...1234",
+    "sk_test_...p7dc",
+    "sk_test_...p7dc",
+    true,
+    false
+   ]
+  },
+  "OBS-0056": {
+   "value": [
+    [
+     "sk_test_settings",
+     "sk_live_settings"
+    ],
+    [
+     "sk_test_DDDDDDDDDDDDDDDDDDDDDDDD",
+     "sk_test_DDDDDDDDDDDDDDDDDDDDDDDD",
+     "sk_live_settings"
+    ]
+   ]
+  },
+  "OBS-0057": {
+   "value": [
+    "Product",
+    "prod_cov",
+    "Premium plan",
+    true,
+    1,
+    "Renamed plan"
+   ]
+  },
+  "OBS-0058": {
+   "value": [
+    "price_rel",
+    "prod_related",
+    "Fetched",
+    true,
+    [
+     "sk_test_C0v3r4g3C0v3r4g3C0v3r4g3"
+    ]
+   ]
+  },
+  "OBS-0059": {
+   "value": [
+    "prod_created",
+    "Premium plan",
+    true,
+    [
+     [
+      "POST",
+      "/v1/products",
+      "Premium plan"
+     ]
+    ]
+   ]
+  },
+  "OBS-0060": {
+   "value": [
+    "cus_alice",
+    true,
+    true,
+    false,
+    true,
+    1,
+    {
+     "email": "alice@example.com",
+     "metadata[djstripe_subscriber]": "1",
+     "name": "Alice Doe"
+    }
+   ]
+  },
+  "OBS-0061": {
+   "value": [
+    true,
+    "1",
+    "gold",
+    "VIP"
+   ]
+  },
+  "OBS-0062": {
+   "value": [
+    true,
+    "1",
+    false
+   ]
+  },
+  "OBS-0063": {
+   "value": [
+    true,
+    null
+   ]
+  },
+  "OBS-0064": {
+   "value": [
+    "Charge",
+    "ch_help",
+    "cus_help",
+    "ValueError",
+    [
+     [
+      "/v1/charges",
+      {
+       "amount": "1000",
+       "currency": "usd",
+       "customer": "cus_help"
+      }
+     ]
+    ]
+   ]
+  },
+  "OBS-0065": {
+   "value": [
+    "PaymentMethod",
+    "pm_card_visa",
+    "pm_card_visa",
+    [
+     "/v1/payment_methods/pm_card_visa/attach"
+    ],
+    "pm_card_visa"
+   ]
+  },
+  "OBS-0066": {
+   "value": [
+    "pm_other",
+    "cus_help",
+    null,
+    []
+   ]
+  },
+  "OBS-0067": {
+   "value": [
+    "InvoiceItem",
+    "ii_help",
+    {
+     "amount": "250",
+     "currency": "usd",
+     "customer": "cus_help",
+     "description": "Setup fee"
+    },
+    "ValueError"
+   ]
+  },
+  "OBS-0068": {
+   "value": [
+    "SPRING25",
+    "WINTER10"
+   ]
+  },
+  "OBS-0069": {
+   "value": [
+    true,
+    [
+     "/v1/invoices",
+     "/v1/invoices/in_send/pay"
+    ],
+    false
+   ]
+  },
+  "OBS-0070": {
+   "value": [
+    "UpcomingInvoice",
+    null,
+    "cus_help",
+    [
+     "cus_help"
+    ],
+    1500
+   ]
+  },
+  "OBS-0071": {
+   "value": [
+    true,
+    null,
+    true,
+    true,
+    true
+   ]
+  },
+  "OBS-0072": {
+   "value": [
+    [
+     700,
+     0,
+     700
+    ],
+    [
+     -300,
+     300,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  },
+  "OBS-0073": {
+   "value": [
+    "Subscription",
+    "sub_two",
+    "cus_help",
+    {
+     "customer": "cus_help",
+     "items[0][price]": "price_one",
+     "items[1][price]": "price_two"
+    }
+   ]
+  },
+  "OBS-0074": {
+   "value": [
+    "sub_one",
+    [
+     {
+      "customer": "cus_help",
+      "items[0][price]": "price_one"
+     },
+     {
+      "customer": "cus_help",
+      "items[0][price]": "price_one"
+     }
+    ],
+    "TypeError",
+    "active"
+   ]
+  },
+  "OBS-0075": {
+   "value": [
+    [
+     "sub_active",
+     "sub_cancelling",
+     "sub_old",
+     "sub_other"
+    ],
+    [
+     "sub_trial"
+    ],
+    [
+     "sub_pastdue"
+    ],
+    [
+     "sub_canceled"
+    ],
+    [
+     "sub_incomplete"
+    ],
+    [
+     "sub_pastdue",
+     "sub_trial"
+    ]
+   ]
+  },
+  "OBS-0076": {
+   "value": [
+    [
+     "sub_active",
+     "sub_cancelling",
+     "sub_pastdue",
+     "sub_trial"
+    ],
+    [
+     "sub_active",
+     "sub_canceled",
+     "sub_cancelling",
+     "sub_incomplete",
+     "sub_other",
+     "sub_pastdue",
+     "sub_trial"
+    ],
+    [
+     "sub_cancelling",
+     "sub_pastdue"
+    ],
+    [
+     "sub_active",
+     "sub_canceled",
+     "sub_old",
+     "sub_trial"
+    ],
+    [
+     "sub_cancelling"
+    ],
+    true
+   ]
+  },
+  "OBS-0077": {
+   "value": [
+    [
+     true,
+     true,
+     false
+    ],
+    [
+     true,
+     false,
+     false
+    ],
+    [
+     false,
+     false,
+     false
+    ],
+    [
+     true,
+     false
+    ],
+    [
+     false,
+     false
+    ]
+   ]
+  },
+  "OBS-0078": {
+   "value": [
+    [
+     "sub_active",
+     "sub_canceled",
+     "sub_cancelling",
+     "sub_incomplete",
+     "sub_other",
+     "sub_pastdue"
+    ],
+    [
+     "sub_canceled"
+    ],
+    [
+     "sub_old"
+    ],
+    []
+   ]
+  },
+  "OBS-0079": {
+   "value": [
+    "1703456000",
+    "1703456000",
+    "none",
+    "ValueError",
+    "trialing"
+   ]
+  },
+  "OBS-0080": {
+   "value": [
+    "canceled",
+    true,
+    "true",
+    true,
+    false
+   ]
+  },
+  "OBS-0081": {
+   "value": [
+    true,
+    []
+   ]
+  },
+  "OBS-0082": {
+   "value": [
+    "false",
+    false
+   ]
+  },
+  "OBS-0083": {
+   "value": [
+    "/stripe/webhook/<uuid>/",
+    400,
+    404,
+    0,
+    0
+   ]
+  },
+  "OBS-0084": {
+   "value": [
+    200,
+    true,
+    true,
+    true,
+    [
+     "evt_signed"
+    ],
+    "we_cov"
+   ]
+  },
+  "OBS-0085": {
+   "value": [
+    400,
+    false,
+    true,
+    false,
+    false,
+    0
+   ]
+  },
+  "OBS-0086": {
+   "value": [
+    200,
+    400,
+    [
+     "evt_recent"
+    ]
+   ]
+  },
+  "OBS-0087": {
+   "value": [
+    400,
+    0,
+    false
+   ]
+  },
+  "OBS-0088": {
+   "value": [
+    200,
+    [
+     "evt_unchecked"
+    ]
+   ]
+  },
+  "OBS-0089": {
+   "value": [
+    true,
+    "2019-02-19",
+    true
+   ]
+  },
+  "OBS-0090": {
+   "value": [
+    400,
+    0,
+    false
+   ]
+  },
+  "OBS-0091": {
+   "value": [
+    [
+     "customer",
+     "subscription",
+     "trial_will_end"
+    ],
+    "customer",
+    "subscription.trial_will_end",
+    "customer.subscription.trial_will_end",
+    true
+   ]
+  },
+  "OBS-0092": {
+   "value": [
+    "From API",
+    false,
+    [
+     "product.created",
+     "product.deleted"
+    ]
+   ]
+  },
+  "OBS-0093": {
+   "value": [
+    "cus_evt",
+    "42.00",
+    "succeeded"
+   ]
+  },
+  "OBS-0094": {
+   "value": [
+    "cus_pm",
+    "card"
+   ]
+  },
+  "OBS-0095": {
+   "value": [
+    true,
+    "cov@example.com"
+   ]
+  },
+  "OBS-0096": {
+   "value": [
+    [],
+    [
+     "made.up.event"
+    ],
+    "RuntimeError",
+    true
+   ]
+  },
+  "OBS-0097": {
+   "value": [
+    "ok",
+    [
+     "prod_s1",
+     "prod_s2"
+    ],
+    true
+   ]
+  },
+  "OBS-0098": {
+   "value": [
+    "CommandError",
+    "CommandError",
+    []
+   ]
+  },
+  "OBS-0099": {
+   "value": [
+    "ok",
+    true,
+    false
+   ]
+  },
+  "OBS-0100": {
+   "value": [
+    "ok",
+    [
+     "evt_l1",
+     "evt_l2"
+    ],
+    [
+     {}
+    ]
+   ]
+  },
+  "OBS-0101": {
+   "value": [
+    [
+     {
+      "delivery_success": "false"
+     },
+     {
+      "type": "payment_intent.*"
+     }
+    ],
+    [
+     "evt_failed",
+     "evt_typed"
+    ]
+   ]
+  },
+  "OBS-0102": {
+   "value": [
+    "ok",
+    [
+     "evt_bar",
+     "evt_foo"
+    ],
+    [
+     "/v1/events/evt_bar",
+     "/v1/events/evt_foo"
+    ]
+   ]
+  },
+  "OBS-0103": {
+   "value": [
+    "ok",
+    [
+     [
+      "cus_existing",
+      "has"
+     ],
+     [
+      "cus_new",
+      "new"
+     ]
+    ],
+    [
+     "new@example.com"
+    ]
+   ]
+  },
+  "OBS-0104": {
+   "value": [
+    "ok",
+    [
+     [
+      "cus_lone",
+      "lone"
+     ]
+    ],
+    [
+     "/v1/charges",
+     "/v1/customers/cus_lone",
+     "/v1/invoices",
+     "/v1/subscriptions"
+    ]
+   ]
+  },
+  "OBS-0105": {
+   "value": [
+    "ok",
+    [
+     "customer:create:2"
+    ]
+   ]
+  },
+  "OBS-0106": {
+   "value": [
+    "Refund",
+    [
+     "4000",
+     "1250",
+     "4000"
+    ],
+    "requested_by_customer",
+    "50"
+   ]
+  },
+  "OBS-0107": {
+   "value": [
+    false,
+    "Charge",
+    true,
+    true
+   ]
+  },
+  "OBS-0108": {
+   "value": [
+    "PaymentMethod",
+    "cus_pm2",
+    "cus_pm2",
+    [
+     "cus_pm2",
+     "cus_pm2"
+    ]
+   ]
+  },
+  "OBS-0109": {
+   "value": [
+    true,
+    false,
+    true
+   ]
+  },
+  "OBS-0110": {
+   "value": [
+    [
+     "ch_nov_end",
+     "ch_nov_start"
+    ],
+    [
+     "ch_dec"
+    ]
+   ]
+  },
+  "OBS-0111": {
+   "value": [
+    "2020-09-13T12:26:40+00:00",
+    true,
+    null,
+    "sub_123",
+    "cus_9",
+    null,
+    0.0
+   ]
+  },
+  "OBS-0112": {
+   "value": [
+    [
+     "usd",
+     "USD"
+    ],
+    [
+     "eur",
+     "EUR"
+    ],
+    [
+     "gbp",
+     "GBP"
+    ]
+   ]
+  },
+  "OBS-0113": {
+   "value": [
+    "19.99",
+    "0.05",
+    null,
+    "2020-09-13T12:26:40+00:00",
+    5,
+    2
+   ]
+  },
+  "OBS-0114": {
+   "value": [
+    "203.0.113.7",
+    "198.51.100.4",
+    "2001:db8::1",
+    "0.0.0.0",
+    true
+   ]
+  },
+  "OBS-0115": {
+   "value": [
+    true,
+    false
+   ]
+  },
+  "OBS-0116": {
+   "value": [
+    200,
+    true,
+    302,
+    true,
+    true,
+    "whsec_admin",
+    "verify_signature",
+    300
+   ]
+  },
+  "OBS-0117": {
+   "value": [
+    200,
+    true,
+    [
+     "refused",
+     "refused",
+     "refused",
+     "refused",
+     "ok"
+    ]
+   ]
+  },
+  "OBS-0118": {
+   "value": [
+    {
+     "apikey": 200,
+     "charge": 200,
+     "customer": 200,
+     "event": 200,
+     "invoice": 200,
+     "price": 200,
+     "product": 200,
+     "subscription": 200,
+     "webhookendpoint": 200,
+     "webhookeventtrigger": 200
+    },
+    200
+   ]
+  },
+  "OBS-0119": {
+   "value": [
+    200,
+    true,
+    true
+   ]
+  },
+  "OBS-0120": {
+   "value": [
+    [
+     true,
+     true,
+     false,
+     false
+    ],
+    [
+     "djstripe.C004"
+    ],
+    [],
+    [
+     "djstripe.W002"
+    ],
+    []
+   ]
+  },
+  "OBS-0121": {
+   "value": [
+    [
+     "djstripe.I006"
+    ],
+    [
+     "djstripe.W005"
+    ],
+    [
+     "djstripe.E001"
+    ],
+    []
+   ]
+  },
+  "OBS-0122": {
+   "value": [
+    "pk_test_mx",
+    [
+     "price_mx"
+    ]
+   ]
+  },
+  "OBS-0123": {
+   "value": [
+    true,
+    "cus_mix",
+    true,
+    []
+   ]
+  },
+  "OBS-0124": {
+   "value": [
+    [],
+    [
+     "normal"
+    ],
+    [
+     "normal",
+     "verbose"
+    ]
+   ]
+  },
+  "OBS-0125": {
+   "value": [
+    "https://shop.example",
+    "",
+    "Cov Dashboard",
+    "https://dashboard.stripe.com/acct_m/test/dashboard",
+    "https://dashboard.stripe.com/<owner>/test/customers/cus_dash",
+    "https://dashboard.stripe.com/products/prod_live"
+   ]
+  },
+  "OBS-0126": {
+   "value": [
+    true,
+    false,
+    "price_new",
+    true,
+    [
+     "prod_gc"
+    ]
+   ]
+  },
+  "OBS-0127": {
+   "value": [
+    true,
+    false,
+    "paid",
+    [
+     "/v1/invoices/in_open/pay"
+    ]
+   ]
+  },
+  "OBS-0128": {
+   "value": [
+    "SubscriptionSchedule",
+    "released",
+    "canceled",
+    [
+     "/v1/subscription_schedules/sub_sched_1/release",
+     "/v1/subscription_schedules/sub_sched_1/cancel"
+    ]
+   ]
+  },
+  "OBS-0129": {
+   "value": [
+    "PaymentIntent",
+    "updated",
+    "succeeded",
+    "canceled",
+    [
+     "/v1/payment_intents/pi_1",
+     "/v1/payment_intents/pi_1/confirm",
+     "/v1/payment_intents/pi_1/cancel"
+    ]
+   ]
+  },
+  "OBS-0130": {
+   "value": [
+    [
+     1,
+     "dflt",
+     [
+      "a",
+      "b",
+      "id"
+     ],
+     [
+      1,
+      2,
+      "x_1"
+     ],
+     [
+      [
+       "a",
+       1
+      ],
+      [
+       "b",
+       2
+      ],
+      [
+       "id",
+       "x_1"
+      ]
+     ]
+    ],
+    1,
+    null,
+    3,
+    [
+     "b",
+     "c",
+     "id"
+    ],
+    "KeyError"
+   ]
+  },
+  "OBS-0131": {
+   "value": [
+    "ok",
+    1,
+    true,
+    "whsec_clisecret",
+    true,
+    true,
+    true,
+    0
+   ]
+  },
+  "OBS-0132": {
+   "value": [
+    1,
+    true
+   ]
+  },
+  "OBS-DOCS": {
+   "ok": "intact"
+  }
+ }
+}

@@ -1,0 +1,398 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 2400,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "1cfc5caadf7c974ec550aa3ab902dfabfabdc453b434cce0693e01ef88b1d353",
+  "documentation.json": "56a67210ba57bd133e8cbb0e625e19f8eb4858a3353b703a72b17005089a361c",
+  "driver.py": "50b910fb20f4ee65529391c41c1e579781515b56017361cbc44a42c799522fe2",
+  "expected.json": "9494762690743fb6d3332a7cf5be40c28803d26a503c61c7bca1cd69f2015cd3"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "GROUP-0001",
+    "kind": "f2p",
+    "requirement": "ColumnCapper learns separate lower and upper percentile thresholds per feature at fit, using quantile_range (default 5,95) and the selected interpolation (default linear); transform applies those stored bounds, preserves NaNs, and either caps infinities or replaces them with NaN when discard_infs=True. Fit excludes NaN and infinity from quantile learning. Refit learns from the new training data. copy controls input validation copying, not the capped numeric values.",
+    "tests": [
+     "OBS-0001",
+     "OBS-0002",
+     "OBS-0003",
+     "OBS-0004",
+     "OBS-0005",
+     "OBS-0006",
+     "OBS-0007",
+     "OBS-0008",
+     "OBS-0009",
+     "OBS-0010"
+    ]
+   },
+   {
+    "id": "GROUP-0002",
+    "kind": "f2p",
+    "requirement": "GroupedTransformer fits a separate transformer for each group (including multi-column groups), excludes grouping columns and transforms remaining features with the matching fitted transformer, returning rows in input order. groups=None applies one transformer to the entire input. By default use_global_model=True learns a fallback on the entire training dataset for unknown groups; False raises ValueError for unknown groups. Refit learns the new groups and transformations. Transform must have the same number of input features as fit. These rules compose with ColumnCapper's documented per-column quantile capping and with MinMaxScaler's linear mapping of each training feature's minimum and maximum to 0 and 1.",
+    "tests": [
+     "OBS-0011",
+     "OBS-0012",
+     "OBS-0013",
+     "OBS-0014",
+     "OBS-0015",
+     "OBS-0016",
+     "OBS-0017"
+    ]
+   },
+   {
+    "id": "GROUP-0003",
+    "kind": "p2p",
+    "requirement": "ColumnCapper learns separate lower and upper percentile thresholds per feature at fit, using quantile_range (default 5,95) and the selected interpolation (default linear); transform applies those stored bounds, preserves NaNs, and either caps infinities or replaces them with NaN when discard_infs=True. Fit excludes NaN and infinity from quantile learning. Refit learns from the new training data. copy controls input validation copying, not the capped numeric values.",
+    "tests": [
+     "OBS-0018",
+     "OBS-0019",
+     "OBS-0020",
+     "OBS-0021",
+     "OBS-0022",
+     "OBS-0023",
+     "OBS-0024",
+     "OBS-0025",
+     "OBS-0026",
+     "OBS-0027",
+     "OBS-0028",
+     "OBS-0029",
+     "OBS-0030",
+     "OBS-0031",
+     "OBS-0032",
+     "OBS-0033",
+     "OBS-0034",
+     "OBS-0035",
+     "OBS-0036",
+     "OBS-0037",
+     "OBS-0038"
+    ]
+   },
+   {
+    "id": "GROUP-0004",
+    "kind": "p2p",
+    "requirement": "ColumnCapper rejects a non-list/tuple quantile range with TypeError; wrong length, out-of-range or reversed limits and unknown interpolation raise ValueError. A training column with no finite observations raises ValueError. Transform requires a fitted transformer and the same feature count as fit.",
+    "tests": [
+     "OBS-0039",
+     "OBS-0040",
+     "OBS-0041",
+     "OBS-0042",
+     "OBS-0043",
+     "OBS-0044",
+     "OBS-0045",
+     "OBS-0046",
+     "OBS-0047",
+     "OBS-0048"
+    ]
+   },
+   {
+    "id": "GROUP-0005",
+    "kind": "p2p",
+    "requirement": "GroupedTransformer fits a separate transformer for each group (including multi-column groups), excludes grouping columns and transforms remaining features with the matching fitted transformer, returning rows in input order. groups=None applies one transformer to the entire input. By default use_global_model=True learns a fallback on the entire training dataset for unknown groups; False raises ValueError for unknown groups. Refit learns the new groups and transformations. Transform must have the same number of input features as fit. These rules compose with ColumnCapper's documented per-column quantile capping and with MinMaxScaler's linear mapping of each training feature's minimum and maximum to 0 and 1.",
+    "tests": [
+     "OBS-0049",
+     "OBS-0050",
+     "OBS-0051",
+     "OBS-0052",
+     "OBS-0053",
+     "OBS-0054",
+     "OBS-0055",
+     "OBS-0056",
+     "OBS-0057",
+     "OBS-0058",
+     "OBS-0059"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DICTMAPPER",
+    "kind": "p2p",
+    "requirement": "DictMapper maps each value through `mapper` and falls back to `default` for keys that are not in it (DictMapper docstring example inside a ColumnTransformer)",
+    "tests": [
+     "OBS-0060",
+     "OBS-0061"
+    ]
+   },
+   {
+    "id": "GROUP-COV-IDENTITY",
+    "kind": "p2p",
+    "requirement": "IdentityTransformer returns what it is fed; check_X=True validates X and returns it as an array (IdentityTransformer docstring example); n_samples_ and n_features_in_ are recorded at fit",
+    "tests": [
+     "OBS-0062",
+     "OBS-0063"
+    ]
+   },
+   {
+    "id": "GROUP-COV-RANDOMADDER",
+    "kind": "p2p",
+    "requirement": "RandomAdder adds normal noise (standard deviation `noise`) only to the training data it was fitted on; other data passes through unchanged; random_state makes the noise reproducible",
+    "tests": [
+     "OBS-0064",
+     "OBS-0065"
+    ]
+   },
+   {
+    "id": "GROUP-COV-OUTLIER-REMOVER",
+    "kind": "p2p",
+    "requirement": "OutlierRemover removes the rows its outlier detector predicts as outliers from the training data only (transform_train), and leaves other data unchanged",
+    "tests": [
+     "OBS-0066"
+    ]
+   },
+   {
+    "id": "GROUP-COV-MONOTONIC-SPLINE",
+    "kind": "p2p",
+    "requirement": "MonotonicSplineTransformer integrates spline features into monotonically increasing features (docs/user-guide/preprocessing.md Monotonic spline transformer)",
+    "tests": [
+     "OBS-0067",
+     "OBS-0068"
+    ]
+   },
+   {
+    "id": "GROUP-COV-LINEAR-EMBEDDER",
+    "kind": "p2p",
+    "requirement": "LinearEmbedder fits a linear model (default Ridge(fit_intercept=False)) and rescales each feature by its learned coefficient; coef_ and estimator_ are set at fit",
+    "tests": [
+     "OBS-0069",
+     "OBS-0070"
+    ]
+   },
+   {
+    "id": "GROUP-COV-COLUMN-DROPPER",
+    "kind": "p2p",
+    "requirement": "ColumnDropper drops the named columns; an unknown column raises KeyError and dropping every column raises ValueError at fit; a non-dataframe raises TypeError",
+    "tests": [
+     "OBS-0071",
+     "OBS-0072",
+     "OBS-0073"
+    ]
+   },
+   {
+    "id": "GROUP-COV-COLUMN-SELECTOR",
+    "kind": "p2p",
+    "requirement": "ColumnSelector keeps only the named columns; an unknown column raises KeyError and an empty selection raises ValueError at fit; a non-dataframe raises TypeError",
+    "tests": [
+     "OBS-0074",
+     "OBS-0075"
+    ]
+   },
+   {
+    "id": "GROUP-COV-TYPE-SELECTOR",
+    "kind": "p2p",
+    "requirement": "TypeSelector selects (include) or drops (exclude) columns by dtype; a selection that leaves no column raises ValueError; transform requires the same dtypes as fit",
+    "tests": [
+     "OBS-0076",
+     "OBS-0077",
+     "OBS-0078"
+    ]
+   },
+   {
+    "id": "GROUP-COV-FORMULAIC",
+    "kind": "p2p",
+    "requirement": "FormulaicTransformer builds a model matrix from a formulaic formula; return_type selects numpy (default), pandas or sparse output (FormulaicTransformer docstring, preprocessing.md Formulaic)",
+    "tests": [
+     "OBS-0079",
+     "OBS-0080",
+     "OBS-0081"
+    ]
+   },
+   {
+    "id": "GROUP-COV-INTERVAL-ENCODER",
+    "kind": "p2p",
+    "requirement": "IntervalEncoder smooths each column of X towards y; method increasing/decreasing makes the encoded feature monotonic; invalid method or n_chunks raise ValueError",
+    "tests": [
+     "OBS-0082",
+     "OBS-0083"
+    ]
+   },
+   {
+    "id": "GROUP-COV-ORTHOGONAL",
+    "kind": "p2p",
+    "requirement": "OrthogonalTransformer maps X to orthogonal columns (orthonormal with normalize=True) via the QR decomposition learned at fit",
+    "tests": [
+     "OBS-0084",
+     "OBS-0085"
+    ]
+   },
+   {
+    "id": "GROUP-COV-INFORMATION-FILTER",
+    "kind": "p2p",
+    "requirement": "InformationFilter removes the sensitive columns and makes the remaining columns orthogonal to them (Gram-Schmidt variant); columns may be given by index or, for dataframes, by name",
+    "tests": [
+     "OBS-0086",
+     "OBS-0087"
+    ]
+   },
+   {
+    "id": "GROUP-COV-REPEATING-BASIS",
+    "kind": "p2p",
+    "requirement": "RepeatingBasisFunction turns one column into n_periods repeating radial basis features over input_range (continuous from max back to min); remainder keeps or drops the other columns",
+    "tests": [
+     "OBS-0088",
+     "OBS-0089"
+    ]
+   },
+   {
+    "id": "GROUP-COV-ESTIMATOR-TRANSFORMER",
+    "kind": "p2p",
+    "requirement": "EstimatorTransformer exposes the wrapped estimator's predictions (predict_func, default predict) as a transformer output; a one-dimensional target gives a single column",
+    "tests": [
+     "OBS-0090",
+     "OBS-0091",
+     "OBS-0092"
+    ]
+   },
+   {
+    "id": "GROUP-COV-CONFUSION-BALANCER",
+    "kind": "p2p",
+    "requirement": "ConfusionBalancer combines the wrapped classifier's probabilities with their confusion-matrix correction; its predict_proba rows are distributions over classes_ and predict takes the most likely class",
+    "tests": [
+     "OBS-0093"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DECAY-FUNCTIONS",
+    "kind": "p2p",
+    "requirement": "The decay functions map n samples to weights decreasing from the last sample backwards: linear from max_value to min_value, exponential by decay_rate, stepwise in steps, sigmoid; invalid bounds or rates raise ValueError",
+    "tests": [
+     "OBS-0094",
+     "OBS-0095",
+     "OBS-0096"
+    ]
+   },
+   {
+    "id": "GROUP-COV-DECAY-ESTIMATOR",
+    "kind": "p2p",
+    "requirement": "DecayEstimator fits the wrapped model with sample weights from decay_func (default exponential); the weights are stored in weights_ and later samples weigh more; a callable decay_func is accepted",
+    "tests": [
+     "OBS-0097",
+     "OBS-0098"
+    ]
+   },
+   {
+    "id": "GROUP-COV-GROUPED-PREDICTOR",
+    "kind": "p2p",
+    "requirement": "GroupedPredictor/GroupedRegressor fit one estimator per group (grouping columns excluded from the features) and predict each row with its group's estimator; unknown groups use the global model when use_global_model=True and raise ValueError otherwise",
+    "tests": [
+     "OBS-0099",
+     "OBS-0100",
+     "OBS-0101"
+    ]
+   },
+   {
+    "id": "GROUP-COV-GROUPED-SHRINKAGE",
+    "kind": "p2p",
+    "requirement": "With hierarchical groups, GroupedPredictor shrinkage (constant, equal, min_n_obs, relative or a callable) blends the predictions of the global model and each group level; the shrinkage functions return one weight per level",
+    "tests": [
+     "OBS-0102",
+     "OBS-0103"
+    ]
+   },
+   {
+    "id": "GROUP-COV-GROUPED-CLASSIFIER",
+    "kind": "p2p",
+    "requirement": "GroupedClassifier fits one classifier per group; predict and predict_proba use the group's classifier and probability columns follow the overall classes_",
+    "tests": [
+     "OBS-0104"
+    ]
+   },
+   {
+    "id": "GROUP-COV-HIERARCHICAL",
+    "kind": "p2p",
+    "requirement": "HierarchicalRegressor/HierarchicalClassifier fit one estimator per level of the group hierarchy (global, then each nested group) and predict with the most specific fitted level, falling back to the parent for unseen groups (fallback_method parent) or raising (raise)",
+    "tests": [
+     "OBS-0105",
+     "OBS-0106",
+     "OBS-0107"
+    ]
+   },
+   {
+    "id": "GROUP-COV-ORDINAL",
+    "kind": "p2p",
+    "requirement": "OrdinalClassifier fits N-1 binary classifiers on y <= label and turns them into class probabilities by differences; predict returns the most probable ordinal class",
+    "tests": [
+     "OBS-0108",
+     "OBS-0109"
+    ]
+   },
+   {
+    "id": "GROUP-COV-OUTLIER-CLASSIFIER",
+    "kind": "p2p",
+    "requirement": "OutlierClassifier turns an outlier detector into a classifier that outputs 1 for outliers and 0 otherwise, with predict_proba over the two classes",
+    "tests": [
+     "OBS-0110"
+    ]
+   },
+   {
+    "id": "GROUP-COV-REGRESSION-OUTLIER",
+    "kind": "p2p",
+    "requirement": "RegressionOutlierDetector predicts `column` from the other columns and flags rows whose residual is beyond lower/upper (method sd, relative or absolute) as -1, others as 1",
+    "tests": [
+     "OBS-0111",
+     "OBS-0112"
+    ]
+   },
+   {
+    "id": "GROUP-COV-SUBJECTIVE",
+    "kind": "p2p",
+    "requirement": "SubjectiveClassifier corrects the inner classifier with a prior over classes: evidence predict_proba weighs the probabilities by the prior, confusion_matrix uses the posterior from the confusion matrix; priors that do not sum to 1 or name unknown classes raise ValueError",
+    "tests": [
+     "OBS-0113",
+     "OBS-0114"
+    ]
+   },
+   {
+    "id": "GROUP-COV-THRESHOLDER",
+    "kind": "p2p",
+    "requirement": "Thresholder predicts the positive class only when its predict_proba is above `threshold` (binary classifiers only)",
+    "tests": [
+     "OBS-0115",
+     "OBS-0116"
+    ]
+   },
+   {
+    "id": "GROUP-COV-ZERO-INFLATED",
+    "kind": "p2p",
+    "requirement": "ZeroInflatedRegressor outputs zero where its classifier says so and the regressor's prediction elsewhere; the regressor trains on the non-zero targets only; an all-zero target raises ValueError with handle_zero='error'",
+    "tests": [
+     "OBS-0117",
+     "OBS-0118"
+    ]
+   },
+   {
+    "id": "GROUP-COV-BASE",
+    "kind": "p2p",
+    "requirement": "sklego.base: isinstance recognises a ProbabilisticClassifier by a predict_proba attribute, a Clusterer by a fit_predict attribute, and an OutlierModel as an instance of sklearn.base.OutlierMixin",
+    "tests": [
+     "OBS-0119"
+    ]
+   },
+   {
+    "id": "GROUP-COV-COMMON",
+    "kind": "p2p",
+    "requirement": "sklego.common helpers: as_list wraps scalars, expanding_list gives the growing prefixes, flatten flattens nested iterables, sliding_window yields windows; TrainOnlyTransformerMixin dispatches the training data to transform_train and other data to transform_test",
+    "tests": [
+     "OBS-0120",
+     "OBS-0121"
+    ]
+   },
+   {
+    "id": "GROUP-COV-NOTINSTALLED-VERSION",
+    "kind": "p2p",
+    "requirement": "NotInstalledPackage stands in for a missing optional dependency and raises ImportError on use; sklego.__version__ reports the installed distribution version",
+    "tests": [
+     "OBS-0122",
+     "OBS-0123"
+    ]
+   }
+  ]
+ }
+}

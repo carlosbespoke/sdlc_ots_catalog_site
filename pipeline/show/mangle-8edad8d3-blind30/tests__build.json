@@ -1,0 +1,799 @@
+{
+  "schema": 1,
+  "generator": {
+    "file": "build_task.py",
+    "git_revision": "02264438e6ceb8914092df10faa04bb011fc4dab",
+    "uncommitted": false,
+    "sha256": "c68f598ac1371bf96ee91fba9197c481a5004b3a5bda60f91c8d7b274e71b819",
+    "written_by_build": true
+  },
+  "grader_sha256": "2235b6fbb069669a41e33c962d3dba29ef5da9503452a26e9d37ed673f91f203",
+  "grader_template": "aa1488e24a47bb25ef84ebb6ce994c63677b313401f88f07eaed33a8bd25942d",
+  "grader_template_commit": "e7ad598e52b5c3bc62795cb4c28dc1ef7fb52e34",
+  "args": {
+    "ids": "14b7c239,04db4774,06de3210,fa211687,53410a35,a085d6de,a9d722fd,e050288f,0d95ae30,2869dc13,6edaea62,343efcdb,6eb032a9,7ed45173,f891bdbf,8f129294,a7ff9a8a,d484eebc,13bbb551,ad875130,1ba30d2f,3b0117b9,525253b1,ae8822e4,7a936f3e,6e5a922f,a0d6106c,943360bf,6fe6c51b,57bafe51",
+    "test": "",
+    "repo": "mangle",
+    "repo_url": "https://github.com/google/mangle.git",
+    "commit": "8edad8d350b99dc08063981663f4b4a159a6b7ec",
+    "base_image": "diagvgen-base-google__mangle-8edad8d3",
+    "workdir": "/workspace/repo",
+    "test_cmd": "go test -count=1 ./...",
+    "language": "go",
+    "baseline_failures": 0,
+    "source_roots": [
+      "analysis",
+      "ast",
+      "builtin",
+      "engine",
+      "factstore",
+      "functional",
+      "json2struct",
+      "packages",
+      "parse",
+      "provenance",
+      "rewrite",
+      "symbols",
+      "unionfind"
+    ],
+    "hide_tests": true,
+    "planning_path": "/app/RESEARCH_AND_PLANNING.md",
+    "symptom": "I use this to write rules over stored rows and derive new rows from them. The repository has received 30 separate undocumented edits. Ordinary programs still load and evaluate, so the damage is scattered rather than total; what follows is everything I could pin down by using the system normally.\n\nSubmitting a program to be vetted before it runs now goes wrong in both directions. Programs that could never be ordered for evaluation are waved through: two relations each negating the other, a rule negating the very relation it defines, and a recursive rule that tallies over its own output all pass without complaint. The opposite happens too, and programs whose rules agree perfectly with the argument types written for them are refused as type errors: a lone rule copying a number out of one relation into another, and likewise the cases involving several alternatives offered as one type, element types of lists and of maps, and prefix conditions on strings and on hierarchical names. Two mistakes at minimum feed those refusals, one in how the outcome of comparing an inferred type against a written one is read and one in which type is taken for an argument position of a body condition, so curing either alone leaves the refusals in place.\n\nThe smaller questions that same vetting leans on are answered wrongly too. Where one relation's argument is written to range over another relation's argument, the type it inherits once every annotation is worked out is no longer every alternative written for that other relation taken together: annotations offering several alternatives and annotations offering exactly one behave as though swapped. Normalizing a goal so that no variable occurs twice mishandles the anonymous placeholder \u2014 an argument written as an underscore, which should be left alone, is renamed and picks up an extra equality, an ordinary variable already used elsewhere is left in place instead of getting a new name of its own and an equality, and the list of variables the goal is said to bind no longer agrees. Asking a list of variables whether a given variable is among them answers inverted, calling one that is present absent and one that is absent present, while asking for a variable's position still gives the right index and still gives -1 for one that is missing. Gathering the hierarchical name constants used as types no longer reaches the ones nested inside compound types, so after scanning a handful of annotations the gathered set differs from the names they mention, and asking which gathered prefix covers /something/something/foo no longer answers /something/something. And looking up the type written for a named member of a compound type gives a wrong answer for the required member and the optional one alike, though listing that compound's required and optional members separately still returns exactly what was written.\n\nGetting programs and outside data in has its own failures. A type annotation that nests a pair holding a compound with one optional member and one required member whose type is a list of alternatives comes back with a different shape than was written, while the simpler annotations in the same file, including one using a tagged variant with two branches, come back intact. A source unit whose statements include the header naming the unit it belongs to now fails outright with an error, whether that header carries only the name or extra annotations alongside it; a unit with no such header is handled as it always was. And converting a document in the usual textual interchange notation holding a string, a floating point number, an array of booleans and a nested object fails with an error instead of coming back as a value with named members.\n\nRunning a program and reading the answers back has lost whole kinds of rule. A rule that keeps rows of one relation only when they are absent from another produces nothing at all, so a \"present here but not there\" query comes back empty, and the ordering of such conditions inside a body no longer matters because none of them work. A rule whose body compares two quantities for order also stops contributing, so conclusions that depend on one node lying between two others, or on a cycle being found by comparison, never appear. Asking the supplied comparison whether one floating point number is strictly greater than another yields an error instead of yes or no, while less-than, less-or-equal and greater-or-equal on the same numbers still answer, so a query for readings above a threshold yields nothing while the other four threshold queries are fine. Asking whether a string starts with a given prefix now gives the wrong verdict, including for a string tested against itself.\n\nAnswers that have to be assembled rather than read off are wrong in their own ways. A rule that groups over a body of several conditions and takes a maximum produces no result whatsoever, and when such a rule is reshaped into two rules the intermediate relation invented for the first half is numbered one too high, so the helper that should carry a 1 in its name carries a 2 and the pair of rules that comes out does not line up with the original at all. In a program keeping only the best value per key, written with an annotation saying that two arguments fix the third together with the name of a helper relation choosing the shorter of two lists, the shortest route is no longer the one retained: the four-step route survives in the store when only the direct one should, and two distinct misreadings of that annotation contribute, one in the part saying which arguments determine which and one in the part naming the helper. Querying one of the interchangeable stores for a two-argument relation with the first argument pinned to a name and the second left open returns the wrong set of rows, while the same query against the other stores returns both answers, and other query shapes against that same store are fine.\n\nAsking why a conclusion holds is unreliable. With no depth limit requested, the account that comes back is cut short: for a conclusion reached through a negated condition I no longer get one complete account with its two supporting steps and an absence entry for the missing row. The second way of obtaining an account, by replaying a trace of the evaluation, disagrees with the direct search for the same goal about which stored rows the proof finally rests on. And writing an account out as tuples into a store now fails with an error rather than emitting them, so neither the per-shape tallies nor the single absence entry can be had at all.\n\nMoments and spans of time are subtly wrong in several places. A moment built from a year, a month and a day comes out a minute after midnight instead of at midnight, though the day, month, year and zone are right. Shifting a moment in a named zone forward by one week, where the clocks change within that week, lands nowhere near the expected instant, while shifting by days, months or years over the same kind of change, and shifting by zero units, all land where they should. Asking whether two spans cross when the first ends exactly at the instant the second begins answers no, although that shared instant should count; nested, partly crossing, earlier and later pairs all answer as expected. Asking whether one span lies entirely earlier than another answers yes when the first ends exactly where the second starts, which should not count, while genuinely separated, crossing and reversed pairs answer as expected. Asking whether one span falls within another answers no when the two are identical, while one strictly inside another still answers yes and a partial crossing still answers no. The cap on how many spans may be attached to a single item is enforced one too late: with a cap of three a fourth is accepted, and with a cap of a hundred the hundred-and-first is accepted instead of being refused. And asking for back-to-back spans to be joined leaves them apart: two where the second begins one nanosecond after the first ends still count as two afterwards.",
+    "drop_paths": "",
+    "title": "Repairing google/mangle's Datalog toolchain without a test suite",
+    "description": "A pinned checkout of the google/mangle Datalog implementation has been altered in thirty places, each a single-line change to a comparison or a constant. The agent receives the source tree without any tests and must work from a behavioural report alone: programs that should be turned away are accepted, well-typed programs are refused, rules with negation, ordering comparisons and grouping stop producing answers, explanations come back truncated or fail to be written out, date and range arithmetic is off by small amounts, and several lookup and conversion helpers answer backwards. The agent must restore the intended behaviour and name every function it repaired.",
+    "allow": "symptom-leak"
+  },
+  "base_dockerfile_sha256": "acd764bba949cd5b9599c6a990e613ea1ac316c5b42d71b75b8671cffe6a2505",
+  "base_dockerfile_text": "# Generated by voyager repo-pipeline. Reproduces google/mangle@8edad8d350b99dc08063981663f4b4a159a6b7ec\nFROM --platform=linux/amd64 golang@sha256:e401dae1bf814e29204a8cb7915682e1780951e609ca0dd8865ee1937f510c48\nENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8\nENV CGO_ENABLED=1\nENV GOFLAGS=-buildvcs=false\nENV GOCACHE=/workspace/.cache/go-build\nENV GOMODCACHE=/go/pkg/mod\nENV GOTOOLCHAIN=local\nENV SOURCE_DATE_EPOCH=0\nRUN echo REPOPIPELINE_STAGE=system_packages \\\n    && apt-get update -qq \\\n    && apt-get install -y -qq --no-install-recommends build-essential ca-certificates git \\\n    && rm -rf /var/lib/apt/lists/*\n# Keep the toolchain visible to login shells (`bash -lc`), not just `ENV`:\n# /etc/profile rebuilds PATH and would otherwise discard the ENV entry.\nRUN printf 'export CGO_ENABLED=\"1\"\\nexport GOFLAGS=\"-buildvcs=false\"\\nexport GOCACHE=\"/workspace/.cache/go-build\"\\nexport GOMODCACHE=\"/go/pkg/mod\"\\nexport GOTOOLCHAIN=\"local\"\\nexport PATH=\"/usr/local/go/bin:/go/bin:$PATH\"\\n' > /etc/profile.d/00-repopipeline.sh && chmod 0644 /etc/profile.d/00-repopipeline.sh\nRUN useradd -m -u 1000 -s /bin/bash agent 2>/dev/null || true \\\n    && git config --system --add safe.directory /workspace/repo\nRUN echo REPOPIPELINE_STAGE=clone \\\n    && git init -q /workspace/repo \\\n    && cd /workspace/repo \\\n    && git remote add origin https://github.com/google/mangle.git \\\n    && git fetch --depth 1 origin 8edad8d350b99dc08063981663f4b4a159a6b7ec \\\n    && git checkout -q FETCH_HEAD \\\n    && git submodule update --init --recursive --depth 1 2>/dev/null || true\nWORKDIR /workspace/repo\nRUN echo REPOPIPELINE_STAGE=cache_dirs && mkdir -p /workspace/.cache/go-build /go/pkg/mod\nRUN echo REPOPIPELINE_STAGE=install \\\n    && go mod download all\nRUN echo REPOPIPELINE_STAGE=build \\\n    && go build ./... \\\n    && chown -R agent:agent /workspace/repo /workspace/.cache/go-build /go/pkg/mod /go 2>/dev/null || true\nLABEL org.opencontainers.image.source=\"https://github.com/google/mangle\" \\\n      org.opencontainers.image.revision=\"8edad8d350b99dc08063981663f4b4a159a6b7ec\" \\\n      io.voyager.repo=\"google/mangle\" \\\n      io.voyager.language=\"go\" \\\n      io.voyager.toolchain=\"go1.25\" \\\n      io.voyager.test-command=\"go test ./...\"",
+  "faults": [
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/analysis::TestStratificationNegative"
+      ],
+      "id": "14b7c239",
+      "kind": "flip_comparison",
+      "path": "analysis/stratification.go",
+      "func": "Stratify",
+      "line": 93,
+      "before": "destStratum == i",
+      "after": "destStratum != i"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/analysis::TestBoundsAnalyzer"
+      ],
+      "id": "04db4774",
+      "kind": "flip_comparison",
+      "path": "unionfind/unifytypeexpr.go",
+      "func": "UnifyTypeExpr",
+      "line": 21,
+      "before": "err != nil",
+      "after": "err == nil",
+      "breaks_nonlocal_ok": true,
+      "breaks_nonlocal_ok_note": "rebuild for PR 141's Go build-cache purge; fault set already screened and reviewed on the version being replaced, and this build re-verified that every break still runs"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/json2struct::TestJSONtoStruct"
+      ],
+      "id": "06de3210",
+      "kind": "flip_comparison",
+      "path": "json2struct/json2struct.go",
+      "func": "ConvertValue",
+      "line": 77,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/engine::TestShortestPaths"
+      ],
+      "id": "fa211687",
+      "kind": "flip_comparison",
+      "path": "ast/decl.go",
+      "func": "Decl.FunDeps",
+      "line": 279,
+      "before": "len(a.Args) != 2",
+      "after": "len(a.Args) == 2",
+      "breaks_nonlocal_ok": true,
+      "breaks_nonlocal_ok_note": "rebuild for PR 141's Go build-cache purge; fault set already screened and reviewed on the version being replaced, and this build re-verified that every break still runs"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/provenance::TestEmitFactsAbsenceLeaf",
+        "codeberg.org/TauCeti/mangle-go/provenance::TestEmitFactsSchema"
+      ],
+      "id": "53410a35",
+      "kind": "flip_comparison",
+      "path": "provenance/facts.go",
+      "func": "EmitFacts",
+      "line": 92,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/functional::TestTimeAddCivil/week_la_across_dst"
+      ],
+      "id": "a085d6de",
+      "kind": "change_constant",
+      "path": "functional/functional.go",
+      "func": "EvalApplyFn",
+      "line": 762,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/rewrite::TestRewrite",
+        "codeberg.org/TauCeti/mangle-go/rewrite::TestRewriteOdd"
+      ],
+      "id": "a9d722fd",
+      "kind": "change_constant",
+      "path": "rewrite/rewrite.go",
+      "func": "freshNameGenerator",
+      "line": 70,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/builtin::TestFloatGreaterThan",
+        "codeberg.org/TauCeti/mangle-go/engine::TestBuiltinFloatComparisons"
+      ],
+      "id": "e050288f",
+      "kind": "flip_comparison",
+      "path": "builtin/builtin.go",
+      "func": "Decide",
+      "line": 416,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/factstore::TestTemporalStore_IntervalLimit",
+        "codeberg.org/TauCeti/mangle-go/factstore::TestTemporalStore_IntervalTreeLimit"
+      ],
+      "id": "0d95ae30",
+      "kind": "flip_comparison",
+      "path": "factstore/temporal.go",
+      "func": "TemporalStore.Add",
+      "line": 152,
+      "before": "tree.Size() >= s.maxIntervalsPerAtom",
+      "after": "tree.Size() > s.maxIntervalsPerAtom"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/parse::TestParseDecl/pair_tuple_struct_map_union_singleton"
+      ],
+      "id": "2869dc13",
+      "kind": "change_constant",
+      "path": "parse/parse.go",
+      "func": "Parser.VisitMember",
+      "line": 656,
+      "before": "1",
+      "after": "2"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/packages::TestExtract/contains_package_decl",
+        "codeberg.org/TauCeti/mangle-go/packages::TestExtract/package_decl_contains_extra_atoms"
+      ],
+      "id": "6edaea62",
+      "kind": "flip_comparison",
+      "path": "packages/packages.go",
+      "func": "findPackage",
+      "line": 216,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/analysis::TestRectifyAtom"
+      ],
+      "id": "343efcdb",
+      "kind": "flip_comparison",
+      "path": "analysis/rectify.go",
+      "func": "RectifyAtom",
+      "line": 38,
+      "before": "a.Symbol == \"_\"",
+      "after": "a.Symbol != \"_\""
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/analysis::TestCollectNames",
+        "codeberg.org/TauCeti/mangle-go/symbols::TestCollect"
+      ],
+      "id": "6eb032a9",
+      "kind": "change_constant",
+      "path": "symbols/nametrie.go",
+      "func": "NameTrie.Collect",
+      "line": 53,
+      "before": "1",
+      "after": "2"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/ast::TestIntervalOverlaps/touching_at_end"
+      ],
+      "id": "7ed45173",
+      "kind": "flip_comparison",
+      "path": "ast/temporal.go",
+      "func": "Interval.Overlaps",
+      "line": 423,
+      "before": "i.End.Timestamp < other.Start.Timestamp",
+      "after": "i.End.Timestamp <= other.Start.Timestamp"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/provenance::TestExplainStratifiedNegation",
+        "codeberg.org/TauCeti/mangle-go/provenance::TestFullModeMatchesSimpleOnDatalog"
+      ],
+      "id": "f891bdbf",
+      "kind": "flip_comparison",
+      "path": "provenance/provenance.go",
+      "func": "Explain",
+      "line": 148,
+      "before": "opts.MaxDepth == 0",
+      "after": "opts.MaxDepth != 0"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/engine::TestTransform",
+        "codeberg.org/TauCeti/mangle-go/rewrite::TestRewrite"
+      ],
+      "id": "8f129294",
+      "kind": "flip_comparison",
+      "path": "rewrite/rewrite.go",
+      "func": "isSingleAtomPremise",
+      "line": 27,
+      "before": "len(premises) != 1",
+      "after": "len(premises) == 1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/engine::TestNegation",
+        "codeberg.org/TauCeti/mangle-go/engine::TestNegationOrder"
+      ],
+      "id": "a7ff9a8a",
+      "kind": "flip_comparison",
+      "path": "engine/premise.go",
+      "func": "premiseNegAtom",
+      "line": 83,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/builtin::TestStartsWith"
+      ],
+      "id": "d484eebc",
+      "kind": "change_constant",
+      "path": "builtin/builtin.go",
+      "func": "match",
+      "line": 513,
+      "before": "2",
+      "after": "3"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/factstore::TestTemporalStore_CoalesceAdjacent"
+      ],
+      "id": "13bbb551",
+      "kind": "change_constant",
+      "path": "factstore/temporal.go",
+      "func": "coalesceIntervals",
+      "line": 329,
+      "before": "1",
+      "after": "2"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/analysis::TestVarList"
+      ],
+      "id": "ad875130",
+      "kind": "flip_comparison",
+      "path": "analysis/varlist.go",
+      "func": "VarList.Contains",
+      "line": 51,
+      "before": "vs.Find(v) != -1",
+      "after": "vs.Find(v) == -1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/symbols::TestDesugarPropagate"
+      ],
+      "id": "1ba30d2f",
+      "kind": "flip_comparison",
+      "path": "symbols/decldesugar.go",
+      "func": "typeBoundForPredicate",
+      "line": 197,
+      "before": "len(d.Bounds) == 1",
+      "after": "len(d.Bounds) != 1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/provenance::TestFullModeMatchesSimpleOnDatalog"
+      ],
+      "id": "3b0117b9",
+      "kind": "flip_comparison",
+      "path": "provenance/recorder.go",
+      "func": "builder.buildRule",
+      "line": 237,
+      "before": "fact.Predicate.Symbol == \"\"",
+      "after": "fact.Predicate.Symbol != \"\""
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/engine::TestManyPaths"
+      ],
+      "id": "525253b1",
+      "kind": "flip_comparison",
+      "path": "engine/premise.go",
+      "func": "premiseIneq",
+      "line": 103,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/builtin::TestIntervalBefore/meets"
+      ],
+      "id": "ae8822e4",
+      "kind": "flip_comparison",
+      "path": "builtin/temporal.go",
+      "func": "intervalBefore",
+      "line": 110,
+      "before": "t1.End.Timestamp < t2.Start.Timestamp",
+      "after": "t1.End.Timestamp <= t2.Start.Timestamp"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/factstore::TestAddContainsRemove/*factstore.MultiIndexedArrayInMemoryStore/bar(/bar,X)"
+      ],
+      "id": "7a936f3e",
+      "kind": "flip_comparison",
+      "path": "factstore/factstore.go",
+      "func": "MultiIndexedArrayInMemoryStore.GetFacts",
+      "line": 774,
+      "before": "err != nil",
+      "after": "err == nil"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/symbols::TestAccess"
+      ],
+      "id": "6e5a922f",
+      "kind": "change_constant",
+      "path": "symbols/typeexprs.go",
+      "func": "StructTypeField",
+      "line": 341,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/analysis::TestBoundsAnalyzer"
+      ],
+      "id": "a0d6106c",
+      "kind": "change_constant",
+      "path": "analysis/boundscheck.go",
+      "func": "boundOfArg",
+      "line": 549,
+      "before": "0",
+      "after": "1"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/engine::TestShortestPaths"
+      ],
+      "id": "943360bf",
+      "kind": "change_constant",
+      "path": "ast/decl.go",
+      "func": "Decl.MergePredicate",
+      "line": 329,
+      "before": "0",
+      "after": "1",
+      "breaks_nonlocal_ok": true,
+      "breaks_nonlocal_ok_note": "rebuild for PR 141's Go build-cache purge; fault set already screened and reviewed on the version being replaced, and this build re-verified that every break still runs"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/ast::TestDateHelpers/Date_uses_default_timezone"
+      ],
+      "id": "6fe6c51b",
+      "kind": "change_constant",
+      "path": "ast/temporal.go",
+      "func": "Date",
+      "line": 225,
+      "before": "(year, month, day, 0, 0, 0, 0, GetDefaultTimezone())",
+      "after": "(year, month, day, 0, 1, 0, 0, GetDefaultTimezone())"
+    },
+    {
+      "drop": null,
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/builtin::TestIntervalDuring/same"
+      ],
+      "id": "57bafe51",
+      "kind": "flip_comparison",
+      "path": "builtin/temporal.go",
+      "func": "intervalDuring",
+      "line": 154,
+      "before": "t1.End.Timestamp <= t2.End.Timestamp",
+      "after": "t1.End.Timestamp < t2.End.Timestamp"
+    }
+  ],
+  "baseline_failing_names": [],
+  "causes": [
+    {
+      "file": "analysis/stratification.go",
+      "function": "Stratify",
+      "qualname": "Stratify",
+      "id": "14b7c239",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/analysis::TestStratificationNegative"
+      ]
+    },
+    {
+      "file": "unionfind/unifytypeexpr.go",
+      "function": "UnifyTypeExpr",
+      "qualname": "UnifyTypeExpr",
+      "id": "04db4774",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/analysis::TestBoundsAnalyzer"
+      ]
+    },
+    {
+      "file": "json2struct/json2struct.go",
+      "function": "ConvertValue",
+      "qualname": "ConvertValue",
+      "id": "06de3210",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/json2struct::TestJSONtoStruct"
+      ]
+    },
+    {
+      "file": "ast/decl.go",
+      "function": "Decl.FunDeps",
+      "qualname": "Decl.FunDeps",
+      "id": "fa211687",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/engine::TestShortestPaths"
+      ]
+    },
+    {
+      "file": "provenance/facts.go",
+      "function": "EmitFacts",
+      "qualname": "EmitFacts",
+      "id": "53410a35",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/provenance::TestEmitFactsAbsenceLeaf",
+        "codeberg.org/TauCeti/mangle-go/provenance::TestEmitFactsSchema"
+      ]
+    },
+    {
+      "file": "functional/functional.go",
+      "function": "EvalApplyFn",
+      "qualname": "EvalApplyFn",
+      "id": "a085d6de",
+      "kind": "change_constant",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/functional::TestTimeAddCivil/week_la_across_dst"
+      ]
+    },
+    {
+      "file": "rewrite/rewrite.go",
+      "function": "freshNameGenerator",
+      "qualname": "freshNameGenerator",
+      "id": "a9d722fd",
+      "kind": "change_constant",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/rewrite::TestRewrite",
+        "codeberg.org/TauCeti/mangle-go/rewrite::TestRewriteOdd"
+      ]
+    },
+    {
+      "file": "builtin/builtin.go",
+      "function": "Decide",
+      "qualname": "Decide",
+      "id": "e050288f",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/builtin::TestFloatGreaterThan",
+        "codeberg.org/TauCeti/mangle-go/engine::TestBuiltinFloatComparisons"
+      ]
+    },
+    {
+      "file": "factstore/temporal.go",
+      "function": "TemporalStore.Add",
+      "qualname": "TemporalStore.Add",
+      "id": "0d95ae30",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/factstore::TestTemporalStore_IntervalLimit",
+        "codeberg.org/TauCeti/mangle-go/factstore::TestTemporalStore_IntervalTreeLimit"
+      ]
+    },
+    {
+      "file": "parse/parse.go",
+      "function": "Parser.VisitMember",
+      "qualname": "Parser.VisitMember",
+      "id": "2869dc13",
+      "kind": "change_constant",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/parse::TestParseDecl/pair_tuple_struct_map_union_singleton"
+      ]
+    },
+    {
+      "file": "packages/packages.go",
+      "function": "findPackage",
+      "qualname": "findPackage",
+      "id": "6edaea62",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/packages::TestExtract/contains_package_decl",
+        "codeberg.org/TauCeti/mangle-go/packages::TestExtract/package_decl_contains_extra_atoms"
+      ]
+    },
+    {
+      "file": "analysis/rectify.go",
+      "function": "RectifyAtom",
+      "qualname": "RectifyAtom",
+      "id": "343efcdb",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/analysis::TestRectifyAtom"
+      ]
+    },
+    {
+      "file": "symbols/nametrie.go",
+      "function": "NameTrie.Collect",
+      "qualname": "NameTrie.Collect",
+      "id": "6eb032a9",
+      "kind": "change_constant",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/analysis::TestCollectNames",
+        "codeberg.org/TauCeti/mangle-go/symbols::TestCollect"
+      ]
+    },
+    {
+      "file": "ast/temporal.go",
+      "function": "Interval.Overlaps",
+      "qualname": "Interval.Overlaps",
+      "id": "7ed45173",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/ast::TestIntervalOverlaps/touching_at_end"
+      ]
+    },
+    {
+      "file": "provenance/provenance.go",
+      "function": "Explain",
+      "qualname": "Explain",
+      "id": "f891bdbf",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/provenance::TestExplainStratifiedNegation",
+        "codeberg.org/TauCeti/mangle-go/provenance::TestFullModeMatchesSimpleOnDatalog"
+      ]
+    },
+    {
+      "file": "rewrite/rewrite.go",
+      "function": "isSingleAtomPremise",
+      "qualname": "isSingleAtomPremise",
+      "id": "8f129294",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/engine::TestTransform",
+        "codeberg.org/TauCeti/mangle-go/rewrite::TestRewrite"
+      ]
+    },
+    {
+      "file": "engine/premise.go",
+      "function": "premiseNegAtom",
+      "qualname": "premiseNegAtom",
+      "id": "a7ff9a8a",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/engine::TestNegation",
+        "codeberg.org/TauCeti/mangle-go/engine::TestNegationOrder"
+      ]
+    },
+    {
+      "file": "builtin/builtin.go",
+      "function": "match",
+      "qualname": "match",
+      "id": "d484eebc",
+      "kind": "change_constant",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/builtin::TestStartsWith"
+      ]
+    },
+    {
+      "file": "factstore/temporal.go",
+      "function": "coalesceIntervals",
+      "qualname": "coalesceIntervals",
+      "id": "13bbb551",
+      "kind": "change_constant",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/factstore::TestTemporalStore_CoalesceAdjacent"
+      ]
+    },
+    {
+      "file": "analysis/varlist.go",
+      "function": "VarList.Contains",
+      "qualname": "VarList.Contains",
+      "id": "ad875130",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/analysis::TestVarList"
+      ]
+    },
+    {
+      "file": "symbols/decldesugar.go",
+      "function": "typeBoundForPredicate",
+      "qualname": "typeBoundForPredicate",
+      "id": "1ba30d2f",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/symbols::TestDesugarPropagate"
+      ]
+    },
+    {
+      "file": "provenance/recorder.go",
+      "function": "builder.buildRule",
+      "qualname": "builder.buildRule",
+      "id": "3b0117b9",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/provenance::TestFullModeMatchesSimpleOnDatalog"
+      ]
+    },
+    {
+      "file": "engine/premise.go",
+      "function": "premiseIneq",
+      "qualname": "premiseIneq",
+      "id": "525253b1",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/engine::TestManyPaths"
+      ]
+    },
+    {
+      "file": "builtin/temporal.go",
+      "function": "intervalBefore",
+      "qualname": "intervalBefore",
+      "id": "ae8822e4",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/builtin::TestIntervalBefore/meets"
+      ]
+    },
+    {
+      "file": "factstore/factstore.go",
+      "function": "MultiIndexedArrayInMemoryStore.GetFacts",
+      "qualname": "MultiIndexedArrayInMemoryStore.GetFacts",
+      "id": "7a936f3e",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/factstore::TestAddContainsRemove/*factstore.MultiIndexedArrayInMemoryStore/bar(/bar,X)"
+      ]
+    },
+    {
+      "file": "symbols/typeexprs.go",
+      "function": "StructTypeField",
+      "qualname": "StructTypeField",
+      "id": "6e5a922f",
+      "kind": "change_constant",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/symbols::TestAccess"
+      ]
+    },
+    {
+      "file": "analysis/boundscheck.go",
+      "function": "boundOfArg",
+      "qualname": "boundOfArg",
+      "id": "a0d6106c",
+      "kind": "change_constant",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/analysis::TestBoundsAnalyzer"
+      ]
+    },
+    {
+      "file": "ast/decl.go",
+      "function": "Decl.MergePredicate",
+      "qualname": "Decl.MergePredicate",
+      "id": "943360bf",
+      "kind": "change_constant",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/engine::TestShortestPaths"
+      ]
+    },
+    {
+      "file": "ast/temporal.go",
+      "function": "Date",
+      "qualname": "Date",
+      "id": "6fe6c51b",
+      "kind": "change_constant",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/ast::TestDateHelpers/Date_uses_default_timezone"
+      ]
+    },
+    {
+      "file": "builtin/temporal.go",
+      "function": "intervalDuring",
+      "qualname": "intervalDuring",
+      "id": "57bafe51",
+      "kind": "flip_comparison",
+      "breaks": [
+        "codeberg.org/TauCeti/mangle-go/builtin::TestIntervalDuring/same"
+      ]
+    }
+  ],
+  "formatter_pass": {
+    "tool": "gofmt",
+    "formatted": [
+      "analysis/boundscheck.go",
+      "analysis/rectify.go",
+      "analysis/stratification.go",
+      "analysis/varlist.go",
+      "ast/decl.go",
+      "ast/temporal.go",
+      "builtin/builtin.go",
+      "builtin/temporal.go",
+      "engine/premise.go",
+      "factstore/factstore.go",
+      "factstore/temporal.go",
+      "functional/functional.go",
+      "json2struct/json2struct.go",
+      "packages/packages.go",
+      "provenance/facts.go",
+      "provenance/provenance.go",
+      "provenance/recorder.go",
+      "rewrite/rewrite.go",
+      "symbols/decldesugar.go",
+      "symbols/nametrie.go",
+      "symbols/typeexprs.go",
+      "unionfind/unifytypeexpr.go"
+    ],
+    "raw": [
+      "parse/parse.go"
+    ]
+  },
+  "rebuild": "python3 build_task.py --faults-file <this file> --ids <args.ids> and the rest of args above; --base-dockerfile can be written out of base_dockerfile_text"
+}

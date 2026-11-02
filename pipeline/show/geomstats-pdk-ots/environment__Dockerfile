@@ -1,0 +1,102 @@
+# syntax=docker/dockerfile:1
+# geomstats-pdk-ots. /workdir carries geomstats/geomstats at c21a492a4ad93c02f77e1ac9f8ff183680c29a25 with its
+# documentation curation and the selected implementation drift already applied; the tree is shipped in this
+# build context (environment/solver).
+# Runtime has no network: everything solve-time and grade-time is installed here with exact versions.
+# Base image and dependency set follow the colleague original (pdk-drift-repository-496754855d86 v1): the same
+# Python 3.11 image digest and system packages, and the dependencies of `pip install -e '.[test,dev,all]'`
+# resolved as of the original's environment build (2026-08-14), pinned in requirements.txt. PyTorch is the
+# CPU build of the same version (no GPU is available here). geomstats itself is not installed: it is
+# imported from /workdir (PYTHONPATH), and the default NumPy backend is selected.
+FROM python@sha256:2e32f7d302adc1c37428355c1e646897c0c53f4fd60b6a551245fb90ee129f91
+
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 PIP_NO_INPUT=1 PIP_NO_CACHE_DIR=1
+ENV UV_NO_CACHE=1 UV_PYTHON=/opt/venv/bin/python UV_PYTHON_DOWNLOADS=never
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONHASHSEED=0
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH=/opt/venv/bin:$PATH
+ENV PYTHONPATH=/workdir
+ENV GEOMSTATS_BACKEND=numpy MPLBACKEND=Agg
+ENV SOURCE_DATE_EPOCH=0
+
+# --- Agent harness prerequisites (driftflow/harness.py, ISSUE-103) ---
+# Harbor's agent opens a tmux session in this container and drives the solver through it.
+# Without tmux every rollout dies at agent setup. Debian ships *.patch files under
+# /usr/share/doc, which isolation probes that walk the filesystem flag; drop the docs here.
+# The build and system libraries are the original's (graphviz for pygraphviz, OpenBLAS, gfortran).
+RUN apt-get update -qq \
+    && apt-get install -y -qq --no-install-recommends \
+        asciinema build-essential ca-certificates curl gfortran git graphviz libfreetype6-dev libgraphviz-dev \
+        libopenblas-dev libpng-dev pkg-config tmux \
+    && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man
+# Fail the BUILD, not a paid cohort.
+RUN command -v git && command -v tmux \
+    && tmux -V \
+    && tmux -L harbor-build-smoke new-session -d -s smoke 'sleep 30' \
+    && tmux -L harbor-build-smoke has-session -t smoke \
+    && tmux -L harbor-build-smoke kill-server
+
+# Keep the toolchain visible to login shells (`bash -lc`), not just `ENV`.
+RUN printf 'export VIRTUAL_ENV="/opt/venv"\nexport PATH="/opt/venv/bin:$PATH"\nexport PYTHONPATH="/workdir"\nexport GEOMSTATS_BACKEND="numpy"\nexport MPLBACKEND="Agg"\nexport PYTHONDONTWRITEBYTECODE="1"\nexport PYTHONHASHSEED="0"\nexport TZ="UTC"\nexport UV_PYTHON="/opt/venv/bin/python"\nexport UV_PYTHON_DOWNLOADS="never"\nexport UV_NO_CACHE="1"\n' \
+      > /etc/profile.d/00-geomstats.sh && chmod 0644 /etc/profile.d/00-geomstats.sh
+
+RUN python -m venv /opt/venv \
+    && /opt/venv/bin/python -m pip install --no-cache-dir 'pip==25.2' 'setuptools==75.8.2' 'wheel==0.45.1' 'uv==0.12.3'
+
+# --- Dependencies (pinned; the requirements file is removed again after the install).
+COPY requirements.txt /opt/geomstats-requirements.txt
+RUN set -eu; \
+    uv pip install --python /opt/venv/bin/python --no-deps --compile-bytecode -r /opt/geomstats-requirements.txt; \
+    uv pip install --python /opt/venv/bin/python --no-deps --compile-bytecode \
+        --index-url https://download.pytorch.org/whl/cpu 'torch==2.13.0+cpu'; \
+    rm -f /opt/geomstats-requirements.txt; \
+    /opt/venv/bin/python -m pip check; \
+    rm -rf /root/.cache /tmp/* /var/tmp/*
+
+RUN useradd -m -u 1000 -s /bin/bash agent 2>/dev/null || true \
+    && git config --system --add safe.directory /workdir
+
+# The solver starting state. Only this directory is copied into the image: the reusable baseline
+# declaration and its documentation-curation patch stay in the build context.
+COPY solver /workdir
+
+WORKDIR /workdir
+RUN find /workdir -depth \( -name __pycache__ -o -name '*.pyc' -o -name .pytest_cache \) -exec rm -rf -- {} + \
+    && find /workdir -exec touch -h -d "2001-01-01T00:00:00Z" {} + 2>/dev/null || true
+RUN chmod -R g-w,o-w /workdir
+# A sanitized repository initialised from the solver starting state only: one commit, no remotes,
+# no tags, no reflog, nothing that could expose the clean baseline or the answer.
+RUN set -eu; \
+    cd /workdir; \
+    git init -q -b main --object-format=sha1; \
+    git config core.logAllRefUpdates false; \
+    git config core.pager cat; \
+    git config gc.auto 0; \
+    git add -A -f; \
+    GIT_AUTHOR_NAME=task GIT_AUTHOR_EMAIL=task@example.invalid \
+    GIT_COMMITTER_NAME=task GIT_COMMITTER_EMAIL=task@example.invalid \
+    GIT_AUTHOR_DATE=2001-01-01T00:00:00Z GIT_COMMITTER_DATE=2001-01-01T00:00:00Z \
+        git -c commit.gpgsign=false commit -qm "Initial state"; \
+    test "$(git rev-list --all --count)" = 1; \
+    test "$(git for-each-ref --format='%(refname)')" = refs/heads/main; \
+    test -z "$(git remote)"; \
+    test -z "$(git tag --list)"; \
+    test -z "$(git stash list)"; \
+    test -z "$(git reflog --all)"; \
+    git diff --quiet; \
+    git diff --cached --quiet; \
+    test -z "$(git status --porcelain --untracked-files=all)"; \
+    test -z "$(git fsck --strict --no-progress --no-reflogs --unreachable 2>&1)"; \
+    git read-tree --reset HEAD; \
+    chown -R agent:agent /workdir
+
+# Smoke-check the solver's view: geomstats imports from /workdir with the NumPy backend.
+RUN cd /tmp && /opt/venv/bin/python -W ignore -c "import geomstats.backend as gs, geomstats.learning.frechet_mean as m; assert m.__file__.startswith('/workdir/geomstats/'), m.__file__; import geomstats._backend as b; assert b.BACKEND_NAME == 'numpy'; print('geomstats imports from', m.__file__)"
+
+# --- Verifier dependencies -------------------------------------------------------------------
+# The grader runs in its own image (tests/Dockerfile). Keep this interpreter root-owned and not writable
+# by the agent, as the verifier image keeps its own.
+RUN chown -R root:root /opt/venv \
+    && chmod -R go-w /opt/venv \
+    && /opt/venv/bin/python -c "import numpy, scipy, sklearn, joblib, pandas, matplotlib, autograd, torch; print('interpreter sealed')"

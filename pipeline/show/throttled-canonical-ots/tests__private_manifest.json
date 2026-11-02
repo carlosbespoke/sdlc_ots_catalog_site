@@ -1,0 +1,286 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 2400,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "05d4802185a8df2cd11c8a57a3f11690d015c46e516e28b158a5edcca76a345b",
+  "documentation.json": "019950f08ce66116f2c7fbd93a571248bed86d2418fb5fba294582c93317d523",
+  "driver.py": "120e8332a10b0afa3255aa5d493e2d6a2da20caaa35be8e32262a8c0aa957660",
+  "expected.json": "ba7b25a642703a760c1b263ea338f8387b6349a1699bcb113048925efff5bc51"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "GROUP-F2P-TOKEN-BUCKET-CAPACITY",
+    "kind": "f2p",
+    "requirement": "The token bucket's capacity is the quota's burst: 'n/unit burst b' admits b requests at once and RateLimitState.limit reports b.",
+    "tests": [
+     "OBS-0001",
+     "OBS-0002",
+     "OBS-0003",
+     "OBS-0004",
+     "OBS-0005",
+     "OBS-0006"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-TOKEN-BUCKET-RETRY-AFTER",
+    "kind": "f2p",
+    "requirement": "A denied token-bucket request reports retry_after as the time until enough tokens for that request have refilled (not the time to refill the whole bucket).",
+    "tests": [
+     "OBS-0007",
+     "OBS-0008",
+     "OBS-0009",
+     "OBS-0010",
+     "OBS-0011"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-WAIT-RETRY-BOUNDARY",
+    "kind": "f2p",
+    "requirement": "With a timeout, Throttled waits and retries when timeout >= retry_after (equality included); the documented GCRA 2/s burst 2, timeout=0.5 example completes five requests at 0, 0, 0.5, 1.0 and 1.5 s.",
+    "tests": [
+     "OBS-0012",
+     "OBS-0013",
+     "OBS-0014",
+     "OBS-0015",
+     "OBS-0016",
+     "OBS-0017"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-HOOK-CHAIN-ORDER",
+    "kind": "f2p",
+    "requirement": "Hooks run in registration order around the rate-limit check: hooks=[A, B] gives A before, B before, rate_limit, B after, A after (sync and async).",
+    "tests": [
+     "OBS-0018",
+     "OBS-0019",
+     "OBS-0020",
+     "OBS-0021"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-MEMORY-STORE-LRU",
+    "kind": "f2p",
+    "requirement": "MemoryStore is an LRU cache: reading a key marks it recently used, and exceeding MAX_SIZE evicts the least recently used key.",
+    "tests": [
+     "OBS-0022",
+     "OBS-0023",
+     "OBS-0024",
+     "OBS-0025"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-FIXED-WINDOW-LIMIT",
+    "kind": "f2p",
+    "requirement": "A fixed window admits exactly `limit` requests (cost units) per period; the request that reaches the limit is allowed and only exceeding it is denied (memory and Redis, sync and async).",
+    "tests": [
+     "OBS-0026",
+     "OBS-0027",
+     "OBS-0028",
+     "OBS-0029",
+     "OBS-0030"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-FASTAPI-METHOD-KEY",
+    "kind": "f2p",
+    "requirement": "The FastAPI integration keys the quota by method + route template + principal: different methods on one route have separate buckets.",
+    "tests": [
+     "OBS-0031",
+     "OBS-0032",
+     "OBS-0033"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-FASTAPI-HEADER-GATING",
+    "kind": "f2p",
+    "requirement": "RateLimitMiddleware adds the RateLimit-* headers to every response of a route whose rate-limit check passed, whatever the endpoint's status code (a 4xx or 5xx response still carries them).",
+    "tests": [
+     "OBS-0034",
+     "OBS-0035",
+     "OBS-0036"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-QUICKSTART",
+    "kind": "p2p",
+    "requirement": "quickstart/index.rst + README Quick Start: limit() deducts and returns RateLimitResult; the async API is the same under throttled.asyncio.",
+    "tests": [
+     "OBS-0037",
+     "OBS-0038",
+     "OBS-0039"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-FUNCTION-CALL",
+    "kind": "p2p",
+    "requirement": "function-call.rst + README Function Call: default Throttled() (In-Memory, Token Bucket, 60 per minute); limit() never raises when limited; peek() reads without deducting.",
+    "tests": [
+     "OBS-0040",
+     "OBS-0041",
+     "OBS-0042",
+     "OBS-0043"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-DECORATOR",
+    "kind": "p2p",
+    "requirement": "decorator.rst: the decorator checks the limit before calling the function and raises LimitedError (message 'Rate limit exceeded: remaining=..., reset_after=..., retry_after=...'); cost comes from the Throttled instance; a decorator needs a key (DataError).",
+    "tests": [
+     "OBS-0044",
+     "OBS-0045",
+     "OBS-0046",
+     "OBS-0047"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-CONTEXT-MANAGER",
+    "kind": "p2p",
+    "requirement": "context-manager.rst: entering returns the RateLimitResult; exceeding the limit raises LimitedError and the block does not run (sync and async).",
+    "tests": [
+     "OBS-0048",
+     "OBS-0049"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-WAIT-RETRY",
+    "kind": "p2p",
+    "requirement": "wait-retry.rst: with timeout, Throttled waits per retry_after and retries; timeout < retry_after returns the limited result immediately; the call-level timeout overrides the instance timeout; timeout must be positive or -1.",
+    "tests": [
+     "OBS-0050",
+     "OBS-0051",
+     "OBS-0052",
+     "OBS-0053",
+     "OBS-0054"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-QUOTA-DSL",
+    "kind": "p2p",
+    "requirement": "quota-configuration.rst: 'n/unit', 'n per unit', optional 'burst <b>'; the unit table's forms; burst defaults to n; invalid strings raise DataError.",
+    "tests": [
+     "OBS-0055",
+     "OBS-0056",
+     "OBS-0057",
+     "OBS-0058"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-QUOTA-OBJECTS",
+    "kind": "p2p",
+    "requirement": "Quota objects: per_sec/per_min/per_hour/per_day/per_week/per_duration; burst defaults to limit; Quota.rate.period / limit and burst fields (README data models).",
+    "tests": [
+     "OBS-0059",
+     "OBS-0060",
+     "OBS-0061"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-ALGORITHMS",
+    "kind": "p2p",
+    "requirement": "specifying-algorithms.rst: `using` selects Fixed Window, Sliding Window, Token Bucket, Leaky Bucket or GCRA (RateLimiterType values); each limits as documented.",
+    "tests": [
+     "OBS-0062",
+     "OBS-0063",
+     "OBS-0064",
+     "OBS-0065",
+     "OBS-0066",
+     "OBS-0067"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-MEMORY-STORE",
+    "kind": "p2p",
+    "requirement": "store-backends.rst In-Memory: Throttled uses a global MemoryStore by default (sync and async globals are independent); Throttled instances sharing one MemoryStore and quota limit the same key together; MemoryStore get/set/hset/hgetall/exists/ttl and expiry.",
+    "tests": [
+     "OBS-0068",
+     "OBS-0069",
+     "OBS-0070",
+     "OBS-0071"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REDIS-STORE",
+    "kind": "p2p",
+    "requirement": "store-backends.rst Redis: RedisStore backs every algorithm (sync and async) with the same results as the in-memory store.",
+    "tests": [
+     "OBS-0072",
+     "OBS-0073",
+     "OBS-0074",
+     "OBS-0075",
+     "OBS-0076"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-REDIS-CONNECTIONS",
+    "kind": "p2p",
+    "requirement": "store-configuration.rst / store-backends.rst: RedisStore server URL schemes (redis://, redis+sentinel://, redis+cluster://) and the documented options REDIS_CLIENT_CLASS, SENTINEL_CLASS, REDIS_CLIENT_KWARGS, CONNECTION_POOL_KWARGS; the default server redis://localhost:6379/0; Sentinel port 26379 and service name mymaster by default; Cluster port 6379 by default.",
+    "tests": [
+     "OBS-0077",
+     "OBS-0078",
+     "OBS-0079"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-HOOKS",
+    "kind": "p2p",
+    "requirement": "hooks.rst: a hook wraps limit() and sees an immutable HookContext (key, cost, algorithm, store_type); hook types are validated (TypeError); a hook that raises is skipped, logged on 'throttled.hooks' / 'throttled.asyncio.hooks', and the request is counted once.",
+    "tests": [
+     "OBS-0080",
+     "OBS-0081",
+     "OBS-0082",
+     "OBS-0083"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-OTEL",
+    "kind": "p2p",
+    "requirement": "opentelemetry.rst: OTelHook records throttled.requests (Counter) and throttled.duration (Histogram, seconds) with attributes key, algorithm, store_type and result ('allowed' / 'denied'); sync and async.",
+    "tests": [
+     "OBS-0084",
+     "OBS-0085"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-FASTAPI-BASIC",
+    "kind": "p2p",
+    "requirement": "fastapi.rst Basic Usage / Response Headers: allowed responses carry RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset; quota exhaustion is HTTP 429 with body {'detail': 'Rate limit exceeded'}.",
+    "tests": [
+     "OBS-0086",
+     "OBS-0087",
+     "OBS-0088",
+     "OBS-0089"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-FASTAPI-CONSTRAINTS",
+    "kind": "p2p",
+    "requirement": "fastapi.rst Constraints: async routes only and a Request parameter (TypeError); Limiter needs a quota; key_func may be async; without RateLimitMiddleware 429s still work but allowed responses have no headers; reversing the decorators disables limiting; root_path is part of the key; a per-route key_func overrides the Limiter's.",
+    "tests": [
+     "OBS-0090",
+     "OBS-0091",
+     "OBS-0092",
+     "OBS-0093"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-PACKAGE",
+    "kind": "p2p",
+    "requirement": "index/installation/README: sync and async packages expose the documented names; every exception inherits from BaseThrottledError; DataError for invalid parameters; RateLimitResult/RateLimitState fields.",
+    "tests": [
+     "OBS-0094",
+     "OBS-0095"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   }
+  ]
+ }
+}

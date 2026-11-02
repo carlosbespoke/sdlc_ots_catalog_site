@@ -1,0 +1,718 @@
+[
+ {
+  "name": "mangle-8edad8d3-blind30",
+  "problem": "A Datalog engine was quietly changed in thirty places, one line each. Users report wrong answers across many features, and there is no test suite to run.",
+  "receives": [
+   {
+    "label": "Datalog engine source in Go\n(30 hidden one-line edits)",
+    "icon": "go"
+   },
+   {
+    "label": "Written symptom report\n(no function names)",
+    "icon": "file-text"
+   },
+   {
+    "label": "Go toolchain, offline",
+    "icon": "terminal-2"
+   }
+  ],
+  "job": [
+   "Write a research and plan file",
+   "Reproduce each reported symptom",
+   "Trace symptoms to edited functions",
+   "Restore the intended behavior",
+   "List each edited function"
+  ],
+  "deliver": [
+   {
+    "label": "Repaired source tree"
+   },
+   {
+    "label": "Root-cause report\n(file and function per edit)"
+   }
+  ],
+  "check": [
+   {
+    "label": "Project's own test suite restored and run",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Report compared with the edit list\n(half the score)",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "name": "torchio-canonical",
+  "problem": "A medical imaging library no longer does what its documentation says. The docs are the contract, so the code has to change to match them.",
+  "receives": [
+   {
+    "label": "Imaging library source in Python",
+    "icon": "python"
+   },
+   {
+    "label": "Docs pages and docstrings\n(the authority)",
+    "icon": "book"
+   },
+   {
+    "label": "PyTorch and imaging libraries, offline",
+    "icon": "pytorch"
+   }
+  ],
+  "job": [
+   "Read docs and examples closely",
+   "Find where code disagrees",
+   "Fix the code, not the docs",
+   "Keep matching behavior unchanged"
+  ],
+  "deliver": [
+   {
+    "label": "Library code that matches its documentation"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden cases run in a separate container",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Docs must stay unedited\n(every check group must pass)",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "name": "terraform-centralwatch-alert-routing-module-refactor",
+  "problem": "A production alert-routing stack is one flat Terraform file set with list-indexed resources. It must be split into modules without touching anything that runs.",
+  "receives": [
+   {
+    "label": "Flat Terraform stack\n(about 260 AWS resources)",
+    "icon": "terraform"
+   },
+   {
+    "label": "Copy of production state",
+    "icon": "database"
+   },
+   {
+    "label": "CI plan script and guardrail policies",
+    "icon": "shield-check"
+   },
+   {
+    "label": "Written layout and key rules",
+    "icon": "file-text"
+   }
+  ],
+  "job": [
+   "Split into three local modules",
+   "Key resources by name, not position",
+   "Map every old address to its new one",
+   "Wire IDs through module outputs",
+   "Keep the plan to moves only"
+  ],
+  "deliver": [
+   {
+    "label": "Refactored Terraform configuration\n(root plus three modules)"
+   }
+  ],
+  "check": [
+   {
+    "label": "Offline plan against pristine state\nmust be moves only",
+    "icon": "terraform"
+   },
+   {
+    "label": "Gates, then 46 requirement checks",
+    "icon": "list-check"
+   }
+  ]
+ },
+ {
+  "name": "pdk-actual-sync-log-checkpoint-compaction",
+  "problem": "A budgeting app's sync server keeps every change forever. Shrinking a budget today forces a reset that makes offline devices lose edits.",
+  "receives": [
+   {
+    "label": "Budgeting app monorepo\n(sync server, CRDT, client)",
+    "icon": "typescript"
+   },
+   {
+    "label": "Written checkpoint protocol\n(fields, headers, status codes)",
+    "icon": "file-text"
+   },
+   {
+    "label": "Node and Yarn, packages prebuilt",
+    "icon": "nodedotjs"
+   }
+  ],
+  "system": {
+   "label": "Budget sync",
+   "nodes": [
+    {
+     "id": "dev",
+     "label": "Client devices",
+     "icon": "users"
+    },
+    {
+     "id": "srv",
+     "label": "Sync server",
+     "icon": "nodedotjs"
+    },
+    {
+     "id": "log",
+     "label": "Message log",
+     "icon": "sqlite"
+    },
+    {
+     "id": "file",
+     "label": "Downloadable budget file",
+     "icon": "folder"
+    }
+   ],
+   "edges": [
+    [
+     "dev",
+     "srv",
+     "sync changes"
+    ],
+    [
+     "dev",
+     "srv",
+     "commit checkpoint"
+    ],
+    [
+     "srv",
+     "log",
+     "append and prune"
+    ],
+    [
+     "srv",
+     "file",
+     "replace snapshot"
+    ]
+   ]
+  },
+  "job": [
+   "Ask clients for a checkpoint",
+   "Commit snapshots only if unchanged",
+   "Prune exactly the covered messages",
+   "Protect late and offline edits",
+   "Keep old clients working"
+  ],
+  "deliver": [
+   {
+    "label": "Changed server and client code\n(as a patch, packages rebuilt)"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests simulate several devices",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "All scenarios pass\nand existing sync still works",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "name": "pdk-harbor-scan-ephemeral-credentials",
+  "problem": "A container registry gives each vulnerability scan a robot account that never expires and covers a whole project. Its secret also sits in the job queue.",
+  "receives": [
+   {
+    "label": "Registry server source in Go",
+    "icon": "go"
+   },
+   {
+    "label": "Written credential requirements\n(scope and time limits)",
+    "icon": "file-text"
+   },
+   {
+    "label": "PostgreSQL and Redis installed",
+    "icon": "postgresql"
+   }
+  ],
+  "system": {
+   "label": "Scan pipeline",
+   "nodes": [
+    {
+     "id": "core",
+     "label": "Core API",
+     "icon": "server"
+    },
+    {
+     "id": "job",
+     "label": "Job service",
+     "icon": "go"
+    },
+    {
+     "id": "redis",
+     "label": "Job queue and stats",
+     "icon": "redis"
+    },
+    {
+     "id": "pg",
+     "label": "Robot accounts",
+     "icon": "postgresql"
+    },
+    {
+     "id": "scan",
+     "label": "Scanner adapter",
+     "icon": "report-search"
+    }
+   ],
+   "edges": [
+    [
+     "core",
+     "pg",
+     "create credential"
+    ],
+    [
+     "core",
+     "redis",
+     "submit scan job"
+    ],
+    [
+     "job",
+     "scan",
+     "run scan"
+    ],
+    [
+     "scan",
+     "core",
+     "pull image"
+    ],
+    [
+     "job",
+     "core",
+     "final status"
+    ]
+   ]
+  },
+  "job": [
+   "Limit credentials to one repository",
+   "Keep secrets out of the queue",
+   "Keep credentials valid during scans",
+   "Revoke them when jobs end",
+   "Clean up after a crashed job"
+  ],
+  "deliver": [
+   {
+    "label": "Changed server code\n(as a patch)"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests run scans end to end",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "All fixes pass\nand guard tests still pass",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "name": "pdk-bagetter-fenced-package-writes",
+  "problem": "Two package server replicas sharing a database and a bucket can accept conflicting uploads. A crashed or late writer can leave or overwrite files.",
+  "receives": [
+   {
+    "label": "NuGet server source in C#",
+    "icon": "dotnet"
+   },
+   {
+    "label": "Written write-safety requirements\n(status codes, new endpoint)",
+    "icon": "file-text"
+   },
+   {
+    "label": "Running PostgreSQL and S3 sidecars",
+    "icon": "docker"
+   }
+  ],
+  "system": {
+   "label": "Package storage",
+   "nodes": [
+    {
+     "id": "a",
+     "label": "Replica A",
+     "icon": "server"
+    },
+    {
+     "id": "b",
+     "label": "Replica B",
+     "icon": "server"
+    },
+    {
+     "id": "pg",
+     "label": "Package database",
+     "icon": "postgresql"
+    },
+    {
+     "id": "s3",
+     "label": "Package bucket",
+     "icon": "amazons3"
+    }
+   ],
+   "edges": [
+    [
+     "a",
+     "pg",
+     "claim version"
+    ],
+    [
+     "b",
+     "pg",
+     "claim version"
+    ],
+    [
+     "a",
+     "s3",
+     "write files"
+    ],
+    [
+     "b",
+     "s3",
+     "write files"
+    ]
+   ]
+  },
+  "job": [
+   "Let one concurrent push win",
+   "Fence out writers with expired claims",
+   "Keep old bytes until replacement commits",
+   "Add an admin reconcile endpoint",
+   "Keep old bucket layout readable"
+  ],
+  "deliver": [
+   {
+    "label": "Changed server code\n(as a patch)"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests race and interrupt replicas",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "All fixes pass\nand guard tests still pass",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "name": "pendulum-explicit-transition-resolution-policies",
+  "problem": "A datetime library resolves daylight-saving gaps and overlaps in one fixed way. Callers need to choose and inspect the rule, and the old default must stay.",
+  "receives": [
+   {
+    "label": "Datetime library source\n(Python with a Rust extension)",
+    "icon": "python"
+   },
+   {
+    "label": "Written spec with required signatures",
+    "icon": "file-text"
+   },
+   {
+    "label": "Rust toolchain and pytest, offline",
+    "icon": "rust"
+   }
+  ],
+  "job": [
+   "Write a research and plan file",
+   "Add rule types and a scoped default",
+   "Apply rules at every entry point",
+   "Keep legacy behavior when unset"
+  ],
+  "deliver": [
+   {
+    "label": "Library code with transition policies\n(as a patch)"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests plus the existing suite",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Every new and existing test must pass",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "name": "go-tc-lossless-traffic-control-object-replay",
+  "problem": "A Go library for Linux traffic control drops attributes it does not model. Objects read from the kernel cannot be edited and written back intact.",
+  "receives": [
+   {
+    "label": "Traffic-control library source in Go",
+    "icon": "go"
+   },
+   {
+    "label": "Written spec with required exports",
+    "icon": "file-text"
+   },
+   {
+    "label": "Go toolchain, offline",
+    "icon": "terminal-2"
+   }
+  ],
+  "job": [
+   "Write a research and plan file",
+   "Keep raw attributes while decoding",
+   "Replay objects byte for byte",
+   "Resolve typed and raw conflicts",
+   "Keep strict decoding unchanged"
+  ],
+  "deliver": [
+   {
+    "label": "Library code with lossless replay\n(as a patch)"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden acceptance tests plus existing suite",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Every new and existing test must pass",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "name": "go-sqlite3-portable-mergeable-statistics-e67a",
+  "problem": "Statistics aggregates in a Go SQLite binding live only inside a database connection. Callers want to save, restore and combine them directly.",
+  "receives": [
+   {
+    "label": "SQLite binding source in Go",
+    "icon": "go"
+   },
+   {
+    "label": "Written spec with required API",
+    "icon": "file-text"
+   },
+   {
+    "label": "Go toolchain, offline",
+    "icon": "sqlite"
+   }
+  ],
+  "job": [
+   "Write a research and plan file",
+   "Add a standalone accumulator",
+   "Define a versioned snapshot format",
+   "Merge partitions exactly",
+   "Fail without changing the destination"
+  ],
+  "deliver": [
+   {
+    "label": "Library code with portable accumulators\n(as a patch)"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests compare with SQL results",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Every new and existing test must pass",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "name": "java--dynatrace-oss--dynahist-xai",
+  "problem": "A team is moving off a Java histogram library and needs a Go version that behaves the same, down to numeric precision.",
+  "receives": [
+   {
+    "label": "Java library source\n(the reference)",
+    "icon": "openjdk"
+   },
+   {
+    "label": "Go package with stub bodies\n(final signatures)",
+    "icon": "go"
+   },
+   {
+    "label": "Porting rules and a checker tool",
+    "icon": "checklist"
+   }
+  ],
+  "job": [
+   "Read the Java implementation",
+   "Fill in each Go stub",
+   "Match edge cases and precision",
+   "Run the checker often"
+  ],
+  "deliver": [
+   {
+    "label": "Implemented Go package\n(as a patch)"
+   }
+  ],
+  "check": [
+   {
+    "label": "Library's own tests ported to Go\n(hidden)",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Reward from required tests passed",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "name": "pdk-sqlite-history-json-schema",
+  "problem": "Tables tracked for change history were later altered with added, renamed and dropped columns. Restore and history now fail, and the upgrade tool sees nothing to fix.",
+  "receives": [
+   {
+    "label": "History-tracking library in Python",
+    "icon": "python"
+   },
+   {
+    "label": "Copy of the affected database",
+    "icon": "sqlite"
+   },
+   {
+    "label": "Written symptoms and invariants",
+    "icon": "file-text"
+   }
+  ],
+  "job": [
+   "Find why the upgrade misses changes",
+   "Remap history to current columns",
+   "Follow renamed tables",
+   "Support dry run and repeat runs"
+  ],
+  "deliver": [
+   {
+    "label": "Fixed upgrade command\n(as a patch)"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden tests plus the existing suite",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Every new and existing test must pass",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "name": "terraform-multi-model-router-module-refactor",
+  "problem": "A production model-serving stack is one flat Terraform file set with list-indexed resources. It must be split into modules without touching anything that runs.",
+  "receives": [
+   {
+    "label": "Flat Terraform stack\n(about 215 AWS resources)",
+    "icon": "terraform"
+   },
+   {
+    "label": "Copy of production state",
+    "icon": "database"
+   },
+   {
+    "label": "CI plan script and guardrail policies",
+    "icon": "shield-check"
+   },
+   {
+    "label": "Written layout and key rules",
+    "icon": "file-text"
+   }
+  ],
+  "job": [
+   "Split into eight local modules",
+   "Key resources by name, not position",
+   "Map every old address to its new one",
+   "Keep the plan to moves only"
+  ],
+  "deliver": [
+   {
+    "label": "Refactored Terraform configuration\n(root plus eight modules)"
+   }
+  ],
+  "check": [
+   {
+    "label": "Offline plan against pristine state\nmust be moves only",
+    "icon": "terraform"
+   },
+   {
+    "label": "Gates, then 50 requirement checks",
+    "icon": "list-check"
+   }
+  ]
+ },
+ {
+  "name": "exo-canonical-ots",
+  "problem": "A kernel-scheduling language and compiler no longer does what its documentation says. The docs are the contract, so the code has to change to match them.",
+  "receives": [
+   {
+    "label": "Compiler source in Python",
+    "icon": "python"
+   },
+   {
+    "label": "Docs pages and docstrings\n(the authority)",
+    "icon": "book"
+   },
+   {
+    "label": "Solver libraries and pytest, offline",
+    "icon": "terminal-2"
+   }
+  ],
+  "job": [
+   "Read docs and examples closely",
+   "Find where code disagrees",
+   "Fix the code, not the docs",
+   "Keep matching behavior unchanged"
+  ],
+  "deliver": [
+   {
+    "label": "Compiler code that matches its documentation"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden cases run in a separate container",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Docs must stay unedited\n(every check group must pass)",
+    "icon": "scale"
+   }
+  ]
+ },
+ {
+  "name": "kin-openapi-explicit-field-presence-across-27d7",
+  "problem": "A Go OpenAPI library cannot tell an omitted field from one written as null, zero or empty. Loading and converting a spec loses what the author wrote.",
+  "receives": [
+   {
+    "label": "OpenAPI library source in Go",
+    "icon": "go"
+   },
+   {
+    "label": "Written spec with required exports",
+    "icon": "file-text"
+   },
+   {
+    "label": "Go toolchain, offline",
+    "icon": "terminal-2"
+   }
+  ],
+  "job": [
+   "Write a research and plan file",
+   "Record presence for every field",
+   "Keep it through references",
+   "Report losses in v2 and v3 conversion",
+   "Keep current output unchanged"
+  ],
+  "deliver": [
+   {
+    "label": "Library code that tracks field presence\n(as a patch)"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden acceptance tests plus existing suite",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Every new and existing test must pass",
+    "icon": "scale"
+   }
+  ]
+ }
+]

@@ -1,0 +1,353 @@
+{
+ "description": "F2P/P2P classification of this task's graded observations. F2P fail on the delivered state and pass after the reference repair; P2P pass on both. Measured in the task image, not derived from names. tests/grade.py reads this file and runs exactly the observations it names.",
+ "observation_timeout_seconds": 2400,
+ "pack_schema_version": 2,
+ "private_files": {
+  "cases.json": "dc8b7713c3567724276f14bcfbde8ce2708668b5e1c3b5edd847f82222531816",
+  "documentation.json": "a8c7dc18ab78cf52c20e0b85f2c3505cff1dc2616e636c3d82f66f3094238fdd",
+  "driver.py": "d0e7ee5b3b2d04695f0356f423ab348df8ecdfb9a147de4654117253aeca135a",
+  "expected.json": "d7a4ece420abf410fe7cfa4cc8722a8ebc09c2003a9ebb844f9af6b9b6dafce8"
+ },
+ "scoring": {
+  "groups": [
+   {
+    "id": "GROUP-F2P-SHARD-STRIDE",
+    "kind": "f2p",
+    "requirement": "Files are distributed across tasks by stride: with N tasks, rank i reads files i, i+N, i+2N, ...",
+    "tests": [
+     "OBS-0001",
+     "OBS-0002",
+     "OBS-0003"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-DEFAULT-METADATA",
+    "kind": "f2p",
+    "requirement": "A reader's default_metadata supplies default values: keys a sample's own metadata already has keep the sample's value.",
+    "tests": [
+     "OBS-0004",
+     "OBS-0005",
+     "OBS-0006"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-JSONL-GZIP",
+    "kind": "f2p",
+    "requirement": "JsonlWriter compresses with gzip by default (the output filename gets a .gz suffix).",
+    "tests": [
+     "OBS-0007",
+     "OBS-0008",
+     "OBS-0009"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-EXCLUSION-WRITER",
+    "kind": "f2p",
+    "requirement": "A filter's exclusion_writer saves every removed document, whether or not the filter gave a reason.",
+    "tests": [
+     "OBS-0010",
+     "OBS-0011",
+     "OBS-0012"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-SKIP-COMPLETED",
+    "kind": "f2p",
+    "requirement": "LocalPipelineExecutor re-runs completed tasks when skip_completed=False.",
+    "tests": [
+     "OBS-0013",
+     "OBS-0014",
+     "OBS-0015"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-ITERABLE-NOT-SHARDED",
+    "kind": "f2p",
+    "requirement": "An iterable of Documents passed as a pipeline block is not sharded: every task gets the full iterable.",
+    "tests": [
+     "OBS-0016",
+     "OBS-0017",
+     "OBS-0018"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-WHITESPACE-RATIO",
+    "kind": "f2p",
+    "requirement": "DocStats' white_space_ratio is the ratio of whitespace characters (spaces, tabs, newlines, ...).",
+    "tests": [
+     "OBS-0019",
+     "OBS-0020"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-SYMBOL-LINES",
+    "kind": "f2p",
+    "requirement": "SymbolLinesFormatter removes lines made only of symbols and keeps empty and whitespace-only lines.",
+    "tests": [
+     "OBS-0021",
+     "OBS-0022",
+     "OBS-0023"
+    ]
+   },
+   {
+    "id": "GROUP-F2P-PII-CIRCULAR",
+    "kind": "f2p",
+    "requirement": "PIIFormatter uses its email and IP replacements in a circular way.",
+    "tests": [
+     "OBS-0024",
+     "OBS-0025",
+     "OBS-0026"
+    ]
+   },
+   {
+    "id": "GROUP-DOCS",
+    "kind": "p2p",
+    "requirement": "documentation-unchanged",
+    "tests": [
+     "OBS-DOCS"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-DOCUMENT",
+    "kind": "p2p",
+    "requirement": "data.py: Document and Media dataclasses (fields and defaults).",
+    "tests": [
+     "OBS-0027",
+     "OBS-0028"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-DATAFOLDER",
+    "kind": "p2p",
+    "requirement": "io.py: get_datafolder input forms, DataFolder.list_files (recursive, glob, subdirectory), open with auto_mkdir, get_shard on an empty folder, resolve_paths.",
+    "tests": [
+     "OBS-0029",
+     "OBS-0030",
+     "OBS-0031",
+     "OBS-0032"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-IO-HELPERS",
+    "kind": "p2p",
+    "requirement": "io.py: open_file, file_exists, file_is_local, get_shard_from_paths_file, safely_create_file.",
+    "tests": [
+     "OBS-0033",
+     "OBS-0034"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-READER-JSONL",
+    "kind": "p2p",
+    "requirement": "README 'Reading data' / JsonlReader: text_key and id_key defaults, generated ids, metadata, adapter, limit, skip, glob_pattern, recursive, paths_file, compression, empty text skipped, file_path metadata.",
+    "tests": [
+     "OBS-0035",
+     "OBS-0036",
+     "OBS-0037",
+     "OBS-0038"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-READER-CSV-PARQUET-IPC",
+    "kind": "p2p",
+    "requirement": "CsvReader, ParquetReader (batch_size, read_metadata) and IpcReader (file and stream).",
+    "tests": [
+     "OBS-0039",
+     "OBS-0040",
+     "OBS-0041"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-WRITER-JSONL",
+    "kind": "p2p",
+    "requirement": "README 'Saving data' / DiskWriter: output_filename tags (${rank}, ${id}, metadata), explicit compression, expand_metadata, adapter, max_file_size splitting, documents passed through.",
+    "tests": [
+     "OBS-0042",
+     "OBS-0043",
+     "OBS-0044"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-WRITER-PARQUET",
+    "kind": "p2p",
+    "requirement": "ParquetWriter: default filename, rows and columns, expand_metadata, compression check, batch flushing.",
+    "tests": [
+     "OBS-0045",
+     "OBS-0046"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-BASE-FILTER",
+    "kind": "p2p",
+    "requirement": "README 'Filtering data' / BaseFilter: True keeps, False removes, (False, reason) removes and records the reason in the excluded document's metadata, batch filtering.",
+    "tests": [
+     "OBS-0047",
+     "OBS-0048"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-GOPHER-QUALITY",
+    "kind": "p2p",
+    "requirement": "GopherQualityFilter heuristics and their reasons.",
+    "tests": [
+     "OBS-0049",
+     "OBS-0050"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-GOPHER-REPETITION",
+    "kind": "p2p",
+    "requirement": "GopherRepetitionFilter thresholds and helpers.",
+    "tests": [
+     "OBS-0051"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-C4",
+    "kind": "p2p",
+    "requirement": "C4QualityFilter line and document rules, C4ParagraphFilter.",
+    "tests": [
+     "OBS-0052",
+     "OBS-0053",
+     "OBS-0054"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-FINEWEB",
+    "kind": "p2p",
+    "requirement": "FineWebQualityFilter rules.",
+    "tests": [
+     "OBS-0055"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-URL-FILTER",
+    "kind": "p2p",
+    "requirement": "URLFilter rules: domains, subdomains, urls, banned words, soft words, subwords.",
+    "tests": [
+     "OBS-0056",
+     "OBS-0057"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-SIMPLE-FILTERS",
+    "kind": "p2p",
+    "requirement": "RegexFilter, LambdaFilter and SamplerFilter.",
+    "tests": [
+     "OBS-0058",
+     "OBS-0059"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-FORMATTERS",
+    "kind": "p2p",
+    "requirement": "FTFYFormatter defaults, PIIFormatter (public IPs only by default, options), SymbolLinesFormatter on non-empty lines, BaseFormatter.run.",
+    "tests": [
+     "OBS-0060",
+     "OBS-0061",
+     "OBS-0062"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-EXACT-DEDUP",
+    "kind": "p2p",
+    "requirement": "ExactDedupSignature / ExactFindDedups / ExactDedupFilter (+ priority, index).",
+    "tests": [
+     "OBS-0063",
+     "OBS-0064",
+     "OBS-0065"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-MINHASH",
+    "kind": "p2p",
+    "requirement": "MinHash deduplication stages: signature, buckets, cluster, filter.",
+    "tests": [
+     "OBS-0066",
+     "OBS-0067"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-SENTENCE-DEDUP",
+    "kind": "p2p",
+    "requirement": "SentenceDedupSignature / SentenceFindDedups / SentenceDedupFilter.",
+    "tests": [
+     "OBS-0068",
+     "OBS-0069"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-BLOOM",
+    "kind": "p2p",
+    "requirement": "SingleBloomFilter: keeps the first occurrence, drops near-duplicates.",
+    "tests": [
+     "OBS-0070"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-STATS-DOC-LINE",
+    "kind": "p2p",
+    "requirement": "README 'Summary Statistics': DocStats (except white_space_ratio), LineStats and their output layout {group}/{stat}/{rank:05d}.json with summary, histogram, fqdn and suffix groups.",
+    "tests": [
+     "OBS-0071",
+     "OBS-0072",
+     "OBS-0073",
+     "OBS-0074"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-STATS-WORD-PARA-SENT",
+    "kind": "p2p",
+    "requirement": "WordStats, ParagraphStats, SentenceStats, WordsContaminationStats.",
+    "tests": [
+     "OBS-0075",
+     "OBS-0076",
+     "OBS-0077",
+     "OBS-0078"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-STATS-MERGE",
+    "kind": "p2p",
+    "requirement": "README 'Summary Statistics' step 2: StatsMerger output metric.json, MetricStatsDict.from_dict (.total, .mean), MetricStats arithmetic and the merge_stats tool.",
+    "tests": [
+     "OBS-0079",
+     "OBS-0080",
+     "OBS-0081"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-EXECUTOR-LOGGING",
+    "kind": "p2p",
+    "requirement": "README 'Executors' / 'Logging' / LocalPipelineExecutor: logging folder structure, completions, per-task and merged stats, skipping completed tasks on relaunch, local_tasks/local_rank_offset, custom functions get rank/world_size, depends.",
+    "tests": [
+     "OBS-0082",
+     "OBS-0083",
+     "OBS-0084"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-PIPELINE-BASE",
+    "kind": "p2p",
+    "requirement": "PipelineStep: stats, stat_update, track_time, update_doc_stats, __call__, repr.",
+    "tests": [
+     "OBS-0085",
+     "OBS-0086"
+    ]
+   },
+   {
+    "id": "GROUP-P2P-UTILS",
+    "kind": "p2p",
+    "requirement": "utils: batched, hashing, binaryio, text helpers, word tokenizers, logging helpers.",
+    "tests": [
+     "OBS-0087",
+     "OBS-0088",
+     "OBS-0089",
+     "OBS-0090",
+     "OBS-0091",
+     "OBS-0092"
+    ]
+   }
+  ]
+ }
+}
