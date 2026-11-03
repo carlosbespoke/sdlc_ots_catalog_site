@@ -28,6 +28,7 @@ Write-ups for samples that are not OTS catalog examples are in `cat/samples_text
 ## Rules
 
 - **Gemini-hard:** Argon pass rate under 80% (passes over graded runs).
+- **Models shown:** Gemini 4 Argon and Gemini 3.8 Flash. Gemini 3.7 Flash is left out of every page, plot, turn count and CSV column (`DROPPED` in `bin/common.py`). Its runs still count as evidence when predicting Likely tasks, so the selection is unchanged.
 - **Proven:** Argon has run the task and is under 80%.
 - **Likely:** no Argon runs, at least one graded run from some model, and a predicted chance of 50% or more. The prediction is the catalog's Argon share, adjusted by GLM-5.3 Flash and Gemini 3.8 Flash results on the task (naive Bayes, `bin/universe.py`).
 - **Attached samples:** 10 from the shortlist with Argon runs that are not main samples, Gemini-hard tasks first, then lowest Argon pass rate. Only 8 such tasks are Gemini-hard; the other 2 sit exactly at Argon 80%. They appear only in the overview's samples table and `samples.csv` (every sample, main and attached, with task id and version).

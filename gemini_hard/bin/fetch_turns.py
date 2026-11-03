@@ -3,7 +3,7 @@ import sys, os, json, time, concurrent.futures as cf
 sys.path.insert(0, os.path.expanduser('~/.claude/skills'))
 from _horizon_lib import client
 H = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); P = '/Users/carlos/code/sdlc_final_samples/pipeline'
-MM = json.load(open(f'{P}/ro_models.json')); GEM = {k for k, v in MM.items() if 'gemini' in v}
+MM = json.load(open(f'{P}/ro_models.json')); GEM = {k for k, v in MM.items() if 'gemini' in v and v != 'google/gemini-3.7-flash'}
 c = client.Client(); os.makedirs(f'{H}/turns', exist_ok=True)
 cache = {}  # no reuse: every turn count is fetched fresh for this snapshot
 for d in ():

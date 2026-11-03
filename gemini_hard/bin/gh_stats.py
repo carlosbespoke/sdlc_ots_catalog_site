@@ -3,7 +3,7 @@ from common import *
 U = json.load(open(f'{H}/universe.json')); EST = {e['catalog']: e for e in U['estimate']}
 SEL = [t for t in U['tasks'] if t.get('tier')]
 ROWS = {r['id']: r for r in dedupe([r for r in green(load_rows()) if r['catalog']], shortlist())}
-GEM = {k: v for k, v in MM.items() if 'gemini' in v}
+GEM = {k: v for k, v in MM.items() if 'gemini' in v and v != DROPPED}  # 3.7 Flash is left out of the report
 CANON = {k: next(c for c, w in GEM.items() if w == v) for k, v in GEM.items()}
 LONG = 200
 AFFINITY = {'Distributed systems & coordination': 'Applications & business domains', 'Observability & reliability': 'Cloud infrastructure & IaC',
@@ -27,7 +27,7 @@ def meta(t):
     c = NEWC.get(t['name'])
     if c: return {'sg': c['sg'], 'cat': c['cat'], 'lang': c['lang'], 'sen': c['sen'], 'role': c['role'], 'final': t['catalog']}
     return {'sg': NEW, 'cat': t['category'].split(' / ')[-1], 'lang': LANG_NEW.get(t['name'], NEW), 'sen': NEW, 'role': NEW, 'final': t['catalog']}
-TURNS = {f[:-5]: json.load(open(f'{H}/turns/{f}'))['runs'] for f in os.listdir(f'{H}/turns')}
+TURNS = {f[:-5]: [r for r in json.load(open(f'{H}/turns/{f}'))['runs'] if r['model'] in GEM] for f in os.listdir(f'{H}/turns')}
 def turn_stats(tid):
     runs = TURNS.get(tid) or []
     if not runs: return None

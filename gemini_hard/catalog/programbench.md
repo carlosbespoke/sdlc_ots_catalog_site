@@ -66,18 +66,17 @@ A task's turn count is the average over its Gemini runs. A task is long horizon 
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 420.4 |
-| Median turn count | 341.1 |
+| Average turn count | 425.2 |
+| Median turn count | 361.3 |
 | Range | 88 to 1000 |
-| Long-horizon tasks (200+ turns) | 84% of tasks |
+| Long-horizon tasks (200+ turns) | 85% of tasks |
 
 ![Turns per task](assets/programbench_turns.svg)
 
 | Model | % of tasks | Mean turns | % with 200+ turns |
 |---|---:|---:|---:|
-| google/gemini-3.8-flash | 84% | 471.2 | 84% |
+| google/gemini-3.8-flash | 85% | 471.2 | 84% |
 | google/gemini-4-argon | 19% | 257.1 | 67% |
-| google/gemini-3.7-flash | 2% | 152.3 | 17% |
 
 ## Sample tasks
 

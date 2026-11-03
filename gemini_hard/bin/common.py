@@ -5,6 +5,7 @@ sys.path.insert(0, f'{P}/bin')
 from cat_common import load_rows, green, dedupe, shortlist, CATS
 MM = json.load(open(f'{P}/ro_models.json'))
 ARGON, FLASH, GLMF = 'google/gemini-4-argon', 'google/gemini-3.8-flash', 'z-ai/glm-5.3-flash'
+DROPPED = 'google/gemini-3.7-flash'  # left out of every page, plot and CSV column (its runs still count as evidence in the selection)
 RO = {f[:-5]: json.load(open(f'{H}/ro3/{f}')) for f in os.listdir(f'{H}/ro3')}
 def mstats(tid):
     """model -> [graded, passed, mean score over graded]"""

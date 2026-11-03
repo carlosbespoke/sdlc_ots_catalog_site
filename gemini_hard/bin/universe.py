@@ -156,7 +156,7 @@ with open(f'{H}/gemini_hard_universe.csv', 'w', newline='') as f:
         w.writerow([t['name'], t['id'], t['catalog'], t['domain'], t['category'], tier(t), t['sample'], t['shortlist_no'] or '', 'yes' if t['in_catalog'] else 'no',
                     a.get('graded', ''), a.get('passed', ''), f"{a['rate']:.0%}" if a else '', fl[0] or '', fl[1] if fl[0] else '',
                     '' if t['status'] == 'proven' else f"{t['p_hard']:.2f}",
-                    '; '.join(f'{m}: {v[1]}/{v[0]}' for m, v in sorted(t['models'].items()) if m not in (ARGON, FLASH))])
+                    '; '.join(f'{m}: {v[1]}/{v[0]}' for m, v in sorted(t['models'].items()) if m not in (ARGON, FLASH, DROPPED))])
 for t in TASKS: t['tier'] = tier(t) if t in UNI else ''
 json.dump({'cut': CUT, 'target': TARGET, 'lr': LR, 'prior': PRIOR, 'estimate': EST, 'extra_proven': len(extra),
            'tasks': TASKS}, open(f'{H}/universe.json', 'w'), indent=1, default=str)

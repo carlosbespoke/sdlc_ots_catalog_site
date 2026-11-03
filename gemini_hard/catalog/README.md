@@ -6,7 +6,7 @@ We selected our coding RL Envs where Gemini models fail and grouped them into fo
 
 | Catalog | Tasks (estimated) | What the tasks do | % of all tasks | Average turn count |
 |---|---:|---|---:|---:|
-| [ProgramBench and Migration](programbench.md) | 283 | Rebuild or upgrade programs to match a reference exactly, or port libraries to another language. | 46.8% | 420 |
+| [ProgramBench and Migration](programbench.md) | 283 | Rebuild or upgrade programs to match a reference exactly, or port libraries to another language. | 46.8% | 425 |
 | [System design & IaC](system-design.md) | 123 | Keep running services and live infrastructure correct through failures and refactors. | 20.3% | 265 |
 | [Diagnosis, Debugging, and Bug Fixing](debugging.md) | 98 | Find and fix faults in real codebases from symptoms or documentation. | 16.2% | 417 |
 | [Feature implementation](feature-implementation.md) | 101 | Add capabilities to existing libraries and services without breaking current behaviour. | 16.7% | 348 |
@@ -20,7 +20,6 @@ We selected our coding RL Envs where Gemini models fail and grouped them into fo
 |---|---:|
 | google/gemini-4-argon | 23% |
 | google/gemini-3.8-flash | 2% |
-| google/gemini-3.7-flash | 0% |
 
 ## Samples
 
@@ -51,6 +50,6 @@ We selected our coding RL Envs where Gemini models fail and grouped them into fo
 
 ## Turn counts
 
-A task's turn count is the average over its Gemini runs. Across all catalogs the average is 366 turns, and 75% of tasks average 200 turns or more.
+A task's turn count is the average over its Gemini runs. Across all catalogs the average is 367 turns, and 75% of tasks average 200 turns or more.
 
 ![Turns per task, all catalogs](assets/all_turns.svg)

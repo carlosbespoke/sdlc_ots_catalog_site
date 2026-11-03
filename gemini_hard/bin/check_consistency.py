@@ -3,9 +3,9 @@
 import csv, html, json, os, re, statistics, sys, collections
 H = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); C = f'{H}/catalog'
 MM = json.load(open('/Users/carlos/code/sdlc_final_samples/pipeline/ro_models.json'))
-GEM = {k: v for k, v in MM.items() if 'gemini' in v}
+GEM = {k: v for k, v in MM.items() if 'gemini' in v and v != 'google/gemini-3.7-flash'}  # 3.7 Flash is left out of the report
 RO = {f[:-5]: json.load(open(f'{H}/ro3/{f}')) for f in os.listdir(f'{H}/ro3')}
-TU = {f[:-5]: json.load(open(f'{H}/turns/{f}'))['runs'] for f in os.listdir(f'{H}/turns')}
+TU = {f[:-5]: [r for r in json.load(open(f'{H}/turns/{f}'))['runs'] if r['model'] in GEM] for f in os.listdir(f'{H}/turns')}
 U = json.load(open(f'{H}/universe.json'))
 SEL = [t for t in U['tasks'] if t.get('tier')]
 MERGE = {'Migration': 'ProgramBench', 'Infrastructure as code': 'System design', 'Data engineering': 'Feature implementation'}
@@ -46,7 +46,7 @@ for slug in PAGE.values():
     md = open(f'{C}/{slug}.md').read(); T = [t for t in SEL if page_of(t) == slug]
     ex = section(md, 'Executive summary'); K = dict((b, html.unescape(a)) for a, b in re.findall(r'kpi-value">([^<]+)</div><div class="kpi-label">([^<]+)<', ex))
     eq(f'tasks card: {slug}', K.get('Tasks'), f'{NUM[slug]:,}')
-    for model, short in (('google/gemini-4-argon', 'Gemini 4 Argon'), ('google/gemini-3.8-flash', 'Gemini 3.8 Flash'), ('google/gemini-3.7-flash', 'Gemini 3.7 Flash')):
+    for model, short in (('google/gemini-4-argon', 'Gemini 4 Argon'), ('google/gemini-3.8-flash', 'Gemini 3.8 Flash')):
         g, p, per = pooled(T, model)
         shown = len(per) >= 5
         eq(f'pass-rate card: {slug} {short}', K.get(f'{short} pass rate'), pct(p / g) if shown else None)
