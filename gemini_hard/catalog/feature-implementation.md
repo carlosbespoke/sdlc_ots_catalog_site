@@ -116,7 +116,7 @@ In the non-test code you add, please avoid: new `init()` functions; the `syscall
 
 #### Environment
 
-![How the task works](assets/env-feature-implementation-ex1.svg)
+![How the task works](assets/env-memdb-txn-ots.svg)
 
 ### Example 2: Databases & storage engines (Python)
 
@@ -155,7 +155,7 @@ Could you find what's wrong and fix it? There's no network here.
 
 #### Environment
 
-![How the task works](assets/env-pdk-sqlite-history-json-schema.svg)
+![How the task works](assets/env-sqlite-history-repair.svg)
 
 ### Example 3: Data pipelines & ETL (Python)
 
@@ -192,4 +192,4 @@ Please fix etlplus in /app. The existing tests in /app/tests and the ruff, pydoc
 
 #### Environment
 
-![How the task works](assets/env-feature-implementation-ex3.svg)
+![How the task works](assets/env-etlplus-csv-pipeline.svg)

@@ -123,7 +123,7 @@ A few things that will save you some pain:
 
 #### Environment
 
-![How the task works](assets/env-java--dynatrace-oss--dynahist-xai.svg)
+![How the task works](assets/env-dynahist-go-port.svg)
 
 ### Example 2: Media processing (Agent's choice)
 
@@ -225,7 +225,7 @@ whichever comes first.
 
 #### Environment
 
-![How the task works](assets/env-psy-ex__svt-av1-psy.88cd12e.svg)
+![How the task works](assets/env-svtav1-encoder-rebuild.svg)
 
 ### Example 3: Graph algorithms (Go)
 
@@ -268,4 +268,4 @@ A few things that will save you some pain:
 
 #### Environment
 
-![How the task works](assets/env-programbench-ex3.svg)
+![How the task works](assets/env-dagre-go-port.svg)

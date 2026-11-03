@@ -183,7 +183,7 @@ documentation working exactly as it does now.
 
 #### Environment
 
-![How the task works](assets/env-torchio-canonical.svg)
+![How the task works](assets/env-torchio-canonical-ots.svg)
 
 ### Example 3: Machine learning & MLOps (Python)
 
@@ -248,4 +248,4 @@ note. `reproducer` is the repo-relative path of your regression test.
 
 #### Environment
 
-![How the task works](assets/env-debugging-ex3.svg)
+![How the task works](assets/env-swanlab-nanpair-ots.svg)

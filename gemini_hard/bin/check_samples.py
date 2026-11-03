@@ -54,7 +54,9 @@ for slug, s in S.items():
         # diagram: the file shown is this task's own diagram
         img = re.search(r'!\[How the task works\]\(assets/([^)]+)\)', blk).group(1)
         f = f'{C}/assets/{img}'
-        if img == f"env-{t['name']}.svg": eq(f'diagram: {slug} {i}', os.path.exists(f), True)
+        if img == f"env-{SIDS[t['name']]}.svg":
+            eq(f'diagram: {slug} {i}', hashlib.md5(open(f, 'rb').read()).digest() == hashlib.md5(open(f"{H}/diagrams/{SIDS[t['name']]}/diagram.svg", 'rb').read()).digest(), True)
+        elif img == f"env-{t['name']}.svg": eq(f'diagram: {slug} {i}', os.path.exists(f), True)
         else: eq(f'diagram: {slug} {i}', t['name'] in ORIG_ENV and hashlib.md5(open(f, 'rb').read()).digest() == hashlib.md5(open(ORIG_ENV[t['name']], 'rb').read()).digest(), True)
         # overview row and CSV row point at this example
         row = re.search(rf'^\| Main \| {re.escape(s["name"])} \| \[Example {i}: (.*?)\]\({slug}\.md#(.*?)\) \| \[`(.*?)`\]\((.*?)\) \|', readme, re.M)

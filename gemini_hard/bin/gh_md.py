@@ -137,7 +137,11 @@ for slug, s in S.items():
         else: L.append('No graded Gemini runs on the current version.\n')
         L.append('#### Environment\n')
         envsvg = f'env-{slug}-ex{i}.svg'
-        if os.path.exists(f"{OUT}/assets/env-{t['name']}.svg"):
+        # hand-drawn system design diagram for the sample (diagrams/<task id>/draw.py), else the older ones
+        if os.path.exists(f"{H}/diagrams/{t['task_id']}/diagram.svg"):
+            shutil.copyfile(f"{H}/diagrams/{t['task_id']}/diagram.svg", f"{OUT}/assets/env-{t['task_id']}.svg")
+            L.append(f"![How the task works](assets/env-{t['task_id']}.svg)\n")
+        elif os.path.exists(f"{OUT}/assets/env-{t['name']}.svg"):
             L.append(f"![How the task works](assets/env-{t['name']}.svg)\n")
         elif t['name'] in ENV and os.path.exists(ENV[t['name']]):
             shutil.copyfile(ENV[t['name']], f'{OUT}/assets/{envsvg}'); L.append(f'![How the task works](assets/{envsvg})\n')

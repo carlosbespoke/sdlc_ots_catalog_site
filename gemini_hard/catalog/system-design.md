@@ -128,7 +128,7 @@ Work in `/app` (Node 22, Yarn 4); build the affected packages with `yarn workspa
 
 #### Environment
 
-![How the task works](assets/env-pdk-actual-sync-log-checkpoint-compaction.svg)
+![How the task works](assets/env-actual-sync-compaction.svg)
 
 ### Example 2: Secrets & access control (Go)
 
@@ -169,7 +169,7 @@ Work in `/app` (`src/` is the Go module). PostgreSQL and Redis are installed; st
 
 #### Environment
 
-![How the task works](assets/env-pdk-harbor-scan-ephemeral-credentials.svg)
+![How the task works](assets/env-harbor-scanner-credentials.svg)
 
 ### Example 3: Software supply chain (C#)
 
@@ -211,4 +211,4 @@ The source is at `/app`. Build and run with `dotnet build src/BaGetter/BaGetter.
 
 #### Environment
 
-![How the task works](assets/env-pdk-bagetter-fenced-package-writes.svg)
+![How the task works](assets/env-bagetter-fenced-writes.svg)
