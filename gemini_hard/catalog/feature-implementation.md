@@ -2,34 +2,23 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">101</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">11%</div><div class="kpi-label">Gemini 4 Argon pass rate</div></div><div class="kpi"><div class="kpi-value">0%</div><div class="kpi-label">Gemini 3.8 Flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">101</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">11%</div><div class="kpi-label">Gemini 4 Argon pass rate</div></div><div class="kpi"><div class="kpi-value">&lt;1%</div><div class="kpi-label">Gemini 3.8 Flash pass rate</div></div></div>
 
-Each task asks the agent to add a capability to an existing open-source library or service, specified the way a series of pull requests would be, while every existing behaviour keeps working. The data pipeline tasks extend data libraries so pipelines keep producing correct results after an upstream format or schema change. Hidden tests check the new behaviour and the old behaviour together.
+Each task asks the agent to add a capability to an existing open-source library or service, specified as the public types and functions to deliver. The data pipeline tasks extend data libraries so pipelines keep producing correct results after an upstream format or schema change. The main languages are Go (68%), Python (32%) and C# (1%).
 
-Gemini 4 Argon passes 11% of its runs on these tasks, and it fails every run on 85% of the tasks. Gemini 3.8 Flash passes 0%, and it fails every run on 98% of the tasks. The main languages are Go (68%), Python (32%) and C# (1%).
-
-| Domain | What the tasks do | % of catalog |
-|---|---|---:|
-| Languages & developer tooling | Add features to command-line tools, compilers and API tooling. | 22% |
-| Systems, hardware & accelerators | Add features to networking and HTTP libraries and to smart-home device integrations. | 16% |
-| Data engineering & databases | Add features to serialization formats and storage engines. | 14% |
-| Applications & business domains | Add features to web applications and media processing libraries. | 14% |
-| Scientific & ML software | Add features to ML, agent and geospatial libraries. | 10% |
-| Cloud infrastructure & IaC | Add features to container platforms and configuration-management tools. | 8% |
-| Security | Add features to cryptography and secrets libraries. | 5% |
-| Data pipelines | Extend data libraries so pipelines keep correct results when upstream data changes. | 5% |
-| Observability & reliability | Add features to monitoring and observability tooling. | 4% |
-| Distributed systems & coordination | Add features to messaging and calendaring libraries. | 3% |
+Gemini 4 Argon passes 11% of its runs and fails every run on 85% of them. Gemini 3.8 Flash passes <1% of its runs and fails every run on 98% of them.
 
 ## Why this catalog
 
 ### Problems engineers face
 
-Maintainers add a capability that runs through many code paths of an unfamiliar library or service, while existing callers must see no change. Typical requests add an opt-in mode or policy, keep information the library currently drops, or make a subsystem safe under concurrency and failure. Data engineers face a related problem: after an upstream format or schema change, a pipeline keeps running but produces wrong results, and the library has to handle the new data while old inputs still work.
+Maintainers add a capability that runs through many code paths of an unfamiliar library or service, while existing callers must see no change. Typical requests add an opt-in mode or policy, keep information the library currently drops, or make a subsystem safe under concurrency and failure.
+
+Data engineers face a related problem: after an upstream format or schema change, a pipeline keeps running but produces wrong results. The library has to handle the new data while old inputs still work.
 
 ### How the tasks reproduce them
 
-Each task pins an open-source repository, mostly Go or Python, in an offline container and gives a written specification of the new behaviour, with the public types and functions to deliver. The agent's edits are collected as a diff against the base commit. After the session, hidden acceptance tests check the new behaviour and the project's existing tests check that nothing else changed. The data pipeline tasks also provide sample inputs in `/data`.
+Each task pins an open-source repository, mostly Go or Python, in an offline container and gives a written specification of the new behaviour. The agent's edits are collected as a diff against the base commit. After the session, hidden acceptance tests check the new behaviour and the project's existing tests check that nothing else changed. The data pipeline tasks also provide sample inputs in `/data`.
 
 ### Typical prompts
 
@@ -38,6 +27,8 @@ Each task pins an open-source repository, mostly Go or Python, in an offline con
 - A first-person data problem after an upstream change, with sample files in `/data` and a request to keep existing results unchanged.
 
 ## Domain breakdown
+
+The tasks span 10 domains. The largest, Languages & developer tooling, makes up 22% of the catalog.
 
 ![Share of tasks by domain](assets/feature-implementation_domain.svg)
 
@@ -66,7 +57,7 @@ Each task pins an open-source repository, mostly Go or Python, in an offline con
 | Model | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|
 | google/gemini-4-argon | 11% | 85% | 15% | 0% |
-| google/gemini-3.8-flash | 0% | 98% | 0% | 0% |
+| google/gemini-3.8-flash | <1% | 98% | 0% | 0% |
 
 ![Per-task pass rate by Gemini model](assets/feature-implementation_per_task.svg)
 
@@ -88,60 +79,50 @@ A task's turn count is the average over its Gemini runs. A task is long horizon 
 | google/gemini-3.8-flash | 94% | 345.5 | 69% |
 | google/gemini-4-argon | 13% | 229.6 | 63% |
 
-## Example tasks from the shortlist
+## Sample tasks
 
-These examples are attached samples. All of them come from the shortlist and have Gemini runs that pass at most half the time.
-
-### Example 1: Data formats & serialization (Python)
+### Example 1: Databases & storage engines (Go)
 
 | Field | Value |
 |---|---|
-| Sample | Attached sample |
-| Final category | Data engineering |
-| Domain | Data pipelines |
-| Sub-domain | Data formats & serialization |
-| Language | Python |
-| Seniority | Mid-Senior |
-| Turn count | 84 (google/gemini-4-argon) |
+| Task id | [`memdb-txn-ots`](https://drive.google.com/file/d/1M3HCkXFdoznYOiY4yc3LlI8olgAA1K15/view) |
+| Final category | Feature implementation |
+| Domain | Data engineering & databases |
+| Sub-domain | Databases & storage engines |
+| Language | Go |
+| Seniority | Senior |
+| Turn count | 79 (google/gemini-4-argon) |
 | Long horizon | no |
-
-Prompt shape: A feature request for a widely used library, written as a list of behaviors per option with compatibility constraints for existing behavior.
 
 #### Prompt
 
 <details open><summary>Full instruction given to the agent (instruction.md)</summary>
 <div class="prompt-md">
 
-Our partner's XML feed now carries explicit nulls and text where padding matters. A sample is in `/data/partner-feed.xml`. Extend the existing `xmltodict.parse` and `xmltodict.unparse` APIs in `/app` so callers can opt into the new feed without changing the defaults.
+I'm restoring transaction and query support in our copy of go-memdb so callers can update data, query snapshots, and watch query results for updates. Could you implement the methods that currently panic in the root `memdb` package? They live in `txn.go`, `memdb.go`, `index.go`, `filter.go`, and `watch.go`. The missing pieces cover transaction lifecycle, deletion, indexed queries and iteration, snapshots, deferred callbacks, filtering, and watch sets.
 
-With `parse(..., xsi_nil=True)`, an element whose XML Schema instance `nil` attribute is `true` or `1` becomes `None`, regardless of its prefix, other attributes or text. Other values of `nil` and ordinary empty elements keep their existing behavior. This works with namespace processing on or off, and with streaming callbacks. With `parse(..., xml_space=True)`, `xml:space="preserve"` retains text and comment whitespace exactly, including whitespace only text; descendants inherit this policy until `xml:space="default"` restores the normal stripping rule. This also applies to streamed entries, even when the input arrives in byte chunks. The two options can be used together.
+The existing code, API comments, and `README.md` provide context for the restoration. A received value must wake `WatchCtx` just as a closed watched channel does. Please keep the restored public names and signatures unchanged, and retain `Txn.write` for package compatibility; private helper functions are up to you. I'll check the restored behavior alongside index and schema regressions. Submit text Go source changes without new symbolic links, binary Go diffs, or Go line-position directives (`//line` and `/*line`). Use Go filenames that produce unquoted, whitespace-free paths in Git diffs.
 
-With `unparse(..., xsi_nil=True)`, every `None` element, including nested elements and list entries, emits an explicit schema instance nil attribute with a valid namespace binding. Empty strings remain ordinary empty elements. A nullable document can be parsed, written and parsed again without losing its null locations. Without the new options, existing parsing and writing behavior must stay the same. Malformed XML and invalid UTF-8 still raise Expat errors, and entity declarations remain disabled by default with `ValueError`.
-
-The environment has Python 3.12, installed project dependencies and no network. The existing repository checks should still pass.
+In the non-test code you add, please avoid: new `init()` functions; the `syscall`, `golang.org/x/sys`, `os/exec`, `os/signal`, `plugin`, `embed`, `runtime/cgo`, `runtime/pprof`, `runtime/trace`, `testing` and `flag` packages, cgo, and `//go:linkname` or `//go:embed` directives; `os.Exit`, `os.StartProcess`, `os.FindProcess` and `runtime.Goexit`; reading `os.Args`, `os.Executable`, `/proc/self` or `runtime/debug` build info; caller or stack lookups (`runtime.Caller`, `Callers`, `CallersFrames`, `FuncForPC`, `Stack`, `debug.Stack`, `debug.PrintStack`, `log.Lshortfile`, `log.Llongfile`, and `AddSource` selectors or identifier keys); literal U+0016 or the text `\x16`; and printing test-runner lines such as `--- PASS`. These are rejected outright. Some checks read raw text and also match comments.
 
 </div>
 </details>
 
 #### Pass rates
 
-| Model | Pass rate | Mean score |
-|---|---:|---:|
-| google/gemini-4-argon | 50% | 0.50 |
+| Model | Pass rate |
+|---|---:|
+| google/gemini-4-argon | 67% |
 
 #### Environment
 
 ![How the task works](assets/env-feature-implementation-ex1.svg)
 
-#### How it maps to the work
-
-A data engineer ingests partner XML that now carries explicit nulls and whitespace that matters. They extend a parser and writer with opt-in options, keep defaults unchanged and make a document round trip without losing null positions.
-
 ### Example 2: Databases & storage engines (Python)
 
 | Field | Value |
 |---|---|
-| Sample | Attached sample |
+| Task id | [`sqlite-history-repair`](https://drive.google.com/file/d/146Un1dIq2RerHMbYpd5aWBnrQ6VpXLLV/view) |
 | Final category | Data engineering |
 | Domain | Data pipelines |
 | Sub-domain | Databases & storage engines |
@@ -149,8 +130,6 @@ A data engineer ingests partner XML that now carries explicit nulls and whitespa
 | Seniority | Mid-Senior |
 | Turn count | 236 (google/gemini-4-argon) |
 | Long horizon | yes |
-
-Prompt shape: A production symptom with several schema change causes, then a list of invariants the migration must satisfy including idempotence and error cases.
 
 #### Prompt
 
@@ -170,23 +149,19 @@ Could you find what's wrong and fix it? There's no network here.
 
 #### Pass rates
 
-| Model | Pass rate | Mean score |
-|---|---:|---:|
-| google/gemini-4-argon | 0% | 0.00 |
+| Model | Pass rate |
+|---|---:|
+| google/gemini-4-argon | 0% |
 
 #### Environment
 
 ![How the task works](assets/env-pdk-sqlite-history-json-schema.svg)
 
-#### How it maps to the work
-
-A data engineer owns audit history for SQLite tables whose schema later changed through ALTER TABLE. They must repair the stored history in an upgrade path so restore and history queries work again, with a safe dry run and no change on a second run.
-
 ### Example 3: Data pipelines & ETL (Python)
 
 | Field | Value |
 |---|---|
-| Sample | Attached sample |
+| Task id | [`etlplus-csv-pipeline`](https://drive.google.com/file/d/1j76u3l7Bo5yUlUhQCeFMMRASnZxfB8WD/view) |
 | Final category | Data engineering |
 | Domain | Data pipelines |
 | Sub-domain | Data pipelines & ETL |
@@ -194,8 +169,6 @@ A data engineer owns audit history for SQLite tables whose schema later changed 
 | Seniority | Mid-Senior |
 | Turn count | 248 (google/gemini-4-argon) |
 | Long horizon | yes |
-
-Prompt shape: An export format switch with a failing command given verbatim and an equivalence requirement between two input formats.
 
 #### Prompt
 
@@ -213,14 +186,10 @@ Please fix etlplus in /app. The existing tests in /app/tests and the ruff, pydoc
 
 #### Pass rates
 
-| Model | Pass rate | Mean score |
-|---|---:|---:|
-| google/gemini-4-argon | 0% | 0.00 |
+| Model | Pass rate |
+|---|---:|
+| google/gemini-4-argon | 0% |
 
 #### Environment
 
 ![How the task works](assets/env-feature-implementation-ex3.svg)
-
-#### How it maps to the work
-
-A data engineer's nightly pipeline switched its export from JSON to CSV, so validation fails and totals are wrong. They fix the library so a CSV source gives the same records and results as JSON, including CSV written by an earlier job.

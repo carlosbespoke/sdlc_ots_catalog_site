@@ -17,6 +17,8 @@ export HORIZON_API_KEY="$(security find-generic-password -a "$USER" -s HORIZON_A
 ~/code/horizon_env/bin/python3 bin/gh_md.py               # catalog/*.md and the CSV's example column
 cd catalog && ../../pipeline/.venv/bin/python build_site.py --verify && python3 build_single.py && cd ..
 ~/code/horizon_env/bin/python3 bin/check_consistency.py      # recomputes every number on the pages from ro3/ and turns/
+~/code/horizon_env/bin/python3 bin/check_samples.py          # each sample's heading, fields, prompt, write-up, diagram, overview row and CSV row
+~/code/horizon_env/bin/python3 bin/verify_samples_live.py    # optional, needs the key: samples' pass rates and turn counts re-pulled live from Horizon
 ```
 
 Data source: one snapshot. `ro3/` holds every task's runs at the version the 2 Nov sheet selects, and `turns/` holds the turn count of every completed Gemini run, both pulled at the time in `SNAPSHOT`. To refresh, delete both folders, fetch them again, and rebuild.
@@ -28,6 +30,6 @@ Write-ups for samples that are not OTS catalog examples are in `cat/samples_text
 - **Gemini-hard:** Argon pass rate under 80% (passes over graded runs).
 - **Proven:** Argon has run the task and is under 80%.
 - **Likely:** no Argon runs, at least one graded run from some model, and a predicted chance of 50% or more. The prediction is the catalog's Argon share, adjusted by GLM-5.3 Flash and Gemini 3.8 Flash results on the task (naive Bayes, `bin/universe.py`).
-- **Main samples:** shortlisted ("Updated selection 120" tab), in the catalog, run by Argon, 4 or more Gemini runs, pooled Gemini pass rate of 25% or less, and one per catalog.
-- **Attached samples:** shortlisted, run by Argon, pooled Gemini pass rate of 50% or less, lowest first, and at most 3 per task group.
+- **Attached samples:** 10 from the shortlist with Argon runs that are not main samples, Gemini-hard tasks first, then lowest Argon pass rate. Only 8 such tasks are Gemini-hard; the other 2 sit exactly at Argon 80%. They appear only in the overview's samples table and `samples.csv` (every sample, main and attached, with task id and version).
+- **Main samples:** `mangle-8edad8d3-blind30` is excluded by reviewer decision (`NOT_SAMPLE` in `bin/universe.py`). Up to 3 per catalog page and at least one per task group, except System design & IaC, whose samples come from System design only (`SAMPLE_GROUPS`), all in the selection and run by Argon. The strongest earlier sample (4+ Gemini runs, 25% or less) anchors each page. A task group without a sample gets its lowest-pass-rate shortlisted task, or one from the original catalog's shortlist when it has none on the current one (ProgramBench). Remaining slots go to shortlisted tasks at 50% or less, lowest Gemini pass rate first (`bin/universe.py`).
 - **Catalog merges:** for presentation only, three task groups move into other catalogs, each as one domain. Migration goes to ProgramBench as "Cross-language migration", Infrastructure as code goes to System design as "State-preserving infrastructure changes", and Data engineering goes to Feature implementation as "Data pipelines" (`MERGE` in `bin/gh_stats.py`). Selection and estimates still use each group's own Argon share.

@@ -7,7 +7,7 @@ codeify = lambda x: _cf(strip_names(x))
 H = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); OUT = f'{H}/catalog'
 S = json.loads(open(f'{H}/cat/stats.json').read().replace(r'Mid–Senior', 'Mid-Senior').replace('Mid–Senior', 'Mid-Senior'))
 U = json.load(open(f'{H}/universe.json'))
-def pct(v): return 'n/a' if v is None else f'{100 * v:.0f}%'
+def pct(v): return 'n/a' if v is None else '<1%' if 0 < v < 0.005 else f'{100 * v:.0f}%'
 def table(head, rows, left=False, text_cols=1, align=None):
     """align: optional string of l/r per column; otherwise the first text_cols columns are left-aligned."""
     out = ['| ' + ' | '.join(head) + ' |', '|' + '|'.join(('---' if align[i] == 'l' else '---:') if align else ('---' if i < text_cols or left else '---:') for i in range(len(head))) + '|']
@@ -59,7 +59,8 @@ NUM = {k: int(v) for k, v in EN.items()}
 for k in sorted(EN, key=lambda k: -(EN[k] - int(EN[k])))[:total - sum(NUM.values())]: NUM[k] += 1
 SUM = json.load(open(f'{H}/cat/summary_text.json'))
 WHY = json.load(open(f'{H}/cat/why_text.json'))  # written for the merged catalogs, from the selected tasks' prompts and files
-def kpi(value, label): return f'<div class="kpi"><div class="kpi-value">{value}</div><div class="kpi-label">{label}</div></div>'
+NUMW = {1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine'}
+def kpi(value, label): return f'<div class="kpi"><div class="kpi-value">{value.replace("<", "&lt;")}</div><div class="kpi-label">{label}</div></div>'
 index = []
 for slug, s in S.items():
     T = TXT[s['title']]; tx = TX; mo = T.get('motivation', {})
@@ -71,20 +72,25 @@ for slug, s in S.items():
     am, fm = G.get('google/gemini-4-argon'), G.get('google/gemini-3.8-flash')
     cards = [kpi(f"{NUM[slug]:,}", 'Tasks')] + [kpi(pct(m['pass_rate']), f"{nm} pass rate") for m, nm in ((am, 'Gemini 4 Argon'), (fm, 'Gemini 3.8 Flash')) if m]
     L.append('<div class="kpis">' + ''.join(cards) + '</div>\n')
-    L.append(SUM[slug]['work'] + '\n')
+    # paragraph 1: what the tasks are, including their languages
     langs = [x for x in s['language'] if x['value'] != 'Not yet classified'][:3]
-    fails = lambda m: f", and it fails every run on {pct(m['tasks_0'] / m['tasks_graded'])} of the tasks" if m['tasks_0'] else ''
-    L.append(' '.join([f"Gemini 4 Argon passes {pct(am['pass_rate'])} of its runs on these tasks{fails(am)}." if am else '',
-                       f"Gemini 3.8 Flash passes {pct(fm['pass_rate'])}{fails(fm)}." if fm else '',
-                       'The main languages are ' + ', '.join(f"{x['value']} ({x['pct']:.0f}%)" for x in langs[:-1]) + (' and ' if len(langs) > 1 else '') + f"{langs[-1]['value']} ({langs[-1]['pct']:.0f}%)."]).strip() + '\n')
-    L.append(table(['Domain', 'What the tasks do', '% of catalog'],
-                   [[g['super_group'], SUM[slug]['domains'].get(g['super_group'], ''), f"{g['pct']:.0f}%"] for g in s['domain']], text_cols=2) + '\n')
+    choice = next((x for x in langs if x['value'] == "Agent's choice"), None); rest = [x for x in langs if x is not choice]
+    named = ', '.join(f"{x['value']} ({x['pct']:.0f}%)" for x in rest[:-1]) + (' and ' if len(rest) > 1 else '') + f"{rest[-1]['value']} ({rest[-1]['pct']:.0f}%)"
+    lang_s = (f"In {choice['pct']:.0f}% of tasks the agent chooses the language; the most common fixed languages are {named}." if choice
+              else f"The main languages are {named}.")
+    L.append(SUM[slug]['work'] + ' ' + lang_s + '\n')
+    # paragraph 2: results, point first, each rate bounded to the tasks that model has run
+    fails = lambda m: f" and fails every run on {pct(m['tasks_0'] / m['tasks_graded'])} of them" if m['tasks_0'] else ''
+    L.append(' '.join([f"Gemini 4 Argon passes {pct(am['pass_rate'])} of its runs{fails(am)}." if am else '',
+                       f"Gemini 3.8 Flash passes {pct(fm['pass_rate'])} of its runs{fails(fm)}." if fm else '']).strip() + '\n')
     L.append('## Why this catalog\n')
     W = WHY[slug]
     L.append('### Problems engineers face\n'); L.append(W['problems'] + '\n')
     L.append('### How the tasks reproduce them\n'); L.append(W['how'] + '\n')
     L.append('### Typical prompts\n'); L.append('\n'.join(f'- {p}' for p in W['prompts']) + '\n')
     L.append('## Domain breakdown\n')
+    top = s['domain'][0]
+    L.append(f"The tasks span {NUMW.get(len(s['domain']), len(s['domain']))} domains. The largest, {top['super_group']}, makes up {top['pct']:.0f}% of the catalog.\n")
     L.append(f'![Share of tasks by domain](assets/{slug}_domain.svg)\n')
     Pc = lambda k: 100 * k / n
     L.append('## Language and seniority\n')
@@ -110,31 +116,24 @@ for slug, s in S.items():
         L.append(table(['Model', '% of tasks', 'Mean turns', f"% with {TT['threshold']}+ turns"],
             [[m['model'], (f"{100 * m['tasks'] / k:.0f}%" if 100 * m['tasks'] / k >= 0.5 else '<1%'), f"{m['mean']:.1f}", f"{100 * m['runs_200_plus'] / m['runs']:.0f}%"] for m in TT['by_model']]) + '\n')
     else: L.append('No Gemini turn data for the selected tasks.\n')
-    L.append('## Example tasks from the shortlist\n')
+    L.append('## Sample tasks\n')
     if not s['showcase']:
-        L.append("None of this catalog's shortlisted tasks are in the Gemini-hard selection, so this page has no example.\n")
-    else:
-        main = sum(1 for t in s['showcase'] if t['sample'] == 'super')
-        L.append(('The first example is a main sample for the catalog; the others are attached samples.' if main else 'These examples are attached samples.')
-                 + ' All of them come from the shortlist and have Gemini runs that pass at most half the time.\n')
+        L.append("This catalog has no example yet.\n")
     for i, t in enumerate(s['showcase'], 1):
         x = tx.get(t['name'], {})
         L.append(f"### Example {i}: {t['category']} ({t['language']})\n")
         gem = [m for m in t['models'] if m['graded']]
         L.append(table(['Field', 'Value'], [
-            ['Sample', 'Main sample for the catalog' if t['sample'] == 'super' else 'Attached sample'],
-            ['Final category', t['final']], ['Domain', t['super_group']], ['Sub-domain', t['category']],
+            ['Task id', f"[`{t['task_id']}`]({t['url']})"], ['Final category', t['final']], ['Domain', t['super_group']], ['Sub-domain', t['category']],
             ['Language', t['language']], ['Seniority', t['seniority']],
             ['Turn count', (', '.join(f"{v:.0f} ({json.load(open(f'{P}/ro_models.json')).get(m, m)})" for m, v in t['turns']['by_model'].items()) if t.get('turns') else 'no completed run')],
             ['Long horizon', ('yes' if t.get('turns') and t['turns']['mean'] >= 200 else 'no' if t.get('turns') else 'n/a')]], left=True) + '\n')
-        if x.get('prompt_pattern'): L.append(f"Prompt shape: {x['prompt_pattern']}\n")
         ins = instruction(t['name'])
         L.append('#### Prompt\n')
         L.append('<details open><summary>Full instruction given to the agent (instruction.md)</summary>\n<div class="prompt-md">\n\n' + (prompt_md(ins) if ins else '`instruction.md` not found in the current version.') + '\n\n</div>\n</details>\n')
         L.append('#### Pass rates\n')
         if gem:
-            L.append(table(['Model', 'Pass rate', 'Mean score'],
-                [[m['model'], pct(m['pass_rate']), 'n/a' if m['avg_score'] is None else f"{m['avg_score']:.2f}"] for m in gem]) + '\n')
+            L.append(table(['Model', 'Pass rate'], [[m['model'], pct(m['pass_rate'])] for m in gem]) + '\n')
         else: L.append('No graded Gemini runs on the current version.\n')
         L.append('#### Environment\n')
         envsvg = f'env-{slug}-ex{i}.svg'
@@ -145,8 +144,6 @@ for slug, s in S.items():
         elif x.get('environment_mermaid'):
             L.append('```mermaid\n' + x['environment_mermaid'].strip() + '\n```\n')
         else: L.append('_Pending._\n')
-        L.append('#### How it maps to the work\n')
-        L.append((x.get('workflow') or '_Pending._') + '\n')
     md = '\n'.join(L)
     open(f'{OUT}/{slug}.md', 'w').write(md)
     index.append((slug, s))
@@ -171,11 +168,8 @@ for _, s in index:
 ar = allm['google/gemini-4-argon']; fl = allm['google/gemini-3.8-flash']
 L = ['# Coding OTS RL Envs\n']
 L.append('<div class="kpis">' + kpi(f"{total:,}", 'Tasks') + kpi(pct(ar[1] / ar[0]), 'Gemini 4 Argon pass rate') + kpi(pct(fl[1] / fl[0]), 'Gemini 3.8 Flash pass rate') + '</div>\n')
-L.append(f"These are coding environments for reinforcement learning, grouped into {len(index)} catalogs. Each task puts the agent in a real open-source codebase or program, "
-         "gives it a written request of the kind an engineer would receive, and grades the result with hidden tests. "
-         f"Gemini 4 Argon passes {pct(ar[1] / ar[0])} of its runs on these tasks and Gemini 3.8 Flash passes {pct(fl[1] / fl[0])}. "
-         "Every pass rate and plot on these pages covers Gemini models only: Gemini 4 Argon (`google/gemini-4-argon`) and Gemini 3.8 Flash (`google/gemini-3.8-flash`).\n")
-L.append(table(['Catalog', 'Tasks', 'What the tasks do', '% of all tasks', 'Average turn count'],
+L.append("We selected our coding RL Envs where Gemini models fail and grouped them into four catalogs.\n")
+L.append(table(['Catalog', 'Tasks (estimated)', 'What the tasks do', '% of all tasks', 'Average turn count'],
     [[f"[{s['name']}]({slug}.md)", f"{NUM[slug]:,}", ONE[slug], f"{100 * NUM[slug] / total:.1f}%", tt(s)] for slug, s in index]
     + [['**Total**', f"**{total:,}**", '', '**100%**', '']], align='lrlrr') + '\n')
 L.append('## Gemini pass rates\n')
@@ -184,13 +178,22 @@ L.append(table(['Model', 'Pass rate'], [[k, pct(v[1] / v[0]) if v[0] else 'n/a']
 L.append('## Samples\n')
 smp = [(slug, s, i, t) for slug, s in index for i, t in enumerate(s['showcase'], 1)]
 gm = lambda t, name: next((pct(m['pass_rate']) for m in t['models'] if m['model'] == name and m['graded']), '')
-L.append(f"{sum(1 for x in smp if x[3]['sample'] == 'super')} main samples go into the catalog and {sum(1 for x in smp if x[3]['sample'] == 'attached')} are attached. "
-         "All come from the shortlist. Main samples pass at most 25% of their Gemini runs. "
-         "Attached samples pass at most half their Gemini runs. Each example is written up on its catalog page.\n")
-L.append(table(['Sample', 'Catalog', 'Example', 'Gemini 4 Argon', 'Gemini 3.8 Flash'],
-    [['Main' if t['sample'] == 'super' else 'Attached', s['name'], f"[Example {i}: {t['category']} ({t['language']})]({slug}.md)", gm(t, 'google/gemini-4-argon'), gm(t, 'google/gemini-3.8-flash')]
-     for slug, s, i, t in sorted(smp, key=lambda x: x[3]['sample'] != 'super')], text_cols=3) + '\n')
-L.append('\n![Turns per task, all catalogs](assets/all_turns.svg)\n')
+import unicodedata
+def anchor(title):
+    """The heading id build_site.py gives a heading with this text (same rule)."""
+    slug = re.sub(r'[^\w\s-]', '', unicodedata.normalize('NFKC', title).lower())
+    return re.sub(r'[-\s]+', '-', slug).strip('-') or 'section'
+ex_title = lambda i, t: f"Example {i}: {t['category']} ({t['language']})"
+L.append(table(['Sample', 'Catalog', 'Example', 'Task id', 'Gemini 4 Argon', 'Gemini 3.8 Flash'],
+    [['Main', s['name'], f"[{ex_title(i, t)}]({slug}.md#{anchor(ex_title(i, t))})", f"[`{t['task_id']}`]({t['url']})", gm(t, 'google/gemini-4-argon'), gm(t, 'google/gemini-3.8-flash')]
+     for slug, s, i, t in smp]
+    + [['Attached', s['name'], f"{a['category']} ({a['language']})", f"[`{a['task_id']}`]({a['url']})", pct(a['models']['google/gemini-4-argon']['pass_rate']),
+        pct(a['models']['google/gemini-3.8-flash']['pass_rate']) if a['models'].get('google/gemini-3.8-flash', {}).get('graded') else '']
+       for slug, s in index for a in s['attached']], text_cols=4) + '\n')
+allt = [m for _, s_ in index for m in (s_.get('turns') or {}).get('task_means') or []]
+L.append('## Turn counts\n')
+L.append(f"A task's turn count is the average over its Gemini runs. Across all catalogs the average is {sum(allt) / len(allt):.0f} turns, and {100 * sum(m >= 200 for m in allt) / len(allt):.0f}% of tasks average 200 turns or more.\n")
+L.append('![Turns per task, all catalogs](assets/all_turns.svg)\n')
 open(f'{OUT}/README.md', 'w').write('\n'.join(L))
 print('README', TOT, 'tasks')
 # tie each sample in the CSV to its example on the catalog pages

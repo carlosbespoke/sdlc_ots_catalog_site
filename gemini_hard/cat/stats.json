@@ -1,5 +1,29 @@
 {
  "programbench": {
+  "attached": [
+   {
+    "url": "https://drive.google.com/file/d/13JG9-uLtmoWpJ6xDy7VUyn2UjxIfHsyo/view",
+    "task_id": "heavykeeper-go-port",
+    "name": "pmcgleenon--heavykeeper-rs-xai",
+    "id": "8c41a6d4-f7e4-4f01-85f8-edb5d8688ee5",
+    "group": "Migration",
+    "category": "Probabilistic data structures",
+    "language": "Go",
+    "in_selection": true,
+    "models": {
+     "google/gemini-3.8-flash": {
+      "graded": 0,
+      "passed": 0,
+      "pass_rate": null
+     },
+     "google/gemini-4-argon": {
+      "graded": 4,
+      "passed": 3,
+      "pass_rate": 0.75
+     }
+    }
+   }
+  ],
   "title": "ProgramBench",
   "name": "ProgramBench and Migration",
   "tasks": 160,
@@ -699,6 +723,8 @@
   ],
   "showcase": [
    {
+    "url": "https://drive.google.com/file/d/1ChoekorIF6oHhZTUyDkKJex0iPC334b8/view",
+    "task_id": "dynahist-go-port",
     "turns": {
      "runs": 4,
      "mean": 291.25,
@@ -713,7 +739,7 @@
     "group": "Migration",
     "id": "af8ef4d3-8f61-464f-a2bb-99424c099c15",
     "rank": 73,
-    "sample": "super",
+    "sample": "main",
     "tier": "Proven",
     "final": "Migration",
     "super_group": "Cross-language migration",
@@ -751,6 +777,61 @@
     ]
    },
    {
+    "url": "https://drive.google.com/file/d/1JmlCRxmj-7RJ9yZ698lASh-GGDr2N9Je/view",
+    "task_id": "svtav1-encoder-rebuild",
+    "turns": {
+     "runs": 2,
+     "mean": 401.0,
+     "min": 244,
+     "max": 558,
+     "by_model": {
+      "umbra": 401.0
+     }
+    },
+    "name": "psy-ex__svt-av1-psy.88cd12e",
+    "group": "ProgramBench",
+    "id": "e5b000a0-01d1-4951-8a7a-f1eda896b58e",
+    "rank": null,
+    "sample": "main",
+    "tier": "Proven",
+    "final": "ProgramBench reimplementation",
+    "super_group": "Applications & business domains",
+    "category": "Media processing",
+    "language": "Agent's choice",
+    "role": "Media Software Engineer",
+    "seniority": "Staff+",
+    "solved_by_other": false,
+    "in_catalog": true,
+    "models": [
+     {
+      "codename": "umbra",
+      "model": "google/gemini-4-argon",
+      "rollouts": 3,
+      "graded": 2,
+      "passed": 0,
+      "errors": 1,
+      "score_sum": 0.0706401766004415,
+      "pass_rate": 0.0,
+      "error_rate": 0.3333333333333333,
+      "avg_score": 0.03532008830022075
+     },
+     {
+      "codename": "kittiwake",
+      "model": "google/gemini-3.8-flash",
+      "rollouts": 1,
+      "graded": 0,
+      "passed": 0,
+      "errors": 1,
+      "score_sum": 0.0,
+      "pass_rate": null,
+      "error_rate": 1.0,
+      "avg_score": null
+     }
+    ]
+   },
+   {
+    "url": "https://drive.google.com/file/d/1LEUYx_W7eOkFA8s4EEXnSfVbyYqMdLiD/view",
+    "task_id": "dagre-go-port",
     "turns": {
      "runs": 2,
      "mean": 305.5,
@@ -764,7 +845,7 @@
     "group": "Migration",
     "id": "fb4d2aa1-8776-48a1-b719-f72c8dd38dc9",
     "rank": 51,
-    "sample": "attached",
+    "sample": "main",
     "tier": "Proven",
     "final": "Migration",
     "super_group": "Cross-language migration",
@@ -792,6 +873,142 @@
   ]
  },
  "system-design": {
+  "attached": [
+   {
+    "url": "https://drive.google.com/file/d/1Yg1iLWpltsqLdJS0jpUj4v3Wb3K4JlE-/view",
+    "task_id": "dualipv6-module-refactor",
+    "name": "terraform-dual-ipv6-k8s-module-refactor",
+    "id": "cdc09435-aa80-4d26-bf7c-237ef49e66c0",
+    "group": "Infrastructure as code",
+    "category": "Cloud infra: containers & self-hosted platforms",
+    "language": "HCL (Terraform)",
+    "in_selection": true,
+    "models": {
+     "google/gemini-4-argon": {
+      "graded": 2,
+      "passed": 0,
+      "pass_rate": 0.0
+     },
+     "google/gemini-3.8-flash": {
+      "graded": 0,
+      "passed": 0,
+      "pass_rate": null
+     }
+    }
+   },
+   {
+    "url": "https://drive.google.com/file/d/18b23bcb7ot9dDpaMF3nvcUVTGvYhg3aA/view",
+    "task_id": "centralwatch-module-refactor",
+    "name": "terraform-centralwatch-alert-routing-module-refactor",
+    "id": "1cf5f690-8caf-4033-bca1-f1eca9aaf4f6",
+    "group": "Infrastructure as code",
+    "category": "Cloud infra: AWS platform stacks",
+    "language": "HCL (Terraform)",
+    "in_selection": true,
+    "models": {
+     "google/gemini-3.8-flash": {
+      "graded": 0,
+      "passed": 0,
+      "pass_rate": null
+     },
+     "google/gemini-4-argon": {
+      "graded": 2,
+      "passed": 0,
+      "pass_rate": 0.0
+     }
+    }
+   },
+   {
+    "url": "https://drive.google.com/file/d/1VrmncKJo_ub16T50JNG8Ep_0vONojAMq/view",
+    "task_id": "modelrouter-module-refactor",
+    "name": "terraform-multi-model-router-module-refactor",
+    "id": "4ebfe45f-42ba-4277-b053-47c9dfca7eb5",
+    "group": "Infrastructure as code",
+    "category": "Cloud infra: AWS platform stacks",
+    "language": "HCL (Terraform)",
+    "in_selection": true,
+    "models": {
+     "google/gemini-4-argon": {
+      "graded": 2,
+      "passed": 1,
+      "pass_rate": 0.5
+     }
+    }
+   },
+   {
+    "url": "https://drive.google.com/file/d/1l8nNQLGUM8GbW_dp8HFuPQb2nHNGh6J-/view",
+    "task_id": "atlasgrid-pulumi-migration",
+    "name": "pulumi-atlasgrid-ecs-ts-migration",
+    "id": "1d03a45f-997c-4d63-b9cf-60894746cdd8",
+    "group": "Infrastructure as code",
+    "category": "Cloud infra: containers & self-hosted platforms",
+    "language": "TypeScript",
+    "in_selection": true,
+    "models": {
+     "google/gemini-4-argon": {
+      "graded": 2,
+      "passed": 1,
+      "pass_rate": 0.5
+     },
+     "google/gemini-3.8-flash": {
+      "graded": 3,
+      "passed": 2,
+      "pass_rate": 0.6666666666666666
+     }
+    }
+   },
+   {
+    "url": "https://drive.google.com/file/d/1cxE8Is6I9_6PCr0kAZZnMWp-ao9Z--xN/view",
+    "task_id": "dittofeed-user-deletion",
+    "name": "pdk-dittofeed-user-deletion-in-flight",
+    "id": "b6a3483e-bd02-422a-86c6-97cdf3eb1dcf",
+    "group": "System design",
+    "category": "Web applications",
+    "language": "TypeScript",
+    "in_selection": true,
+    "models": {
+     "google/gemini-4-argon": {
+      "graded": 4,
+      "passed": 3,
+      "pass_rate": 0.75
+     }
+    }
+   },
+   {
+    "url": "https://drive.google.com/file/d/1iooMPQxDSF99aj7XHO7rn2HfRhoZEiYJ/view",
+    "task_id": "immich-storage-quotas",
+    "name": "pdk-immich-hard-storage-quota-holds",
+    "id": "90593628-b5e5-47de-afdf-27aca82a1959",
+    "group": "System design",
+    "category": "Media processing",
+    "language": "TypeScript",
+    "in_selection": false,
+    "models": {
+     "google/gemini-4-argon": {
+      "graded": 5,
+      "passed": 4,
+      "pass_rate": 0.8
+     }
+    }
+   },
+   {
+    "url": "https://drive.google.com/file/d/1U6jZxHDbr-NnxBgwRvkZQplrsuJlpWCD/view",
+    "task_id": "medusa-cart-completion",
+    "name": "pdk-medusa-crash-safe-cart-completion",
+    "id": "2c5dd59c-cd66-4e57-8b74-301d12e943ef",
+    "group": "System design",
+    "category": "Payments & banking",
+    "language": "TypeScript",
+    "in_selection": false,
+    "models": {
+     "google/gemini-4-argon": {
+      "graded": 5,
+      "passed": 4,
+      "pass_rate": 0.8
+     }
+    }
+   }
+  ],
   "title": "System design",
   "name": "System design & IaC",
   "tasks": 39,
@@ -919,7 +1136,7 @@
     }
    ]
   },
-  "super_groups": 10,
+  "super_groups": 9,
   "folded": {},
   "domain": [
    {
@@ -941,13 +1158,13 @@
    },
    {
     "super_group": "Applications & business domains",
-    "tasks": 8,
-    "pct": 20.5,
+    "tasks": 9,
+    "pct": 23.1,
     "categories": [
      {
       "category": "Web applications",
-      "tasks": 4,
-      "pct": 10.3
+      "tasks": 5,
+      "pct": 12.8
      },
      {
       "category": "Payments & banking",
@@ -996,41 +1213,31 @@
     ]
    },
    {
-    "super_group": "Not yet classified",
+    "super_group": "Build, release & supply chain",
     "tasks": 3,
     "pct": 7.7,
     "categories": [
      {
-      "category": "Identity and security boundaries",
-      "tasks": 1,
-      "pct": 2.6
+      "category": "Software supply chain",
+      "tasks": 2,
+      "pct": 5.1
      },
      {
-      "category": "Privacy and deletion",
-      "tasks": 1,
-      "pct": 2.6
-     },
-     {
-      "category": "Storage and publication integrity",
+      "category": "CI/CD",
       "tasks": 1,
       "pct": 2.6
      }
     ]
    },
    {
-    "super_group": "Build, release & supply chain",
+    "super_group": "Security",
     "tasks": 2,
     "pct": 5.1,
     "categories": [
      {
-      "category": "Software supply chain",
-      "tasks": 1,
-      "pct": 2.6
-     },
-     {
-      "category": "CI/CD",
-      "tasks": 1,
-      "pct": 2.6
+      "category": "Secrets & access control",
+      "tasks": 2,
+      "pct": 5.1
      }
     ]
    },
@@ -1055,18 +1262,6 @@
       "category": "Data pipelines & ETL",
       "tasks": 2,
       "pct": 5.1
-     }
-    ]
-   },
-   {
-    "super_group": "Security",
-    "tasks": 1,
-    "pct": 2.6,
-    "categories": [
-     {
-      "category": "Secrets & access control",
-      "tasks": 1,
-      "pct": 2.6
      }
     ]
    },
@@ -1118,16 +1313,11 @@
    },
    {
     "value": "Distributed Systems Engineer",
-    "tasks": 11,
-    "pct": 28.2
+    "tasks": 14,
+    "pct": 35.9
    },
    {
     "value": "Backend Engineer",
-    "tasks": 3,
-    "pct": 7.7
-   },
-   {
-    "value": "Not yet classified",
     "tasks": 3,
     "pct": 7.7
    },
@@ -1155,18 +1345,13 @@
   "seniority": [
    {
     "value": "Staff+",
-    "tasks": 22,
-    "pct": 56.4
+    "tasks": 25,
+    "pct": 64.1
    },
    {
     "value": "Senior",
     "tasks": 14,
     "pct": 35.9
-   },
-   {
-    "value": "Not yet classified",
-    "tasks": 3,
-    "pct": 7.7
    }
   ],
   "models": [
@@ -1238,6 +1423,8 @@
   ],
   "showcase": [
    {
+    "url": "https://drive.google.com/file/d/1_sEAFRDztsqj6IIzgfOQ4KVr7m7Ff0-0/view",
+    "task_id": "actual-sync-compaction",
     "turns": {
      "runs": 5,
      "mean": 413.6,
@@ -1251,7 +1438,7 @@
     "group": "System design",
     "id": "3cdc2455-40be-41ba-8888-698b618e140c",
     "rank": 113,
-    "sample": "super",
+    "sample": "main",
     "tier": "Proven",
     "final": "System design",
     "super_group": "Applications & business domains",
@@ -1277,6 +1464,8 @@
     ]
    },
    {
+    "url": "https://drive.google.com/file/d/1aHmGorPxaObXqhuZbCDJxOM00L7U6V0m/view",
+    "task_id": "harbor-scanner-credentials",
     "turns": {
      "runs": 5,
      "mean": 365.2,
@@ -1290,14 +1479,14 @@
     "group": "System design",
     "id": "f4686aba-a0f8-4c8d-a0ba-f4ed22cc6cbc",
     "rank": 81,
-    "sample": "attached",
+    "sample": "main",
     "tier": "Proven",
     "final": "System design",
-    "super_group": "Not yet classified",
-    "category": "Identity and security boundaries",
+    "super_group": "Security",
+    "category": "Secrets & access control",
     "language": "Go",
-    "role": "Not yet classified",
-    "seniority": "Not yet classified",
+    "role": "Distributed Systems Engineer",
+    "seniority": "Staff+",
     "solved_by_other": false,
     "in_catalog": false,
     "models": [
@@ -1316,6 +1505,8 @@
     ]
    },
    {
+    "url": "https://drive.google.com/file/d/1yHr7nw0bfAZG5xO4uxrn_gH3GXffUFla/view",
+    "task_id": "bagetter-fenced-writes",
     "turns": {
      "runs": 5,
      "mean": 202.8,
@@ -1329,14 +1520,14 @@
     "group": "System design",
     "id": "d343c96f-1716-4146-a8aa-63724bd09602",
     "rank": 93,
-    "sample": "attached",
+    "sample": "main",
     "tier": "Proven",
     "final": "System design",
-    "super_group": "Not yet classified",
-    "category": "Storage and publication integrity",
+    "super_group": "Build, release & supply chain",
+    "category": "Software supply chain",
     "language": "C#",
-    "role": "Not yet classified",
-    "seniority": "Not yet classified",
+    "role": "Distributed Systems Engineer",
+    "seniority": "Staff+",
     "solved_by_other": true,
     "in_catalog": false,
     "models": [
@@ -1353,151 +1544,34 @@
       "avg_score": 0.2
      }
     ]
-   },
-   {
-    "turns": {
-     "runs": 2,
-     "mean": 46.5,
-     "min": 44,
-     "max": 49,
-     "by_model": {
-      "umbra": 46.5
-     }
-    },
-    "name": "terraform-dual-ipv6-k8s-module-refactor",
-    "group": "Infrastructure as code",
-    "id": "cdc09435-aa80-4d26-bf7c-237ef49e66c0",
-    "rank": 27,
-    "sample": "attached",
-    "tier": "Proven",
-    "final": "Infrastructure as code",
-    "super_group": "State-preserving infrastructure changes",
-    "category": "Cloud infra: containers & self-hosted platforms",
-    "language": "HCL (Terraform)",
-    "role": "Platform Engineer",
-    "seniority": "Senior",
-    "solved_by_other": true,
-    "in_catalog": true,
-    "models": [
-     {
-      "codename": "umbra",
-      "model": "google/gemini-4-argon",
-      "rollouts": 5,
-      "graded": 2,
-      "passed": 0,
-      "errors": 3,
-      "score_sum": 0.0,
-      "pass_rate": 0.0,
-      "error_rate": 0.6,
-      "avg_score": 0.0
-     },
-     {
-      "codename": "kittiwake",
-      "model": "google/gemini-3.8-flash",
-      "rollouts": 1,
-      "graded": 0,
-      "passed": 0,
-      "errors": 1,
-      "score_sum": 0.0,
-      "pass_rate": null,
-      "error_rate": 1.0,
-      "avg_score": null
-     }
-    ]
-   },
-   {
-    "turns": {
-     "runs": 2,
-     "mean": 58.5,
-     "min": 55,
-     "max": 62,
-     "by_model": {
-      "umbra": 58.5
-     }
-    },
-    "name": "terraform-multi-model-router-module-refactor",
-    "group": "Infrastructure as code",
-    "id": "4ebfe45f-42ba-4277-b053-47c9dfca7eb5",
-    "rank": 31,
-    "sample": "attached",
-    "tier": "Proven",
-    "final": "Infrastructure as code",
-    "super_group": "State-preserving infrastructure changes",
-    "category": "Cloud infra: AWS platform stacks",
-    "language": "HCL (Terraform)",
-    "role": "Platform Engineer",
-    "seniority": "Senior",
-    "solved_by_other": true,
-    "in_catalog": true,
-    "models": [
-     {
-      "codename": "umbra",
-      "model": "google/gemini-4-argon",
-      "rollouts": 4,
-      "graded": 2,
-      "passed": 1,
-      "errors": 2,
-      "score_sum": 1.0,
-      "pass_rate": 0.5,
-      "error_rate": 0.5,
-      "avg_score": 0.5
-     }
-    ]
-   },
-   {
-    "turns": {
-     "runs": 2,
-     "mean": 70.0,
-     "min": 67,
-     "max": 73,
-     "by_model": {
-      "umbra": 70.0
-     }
-    },
-    "name": "terraform-centralwatch-alert-routing-module-refactor",
-    "group": "Infrastructure as code",
-    "id": "1cf5f690-8caf-4033-bca1-f1eca9aaf4f6",
-    "rank": 52,
-    "sample": "attached",
-    "tier": "Proven",
-    "final": "Infrastructure as code",
-    "super_group": "State-preserving infrastructure changes",
-    "category": "Cloud infra: AWS platform stacks",
-    "language": "HCL (Terraform)",
-    "role": "Platform Engineer",
-    "seniority": "Senior",
-    "solved_by_other": true,
-    "in_catalog": true,
-    "models": [
-     {
-      "codename": "umbra",
-      "model": "google/gemini-4-argon",
-      "rollouts": 5,
-      "graded": 2,
-      "passed": 0,
-      "errors": 3,
-      "score_sum": 0.0,
-      "pass_rate": 0.0,
-      "error_rate": 0.6,
-      "avg_score": 0.0
-     },
-     {
-      "codename": "kittiwake",
-      "model": "google/gemini-3.8-flash",
-      "rollouts": 1,
-      "graded": 0,
-      "passed": 0,
-      "errors": 1,
-      "score_sum": 0.0,
-      "pass_rate": null,
-      "error_rate": 1.0,
-      "avg_score": null
-     }
-    ]
    }
   ]
  },
  "debugging": {
+  "attached": [
+   {
+    "url": "https://drive.google.com/file/d/1REQsLCXJtRnoruzB2WlCUywZX56GZX8F/view",
+    "task_id": "scrapy-pdk-ots",
+    "name": "scrapy-pdk-ots",
+    "id": "d7692f22-1ddb-4258-85bd-185f026cbffe",
+    "group": "Diagnosis, Debugging, and Bug Fixing",
+    "category": "Web crawling",
+    "language": "Python",
+    "in_selection": true,
+    "models": {
+     "google/gemini-3.8-flash": {
+      "graded": 2,
+      "passed": 2,
+      "pass_rate": 1.0
+     },
+     "google/gemini-4-argon": {
+      "graded": 3,
+      "passed": 2,
+      "pass_rate": 0.6666666666666666
+     }
+    }
+   }
+  ],
   "title": "Diagnosis, Debugging, and Bug Fixing",
   "name": "Diagnosis, Debugging, and Bug Fixing",
   "tasks": 15,
@@ -1801,58 +1875,8 @@
   ],
   "showcase": [
    {
-    "turns": {
-     "runs": 16,
-     "mean": 648.0,
-     "min": 442,
-     "max": 873,
-     "by_model": {
-      "umbra": 581.5,
-      "kittiwake": 657.5
-     }
-    },
-    "name": "mangle-8edad8d3-blind30",
-    "group": "Diagnosis, Debugging, and Bug Fixing",
-    "id": "059dae37-573b-4f05-a97b-cd42975019b7",
-    "rank": 56,
-    "sample": "super",
-    "tier": "Proven",
-    "final": "Diagnosis, Debugging, and Bug Fixing",
-    "super_group": "Languages & developer tooling",
-    "category": "Logic programming",
-    "language": "Go",
-    "role": "Compiler / Language Engineer",
-    "seniority": "Senior",
-    "solved_by_other": false,
-    "in_catalog": true,
-    "models": [
-     {
-      "codename": "umbra",
-      "model": "google/gemini-4-argon",
-      "rollouts": 3,
-      "graded": 2,
-      "passed": 1,
-      "errors": 1,
-      "score_sum": 1.0,
-      "pass_rate": 0.5,
-      "error_rate": 0.3333333333333333,
-      "avg_score": 0.5
-     },
-     {
-      "codename": "kittiwake",
-      "model": "google/gemini-3.8-flash",
-      "rollouts": 45,
-      "graded": 14,
-      "passed": 0,
-      "errors": 31,
-      "score_sum": 0.0,
-      "pass_rate": 0.0,
-      "error_rate": 0.6888888888888889,
-      "avg_score": 0.0
-     }
-    ]
-   },
-   {
+    "url": "https://drive.google.com/file/d/1hqLtS09dPnqztGyE15JRg9AZ0pS3fdAD/view",
+    "task_id": "exo-canonical-ots",
     "turns": {
      "runs": 2,
      "mean": 280.5,
@@ -1866,7 +1890,7 @@
     "group": "Diagnosis, Debugging, and Bug Fixing",
     "id": "11237278-4385-4c70-8c3c-cff4cc319abd",
     "rank": 32,
-    "sample": "attached",
+    "sample": "main",
     "tier": "Proven",
     "final": "Diagnosis, Debugging, and Bug Fixing",
     "super_group": "Languages & developer tooling",
@@ -1904,6 +1928,8 @@
     ]
    },
    {
+    "url": "https://drive.google.com/file/d/1dAuRMjByz3IKD2Q7Qux8ZUoDjKNsHrvc/view",
+    "task_id": "torchio-canonical-ots",
     "turns": {
      "runs": 2,
      "mean": 312.5,
@@ -1917,7 +1943,7 @@
     "group": "Diagnosis, Debugging, and Bug Fixing",
     "id": "e39633e7-7fc3-4232-8354-f00300c31b70",
     "rank": 61,
-    "sample": "attached",
+    "sample": "main",
     "tier": "Proven",
     "final": "Diagnosis, Debugging, and Bug Fixing",
     "super_group": "Scientific & ML software",
@@ -1955,6 +1981,8 @@
     ]
    },
    {
+    "url": "https://drive.google.com/file/d/1ycCPNxGlpkKdgs2MHARCrZvTi6koSwwP/view",
+    "task_id": "swanlab-nanpair-ots",
     "turns": {
      "runs": 1,
      "mean": 54.0,
@@ -1968,7 +1996,7 @@
     "group": "Diagnosis, Debugging, and Bug Fixing",
     "id": "f45a8ae3-11f1-4916-81db-571133805383",
     "rank": 65,
-    "sample": "attached",
+    "sample": "main",
     "tier": "Proven",
     "final": "Diagnosis, Debugging, and Bug Fixing",
     "super_group": "Scientific & ML software",
@@ -2008,6 +2036,25 @@
   ]
  },
  "feature-implementation": {
+  "attached": [
+   {
+    "url": "https://drive.google.com/file/d/1seIRx1v4KsVyJvkEOHKyRWaV64otchUF/view",
+    "task_id": "xmltodict-nulls-etl",
+    "name": "pdk-xmltodict-etl",
+    "id": "e0173185-2e57-4689-9f1f-6949ea74b692",
+    "group": "Data engineering",
+    "category": "Data formats & serialization",
+    "language": "Python",
+    "in_selection": true,
+    "models": {
+     "google/gemini-4-argon": {
+      "graded": 2,
+      "passed": 1,
+      "pass_rate": 0.5
+     }
+    }
+   }
+  ],
   "title": "Feature implementation",
   "name": "Feature implementation",
   "tasks": 108,
@@ -2671,45 +2718,61 @@
   ],
   "showcase": [
    {
+    "url": "https://drive.google.com/file/d/1M3HCkXFdoznYOiY4yc3LlI8olgAA1K15/view",
+    "task_id": "memdb-txn-ots",
     "turns": {
-     "runs": 2,
-     "mean": 84.0,
-     "min": 83,
-     "max": 85,
+     "runs": 3,
+     "mean": 79.33333333333333,
+     "min": 63,
+     "max": 89,
      "by_model": {
-      "umbra": 84.0
+      "umbra": 79.33333333333333
      }
     },
-    "name": "pdk-xmltodict-etl",
-    "group": "Data engineering",
-    "id": "e0173185-2e57-4689-9f1f-6949ea74b692",
-    "rank": 7,
-    "sample": "attached",
+    "name": "memdb-txn",
+    "group": "Feature implementation",
+    "id": "7d7a4473-78b3-4471-8fc3-a844298d8adb",
+    "rank": 54,
+    "sample": "main",
     "tier": "Proven",
-    "final": "Data engineering",
-    "super_group": "Data pipelines",
-    "category": "Data formats & serialization",
-    "language": "Python",
-    "role": "Data Engineer",
-    "seniority": "Mid-Senior",
-    "solved_by_other": true,
+    "final": "Feature implementation",
+    "super_group": "Data engineering & databases",
+    "category": "Databases & storage engines",
+    "language": "Go",
+    "role": "Database Engineer",
+    "seniority": "Senior",
+    "solved_by_other": false,
     "in_catalog": true,
     "models": [
      {
       "codename": "umbra",
       "model": "google/gemini-4-argon",
       "rollouts": 4,
-      "graded": 2,
-      "passed": 1,
+      "graded": 3,
+      "passed": 2,
+      "errors": 1,
+      "score_sum": 2.0,
+      "pass_rate": 0.6666666666666666,
+      "error_rate": 0.25,
+      "avg_score": 0.6666666666666666
+     },
+     {
+      "codename": "kittiwake",
+      "model": "google/gemini-3.8-flash",
+      "rollouts": 2,
+      "graded": 0,
+      "passed": 0,
       "errors": 2,
-      "score_sum": 1.0,
-      "pass_rate": 0.5,
-      "error_rate": 0.5,
-      "avg_score": 0.5
+      "score_sum": 0.0,
+      "pass_rate": null,
+      "error_rate": 1.0,
+      "avg_score": null
      }
     ]
    },
    {
+    "url": "https://drive.google.com/file/d/146Un1dIq2RerHMbYpd5aWBnrQ6VpXLLV/view",
+    "task_id": "sqlite-history-repair",
     "turns": {
      "runs": 2,
      "mean": 236.5,
@@ -2723,7 +2786,7 @@
     "group": "Data engineering",
     "id": "4b5ae5a6-e206-4fa0-9299-ab4e94f3fd93",
     "rank": 15,
-    "sample": "attached",
+    "sample": "main",
     "tier": "Proven",
     "final": "Data engineering",
     "super_group": "Data pipelines",
@@ -2761,6 +2824,8 @@
     ]
    },
    {
+    "url": "https://drive.google.com/file/d/1j76u3l7Bo5yUlUhQCeFMMRASnZxfB8WD/view",
+    "task_id": "etlplus-csv-pipeline",
     "turns": {
      "runs": 2,
      "mean": 247.5,
@@ -2774,7 +2839,7 @@
     "group": "Data engineering",
     "id": "18becaa6-defa-4fc9-8d28-b81093068c1c",
     "rank": 68,
-    "sample": "attached",
+    "sample": "main",
     "tier": "Proven",
     "final": "Data engineering",
     "super_group": "Data pipelines",

@@ -1,6 +1,6 @@
 # Recompute every number on the catalog pages and in the CSV straight from the snapshot (ro3/ runs, turns/ turn counts,
 # universe.json for which tasks are selected) and compare with what the pages print. Exits 1 on any mismatch.
-import csv, json, os, re, statistics, sys, collections
+import csv, html, json, os, re, statistics, sys, collections
 H = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); C = f'{H}/catalog'
 MM = json.load(open('/Users/carlos/code/sdlc_final_samples/pipeline/ro_models.json'))
 GEM = {k: v for k, v in MM.items() if 'gemini' in v}
@@ -11,7 +11,7 @@ SEL = [t for t in U['tasks'] if t.get('tier')]
 MERGE = {'Migration': 'ProgramBench', 'Infrastructure as code': 'System design', 'Data engineering': 'Feature implementation'}
 PAGE = {'ProgramBench': 'programbench', 'System design': 'system-design', 'Diagnosis, Debugging, and Bug Fixing': 'debugging', 'Feature implementation': 'feature-implementation'}
 page_of = lambda t: PAGE[MERGE.get(t['catalog'], t['catalog'])]
-pct = lambda v: f'{100 * v:.0f}%'
+pct = lambda v: '<1%' if 0 < v < 0.005 else f'{100 * v:.0f}%'
 errors, checked = [], collections.Counter()
 def eq(what, got, want):
     checked[what.split(':')[0]] += 1
@@ -44,7 +44,7 @@ CSV = list(csv.DictReader(open(f'{H}/gemini_hard_universe.csv')))
 EX = {r['Catalog example']: r for r in CSV if r['Catalog example']}
 for slug in PAGE.values():
     md = open(f'{C}/{slug}.md').read(); T = [t for t in SEL if page_of(t) == slug]
-    ex = section(md, 'Executive summary'); K = dict((b, a) for a, b in re.findall(r'kpi-value">([^<]+)</div><div class="kpi-label">([^<]+)<', ex))
+    ex = section(md, 'Executive summary'); K = dict((b, html.unescape(a)) for a, b in re.findall(r'kpi-value">([^<]+)</div><div class="kpi-label">([^<]+)<', ex))
     eq(f'tasks card: {slug}', K.get('Tasks'), f'{NUM[slug]:,}')
     for model, short in (('google/gemini-4-argon', 'Gemini 4 Argon'), ('google/gemini-3.8-flash', 'Gemini 3.8 Flash'), ('google/gemini-3.7-flash', 'Gemini 3.7 Flash')):
         g, p, per = pooled(T, model)
@@ -54,7 +54,7 @@ for slug in PAGE.values():
         if shown:
             r = tab.get(model) or [None] * 5
             eq(f'pass-rate table: {slug} {short}', r[1:5], [pct(p / g), pct(sum(v == 0 for v in per) / len(per)), pct(sum(0.2 <= v <= 0.8 for v in per) / len(per)), pct(sum(v == 1 for v in per) / len(per))])
-            m = re.search(rf'{short} passes (\d+%)(?: of its runs on these tasks)?(?:, and it fails every run on (\d+%))?', ex)
+            m = re.search(rf'{short} passes (<?\d+%) of its runs(?: and fails every run on (\d+%) of them)?', ex)
             eq(f'summary sentence: {slug} {short}', m and (m.group(1), m.group(2)), (pct(p / g), pct(sum(v == 0 for v in per) / len(per)) if any(v == 0 for v in per) else None))
         else: eq(f'pass-rate table: {slug} {short} hidden', model in tab, False)
     # turn counts over Gemini runs
@@ -77,8 +77,8 @@ for slug in PAGE.values():
         r = EX.get(f"{ {'programbench': 'ProgramBench and Migration', 'system-design': 'System design & IaC', 'debugging': 'Diagnosis, Debugging, and Bug Fixing', 'feature-implementation': 'Feature implementation'}[slug] }, Example {i}")
         if not r: errors.append(f'example {slug} {i}: no CSV row'); continue
         tid = r['Horizon task id']; rr = runs(tid)
-        want = [[m_, pct(sum(x for x, _ in v_) / len(v_)), f'{sum(s for _, s in v_) / len(v_):.2f}'] for m_, v_ in sorted(rr.items(), key=lambda kv: kv[0] != 'google/gemini-4-argon')]
-        got = [r_[:3] for r_ in rows(blk, 'google/') if len(r_) == 3]
+        want = [[m_, pct(sum(x for x, _ in v_) / len(v_))] for m_, v_ in sorted(rr.items(), key=lambda kv: kv[0] != 'google/gemini-4-argon')]
+        got = [r_[:2] for r_ in rows(blk, 'google/') if len(r_) == 2]
         eq(f'example pass rates: {slug} {i}', got, want)
         tl = re.search(r'^\| Turn count \| (.*) \|$', blk, re.M).group(1)
         bt = collections.defaultdict(list)
@@ -86,7 +86,7 @@ for slug in PAGE.values():
         eq(f'example turns: {slug} {i}', sorted(tl.split(', ')), sorted(f'{statistics.mean(x):.0f} ({m_})' for m_, x in bt.items()) if bt else ['no completed run'])
 # overview
 md = open(f'{C}/README.md').read()
-K = dict((b, a) for a, b in re.findall(r'kpi-value">([^<]+)</div><div class="kpi-label">([^<]+)<', md))
+K = dict((b, html.unescape(a)) for a, b in re.findall(r'kpi-value">([^<]+)</div><div class="kpi-label">([^<]+)<', md))
 eq('overview card: tasks', K.get('Tasks'), f'{total:,}')
 for model, short in (('google/gemini-4-argon', 'Gemini 4 Argon'), ('google/gemini-3.8-flash', 'Gemini 3.8 Flash')):
     g, p, _ = pooled(SEL, model); eq(f'overview card: {short}', K.get(f'{short} pass rate'), pct(p / g))
@@ -95,9 +95,9 @@ for r in rows(md, '['):
     eq(f'overview table: {slug}', [r[1], r[3], r[4]], [f'{NUM[slug]:,}', f'{100 * NUM[slug] / total:.1f}%', f'{statistics.mean(tm.values()):.0f}' if tm else 'n/a'])
 for r in rows(section(md, 'Gemini pass rates'), 'google/'):
     g, p, _ = pooled(SEL, r[0]); eq(f'overview pass table: {r[0]}', r[1], pct(p / g) if g else 'n/a')
-for r in rows(section(md, 'Samples'), 'Main') + rows(section(md, 'Samples'), 'Attached'):
+for r in rows(section(md, 'Samples'), 'Main'):
     n = int(re.search(r'Example (\d+)', r[2]).group(1)); row = EX[f'{r[1]}, Example {n}']; rr = runs(row['Horizon task id'])
-    eq(f'overview samples: {r[1]} {n}', r[3:5], [pct(sum(x for x, _ in rr[m]) / len(rr[m])) if rr.get(m) else '' for m in ('google/gemini-4-argon', 'google/gemini-3.8-flash')])
+    eq(f'overview samples: {r[1]} {n}', r[4:6], [pct(sum(x for x, _ in rr[m]) / len(rr[m])) if rr.get(m) else '' for m in ('google/gemini-4-argon', 'google/gemini-3.8-flash')])
 # CSV
 ids = {t['id'] for t in SEL}
 eq('csv: task set', sorted(r['Horizon task id'] for r in CSV), sorted(ids))

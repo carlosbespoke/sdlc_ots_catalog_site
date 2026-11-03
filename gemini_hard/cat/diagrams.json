@@ -714,5 +714,44 @@
     "icon": "scale"
    }
   ]
+ },
+ {
+  "name": "psy-ex__svt-av1-psy.88cd12e",
+  "problem": "Only a compiled AV1 video encoder and its user guide exist. The source code is not available, but a replacement is needed.",
+  "receives": [
+   {
+    "label": "Reference encoder\n(can run it, not read it)",
+    "icon": "video"
+   },
+   {
+    "label": "User guide and parameter reference",
+    "icon": "book"
+   },
+   {
+    "label": "C, Go and Rust toolchains, offline",
+    "icon": "terminal-2"
+   }
+  ],
+  "job": [
+   "Run the encoder with varied options",
+   "Infer the documented interface",
+   "Write a new implementation",
+   "Compare outputs with the reference"
+  ],
+  "deliver": [
+   {
+    "label": "Source project + build script\nthat produces the program"
+   }
+  ],
+  "check": [
+   {
+    "label": "Hidden behavior tests\n(output, exit codes, files)",
+    "icon": "test-pipe"
+   },
+   {
+    "label": "Results compared with\nthe reference",
+    "icon": "scale"
+   }
+  ]
  }
 ]

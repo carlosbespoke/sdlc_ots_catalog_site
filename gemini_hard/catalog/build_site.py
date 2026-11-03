@@ -279,7 +279,7 @@ def render_article(source):
     decorate_tables(tokens)
     insertions = {}
     for position, (index, level, title, anchor) in enumerate(headings):
-        if level == 'h2' and title.casefold() in ('showcase tasks', 'example tasks from the shortlist'):
+        if level == 'h2' and title.casefold() in ('showcase tasks', 'example tasks from the shortlist', 'sample tasks'):
             tasks = []
             for _, sublevel, subtitle, subanchor in headings[position + 1:]:
                 if sublevel in ('h1', 'h2'):

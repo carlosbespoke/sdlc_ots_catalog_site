@@ -12,6 +12,9 @@ AFFINITY = {'Distributed systems & coordination': 'Applications & business domai
             'Scientific & ML software': 'Data engineering & databases', 'Applications & business domains': 'Languages & developer tooling',
             'Languages & developer tooling': 'Applications & business domains', 'Systems, hardware & accelerators': 'Languages & developer tooling'}
 NEW = 'Not yet classified'
+NEWC = json.load(open(f'{H}/cat/new_task_classes.json'))
+SID = json.load(open(f'{H}/cat/sample_ids.json'))  # client-facing task ids of the samples
+URL = {k: f'https://drive.google.com/file/d/{v[0]}/view' for k, v in json.load(open(f'{H}/cat/sample_urls.json')).items() if not k.startswith('_')}  # Drive copies of the sample zips
 # smaller task groups are presented inside a larger catalog, as one domain of its domain breakdown
 MERGE = {'Migration': 'ProgramBench', 'Infrastructure as code': 'System design', 'Data engineering': 'Feature implementation'}
 GROUP_DOMAIN = {'Migration': 'Cross-language migration', 'Infrastructure as code': 'State-preserving infrastructure changes', 'Data engineering': 'Data pipelines'}
@@ -21,6 +24,8 @@ LANG_NEW = {'pdk-harbor-scan-ephemeral-credentials': 'Go', 'pdk-bagetter-fenced-
 def meta(t):
     r = ROWS.get(t['id'])
     if r: return {'sg': r['sg'], 'cat': r['cat'], 'lang': r['lang'], 'sen': r['sen'].replace('\u2013', '-'), 'role': r['role'], 'final': r['final']}
+    c = NEWC.get(t['name'])
+    if c: return {'sg': c['sg'], 'cat': c['cat'], 'lang': c['lang'], 'sen': c['sen'], 'role': c['role'], 'final': t['catalog']}
     return {'sg': NEW, 'cat': t['category'].split(' / ')[-1], 'lang': LANG_NEW.get(t['name'], NEW), 'sen': NEW, 'role': NEW, 'final': t['catalog']}
 TURNS = {f[:-5]: json.load(open(f'{H}/turns/{f}'))['runs'] for f in os.listdir(f'{H}/turns')}
 def turn_stats(tid):
@@ -85,9 +90,9 @@ for slug, cat in CATS:
                        'tasks_0': sum(1 for v in pt if v == 0), 'tasks_100': sum(1 for v in pt if v == 1), 'tasks_20_80': sum(1 for v in pt if 0.2 <= v <= 0.8), 'per_task_rates': pt})
     order = {'super': 0, 'attached': 1}
     show = []
-    for r in sorted([r for r in R if r.get('sample')], key=lambda r: (order[r['sample']], groups.index(r['group']), r['shortlist_no'])):
+    for r in sorted([r for r in R if r.get('sample') == 'main'], key=lambda r: r['sample_order']):
         mr = model_rows(r['id'])
-        show.append({'turns': turn_stats(r['id']), 'name': r['name'], 'group': r['group'], 'id': r['id'], 'rank': r['shortlist_no'], 'sample': r['sample'], 'tier': r['tier'],
+        show.append({'url': URL[SID[r['name']]], 'task_id': SID[r['name']], 'turns': turn_stats(r['id']), 'name': r['name'], 'group': r['group'], 'id': r['id'], 'rank': r['shortlist_no'], 'sample': r['sample'], 'tier': r['tier'],
                      'final': r['final'], 'super_group': r['sg'], 'category': r['cat'], 'language': r['lang'], 'role': r['role'], 'seniority': r['sen'],
                      'solved_by_other': r['solved_by_other'], 'in_catalog': r['in_catalog'],
                      'models': [{'codename': m, 'model': MM[m], **o, 'pass_rate': rate(o['passed'], o['graded']), 'error_rate': rate(o['errors'], o['rollouts']),
@@ -104,7 +109,13 @@ for slug, cat in CATS:
              'by_model': [{'codename': m, 'model': MM[m], 'runs': v[0], 'tasks': len(v[3]), 'mean': v[1] / v[0], 'runs_200_plus': v[2]} for m, v in sorted(tm.items(), key=lambda x: -x[1][0])]}
     e = combine([EST[g] for g in groups])
     argon_all = [t['argon']['rate'] for t in U['tasks'] if dest(t['catalog']) == cat and t['in_catalog'] and t['argon']]
-    out[slug] = {'title': cat, 'name': DISPLAY.get(cat, cat), 'tasks': n, 'groups': {g: sum(1 for r in R if r['group'] == g) for g in groups}, 'group_domain': {g: GROUP_DOMAIN[g] for g in groups if g in GROUP_DOMAIN}, 'tiers': dict(collections.Counter(r['tier'] for r in R)), 'not_in_catalog': sum(1 for r in R if not r['in_catalog']),
+    # attached samples for this page (any task on the shortlist, selected or not): shown only in the overview's samples table
+    attached = []
+    for t in sorted([t for t in U['tasks'] if t.get('sample') == 'attached' and dest(t['catalog']) == cat], key=lambda t: t['sample_order']):
+        m = meta(t); mr = model_rows(t['id'])
+        attached.append({'url': URL[SID[t['name']]], 'task_id': SID[t['name']], 'name': t['name'], 'id': t['id'], 'group': t['catalog'], 'category': m['cat'], 'language': m['lang'], 'in_selection': bool(t.get('tier')),
+                         'models': {MM[k]: {'graded': o['graded'], 'passed': o['passed'], 'pass_rate': rate(o['passed'], o['graded'])} for k, o in mr.items()}})
+    out[slug] = {'attached': attached, 'title': cat, 'name': DISPLAY.get(cat, cat), 'tasks': n, 'groups': {g: sum(1 for r in R if r['group'] == g) for g in groups}, 'group_domain': {g: GROUP_DOMAIN[g] for g in groups if g in GROUP_DOMAIN}, 'tiers': dict(collections.Counter(r['tier'] for r in R)), 'not_in_catalog': sum(1 for r in R if not r['in_catalog']),
                  'estimate': e, 'argon_catalog_rates': argon_all, 'turns': turns, 'super_groups': len(dom), 'folded': fold, 'domain': dom,
                  'language': dist('lang'), 'role': dist('role'), 'seniority': dist('sen'), 'models': models, 'showcase': show}
     print(slug, n, out[slug]['tiers'], 'models', [(m['model'], m['tasks_graded']) for m in models], 'turn tasks', len(TS), 'samples', len(show))
