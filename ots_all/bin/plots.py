@@ -85,18 +85,23 @@ tot = {}
 for c in cats:
     for m in S[c]['models']: tot[m['model']] = tot.get(m['model'], 0) + m['rollouts']
 models = [m for m in sorted(tot, key=lambda m: -tot[m]) if any(x['model'] == m and x['tasks_graded'] >= MIN for c in cats for x in S[c]['models'])]
-grid = np.full((len(models), len(cats)), np.nan)
+grid = np.full((len(models), len(cats)), np.nan); ntask = np.zeros((len(models), len(cats)), int)
 for j, c in enumerate(cats):
     for x in S[c]['models']:
-        if x['model'] in models and x['tasks_graded'] >= MIN: grid[models.index(x['model']), j] = 100 * x['pass_rate']
+        if x['model'] in models and x['tasks_graded'] >= MIN:
+            grid[models.index(x['model']), j] = 100 * x['passed'] / x['graded']; ntask[models.index(x['model']), j] = x['tasks_graded']
+cell = lambda v: '<1%' if 0 < v < 0.5 else f'{v:.0f}%'  # same rounding as the tables
 from matplotlib.colors import LinearSegmentedColormap
 cmap = LinearSegmentedColormap.from_list('b', ['#fbf9f4', '#7fb3aa', INK])
-fig, ax = plt.subplots(figsize=(9, 0.5 * len(models) + 1.6))
+fig, ax = plt.subplots(figsize=(9.5, 0.62 * len(models) + 1.6))
 ax.imshow(np.ma.masked_invalid(grid), cmap=cmap, vmin=0, vmax=100, aspect='auto')
 for i in range(len(models)):
     for j in range(len(cats)):
         v = grid[i, j]
-        if not np.isnan(v): ax.text(j, i, f'{v:.0f}%', ha='center', va='center', fontsize=9, fontweight='semibold', color='white' if v > 55 else INK)
+        if not np.isnan(v):
+            col = 'white' if v > 55 else INK
+            ax.text(j, i - 0.1, cell(v), ha='center', va='center', fontsize=9, fontweight='semibold', color=col)
+            ax.text(j, i + 0.24, f'{ntask[i, j]} tasks', ha='center', va='center', fontsize=6.5, color=col)
 ax.set_xticks(range(len(cats)), [LAB.get(S[c]['title'], S[c]['title']) for c in cats], rotation=20, ha='right'); ax.set_yticks(range(len(models)), models)
 ax.grid(False); [sp.set_visible(False) for sp in ax.spines.values()]
 ax.set_xticks(np.arange(-.5, len(cats)), minor=True); ax.set_yticks(np.arange(-.5, len(models)), minor=True)

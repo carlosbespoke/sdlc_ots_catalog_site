@@ -8,10 +8,10 @@ CATS = [('programbench', 'ProgramBench'), ('system-design', 'System design'), ('
         ('feature-implementation', 'Feature implementation'), ('infrastructure-as-code', 'Infrastructure as code'),
         ('data-engineering', 'Data engineering'), ('migration', 'Migration'), ('optimization', 'Optimization')]
 # Horizon codename -> model, from ../pipeline/ro_models.json plus the vendored Horizon model map for helm and granola-plus.
-# Gemini 3.7 Flash (starfall) is left out of every page, plot, turn count and CSV column.
+# Models left out of every page, plot, turn count and CSV column are listed in common_drop.py.
 MM = {**json.load(open(f'{P}/ro_models.json')), 'helm': 'cohere/command-a', 'granola-plus': 'meta/muse-spark-1.3'}
 MM = {k: {'claude-opus-5-5': 'anthropic/claude-opus-5-5', 'gpt-6-astra': 'openai/gpt-6-astra'}.get(v, v) for k, v in MM.items()}
-DROPPED = {'starfall'}
+from common_drop import DROPPED
 SNAPSHOT = open(f'{H}/SNAPSHOT').read().strip()
 TASKS = json.load(open(f'{G}/universe.json'))['tasks']  # all 1,356 tasks: the 2 Nov sheet's catalog plus the five new System design tasks
 RO = {t['id']: json.load(open(f"{H}/ro/{t['id']}.json")) for t in TASKS}

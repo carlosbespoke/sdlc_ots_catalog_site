@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">50%</div><div class="kpi-label">x-ai/grok-4.7 pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">74%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
 
 Each task extends or repairs a data library or pipeline so it keeps producing correct results after an upstream format or schema change, while old inputs still read the same. The main languages are Python (88%) and SQL (12%).
 
-Every task has graded runs. The model with the most runs here, x-ai/grok-4.7, passes 50% of its 136 graded runs on the 17 tasks it ran.
+Every task has graded runs. The model with the most runs here, google/gemini-4-argon, passes 74% of its 34 graded runs and fails every run on 24% of the 17 tasks it ran.
 
 ## Why this catalog
 
@@ -53,7 +53,6 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 
 | Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
-| x-ai/grok-4.7 | 17 | 136 | 50% | 0% | 65% | 0% |
 | google/gemini-4-argon | 17 | 34 | 74% | 24% | 6% | 71% |
 
 ![Per-task pass rate by model](assets/data-engineering_per_task.svg)
@@ -64,16 +63,15 @@ A task's turn count is the average over its completed runs, from every model. A 
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 98.6 |
-| Median turn count | 90.4 |
-| Range | 50 to 188 |
-| Long-horizon tasks (200+ turns) | 0% of tasks |
+| Average turn count | 173.4 |
+| Median turn count | 180.5 |
+| Range | 72 to 306 |
+| Long-horizon tasks (200+ turns) | 35% of tasks |
 
 ![Turns per task](assets/data-engineering_turns.svg)
 
 | Model | % of tasks | Mean turns | % of runs with 200+ turns |
 |---|---:|---:|---:|
-| x-ai/grok-4.7 | 100% | 79.9 | 1% |
 | google/gemini-4-argon | 100% | 173.4 | 35% |
 
 ## Sample tasks
@@ -88,8 +86,8 @@ A task's turn count is the average over its completed runs, from every model. A 
 | Sub-domain | Databases & storage engines |
 | Language | Python |
 | Seniority | Mid-Senior |
-| Turn count | 81 (x-ai/grok-4.7), 236 (google/gemini-4-argon) |
-| Long horizon | no |
+| Turn count | 236 (google/gemini-4-argon) |
+| Long horizon | yes |
 
 #### Prompt
 
@@ -111,7 +109,6 @@ Could you find what's wrong and fix it? There's no network here.
 
 | Model | Graded runs | Pass rate |
 |---|---:|---:|
-| x-ai/grok-4.7 | 8 | 38% |
 | google/gemini-4-argon | 2 | 0% |
 
 #### Environment
@@ -128,8 +125,8 @@ Could you find what's wrong and fix it? There's no network here.
 | Sub-domain | Data pipelines & ETL |
 | Language | Python |
 | Seniority | Mid-Senior |
-| Turn count | 108 (x-ai/grok-4.7), 248 (google/gemini-4-argon) |
-| Long horizon | no |
+| Turn count | 248 (google/gemini-4-argon) |
+| Long horizon | yes |
 
 #### Prompt
 
@@ -149,7 +146,6 @@ Please fix etlplus in /app. The existing tests in /app/tests and the ruff, pydoc
 
 | Model | Graded runs | Pass rate |
 |---|---:|---:|
-| x-ai/grok-4.7 | 8 | 38% |
 | google/gemini-4-argon | 2 | 0% |
 
 #### Environment
@@ -166,7 +162,7 @@ Please fix etlplus in /app. The existing tests in /app/tests and the ruff, pydoc
 | Sub-domain | Data formats & serialization |
 | Language | Python |
 | Seniority | Mid-Senior |
-| Turn count | 43 (x-ai/grok-4.7), 84 (google/gemini-4-argon) |
+| Turn count | 84 (google/gemini-4-argon) |
 | Long horizon | no |
 
 #### Prompt
@@ -189,7 +185,6 @@ The environment has Python 3.12, installed project dependencies and no network. 
 
 | Model | Graded runs | Pass rate |
 |---|---:|---:|
-| x-ai/grok-4.7 | 8 | 50% |
 | google/gemini-4-argon | 2 | 50% |
 
 #### Environment

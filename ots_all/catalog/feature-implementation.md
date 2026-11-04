@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">120</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">116</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">&lt;1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">120</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">117</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">&lt;1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
 
 Each task asks the agent to add a capability to an existing open-source library or service, specified as the public types and functions to deliver, while existing callers see no change. The main languages are Go (72%), Python (27%) and C# (1%).
 
-116 of the 120 tasks have graded runs from at least one model. The model with the most runs here, google/gemini-3.8-flash, passes <1% of its 635 graded runs and fails every run on 98% of the 99 tasks it ran.
+117 of the 120 tasks have graded runs from at least one model. The model with the most runs here, google/gemini-3.8-flash, passes <1% of its 641 graded runs and fails every run on 98% of the 100 tasks it ran.
 
 ## Why this catalog
 
@@ -55,35 +55,30 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 
 | Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
-| google/gemini-3.8-flash | 99 | 635 | <1% | 98% | 0% | 0% |
+| google/gemini-3.8-flash | 100 | 641 | <1% | 98% | 0% | 0% |
 | z-ai/glm-5.3-flash | 29 | 148 | 23% | 52% | 48% | 0% |
 | google/gemini-4-argon | 10 | 21 | 29% | 70% | 10% | 20% |
-| cohere/command-a | 7 | 9 | 0% | 100% | 0% | 0% |
 
 ![Per-task pass rate by model](assets/feature-implementation_per_task.svg)
 
-Also run on fewer than five tasks: anthropic/claude-opus-5-5 (2 tasks, 25% of 4 runs).
-
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 116 of the 120 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 117 of the 120 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 342.6 |
-| Median turn count | 328.9 |
-| Range | 82 to 956 |
-| Long-horizon tasks (200+ turns) | 71% of tasks |
+| Average turn count | 344.3 |
+| Median turn count | 321.7 |
+| Range | 92 to 956 |
+| Long-horizon tasks (200+ turns) | 72% of tasks |
 
 ![Turns per task](assets/feature-implementation_turns.svg)
 
 | Model | % of tasks | Mean turns | % of runs with 200+ turns |
 |---|---:|---:|---:|
-| google/gemini-3.8-flash | 85% | 345.2 | 68% |
+| google/gemini-3.8-flash | 85% | 344.3 | 68% |
 | z-ai/glm-5.3-flash | 25% | 300.6 | 66% |
 | google/gemini-4-argon | 9% | 247.4 | 71% |
-| cohere/command-a | 6% | 14.3 | 0% |
-| anthropic/claude-opus-5-5 | 2% | 55.0 | 0% |
 
 ## Sample tasks
 
@@ -97,7 +92,7 @@ A task's turn count is the average over its completed runs, from every model. A 
 | Sub-domain | Databases & storage engines |
 | Language | Go |
 | Seniority | Senior |
-| Turn count | 262 (z-ai/glm-5.3-flash), 9 (cohere/command-a), 79 (google/gemini-4-argon) |
+| Turn count | 262 (z-ai/glm-5.3-flash), 79 (google/gemini-4-argon) |
 | Long horizon | no |
 
 #### Prompt
@@ -120,7 +115,6 @@ In the non-test code you add, please avoid: new `init()` functions; the `syscall
 |---|---:|---:|
 | google/gemini-4-argon | 3 | 67% |
 | z-ai/glm-5.3-flash | 4 | 0% |
-| cohere/command-a | 3 | 0% |
 
 #### Environment
 

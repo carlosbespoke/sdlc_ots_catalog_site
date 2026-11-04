@@ -11,9 +11,9 @@
 <nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,356 tasks">1,356</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="435 tasks">435</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="61 tasks">61</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="378 tasks">378</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="120 tasks">120</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="300 tasks">300</span></a><a href="data-engineering.html" aria-current="page"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="36 tasks">36</span></a><a href="optimization.html"><span>Optimization</span><span class="count" aria-label="9 tasks">9</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-databases-storage-engines-python">Example 1: Databases &amp; storage engines (Python)</a><a class="level-3" href="#example-2-data-pipelines-etl-python">Example 2: Data pipelines &amp; ETL (Python)</a><a class="level-3" href="#example-3-data-formats-serialization-python">Example 3: Data formats &amp; serialization (Python)</a></nav></aside>
 <div class="reading">
 <h2 id="executive-summary">Executive summary</h2>
-<div class="kpis"><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">50%</div><div class="kpi-label">x-ai/grok-4.7 pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">74%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
 <p>Each task extends or repairs a data library or pipeline so it keeps producing correct results after an upstream format or schema change, while old inputs still read the same. The main languages are Python (88%) and SQL (12%).</p>
-<p>Every task has graded runs. The model with the most runs here, x-ai/grok-4.7, passes 50% of its 136 graded runs on the 17 tasks it ran.</p>
+<p>Every task has graded runs. The model with the most runs here, google/gemini-4-argon, passes 74% of its 34 graded runs and fails every run on 24% of the 17 tasks it ran.</p>
 <h2 id="why-this-catalog">Why this catalog</h2>
 <h3 id="problems-engineers-face">Problems engineers face</h3>
 <p>Data engineers repair pipelines after an upstream feed changes shape. A vendor or connector changes its format and the next run produces wrong data without failing: exports start resending changed records, files change encoding or layout, sheets arrive in another locale, or a schema changes in the middle of an incremental load. The fix must give the same results on reruns and keep existing tests passing.</p>
@@ -83,15 +83,6 @@
 </thead>
 <tbody>
 <tr>
-<td>x-ai/grok-4.7</td>
-<td class="numeric">17</td>
-<td class="numeric">136</td>
-<td class="numeric">50%</td>
-<td class="numeric">0%</td>
-<td class="numeric">65%</td>
-<td class="numeric">0%</td>
-</tr>
-<tr>
 <td>google/gemini-4-argon</td>
 <td class="numeric">17</td>
 <td class="numeric">34</td>
@@ -116,19 +107,19 @@
 <tbody>
 <tr>
 <td>Average turn count</td>
-<td class="numeric">98.6</td>
+<td class="numeric">173.4</td>
 </tr>
 <tr>
 <td>Median turn count</td>
-<td class="numeric">90.4</td>
+<td class="numeric">180.5</td>
 </tr>
 <tr>
 <td>Range</td>
-<td>50 to 188</td>
+<td>72 to 306</td>
 </tr>
 <tr>
 <td>Long-horizon tasks (200+ turns)</td>
-<td>0% of tasks</td>
+<td>35% of tasks</td>
 </tr>
 </tbody>
 </table>
@@ -144,12 +135,6 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>x-ai/grok-4.7</td>
-<td class="numeric">100%</td>
-<td class="numeric">79.9</td>
-<td class="numeric">1%</td>
-</tr>
 <tr>
 <td>google/gemini-4-argon</td>
 <td class="numeric">100%</td>
@@ -197,11 +182,11 @@
 </tr>
 <tr>
 <td>Turn count</td>
-<td>81 (x-ai/grok-4.7), 236 (google/gemini-4-argon)</td>
+<td>236 (google/gemini-4-argon)</td>
 </tr>
 <tr>
 <td>Long horizon</td>
-<td>no</td>
+<td>yes</td>
 </tr>
 </tbody>
 </table>
@@ -226,11 +211,6 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>x-ai/grok-4.7</td>
-<td class="numeric">8</td>
-<td class="numeric">38%</td>
-</tr>
 <tr>
 <td>google/gemini-4-argon</td>
 <td class="numeric">2</td>
@@ -276,11 +256,11 @@
 </tr>
 <tr>
 <td>Turn count</td>
-<td>108 (x-ai/grok-4.7), 248 (google/gemini-4-argon)</td>
+<td>248 (google/gemini-4-argon)</td>
 </tr>
 <tr>
 <td>Long horizon</td>
-<td>no</td>
+<td>yes</td>
 </tr>
 </tbody>
 </table>
@@ -304,11 +284,6 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>x-ai/grok-4.7</td>
-<td class="numeric">8</td>
-<td class="numeric">38%</td>
-</tr>
 <tr>
 <td>google/gemini-4-argon</td>
 <td class="numeric">2</td>
@@ -354,7 +329,7 @@
 </tr>
 <tr>
 <td>Turn count</td>
-<td>43 (x-ai/grok-4.7), 84 (google/gemini-4-argon)</td>
+<td>84 (google/gemini-4-argon)</td>
 </tr>
 <tr>
 <td>Long horizon</td>
@@ -383,11 +358,6 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>x-ai/grok-4.7</td>
-<td class="numeric">8</td>
-<td class="numeric">50%</td>
-</tr>
 <tr>
 <td>google/gemini-4-argon</td>
 <td class="numeric">2</td>

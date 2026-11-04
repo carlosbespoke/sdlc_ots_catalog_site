@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">300</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">299</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">63%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">300</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">300</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">63%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
 
 Each task restructures infrastructure code that is already deployed. The agent splits a flat Terraform stack into modules with stable keys, componentizes a CDK app or moves a stack to Pulumi, so that the plan against production state changes nothing that is running. The main languages are HCL (Terraform) (99%), TypeScript (1%) and Python (0%).
 
-299 of the 300 tasks have graded runs from at least one model. The model with the most runs here, z-ai/glm-5.3-flash, passes 63% of its 1,586 graded runs and fails every run on 3% of the 292 tasks it ran.
+Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, passes 63% of its 1,601 graded runs and fails every run on 3% of the 295 tasks it ran.
 
 ## Why this catalog
 
@@ -54,40 +54,32 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 
 | Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
-| z-ai/glm-5.3-flash | 292 | 1,586 | 63% | 3% | 89% | 8% |
+| z-ai/glm-5.3-flash | 295 | 1,601 | 63% | 3% | 89% | 7% |
 | google/gemini-4-argon | 20 | 40 | 78% | 15% | 15% | 70% |
-| x-ai/grok-4.7 | 7 | 55 | 53% | 0% | 57% | 0% |
 | google/gemini-3.8-flash | 7 | 21 | 71% | 14% | 43% | 43% |
-| anthropic/claude-opus-5-5 | 7 | 7 | 86% | 14% | 0% | 86% |
-| openai/gpt-6-astra | 7 | 7 | 100% | 0% | 0% | 100% |
 
 ![Per-task pass rate by model](assets/infrastructure-as-code_per_task.svg)
-
-The chart leaves out anthropic/claude-opus-5-5 and openai/gpt-6-astra, which pass every run on 80% or more of their tasks.
 
 Also run on fewer than five tasks: meta/muse-wonder (1 task, 100% of 4 runs).
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 299 of the 300 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 300 of the 300 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 112.6 |
-| Median turn count | 109.0 |
-| Range | 39 to 271 |
-| Long-horizon tasks (200+ turns) | 3% of tasks |
+| Average turn count | 114.6 |
+| Median turn count | 109.2 |
+| Range | 39 to 292 |
+| Long-horizon tasks (200+ turns) | 4% of tasks |
 
 ![Turns per task](assets/infrastructure-as-code_turns.svg)
 
 | Model | % of tasks | Mean turns | % of runs with 200+ turns |
 |---|---:|---:|---:|
-| z-ai/glm-5.3-flash | 98% | 115.9 | 10% |
-| x-ai/grok-4.7 | 2% | 105.8 | 0% |
+| z-ai/glm-5.3-flash | 98% | 116.7 | 11% |
 | google/gemini-4-argon | 7% | 74.6 | 5% |
 | google/gemini-3.8-flash | 2% | 156.8 | 24% |
-| openai/gpt-6-astra | 2% | 41.0 | 0% |
-| anthropic/claude-opus-5-5 | 2% | 45.7 | 0% |
 | meta/muse-wonder | <1% | 165.0 | 0% |
 
 ## Sample tasks
@@ -399,7 +391,7 @@ The guardrail policies in `policies/` must pass on that plan, and `providers.tf`
 | Sub-domain | Cloud infra: containers & self-hosted platforms |
 | Language | TypeScript |
 | Seniority | Senior |
-| Turn count | 92 (x-ai/grok-4.7), 210 (google/gemini-3.8-flash), 89 (google/gemini-4-argon), 68 (openai/gpt-6-astra), 39 (anthropic/claude-opus-5-5) |
+| Turn count | 210 (google/gemini-3.8-flash), 89 (google/gemini-4-argon) |
 | Long horizon | no |
 
 #### Prompt
@@ -442,11 +434,8 @@ No AWS access; `pulumi preview --refresh=false` works offline (backend `/workspa
 
 | Model | Graded runs | Pass rate |
 |---|---:|---:|
-| x-ai/grok-4.7 | 8 | 12% |
 | google/gemini-3.8-flash | 3 | 67% |
 | google/gemini-4-argon | 2 | 50% |
-| openai/gpt-6-astra | 1 | 100% |
-| anthropic/claude-opus-5-5 | 1 | 100% |
 
 #### Environment
 

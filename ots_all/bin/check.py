@@ -90,10 +90,13 @@ for f in sorted(os.listdir(C)):
     if not f.endswith('.md'): continue
     prose = re.sub(r'<div class="prompt-md">.*?</div>', '', open(f'{C}/{f}').read(), flags=re.S)
     prose = re.sub(r'\]\([^)]*\)', ']', re.sub(r'`[^`]*`', '', prose))  # client-facing sample ids are code spans; link targets are not prose
-    for bad, why in [('—', 'em dash'), ('–', 'en dash'), ('How it maps', 'maps-to-work paragraph'), ('3.7-flash', 'Gemini 3.7 Flash'), ('shortlist', 'shortlist wording')]:
+    for bad, why in [('—', 'em dash'), ('–', 'en dash'), ('How it maps', 'maps-to-work paragraph'), ('shortlist', 'shortlist wording')]:
         checked['rules'] += 1
         if bad in prose: errors.append(f'{f}: {why}')
-    for k in ('helm', 'granola-plus', 'starfall', 'steppe', 'kittiwake', 'umbra', 'astrolabe'):
+    for k in sorted({MM[c] for c in DROPPED}):
+        checked['rules'] += 1
+        if k in prose or k.split('/')[-1] in prose: errors.append(f'{f}: dropped model {k}')
+    for k in ('helm', 'granola-plus', 'starfall', 'steppe', 'kittiwake', 'umbra', 'astrolabe', 'lumen-pro', 'meridian', 'forge', 'startrail', 'cipher-omni', 'cipher-prime', 'crossbill', 'ecliptic'):
         if re.search(rf'(?<![\w-]){k}(?![\w-])', prose): errors.append(f'{f}: model codename {k}')
     hit = [n for n in names if n in prose]
     if hit: errors.append(f'{f}: task names in prose {hit[:5]}')

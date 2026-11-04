@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">36</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">36</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">40%</div><div class="kpi-label">x-ai/grok-4.7 pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">36</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">58%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
 
 Each task asks the agent to port a Java or Rust library to Go or C++ behind fixed signatures, so that the original project's own tests, translated to the target language, pass against the port. The main languages are Go (89%) and C++ (11%).
 
-Every task has graded runs. The model with the most runs here, x-ai/grok-4.7, passes 40% of its 253 graded runs and fails every run on 9% of the 32 tasks it ran.
+18 of the 36 tasks have graded runs from at least one model. The model with the most runs here, google/gemini-4-argon, passes 58% of its 31 graded runs and fails every run on 20% of the 15 tasks it ran.
 
 ## Why this catalog
 
@@ -53,9 +53,7 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 
 | Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
-| x-ai/grok-4.7 | 32 | 253 | 40% | 9% | 66% | 0% |
 | google/gemini-4-argon | 15 | 31 | 58% | 20% | 40% | 40% |
-| cohere/command-a | 5 | 6 | 0% | 100% | 0% | 0% |
 
 ![Per-task pass rate by model](assets/migration_per_task.svg)
 
@@ -63,25 +61,23 @@ Also run on fewer than five tasks: z-ai/glm-5.3-flash (4 tasks, 35% of 20 runs),
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 36 of the 36 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 18 of the 36 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 321.7 |
-| Median turn count | 335.4 |
-| Range | 98 to 600 |
-| Long-horizon tasks (200+ turns) | 75% of tasks |
+| Average turn count | 362.9 |
+| Median turn count | 310.9 |
+| Range | 96 to 600 |
+| Long-horizon tasks (200+ turns) | 89% of tasks |
 
 ![Turns per task](assets/migration_turns.svg)
 
 | Model | % of tasks | Mean turns | % of runs with 200+ turns |
 |---|---:|---:|---:|
-| x-ai/grok-4.7 | 89% | 287.5 | 52% |
-| google/gemini-4-argon | 42% | 277.5 | 71% |
-| z-ai/glm-5.3-flash | 11% | 600.0 | 100% |
-| cohere/command-a | 14% | 45.5 | 0% |
-| google/gemini-3.8-flash | 11% | 515.5 | 100% |
-| meta/muse-spark-1.3 | 6% | 237.0 | 100% |
+| google/gemini-4-argon | 83% | 277.5 | 71% |
+| z-ai/glm-5.3-flash | 22% | 600.0 | 100% |
+| google/gemini-3.8-flash | 22% | 515.5 | 100% |
+| meta/muse-spark-1.3 | 11% | 237.0 | 100% |
 
 ## Sample tasks
 
@@ -95,7 +91,7 @@ A task's turn count is the average over its completed runs, from every model. A 
 | Sub-domain | Statistics & numerical methods |
 | Language | Go |
 | Seniority | Senior |
-| Turn count | 240 (x-ai/grok-4.7), 244 (google/gemini-4-argon), 55 (cohere/command-a), 433 (google/gemini-3.8-flash) |
+| Turn count | 244 (google/gemini-4-argon), 433 (google/gemini-3.8-flash) |
 | Long horizon | yes |
 
 #### Prompt
@@ -122,10 +118,8 @@ A few things that will save you some pain:
 
 | Model | Graded runs | Pass rate |
 |---|---:|---:|
-| x-ai/grok-4.7 | 8 | 25% |
 | google/gemini-4-argon | 3 | 33% |
 | google/gemini-3.8-flash | 1 | 0% |
-| cohere/command-a | 2 | 0% |
 
 #### Environment
 
@@ -141,7 +135,7 @@ A few things that will save you some pain:
 | Sub-domain | Graph algorithms |
 | Language | Go |
 | Seniority | Senior |
-| Turn count | 441 (x-ai/grok-4.7), 306 (google/gemini-4-argon) |
+| Turn count | 306 (google/gemini-4-argon) |
 | Long horizon | yes |
 
 #### Prompt
@@ -168,7 +162,6 @@ A few things that will save you some pain:
 
 | Model | Graded runs | Pass rate |
 |---|---:|---:|
-| x-ai/grok-4.7 | 8 | 38% |
 | google/gemini-4-argon | 2 | 50% |
 
 #### Environment
@@ -185,7 +178,7 @@ A few things that will save you some pain:
 | Sub-domain | Probabilistic data structures |
 | Language | Go |
 | Seniority | Senior |
-| Turn count | 99 (x-ai/grok-4.7), 96 (google/gemini-4-argon) |
+| Turn count | 96 (google/gemini-4-argon) |
 | Long horizon | no |
 
 #### Prompt
@@ -212,7 +205,6 @@ A few things that will save you some pain:
 
 | Model | Graded runs | Pass rate |
 |---|---:|---:|
-| x-ai/grok-4.7 | 8 | 25% |
 | google/gemini-4-argon | 4 | 75% |
 
 #### Environment

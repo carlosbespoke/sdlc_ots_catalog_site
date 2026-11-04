@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">435</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">145</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">435</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">435</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
 
 Each task asks the agent to make software behave exactly like a reference version. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from a reference program and its documentation. In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code. In 19% of tasks the agent chooses the language; the most common fixed languages are Rust (26%) and Go (22%).
 
-145 of the 435 tasks have graded runs from at least one model. The model with the most runs here, google/gemini-3.8-flash, passes 1% of its 424 graded runs and fails every run on 95% of the 64 tasks it ran.
+Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, passes 1% of its 2,318 graded runs and fails every run on 93% of the 353 tasks it ran.
 
 ## Why this catalog
 
@@ -56,33 +56,34 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 
 | Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
-| google/gemini-3.8-flash | 64 | 424 | 1% | 95% | 0% | 0% |
-| z-ai/glm-5.3-flash | 85 | 360 | 6% | 85% | 14% | 0% |
+| google/gemini-3.8-flash | 353 | 2,318 | 1% | 93% | 0% | 0% |
+| z-ai/glm-5.3-flash | 120 | 566 | 5% | 87% | 12% | 0% |
 | google/gemini-4-argon | 10 | 19 | 63% | 10% | 50% | 40% |
 
 ![Per-task pass rate by model](assets/programbench_per_task.svg)
 
-Also run on fewer than five tasks: cohere/command-a (4 tasks, 0% of 4 runs).
+Also run on fewer than five tasks: z-ai/glm-5.3 (1 task, 0% of 6 runs), z-ai/glm-5.2 (1 task, 0% of 5 runs).
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 145 of the 435 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 435 of the 435 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 585.7 |
-| Median turn count | 594.2 |
-| Range | 115 to 1000 |
-| Long-horizon tasks (200+ turns) | 94% of tasks |
+| Average turn count | 474.8 |
+| Median turn count | 425.8 |
+| Range | 93 to 1000 |
+| Long-horizon tasks (200+ turns) | 89% of tasks |
 
 ![Turns per task](assets/programbench_turns.svg)
 
 | Model | % of tasks | Mean turns | % of runs with 200+ turns |
 |---|---:|---:|---:|
-| google/gemini-3.8-flash | 44% | 470.6 | 84% |
-| z-ai/glm-5.3-flash | 59% | 685.2 | 92% |
-| google/gemini-4-argon | 7% | 319.5 | 79% |
-| cohere/command-a | 3% | 11.8 | 0% |
+| google/gemini-3.8-flash | 81% | 437.7 | 81% |
+| z-ai/glm-5.3-flash | 28% | 538.6 | 81% |
+| google/gemini-4-argon | 2% | 319.5 | 79% |
+| z-ai/glm-5.3 | <1% | 104.5 | 0% |
+| z-ai/glm-5.2 | <1% | 133.6 | 0% |
 
 ## Sample tasks
 
@@ -96,7 +97,7 @@ A task's turn count is the average over its completed runs, from every model. A 
 | Sub-domain | Media processing |
 | Language | Agent's choice |
 | Seniority | Staff+ |
-| Turn count | 752 (z-ai/glm-5.3-flash), 401 (google/gemini-4-argon), 9 (cohere/command-a) |
+| Turn count | 752 (z-ai/glm-5.3-flash), 401 (google/gemini-4-argon) |
 | Long horizon | yes |
 
 #### Prompt
@@ -184,7 +185,6 @@ whichever comes first.
 |---|---:|---:|
 | z-ai/glm-5.3-flash | 5 | 0% |
 | google/gemini-4-argon | 2 | 0% |
-| cohere/command-a | 1 | 0% |
 
 #### Environment
 

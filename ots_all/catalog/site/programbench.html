@@ -11,9 +11,9 @@
 <nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,356 tasks">1,356</span></a><a href="programbench.html" aria-current="page"><span>ProgramBench</span><span class="count" aria-label="435 tasks">435</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="61 tasks">61</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="378 tasks">378</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="120 tasks">120</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="300 tasks">300</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="36 tasks">36</span></a><a href="optimization.html"><span>Optimization</span><span class="count" aria-label="9 tasks">9</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-media-processing-agents-choice">Example 1: Media processing (Agent&#x27;s choice)</a></nav></aside>
 <div class="reading">
 <h2 id="executive-summary">Executive summary</h2>
-<div class="kpis"><div class="kpi"><div class="kpi-value">435</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">145</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">435</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">435</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
 <p>Each task asks the agent to make software behave exactly like a reference version. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from a reference program and its documentation. In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code. In 19% of tasks the agent chooses the language; the most common fixed languages are Rust (26%) and Go (22%).</p>
-<p>145 of the 435 tasks have graded runs from at least one model. The model with the most runs here, google/gemini-3.8-flash, passes 1% of its 424 graded runs and fails every run on 95% of the 64 tasks it ran.</p>
+<p>Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, passes 1% of its 2,318 graded runs and fails every run on 93% of the 353 tasks it ran.</p>
 <h2 id="why-this-catalog">Why this catalog</h2>
 <h3 id="problems-engineers-face">Problems engineers face</h3>
 <p>Engineers often have to make software behave exactly like a version they cannot reuse: rebuilding a tool whose source is unavailable, or bringing an old codebase up to a newer release. In both cases the specification is observable behaviour. The hard part is inferring the rules from outputs and documentation, then matching exit codes, output, file effects and numeric precision without seeing the tests.</p>
@@ -99,20 +99,20 @@
 <tbody>
 <tr>
 <td>google/gemini-3.8-flash</td>
-<td class="numeric">64</td>
-<td class="numeric">424</td>
+<td class="numeric">353</td>
+<td class="numeric">2,318</td>
 <td class="numeric">1%</td>
-<td class="numeric">95%</td>
+<td class="numeric">93%</td>
 <td class="numeric">0%</td>
 <td class="numeric">0%</td>
 </tr>
 <tr>
 <td>z-ai/glm-5.3-flash</td>
-<td class="numeric">85</td>
-<td class="numeric">360</td>
-<td class="numeric">6%</td>
-<td class="numeric">85%</td>
-<td class="numeric">14%</td>
+<td class="numeric">120</td>
+<td class="numeric">566</td>
+<td class="numeric">5%</td>
+<td class="numeric">87%</td>
+<td class="numeric">12%</td>
 <td class="numeric">0%</td>
 </tr>
 <tr>
@@ -127,9 +127,9 @@
 </tbody>
 </table>
 </div>
-<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/programbench_per_task.svg" alt="Per-task pass rate by model" /></div></figure><p>Also run on fewer than five tasks: cohere/command-a (4 tasks, 0% of 4 runs).</p>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/programbench_per_task.svg" alt="Per-task pass rate by model" /></div></figure><p>Also run on fewer than five tasks: z-ai/glm-5.3 (1 task, 0% of 6 runs), z-ai/glm-5.2 (1 task, 0% of 5 runs).</p>
 <h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
-<p>A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 145 of the 435 tasks have a completed run.</p>
+<p>A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 435 of the 435 tasks have a completed run.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
@@ -141,19 +141,19 @@
 <tbody>
 <tr>
 <td>Average turn count</td>
-<td class="numeric">585.7</td>
+<td class="numeric">474.8</td>
 </tr>
 <tr>
 <td>Median turn count</td>
-<td class="numeric">594.2</td>
+<td class="numeric">425.8</td>
 </tr>
 <tr>
 <td>Range</td>
-<td>115 to 1000</td>
+<td>93 to 1000</td>
 </tr>
 <tr>
 <td>Long-horizon tasks (200+ turns)</td>
-<td>94% of tasks</td>
+<td>89% of tasks</td>
 </tr>
 </tbody>
 </table>
@@ -163,7 +163,7 @@
 <thead>
 <tr>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of tasks</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of tasks</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean turns</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of runs with 200+ turns</button></th>
 </tr>
@@ -171,26 +171,32 @@
 <tbody>
 <tr>
 <td>google/gemini-3.8-flash</td>
-<td class="numeric">44%</td>
-<td class="numeric">470.6</td>
-<td class="numeric">84%</td>
+<td class="numeric">81%</td>
+<td class="numeric">437.7</td>
+<td class="numeric">81%</td>
 </tr>
 <tr>
 <td>z-ai/glm-5.3-flash</td>
-<td class="numeric">59%</td>
-<td class="numeric">685.2</td>
-<td class="numeric">92%</td>
+<td class="numeric">28%</td>
+<td class="numeric">538.6</td>
+<td class="numeric">81%</td>
 </tr>
 <tr>
 <td>google/gemini-4-argon</td>
-<td class="numeric">7%</td>
+<td class="numeric">2%</td>
 <td class="numeric">319.5</td>
 <td class="numeric">79%</td>
 </tr>
 <tr>
-<td>cohere/command-a</td>
-<td class="numeric">3%</td>
-<td class="numeric">11.8</td>
+<td>z-ai/glm-5.3</td>
+<td>&lt;1%</td>
+<td class="numeric">104.5</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>z-ai/glm-5.2</td>
+<td>&lt;1%</td>
+<td class="numeric">133.6</td>
 <td class="numeric">0%</td>
 </tr>
 </tbody>
@@ -234,7 +240,7 @@
 </tr>
 <tr>
 <td>Turn count</td>
-<td>752 (z-ai/glm-5.3-flash), 401 (google/gemini-4-argon), 9 (cohere/command-a)</td>
+<td>752 (z-ai/glm-5.3-flash), 401 (google/gemini-4-argon)</td>
 </tr>
 <tr>
 <td>Long horizon</td>
@@ -321,11 +327,6 @@ whichever comes first.</p>
 <tr>
 <td>google/gemini-4-argon</td>
 <td class="numeric">2</td>
-<td class="numeric">0%</td>
-</tr>
-<tr>
-<td>cohere/command-a</td>
-<td class="numeric">1</td>
 <td class="numeric">0%</td>
 </tr>
 </tbody>

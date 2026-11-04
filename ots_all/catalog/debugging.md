@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">378</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">374</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">37%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">378</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">371</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">37%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
 
 Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Python (59%), Go (29%) and C (6%).
 
-374 of the 378 tasks have graded runs from at least one model. The model with the most runs here, z-ai/glm-5.3-flash, passes 37% of its 1,426 graded runs and fails every run on 51% of the 263 tasks it ran.
+371 of the 378 tasks have graded runs from at least one model. The model with the most runs here, z-ai/glm-5.3-flash, passes 37% of its 1,426 graded runs and fails every run on 51% of the 263 tasks it ran.
 
 ## Why this catalog
 
@@ -61,35 +61,30 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 | google/gemini-3.8-flash | 75 | 425 | 4% | 76% | 0% | 3% |
 | z-ai/glm-5.3 | 51 | 306 | <1% | 98% | 0% | 0% |
 | google/gemini-4-argon | 27 | 43 | 79% | 19% | 7% | 74% |
-| qwen/qwen3.8-max-0902 | 16 | 46 | 85% | 12% | 12% | 75% |
-| cohere/command-a | 20 | 22 | 0% | 100% | 0% | 0% |
 
 ![Per-task pass rate by model](assets/debugging_per_task.svg)
 
-Also run on fewer than five tasks: meta/muse-wonder (1 task, 0% of 1 runs), x-ai/grok-4.7 (2 tasks, 0% of 16 runs), moonshotai/kimi-k3.1-pro (1 task, 0% of 1 runs).
+Also run on fewer than five tasks: meta/muse-wonder (1 task, 0% of 1 runs), moonshotai/kimi-k3.1-pro (1 task, 0% of 1 runs).
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 374 of the 378 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 371 of the 378 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 388.5 |
-| Median turn count | 393.8 |
-| Range | 22 to 998 |
-| Long-horizon tasks (200+ turns) | 79% of tasks |
+| Average turn count | 394.7 |
+| Median turn count | 406.0 |
+| Range | 50 to 998 |
+| Long-horizon tasks (200+ turns) | 80% of tasks |
 
 ![Turns per task](assets/debugging_turns.svg)
 
 | Model | % of tasks | Mean turns | % of runs with 200+ turns |
 |---|---:|---:|---:|
-| z-ai/glm-5.3-flash | 70% | 392.7 | 78% |
+| z-ai/glm-5.3-flash | 71% | 392.7 | 78% |
 | google/gemini-3.8-flash | 20% | 518.7 | 80% |
 | z-ai/glm-5.3 | 14% | 207.3 | 41% |
-| qwen/qwen3.8-max-0902 | 4% | 83.4 | 0% |
 | google/gemini-4-argon | 7% | 209.7 | 35% |
-| cohere/command-a | 5% | 22.2 | 0% |
-| x-ai/grok-4.7 | 1% | 38.8 | 0% |
 | moonshotai/kimi-k3.1-pro | <1% | 27.0 | 0% |
 | meta/muse-wonder | <1% | 77.0 | 0% |
 
@@ -159,7 +154,7 @@ documentation working exactly as it does now.
 | Sub-domain | Medical imaging & healthcare |
 | Language | Python |
 | Seniority | Senior |
-| Turn count | 500 (z-ai/glm-5.3-flash), 312 (google/gemini-4-argon), 19 (cohere/command-a) |
+| Turn count | 500 (z-ai/glm-5.3-flash), 312 (google/gemini-4-argon) |
 | Long horizon | yes |
 
 #### Prompt
@@ -200,7 +195,6 @@ documentation working exactly as it does now.
 |---|---:|---:|
 | z-ai/glm-5.3-flash | 5 | 0% |
 | google/gemini-4-argon | 2 | 0% |
-| cohere/command-a | 1 | 0% |
 
 #### Environment
 
@@ -216,7 +210,7 @@ documentation working exactly as it does now.
 | Sub-domain | Machine learning & MLOps |
 | Language | Python |
 | Seniority | Mid-Senior |
-| Turn count | 35 (x-ai/grok-4.7), 77 (meta/muse-wonder), 10 (cohere/command-a), 54 (google/gemini-4-argon) |
+| Turn count | 77 (meta/muse-wonder), 54 (google/gemini-4-argon) |
 | Long horizon | no |
 
 #### Prompt
@@ -265,9 +259,7 @@ note. `reproducer` is the repo-relative path of your regression test.
 
 | Model | Graded runs | Pass rate |
 |---|---:|---:|
-| x-ai/grok-4.7 | 8 | 0% |
 | meta/muse-wonder | 1 | 0% |
-| cohere/command-a | 1 | 0% |
 | google/gemini-4-argon | 1 | 0% |
 
 #### Environment
@@ -284,7 +276,7 @@ note. `reproducer` is the repo-relative path of your regression test.
 | Sub-domain | Web crawling |
 | Language | Python |
 | Seniority | Senior |
-| Turn count | 427 (z-ai/glm-5.3-flash), 166 (google/gemini-4-argon), 251 (google/gemini-3.8-flash), 34 (cohere/command-a) |
+| Turn count | 427 (z-ai/glm-5.3-flash), 166 (google/gemini-4-argon), 251 (google/gemini-3.8-flash) |
 | Long horizon | yes |
 
 #### Prompt
@@ -325,7 +317,6 @@ behavior that already matches its documentation working exactly as it does now.
 | google/gemini-4-argon | 3 | 67% |
 | z-ai/glm-5.3-flash | 5 | 20% |
 | google/gemini-3.8-flash | 2 | 100% |
-| cohere/command-a | 2 | 0% |
 
 #### Environment
 

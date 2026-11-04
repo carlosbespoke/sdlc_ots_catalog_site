@@ -29,6 +29,25 @@ for t in U:
     json.dump({'id': t['id'], 'name': t['name'], 'version': v, 'grouped': d.get('groupedStats') or [], 'n_rollouts': len(rs),
                'rollouts': [{k: x.get(k) for k in KEEP} for x in rs]}, open(out, 'w'))
     print('runs', t['name'], 'v', v, len(rs))
+# 1b. Version fallback. Some tasks have no graded run at the sheet's selected version (often a version bumped after
+# the runs, or one run only by dropped models). Their runs are on the same task at an earlier or later
+# version. For those, use the latest version that has graded runs from a kept model, counting only runs created
+# before the snapshot. The sheet's version stays in 'selected_version'.
+SNAP = open(f'{H}/SNAPSHOT').read().strip()
+from common_drop import DROPPED as DROP
+kept_graded = lambda rs: [q for q in rs if q['model'] not in DROP and not q.get('is_errored') and q.get('passed') is not None]
+for t in U:
+    out = f"{H}/ro/{t['id']}.json"; r = json.load(open(out))
+    if kept_graded(r['rollouts']): continue
+    if 'selected_version' in r:  # re-check an earlier fallback against the current drop list
+        r['version'] = r['selected_version']
+    d = get(f"api/tasks/{t['id']}/rollouts", tries=6) or {}
+    rs = [{k: x.get(k) for k in KEEP} for x in d.get('rollouts') or [] if (x.get('created_at') or '')[:16] <= SNAP[:16]]
+    vs = sorted({q['task_version_number'] for q in kept_graded(rs)})
+    if not vs: print('no graded run at any version', t['name']); continue
+    v = vs[-1]; sel = [q for q in rs if q['task_version_number'] == v]
+    json.dump({'id': t['id'], 'name': t['name'], 'version': v, 'selected_version': r['version'], 'grouped': [], 'n_rollouts': len(sel), 'rollouts': sel}, open(out, 'w'))
+    print('fallback', t['name'], 'v', r['version'], '->', v, len(sel))
 # 2. turn counts
 cache = {}
 for d in [f'{P}/{x}' for x in ('turns_all', 'turns', 'turns_s', 'turns_x')] + [f'{G}/turns', f'{H}/turns']:
