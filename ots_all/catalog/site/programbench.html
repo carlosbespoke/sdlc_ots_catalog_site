@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light"><title>ProgramBench | Bespoke Labs</title>
+<link rel="icon" href="data:,"><link rel="stylesheet" href="site.css"><script src="site.js" defer></script></head>
+<body id="top"><a class="skip" href="#content">Skip to content</a>
+<header class="band"><div class="band-in"><a class="brand" href="index.html"><img src="assets/bespoke-labs-logo.svg" alt="Bespoke Labs" width="162"></a>
+<span class="div" aria-hidden="true">/</span><div class="crumb"><a href="index.html">Coding OTS RL Envs</a> / ProgramBench</div></div></header>
+<main id="content" tabindex="-1"><article id="catalog-content">
+<header class="hero"><h1 id="programbench">ProgramBench</h1><div class="hero-meta" aria-hidden="true"></div></header>
+<div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,356 tasks">1,356</span></a><a href="programbench.html" aria-current="page"><span>ProgramBench</span><span class="count" aria-label="435 tasks">435</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="61 tasks">61</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="378 tasks">378</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="120 tasks">120</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="300 tasks">300</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="36 tasks">36</span></a><a href="optimization.html"><span>Optimization</span><span class="count" aria-label="9 tasks">9</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-media-processing-agents-choice">Example 1: Media processing (Agent&#x27;s choice)</a></nav></aside>
+<div class="reading">
+<h2 id="executive-summary">Executive summary</h2>
+<div class="kpis"><div class="kpi"><div class="kpi-value">435</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">145</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
+<p>Each task asks the agent to make software behave exactly like a reference version. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from a reference program and its documentation. In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code. In 19% of tasks the agent chooses the language; the most common fixed languages are Rust (26%) and Go (22%).</p>
+<p>145 of the 435 tasks have graded runs from at least one model. The model with the most runs here, google/gemini-3.8-flash, passes 1% of its 424 graded runs and fails every run on 95% of the 64 tasks it ran.</p>
+<h2 id="why-this-catalog">Why this catalog</h2>
+<h3 id="problems-engineers-face">Problems engineers face</h3>
+<p>Engineers often have to make software behave exactly like a version they cannot reuse: rebuilding a tool whose source is unavailable, or bringing an old codebase up to a newer release. In both cases the specification is observable behaviour. The hard part is inferring the rules from outputs and documentation, then matching exit codes, output, file effects and numeric precision without seeing the tests.</p>
+<h3 id="how-the-tasks-reproduce-them">How the tasks reproduce them</h3>
+<p>Every task runs offline, and hidden tests compare the result with a reference program the agent can run but not read. For a reimplementation, the agent writes a source project and a <code>compile.sh</code> from the reference and its documentation. For an upgrade, the agent changes an existing repository in <code>/app/repo</code>, which is built with a fixed <code>/opt/task/build.sh</code>.</p>
+<h3 id="typical-prompts">Typical prompts</h3>
+<ul>
+<li>Reproduce the documented behaviour of an execute-only program, delivered as source code plus <code>compile.sh</code>.</li>
+<li>Update an existing repository to match a reference program, after first writing a research and plan file.</li>
+</ul>
+<h2 id="domain-breakdown">Domain breakdown</h2>
+<p>The tasks span eight domains. The largest, Languages &amp; developer tooling, makes up 48% of the catalog.</p>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Share of tasks by domain</h4></div><div class="fig-box"><img src="assets/programbench_domain.svg" alt="Share of tasks by domain" /></div></figure><h2 id="language-and-seniority">Language and seniority</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Primary language and seniority</h4></div><div class="fig-box"><img src="assets/programbench_metadata.svg" alt="Primary language and seniority" /></div></figure><h3 id="primary-language">Primary language</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Primary language</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rust</td>
+<td class="numeric">26.2%</td>
+</tr>
+<tr>
+<td>Go</td>
+<td class="numeric">22.5%</td>
+</tr>
+<tr>
+<td>Agent's choice</td>
+<td class="numeric">18.9%</td>
+</tr>
+<tr>
+<td>C++</td>
+<td class="numeric">16.3%</td>
+</tr>
+<tr>
+<td>C</td>
+<td class="numeric">16.1%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="seniority">Seniority</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Seniority</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Senior</td>
+<td class="numeric">81.1%</td>
+</tr>
+<tr>
+<td>Staff+</td>
+<td class="numeric">18.9%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="model-pass-rates-across-the-catalog">Model pass rates across the catalog</h2>
+<p>A model's pass rate is its passed runs over its graded runs, pooled across the tasks it ran; runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks run</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 0%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 20-80%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 100%</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">64</td>
+<td class="numeric">424</td>
+<td class="numeric">1%</td>
+<td class="numeric">95%</td>
+<td class="numeric">0%</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">85</td>
+<td class="numeric">360</td>
+<td class="numeric">6%</td>
+<td class="numeric">85%</td>
+<td class="numeric">14%</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">10</td>
+<td class="numeric">19</td>
+<td class="numeric">63%</td>
+<td class="numeric">10%</td>
+<td class="numeric">50%</td>
+<td class="numeric">40%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/programbench_per_task.svg" alt="Per-task pass rate by model" /></div></figure><p>Also run on fewer than five tasks: cohere/command-a (4 tasks, 0% of 4 runs).</p>
+<h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
+<p>A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 145 of the 435 tasks have a completed run.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Measure</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Average turn count</td>
+<td class="numeric">585.7</td>
+</tr>
+<tr>
+<td>Median turn count</td>
+<td class="numeric">594.2</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>115 to 1000</td>
+</tr>
+<tr>
+<td>Long-horizon tasks (200+ turns)</td>
+<td>94% of tasks</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Turns per task</h4></div><div class="fig-box"><img src="assets/programbench_turns.svg" alt="Turns per task" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of tasks</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean turns</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of runs with 200+ turns</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">44%</td>
+<td class="numeric">470.6</td>
+<td class="numeric">84%</td>
+</tr>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">59%</td>
+<td class="numeric">685.2</td>
+<td class="numeric">92%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">7%</td>
+<td class="numeric">319.5</td>
+<td class="numeric">79%</td>
+</tr>
+<tr>
+<td>cohere/command-a</td>
+<td class="numeric">3%</td>
+<td class="numeric">11.8</td>
+<td class="numeric">0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="sample-tasks">Sample tasks</h2>
+<nav class="task-chips" data-ui aria-label="Example tasks"><a href="#example-1-media-processing-agents-choice">Example 1: Media processing (Agent&#x27;s choice)</a></nav>
+<h3 id="example-1-media-processing-agents-choice">Example 1: Media processing (Agent's choice)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Task id</td>
+<td><a href="https://drive.google.com/file/d/1JmlCRxmj-7RJ9yZ698lASh-GGDr2N9Je/view"><code>svtav1-encoder-rebuild</code></a></td>
+</tr>
+<tr>
+<td>Final category</td>
+<td>ProgramBench reimplementation</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Applications &amp; business domains</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Media processing</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Agent's choice</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Staff+</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>752 (z-ai/glm-5.3-flash), 401 (google/gemini-4-argon), 9 (cohere/command-a)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="prompt">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<h6 id="task-context">Task context</h6>
+<p>Reproduce the documented behavior of the program in this workspace. The reference program is <code>/opt/task-reference/executable</code>. Its bundled documentation is available in the workspace. The task runs model commands as the non-root <code>agent</code> user. The reference is execute-only for that user, so it can be run but not read, copied, hard-linked, or recovered through <code>/proc</code>. A root model shell means the task platform did not honor the declared user and is not part of the task contract.</p>
+<h6 id="required-result">Required result</h6>
+<p>Write a source code project and an executable <code>./compile.sh</code>. Running <code>./compile.sh</code> on a fresh checkout must produce <code>./executable</code> in the workspace root. The rebuilt executable must match the reference program's observable behavior, including output, exit codes, and file system effects.</p>
+<p>You may choose the implementation language and design. You can learn the behavior from the bundled documentation and by running the reference program.</p>
+<p>The grader checks only your submission's fresh offline build and its observable behavior. It does not assess your implementation language or how you learned the behavior. Do not include the reference executable's bytes in the submission under another name or embedded inside another file. Do not read or inspect the grader harness, hidden tests, or recorded expectations, even if a platform defect makes them accessible. During grading, the internet, package registries, the reference program, and system copies of the same tool are unavailable. Your build and executable must work without them.</p>
+<h6 id="reusable-input-assets">Reusable input assets</h6>
+<p>When <code>/workspace/assets</code> exists, it contains hard-to-create reusable inputs
+such as media, archives, databases, or custom binary files. You may inspect,
+copy, or modify these inputs while recreating the program. Ordinary source and
+text inputs are not provided and should be created as needed.</p>
+<h6 id="how-your-work-is-scored">How your work is scored</h6>
+<p>Your executable is graded by replaying many recorded behaviors of the
+reference program against it and scoring the fraction that match. A
+match always requires the same exit code and the same file system effects.
+Plain output and ordinary files are compared byte for byte. JSON output and
+JSON files are normally compared as parsed values, so insignificant whitespace
+and object key order do not matter unless the documentation makes formatting or
+ordering part of the behavior. SQLite files are compared by their logical
+contents. Terminal progress output is compared by its final visible text. A
+recorded behavior can require exact bytes when formatting or ordering is part
+of the documented behavior. Partial credit is the norm, so every additional
+behavior you match raises your score, and there is no bonus for finishing early.</p>
+<h6 id="coverage-to-aim-for">Coverage to aim for</h6>
+<p>Grading samples behavior from the documented interface. Only behavior that can be tested reliably in a bounded offline run is graded.</p>
+<p>When applicable, support:</p>
+<ul>
+<li>commands, subcommands, options, aliases, and short forms</li>
+<li>representative documented values</li>
+<li>help and version output</li>
+<li>standard input, files, and directories</li>
+<li>configuration files and environment variables</li>
+<li>standard output, standard error, exit codes, and file system effects</li>
+<li>error handling</li>
+<li>empty, non-ASCII, binary, and unusually named inputs</li>
+</ul>
+<p>The test suite may not cover every documented behavior.</p>
+<h6 id="using-the-reference-program">Using the reference program</h6>
+<p>Run <code>/opt/task-reference/executable</code> to observe the reference. The file is
+outside the submitted workspace and is unavailable during grading. Your
+<code>./compile.sh</code> can therefore write <code>./executable</code> without replacing the
+reference while you work.</p>
+<h6 id="before-you-finish">Before you finish</h6>
+<p>Passing tests you wrote yourself is not evidence that you are done.
+Before you stop:</p>
+<ol>
+<li>list every option and subcommand in the reference program's help output;</li>
+<li>for each one, run <code>/opt/task-reference/executable</code> and your executable on the
+same input and compare output using the scoring rules above, along with the
+exit code and files written;</li>
+<li>fix every disagreement you find, then repeat from step 1.</li>
+</ol>
+<p>Stop when no disagreement remains or when your budget is spent,
+whichever comes first.</p>
+</div>
+</details>
+<h4 id="pass-rates">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">5</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">2</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>cohere/command-a</td>
+<td class="numeric">1</td>
+<td class="numeric">0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-svtav1-encoder-rebuild.svg" alt="How the task works" /></div></figure>
+<footer class="page-footer" data-ui><a class="back-top" href="#top">Back to top ↑</a><nav class="page-nav" aria-label="Previous and next catalogs"><a rel="prev" href="index.html"><small>Previous</small>Overview</a><a rel="next" href="system-design.html"><small>Next</small>System design</a></nav>
+<p class="footer-word">Bespoke Labs · Coding OTS RL Envs</p></footer></div></div></article></main>
+</body></html>

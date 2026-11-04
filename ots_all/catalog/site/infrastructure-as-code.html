@@ -1,0 +1,782 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light"><title>Infrastructure as code | Bespoke Labs</title>
+<link rel="icon" href="data:,"><link rel="stylesheet" href="site.css"><script src="site.js" defer></script></head>
+<body id="top"><a class="skip" href="#content">Skip to content</a>
+<header class="band"><div class="band-in"><a class="brand" href="index.html"><img src="assets/bespoke-labs-logo.svg" alt="Bespoke Labs" width="162"></a>
+<span class="div" aria-hidden="true">/</span><div class="crumb"><a href="index.html">Coding OTS RL Envs</a> / Infrastructure as code</div></div></header>
+<main id="content" tabindex="-1"><article id="catalog-content">
+<header class="hero"><h1 id="infrastructure-as-code">Infrastructure as code</h1><div class="hero-meta" aria-hidden="true"></div></header>
+<div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,356 tasks">1,356</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="435 tasks">435</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="61 tasks">61</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="378 tasks">378</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="120 tasks">120</span></a><a href="infrastructure-as-code.html" aria-current="page"><span>Infrastructure as code</span><span class="count" aria-label="300 tasks">300</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="36 tasks">36</span></a><a href="optimization.html"><span>Optimization</span><span class="count" aria-label="9 tasks">9</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-cloud-infra-containers-self-hosted-platforms-terraform">Example 1: Cloud infra: containers &amp; self-hosted platforms (Terraform)</a><a class="level-3" href="#example-2-cloud-infra-aws-platform-stacks-terraform">Example 2: Cloud infra: AWS platform stacks (Terraform)</a><a class="level-3" href="#example-3-cloud-infra-aws-platform-stacks-terraform">Example 3: Cloud infra: AWS platform stacks (Terraform)</a><a class="level-3" href="#example-4-cloud-infra-containers-self-hosted-platforms-typescript">Example 4: Cloud infra: containers &amp; self-hosted platforms (TypeScript)</a></nav></aside>
+<div class="reading">
+<h2 id="executive-summary">Executive summary</h2>
+<div class="kpis"><div class="kpi"><div class="kpi-value">300</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">299</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">63%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<p>Each task restructures infrastructure code that is already deployed. The agent splits a flat Terraform stack into modules with stable keys, componentizes a CDK app or moves a stack to Pulumi, so that the plan against production state changes nothing that is running. The main languages are HCL (Terraform) (99%), TypeScript (1%) and Python (0%).</p>
+<p>299 of the 300 tasks have graded runs from at least one model. The model with the most runs here, z-ai/glm-5.3-flash, passes 63% of its 1,586 graded runs and fails every run on 3% of the 292 tasks it ran.</p>
+<h2 id="why-this-catalog">Why this catalog</h2>
+<h3 id="problems-engineers-face">Problems engineers face</h3>
+<p>Platform engineers restructure infrastructure code that is already running, and the change must reach production as address moves only, because the team cannot plan against a live account. The most common case is a flat Terraform root module that has to become local modules with <code>for_each</code> keys. Others replace positional <code>count</code> with stable keys, extract reusable components from an app that builds everything inline, move a stack between tools while the preview stays clean, or bring a stack under a policy pack without replacing resources.</p>
+<h3 id="how-the-tasks-reproduce-them">How the tasks reproduce them</h3>
+<p>Each task ships a copy of the stack with its recorded production state or recorded templates, an offline toolchain and no network. The instruction states module ownership, key rules, root variables with today's defaults and outputs. After the session, a separate verifier with its own pristine state plans the agent's configuration with refresh disabled and expects moves only, then plans hidden changes such as an added key, a removed key or a changed entry. Most tasks score zero when a gate fails.</p>
+<h3 id="typical-prompts">Typical prompts</h3>
+<ul>
+<li>A first-person request to modularize a named production stack, listing target modules, ownership, key rules, root variables and outputs, and requiring a plan of moves only.</li>
+<li>A componentization request that lists every construct class with its path, props and public properties, and requires identical synthesized templates.</li>
+<li>A migration brief for an imported stack with an empty program, with naming, config and equivalence rules and banned options.</li>
+</ul>
+<h2 id="domain-breakdown">Domain breakdown</h2>
+<p>The tasks span two domains. The largest, Cloud infrastructure &amp; IaC, makes up 99% of the catalog.</p>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Share of tasks by domain</h4></div><div class="fig-box"><img src="assets/infrastructure-as-code_domain.svg" alt="Share of tasks by domain" /></div></figure><h2 id="language-and-seniority">Language and seniority</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Primary language and seniority</h4></div><div class="fig-box"><img src="assets/infrastructure-as-code_metadata.svg" alt="Primary language and seniority" /></div></figure><h3 id="primary-language">Primary language</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Primary language</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HCL (Terraform)</td>
+<td class="numeric">98.7%</td>
+</tr>
+<tr>
+<td>TypeScript</td>
+<td class="numeric">1.0%</td>
+</tr>
+<tr>
+<td>Python</td>
+<td class="numeric">0.3%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="seniority">Seniority</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Seniority</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Senior</td>
+<td class="numeric">100.0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="model-pass-rates-across-the-catalog">Model pass rates across the catalog</h2>
+<p>A model's pass rate is its passed runs over its graded runs, pooled across the tasks it ran; runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks run</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 0%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 20-80%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 100%</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">292</td>
+<td class="numeric">1,586</td>
+<td class="numeric">63%</td>
+<td class="numeric">3%</td>
+<td class="numeric">89%</td>
+<td class="numeric">8%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">20</td>
+<td class="numeric">40</td>
+<td class="numeric">78%</td>
+<td class="numeric">15%</td>
+<td class="numeric">15%</td>
+<td class="numeric">70%</td>
+</tr>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">7</td>
+<td class="numeric">55</td>
+<td class="numeric">53%</td>
+<td class="numeric">0%</td>
+<td class="numeric">57%</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">7</td>
+<td class="numeric">21</td>
+<td class="numeric">71%</td>
+<td class="numeric">14%</td>
+<td class="numeric">43%</td>
+<td class="numeric">43%</td>
+</tr>
+<tr>
+<td>anthropic/claude-opus-5-5</td>
+<td class="numeric">7</td>
+<td class="numeric">7</td>
+<td class="numeric">86%</td>
+<td class="numeric">14%</td>
+<td class="numeric">0%</td>
+<td class="numeric">86%</td>
+</tr>
+<tr>
+<td>openai/gpt-6-astra</td>
+<td class="numeric">7</td>
+<td class="numeric">7</td>
+<td class="numeric">100%</td>
+<td class="numeric">0%</td>
+<td class="numeric">0%</td>
+<td class="numeric">100%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/infrastructure-as-code_per_task.svg" alt="Per-task pass rate by model" /></div></figure><p>The chart leaves out anthropic/claude-opus-5-5 and openai/gpt-6-astra, which pass every run on 80% or more of their tasks.</p>
+<p>Also run on fewer than five tasks: meta/muse-wonder (1 task, 100% of 4 runs).</p>
+<h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
+<p>A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 299 of the 300 tasks have a completed run.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Measure</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Average turn count</td>
+<td class="numeric">112.6</td>
+</tr>
+<tr>
+<td>Median turn count</td>
+<td class="numeric">109.0</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>39 to 271</td>
+</tr>
+<tr>
+<td>Long-horizon tasks (200+ turns)</td>
+<td>3% of tasks</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Turns per task</h4></div><div class="fig-box"><img src="assets/infrastructure-as-code_turns.svg" alt="Turns per task" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of tasks</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean turns</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of runs with 200+ turns</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">98%</td>
+<td class="numeric">115.9</td>
+<td class="numeric">10%</td>
+</tr>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">2%</td>
+<td class="numeric">105.8</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">7%</td>
+<td class="numeric">74.6</td>
+<td class="numeric">5%</td>
+</tr>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">2%</td>
+<td class="numeric">156.8</td>
+<td class="numeric">24%</td>
+</tr>
+<tr>
+<td>openai/gpt-6-astra</td>
+<td class="numeric">2%</td>
+<td class="numeric">41.0</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>anthropic/claude-opus-5-5</td>
+<td class="numeric">2%</td>
+<td class="numeric">45.7</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>meta/muse-wonder</td>
+<td>&lt;1%</td>
+<td class="numeric">165.0</td>
+<td class="numeric">0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="sample-tasks">Sample tasks</h2>
+<nav class="task-chips" data-ui aria-label="Example tasks"><a href="#example-1-cloud-infra-containers-self-hosted-platforms-terraform">Example 1: Cloud infra: containers &amp; self-hosted platforms (Terraform)</a><a href="#example-2-cloud-infra-aws-platform-stacks-terraform">Example 2: Cloud infra: AWS platform stacks (Terraform)</a><a href="#example-3-cloud-infra-aws-platform-stacks-terraform">Example 3: Cloud infra: AWS platform stacks (Terraform)</a><a href="#example-4-cloud-infra-containers-self-hosted-platforms-typescript">Example 4: Cloud infra: containers &amp; self-hosted platforms (TypeScript)</a></nav>
+<h3 id="example-1-cloud-infra-containers-self-hosted-platforms-terraform">Example 1: Cloud infra: containers &amp; self-hosted platforms (Terraform)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Task id</td>
+<td><a href="https://drive.google.com/file/d/1Yg1iLWpltsqLdJS0jpUj4v3Wb3K4JlE-/view"><code>dualipv6-module-refactor</code></a></td>
+</tr>
+<tr>
+<td>Final category</td>
+<td>Infrastructure as code</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Cloud infrastructure &amp; IaC</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Cloud infra: containers &amp; self-hosted platforms</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>HCL (Terraform)</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>100 (z-ai/glm-5.3-flash), 46 (google/gemini-4-argon)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="prompt">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>The Terraform for our dual IPv6 Kubernetes production stack in <code>/workspace/infra</code> has grown into one flat root module: everything is declared at the top level, the per-AZ resources are <code>count</code>-indexed by list position, and names, settings and tags are hard-coded all over the files. Split it into four local modules (network, bootstrap, platform and observability) without touching the running infrastructure: against the current state, the plan has to come out as nothing but moves.</p>
+<p>There is no AWS access from this machine. <code>terraform init</code> works offline from the local provider mirror, <code>terraform.tfstate</code> is a copy of the production state, and <code>scripts/ci-plan.sh</code> runs what CI runs: a <code>terraform plan -refresh=false</code> against the state followed by the guardrail policies in <code>policies/</code>.</p>
+<h6 id="detailed-constraints">Detailed Constraints</h6>
+<p><strong>How CI judges the change.</strong> CI takes the repository alone and plans it with <code>terraform plan -refresh=false</code> against its own copy of the production state. Local <code>terraform state</code> commands and edits to <code>terraform.tfstate</code> never reach it, so the whole migration has to be expressed in the configuration. That plan must:</p>
+<ul>
+<li>still manage every resource that is in the state today, and</li>
+<li>contain no create, update, replace, destroy or forget: only resources moving to new addresses.</li>
+</ul>
+<p>The guardrail policies in <code>policies/</code> must pass on that plan, and <code>providers.tf</code> and everything in <code>policies/</code> stay exactly as they are, byte for byte.</p>
+<p><strong>Layout.</strong></p>
+<ul>
+<li>The root module calls <code>module &quot;network&quot;</code>, <code>module &quot;bootstrap&quot;</code>, <code>module &quot;platform&quot;</code> and <code>module &quot;observability&quot;</code>, with sources <code>./modules/network</code>, <code>./modules/bootstrap</code>, <code>./modules/platform</code> and <code>./modules/observability</code> and one instance each, calls no other module and declares no resources of its own.</li>
+<li>Which module owns what (every instance of the resources described, wherever they are declared today):
+<ul>
+<li>network: both VPCs, their internet gateways, public and workload subnets, Elastic IPs and NAT64-capable NAT gateways, route tables, IPv4 and IPv6 routes, and route table associations;</li>
+<li>bootstrap: the bootstrap KMS key and alias, S3 bucket and every bucket settings resource, the per-pool bootstrap objects, the DynamoDB bootstrap table, and the network and worker SSM configuration catalogs;</li>
+<li>platform: both clusters' control-plane and worker IAM roles, inline policies and instance profiles, security groups and rules, CloudWatch log groups, launch templates and auto scaling groups;</li>
+<li>observability: the alert SNS topic, SQS queue, subscription and queue policy, and both clusters' per-pool capacity alarms.</li>
+</ul>
+</li>
+<li>Each of these modules declares the resources it owns itself and calls no other module.</li>
+<li>Modules get each other's IDs and ARNs through module outputs and variables. Never paste an ID, ARN, IP address or DNS name of an existing resource, or any part of one (such as an ARN suffix), into the <code>.tf</code> files or templates. The configuration reads files only through literal paths inside its own module (such as <code>&quot;${path.module}/templates/...&quot;</code>; in a child module a path starts with <code>${path.module}/</code>, because Terraform resolves any other relative path from the root directory, not from the module): no computed paths, no <code>terraform_remote_state</code> data sources, and never the state or a plan file.</li>
+</ul>
+<p><strong>Keys.</strong></p>
+<ul>
+<li>Everything that exists once per availability zone today is a <code>for_each</code> resource keyed by the AZ name (for example <code>[&quot;us-east-1a&quot;]</code>), including each instance of a list that also holds things that belong to no single availability zone.</li>
+<li>Everything that exists once per worker pool today is a <code>for_each</code> resource keyed by the pool name (for example <code>[&quot;mesh&quot;]</code>), including each instance of a list that also holds things that belong to no single worker pool.</li>
+<li>Don't use <code>count</code> anywhere. Other repeated resources use <code>for_each</code> with string keys that are not numbers (a name such as <code>[&quot;assets&quot;]</code>, never <code>[&quot;0&quot;]</code>).</li>
+<li>Each existing availability zone's entry in <code>availability_zones</code> is the only source of its values: changing an entry changes, for that availability zone alone, exactly the settings the entry provides, and changes nothing else.</li>
+<li>Adding an availability zone to <code>availability_zones</code> must plan only the creation of that availability zone's resources, each configured exactly like its counterparts in the existing availability zones apart from the availability zone itself and the values its entry in <code>availability_zones</code> gives it (same settings, names and tags), and removing one only the destruction of that availability zone's resources. Beyond that, the only change either may plan is an in-place update of the settings that collect something from every availability zone today (wherever a setting holds a part of every availability zone: their names, IDs, ARNs, subnets or CIDRs, say, in a list, a policy document or an environment value): each of them must take in, or drop, exactly that availability zone's part where it belongs, in the same form as today (today's parts keep their order; where a new part goes is up to you), and change nothing else. No other resource may be created, updated, replaced or destroyed.</li>
+<li>Each existing worker pool's entry in <code>worker_pools</code> is the only source of its values: changing an entry changes, for that worker pool alone, exactly the settings the entry provides, and changes nothing else.</li>
+<li>Adding a worker pool to <code>worker_pools</code> must plan only the creation of that worker pool's resources, each configured exactly like its counterparts in the existing worker pools apart from the worker pool itself and the values its entry in <code>worker_pools</code> gives it (same settings, names and tags), and removing one only the destruction of that worker pool's resources. Beyond that, the only change either may plan is an in-place update of the settings that collect something from every worker pool today (wherever a setting holds a part of every worker pool: their names, IDs, ARNs, subnets or CIDRs, say, in a list, a policy document or an environment value): each of them must take in, or drop, exactly that worker pool's part where it belongs, in the same form as today (today's parts keep their order; where a new part goes is up to you), and change nothing else. No other resource may be created, updated, replaced or destroyed.</li>
+</ul>
+<p><strong>Root variables.</strong> Declare these in the root module, each defaulting to today's value:</p>
+<ul>
+<li><code>project</code> (<code>string</code>, <code>&quot;v6mesh&quot;</code>): every whole-word occurrence of <code>v6mesh</code> in a resource name, identifier or tag value today comes from it (whole word: not part of a longer run of letters and digits, so <code>v6mesh-api</code>, <code>v6mesh_key</code> and <code>/v6mesh/</code> count, while a longer word that merely contains <code>v6mesh</code> stays as it is), and so does every mention of those names elsewhere in the configuration (for example a resource name inside a policy); inside documents such as policies, container definitions and environment values, every whole-word occurrence of <code>v6mesh</code> that stands for it comes from it too; This includes the <code>PROJECT</code> value in every launch template's user data, project fields in the SSM catalogs and bootstrap objects, and the project token in alarm namespaces and dimensions.</li>
+<li><code>environment</code> (<code>string</code>, <code>&quot;prod&quot;</code>): every whole-word occurrence of <code>prod</code> in a resource name, identifier or tag value today, and the <code>ENVIRONMENT</code> value in every launch template's user data, the environment fields in the SSM catalogs and bootstrap objects, and the environment token in alarm namespaces and dimensions, comes from it (whole word: not part of a longer run of letters and digits, so <code>prod-api</code>, <code>prod_key</code> and <code>/prod/</code> count, while a longer word that merely contains <code>prod</code> stays as it is), and so does every mention of those names elsewhere in the configuration (for example a resource name inside a policy); inside documents such as policies, container definitions and environment values, every whole-word occurrence of <code>prod</code> that stands for it comes from it too.</li>
+<li><code>primary_vpc_cidr</code> (<code>string</code>, <code>&quot;172.20.0.0/16&quot;</code>): the alpha cluster VPC's IPv4 CIDR and its control-plane API security-group rule.</li>
+<li><code>secondary_vpc_cidr</code> (<code>string</code>, <code>&quot;172.21.0.0/16&quot;</code>): the beta cluster VPC's IPv4 CIDR and its control-plane API security-group rule.</li>
+<li><code>availability_zones</code>: <code>map(object({ order = number, primary_public_cidr = string, primary_workload_cidr = string, secondary_public_cidr = string, secondary_workload_cidr = string }))</code>, keyed by AZ name, defaulting to today's three AZs, their stable collection order and all four subnet CIDRs. It is the only source of AZ membership, AZ order and subnet CIDRs.</li>
+<li><code>worker_pools</code>: <code>map(object({ order = number, instance_type = string, disk_size = number, min_size = number, max_size = number, desired_size = number }))</code>, keyed by pool name, defaulting to today's gateway, system and mesh pools, their stable collection order, instance type, root disk size and scaling bounds. It is the only source of worker-pool membership, order and sizing.</li>
+<li><code>tags</code> (<code>map(string)</code>, <code>{ Owner = &quot;soloio-platform&quot;, CostCenter = &quot;cc-6204&quot;, ManagedBy = &quot;terraform&quot; }</code>): the shared tags (<code>Owner</code>, <code>CostCenter</code> and <code>ManagedBy</code>) that tagged resources carry today. Wherever the configuration writes them out today, in any form, they come from this variable, so that a different map (other keys, other values) reaches every one of those places; a resource's other tags stay as they are, and resources that are untagged today stay untagged.</li>
+<li><code>node_ami_id</code> (<code>string</code>, <code>&quot;ami-0009de7aaac3fdbb1&quot;</code>): the AMI of every control-plane and worker launch template.</li>
+<li><code>master_instance_type</code> (<code>string</code>, <code>&quot;t3.medium&quot;</code>): the instance type of both control-plane launch templates.</li>
+<li><code>log_retention_days</code> (<code>number</code>, <code>30</code>): the retention period of every control-plane and worker CloudWatch log group.</li>
+<li><code>bootstrap_version_retention_days</code> (<code>number</code>, <code>30</code>): the bootstrap bucket's noncurrent-version retention period.</li>
+<li><code>alarm_period_seconds</code> (<code>number</code>, <code>60</code>): the metric period of every worker-pool capacity alarm.</li>
+<li>Changing <code>primary_vpc_cidr</code>, <code>secondary_vpc_cidr</code>, <code>node_ami_id</code>, <code>master_instance_type</code>, <code>log_retention_days</code>, <code>bootstrap_version_retention_days</code> and <code>alarm_period_seconds</code> changes only what each one's line above says it controls: every other setting keeps today's value, including a setting that merely has the same value today.</li>
+</ul>
+<p><strong>Root outputs.</strong> Keep <code>primary_vpc_id</code>, <code>secondary_vpc_id</code>, <code>bootstrap_bucket_name</code> and <code>alerts_topic_arn</code> with their current values. <code>primary_workload_subnet_ids</code> becomes a map from the AZ name to the <code>id</code> of that availability zone's <code>aws_subnet.primary_workload</code>. <code>secondary_workload_subnet_ids</code> becomes a map from the AZ name to the <code>id</code> of that availability zone's <code>aws_subnet.secondary_workload</code>. <code>primary_nat64_public_ips</code> becomes a map from the AZ name to the <code>public_ip</code> of that availability zone's <code>aws_eip.primary_nat64</code>. <code>secondary_nat64_public_ips</code> becomes a map from the AZ name to the <code>public_ip</code> of that availability zone's <code>aws_eip.secondary_nat64</code>. <code>primary_worker_asg_names</code> becomes a map from the pool name to the <code>name</code> of that worker pool's <code>aws_autoscaling_group.primary_worker</code>. <code>secondary_worker_asg_names</code> becomes a map from the pool name to the <code>name</code> of that worker pool's <code>aws_autoscaling_group.secondary_worker</code>. <code>bootstrap_object_keys</code> is a new output: a map from the pool name to the <code>key</code> of that worker pool's <code>aws_s3_object.pool_bootstrap</code>. Each output passes through outputs of the module that owns the resource (network for <code>primary_vpc_id</code>, <code>secondary_vpc_id</code>, <code>primary_workload_subnet_ids</code>, <code>secondary_workload_subnet_ids</code>, <code>primary_nat64_public_ips</code> and <code>secondary_nat64_public_ips</code>; bootstrap for <code>bootstrap_bucket_name</code> and <code>bootstrap_object_keys</code>; platform for <code>primary_worker_asg_names</code> and <code>secondary_worker_asg_names</code>; observability for <code>alerts_topic_arn</code>): the root output is a plain reference to an output of that module, and that module output is a plain reference to the resource. A plain reference is a reference such as <code>module.network.&lt;output&gt;</code> or <code>&lt;resource type&gt;.&lt;name&gt;.&lt;attribute&gt;</code>, a local that holds one, or a <code>for</code> expression that only re-keys one (<code>{ for k, v in &lt;reference&gt; : k =&gt; v.id }</code>) or iterates a plain reference and looks each key up in one (<code>{ for k, v in var.&lt;map&gt; : k =&gt; &lt;reference&gt;[k].id }</code>); no literals, function calls, conditionals or string templates anywhere along the way.</p>
+<p><strong>Not allowed anywhere in the configuration:</strong> <code>ignore_changes</code>, <code>prevent_destroy</code> and <code>replace_triggered_by</code>, <code>removed</code> and <code>import</code> blocks, provisioners, <code>external</code> data sources, backend or cloud blocks, provider blocks other than the one in <code>providers.tf</code>, override files and <code>.tf.json</code> files.</p>
+</div>
+</details>
+<h4 id="pass-rates">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">2</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">5</td>
+<td class="numeric">40%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-dualipv6-module-refactor.svg" alt="How the task works" /></div></figure><h3 id="example-2-cloud-infra-aws-platform-stacks-terraform">Example 2: Cloud infra: AWS platform stacks (Terraform)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Task id</td>
+<td><a href="https://drive.google.com/file/d/18b23bcb7ot9dDpaMF3nvcUVTGvYhg3aA/view"><code>centralwatch-module-refactor</code></a></td>
+</tr>
+<tr>
+<td>Final category</td>
+<td>Infrastructure as code</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Cloud infrastructure &amp; IaC</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Cloud infra: AWS platform stacks</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>HCL (Terraform)</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>140 (z-ai/glm-5.3-flash), 70 (google/gemini-4-argon)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="prompt-2">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>The Terraform for our centralwatch production alert-routing stack in <code>/workspace/infra</code> has grown into one flat root module: everything is declared at the top level, the per-team resources are <code>count</code>-indexed by list position, and names, settings and tags are hard-coded all over the files. Split it into three local modules (eventing, messaging and processing) without touching the running infrastructure: against the current state, the plan has to come out as nothing but moves.</p>
+<p>There is no AWS access from this machine. <code>terraform init</code> works offline from the local provider mirror, <code>terraform.tfstate</code> is a copy of the production state, and <code>scripts/ci-plan.sh</code> runs what CI runs: a <code>terraform plan -refresh=false</code> against the state followed by the guardrail policies in <code>policies/</code>.</p>
+<h6 id="detailed-constraints-2">Detailed Constraints</h6>
+<p><strong>How CI judges the change.</strong> CI takes the repository alone and plans it with <code>terraform plan -refresh=false</code> against its own copy of the production state. Local <code>terraform state</code> commands and edits to <code>terraform.tfstate</code> never reach it, so the whole migration has to be expressed in the configuration. That plan must:</p>
+<ul>
+<li>still manage every resource that is in the state today, and</li>
+<li>contain no create, update, replace, destroy or forget: only resources moving to new addresses.</li>
+</ul>
+<p>The guardrail policies in <code>policies/</code> must pass on that plan, and <code>providers.tf</code> and everything in <code>policies/</code> stay exactly as they are, byte for byte.</p>
+<p><strong>Layout.</strong></p>
+<ul>
+<li>The root module calls <code>module &quot;eventing&quot;</code>, <code>module &quot;messaging&quot;</code> and <code>module &quot;processing&quot;</code>, with sources <code>./modules/eventing</code>, <code>./modules/messaging</code> and <code>./modules/processing</code> and one instance each, calls no other module and declares no resources of its own.</li>
+<li>Which module owns what (every instance of the resources described, wherever they are declared today):
+<ul>
+<li>eventing: the KMS key and alias, the central EventBridge bus, the EventBridge service role, the per-source event rules, log groups, dead-letter queues, age and backlog alarms, filter parameters, and the shared source-map and default-source parameters;</li>
+<li>messaging: the central alarm queue and central dead-letter queue with the alarm queue policy, the per-source queue and log targets with the EventBridge role's inline policy, every per-team SNS topic, topic policy and email subscription, delivery dead-letter queue and queue policy, team log group, both delivery alarms and routing parameter, the shared team-map and default-team parameters, every per-severity SNS topic, topic policy and subscription, queue and queue policy, log group, both queue alarms and routing parameter, the shared severity-map and default-severity parameters, every per-channel SNS topic, topic policy, SQS queue and dead-letter queue, queue policy and subscription, the deployment parameter, and the operations escalation topic, topic policy and subscription;</li>
+<li>processing: the enricher Lambda function and its archive, event source mapping, log group, IAM role and inline policy, the queue-depth, Lambda-error and Lambda-throttle alarms, every per-channel log group, backlog alarm, age alarm and route parameter, and the shared channel-map, routing-inventory and default-channel parameters.</li>
+</ul>
+</li>
+<li>Each of these modules declares the resources it owns itself and calls no other module.</li>
+<li>Modules get each other's IDs and ARNs through module outputs and variables. Never paste an ID, ARN, IP address or DNS name of an existing resource, or any part of one (such as an ARN suffix), into the <code>.tf</code> files or templates. The configuration reads files only through literal paths inside its own module (such as <code>&quot;${path.module}/templates/...&quot;</code>; in a child module a path starts with <code>${path.module}/</code>, because Terraform resolves any other relative path from the root directory, not from the module): no computed paths, no <code>terraform_remote_state</code> data sources, and never the state or a plan file.</li>
+</ul>
+<p><strong>Keys.</strong></p>
+<ul>
+<li>Everything that exists once per notification team today is a <code>for_each</code> resource keyed by the team name (for example <code>[&quot;payments&quot;]</code>), including each instance of a list that also holds things that belong to no single notification team.</li>
+<li>The default-team parameter and <code>primary_team_topic_arn</code> choose <code>operations</code> while that team exists; removing it destroys only its keyed team resources, leaves the separate operations escalation topic, policy and subscription unchanged, and makes both defaults choose the lexicographically first remaining team rather than a list position.</li>
+<li>Everything that exists once per event source today is a <code>for_each</code> resource keyed by the source name (for example <code>[&quot;backup&quot;]</code>), including each instance of a list that also holds things that belong to no single event source.</li>
+<li>The default-source parameter and <code>primary_source_rule_arn</code> choose <code>rds</code> while that source exists; removing it destroys its keyed source resources and makes both defaults choose the lexicographically first remaining source rather than a list position.</li>
+<li>Everything that exists once per severity route today is a <code>for_each</code> resource keyed by the severity name (for example <code>[&quot;critical&quot;]</code>), including each instance of a list that also holds things that belong to no single severity route.</li>
+<li>The default-severity parameter and <code>primary_severity_topic_arn</code> choose <code>critical</code> while that severity exists; removing it destroys its keyed severity resources and makes both defaults choose the lexicographically first remaining severity rather than a list position.</li>
+<li>Everything that exists once per delivery channel today is a <code>for_each</code> resource keyed by the channel name (for example <code>[&quot;chatops&quot;]</code>), including each instance of a list that also holds things that belong to no single delivery channel.</li>
+<li>The default-channel parameter and <code>primary_channel_queue_arn</code> choose <code>webhook</code> while that channel exists; removing it destroys only its keyed channel resources and makes both defaults choose the lexicographically first remaining channel rather than a list position.</li>
+<li>Don't use <code>count</code> anywhere. Other repeated resources use <code>for_each</code> with string keys that are not numbers (a name such as <code>[&quot;assets&quot;]</code>, never <code>[&quot;0&quot;]</code>).</li>
+<li>Each existing notification team's entry in <code>teams</code> is the only source of its values: changing an entry changes, for that notification team alone, exactly the settings the entry provides, and changes nothing else.</li>
+<li>Adding a notification team to <code>teams</code> must plan only the creation of that notification team's resources, each configured exactly like its counterparts in the existing notification teams apart from the notification team itself and the values its entry in <code>teams</code> gives it (same settings, names and tags), and removing one only the destruction of that notification team's resources. Beyond that, the only change either may plan is an in-place update of the settings that collect something from every notification team today (wherever a setting holds a part of every notification team: their names, IDs, ARNs, subnets or CIDRs, say, in a list, a policy document or an environment value): each of them must take in, or drop, exactly that notification team's part where it belongs, in the same form as today (today's parts keep their order; where a new part goes is up to you), and change nothing else. No other resource may be created, updated, replaced or destroyed.</li>
+<li>Each existing event source's entry in <code>sources</code> is the only source of its values: changing an entry changes, for that event source alone, exactly the settings the entry provides, and changes nothing else.</li>
+<li>Adding an event source to <code>sources</code> must plan only the creation of that event source's resources, each configured exactly like its counterparts in the existing event sources apart from the event source itself and the values its entry in <code>sources</code> gives it (same settings, names and tags), and removing one only the destruction of that event source's resources. Beyond that, the only change either may plan is an in-place update of the settings that collect something from every event source today (wherever a setting holds a part of every event source: their names, IDs, ARNs, subnets or CIDRs, say, in a list, a policy document or an environment value): each of them must take in, or drop, exactly that event source's part where it belongs, in the same form as today (today's parts keep their order; where a new part goes is up to you), and change nothing else. No other resource may be created, updated, replaced or destroyed.</li>
+<li>Each existing severity route's entry in <code>severities</code> is the only source of its values: changing an entry changes, for that severity route alone, exactly the settings the entry provides, and changes nothing else.</li>
+<li>Adding a severity route to <code>severities</code> must plan only the creation of that severity route's resources, each configured exactly like its counterparts in the existing severity routes apart from the severity route itself and the values its entry in <code>severities</code> gives it (same settings, names and tags), and removing one only the destruction of that severity route's resources. Beyond that, the only change either may plan is an in-place update of the settings that collect something from every severity route today (wherever a setting holds a part of every severity route: their names, IDs, ARNs, subnets or CIDRs, say, in a list, a policy document or an environment value): each of them must take in, or drop, exactly that severity route's part where it belongs, in the same form as today (today's parts keep their order; where a new part goes is up to you), and change nothing else. No other resource may be created, updated, replaced or destroyed.</li>
+<li>Each existing delivery channel's entry in <code>channels</code> is the only source of its values: changing an entry changes, for that delivery channel alone, exactly the settings the entry provides, and changes nothing else.</li>
+<li>Adding a delivery channel to <code>channels</code> must plan only the creation of that delivery channel's resources, each configured exactly like its counterparts in the existing delivery channels apart from the delivery channel itself and the values its entry in <code>channels</code> gives it (same settings, names and tags), and removing one only the destruction of that delivery channel's resources. Beyond that, the only change either may plan is an in-place update of the settings that collect something from every delivery channel today (wherever a setting holds a part of every delivery channel: their names, IDs, ARNs, subnets or CIDRs, say, in a list, a policy document or an environment value): each of them must take in, or drop, exactly that delivery channel's part where it belongs, in the same form as today (today's parts keep their order; where a new part goes is up to you), and change nothing else. No other resource may be created, updated, replaced or destroyed.</li>
+</ul>
+<p><strong>Root variables.</strong> Declare these in the root module, each defaulting to today's value:</p>
+<ul>
+<li><code>project</code> (<code>string</code>, <code>&quot;centralwatch&quot;</code>): every whole-word occurrence of <code>centralwatch</code> in a resource name, identifier or tag value today comes from it (whole word: not part of a longer run of letters and digits, so <code>centralwatch-api</code>, <code>centralwatch_key</code> and <code>/centralwatch/</code> count, while a longer word that merely contains <code>centralwatch</code> stays as it is), and so does every mention of those names elsewhere in the configuration (for example a resource name inside a policy); inside documents such as policies, container definitions and environment values, every whole-word occurrence of <code>centralwatch</code> that stands for it comes from it too.</li>
+<li><code>environment</code> (<code>string</code>, <code>&quot;prod&quot;</code>): every whole-word occurrence of <code>prod</code> in a resource name, identifier or tag value today comes from it (whole word: not part of a longer run of letters and digits, so <code>prod-api</code>, <code>prod_key</code> and <code>/prod/</code> count, while a longer word that merely contains <code>prod</code> stays as it is), and so does every mention of those names elsewhere in the configuration (for example a resource name inside a policy); inside documents such as policies, container definitions and environment values, every whole-word occurrence of <code>prod</code> that stands for it comes from it too.</li>
+<li><code>tags</code> (<code>map(string)</code>, <code>{ Owner = &quot;monitoring-team&quot;, CostCenter = &quot;cc-4170&quot;, ManagedBy = &quot;terraform&quot; }</code>): the shared tags (<code>Owner</code>, <code>CostCenter</code> and <code>ManagedBy</code>) that tagged resources carry today. Wherever the configuration writes them out today, in any form, they come from this variable, so that a different map (other keys, other values) reaches every one of those places; a resource's other tags stay as they are, and resources that are untagged today stay untagged.</li>
+<li><code>teams</code>: <code>map(object({ email = string, retention_days = number, delivery_threshold = number, dlq_visibility_seconds = number, dlq_delay_seconds = number, dlq_receive_wait_seconds = number, dlq_max_message_size = number, dlq_age_threshold_seconds = number }))</code>, keyed by team name, defaulting to today's ten teams, their primary notification email, team log retention, failed-delivery threshold, delivery-queue visibility timeout, delay, receive wait, maximum message size and oldest-message threshold. It is the only source of team names and those per-team settings.</li>
+<li><code>sources</code>: <code>map(object({ detail_type = string, log_retention_days = number, age_threshold_seconds = number, dlq_visibility_seconds = number, dlq_retention_seconds = number, dlq_delay_seconds = number, dlq_receive_wait_seconds = number, backlog_threshold = number }))</code>, keyed by source name, defaulting to today's seven event sources, their EventBridge detail type, source log retention, oldest-message and backlog thresholds, and dead-letter-queue visibility timeout, retention, delay and receive wait. It is the only source of source names and those per-source settings.</li>
+<li><code>kms_deletion_window_days</code> (<code>number</code>, <code>20</code>): the KMS key's deletion window in days.</li>
+<li><code>queue_visibility_timeout_seconds</code> (<code>number</code>, <code>90</code>): the visibility timeout of the central alarm queue.</li>
+<li><code>queue_message_retention_seconds</code> (<code>number</code>, <code>345600</code>): the message retention of the central alarm queue.</li>
+<li><code>dlq_message_retention_seconds</code> (<code>number</code>, <code>1209600</code>): the message retention of the central dead-letter queue and every team delivery dead-letter queue.</li>
+<li><code>lambda_memory_size</code> (<code>number</code>, <code>256</code>): the enricher Lambda function's memory in MiB.</li>
+<li><code>lambda_timeout_seconds</code> (<code>number</code>, <code>20</code>): the enricher Lambda function's timeout in seconds.</li>
+<li><code>lambda_reserved_concurrency</code> (<code>number</code>, <code>25</code>): the enricher Lambda function's reserved concurrency.</li>
+<li><code>enricher_log_retention_days</code> (<code>number</code>, <code>120</code>): the enricher Lambda log group's retention in days.</li>
+<li><code>alarm_period_seconds</code> (<code>number</code>, <code>300</code>): the metric period of every CloudWatch alarm in the stack.</li>
+<li><code>alarm_evaluation_periods</code> (<code>number</code>, <code>2</code>): the evaluation periods of every CloudWatch alarm in the stack.</li>
+<li><code>severities</code>: <code>map(object({ email = string, log_retention_days = number, queue_visibility_seconds = number, queue_retention_seconds = number, backlog_threshold = number, queue_delay_seconds = number, queue_receive_wait_seconds = number, age_threshold_seconds = number }))</code>, keyed by severity name, defaulting to today's five severity routes, their notification email, log retention, queue visibility timeout, retention, delay and receive wait, and backlog and oldest-message thresholds. It is the only source of severity names and those per-severity settings.</li>
+<li><code>kms_enable_key_rotation</code> (<code>bool</code>, <code>true</code>): whether automatic rotation is enabled for the KMS key.</li>
+<li><code>event_target_maximum_event_age_seconds</code> (<code>number</code>, <code>3600</code>): the maximum event age in seconds for every EventBridge queue and log target.</li>
+<li><code>event_target_maximum_retry_attempts</code> (<code>number</code>, <code>8</code>): the maximum retry attempts for every EventBridge queue and log target.</li>
+<li><code>central_dlq_visibility_timeout_seconds</code> (<code>number</code>, <code>120</code>): the visibility timeout of the central dead-letter queue.</li>
+<li><code>central_queue_delay_seconds</code> (<code>number</code>, <code>5</code>): the delivery delay of the central alarm queue.</li>
+<li><code>lambda_batch_size</code> (<code>number</code>, <code>10</code>): the enricher event source mapping's batch size.</li>
+<li><code>lambda_batching_window_seconds</code> (<code>number</code>, <code>5</code>): the enricher event source mapping's maximum batching window in seconds.</li>
+<li><code>queue_depth_threshold</code> (<code>number</code>, <code>100</code>): the central queue-depth alarm's threshold.</li>
+<li><code>lambda_error_threshold</code> (<code>number</code>, <code>5</code>): the enricher Lambda error alarm's threshold.</li>
+<li><code>lambda_throttle_threshold</code> (<code>number</code>, <code>3</code>): the enricher Lambda throttle alarm's threshold.</li>
+<li><code>alarm_datapoints_to_alarm</code> (<code>number</code>, <code>2</code>): the datapoints-to-alarm setting of every CloudWatch alarm in the stack.</li>
+<li><code>operations_email</code> (<code>string</code>, <code>&quot;operations-escalation@example.com&quot;</code>): the operations escalation topic subscription's email endpoint.</li>
+<li><code>channels</code>: <code>map(object({ queue_visibility_seconds = number, queue_retention_seconds = number, queue_delay_seconds = number, queue_receive_wait_seconds = number, queue_max_message_size = number, dlq_retention_seconds = number, log_retention_days = number, backlog_threshold = number, age_threshold_seconds = number }))</code>, keyed by channel name, defaulting to today's four delivery channels, their queue visibility timeout, retention, delay, receive wait and maximum message size, dead-letter retention, log retention, backlog threshold and oldest-message threshold. It is the only source of channel names and those per-channel settings.</li>
+<li>Changing <code>kms_deletion_window_days</code>, <code>queue_visibility_timeout_seconds</code>, <code>queue_message_retention_seconds</code>, <code>dlq_message_retention_seconds</code>, <code>lambda_memory_size</code>, <code>lambda_timeout_seconds</code>, <code>lambda_reserved_concurrency</code>, <code>enricher_log_retention_days</code>, <code>alarm_period_seconds</code>, <code>alarm_evaluation_periods</code>, <code>kms_enable_key_rotation</code>, <code>event_target_maximum_event_age_seconds</code>, <code>event_target_maximum_retry_attempts</code>, <code>central_dlq_visibility_timeout_seconds</code>, <code>central_queue_delay_seconds</code>, <code>lambda_batch_size</code>, <code>lambda_batching_window_seconds</code>, <code>queue_depth_threshold</code>, <code>lambda_error_threshold</code>, <code>lambda_throttle_threshold</code>, <code>alarm_datapoints_to_alarm</code> and <code>operations_email</code> changes only what each one's line above says it controls: every other setting keeps today's value, including a setting that merely has the same value today.</li>
+</ul>
+<p><strong>Root outputs.</strong> Keep <code>event_bus_arn</code>, <code>alerts_queue_arn</code>, <code>enricher_function_arn</code>, <code>kms_key_arn</code>, <code>primary_team_topic_arn</code>, <code>primary_source_rule_arn</code>, <code>primary_severity_topic_arn</code> and <code>primary_channel_queue_arn</code> with their current values. <code>team_topic_arns</code> becomes a map from the team name to the <code>arn</code> of that notification team's <code>aws_sns_topic.this</code>. <code>team_route_parameter_names</code> becomes a map from the team name to the <code>name</code> of that notification team's <code>aws_ssm_parameter.team_route</code>. <code>source_rule_arns</code> becomes a map from the source name to the <code>arn</code> of that event source's <code>aws_cloudwatch_event_rule.source</code>. <code>source_log_group_names</code> becomes a map from the source name to the <code>name</code> of that event source's <code>aws_cloudwatch_log_group.event_rule</code>. <code>severity_topic_arns</code> becomes a map from the severity name to the <code>arn</code> of that severity route's <code>aws_sns_topic.severity</code>. <code>severity_queue_arns</code> becomes a map from the severity name to the <code>arn</code> of that severity route's <code>aws_sqs_queue.severity</code>. <code>channel_topic_arns</code> becomes a map from the channel name to the <code>arn</code> of that delivery channel's <code>aws_sns_topic.channel</code>. <code>channel_queue_arns</code> becomes a map from the channel name to the <code>arn</code> of that delivery channel's <code>aws_sqs_queue.channel</code>. <code>channel_route_parameter_names</code> becomes a map from the channel name to the <code>name</code> of that delivery channel's <code>aws_ssm_parameter.channel_route</code>. Each output passes through outputs of the module that owns the resource (eventing for <code>event_bus_arn</code>, <code>kms_key_arn</code>, <code>source_rule_arns</code>, <code>source_log_group_names</code> and <code>primary_source_rule_arn</code>; messaging for <code>alerts_queue_arn</code>, <code>team_topic_arns</code>, <code>team_route_parameter_names</code>, <code>severity_topic_arns</code>, <code>severity_queue_arns</code>, <code>channel_topic_arns</code>, <code>channel_queue_arns</code>, <code>primary_team_topic_arn</code>, <code>primary_severity_topic_arn</code> and <code>primary_channel_queue_arn</code>; processing for <code>enricher_function_arn</code> and <code>channel_route_parameter_names</code>): the root output is a plain reference to an output of that module, and that module output is a plain reference to the resource. A plain reference is a reference such as <code>module.eventing.&lt;output&gt;</code> or <code>&lt;resource type&gt;.&lt;name&gt;.&lt;attribute&gt;</code>, a local that holds one, or a <code>for</code> expression that only re-keys one (<code>{ for k, v in &lt;reference&gt; : k =&gt; v.id }</code>) or iterates a plain reference and looks each key up in one (<code>{ for k, v in var.&lt;map&gt; : k =&gt; &lt;reference&gt;[k].id }</code>); no literals, function calls, conditionals or string templates anywhere along the way.</p>
+<p><strong>Not allowed anywhere in the configuration:</strong> <code>ignore_changes</code>, <code>prevent_destroy</code> and <code>replace_triggered_by</code>, <code>removed</code> and <code>import</code> blocks, provisioners, <code>external</code> data sources, backend or cloud blocks, provider blocks other than the one in <code>providers.tf</code>, override files and <code>.tf.json</code> files.</p>
+</div>
+</details>
+<h4 id="pass-rates-2">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">16</td>
+<td class="numeric">19%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">2</td>
+<td class="numeric">0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-2">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-centralwatch-module-refactor.svg" alt="How the task works" /></div></figure><h3 id="example-3-cloud-infra-aws-platform-stacks-terraform">Example 3: Cloud infra: AWS platform stacks (Terraform)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Task id</td>
+<td><a href="https://drive.google.com/file/d/1VrmncKJo_ub16T50JNG8Ep_0vONojAMq/view"><code>modelrouter-module-refactor</code></a></td>
+</tr>
+<tr>
+<td>Final category</td>
+<td>Infrastructure as code</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Cloud infrastructure &amp; IaC</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Cloud infra: AWS platform stacks</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>HCL (Terraform)</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>177 (z-ai/glm-5.3-flash), 58 (google/gemini-4-argon)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="prompt-3">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>The Terraform for our multi-model router production stack in <code>/workspace/infra</code> has grown into one flat root module: everything is declared at the top level, the per-AZ resources are <code>count</code>-indexed by list position, and names, settings and tags are hard-coded all over the files. Split it into eight local modules (network, security, identity, artifacts, compute, routing, observability and queues) without touching the running infrastructure: against the current state, the plan has to come out as nothing but moves.</p>
+<p>There is no AWS access from this machine. <code>terraform init</code> works offline from the local provider mirror, <code>terraform.tfstate</code> is a copy of the production state, and <code>scripts/ci-plan.sh</code> runs what CI runs: a <code>terraform plan -refresh=false</code> against the state followed by the guardrail policies in <code>policies/</code>.</p>
+<h6 id="detailed-constraints-3">Detailed Constraints</h6>
+<p><strong>How CI judges the change.</strong> CI takes the repository alone and plans it with <code>terraform plan -refresh=false</code> against its own copy of the production state. Local <code>terraform state</code> commands and edits to <code>terraform.tfstate</code> never reach it, so the whole migration has to be expressed in the configuration. That plan must:</p>
+<ul>
+<li>still manage every resource that is in the state today, and</li>
+<li>contain no create, update, replace, destroy or forget: only resources moving to new addresses.</li>
+</ul>
+<p>The guardrail policies in <code>policies/</code> must pass on that plan, and <code>providers.tf</code> and everything in <code>policies/</code> stay exactly as they are, byte for byte.</p>
+<p><strong>Layout.</strong></p>
+<ul>
+<li>The root module calls <code>module &quot;network&quot;</code>, <code>module &quot;security&quot;</code>, <code>module &quot;identity&quot;</code>, <code>module &quot;artifacts&quot;</code>, <code>module &quot;compute&quot;</code>, <code>module &quot;routing&quot;</code>, <code>module &quot;observability&quot;</code> and <code>module &quot;queues&quot;</code>, with sources <code>./modules/network</code>, <code>./modules/security</code>, <code>./modules/identity</code>, <code>./modules/artifacts</code>, <code>./modules/compute</code>, <code>./modules/routing</code>, <code>./modules/observability</code> and <code>./modules/queues</code> and one instance each, calls no other module and declares no resources of its own.</li>
+<li>Which module owns what (every instance of the resources described, wherever they are declared today):
+<ul>
+<li>network: the VPC and internet gateway, public and private subnets, NAT gateways and their Elastic IPs, public and private route tables and associations, private network ACLs and their rules, the S3 gateway endpoint and its route table associations, per-AZ network metadata parameters and the all-AZ catalog, the task role's network-parameter access policy, and the VPC flow log together with its log group, IAM role and inline policy;</li>
+<li>security: the load balancer and ECS task security groups, every entrypoint ingress rule, all shared egress rules, and every model-specific inference-port rule;</li>
+<li>identity: the central ECS infrastructure, instance, task execution and task IAM roles, their managed policy attachments, the infrastructure role's pass-role policy, and the ECS instance profile; it does not own resource-specific access policies;</li>
+<li>artifacts: the per-model ECR repositories and lifecycle policies, artifact buckets and every one of their settings resources, runtime, route and deployment parameters, the all-model catalog, per-model artifact-reader policies, the task role's model-data inline policy, and the ALB access-log bucket with all of its settings resources and bucket policy;</li>
+<li>compute: the ECS cluster, every model task definition, and both operational and audit log groups for every model;</li>
+<li>routing: the application load balancer, every model target group and path-routing rule, every entrypoint listener and configuration parameter, the all-entrypoint catalog, and the primary-entrypoint parameter;</li>
+<li>observability: every model alert and deployment topic, every model target, CPU, memory, error and latency alarm, every per-AZ network operations log group and NAT gateway alarm, every entrypoint log group, alert topic and request and error alarm, and the task role's entrypoint-observability inline policy;</li>
+<li>queues: every asynchronous inference queue and dead-letter queue, its redrive policy, configuration parameter, log group, alert topic and age, depth and dead-letter error alarms, its worker role and inline policy and publisher policy, the all-queue catalog parameter, and the task role's queue-access inline policy.</li>
+</ul>
+</li>
+<li>Modules get each other's IDs and ARNs through module outputs and variables. Never paste an ID, ARN, IP address or DNS name of an existing resource, or any part of one (such as an ARN suffix), into the <code>.tf</code> files or templates. The configuration reads files only through literal paths inside its own module (such as <code>&quot;${path.module}/templates/...&quot;</code>): no computed paths, no <code>terraform_remote_state</code> data sources, and never the state or a plan file.</li>
+</ul>
+<p><strong>Keys.</strong></p>
+<ul>
+<li>Everything that exists once per availability zone today is a <code>for_each</code> resource keyed by the AZ name (for example <code>[&quot;us-east-1a&quot;]</code>), including each instance of a list that also holds things that belong to no single availability zone (the S3 gateway endpoint's associations with private route tables; its association with the public route table is not per AZ).</li>
+<li>Everything that exists once per model service today is a <code>for_each</code> resource keyed by the short model key (for example <code>[&quot;opt&quot;]</code>), including each instance of a list that also holds things that belong to no single model service.</li>
+<li>Exactly one model has network_alert_role equal to &quot;primary&quot; today, and every probe-supplied model map that changes the designation also has exactly one primary. NAT alarms use that model's alert topic; if the primary entry is removed and no remaining entry has that role, their alarm-action lists become empty, and changing the roles switches them to the newly primary model.</li>
+<li>Everything that exists once per asynchronous inference queue today is a <code>for_each</code> resource keyed by the queue key (for example <code>[&quot;interactive&quot;]</code>), including each instance of a list that also holds things that belong to no single asynchronous inference queue.</li>
+<li>Everything that exists once per public entrypoint today is a <code>for_each</code> resource keyed by the entrypoint key (for example <code>[&quot;operations&quot;]</code>), including each instance of a list that also holds things that belong to no single public entrypoint.</li>
+<li>Exactly one entrypoint has purpose &quot;routes&quot; today and model path rules attach to that entrypoint's listener. Exactly one has purpose &quot;primary&quot; today; the primary-entrypoint parameter's value is that entrypoint key, or the literal string &quot;none&quot; when no remaining entry has that purpose. Probe-supplied updates preserve exactly one &quot;routes&quot; and one &quot;primary&quot; purpose while moving both roles to different entries.</li>
+<li>Don't use <code>count</code> anywhere. Other repeated resources use <code>for_each</code> with string keys that are not numbers (a name such as <code>[&quot;assets&quot;]</code>, never <code>[&quot;0&quot;]</code>).</li>
+<li>Each existing availability zone's entry in <code>availability_zones</code> is the only source of its values: changing an entry changes, for that availability zone alone, exactly the settings the entry provides, and changes nothing else.</li>
+<li>Adding an availability zone to <code>availability_zones</code> must plan only the creation of that availability zone's resources, each configured exactly like its counterparts in the existing availability zones apart from the availability zone itself and the values its entry in <code>availability_zones</code> gives it (same settings, names and tags), and removing one only the destruction of that availability zone's resources. Beyond that, the only change either may plan is an in-place update of the settings that collect something from every availability zone today (wherever a setting holds a part of every availability zone: their names, IDs, ARNs, subnets or CIDRs, say, in a list, a policy document or an environment value): each of them must take in, or drop, exactly that availability zone's part where it belongs, in the same form as today (today's parts keep their order; where a new part goes is up to you), and change nothing else. No other resource may be created, updated, replaced or destroyed.</li>
+<li>Each existing model service's entry in <code>models</code> is the only source of its values: changing an entry changes, for that model service alone, exactly the settings the entry provides, and changes nothing else.</li>
+<li>Adding a model service to <code>models</code> must plan only the creation of that model service's resources, each configured exactly like its counterparts in the existing model services apart from the model service itself and the values its entry in <code>models</code> gives it (same settings, names and tags), and removing one only the destruction of that model service's resources. Beyond that, the only change either may plan is an in-place update of the settings that collect something from every model service today (wherever a setting holds a part of every model service: their names, IDs, ARNs, subnets or CIDRs, say, in a list, a policy document or an environment value): each of them must take in, or drop, exactly that model service's part where it belongs, in the same form as today (today's parts keep their order; where a new part goes is up to you), and change nothing else. No other resource may be created, updated, replaced or destroyed.</li>
+<li>Each existing asynchronous inference queue's entry in <code>queues</code> is the only source of its values: changing an entry changes, for that asynchronous inference queue alone, exactly the settings the entry provides, and changes nothing else.</li>
+<li>Adding an asynchronous inference queue to <code>queues</code> must plan only the creation of that asynchronous inference queue's resources, each configured exactly like its counterparts in the existing asynchronous inference queues apart from the asynchronous inference queue itself and the values its entry in <code>queues</code> gives it (same settings, names and tags), and removing one only the destruction of that asynchronous inference queue's resources. Beyond that, the only change either may plan is an in-place update of the settings that collect something from every asynchronous inference queue today (wherever a setting holds a part of every asynchronous inference queue: their names, IDs, ARNs, subnets or CIDRs, say, in a list, a policy document or an environment value): each of them must take in, or drop, exactly that asynchronous inference queue's part where it belongs, in the same form as today (today's parts keep their order; where a new part goes is up to you), and change nothing else. No other resource may be created, updated, replaced or destroyed.</li>
+<li>Each existing public entrypoint's entry in <code>entrypoints</code> is the only source of its values: changing an entry changes, for that public entrypoint alone, exactly the settings the entry provides, and changes nothing else.</li>
+<li>Adding a public entrypoint to <code>entrypoints</code> must plan only the creation of that public entrypoint's resources, each configured exactly like its counterparts in the existing public entrypoints apart from the public entrypoint itself and the values its entry in <code>entrypoints</code> gives it (same settings, names and tags), and removing one only the destruction of that public entrypoint's resources. Beyond that, the only change either may plan is an in-place update of the settings that collect something from every public entrypoint today (wherever a setting holds a part of every public entrypoint: their names, IDs, ARNs, subnets or CIDRs, say, in a list, a policy document or an environment value): each of them must take in, or drop, exactly that public entrypoint's part where it belongs, in the same form as today (today's parts keep their order; where a new part goes is up to you), and change nothing else. No other resource may be created, updated, replaced or destroyed.</li>
+</ul>
+<p><strong>Root variables.</strong> Declare these in the root module, each defaulting to today's value:</p>
+<ul>
+<li><code>project</code> (<code>string</code>, <code>&quot;modelrouter&quot;</code>): every whole-word occurrence of <code>modelrouter</code> in a resource name, identifier or tag value today comes from it (whole word: not part of a longer run of letters and digits, so <code>modelrouter-api</code>, <code>modelrouter_key</code> and <code>/modelrouter/</code> count, while a longer word that merely contains <code>modelrouter</code> stays as it is), and so does every mention of those names elsewhere in the configuration (for example a resource name inside a policy); inside documents such as policies, container definitions and environment values, every whole-word occurrence of <code>modelrouter</code> that stands for it comes from it too.</li>
+<li><code>environment</code> (<code>string</code>, <code>&quot;prod&quot;</code>): every whole-word occurrence of <code>prod</code> in a resource name, identifier or tag value today comes from it (whole word: not part of a longer run of letters and digits, so <code>prod-api</code>, <code>prod_key</code> and <code>/prod/</code> count, while a longer word that merely contains <code>prod</code> stays as it is), and so does every mention of those names elsewhere in the configuration (for example a resource name inside a policy); inside documents such as policies, container definitions and environment values, every whole-word occurrence of <code>prod</code> that stands for it comes from it too.</li>
+<li><code>tags</code> (<code>map(string)</code>, <code>{ Owner = &quot;ai-platform&quot;, CostCenter = &quot;cc-7310&quot;, ManagedBy = &quot;terraform&quot; }</code>): the shared tags (<code>Owner</code>, <code>CostCenter</code> and <code>ManagedBy</code>) that tagged resources carry today. Wherever the configuration writes them out today, in any form, they come from this variable, so that a different map (other keys, other values) reaches every one of those places; a resource's other tags stay as they are, and resources that are untagged today stay untagged.</li>
+<li><code>vpc_cidr</code> (<code>string</code>, <code>&quot;10.60.0.0/16&quot;</code>): the VPC's address range; subnet CIDRs remain controlled by the availability-zone map.</li>
+<li><code>availability_zones</code>: <code>map(object({ public_cidr = string, private_cidr = string, acl_rule_number = number, nat_error_threshold = number, nat_packet_threshold = number, ingress_from_port = number, egress_to_port = number }))</code>, keyed by AZ name, defaulting to today's three AZs and their public and private subnet CIDRs, private network ACL rule number, NAT error and packet thresholds, ingress start port and egress end port. It is the only source of AZ names and all seven per-AZ settings.</li>
+<li><code>models</code>: <code>map(object({ cpu = string, memory = string, desired_count = number, priority = number, port = number, health_path = string, error_limit = number, latency_limit = number, runtime_mode = string, network_alert_role = string, cpu_alarm_threshold = number, memory_alarm_threshold = number, health_timeout = number }))</code>, keyed by short model name, defaulting to today's three models and their task CPU, task memory, desired-capacity metadata, listener priority, inference port, health path, error and latency thresholds, runtime mode, network-alert role, CPU and memory alarm thresholds and health timeout. It is the only source of model keys and all thirteen per-model settings.</li>
+<li><code>log_retention_days</code> (<code>number</code>, <code>30</code>): the retention of every CloudWatch log group, including VPC flow, per-AZ network, per-model operational and audit, per-queue and per-entrypoint groups.</li>
+<li><code>health_check_interval</code> (<code>number</code>, <code>30</code>): the health-check interval of every model target group.</li>
+<li><code>deregistration_delay</code> (<code>number</code>, <code>120</code>): the deregistration delay of every model target group.</li>
+<li><code>alarm_period</code> (<code>number</code>, <code>60</code>): the period of every CloudWatch metric alarm.</li>
+<li><code>alarm_evaluation_periods</code> (<code>number</code>, <code>2</code>): the evaluation-period count of every CloudWatch metric alarm.</li>
+<li><code>bucket_expiration_days</code> (<code>number</code>, <code>365</code>): the expiration in every model-artifact lifecycle rule and the access-log lifecycle rule.</li>
+<li><code>bucket_noncurrent_days</code> (<code>number</code>, <code>90</code>): the noncurrent-version expiration in every model-artifact lifecycle rule.</li>
+<li><code>force_destroy_buckets</code> (<code>bool</code>, <code>false</code>): the force-destroy setting of every model-artifact bucket and the access-log bucket.</li>
+<li><code>alb_idle_timeout</code> (<code>number</code>, <code>60</code>): the application load balancer's idle timeout.</li>
+<li><code>enable_deletion_protection</code> (<code>bool</code>, <code>false</code>): the application load balancer's deletion-protection setting.</li>
+<li><code>task_ephemeral_storage</code> (<code>number</code>, <code>50</code>): the ephemeral storage size in every model task definition.</li>
+<li><code>ecr_scan_on_push</code> (<code>bool</code>, <code>true</code>): the image scan-on-push setting of every model repository.</li>
+<li><code>queues</code>: <code>map(object({ visibility_timeout_seconds = number, message_retention_seconds = number, max_receive_count = number, age_alarm_threshold = number, depth_alarm_threshold = number, delay_seconds = number, dlq_retention_seconds = number, error_alarm_threshold = number }))</code>, keyed by queue name, defaulting to today's three asynchronous inference queues and their visibility timeout, message retention, maximum receive count, oldest-message and visible-depth alarm thresholds, delivery delay, dead-letter retention and dead-letter error threshold. It is the only source of queue keys and all eight per-queue settings.</li>
+<li><code>queue_long_poll_seconds</code> (<code>number</code>, <code>20</code>): the long-poll wait time of every asynchronous inference queue.</li>
+<li><code>alarm_actions_enabled</code> (<code>bool</code>, <code>true</code>): whether actions are enabled on every CloudWatch metric alarm.</li>
+<li><code>entrypoints</code>: <code>map(object({ port = number, cidr_blocks = list(string), purpose = string, response_prefix = string, status_code = string, request_threshold = number, error_threshold = number }))</code>, keyed by entrypoint name, defaulting to today's partner, public and operations entrypoints and their listener port, ingress CIDR list, purpose, fixed-response prefix and status code, request threshold and error threshold. It is the only source of entrypoint keys and all seven per-entrypoint settings.</li>
+<li><code>alarm_datapoints_to_alarm</code> (<code>number</code>, <code>2</code>): the datapoints-to-alarm count of every CloudWatch metric alarm.</li>
+<li><code>ecr_images_to_keep</code> (<code>number</code>, <code>20</code>): the retained image count in every model repository lifecycle policy.</li>
+<li><code>queue_max_message_size</code> (<code>number</code>, <code>262144</code>): the maximum message size of every asynchronous inference queue and dead-letter queue.</li>
+<li><code>flow_log_aggregation_interval</code> (<code>number</code>, <code>600</code>): the VPC flow log's maximum aggregation interval.</li>
+<li>Changing <code>vpc_cidr</code>, <code>log_retention_days</code>, <code>health_check_interval</code>, <code>deregistration_delay</code>, <code>alarm_period</code>, <code>alarm_evaluation_periods</code>, <code>bucket_expiration_days</code>, <code>bucket_noncurrent_days</code>, <code>force_destroy_buckets</code>, <code>alb_idle_timeout</code>, <code>enable_deletion_protection</code>, <code>task_ephemeral_storage</code>, <code>ecr_scan_on_push</code>, <code>queue_long_poll_seconds</code>, <code>alarm_actions_enabled</code>, <code>alarm_datapoints_to_alarm</code>, <code>ecr_images_to_keep</code>, <code>queue_max_message_size</code> and <code>flow_log_aggregation_interval</code> changes only what each one's line above says it controls: every other setting keeps today's value, including a setting that merely has the same value today.</li>
+</ul>
+<p><strong>Root outputs.</strong> Keep <code>vpc_id</code>, <code>cluster_name</code>, <code>alb_name</code>, <code>alb_dns_name</code>, <code>access_logs_bucket_name</code> and <code>task_role_arn</code> with their current values. <code>public_subnet_ids</code> becomes a map from the AZ name to the <code>id</code> of that availability zone's <code>aws_subnet.public</code>. <code>private_subnet_ids</code> becomes a map from the AZ name to the <code>id</code> of that availability zone's <code>aws_subnet.private</code>. <code>nat_public_ips</code> becomes a map from the AZ name to the <code>public_ip</code> of that availability zone's <code>aws_eip.nat</code>. <code>model_bucket_names</code> becomes a map from the short model key to the <code>bucket</code> of that model service's <code>aws_s3_bucket.model</code>. <code>model_repository_urls</code> becomes a map from the short model key to the <code>repository_url</code> of that model service's <code>aws_ecr_repository.model</code>. <code>target_group_arns</code> becomes a map from the short model key to the <code>arn</code> of that model service's <code>aws_lb_target_group.model</code>. <code>log_group_names</code> becomes a map from the short model key to the <code>name</code> of that model service's <code>aws_cloudwatch_log_group.model</code>. <code>alert_topic_arns</code> becomes a map from the short model key to the <code>arn</code> of that model service's <code>aws_sns_topic.model_alerts</code>. <code>queue_urls</code> becomes a map from the queue key to the <code>url</code> of that asynchronous inference queue's <code>aws_sqs_queue.inference</code>. <code>queue_alert_topic_arns</code> becomes a map from the queue key to the <code>arn</code> of that asynchronous inference queue's <code>aws_sns_topic.queue_alerts</code>. <code>az_network_parameter_names</code> becomes a map from the AZ name to the <code>name</code> of that availability zone's <code>aws_ssm_parameter.az_network</code>. <code>entrypoint_listener_arns</code> becomes a map from the entrypoint key to the <code>arn</code> of that public entrypoint's <code>aws_lb_listener.entrypoint</code>. <code>entrypoint_alert_topic_arns</code> becomes a map from the entrypoint key to the <code>arn</code> of that public entrypoint's <code>aws_sns_topic.entrypoint_alerts</code>. Each output passes through outputs of the module that owns the resource (network for <code>vpc_id</code>, <code>public_subnet_ids</code>, <code>private_subnet_ids</code>, <code>nat_public_ips</code> and <code>az_network_parameter_names</code>; identity for <code>task_role_arn</code>; artifacts for <code>model_bucket_names</code>, <code>model_repository_urls</code> and <code>access_logs_bucket_name</code>; compute for <code>log_group_names</code> and <code>cluster_name</code>; routing for <code>target_group_arns</code>, <code>alb_name</code>, <code>alb_dns_name</code> and <code>entrypoint_listener_arns</code>; observability for <code>alert_topic_arns</code> and <code>entrypoint_alert_topic_arns</code>; queues for <code>queue_urls</code> and <code>queue_alert_topic_arns</code>): the root output is a plain reference to an output of that module, and that module output is a plain reference to the resource. A plain reference is a reference such as <code>module.network.&lt;output&gt;</code> or <code>&lt;resource type&gt;.&lt;name&gt;.&lt;attribute&gt;</code>, a local that holds one, or a <code>for</code> expression that only re-keys one (<code>{ for k, v in &lt;reference&gt; : k =&gt; v.id }</code>) or iterates a plain reference and looks each key up in one (<code>{ for k, v in var.&lt;map&gt; : k =&gt; &lt;reference&gt;[k].id }</code>); no literals, function calls, conditionals or string templates anywhere along the way.</p>
+<p><strong>Not allowed anywhere in the configuration:</strong> <code>ignore_changes</code>, <code>prevent_destroy</code> and <code>replace_triggered_by</code>, <code>removed</code> and <code>import</code> blocks, provisioners, <code>external</code> data sources, backend or cloud blocks, provider blocks other than the one in <code>providers.tf</code>, override files and <code>.tf.json</code> files.</p>
+</div>
+</details>
+<h4 id="pass-rates-3">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">5</td>
+<td class="numeric">80%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">2</td>
+<td class="numeric">50%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-3">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-modelrouter-module-refactor.svg" alt="How the task works" /></div></figure><h3 id="example-4-cloud-infra-containers-self-hosted-platforms-typescript">Example 4: Cloud infra: containers &amp; self-hosted platforms (TypeScript)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Task id</td>
+<td><a href="https://drive.google.com/file/d/1l8nNQLGUM8GbW_dp8HFuPQb2nHNGh6J-/view"><code>atlasgrid-pulumi-migration</code></a></td>
+</tr>
+<tr>
+<td>Final category</td>
+<td>Infrastructure as code</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Cloud infrastructure &amp; IaC</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Cloud infra: containers &amp; self-hosted platforms</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>TypeScript</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>92 (x-ai/grok-4.7), 210 (google/gemini-3.8-flash), 89 (google/gemini-4-argon), 68 (openai/gpt-6-astra), 39 (anthropic/claude-opus-5-5)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="prompt-4">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<h5 id="pulumi-program-for-atlasgrids-imported-dev-stack">Pulumi program for AtlasGrid's imported <code>dev</code> stack</h5>
+<p>AtlasGrid's production ECS platform is managed with Terraform (<code>/workspace/terraform</code>; <code>terraform.tfstate</code> is production). The platform team bulk-imported every production resource into stack <code>dev</code> of the Pulumi project <code>/workspace/pulumi</code>, but its entry point <code>index.ts</code> declares nothing, so a preview would delete everything. We need the matching TypeScript program.</p>
+<h6 id="what-we-need">What we need</h6>
+<ul>
+<li>Each module call is a <code>pulumi.ComponentResource</code> under the stack, named after the module and typed <code>atlasgrid:modules:&lt;Module&gt;</code> (<code>Network</code>, <code>Identity</code>, <code>Edge</code>, <code>Cluster</code>, <code>Workloads</code>, <code>Observability</code>).</li>
+<li>Each Terraform resource instance is one <code>@pulumi/aws</code> resource under its module's component, named after the Terraform resource plus <code>-&lt;key&gt;</code> for <code>for_each</code> instances (<code>ecs-us-east-1a</code>).</li>
+<li>Each variable in <code>variables.tf</code> is a same-named config key (<code>atlasgrid-ecs:project</code>, …) holding its value as plain YAML (integers, strings, mappings); unset keys take the Terraform default.</li>
+<li>For any values Terraform and AWS accept, <code>pulumi preview</code> plans the same creates, updates, replacements, deletions, settings and outputs as <code>terraform plan</code> with those values.</li>
+<li>Values Terraform reads from another resource's attribute come from that attribute's output (unknown in preview exactly where unknown in Terraform's plan).</li>
+<li>Lists built from maps use sorted key order, and later maps win in <code>merge()</code>.</li>
+<li>If the stack state drifts, the preview reverts the drift as Terraform would.</li>
+<li>Stack outputs match <code>outputs.tf</code>: same names and values (maps as objects).</li>
+<li>Default <code>aws</code> provider only; no <code>protect</code>, <code>ignoreChanges</code>, <code>retainOnDelete</code>, <code>deletedWith</code>, <code>import</code>, <code>aliases</code>, <code>replaceOnChanges</code>, <code>replaceWith</code>, <code>customTimeouts</code>, <code>transforms</code> or <code>hooks</code> options, stack transforms, remote components, <code>.get()</code> lookups, <code>StackReference</code>s or provider functions like <code>aws.getRegion()</code>.</li>
+<li>No production-generated IDs, ARNs, account ID, IPs or DNS names anywhere in <code>/workspace/pulumi</code>, even partly or in notes; constants from the Terraform code are fine.</li>
+<li>The program runs offline from the regular files in <code>/workspace/pulumi</code> alone (no symlinks).</li>
+</ul>
+<h6 id="keep-working">Keep working</h6>
+<ul>
+<li>Production: <code>pulumi preview --refresh=false</code> on <code>dev</code> shows no changes</li>
+<li>A clean <code>npx tsc --noEmit</code></li>
+<li><code>Pulumi.yaml</code>, <code>Pulumi.dev.yaml</code>, <code>package.json</code>, <code>tsconfig.json</code>, <code>templates/</code>, byte for byte (undo any <code>pulumi config set</code>)</li>
+</ul>
+<h6 id="setup">Setup</h6>
+<p>No AWS access; <code>pulumi preview --refresh=false</code> works offline (backend <code>/workspace/pulumi-state</code> and passphrase preset) and <code>pulumi stack export</code> shows every URN. In <code>/workspace/terraform</code>, <code>terraform init -input=false</code> and <code>terraform plan -refresh=false</code> work offline from a provider mirror, including with <code>-var</code>/<code>-var-file</code>. <code>node_modules</code> links to the image's packages (Node.js 22, versions per <code>package.json</code>; <code>@pulumi/aws</code> 6.83.0 is built on Terraform's AWS provider 5.100.0); nothing can be installed. <code>templates/userdata.sh.tpl</code> copies the cluster module's template.</p>
+</div>
+</details>
+<h4 id="pass-rates-4">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x-ai/grok-4.7</td>
+<td class="numeric">8</td>
+<td class="numeric">12%</td>
+</tr>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">3</td>
+<td class="numeric">67%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">2</td>
+<td class="numeric">50%</td>
+</tr>
+<tr>
+<td>openai/gpt-6-astra</td>
+<td class="numeric">1</td>
+<td class="numeric">100%</td>
+</tr>
+<tr>
+<td>anthropic/claude-opus-5-5</td>
+<td class="numeric">1</td>
+<td class="numeric">100%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-4">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-atlasgrid-pulumi-migration.svg" alt="How the task works" /></div></figure>
+<footer class="page-footer" data-ui><a class="back-top" href="#top">Back to top ↑</a><nav class="page-nav" aria-label="Previous and next catalogs"><a rel="prev" href="feature-implementation.html"><small>Previous</small>Feature implementation</a><a rel="next" href="data-engineering.html"><small>Next</small>Data engineering</a></nav>
+<p class="footer-word">Bespoke Labs · Coding OTS RL Envs</p></footer></div></div></article></main>
+</body></html>

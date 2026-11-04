@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light"><title>Feature implementation | Bespoke Labs</title>
+<link rel="icon" href="data:,"><link rel="stylesheet" href="site.css"><script src="site.js" defer></script></head>
+<body id="top"><a class="skip" href="#content">Skip to content</a>
+<header class="band"><div class="band-in"><a class="brand" href="index.html"><img src="assets/bespoke-labs-logo.svg" alt="Bespoke Labs" width="162"></a>
+<span class="div" aria-hidden="true">/</span><div class="crumb"><a href="index.html">Coding OTS RL Envs</a> / Feature implementation</div></div></header>
+<main id="content" tabindex="-1"><article id="catalog-content">
+<header class="hero"><h1 id="feature-implementation">Feature implementation</h1><div class="hero-meta" aria-hidden="true"></div></header>
+<div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,356 tasks">1,356</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="435 tasks">435</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="61 tasks">61</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="378 tasks">378</span></a><a href="feature-implementation.html" aria-current="page"><span>Feature implementation</span><span class="count" aria-label="120 tasks">120</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="300 tasks">300</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="36 tasks">36</span></a><a href="optimization.html"><span>Optimization</span><span class="count" aria-label="9 tasks">9</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-databases-storage-engines-go">Example 1: Databases &amp; storage engines (Go)</a></nav></aside>
+<div class="reading">
+<h2 id="executive-summary">Executive summary</h2>
+<div class="kpis"><div class="kpi"><div class="kpi-value">120</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">116</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">&lt;1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
+<p>Each task asks the agent to add a capability to an existing open-source library or service, specified as the public types and functions to deliver, while existing callers see no change. The main languages are Go (72%), Python (27%) and C# (1%).</p>
+<p>116 of the 120 tasks have graded runs from at least one model. The model with the most runs here, google/gemini-3.8-flash, passes &lt;1% of its 635 graded runs and fails every run on 98% of the 99 tasks it ran.</p>
+<h2 id="why-this-catalog">Why this catalog</h2>
+<h3 id="problems-engineers-face">Problems engineers face</h3>
+<p>Maintainers add a capability that runs through many code paths of an unfamiliar library or service, while existing callers must see no change. Typical requests add an opt-in mode or policy, keep information the library currently drops, or make a subsystem safe under concurrency and failure.</p>
+<h3 id="how-the-tasks-reproduce-them">How the tasks reproduce them</h3>
+<p>Each task pins an open-source repository, mostly Go or Python, in an offline container and gives a written specification of the new behaviour. The agent's edits are collected as a diff against the base commit. After the session, hidden acceptance tests check the new behaviour and the project's existing tests check that nothing else changed.</p>
+<h3 id="typical-prompts">Typical prompts</h3>
+<ul>
+<li>A capability gap stated as &quot;X cannot Y&quot;, then dense paragraphs on the behaviour to add and the behaviour to preserve.</li>
+<li>A bullet list of required exported names, constants and signatures, with a research and plan file due before any code change.</li>
+</ul>
+<h2 id="domain-breakdown">Domain breakdown</h2>
+<p>The tasks span nine domains. The largest, Languages &amp; developer tooling, makes up 22% of the catalog.</p>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Share of tasks by domain</h4></div><div class="fig-box"><img src="assets/feature-implementation_domain.svg" alt="Share of tasks by domain" /></div></figure><h2 id="language-and-seniority">Language and seniority</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Primary language and seniority</h4></div><div class="fig-box"><img src="assets/feature-implementation_metadata.svg" alt="Primary language and seniority" /></div></figure><h3 id="primary-language">Primary language</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Primary language</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Go</td>
+<td class="numeric">71.7%</td>
+</tr>
+<tr>
+<td>Python</td>
+<td class="numeric">26.7%</td>
+</tr>
+<tr>
+<td>C#</td>
+<td class="numeric">0.8%</td>
+</tr>
+<tr>
+<td>Java</td>
+<td class="numeric">0.8%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="seniority">Seniority</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Seniority</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of catalog</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Senior</td>
+<td class="numeric">97.5%</td>
+</tr>
+<tr>
+<td>Staff+</td>
+<td class="numeric">2.5%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="model-pass-rates-across-the-catalog">Model pass rates across the catalog</h2>
+<p>A model's pass rate is its passed runs over its graded runs, pooled across the tasks it ran; runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks run</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 0%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 20-80%</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 100%</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">99</td>
+<td class="numeric">635</td>
+<td>&lt;1%</td>
+<td class="numeric">98%</td>
+<td class="numeric">0%</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">29</td>
+<td class="numeric">148</td>
+<td class="numeric">23%</td>
+<td class="numeric">52%</td>
+<td class="numeric">48%</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">10</td>
+<td class="numeric">21</td>
+<td class="numeric">29%</td>
+<td class="numeric">70%</td>
+<td class="numeric">10%</td>
+<td class="numeric">20%</td>
+</tr>
+<tr>
+<td>cohere/command-a</td>
+<td class="numeric">7</td>
+<td class="numeric">9</td>
+<td class="numeric">0%</td>
+<td class="numeric">100%</td>
+<td class="numeric">0%</td>
+<td class="numeric">0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/feature-implementation_per_task.svg" alt="Per-task pass rate by model" /></div></figure><p>Also run on fewer than five tasks: anthropic/claude-opus-5-5 (2 tasks, 25% of 4 runs).</p>
+<h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
+<p>A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 116 of the 120 tasks have a completed run.</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Measure</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Average turn count</td>
+<td class="numeric">342.6</td>
+</tr>
+<tr>
+<td>Median turn count</td>
+<td class="numeric">328.9</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>82 to 956</td>
+</tr>
+<tr>
+<td>Long-horizon tasks (200+ turns)</td>
+<td>71% of tasks</td>
+</tr>
+</tbody>
+</table>
+</div>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Turns per task</h4></div><div class="fig-box"><img src="assets/feature-implementation_turns.svg" alt="Turns per task" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of tasks</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean turns</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of runs with 200+ turns</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>google/gemini-3.8-flash</td>
+<td class="numeric">85%</td>
+<td class="numeric">345.2</td>
+<td class="numeric">68%</td>
+</tr>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">25%</td>
+<td class="numeric">300.6</td>
+<td class="numeric">66%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">9%</td>
+<td class="numeric">247.4</td>
+<td class="numeric">71%</td>
+</tr>
+<tr>
+<td>cohere/command-a</td>
+<td class="numeric">6%</td>
+<td class="numeric">14.3</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>anthropic/claude-opus-5-5</td>
+<td class="numeric">2%</td>
+<td class="numeric">55.0</td>
+<td class="numeric">0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="sample-tasks">Sample tasks</h2>
+<nav class="task-chips" data-ui aria-label="Example tasks"><a href="#example-1-databases-storage-engines-go">Example 1: Databases &amp; storage engines (Go)</a></nav>
+<h3 id="example-1-databases-storage-engines-go">Example 1: Databases &amp; storage engines (Go)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Task id</td>
+<td><a href="https://drive.google.com/file/d/1M3HCkXFdoznYOiY4yc3LlI8olgAA1K15/view"><code>memdb-txn-ots</code></a></td>
+</tr>
+<tr>
+<td>Final category</td>
+<td>Feature implementation</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Data engineering &amp; databases</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Databases &amp; storage engines</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Go</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Senior</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>262 (z-ai/glm-5.3-flash), 9 (cohere/command-a), 79 (google/gemini-4-argon)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="prompt">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>I'm restoring transaction and query support in our copy of go-memdb so callers can update data, query snapshots, and watch query results for updates. Could you implement the methods that currently panic in the root <code>memdb</code> package? They live in <code>txn.go</code>, <code>memdb.go</code>, <code>index.go</code>, <code>filter.go</code>, and <code>watch.go</code>. The missing pieces cover transaction lifecycle, deletion, indexed queries and iteration, snapshots, deferred callbacks, filtering, and watch sets.</p>
+<p>The existing code, API comments, and <code>README.md</code> provide context for the restoration. A received value must wake <code>WatchCtx</code> just as a closed watched channel does. Please keep the restored public names and signatures unchanged, and retain <code>Txn.write</code> for package compatibility; private helper functions are up to you. I'll check the restored behavior alongside index and schema regressions. Submit text Go source changes without new symbolic links, binary Go diffs, or Go line-position directives (<code>//line</code> and <code>/*line</code>). Use Go filenames that produce unquoted, whitespace-free paths in Git diffs.</p>
+<p>In the non-test code you add, please avoid: new <code>init()</code> functions; the <code>syscall</code>, <code>golang.org/x/sys</code>, <code>os/exec</code>, <code>os/signal</code>, <code>plugin</code>, <code>embed</code>, <code>runtime/cgo</code>, <code>runtime/pprof</code>, <code>runtime/trace</code>, <code>testing</code> and <code>flag</code> packages, cgo, and <code>//go:linkname</code> or <code>//go:embed</code> directives; <code>os.Exit</code>, <code>os.StartProcess</code>, <code>os.FindProcess</code> and <code>runtime.Goexit</code>; reading <code>os.Args</code>, <code>os.Executable</code>, <code>/proc/self</code> or <code>runtime/debug</code> build info; caller or stack lookups (<code>runtime.Caller</code>, <code>Callers</code>, <code>CallersFrames</code>, <code>FuncForPC</code>, <code>Stack</code>, <code>debug.Stack</code>, <code>debug.PrintStack</code>, <code>log.Lshortfile</code>, <code>log.Llongfile</code>, and <code>AddSource</code> selectors or identifier keys); literal U+0016 or the text <code>\x16</code>; and printing test-runner lines such as <code>--- PASS</code>. These are rejected outright. Some checks read raw text and also match comments.</p>
+</div>
+</details>
+<h4 id="pass-rates">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">3</td>
+<td class="numeric">67%</td>
+</tr>
+<tr>
+<td>z-ai/glm-5.3-flash</td>
+<td class="numeric">4</td>
+<td class="numeric">0%</td>
+</tr>
+<tr>
+<td>cohere/command-a</td>
+<td class="numeric">3</td>
+<td class="numeric">0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-memdb-txn-ots.svg" alt="How the task works" /></div></figure>
+<footer class="page-footer" data-ui><a class="back-top" href="#top">Back to top ↑</a><nav class="page-nav" aria-label="Previous and next catalogs"><a rel="prev" href="debugging.html"><small>Previous</small>Diagnosis, Debugging, and Bug Fixing</a><a rel="next" href="infrastructure-as-code.html"><small>Next</small>Infrastructure as code</a></nav>
+<p class="footer-word">Bespoke Labs · Coding OTS RL Envs</p></footer></div></div></article></main>
+</body></html>

@@ -1,0 +1,87 @@
+{
+ "_note": "Per-catalog write-ups. 'one' is the overview line, 'work' opens the executive summary, the rest is 'Why this catalog'. Split from ../gemini_hard/cat/why_text.json and summary_text.json (written for the merged catalogs) and, for Migration, IaC, Data engineering and Optimization, rewritten from ../pipeline/cat/<slug>_text.json without task names.",
+ "programbench": {
+  "one": "Rebuild or upgrade programs so they behave exactly like a reference version.",
+  "work": "Each task asks the agent to make software behave exactly like a reference version. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from a reference program and its documentation. In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code.",
+  "problems": "Engineers often have to make software behave exactly like a version they cannot reuse: rebuilding a tool whose source is unavailable, or bringing an old codebase up to a newer release. In both cases the specification is observable behaviour. The hard part is inferring the rules from outputs and documentation, then matching exit codes, output, file effects and numeric precision without seeing the tests.",
+  "how": "Every task runs offline, and hidden tests compare the result with a reference program the agent can run but not read. For a reimplementation, the agent writes a source project and a `compile.sh` from the reference and its documentation. For an upgrade, the agent changes an existing repository in `/app/repo`, which is built with a fixed `/opt/task/build.sh`.",
+  "prompts": [
+   "Reproduce the documented behaviour of an execute-only program, delivered as source code plus `compile.sh`.",
+   "Update an existing repository to match a reference program, after first writing a research and plan file."
+  ]
+ },
+ "system-design": {
+  "one": "Keep multi-process services correct through crashes, retries and races.",
+  "work": "Each task changes a production service that must keep running. The agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and delivers the change as a patch.",
+  "problems": "Production systems fail in specific ways when they change while running. In services where several processes share state and any of them can stop, the failures are duplicate effects after retries, lost notifications, stale writers returning after a takeover, limits that hold in one process but not across instances, and partial state after a crash.",
+  "how": "Each task pins an open-source repository at a base commit, with a short specification that often sets time limits. The agent runs the needed databases, caches or brokers locally and delivers a patch. After the session, hidden tests kill or pause processes, cut connections and confirm that existing behaviour still works.",
+  "prompts": [
+   "A capability gap stated as \"X cannot do Y\", followed by measurable requirements, many with time limits.",
+   "A closing paragraph with the repository path, how to start each service and the build command."
+  ]
+ },
+ "debugging": {
+  "one": "Find and fix faults in real codebases from symptoms or documentation.",
+  "work": "Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause.",
+  "problems": "Maintainers are handed code that is wrong in several places and must find the causes without a test suite to lean on. In the diagnosis tasks, many undocumented edits break unrelated features at once. In the documentation-drift tasks, the code still runs but contradicts its own documentation. Some tasks start from a single production symptom with a hidden root cause.",
+  "how": "Each task ships a pinned checkout of an open-source project, with the tests withheld and no network. The prompt describes the symptoms or names the documentation in scope, never the location of the faults. Most diagnosis tasks also ask for `/app/rca.json`, which lists the file and function of each edit and is compared with an answer key. Drift tasks treat the documentation as the authority and forbid editing it. Hidden tests check the repairs and the behaviour that was already correct.",
+  "prompts": [
+   "A first-person list of symptoms grouped by feature, with no file or function named, ending in a request to fix and report.",
+   "A stated number of undocumented edits and a JSON schema for the root-cause report.",
+   "A library description with the source paths and documentation pages in scope, and the rule that documentation outranks code."
+  ]
+ },
+ "feature-implementation": {
+  "one": "Add capabilities to existing libraries and services without breaking current behaviour.",
+  "work": "Each task asks the agent to add a capability to an existing open-source library or service, specified as the public types and functions to deliver, while existing callers see no change.",
+  "problems": "Maintainers add a capability that runs through many code paths of an unfamiliar library or service, while existing callers must see no change. Typical requests add an opt-in mode or policy, keep information the library currently drops, or make a subsystem safe under concurrency and failure.",
+  "how": "Each task pins an open-source repository, mostly Go or Python, in an offline container and gives a written specification of the new behaviour. The agent's edits are collected as a diff against the base commit. After the session, hidden acceptance tests check the new behaviour and the project's existing tests check that nothing else changed.",
+  "prompts": [
+   "A capability gap stated as \"X cannot Y\", then dense paragraphs on the behaviour to add and the behaviour to preserve.",
+   "A bullet list of required exported names, constants and signatures, with a research and plan file due before any code change."
+  ]
+ },
+ "infrastructure-as-code": {
+  "one": "Restructure live Terraform, CDK and Pulumi code without touching deployed resources.",
+  "work": "Each task restructures infrastructure code that is already deployed. The agent splits a flat Terraform stack into modules with stable keys, componentizes a CDK app or moves a stack to Pulumi, so that the plan against production state changes nothing that is running.",
+  "problems": "Platform engineers restructure infrastructure code that is already running, and the change must reach production as address moves only, because the team cannot plan against a live account. The most common case is a flat Terraform root module that has to become local modules with `for_each` keys. Others replace positional `count` with stable keys, extract reusable components from an app that builds everything inline, move a stack between tools while the preview stays clean, or bring a stack under a policy pack without replacing resources.",
+  "how": "Each task ships a copy of the stack with its recorded production state or recorded templates, an offline toolchain and no network. The instruction states module ownership, key rules, root variables with today's defaults and outputs. After the session, a separate verifier with its own pristine state plans the agent's configuration with refresh disabled and expects moves only, then plans hidden changes such as an added key, a removed key or a changed entry. Most tasks score zero when a gate fails.",
+  "prompts": [
+   "A first-person request to modularize a named production stack, listing target modules, ownership, key rules, root variables and outputs, and requiring a plan of moves only.",
+   "A componentization request that lists every construct class with its path, props and public properties, and requires identical synthesized templates.",
+   "A migration brief for an imported stack with an empty program, with naming, config and equivalence rules and banned options."
+  ]
+ },
+ "data-engineering": {
+  "one": "Repair pipelines and data libraries after an upstream format or schema change.",
+  "work": "Each task extends or repairs a data library or pipeline so it keeps producing correct results after an upstream format or schema change, while old inputs still read the same.",
+  "problems": "Data engineers repair pipelines after an upstream feed changes shape. A vendor or connector changes its format and the next run produces wrong data without failing: exports start resending changed records, files change encoding or layout, sheets arrive in another locale, or a schema changes in the middle of an incremental load. The fix must give the same results on reruns and keep existing tests passing.",
+  "how": "Each task is a public repository at a pinned commit in `/app`, with a Python virtual environment and, where needed, dbt and DuckDB. Sample inputs such as CSV, Parquet, XML or SQLite files sit in `/data` or in the project, and there is no network. The prompt gives the symptom and the required behaviour, not the faulty code. After the session, a verifier applies the agent's diff, runs the repository's own checks and a hidden suite as an unprivileged user.",
+  "prompts": [
+   "A first-person production symptom after a vendor or connector change, with sample files in `/data`.",
+   "A behaviour spec in prose with edge cases, defaults and idempotence rules, ending with a request to fix the library without breaking existing tests.",
+   "An opt-in feature request for a parser or loader, with defaults that must not change."
+  ]
+ },
+ "migration": {
+  "one": "Port Java and Rust libraries to Go or C++ with identical behaviour.",
+  "work": "Each task asks the agent to port a Java or Rust library to Go or C++ behind fixed signatures, so that the original project's own tests, translated to the target language, pass against the port.",
+  "problems": "Engineers remove a dependency in one language by replacing it with a port in another. The hard part is exact behavioural equivalence without seeing the tests: numeric precision, bit-exact random sequences, parser and error-case fidelity, and the order of results. The target language adds its own rules, such as Go's RE2 regular expressions or C++ header conventions, and house constraints limit imports and naming.",
+  "how": "Each task provides the original source as a reference, a skeleton in the target language with final signatures and stub bodies, and a `mig-check` tool that compares the skeleton, builds and vets the port. The original project's tests, translated to the target language, are withheld and run after the session within per-test time and memory limits.",
+  "prompts": [
+   "A first-person request to port a named library to Go from a reference folder, with a stub skeleton and withheld tests.",
+   "A request framed by a business reason for the move, such as retiring a JVM dependency, with emphasis on exact reproduction of seeded output.",
+   "A bullet list of language-specific pitfalls, such as RE2 regular expression syntax and reserved name prefixes."
+  ]
+ },
+ "optimization": {
+  "one": "Make existing code faster or leaner without changing what it does.",
+  "work": "Each task asks the agent to make existing code cheaper in time or memory without changing its behaviour, its public API or its existing tests. The tasks cover Go HTTP code and Python scientific libraries.",
+  "problems": "Performance engineers are asked to remove unnecessary work from a slow path in a library they did not write. The task names a workload and the entry points that must keep their behaviour. The engineer has to profile and read before editing, find where the time or memory goes, and avoid special-casing the visible benchmark.",
+  "how": "Each task gives the agent a repository in `/app` in an offline container, with workload scripts or a benchmark command. The instruction lists the behaviour that must be preserved and limits where code may change. After the session, the verifier restores its own workloads and tests, checks that results are unchanged and compares the candidate's speed with the baseline's on inputs the agent has not seen.",
+  "prompts": [
+   "A title of the form \"Reduce X overhead\", a description of the slow component, a list of workload scripts or a benchmark command, then requirements and grading sections.",
+   "A list of the exact public functions whose behaviour must be preserved and where edits may be made."
+  ]
+ }
+}
