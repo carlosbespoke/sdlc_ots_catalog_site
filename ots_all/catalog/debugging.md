@@ -2,9 +2,9 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">371</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">371</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">37%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">324</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">324</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">37%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
 
-Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Python (60%), Go (28%) and C (6%).
+Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Python (54%), Go (32%) and C (7%).
 
 Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, passes 37% of its 1,426 graded runs and fails every run on 51% of the 263 tasks it ran.
 
@@ -26,7 +26,7 @@ Each task ships a pinned checkout of an open-source project, with the tests with
 
 ## Domain breakdown
 
-The tasks span ten domains. The largest, Scientific & ML software, makes up 26% of the catalog.
+The tasks span ten domains. The largest, Scientific & ML software, makes up 24% of the catalog.
 
 ![Share of tasks by domain](assets/debugging_domain.svg)
 
@@ -38,11 +38,11 @@ The tasks span ten domains. The largest, Scientific & ML software, makes up 26% 
 
 | Primary language | % of catalog |
 |---|---:|
-| Python | 59.6% |
-| Go | 28.0% |
-| C | 6.2% |
-| Rust | 3.5% |
-| TypeScript | 2.7% |
+| Python | 54.0% |
+| Go | 32.1% |
+| C | 7.1% |
+| Rust | 4.0% |
+| TypeScript | 2.8% |
 
 ### Seniority
 
@@ -59,30 +59,28 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 |---|---:|---:|---:|---:|---:|---:|
 | z-ai/glm-5.3-flash | 263 | 1,426 | 37% | 51% | 26% | 15% |
 | google/gemini-3.8-flash | 75 | 425 | 4% | 76% | 0% | 3% |
-| z-ai/glm-5.3 | 51 | 306 | <1% | 98% | 0% | 0% |
 | google/gemini-4-argon | 27 | 43 | 79% | 19% | 7% | 74% |
 
 ![Per-task pass rate by model](assets/debugging_per_task.svg)
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 371 of the 371 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 324 of the 324 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 394.8 |
-| Median turn count | 406.0 |
-| Range | 50 to 998 |
-| Long-horizon tasks (200+ turns) | 80% of tasks |
+| Average turn count | 423.0 |
+| Median turn count | 450.1 |
+| Range | 54 to 998 |
+| Long-horizon tasks (200+ turns) | 84% of tasks |
 
 ![Turns per task](assets/debugging_turns.svg)
 
 | Model | % of tasks | Mean turns | % of runs with 200+ turns |
 |---|---:|---:|---:|
-| z-ai/glm-5.3-flash | 71% | 392.7 | 78% |
-| google/gemini-3.8-flash | 20% | 518.7 | 80% |
-| z-ai/glm-5.3 | 14% | 207.3 | 41% |
-| google/gemini-4-argon | 7% | 209.7 | 35% |
+| z-ai/glm-5.3-flash | 81% | 392.7 | 78% |
+| google/gemini-3.8-flash | 23% | 518.7 | 80% |
+| google/gemini-4-argon | 8% | 209.7 | 35% |
 
 ## Sample tasks
 

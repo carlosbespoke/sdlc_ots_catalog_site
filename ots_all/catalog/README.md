@@ -1,20 +1,20 @@
 # Coding OTS RL Envs
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">1,327</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">4</div><div class="kpi-label">Models with graded runs</div></div><div class="kpi"><div class="kpi-value">8,170</div><div class="kpi-label">Graded runs</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">1,280</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">3</div><div class="kpi-label">Models with graded runs</div></div><div class="kpi"><div class="kpi-value">7,852</div><div class="kpi-label">Graded runs</div></div></div>
 
 Our coding RL environments, grouped into eight catalogs, with the pass rates of every model that has run them. All numbers come from one snapshot of Horizon runs (2026-11-02), at the task versions selected on the 2 Nov sheet.
 
 | Catalog | Tasks | What the tasks do | % of all tasks | Tasks with graded runs | Average turn count |
 |---|---:|---|---:|---:|---:|
-| [ProgramBench](programbench.md) | 434 | Rebuild or upgrade programs so they behave exactly like a reference version. | 32.7% | 434 | 476 |
-| [System design](system-design.md) | 61 | Keep multi-process services correct through crashes, retries and races. | 4.6% | 61 | 476 |
-| [Diagnosis, Debugging, and Bug Fixing](debugging.md) | 371 | Find and fix faults in real codebases from symptoms or documentation. | 28.0% | 371 | 395 |
-| [Feature implementation](feature-implementation.md) | 117 | Add capabilities to existing libraries and services without breaking current behaviour. | 8.8% | 117 | 344 |
-| [Infrastructure as code](infrastructure-as-code.md) | 300 | Restructure live Terraform, CDK and Pulumi code without touching deployed resources. | 22.6% | 300 | 115 |
+| [ProgramBench](programbench.md) | 434 | Rebuild or upgrade programs so they behave exactly like a reference version. | 33.9% | 434 | 476 |
+| [System design](system-design.md) | 61 | Keep multi-process services correct through crashes, retries and races. | 4.8% | 61 | 476 |
+| [Diagnosis, Debugging, and Bug Fixing](debugging.md) | 324 | Find and fix faults in real codebases from symptoms or documentation. | 25.3% | 324 | 423 |
+| [Feature implementation](feature-implementation.md) | 117 | Add capabilities to existing libraries and services without breaking current behaviour. | 9.1% | 117 | 344 |
+| [Infrastructure as code](infrastructure-as-code.md) | 300 | Restructure live Terraform, CDK and Pulumi code without touching deployed resources. | 23.4% | 300 | 115 |
 | [Data engineering](data-engineering.md) | 17 | Repair pipelines and data libraries after an upstream format or schema change. | 1.3% | 17 | 173 |
 | [Migration](migration.md) | 18 | Port Java and Rust libraries to Go or C++ with identical behaviour. | 1.4% | 18 | 364 |
-| [Optimization](optimization.md) | 9 | Make existing code faster or leaner without changing what it does. | 0.7% | 9 | 270 |
-| **Total** | **1,327** |  | **100%** | **1,327** |  |
+| [Optimization](optimization.md) | 9 | Make existing code faster or leaner without changing what it does. | 0.7% | 9 | 273 |
+| **Total** | **1,280** |  | **100%** | **1,280** |  |
 
 ## Model pass rates
 
@@ -26,7 +26,6 @@ Each cell is a model's pass rate in one catalog: passed runs over graded runs, p
 |---|---:|---:|---:|
 | z-ai/glm-5.3-flash | 765 | 4,025 | 42% |
 | google/gemini-3.8-flash | 559 | 3,540 | 2% |
-| z-ai/glm-5.3 | 53 | 318 | 1% |
 | google/gemini-4-argon | 119 | 287 | 60% |
 
 ## Samples
@@ -60,6 +59,6 @@ Each sample is a full task, downloadable from its task id. The pass rate is that
 
 ## Turn counts
 
-A task's turn count is the average over its completed runs, from every model. Across all catalogs the average is 353 turns, and 65% of tasks average 200 turns or more.
+A task's turn count is the average over its completed runs, from every model. Across all catalogs the average is 359 turns, and 66% of tasks average 200 turns or more.
 
 ![Turns per task, all catalogs](assets/all_turns.svg)

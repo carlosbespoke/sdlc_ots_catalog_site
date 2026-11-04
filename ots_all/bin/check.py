@@ -95,7 +95,7 @@ for f in sorted(os.listdir(C)):
         if bad in prose: errors.append(f'{f}: {why}')
     for k in sorted({MM[c] for c in DROPPED}):
         checked['rules'] += 1
-        if k in prose or k.split('/')[-1] in prose: errors.append(f'{f}: dropped model {k}')
+        if re.search(rf'(?<![\w.-])({re.escape(k)}|{re.escape(k.split("/")[-1])})(?![\w-])', prose): errors.append(f'{f}: dropped model {k}')
     for k in ('helm', 'granola-plus', 'starfall', 'steppe', 'kittiwake', 'umbra', 'astrolabe', 'lumen-pro', 'meridian', 'forge', 'startrail', 'cipher-omni', 'cipher-prime', 'crossbill', 'ecliptic'):
         if re.search(rf'(?<![\w-]){k}(?![\w-])', prose): errors.append(f'{f}: model codename {k}')
     hit = [n for n in names if n in prose]

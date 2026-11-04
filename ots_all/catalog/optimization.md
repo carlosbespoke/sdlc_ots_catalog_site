@@ -56,7 +56,7 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 
 ![Per-task pass rate by model](assets/optimization_per_task.svg)
 
-Also run on fewer than five tasks: z-ai/glm-5.3-flash (2 tasks, 8% of 12 runs), z-ai/glm-5.3 (1 task, 33% of 6 runs).
+Also run on fewer than five tasks: z-ai/glm-5.3-flash (2 tasks, 8% of 12 runs).
 
 ## Turn counts and long-horizon tasks
 
@@ -64,10 +64,10 @@ A task's turn count is the average over its completed runs, from every model. A 
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 270.1 |
+| Average turn count | 273.4 |
 | Median turn count | 262.3 |
-| Range | 186 to 410 |
-| Long-horizon tasks (200+ turns) | 89% of tasks |
+| Range | 215 to 410 |
+| Long-horizon tasks (200+ turns) | 100% of tasks |
 
 ![Turns per task](assets/optimization_turns.svg)
 
@@ -75,7 +75,6 @@ A task's turn count is the average over its completed runs, from every model. A 
 |---|---:|---:|---:|
 | google/gemini-3.8-flash | 100% | 279.6 | 80% |
 | z-ai/glm-5.3-flash | 22% | 193.0 | 42% |
-| z-ai/glm-5.3 | 11% | 125.8 | 0% |
 
 ## Sample tasks
 

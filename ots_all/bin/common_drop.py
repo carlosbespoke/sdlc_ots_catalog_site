@@ -10,6 +10,7 @@ DROPPED = {
     'crossbill',    # meta/muse-wonder
     'granola-plus', # meta/muse-spark-1.3
     'ecliptic',     # moonshotai/kimi-k3.1-pro
+    'cipher-prime', # z-ai/glm-5.3
 }
 
 # Tasks left out of the report: no graded run from a kept model before the snapshot (26 graded only by dropped models,
@@ -44,4 +45,52 @@ EXCLUDED_TASKS = {
     'f5f622c4-e970-4c4f-bab9-215f9f571073',  # oxideav--oxideav-id3-xai
     '5d14dbc7-e4dd-4073-802f-df0147899160',  # sim-nest--sim-discrete-xai
     '8f6262ce-fb2e-41a9-93ba-1979bd474d03',  # goreleaser__nfpm.8428c3d
+    # graded only by GLM 5.3 (dropped later); all Debugging
+    '6ac1cee8-463f-4dd8-a016-31b777cb4b2f',  # alembic-canonical
+    'd0f7227f-6f6c-4472-bd2c-7347318e272b',  # anton-memory-lifecycle-canonical
+    'b67038dd-7b6e-48f4-98de-64403a2aa68d',  # apprise-canonical
+    '6e513594-bd14-444b-855c-e77b6dc0ca38',  # ariadne-canonical
+    'd3efd9f1-c486-4047-a1aa-76df63894308',  # asdf-canonical
+    'aa51e4df-2cee-4a8c-af18-9c2de068d95f',  # blessed-canonical
+    '27fa6d0a-3681-48fd-83b7-a7f16ed2f0bd',  # captum-attr-canonical
+    '8770b12d-e1e7-4ecc-88bb-abf8a3736fd3',  # cartopy-canonical
+    'e97d3992-e469-42a2-8cab-317403ef7286',  # category-encoders-canonical
+    '30aeccba-5de6-41df-90b8-626067370da5',  # chardet-canonical
+    'e22a05fa-d0db-4f7d-8564-10793bb5bdff',  # cyclopts-canonical
+    '5f30b82e-1130-47ab-89c3-0cc0bb359205',  # dateparser-canonical
+    '2c34aa2b-7817-434b-b6eb-970311d0322f',  # equinox-canonical
+    '4f56c0d1-b07d-462c-b23a-8c4eb8771c01',  # featuretools-canonical
+    'd12ca73a-d701-47e1-9e60-9d96211157f8',  # graphql-core-operation-execution-v2
+    'd669cf6e-a69f-4f58-abd1-4bf6ee8f1438',  # graphviz-canonical
+    '67fea6d9-4420-417c-8b7b-4ab49a6886d4',  # ipython-core-canonical
+    '9a5e611b-5efd-420f-ac61-05a34cca8936',  # kombu-message-delivery-v2
+    '6f843446-b400-4ad8-8e17-0373cbb7c18e',  # memray-canonical
+    '12344bef-675e-49d5-951a-3be9673ba2ed',  # mimesis-canonical
+    '43a33ce6-04d0-48f1-b10a-613996f3f681',  # mpmath-canonical
+    'd3d1b996-a9e5-4d43-ab1c-32bbd5fb7552',  # oauthlib-canonical
+    '9a456066-90b1-480b-9676-2d3f1bee94d0',  # opytimizer-canonical
+    'ae265fe0-b2c6-49bb-94c7-f2da610f5445',  # pandas-market-calendars-canonical
+    '940f2404-ec6e-466c-867c-275d7e9f5590',  # petl-canonical
+    '0f67aa85-0067-400d-b683-df1ba20699c7',  # polyfactory-canonical
+    '5a57b6b9-4d06-4f18-bfcd-ee2295431a64',  # prompt-toolkit-interactive-input-v2
+    '127de270-b68e-415b-b9c7-d3efa9a8c9b9',  # pyecharts-canonical
+    'ff90c7d3-1c77-40d4-926c-bedd983fab46',  # pygments-canonical
+    '47561f15-e987-4c4b-acdd-1466eba65bda',  # pygraphistry-gfql-canonical
+    'ebfa8d7e-7888-40e3-bf46-72f11bf1507a',  # pykeen-data-preparation-v2
+    '01499293-f6b8-4e03-a350-79585e549729',  # pyriemann-canonical
+    '525fcb06-dc99-4439-bfe3-6a719d4e7eee',  # python-docx-canonical
+    '5b3a8c2c-f390-4ab8-b5fe-8965887cd828',  # pytimetk-canonical
+    '3d03e69b-8d1a-4a0c-b595-97c3d8516230',  # returns-canonical
+    'ed9a450a-96e7-4dbc-8c73-3a0d825c9177',  # rich-rendering-canonical
+    'a398ef26-2d10-4183-9161-ee17b9040100',  # sgr-agent-core-canonical
+    'bd3d97e9-fcd3-4fd7-9760-a86f7a207cf8',  # sqlfluff-rules-canonical
+    '747cc26b-2768-4060-b774-d910ae774b07',  # strawberry-core-canonical
+    '41159c3e-1e60-4c14-ab66-c2cdc1ef3933',  # strawberry-django-canonical
+    '0d20af54-2b58-44b5-ae49-924c17ecb79d',  # sunpy-coordinates-canonical
+    '858ba9a7-b971-4c52-a092-61378b6bfded',  # tortoise-orm-canonical
+    '47729c3b-8468-41fc-85ba-776d0e53f51a',  # trafilatura-canonical
+    '96f57d49-186f-4579-81c3-448f121a89f1',  # tslearn-canonical
+    'bb6a2306-0ab5-42b4-8ae5-5cb2fae6a432',  # ubelt-canonical
+    'd047f52f-ab6c-4df0-acfc-ac2c7ae930ac',  # werkzeug-request-routing-canonical
+    '3131fbe1-b50e-4360-b85d-9f34e19ea77a',  # whichllm-recommendation-core-v2
 }
