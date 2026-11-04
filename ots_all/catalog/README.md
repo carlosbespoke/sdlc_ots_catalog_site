@@ -30,9 +30,9 @@ Each cell is a model's pass rate in one catalog: passed runs over graded runs, p
 
 ## Samples
 
-Each sample is a full task, downloadable from its task id. The pass rate is that of the model with the most runs on the task.
+Each sample is a full task, downloadable from its task id. The pass rate is that of the model with the most graded runs on the task.
 
-| Catalog | Example | Task id | Model with most runs | Pass rate |
+| Catalog | Example | Task id | Model with most graded runs | Pass rate |
 |---|---|---|---|---:|
 | ProgramBench | [Example 1: Media processing (Agent's choice)](programbench.md#example-1-media-processing-agents-choice) | [`svtav1-encoder-rebuild`](https://drive.google.com/file/d/1JmlCRxmj-7RJ9yZ698lASh-GGDr2N9Je/view) | z-ai/glm-5.3-flash | 0% of 5 |
 | System design | [Example 1: Payments & banking (TypeScript)](system-design.md#example-1-payments-banking-typescript) | [`actual-sync-compaction`](https://drive.google.com/file/d/1_sEAFRDztsqj6IIzgfOQ4KVr7m7Ff0-0/view) | z-ai/glm-5.3-flash | 17% of 6 |
@@ -44,9 +44,9 @@ Each sample is a full task, downloadable from its task id. The pass rate is that
 | Diagnosis, Debugging, and Bug Fixing | [Example 1: Compilers & language runtimes (Python)](debugging.md#example-1-compilers-language-runtimes-python) | [`exo-canonical-ots`](https://drive.google.com/file/d/1hqLtS09dPnqztGyE15JRg9AZ0pS3fdAD/view) | z-ai/glm-5.3-flash | 0% of 5 |
 | Diagnosis, Debugging, and Bug Fixing | [Example 2: Medical imaging & healthcare (Python)](debugging.md#example-2-medical-imaging-healthcare-python) | [`torchio-canonical-ots`](https://drive.google.com/file/d/1dAuRMjByz3IKD2Q7Qux8ZUoDjKNsHrvc/view) | z-ai/glm-5.3-flash | 0% of 5 |
 | Diagnosis, Debugging, and Bug Fixing | [Example 3: Machine learning & MLOps (Python)](debugging.md#example-3-machine-learning-mlops-python) | [`swanlab-nanpair-ots`](https://drive.google.com/file/d/1ycCPNxGlpkKdgs2MHARCrZvTi6koSwwP/view) | google/gemini-4-argon | 0% of 1 |
-| Diagnosis, Debugging, and Bug Fixing | [Example 4: Web crawling (Python)](debugging.md#example-4-web-crawling-python) | [`scrapy-pdk-ots`](https://drive.google.com/file/d/1REQsLCXJtRnoruzB2WlCUywZX56GZX8F/view) | google/gemini-4-argon | 67% of 3 |
-| Feature implementation | [Example 1: Databases & storage engines (Go)](feature-implementation.md#example-1-databases-storage-engines-go) | [`memdb-txn-ots`](https://drive.google.com/file/d/1M3HCkXFdoznYOiY4yc3LlI8olgAA1K15/view) | google/gemini-4-argon | 67% of 3 |
-| Infrastructure as code | [Example 1: Cloud infra: containers & self-hosted platforms (Terraform)](infrastructure-as-code.md#example-1-cloud-infra-containers-self-hosted-platforms-terraform) | [`dualipv6-module-refactor`](https://drive.google.com/file/d/1Yg1iLWpltsqLdJS0jpUj4v3Wb3K4JlE-/view) | google/gemini-4-argon | 0% of 2 |
+| Diagnosis, Debugging, and Bug Fixing | [Example 4: Web crawling (Python)](debugging.md#example-4-web-crawling-python) | [`scrapy-pdk-ots`](https://drive.google.com/file/d/1REQsLCXJtRnoruzB2WlCUywZX56GZX8F/view) | z-ai/glm-5.3-flash | 20% of 5 |
+| Feature implementation | [Example 1: Databases & storage engines (Go)](feature-implementation.md#example-1-databases-storage-engines-go) | [`memdb-txn-ots`](https://drive.google.com/file/d/1M3HCkXFdoznYOiY4yc3LlI8olgAA1K15/view) | z-ai/glm-5.3-flash | 0% of 4 |
+| Infrastructure as code | [Example 1: Cloud infra: containers & self-hosted platforms (Terraform)](infrastructure-as-code.md#example-1-cloud-infra-containers-self-hosted-platforms-terraform) | [`dualipv6-module-refactor`](https://drive.google.com/file/d/1Yg1iLWpltsqLdJS0jpUj4v3Wb3K4JlE-/view) | z-ai/glm-5.3-flash | 40% of 5 |
 | Infrastructure as code | [Example 2: Cloud infra: AWS platform stacks (Terraform)](infrastructure-as-code.md#example-2-cloud-infra-aws-platform-stacks-terraform) | [`centralwatch-module-refactor`](https://drive.google.com/file/d/18b23bcb7ot9dDpaMF3nvcUVTGvYhg3aA/view) | z-ai/glm-5.3-flash | 19% of 16 |
 | Infrastructure as code | [Example 3: Cloud infra: AWS platform stacks (Terraform)](infrastructure-as-code.md#example-3-cloud-infra-aws-platform-stacks-terraform) | [`modelrouter-module-refactor`](https://drive.google.com/file/d/1VrmncKJo_ub16T50JNG8Ep_0vONojAMq/view) | z-ai/glm-5.3-flash | 80% of 5 |
 | Infrastructure as code | [Example 4: Cloud infra: containers & self-hosted platforms (TypeScript)](infrastructure-as-code.md#example-4-cloud-infra-containers-self-hosted-platforms-typescript) | [`atlasgrid-pulumi-migration`](https://drive.google.com/file/d/1l8nNQLGUM8GbW_dp8HFuPQb2nHNGh6J-/view) | google/gemini-3.8-flash | 67% of 3 |

@@ -137,11 +137,12 @@ L.append(f"Each cell is a model's pass rate in one catalog: passed runs over gra
 L.append('![Pass rate by model and catalog](assets/overview_models.svg)\n')
 L.append(table(['Model', 'Tasks run', 'Graded runs', 'Pass rate'], [[m, f"{len(v[2]):,}", f"{v[0]:,}", pct(v[1] / v[0])] for m, v in sorted(allm.items(), key=lambda kv: -kv[1][0])]) + '\n')
 L.append('## Samples\n')
-L.append("Each sample is a full task, downloadable from its task id. The pass rate is that of the model with the most runs on the task.\n")
+L.append("Each sample is a full task, downloadable from its task id. The pass rate is that of the model with the most graded runs on the task.\n")
 smp = [(slug, s, i, t) for slug, s in S.items() for i, t in enumerate(s['showcase'], 1)]
 def best(t):
-    return next((m for m in t['models'] if m['graded']), None)  # models are ordered by runs, as for the headline pass rate
-L.append(table(['Catalog', 'Example', 'Task id', 'Model with most runs', 'Pass rate'],
+    g = [m for m in t['models'] if m['graded']]  # the model with the most graded runs; a tie goes to the one with more runs
+    return max(g, key=lambda m: m['graded']) if g else None
+L.append(table(['Catalog', 'Example', 'Task id', 'Model with most graded runs', 'Pass rate'],
     [[s['name'], f"[{ex_title(i, t)}]({slug}.md#{anchor(ex_title(i, t))})", f"[`{t['task_id']}`]({t['url']})", (best(t) or {}).get('model', ''),
       f"{pct(best(t)['pass_rate'])} of {best(t)['graded']}" if best(t) else ''] for slug, s, i, t in smp], text_cols=4) + '\n')
 allt = [m for s in S.values() for m in s['turns']['task_means']]
