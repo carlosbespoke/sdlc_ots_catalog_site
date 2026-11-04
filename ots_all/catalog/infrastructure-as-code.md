@@ -60,15 +60,13 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 
 ![Per-task pass rate by model](assets/infrastructure-as-code_per_task.svg)
 
-Also run on fewer than five tasks: meta/muse-wonder (1 task, 100% of 4 runs).
-
 ## Turn counts and long-horizon tasks
 
 A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 300 of the 300 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 114.6 |
+| Average turn count | 114.7 |
 | Median turn count | 109.2 |
 | Range | 39 to 292 |
 | Long-horizon tasks (200+ turns) | 4% of tasks |
@@ -80,7 +78,6 @@ A task's turn count is the average over its completed runs, from every model. A 
 | z-ai/glm-5.3-flash | 98% | 116.7 | 11% |
 | google/gemini-4-argon | 7% | 74.6 | 5% |
 | google/gemini-3.8-flash | 2% | 156.8 | 24% |
-| meta/muse-wonder | <1% | 165.0 | 0% |
 
 ## Sample tasks
 

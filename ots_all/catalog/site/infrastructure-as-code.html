@@ -116,8 +116,7 @@
 </tbody>
 </table>
 </div>
-<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/infrastructure-as-code_per_task.svg" alt="Per-task pass rate by model" /></div></figure><p>Also run on fewer than five tasks: meta/muse-wonder (1 task, 100% of 4 runs).</p>
-<h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/infrastructure-as-code_per_task.svg" alt="Per-task pass rate by model" /></div></figure><h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
 <p>A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 300 of the 300 tasks have a completed run.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
@@ -130,7 +129,7 @@
 <tbody>
 <tr>
 <td>Average turn count</td>
-<td class="numeric">114.6</td>
+<td class="numeric">114.7</td>
 </tr>
 <tr>
 <td>Median turn count</td>
@@ -152,7 +151,7 @@
 <thead>
 <tr>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
-<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of tasks</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of tasks</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Mean turns</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of runs with 200+ turns</button></th>
 </tr>
@@ -175,12 +174,6 @@
 <td class="numeric">2%</td>
 <td class="numeric">156.8</td>
 <td class="numeric">24%</td>
-</tr>
-<tr>
-<td>meta/muse-wonder</td>
-<td>&lt;1%</td>
-<td class="numeric">165.0</td>
-<td class="numeric">0%</td>
 </tr>
 </tbody>
 </table>

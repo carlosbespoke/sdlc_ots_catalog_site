@@ -64,15 +64,13 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 
 ![Per-task pass rate by model](assets/debugging_per_task.svg)
 
-Also run on fewer than five tasks: meta/muse-wonder (1 task, 0% of 1 runs), moonshotai/kimi-k3.1-pro (1 task, 0% of 1 runs).
-
 ## Turn counts and long-horizon tasks
 
 A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 371 of the 378 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 394.7 |
+| Average turn count | 394.8 |
 | Median turn count | 406.0 |
 | Range | 50 to 998 |
 | Long-horizon tasks (200+ turns) | 80% of tasks |
@@ -85,8 +83,6 @@ A task's turn count is the average over its completed runs, from every model. A 
 | google/gemini-3.8-flash | 20% | 518.7 | 80% |
 | z-ai/glm-5.3 | 14% | 207.3 | 41% |
 | google/gemini-4-argon | 7% | 209.7 | 35% |
-| moonshotai/kimi-k3.1-pro | <1% | 27.0 | 0% |
-| meta/muse-wonder | <1% | 77.0 | 0% |
 
 ## Sample tasks
 
@@ -210,7 +206,7 @@ documentation working exactly as it does now.
 | Sub-domain | Machine learning & MLOps |
 | Language | Python |
 | Seniority | Mid-Senior |
-| Turn count | 77 (meta/muse-wonder), 54 (google/gemini-4-argon) |
+| Turn count | 54 (google/gemini-4-argon) |
 | Long horizon | no |
 
 #### Prompt
@@ -259,7 +255,6 @@ note. `reproducer` is the repo-relative path of your regression test.
 
 | Model | Graded runs | Pass rate |
 |---|---:|---:|
-| meta/muse-wonder | 1 | 0% |
 | google/gemini-4-argon | 1 | 0% |
 
 #### Environment

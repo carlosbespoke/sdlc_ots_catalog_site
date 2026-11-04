@@ -6,4 +6,8 @@ DROPPED = {
     'lumen-pro',   # claude-opus-5-5
     'meridian',    # gpt-6-astra
     'forge',       # qwen/qwen3.8-max-0902
+    'cipher-omni',  # z-ai/glm-5.2
+    'crossbill',    # meta/muse-wonder
+    'granola-plus', # meta/muse-spark-1.3
+    'ecliptic',     # moonshotai/kimi-k3.1-pro
 }

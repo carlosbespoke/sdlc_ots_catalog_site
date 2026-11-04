@@ -1,20 +1,20 @@
 # Coding OTS RL Envs
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">1,356</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">8</div><div class="kpi-label">Models with graded runs</div></div><div class="kpi"><div class="kpi-value">8,183</div><div class="kpi-label">Graded runs</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">1,356</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">4</div><div class="kpi-label">Models with graded runs</div></div><div class="kpi"><div class="kpi-value">8,170</div><div class="kpi-label">Graded runs</div></div></div>
 
 Our coding RL environments, grouped into eight catalogs, with the pass rates of every model that has run them. All numbers come from one snapshot of Horizon runs (2026-11-02), at the task versions selected on the 2 Nov sheet.
 
 | Catalog | Tasks | What the tasks do | % of all tasks | Tasks with graded runs | Average turn count |
 |---|---:|---|---:|---:|---:|
-| [ProgramBench](programbench.md) | 435 | Rebuild or upgrade programs so they behave exactly like a reference version. | 32.1% | 435 | 475 |
+| [ProgramBench](programbench.md) | 435 | Rebuild or upgrade programs so they behave exactly like a reference version. | 32.1% | 434 | 476 |
 | [System design](system-design.md) | 61 | Keep multi-process services correct through crashes, retries and races. | 4.5% | 61 | 476 |
 | [Diagnosis, Debugging, and Bug Fixing](debugging.md) | 378 | Find and fix faults in real codebases from symptoms or documentation. | 27.9% | 371 | 395 |
 | [Feature implementation](feature-implementation.md) | 120 | Add capabilities to existing libraries and services without breaking current behaviour. | 8.8% | 117 | 344 |
 | [Infrastructure as code](infrastructure-as-code.md) | 300 | Restructure live Terraform, CDK and Pulumi code without touching deployed resources. | 22.1% | 300 | 115 |
 | [Data engineering](data-engineering.md) | 17 | Repair pipelines and data libraries after an upstream format or schema change. | 1.3% | 17 | 173 |
-| [Migration](migration.md) | 36 | Port Java and Rust libraries to Go or C++ with identical behaviour. | 2.7% | 18 | 363 |
+| [Migration](migration.md) | 36 | Port Java and Rust libraries to Go or C++ with identical behaviour. | 2.7% | 18 | 364 |
 | [Optimization](optimization.md) | 9 | Make existing code faster or leaner without changing what it does. | 0.7% | 9 | 270 |
-| **Total** | **1,356** |  | **100%** | **1,328** |  |
+| **Total** | **1,356** |  | **100%** | **1,327** |  |
 
 ## Model pass rates
 
@@ -28,10 +28,6 @@ Each cell is a model's pass rate in one catalog: passed runs over graded runs, p
 | google/gemini-3.8-flash | 559 | 3,540 | 2% |
 | z-ai/glm-5.3 | 53 | 318 | 1% |
 | google/gemini-4-argon | 119 | 287 | 60% |
-| z-ai/glm-5.2 | 1 | 5 | 0% |
-| meta/muse-wonder | 2 | 5 | 80% |
-| meta/muse-spark-1.3 | 2 | 2 | 50% |
-| moonshotai/kimi-k3.1-pro | 1 | 1 | 0% |
 
 ## Samples
 
@@ -48,7 +44,7 @@ Each sample is a full task, downloadable from its task id. The pass rate is that
 | System design | [Example 6: Payments & banking (TypeScript)](system-design.md#example-6-payments-banking-typescript) | [`medusa-cart-completion`](https://drive.google.com/file/d/1U6jZxHDbr-NnxBgwRvkZQplrsuJlpWCD/view) | google/gemini-4-argon | 80% of 5 |
 | Diagnosis, Debugging, and Bug Fixing | [Example 1: Compilers & language runtimes (Python)](debugging.md#example-1-compilers-language-runtimes-python) | [`exo-canonical-ots`](https://drive.google.com/file/d/1hqLtS09dPnqztGyE15JRg9AZ0pS3fdAD/view) | z-ai/glm-5.3-flash | 0% of 5 |
 | Diagnosis, Debugging, and Bug Fixing | [Example 2: Medical imaging & healthcare (Python)](debugging.md#example-2-medical-imaging-healthcare-python) | [`torchio-canonical-ots`](https://drive.google.com/file/d/1dAuRMjByz3IKD2Q7Qux8ZUoDjKNsHrvc/view) | z-ai/glm-5.3-flash | 0% of 5 |
-| Diagnosis, Debugging, and Bug Fixing | [Example 3: Machine learning & MLOps (Python)](debugging.md#example-3-machine-learning-mlops-python) | [`swanlab-nanpair-ots`](https://drive.google.com/file/d/1ycCPNxGlpkKdgs2MHARCrZvTi6koSwwP/view) | meta/muse-wonder | 0% of 1 |
+| Diagnosis, Debugging, and Bug Fixing | [Example 3: Machine learning & MLOps (Python)](debugging.md#example-3-machine-learning-mlops-python) | [`swanlab-nanpair-ots`](https://drive.google.com/file/d/1ycCPNxGlpkKdgs2MHARCrZvTi6koSwwP/view) | google/gemini-4-argon | 0% of 1 |
 | Diagnosis, Debugging, and Bug Fixing | [Example 4: Web crawling (Python)](debugging.md#example-4-web-crawling-python) | [`scrapy-pdk-ots`](https://drive.google.com/file/d/1REQsLCXJtRnoruzB2WlCUywZX56GZX8F/view) | google/gemini-4-argon | 67% of 3 |
 | Feature implementation | [Example 1: Databases & storage engines (Go)](feature-implementation.md#example-1-databases-storage-engines-go) | [`memdb-txn-ots`](https://drive.google.com/file/d/1M3HCkXFdoznYOiY4yc3LlI8olgAA1K15/view) | google/gemini-4-argon | 67% of 3 |
 | Infrastructure as code | [Example 1: Cloud infra: containers & self-hosted platforms (Terraform)](infrastructure-as-code.md#example-1-cloud-infra-containers-self-hosted-platforms-terraform) | [`dualipv6-module-refactor`](https://drive.google.com/file/d/1Yg1iLWpltsqLdJS0jpUj4v3Wb3K4JlE-/view) | google/gemini-4-argon | 0% of 2 |
