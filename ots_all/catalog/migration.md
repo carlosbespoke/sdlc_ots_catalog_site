@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">36</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">58%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">58%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
 
 Each task asks the agent to port a Java or Rust library to Go or C++ behind fixed signatures, so that the original project's own tests, translated to the target language, pass against the port. The main languages are Go (89%) and C++ (11%).
 
-18 of the 36 tasks have graded runs from at least one model. The model with the most runs here, google/gemini-4-argon, passes 58% of its 31 graded runs and fails every run on 20% of the 15 tasks it ran.
+Every task has graded runs. The model with the most runs here, google/gemini-4-argon, passes 58% of its 31 graded runs and fails every run on 20% of the 15 tasks it ran.
 
 ## Why this catalog
 
@@ -26,7 +26,7 @@ Each task provides the original source as a reference, a skeleton in the target 
 
 ## Domain breakdown
 
-The tasks span six domains. The largest, Languages & developer tooling, makes up 36% of the catalog.
+The tasks span four domains. The largest, Languages & developer tooling, makes up 33% of the catalog.
 
 ![Share of tasks by domain](assets/migration_domain.svg)
 
@@ -61,7 +61,7 @@ Also run on fewer than five tasks: z-ai/glm-5.3-flash (4 tasks, 35% of 20 runs),
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 18 of the 36 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 18 of the 18 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|

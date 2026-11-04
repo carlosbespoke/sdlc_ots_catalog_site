@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">120</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">117</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">&lt;1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">117</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">117</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">&lt;1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
 
-Each task asks the agent to add a capability to an existing open-source library or service, specified as the public types and functions to deliver, while existing callers see no change. The main languages are Go (72%), Python (27%) and C# (1%).
+Each task asks the agent to add a capability to an existing open-source library or service, specified as the public types and functions to deliver, while existing callers see no change. The main languages are Go (71%), Python (27%) and C# (1%).
 
-117 of the 120 tasks have graded runs from at least one model. The model with the most runs here, google/gemini-3.8-flash, passes <1% of its 641 graded runs and fails every run on 98% of the 100 tasks it ran.
+Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, passes <1% of its 641 graded runs and fails every run on 98% of the 100 tasks it ran.
 
 ## Why this catalog
 
@@ -25,7 +25,7 @@ Each task pins an open-source repository, mostly Go or Python, in an offline con
 
 ## Domain breakdown
 
-The tasks span nine domains. The largest, Languages & developer tooling, makes up 22% of the catalog.
+The tasks span nine domains. The largest, Languages & developer tooling, makes up 21% of the catalog.
 
 ![Share of tasks by domain](assets/feature-implementation_domain.svg)
 
@@ -37,17 +37,17 @@ The tasks span nine domains. The largest, Languages & developer tooling, makes u
 
 | Primary language | % of catalog |
 |---|---:|
-| Go | 71.7% |
-| Python | 26.7% |
-| C# | 0.8% |
-| Java | 0.8% |
+| Go | 70.9% |
+| Python | 27.4% |
+| C# | 0.9% |
+| Java | 0.9% |
 
 ### Seniority
 
 | Seniority | % of catalog |
 |---|---:|
-| Senior | 97.5% |
-| Staff+ | 2.5% |
+| Senior | 97.4% |
+| Staff+ | 2.6% |
 
 ## Model pass rates across the catalog
 
@@ -63,7 +63,7 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 117 of the 120 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 117 of the 117 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|

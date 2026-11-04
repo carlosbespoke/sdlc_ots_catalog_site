@@ -11,9 +11,10 @@ CATS = [('programbench', 'ProgramBench'), ('system-design', 'System design'), ('
 # Models left out of every page, plot, turn count and CSV column are listed in common_drop.py.
 MM = {**json.load(open(f'{P}/ro_models.json')), 'helm': 'cohere/command-a', 'granola-plus': 'meta/muse-spark-1.3'}
 MM = {k: {'claude-opus-5-5': 'anthropic/claude-opus-5-5', 'gpt-6-astra': 'openai/gpt-6-astra'}.get(v, v) for k, v in MM.items()}
-from common_drop import DROPPED
+from common_drop import DROPPED, EXCLUDED_TASKS
 SNAPSHOT = open(f'{H}/SNAPSHOT').read().strip()
-TASKS = json.load(open(f'{G}/universe.json'))['tasks']  # all 1,356 tasks: the 2 Nov sheet's catalog plus the five new System design tasks
+ALL_TASKS = json.load(open(f'{G}/universe.json'))['tasks']  # 1,356 tasks: the 2 Nov sheet's catalog plus the five new System design tasks
+TASKS = [t for t in ALL_TASKS if t['id'] not in EXCLUDED_TASKS]  # 1,327 in the report
 RO = {t['id']: json.load(open(f"{H}/ro/{t['id']}.json")) for t in TASKS}
 TURNS = {t['id']: [r for r in json.load(open(f"{H}/turns/{t['id']}.json"))['runs'] if r['model'] not in DROPPED] for t in TASKS}
 def runs(tid):

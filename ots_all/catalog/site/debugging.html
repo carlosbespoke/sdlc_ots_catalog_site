@@ -8,12 +8,12 @@
 <main id="content" tabindex="-1"><article id="catalog-content">
 <header class="hero"><h1 id="diagnosis-debugging-and-bug-fixing">Diagnosis, Debugging, and Bug Fixing</h1><div class="hero-meta" aria-hidden="true"></div></header>
 <div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
-<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,356 tasks">1,356</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="435 tasks">435</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="61 tasks">61</span></a><a href="debugging.html" aria-current="page"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="378 tasks">378</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="120 tasks">120</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="300 tasks">300</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="36 tasks">36</span></a><a href="optimization.html"><span>Optimization</span><span class="count" aria-label="9 tasks">9</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-compilers-language-runtimes-python">Example 1: Compilers &amp; language runtimes (Python)</a><a class="level-3" href="#example-2-medical-imaging-healthcare-python">Example 2: Medical imaging &amp; healthcare (Python)</a><a class="level-3" href="#example-3-machine-learning-mlops-python">Example 3: Machine learning &amp; MLOps (Python)</a><a class="level-3" href="#example-4-web-crawling-python">Example 4: Web crawling (Python)</a></nav></aside>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,327 tasks">1,327</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="61 tasks">61</span></a><a href="debugging.html" aria-current="page"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="371 tasks">371</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="300 tasks">300</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a><a href="optimization.html"><span>Optimization</span><span class="count" aria-label="9 tasks">9</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-compilers-language-runtimes-python">Example 1: Compilers &amp; language runtimes (Python)</a><a class="level-3" href="#example-2-medical-imaging-healthcare-python">Example 2: Medical imaging &amp; healthcare (Python)</a><a class="level-3" href="#example-3-machine-learning-mlops-python">Example 3: Machine learning &amp; MLOps (Python)</a><a class="level-3" href="#example-4-web-crawling-python">Example 4: Web crawling (Python)</a></nav></aside>
 <div class="reading">
 <h2 id="executive-summary">Executive summary</h2>
-<div class="kpis"><div class="kpi"><div class="kpi-value">378</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">371</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">37%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
-<p>Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Python (59%), Go (29%) and C (6%).</p>
-<p>371 of the 378 tasks have graded runs from at least one model. The model with the most runs here, z-ai/glm-5.3-flash, passes 37% of its 1,426 graded runs and fails every run on 51% of the 263 tasks it ran.</p>
+<div class="kpis"><div class="kpi"><div class="kpi-value">371</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">371</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">37%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<p>Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Python (60%), Go (28%) and C (6%).</p>
+<p>Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, passes 37% of its 1,426 graded runs and fails every run on 51% of the 263 tasks it ran.</p>
 <h2 id="why-this-catalog">Why this catalog</h2>
 <h3 id="problems-engineers-face">Problems engineers face</h3>
 <p>Maintainers are handed code that is wrong in several places and must find the causes without a test suite to lean on. In the diagnosis tasks, many undocumented edits break unrelated features at once. In the documentation-drift tasks, the code still runs but contradicts its own documentation. Some tasks start from a single production symptom with a hidden root cause.</p>
@@ -26,7 +26,7 @@
 <li>A library description with the source paths and documentation pages in scope, and the rule that documentation outranks code.</li>
 </ul>
 <h2 id="domain-breakdown">Domain breakdown</h2>
-<p>The tasks span ten domains. The largest, Scientific &amp; ML software, makes up 25% of the catalog.</p>
+<p>The tasks span ten domains. The largest, Scientific &amp; ML software, makes up 26% of the catalog.</p>
 <figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Share of tasks by domain</h4></div><div class="fig-box"><img src="assets/debugging_domain.svg" alt="Share of tasks by domain" /></div></figure><h2 id="language-and-seniority">Language and seniority</h2>
 <figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Primary language and seniority</h4></div><div class="fig-box"><img src="assets/debugging_metadata.svg" alt="Primary language and seniority" /></div></figure><h3 id="primary-language">Primary language</h3>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
@@ -40,23 +40,23 @@
 <tbody>
 <tr>
 <td>Python</td>
-<td class="numeric">59.3%</td>
+<td class="numeric">59.6%</td>
 </tr>
 <tr>
 <td>Go</td>
-<td class="numeric">28.6%</td>
+<td class="numeric">28.0%</td>
 </tr>
 <tr>
 <td>C</td>
-<td class="numeric">6.1%</td>
+<td class="numeric">6.2%</td>
 </tr>
 <tr>
 <td>Rust</td>
-<td class="numeric">3.4%</td>
+<td class="numeric">3.5%</td>
 </tr>
 <tr>
 <td>TypeScript</td>
-<td class="numeric">2.6%</td>
+<td class="numeric">2.7%</td>
 </tr>
 </tbody>
 </table>
@@ -73,11 +73,11 @@
 <tbody>
 <tr>
 <td>Senior</td>
-<td class="numeric">97.9%</td>
+<td class="numeric">99.7%</td>
 </tr>
 <tr>
 <td>Mid-Senior</td>
-<td class="numeric">2.1%</td>
+<td class="numeric">0.3%</td>
 </tr>
 </tbody>
 </table>
@@ -138,7 +138,7 @@
 </table>
 </div>
 <figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/debugging_per_task.svg" alt="Per-task pass rate by model" /></div></figure><h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
-<p>A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 371 of the 378 tasks have a completed run.</p>
+<p>A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 371 of the 371 tasks have a completed run.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>

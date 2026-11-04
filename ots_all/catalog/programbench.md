@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">435</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
 
-Each task asks the agent to make software behave exactly like a reference version. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from a reference program and its documentation. In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code. In 19% of tasks the agent chooses the language; the most common fixed languages are Rust (26%) and Go (22%).
+Each task asks the agent to make software behave exactly like a reference version. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from a reference program and its documentation. In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code. In 19% of tasks the agent chooses the language; the most common fixed languages are Rust (26%) and Go (23%).
 
-434 of the 435 tasks have graded runs from at least one model. The model with the most runs here, google/gemini-3.8-flash, passes 1% of its 2,318 graded runs and fails every run on 93% of the 353 tasks it ran.
+Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, passes 1% of its 2,318 graded runs and fails every run on 93% of the 353 tasks it ran.
 
 ## Why this catalog
 
@@ -37,18 +37,18 @@ The tasks span eight domains. The largest, Languages & developer tooling, makes 
 
 | Primary language | % of catalog |
 |---|---:|
-| Rust | 26.2% |
-| Go | 22.5% |
-| Agent's choice | 18.9% |
-| C++ | 16.3% |
+| Rust | 26.3% |
+| Go | 22.6% |
+| Agent's choice | 18.7% |
+| C++ | 16.4% |
 | C | 16.1% |
 
 ### Seniority
 
 | Seniority | % of catalog |
 |---|---:|
-| Senior | 81.1% |
-| Staff+ | 18.9% |
+| Senior | 81.3% |
+| Staff+ | 18.7% |
 
 ## Model pass rates across the catalog
 
@@ -66,7 +66,7 @@ Also run on fewer than five tasks: z-ai/glm-5.3 (1 task, 0% of 6 runs).
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 434 of the 435 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 434 of the 434 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|

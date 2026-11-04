@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">378</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">371</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">37%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">371</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">371</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">37%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
 
-Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Python (59%), Go (29%) and C (6%).
+Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Python (60%), Go (28%) and C (6%).
 
-371 of the 378 tasks have graded runs from at least one model. The model with the most runs here, z-ai/glm-5.3-flash, passes 37% of its 1,426 graded runs and fails every run on 51% of the 263 tasks it ran.
+Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, passes 37% of its 1,426 graded runs and fails every run on 51% of the 263 tasks it ran.
 
 ## Why this catalog
 
@@ -26,7 +26,7 @@ Each task ships a pinned checkout of an open-source project, with the tests with
 
 ## Domain breakdown
 
-The tasks span ten domains. The largest, Scientific & ML software, makes up 25% of the catalog.
+The tasks span ten domains. The largest, Scientific & ML software, makes up 26% of the catalog.
 
 ![Share of tasks by domain](assets/debugging_domain.svg)
 
@@ -38,18 +38,18 @@ The tasks span ten domains. The largest, Scientific & ML software, makes up 25% 
 
 | Primary language | % of catalog |
 |---|---:|
-| Python | 59.3% |
-| Go | 28.6% |
-| C | 6.1% |
-| Rust | 3.4% |
-| TypeScript | 2.6% |
+| Python | 59.6% |
+| Go | 28.0% |
+| C | 6.2% |
+| Rust | 3.5% |
+| TypeScript | 2.7% |
 
 ### Seniority
 
 | Seniority | % of catalog |
 |---|---:|
-| Senior | 97.9% |
-| Mid-Senior | 2.1% |
+| Senior | 99.7% |
+| Mid-Senior | 0.3% |
 
 ## Model pass rates across the catalog
 
@@ -66,7 +66,7 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 371 of the 378 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 371 of the 371 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|
