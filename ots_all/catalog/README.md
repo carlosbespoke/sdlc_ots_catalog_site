@@ -6,7 +6,7 @@
 
 These 1,305 tasks train and test AI coding agents on long, senior-level software work: rebuilding whole programs, fixing faults in real codebases and changing live systems without breaking them. Pass rates vary widely by model, from 2% for Gemini 3.8 Flash over 561 tasks to 60% for Gemini 4 Argon over the 119 tasks it ran.
 
-The tasks fall into seven catalogs, and three of them hold 81%. In ProgramBench (434 tasks) the agent rebuilds a program from how it behaves. In Debugging (324) it finds and fixes faults, and in Infrastructure as code (301) it restructures deployed Terraform without changing what runs. Feature implementation (117) adds capabilities to existing libraries, System design (94) keeps running services correct through crashes and retries, and Data engineering (17) and Migration (18) cover data pipelines and ports to another language.
+The tasks fall into seven catalogs, and three of them hold 81%. In ProgramBench (434 tasks) the agent rebuilds a program from how it behaves. In Debugging (324) it finds and fixes faults, and in Infrastructure as code (301) it restructures deployed Terraform without changing what runs. Feature implementation (117) adds capabilities to existing libraries, and System design (94) keeps running services correct through crashes and retries. Data engineering (17) and Migration (18) cover data pipelines and ports to another language.
 
 Almost all tasks are senior engineering work in a few languages. Senior engineers are the target for 86% of tasks and staff engineers for 13%. Go, Terraform and Python account for 67% of tasks, and Rust, C and C++ for another 22%.
 
