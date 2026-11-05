@@ -61,5 +61,56 @@
   "umbra": "completed, 198 turns, $6.31, passed",
   "kittiwake": "failed: trial_exception (RuntimeError before first turn)",
   "steppe": "failed: trial_exception (RuntimeError before first turn)"
- }
+ },
+ "retry_result": "both failed again: trial_exception (RuntimeError before first turn)",
+ "diagnostic_1000_turns": [
+  {
+   "evaluation_id": "5da81fd0-3ac5-4344-8733-1119d8edd1b4",
+   "codename": "kittiwake",
+   "model": "Gemini 3.8 Flash",
+   "catalog": "Infrastructure as code",
+   "task": "terraform-multi-model-router-module-refactor",
+   "task_id": "4ebfe45f-42ba-4277-b053-47c9dfca7eb5",
+   "submitted": "2026-11-05T01:20:10Z",
+   "retry_of": "839769ce-3ec5-4aec-9d91-d7aa9b9bc3ab",
+   "max_turns": 1000,
+   "purpose": "diagnostic: same settings with the old 1000-turn limit"
+  },
+  {
+   "evaluation_id": "691c7644-cdb1-4c7f-a0fb-903861be6882",
+   "codename": "steppe",
+   "model": "GLM 5.3 Flash",
+   "catalog": "Data engineering",
+   "task": "pdk-sqlite-history-json-schema",
+   "task_id": "4b5ae5a6-e206-4fa0-9299-ab4e94f3fd93",
+   "submitted": "2026-11-05T01:20:12Z",
+   "retry_of": "bd7faa3c-067b-488b-b9af-90b672ae4192",
+   "max_turns": 1000,
+   "purpose": "diagnostic: same settings with the old 1000-turn limit"
+  }
+ ],
+ "diagnostic_result": "both failed again at 1000 turns: the turn limit is not the cause",
+ "alt_task_pilot": [
+  {
+   "evaluation_id": "37035ddc-7bb1-4d78-9284-df0f3cc0e7e2",
+   "codename": "kittiwake",
+   "model": "Gemini 3.8 Flash",
+   "catalog": "Infrastructure as code",
+   "task": "terraform-dual-ipv6-k8s-module-refactor",
+   "task_id": "cdc09435-aa80-4d26-bf7c-237ef49e66c0",
+   "purpose": "pilot on a different task",
+   "submitted": "2026-11-05T01:32:51Z"
+  },
+  {
+   "evaluation_id": "b618de30-983c-4032-80a0-f38d3f7806e0",
+   "codename": "steppe",
+   "model": "GLM 5.3 Flash",
+   "catalog": "Data engineering",
+   "task": "pdk-etlplus-pipeline",
+   "task_id": "18becaa6-defa-4fc9-8d28-b81093068c1c",
+   "purpose": "pilot on a different task",
+   "submitted": "2026-11-05T01:32:53Z"
+  }
+ ],
+ "alt_task_result": "both failed: trial_exception before the first turn on a different task too, so the failure follows the model (or its effort tier 3 setting), not the task"
 }
