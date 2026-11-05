@@ -20,6 +20,19 @@ for s in SEL:
     nc = NEWC.get(s['name'], {})
     TASKS.append({'id': s['id'], 'name': s['name'], 'catalog': 'System design' if pipe.lower() == 'system design' else None, 'domain': nc.get('sg', s['taxonomy']),
                   'category': nc.get('cat', s['taxonomy']), 'language': nc.get('lang'), 'batch': None, 'in_catalog': False, 'shortlist_no': s['no'], 'old_shortlist': None})
+# 5 Nov selection: add the tasks new to the report, with their classification (cat/class5.json, from the prompts), and give known
+# tasks outside the report's catalogs (e.g. Optimization) the catalog they were classified into ('none' leaves them out)
+if SEL5:
+    CL5 = json.load(open(f'{H}/cat/class5.json'))
+    have = {t['id']: t for t in TASKS}
+    for s5 in SEL5:
+        c5 = CL5.get(s5['id'], {}); cat5 = s5['catalog'] or c5.get('catalog')
+        if s5['id'] in have:
+            if not s5['catalog'] and cat5: have[s5['id']]['catalog'] = None if cat5 == 'none' else cat5
+            continue
+        if not cat5 or cat5 == 'none': continue
+        TASKS.append({'id': s5['id'], 'name': s5['name'], 'catalog': cat5, 'domain': c5.get('sg'), 'category': c5.get('cat'), 'language': c5.get('lang'),
+                      'batch': None, 'in_catalog': True, 'shortlist_no': None, 'old_shortlist': None})
 TASKS = [t for t in TASKS if t['catalog']]
 for t in TASKS:
     t['models'] = mstats(t['id'])
@@ -134,6 +147,12 @@ att_pool = [t for t in TASKS if t['shortlist_no'] and t['argon'] and not t['samp
 for i, t in enumerate(sorted(att_pool, key=lambda t: (t not in UNI, t['argon']['rate'], -t['argon']['graded'], t['shortlist_no']))[:ATT_N]):
     t['sample'] = 'attached'; t['sample_order'] = i
 att = [t for t in TASKS if t['sample']]
+# 5 Nov selection: the samples stay the 22 the client has (main and attached, same order)
+if SEL5:
+    _OLDS = {t['id']: (t['sample'], t['sample_order']) for t in json.load(open(f'{H}/universe_nov02.json'))['tasks'] if t.get('sample')}
+    for t in TASKS: t['sample'], t['sample_order'] = _OLDS.get(t['id'], ('', None))
+    att = [t for t in TASKS if t['sample']]
+    assert len(att) == len(_OLDS), 'a sample is missing from the tasks'
 # every sample, main and attached, with what is needed to send it
 with open(f'{H}/samples.csv', 'w', newline='') as f:
     w = csv.writer(f)
@@ -180,17 +199,17 @@ PB_PAGE = 'ProgramBench'
 def has_shown(t):
     own = t['models']
     return bool(own.get(ARGON) or own.get(FLASH) or own.get(GLMF) or glm_runs(t) or glm_runs(t, FLASH))
-pb = [t for t in TASKS if page(t['catalog']) == PB_PAGE and (t['in_catalog'] or t in UNI) and has_shown(t)]
+pb = [] if SEL5 else [t for t in TASKS if page(t['catalog']) == PB_PAGE and (t['in_catalog'] or t in UNI) and has_shown(t)]
 for t in pb:
     if t not in UNI: t['status'] = 'easy' if t['argon'] else 'ranked'
 pb_out = [t for t in UNI if page(t['catalog']) == PB_PAGE and t not in pb]
 print('ProgramBench page:', len(pb), 'tasks with shown-model runs;', len(pb_out), 'selected tasks left out (no shown-model runs):', sorted(t['name'] for t in pb_out))
-UNI = [t for t in UNI if page(t['catalog']) != PB_PAGE] + pb
+if not SEL5: UNI = [t for t in UNI if page(t['catalog']) != PB_PAGE] + pb
 def glm_evidence(t):
     g = glm_runs(t)
     return g and (g[0], len(g[1]), sum(q['passed'] for q in g[1]))
 filled = []
-for pg, target in PAGE_N.items():
+for pg, target in ({} if SEL5 else PAGE_N).items():
     have = [t for t in UNI if page(t['catalog']) == pg]
     if pg == PB_PAGE: assert len(have) == target, f'ProgramBench page has {len(have)} tasks, headline {target}'; continue
     cand = []
@@ -206,15 +225,22 @@ for pg, target in PAGE_N.items():
           + (f' worst GLM rate added {add[-1]["glm_passed"]}/{add[-1]["glm_graded"]}' if add else ''))
     assert len(have) + len(add) >= target, f'{pg}: not enough GLM-run candidates'
 UNI = UNI + filled
+# 5 Nov selection: every selected task with Gemini 4 Argon or Gemini 3.8 Flash runs (any pass rate), or GLM-5.3 Flash at 10% or less
+if SEL5:
+    _S5 = {s['id'] for s in SEL5}; _CATS = {c for _, c in CATS}
+    UNI = [t for t in TASKS if t['id'] in _S5 and t['catalog'] in _CATS]
+    for t in UNI: t['status'] = 'gem5' if (t['models'].get(ARGON) or t['models'].get(FLASH)) else 'glm5'
+    assert all(t in UNI for t in TASKS if t['sample']), 'a sample is outside the 5 Nov selection'
+    print('5 Nov selection:', len(UNI), collections.Counter(page(t['catalog']) for t in UNI), collections.Counter(t['status'] for t in UNI))
 def tier(t):
-    return {'proven': 'Proven', 'ranked': 'Ranked', 'easy': 'Argon 80%+'}.get(t['status'], 'Likely')
+    return {'proven': 'Proven', 'ranked': 'Ranked', 'easy': 'Argon 80%+', 'gem5': 'Gemini runs', 'glm5': 'GLM-5.3 Flash 10% or less'}.get(t['status'], 'Likely')
 import csv
 with open(f'{H}/gemini_hard_universe.csv', 'w', newline='') as f:
     w = csv.writer(f)
     w.writerow(['Task', 'Horizon task id', 'Catalog', 'Domain', 'Category', 'Tier', 'Sample', 'Shortlist no.', 'In 1,342 catalog',
                 'Argon runs graded', 'Argon passes', 'Argon pass rate', 'Gemini 3.8 Flash runs graded', 'Gemini 3.8 Flash passes',
                 'Predicted P(Argon < 80%)', 'Other models (passed/graded)'])
-    order = {'main': 0, 'attached': 1, '': 2}; tord = {'Proven': 0, 'Likely': 1, 'Ranked': 2, 'Argon 80%+': 3}
+    order = {'main': 0, 'attached': 1, '': 2}; tord = {'Proven': 0, 'Likely': 1, 'Ranked': 2, 'Argon 80%+': 3, 'Gemini runs': 4, 'GLM-5.3 Flash 10% or less': 5}
     for t in sorted(UNI, key=lambda t: ([c for _, c in CATS].index(t['catalog']), order[t['sample']], tord[tier(t)], -(t['p_hard'] or 0), t['name'])):
         a = t['argon'] or {}; fl = t['models'].get(FLASH) or [None, None]
         w.writerow([t['name'], t['id'], t['catalog'], t['domain'], t['category'], tier(t), t['sample'], t['shortlist_no'] or '', 'yes' if t['in_catalog'] else 'no',
@@ -224,9 +250,10 @@ with open(f'{H}/gemini_hard_universe.csv', 'w', newline='') as f:
 for t in TASKS:
     t['tier'] = tier(t) if t in UNI else ''
     g = glm_runs(t) if t['tier'] else None
+    if SEL5 and g and g[0] != 'own': g = None  # 5 Nov selection: own runs only, nothing borrowed
     t['glm'] = g and {'source': g[0], 'runs': g[1]}  # GLM-5.3 Flash runs shown on the pages for this task
     # Gemini 3.8 Flash runs borrowed from a related task, only for a task with none of its own and no GLM-5.3 Flash runs at all
-    f = glm_runs(t, FLASH) if t['tier'] and not g and not t['models'].get(FLASH) else None
+    f = None if SEL5 else glm_runs(t, FLASH) if t['tier'] and not g and not t['models'].get(FLASH) else None
     t['flash_borrowed'] = f and {'source': f[0], 'runs': f[1]}
 json.dump({'cut': CUT, 'target': TARGET, 'lr': LR, 'prior': PRIOR, 'estimate': EST, 'extra_proven': len(extra),
            'tasks': TASKS}, open(f'{H}/universe.json', 'w'), indent=1, default=str)

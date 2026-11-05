@@ -21,6 +21,7 @@ AFFINITY = {'Distributed systems & coordination': 'Applications & business domai
             'Languages & developer tooling': 'Applications & business domains', 'Systems, hardware & accelerators': 'Languages & developer tooling'}
 NEW = 'Not yet classified'
 NEWC = json.load(open(f'{H}/cat/new_task_classes.json'))
+CL5 = json.load(open(f'{H}/cat/class5.json')) if os.path.exists(f'{H}/cat/class5.json') else {}
 SID = json.load(open(f'{H}/cat/sample_ids.json'))  # client-facing task ids of the samples
 URL = {k: f'https://drive.google.com/file/d/{v[0]}/view' for k, v in json.load(open(f'{H}/cat/sample_urls.json')).items() if not k.startswith('_')}  # Drive copies of the sample zips
 # smaller task groups are presented inside a larger catalog, as one domain of its domain breakdown
@@ -29,16 +30,22 @@ GROUP_DOMAIN = {'Migration': 'Cross-language migration', 'Infrastructure as code
 dest = lambda c: MERGE.get(c, c)
 DISPLAY = {'ProgramBench': 'ProgramBench and Migration', 'System design': 'System design & IaC'}  # catalog names once the groups are merged
 LANG_NEW = {'pdk-harbor-scan-ephemeral-credentials': 'Go', 'pdk-bagetter-fenced-package-writes': 'C#', 'pdk-dittofeed-user-deletion-in-flight': 'TypeScript'}  # from each task's base image
+ROWS_BY_NAME = {r['name']: r for r in ROWS.values()}  # 5 Nov sheet: a few tasks carry a new id for the same task name
 def meta(t):
-    r = ROWS.get(t['id'])
+    r = ROWS.get(t['id']) or ROWS_BY_NAME.get(t['name'])
     if r: return {'sg': r['sg'], 'cat': r['cat'], 'lang': r['lang'], 'sen': r['sen'].replace('\u2013', '-'), 'role': r['role'], 'final': r['final']}
-    c = NEWC.get(t['name'])
+    c = NEWC.get(t['name']) or CL5.get(t['id'])  # CL5: tasks new in the 5 Nov selection, classified from their prompts
     if c: return {'sg': c['sg'], 'cat': c['cat'], 'lang': c['lang'], 'sen': c['sen'], 'role': c['role'], 'final': t['catalog']}
     return {'sg': NEW, 'cat': t['category'].split(' / ')[-1], 'lang': LANG_NEW.get(t['name'], NEW), 'sen': NEW, 'role': NEW, 'final': t['catalog']}
 TURNS = {f[:-5]: [r for r in json.load(open(f'{H}/turns/{f}'))['runs'] if r['model'] in GEM] for f in os.listdir(f'{H}/turns')}
 SHOWN = {t['id'] for t in SEL}
 for tid, v in TURNS_GLM.items():
     if tid in SHOWN: TURNS.setdefault(tid, []); TURNS[tid] = TURNS[tid] + [{**r, 'model': FL_CN if r['model'] == FLASH else GLM_CN} for r in v]
+# 5 Nov selection: turn counts of the selected version's Gemini and GLM-5.3 Flash runs (turns5/, bin/fetch_turns5.py) replace the above
+if SEL5:
+    N2C = {GEM[k]: CANON[k] for k in GEM}; N2C[GLMF] = GLM_CN
+    TURNS = {f[:-5]: [{**r, 'model': N2C[r['model']]} for r in json.load(open(f'{H}/turns5/{f}'))['runs'] if r['model'] in N2C]
+             for f in os.listdir(f'{H}/turns5') if f[:-5] in SHOWN}
 def turn_stats(tid, glm=True):
     runs = [r for r in TURNS.get(tid) or [] if glm or r['model'] != GLM_CN]
     if not runs: return None
@@ -150,6 +157,6 @@ for slug, cat in CATS:
                  'estimate': e, 'argon_catalog_rates': argon_all, 'turns': turns, 'super_groups': len(dom), 'folded': fold, 'domain': dom,
                  'language': dist('lang'), 'role': dist('role'), 'seniority': dist('sen'), 'models': models, 'showcase': show, 'min_tasks': MIN_TASKS, 'task_rows': trows,
                  'glm_borrowed': dict(collections.Counter(GLM[r['id']]['source'] for r in R if r['id'] in GLM and GLM[r['id']]['source'] != 'own')),
-                 'flash_borrowed': len([r for r in R if r['id'] in FLB]), 'refreshed': [r['id'] for r in R if r['id'] in REFRESH]}
+                 'flash_borrowed': len([r for r in R if r['id'] in FLB]), 'refreshed': [] if SEL5 else [r['id'] for r in R if r['id'] in REFRESH]}
     print(slug, n, out[slug]['tiers'], 'models', [(m['model'], m['tasks_graded']) for m in models], 'turn tasks', len(TS), 'samples', len(show))
 json.dump(out, open(f'{H}/cat/stats.json', 'w'), indent=1)

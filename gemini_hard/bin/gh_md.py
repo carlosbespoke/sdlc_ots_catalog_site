@@ -58,7 +58,7 @@ EN = {slug: s['estimate']['estimate'] for slug, s in S.items()}; total = round(s
 NUM = {k: int(v) for k, v in EN.items()}
 for k in sorted(EN, key=lambda k: -(EN[k] - int(EN[k])))[:total - sum(NUM.values())]: NUM[k] += 1
 # a page that holds more tasks than its estimate shows the tasks it holds (Feature implementation, 108; reviewer decision, 5 Nov)
-for k in NUM: NUM[k] = max(NUM[k], S[k]['tasks'])
+for k in NUM: NUM[k] = S[k]['tasks'] if os.path.exists(f'{H}/cat/sel5.json') else max(NUM[k], S[k]['tasks'])  # 5 Nov selection: the tasks each page holds
 total = sum(NUM.values())
 SUM = json.load(open(f'{H}/cat/summary_text.json'))
 WHY = json.load(open(f'{H}/cat/why_text.json'))  # written for the merged catalogs, from the selected tasks' prompts and files

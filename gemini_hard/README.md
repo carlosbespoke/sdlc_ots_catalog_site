@@ -9,6 +9,7 @@ From this folder (Horizon key needed only for the fetch steps):
 ```bash
 export HORIZON_API_KEY="$(security find-generic-password -a "$USER" -s HORIZON_API_KEY -w)"
 ~/code/horizon_env/bin/python3 bin/fetch_runs.py          # runs at the 2 Nov sheet's selected versions (ro3/)
+~/code/horizon_env/bin/python3 bin/select5.py             # 5 Nov selection (cat/sel5.json); needs nov05/ and ro5/
 ~/code/horizon_env/bin/python3 bin/universe.py            # estimate, selection, samples, CSV
 ~/code/horizon_env/bin/python3 bin/fetch_origins.py       # runs of the tasks that unrun catalog tasks were copied from (origins/)
 ~/code/horizon_env/bin/python3 bin/fetch_turns.py         # turn counts of Gemini runs (turns/), new tasks only
@@ -27,6 +28,8 @@ Data source: one snapshot. `ro3/` holds every task's runs at the version the 2 N
 Write-ups for samples that are not OTS catalog examples are in `cat/samples_text.json`. A new sample needs an entry there.
 
 ## Rules
+
+- **5 Nov selection (current, reviewer decision 5 Nov):** every task in the 5 Nov sheet's "Full catalogue" (`nov05/sheet.xlsx`, 1,781 families) whose runs at the sheet's selected task version include Gemini 4 Argon or Gemini 3.8 Flash at any pass rate, or GLM-5.3 Flash at 10% or less (`bin/select5.py` -> `cat/sel5.json`). Runs are the 5 Nov pull of every catalog task, all versions (`ro5/`); turn counts in `turns5/` (`bin/fetch_turns5.py`). 687 tasks qualify; 9 performance-optimization tasks fit no catalog and are left out, so the pages hold 678. Headline counts are the tasks each page holds. 168 tasks new to the report, plus known tasks outside the report's catalogs, were classified from their prompts (`prompts5/`, `bin/fetch_prompts5.py`) with the report's taxonomy (`cat/taxonomy.json`) into `cat/class5.json`. Nothing is borrowed from related tasks. The 22 samples are the ones the client has (pinned from `universe_nov02.json`, the 2 Nov selection); all 22 qualify. The rules below describe the earlier selection and apply only when `cat/sel5.json` is absent.
 
 - **Gemini-hard:** Argon pass rate under 80% (passes over graded runs).
 - **Charts:** the figures are interactive, built by `bin/charts.js` and `bin/charts.css`, ported from the all-models report (`../ots_all/bin/charts.js`) with pass rate in place of average reward. `gh_md.py` embeds one JSON data block per page from `task_rows` in `cat/stats.json`. A task's value is its share of passed Gemini runs, and a model's rate pools its runs across tasks, so the charts give the same numbers as the tables. Bar-chart counts are of the selected tasks; the headline task counts are estimates.

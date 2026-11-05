@@ -6,6 +6,10 @@ MM = json.load(open('/Users/carlos/code/sdlc_final_samples/pipeline/ro_models.js
 GEM = {k: v for k, v in MM.items() if 'gemini' in v and v != 'google/gemini-3.7-flash'}  # 3.7 Flash is left out of the report
 RO = {f[:-5]: json.load(open(f'{H}/ro3/{f}')) for f in os.listdir(f'{H}/ro3')}
 RO.update({f[:-5]: json.load(open(f'{H}/ro3_refresh/{f}')) for f in os.listdir(f'{H}/ro3_refresh')})  # runs refreshed after the snapshot
+# 5 Nov selection: runs pulled 5 Nov (ro5/), at the 5 Nov sheet's selected version
+SEL5 = json.load(open(f'{H}/cat/sel5.json')) if os.path.exists(f'{H}/cat/sel5.json') else None
+for _t in SEL5 or []:
+    RO[_t['id']] = {'version': _t['version'], 'rollouts': [q for q in json.load(open(f"{H}/ro5/{_t['id']}.json"))['rollouts'] if _t['version'] is None or q.get('task_version_number') == _t['version']]}
 TU = {f[:-5]: [r for r in json.load(open(f'{H}/turns/{f}'))['runs'] if r['model'] in GEM] for f in os.listdir(f'{H}/turns')}
 U = json.load(open(f'{H}/universe.json'))
 SEL = [t for t in U['tasks'] if t.get('tier')]
@@ -28,6 +32,9 @@ for t in SEL:
 for f in os.listdir(f'{H}/turns_glm'):
     if f[:-5] in GLM or f[:-5] in FLB: TU.setdefault(f[:-5], []); TU[f[:-5]] = TU[f[:-5]] + json.load(open(f'{H}/turns_glm/{f}'))['runs']
 NAME = {**GEM, **{k: v for k, v in MM.items() if v == GLMF}, GLMF: GLMF, FLASHM: FLASHM}
+NAME.update({v: v for v in GEM.values()})  # turns5/ records model names, not codenames
+if SEL5:  # turn counts of the selected version's Gemini and GLM-5.3 Flash runs
+    TU = {f[:-5]: [{**r, 'model': r['model']} for r in json.load(open(f'{H}/turns5/{f}'))['runs'] if r['model'] in set(GEM.values()) | {GLMF}] for f in os.listdir(f'{H}/turns5')}
 MERGE = {'Migration': 'ProgramBench', 'Infrastructure as code': 'System design', 'Data engineering': 'Feature implementation'}
 PAGE = {'ProgramBench': 'programbench', 'System design': 'system-design', 'Diagnosis, Debugging, and Bug Fixing': 'debugging', 'Feature implementation': 'feature-implementation'}
 page_of = lambda t: PAGE[MERGE.get(t['catalog'], t['catalog'])]
@@ -62,7 +69,7 @@ EN = collections.defaultdict(float)
 for e in U['estimate']: EN[PAGE[MERGE.get(e['catalog'], e['catalog'])]] += e['estimate']
 total = round(sum(EN.values())); NUM = {k: int(v) for k, v in EN.items()}
 for k in sorted(EN, key=lambda k: -(EN[k] - int(EN[k])))[:total - sum(NUM.values())]: NUM[k] += 1
-for k in NUM: NUM[k] = max(NUM[k], sum(1 for t in SEL if page_of(t) == k))  # a page over its estimate shows the tasks it holds
+for k in NUM: NUM[k] = (lambda n: n if os.path.exists(f'{H}/cat/sel5.json') else max(NUM[k], n))(sum(1 for t in SEL if page_of(t) == k))  # a page over its estimate shows the tasks it holds
 total = sum(NUM.values())
 CSV = list(csv.DictReader(open(f'{H}/gemini_hard_universe.csv')))
 EX = {r['Catalog example']: r for r in CSV if r['Catalog example']}
@@ -109,7 +116,7 @@ for slug in PAGE.values():
         tl = re.search(r'^\| Turn count \| (.*) \|$', blk, re.M).group(1)
         bt = collections.defaultdict(list)
         for q in TU.get(tid) or []:
-            if q['model'] in GEM: bt[GEM[q['model']]].append(q['turn_count'])
+            if NAME.get(q['model']) and NAME[q['model']] != GLMF: bt[NAME[q['model']]].append(q['turn_count'])
         eq(f'example turns: {slug} {i}', sorted(tl.split(', ')), sorted(f'{statistics.mean(x):.0f} ({m_})' for m_, x in bt.items()) if bt else ['no completed run'])
 # overview
 md = open(f'{C}/README.md').read()
