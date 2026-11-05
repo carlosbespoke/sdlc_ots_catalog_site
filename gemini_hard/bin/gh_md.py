@@ -231,7 +231,7 @@ two = [(g, p) for g, p in AR if g >= 2]
 p1 = sum(p / g for g, p in two) / len(two); p2 = sum(1 - math.comb(g - p, 2) / math.comb(g, 2) for g, p in two) / len(two)
 L.append('## Where Gemini 4 Argon fails\n')
 L.append(f"Across the {len(AR)} samples, Gemini 4 Argon did not pass {ag - ap} of its {ag} graded runs and passed the other {ap}. We sorted the failures into five failure modes. Each sample is counted once, under its main failure mode, though single runs can fail in different ways.\n")
-L.append('<div class="kpis">' + kpi(f'{ag - ap} of {ag}', 'Argon runs not passed') + kpi(pct(p1), 'Argon pass@1') + kpi(pct(p2), 'Argon pass@2') + '</div>\n')
+L.append('<div class="kpis">' + kpi(f'{ag - ap} of {ag}', 'Argon runs not passed') + kpi(pct(p1), 'Argon pass@1 on samples') + kpi(pct(p2), 'Argon pass@2 on samples') + '</div>\n')
 e_ = lambda x: _html.escape(x, quote=False)
 rows_ = ''.join(f'<tr><td>{e_(m["mode"])}</td><td><span class="fm-sum">{e_(m["summary"])}</span><ul class="fm-ex">' + ''.join(f'<li><b>{e_(k)}:</b> {e_(v)}</li>' for k, v in m['examples'])
                 + f'</ul></td><td class="numeric">{m["runs"]}</td><td class="numeric">{m["tasks"]}</td></tr>' for m in FM['modes'])

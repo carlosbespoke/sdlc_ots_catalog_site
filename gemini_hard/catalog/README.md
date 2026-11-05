@@ -45,7 +45,7 @@ Each sample is a full task. Click its task id to download it, or a main sample's
 
 Across the 22 samples, Gemini 4 Argon did not pass 39 of its 65 graded runs and passed the other 26. We sorted the failures into five failure modes. Each sample is counted once, under its main failure mode, though single runs can fail in different ways.
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">39 of 65</div><div class="kpi-label">Argon runs not passed</div></div><div class="kpi"><div class="kpi-value">35%</div><div class="kpi-label">Argon pass@1</div></div><div class="kpi"><div class="kpi-value">57%</div><div class="kpi-label">Argon pass@2</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">39 of 65</div><div class="kpi-label">Argon runs not passed</div></div><div class="kpi"><div class="kpi-value">35%</div><div class="kpi-label">Argon pass@1 on samples</div></div><div class="kpi"><div class="kpi-value">57%</div><div class="kpi-label">Argon pass@2 on samples</div></div></div>
 
 <div class="table-scroll"><table class="data fm">
 <thead><tr><th>Failure mode</th><th>Details and examples</th><th class="numeric">Runs not passed</th><th class="numeric">Samples</th></tr></thead>
