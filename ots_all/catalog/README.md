@@ -12,7 +12,7 @@ Almost all tasks are senior engineering work in a few languages. Senior engineer
 
 The tasks are long. An agent averages 361 turns (one model reply plus its tool calls) on a task, and 66% of tasks average 200 turns or more. ProgramBench and System design run longest, at about 470 turns. Infrastructure as code tasks are the shortest, at 115 turns.
 
-The model cards for Claude Opus 5.5 and GPT-6 Astra report coding results on Terminal-Bench 4.0 and FrontierCode, plus CursorBench for Opus 5.5 and DeepSWE for Astra. Our tasks are closest to DeepSWE and FrontierCode: long changes to real repositories, checked by tests the agent cannot see. With 1,305 tasks, the set is larger than DeepSWE (113) and, unlike DeepSWE, includes Terraform, C and C++. Like DeepSWE, most of its tasks were written for the catalog rather than taken from past fixes a model may have memorized.
+The model cards for Claude Opus 5.5 and GPT-6 Astra report coding results on Terminal-Bench 4.0 and FrontierCode, plus CursorBench for Opus 5.5 and DeepSWE for Astra. Our tasks are closest to DeepSWE and FrontierCode: long changes to real repositories, checked by tests the agent cannot see. Our ProgramBench catalog uses the same design as the public ProgramBench (Yang, Press et al., 2026), where the agent rebuilds a program from its behaviour, with 434 programs against the public set's 200. With 1,305 tasks, the set is larger than DeepSWE (113) and, unlike DeepSWE, includes Terraform, C and C++. Like DeepSWE, most of its tasks were written for the catalog rather than taken from past fixes a model may have memorized.
 
 ## Catalogs
 
@@ -29,11 +29,11 @@ The model cards for Claude Opus 5.5 and GPT-6 Astra report coding results on Ter
 
 ## How the catalogs compare with public benchmarks
 
-Claude Opus 5.5 and GPT-6 Astra report their coding results on four public benchmarks. Terminal-Bench 4.0 measures multi-step professional tasks in a command line, and FrontierCode measures whether an agent's code changes would be merged. CursorBench uses ambiguous, multi-file tasks from real Cursor sessions, and DeepSWE has 113 original, long-horizon tasks in active open-source repositories. The table maps each catalog to the closest of them.
+Claude Opus 5.5 and GPT-6 Astra report their coding results on four public benchmarks. Terminal-Bench 4.0 measures multi-step professional tasks in a command line, and FrontierCode measures whether an agent's code changes would be merged. CursorBench uses ambiguous, multi-file tasks from real Cursor sessions, and DeepSWE has 113 original, long-horizon tasks in active open-source repositories. For rebuilding programs we also compare with ProgramBench, the public benchmark our ProgramBench catalog follows. The table maps each catalog to the closest of them.
 
 | Catalog | Closest public benchmarks | What ours add |
 |---|---|---|
-| ProgramBench | Terminal-Bench 4.0 is the nearest. Neither model card reports a benchmark that rebuilds whole programs | 434 programs, each rebuilt from its observable behaviour alone |
+| ProgramBench | ProgramBench (Yang, Press et al., 2026): 200 programs, and no model fully rebuilds any of them. Terminal-Bench 4.0 is the nearest benchmark in either model card | 434 programs, more than twice the public set |
 | System design | DeepSWE, FrontierCode | New guarantees in running multi-process services, graded through crashes, retries and races |
 | Diagnosis, Debugging, and Bug Fixing | FrontierCode, Terminal-Bench 4.0 | Go, C and Rust next to Python, with faults found from symptoms or documentation drift rather than from an issue text |
 | Feature implementation | DeepSWE, FrontierCode, CursorBench | Mostly Go, and existing behaviour must stay unchanged |
