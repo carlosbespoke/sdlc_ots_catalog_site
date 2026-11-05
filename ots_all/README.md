@@ -1,6 +1,6 @@
 # OTS catalogs, all models
 
-The OTS catalogs with every task and every model. The report has 1,280 tasks in 8 catalogs: the 2 Nov sheet's catalog plus five new System design tasks (1,356), less 76 tasks with no graded run from a kept model before the snapshot (`EXCLUDED_TASKS` in `bin/common_drop.py`). Output: `catalog/ots-catalogs-all-models.html`, `ots_tasks.csv` (every task with its per-model results) and `samples.csv` (the 22 samples, with Drive and Horizon links).
+The OTS catalogs with every task and every model. The report has 1,305 tasks in 8 catalogs: the 2 Nov sheet's catalog plus five new System design tasks (1,356), plus 25 tasks of the 'Updated selection 120' tab that were missing (`cat/extra_tasks.json`: 23 System design, one IaC, one System design schema migration), less 76 tasks with no graded run from a kept model before the snapshot (`EXCLUDED_TASKS` in `bin/common_drop.py`). Output: `catalog/ots-catalogs-all-models.html`, `ots_tasks.csv` (every task with its per-model results) and `samples.csv` (the 22 samples, with Drive and Horizon links).
 
 It keeps the structure of the original 7-catalog version (`../catalogs/`) and the later work from the Gemini-hard version (`../gemini_hard/`): the overview, executive summaries, sample tasks with renamed ids, Drive links, checked prompts and the hand-drawn diagrams.
 

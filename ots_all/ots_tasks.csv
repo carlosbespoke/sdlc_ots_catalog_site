@@ -434,6 +434,7 @@ zk-org-zk,217b3f3b-6349-4e4b-b4f6-eceac7072315,2,ProgramBench,Languages & develo
 zlib-ng-minizip-ng,fc10adea-139b-457e-934d-56bad300bcae,1,ProgramBench,"Systems, hardware & accelerators",Compression & data integrity,C,Senior,,7,1,14%,,1/7,
 zmap-zlint,05a360b1-34e1-4831-93a7-e03aac50bc0a,1,ProgramBench,Security,Cryptography & secure protocols,Go,Senior,,6,0,0%,,0/6,
 ai-hedge-fund-crash-consistent-cycle-checkpoints,5f6dca85-7ab2-4287-839a-ee2888859e96,7,System design,Applications & business domains,Payments & banking,Python,Staff+,,12,0,0%,,0/12,
+db-migration-ctfd-4-zero-downtime-migration,3e891a0e-fa1c-4898-9f42-e3471d6e3b7d,5,System design,Data engineering & databases,Databases & storage engines,Python,Staff+,,3,0,0%,,0/3,
 django-allauth-atomic-verification-faf0,4afc75ed-bbcc-442e-ac5b-e1acdd9a4cbd,4,System design,Applications & business domains,Web applications,Python,Staff+,,6,0,0%,,0/6,
 eshop-catalog-order-stock-reservations,b6f71157-3d17-433f-b425-97d8619a4c0a,9,System design,Applications & business domains,Web applications,C#,Staff+,,9,7,78%,3/4,,4/5
 go-datastructures-graceful-quiescence-for-7021,eead9ddd-afbc-47bd-a18a-f9ca032d40e8,3,System design,Scientific & ML software,Graph algorithms,Go,Staff+,,11,0,0%,,0/11,
@@ -443,26 +444,36 @@ kind-durable-provider-provisioning-recovery,8f6d33bb-6fda-4fc7-87d6-9720f176fa93
 kubernetes-ingress-crash-recoverable-8c08,b8d2d4e4-3995-4b5d-af63-bf55ba6eb992,3,System design,Cloud infrastructure & IaC,Cloud infra: containers & self-hosted platforms,Go,Staff+,,6,0,0%,,0/6,
 owncast-supervised-service-lifecycle-and-2024,84af63cd-4dd9-43c7-8375-a4db90dee1d0,1,System design,Applications & business domains,Web applications,Go,Staff+,,6,1,17%,,1/6,
 pdk-activepieces-exactly-once-webhook-runs,82162d7d-a46c-45d1-ac52-eff487b1870d,5,System design,Distributed systems & coordination,Workflow automation,TypeScript,Staff+,,8,5,62%,5/8,,
+pdk-actual-bank-sync-fenced-import,fcf528fa-35b1-45c2-bf96-453b6626d9f7,5,System design,Applications & business domains,Payments & banking,TypeScript,Staff+,,6,2,33%,2/6,,
 pdk-actual-sync-log-checkpoint-compaction,3cdc2455-40be-41ba-8888-698b618e140c,15,System design,Applications & business domains,Payments & banking,TypeScript,Staff+,"System design, Example 1: actual-sync-compaction",11,2,18%,1/6,,1/5
 pdk-altinn-notifications-shared-acs-throttle,060bd9c8-d92f-428c-9452-50e207a2d287,3,System design,Distributed systems & coordination,Messaging & event streaming,C#,Staff+,,4,0,0%,0/4,,
 pdk-aodh-alarm-transition-fencing,0c1ec41f-e285-4a80-a772-435414276f58,7,System design,Observability & reliability,Monitoring & observability,Python,Staff+,,4,2,50%,2/4,,
+pdk-appointment-availability-staleness-budget,145b3ce1-e13d-41b8-9298-14f877ff628a,9,System design,Applications & business domains,Calendaring & recurrence,Python,Staff+,,6,3,50%,3/6,,
 pdk-authentik-ldap-outpost-revocation,0685c691-be06-400a-9bf7-b7ee554e9554,3,System design,Security,Secrets & access control,Python,Staff+,,6,3,50%,3/6,,
+pdk-backstage-events-ack-rolling-upgrade,be6e3111-3069-44d1-be1d-2029a45ee377,5,System design,Distributed systems & coordination,Messaging & event streaming,TypeScript,Staff+,,6,3,50%,3/6,,
 pdk-bagetter-fenced-package-writes,d343c96f-1716-4146-a8aa-63724bd09602,6,System design,"Build, release & supply chain",Software supply chain,C#,Staff+,"System design, Example 3: bagetter-fenced-writes",11,4,36%,3/6,,1/5
 pdk-baserow-job-lease-recovery,f3d4d94f-cdbc-427a-806f-f17d13492e80,2,System design,Applications & business domains,Web applications,Python,Staff+,,4,1,25%,1/4,,
 pdk-booking-seat-reservation-saga,8ecbdce1-2a61-4cbb-864f-934119c5e531,9,System design,Applications & business domains,Web applications,C#,Staff+,,9,0,0%,0/4,,0/5
 pdk-buildbot-cluster-wide-locks,94e9eac5-e256-43b2-ae4f-2dc9c9a5853b,2,System design,"Build, release & supply chain",CI/CD,Python,Staff+,,4,2,50%,2/4,,
 pdk-buildbot-master-failover-fencing,cdc9696d-1a77-432e-b6c3-8405511afff2,5,System design,"Build, release & supply chain",CI/CD,Python,Staff+,,6,4,67%,4/6,,
+pdk-colyseus-room-handover-rolling-deploy,484e4bd4-aad7-4f39-b0d2-596815aae4da,5,System design,Distributed systems & coordination,Messaging & event streaming,TypeScript,Staff+,,4,1,25%,1/4,,
 pdk-cortex-parquet-reconvert-generations,a91dd5f8-4476-4a08-96dd-808b532cdd14,4,System design,Observability & reliability,Monitoring & observability,Go,Staff+,,4,3,75%,3/4,,
 pdk-dagster-daemon-ha-handover,4f527575-58ed-4d66-bf8d-7205d6f8dd85,6,System design,Data engineering & databases,Data pipelines & ETL,Python,Staff+,,12,4,33%,1/7,,3/5
 pdk-ddd-fundamentals-appointment-holds,978c8946-c1fe-4003-8d80-1e32e9ea1053,5,System design,Applications & business domains,Web applications,C#,Staff+,,4,1,25%,1/4,,
 pdk-dialogporten-ordered-dialog-subscriptions,cf7fe59f-c4f3-48e0-a6dc-a26cf945283a,8,System design,Applications & business domains,Web applications,C#,Staff+,,4,3,75%,3/4,,
 pdk-dittofeed-user-deletion-in-flight,b6a3483e-bd02-422a-86c6-97cdf3eb1dcf,6,System design,Applications & business domains,Web applications,TypeScript,Staff+,"System design, Example 4: dittofeed-user-deletion",8,3,38%,0/4,,3/4
+pdk-dmoj-versioned-test-data-grading,c117e4c9-8ba7-4a2e-8428-6f80d8900943,13,System design,Applications & business domains,Education tooling,Python,Staff+,,6,1,17%,1/6,,
+pdk-docs-concurrent-tree-operations,944b1e78-0f49-4bcf-a8b7-f9d12f88c9f4,1,System design,Applications & business domains,Collaborative documents,Python,Staff+,,6,2,33%,2/6,,
+pdk-duplicati-reader-holds-vs-compaction,74a4aeb6-3320-4647-916c-f651d61086c4,3,System design,Data engineering & databases,Databases & storage engines,C#,Staff+,,4,3,75%,3/4,,
 pdk-edgex-device-decommission-purge,3f2ff8bb-9e6f-4394-a70d-507caeb1ad87,3,System design,"Systems, hardware & accelerators",IoT & smart home,Go,Staff+,,4,4,100%,4/4,,
 pdk-elsa-external-callbacks-exactly-once,29bbc02e-ddd4-4d7d-863f-9ab1f45284e8,2,System design,Distributed systems & coordination,Workflow automation,C#,Staff+,,9,6,67%,1/4,,5/5
 pdk-eshop-consumer-retry-dead-letter-v2,08b9475c-0e05-4e42-9877-79d8afd77739,9,System design,Distributed systems & coordination,Messaging & event streaming,C#,Staff+,,4,1,25%,1/4,,
 pdk-eshop-webhook-delivery-v3,ebefc384-1061-4e5b-bf04-eb3d4ef50f89,8,System design,Applications & business domains,Web applications,C#,Staff+,,4,3,75%,3/4,,
+pdk-feast-registry-snapshot-consistency,f899aba6-fc99-414f-93a5-2757218e9860,4,System design,Scientific & ML software,Machine learning & MLOps,Python,Staff+,,6,3,50%,3/6,,
 pdk-fitnet-contract-pass-offer-pipeline,c4d415e7-3658-4278-beab-5bed0688d617,8,System design,Applications & business domains,Web applications,C#,Staff+,,4,1,25%,1/4,,
+pdk-flagsmith-versioned-publish-concurrency,cd3ce10f-262f-43a7-94e2-852798083e84,3,System design,Applications & business domains,Web applications,Python,Staff+,,6,2,33%,2/6,,
 pdk-fsh-storage-quota-upload-holds,4bb593c7-3d42-440b-9577-5023135e6bbb,4,System design,Applications & business domains,Web applications,C#,Staff+,,9,2,22%,1/4,,1/5
+pdk-geonode-dataset-delete-saga,d14ff470-d80c-43e1-b1f2-da0454e3e13a,5,System design,Scientific & ML software,Geospatial,Python,Staff+,,6,2,33%,2/6,,
 pdk-gitea-oci-chunked-upload-cluster,58a7b946-006c-445b-b1e4-ce56ceb7109f,4,System design,"Build, release & supply chain",Software supply chain,Go,Staff+,,9,1,11%,1/4,,0/5
 pdk-glitchtip-merge-with-inflight-events,b1550ad0-7078-4c72-b26f-104398a6fe78,4,System design,Observability & reliability,Monitoring & observability,Python,Staff+,,10,6,60%,6/10,,
 pdk-gnocchi-consistent-aggregate-reads,33910881-8125-4c18-a231-080841422bd4,2,System design,Observability & reliability,Monitoring & observability,Python,Staff+,,4,2,50%,2/4,,
@@ -470,22 +481,35 @@ pdk-gnocchi-online-sack-resize,1fe9f132-b5b8-4a18-8549-331d1bb9d727,5,System des
 pdk-grist-fenced-doc-worker-failover,bd56c0ed-f28e-4641-8648-8d7934be7a0a,4,System design,Applications & business domains,Collaborative documents,TypeScript,Staff+,,6,2,33%,2/6,,
 pdk-harbor-scan-ephemeral-credentials,f4686aba-a0f8-4c8d-a0ba-f4ed22cc6cbc,12,System design,Security,Secrets & access control,Go,Staff+,"System design, Example 2: harbor-scanner-credentials",9,1,11%,0/4,,1/5
 pdk-hatchet-durable-run-acceptance,5b8f6d48-a069-487a-b60b-463f85f19b9f,4,System design,Distributed systems & coordination,Job scheduling,Go,Staff+,,9,0,0%,0/4,,0/5
+pdk-helios-tally-includes-every-accepted-ballot,7a5ccf39-4047-46fc-9e9b-5d264f96f23f,8,System design,Applications & business domains,Web applications,Python,Staff+,,6,4,67%,4/6,,
+pdk-heyform-paid-submissions-holds,080a2893-4ede-4599-ad9c-235bfb9b38da,6,System design,Applications & business domains,Payments & banking,TypeScript,Staff+,,6,1,17%,1/6,,
 pdk-hoppscotch-replicated-team-event-stream,531b784c-d4b9-48ce-9f6f-8e091ee3582e,4,System design,Languages & developer tooling,API tooling,TypeScript,Staff+,,9,1,11%,1/4,,0/5
 pdk-immich-hard-storage-quota-holds,90593628-b5e5-47de-afdf-27aca82a1959,5,System design,Applications & business domains,Media processing,TypeScript,Staff+,"System design, Example 5: immich-storage-quotas",9,5,56%,1/4,,4/5
+pdk-inventree-pinned-api-versions,2f2eb1c5-56bd-49e3-a6a6-ece28e7761c0,4,System design,Languages & developer tooling,API tooling,Python,Staff+,,6,2,33%,2/6,,
+pdk-lightdash-coherent-auth-caches,7f757ff3-1e09-4c16-90c5-f98f2f31321d,8,System design,Security,Secrets & access control,TypeScript,Staff+,,5,2,40%,2/5,,
 pdk-livekit-agent-job-failover,58c06ad8-2482-4391-89e8-e11f8894bafc,2,System design,Applications & business domains,Media processing,Go,Staff+,,9,0,0%,0/4,,0/5
+pdk-logto-scim-provisioning,ee728328-7be2-40bf-a8bc-4ad9790dc023,3,System design,Security,Secrets & access control,TypeScript,Staff+,,12,1,8%,1/12,,
 pdk-medplum-durable-subscription-dispatch,18c970b6-f82a-4a37-bce4-dbe1ecac4da7,3,System design,Scientific & ML software,Medical imaging & healthcare,TypeScript,Staff+,,8,1,12%,1/8,,
 pdk-medusa-crash-safe-cart-completion,2c5dd59c-cd66-4e57-8b74-301d12e943ef,10,System design,Applications & business domains,Payments & banking,TypeScript,Staff+,"System design, Example 6: medusa-cart-completion",9,6,67%,2/4,,4/5
 pdk-misskey-reaction-buffer-exact-counts,e162d6e0-bea7-4172-b4c2-c242850517da,2,System design,Applications & business domains,Web applications,TypeScript,Staff+,,4,1,25%,1/4,,
+pdk-mlflow-rolling-schema-upgrade,3c41d1cb-5ae9-42c1-90b5-b932a95b0280,7,System design,Scientific & ML software,Machine learning & MLOps,Python,Staff+,,6,2,33%,2/6,,
 pdk-opencollective-paypal-payout-saga,3adbe1e7-53c9-4bb9-832e-f5e9403967c6,1,System design,Applications & business domains,Payments & banking,TypeScript,Staff+,,11,3,27%,2/6,,1/5
+pdk-opencollective-recurring-charge-fencing,3229d94a-bc18-430e-8b93-a78c77874e2f,3,System design,Applications & business domains,Payments & banking,TypeScript,Staff+,,6,1,17%,1/6,,
+pdk-openwisp-radius-shared-session-quota,30788e6c-ec12-40f3-81bb-f1f0ac53303e,4,System design,"Systems, hardware & accelerators",Networking & HTTP,Python,Staff+,,6,1,17%,1/6,,
 pdk-orchard-tenant-sync-redis-outages,4d96b066-d301-42cb-96de-35bbd4c71bc4,2,System design,Applications & business domains,Web applications,C#,Staff+,,4,1,25%,1/4,,
 pdk-parse-livequery-consistent-subscribe,8d6e1447-0093-47b2-9fd4-186683a847b4,2,System design,Applications & business domains,Web applications,TypeScript,Staff+,,8,1,12%,1/8,,
+pdk-plunk-at-most-once-campaign-delivery,ec28963d-1394-4dbb-98ed-92e0e6bacbc4,9,System design,Distributed systems & coordination,Messaging & event streaming,TypeScript,Staff+,,6,1,17%,1/6,,
 pdk-polar-durable-job-enqueue,413756ec-f563-4f02-ba50-f8a9ae7e661d,5,System design,Applications & business domains,Payments & banking,Python,Staff+,,4,1,25%,1/4,,
+pdk-pontoon-fenced-two-way-vcs-sync,eaeae37c-304a-48ee-a398-e70ab39530d9,1,System design,Applications & business domains,Web applications,Python,Staff+,,8,5,62%,5/8,,
+pdk-relay-reply-records-dynamodb-rollout,ab34f104-3431-4e7e-97cc-6b6f00b8a28a,5,System design,Data engineering & databases,Databases & storage engines,Python,Staff+,,6,4,67%,4/6,,
 pdk-seaweedfs-replica-delete-convergence,4c551d4a-f200-4904-be4d-14d924c2255d,2,System design,Data engineering & databases,Databases & storage engines,Go,Staff+,,9,9,100%,4/4,,5/5
 pdk-sid-scim-incremental-provisioning,ef27ff79-1051-4991-8ad7-4e65b55340a5,5,System design,Security,Secrets & access control,C#,Staff+,,4,2,50%,2/4,,
 pdk-spacebar-gateway-resume-replay,19022212-03e8-4027-af52-34ac6e29bf1e,6,System design,Applications & business domains,Web applications,TypeScript,Staff+,,6,3,50%,3/6,,
 pdk-standardnotes-file-quota-ledger,cd058b63-120a-4dac-8a52-2ed7140da46f,7,System design,Applications & business domains,Collaborative documents,TypeScript,Staff+,,10,5,50%,1/5,,4/5
+pdk-supabase-storage-online-backend-migration,de0faea2-aa90-4ecd-a378-9392ca8b098a,2,System design,Data engineering & databases,Databases & storage engines,TypeScript,Staff+,,6,4,67%,4/6,,
 pdk-tinode-topic-master-fencing,b48b59d2-88f1-4114-b5e2-75a81c535f20,4,System design,Applications & business domains,Web applications,Go,Staff+,,11,7,64%,2/6,,5/5
 pdk-tracim-search-index-consistency,b9482ff1-9a63-468d-9dde-90129de23920,4,System design,Applications & business domains,Collaborative documents,Python,Staff+,,6,1,17%,1/6,,
+pdk-tus-horizontal-fenced-uploads,a9e98e9d-9efc-431b-b709-94099060c223,2,System design,Data engineering & databases,Databases & storage engines,TypeScript,Staff+,,6,2,33%,2/6,,
 pdk-wild-workouts-consistent-scheduling-v3,38415e78-6526-4da3-8bba-405df67e3464,7,System design,Applications & business domains,Web applications,Go,Staff+,,4,3,75%,3/4,,
 pdk-woodpecker-durable-workflow-leases,585a54de-b863-406f-a8b3-50c9b9d96b42,3,System design,"Build, release & supply chain",CI/CD,Go,Staff+,,4,0,0%,0/4,,
 pdk-zulip-outgoing-webhook-delivery,7ca4a3a6-a4dd-4664-ab8e-d37ce439c84e,3,System design,Applications & business domains,Web applications,Python,Staff+,,9,7,78%,2/4,,5/5
@@ -936,6 +960,7 @@ workforcepro-dual-clock-separation,7640e253-3cf9-4327-8b53-ac7c8c071dba,1,Featur
 zap-coordinated-destination-reopening-for-85b9,3a319a4a-2ed6-42ef-b972-90e71998dc2f,2,Feature implementation,Observability & reliability,Monitoring & observability,Go,Senior,,6,0,0%,,0/6,
 zoekt-search-match-provenance,6ad9e3ad-cb8d-488a-928f-900c47499be8,4,Feature implementation,Data engineering & databases,Databases & storage engines,Go,Senior,,6,0,0%,,0/6,
 cdk-accelerator-platform-ts-componentize,e16aaa95-b7b5-4056-ba10-ea5347541e00,8,Infrastructure as code,Cloud infrastructure & IaC,Cloud infra: AWS platform stacks,TypeScript,Senior,,2,2,100%,,,2/2
+livesvc-medlink-vault-postgres-access-model,9b122c7e-2932-4fc2-9dd2-cb3be0b72bec,3,Infrastructure as code,Security,Cloud security & compliance,HCL (Terraform),Staff+,,3,1,33%,,1/3,
 policy-waivers-example,11d521bd-91d9-4960-bb11-58880e368525,1,Infrastructure as code,Security,Cloud security & compliance,HCL (Terraform),Senior,,3,2,67%,,2/3,
 pulumi-atlasgrid-ecs-ts-migration,1d03a45f-997c-4d63-b9cf-60894746cdd8,3,Infrastructure as code,Cloud infrastructure & IaC,Cloud infra: containers & self-hosted platforms,TypeScript,Senior,"Infrastructure as code, Example 4: atlasgrid-pulumi-migration",5,3,60%,,2/3,1/2
 pulumi-cats-vs-dogs-ts-migration,eb9e8fc9-9887-4db7-86fb-ad39e24c53c7,4,Infrastructure as code,Cloud infrastructure & IaC,Cloud infra: AWS platform stacks,TypeScript,Senior,,2,2,100%,,,2/2

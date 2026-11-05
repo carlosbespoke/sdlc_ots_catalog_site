@@ -2,7 +2,7 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">300</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">300</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">63%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">301</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">301</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">63%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
 
 Each task restructures infrastructure code that is already deployed. The agent splits a flat Terraform stack into modules with stable keys, componentizes a CDK app or moves a stack to Pulumi, so that the plan against production state changes nothing that is running. The main languages are HCL (Terraform) (99%), TypeScript (1%) and Python (0%).
 
@@ -46,7 +46,8 @@ The tasks span two domains. The largest, Cloud infrastructure & IaC, makes up 99
 
 | Seniority | % of catalog |
 |---|---:|
-| Senior | 100.0% |
+| Senior | 99.7% |
+| Staff+ | 0.3% |
 
 ## Model pass rates across the catalog
 
@@ -56,20 +57,20 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 |---|---:|---:|---:|---:|---:|---:|
 | z-ai/glm-5.3-flash | 295 | 1,601 | 63% | 3% | 89% | 7% |
 | google/gemini-4-argon | 20 | 40 | 78% | 15% | 15% | 70% |
-| google/gemini-3.8-flash | 7 | 21 | 71% | 14% | 43% | 43% |
+| google/gemini-3.8-flash | 8 | 24 | 67% | 12% | 50% | 38% |
 
 ![Per-task pass rate by model](assets/infrastructure-as-code_per_task.svg)
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 300 of the 300 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 301 of the 301 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 114.7 |
+| Average turn count | 115.2 |
 | Median turn count | 109.2 |
 | Range | 39 to 292 |
-| Long-horizon tasks (200+ turns) | 4% of tasks |
+| Long-horizon tasks (200+ turns) | 5% of tasks |
 
 ![Turns per task](assets/infrastructure-as-code_turns.svg)
 
@@ -77,7 +78,7 @@ A task's turn count is the average over its completed runs, from every model. A 
 |---|---:|---:|---:|
 | z-ai/glm-5.3-flash | 98% | 116.7 | 11% |
 | google/gemini-4-argon | 7% | 74.6 | 5% |
-| google/gemini-3.8-flash | 2% | 156.8 | 24% |
+| google/gemini-3.8-flash | 3% | 170.5 | 33% |
 
 ## Sample tasks
 

@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">61</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">61</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">36%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">85</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">85</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">36%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
 
-Each task changes a production service that must keep running. The agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and delivers the change as a patch. The main languages are Go (31%), Python (26%) and C# (21%).
+Each task changes a production service that must keep running. The agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and delivers the change as a patch. The main languages are Python (34%), TypeScript (27%) and Go (22%).
 
-Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, passes 36% of its 252 graded runs and fails every run on 17% of the 52 tasks it ran.
+Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, passes 36% of its 393 graded runs and fails every run on 12% of the 75 tasks it ran.
 
 ## Why this catalog
 
@@ -25,7 +25,7 @@ Each task pins an open-source repository at a base commit, with a short specific
 
 ## Domain breakdown
 
-The tasks span ten domains. The largest, Applications & business domains, makes up 46% of the catalog.
+The tasks span ten domains. The largest, Applications & business domains, makes up 44% of the catalog.
 
 ![Share of tasks by domain](assets/system-design_domain.svg)
 
@@ -37,10 +37,10 @@ The tasks span ten domains. The largest, Applications & business domains, makes 
 
 | Primary language | % of catalog |
 |---|---:|
-| Go | 31.1% |
-| Python | 26.2% |
-| C# | 21.3% |
-| TypeScript | 21.3% |
+| Python | 34.1% |
+| TypeScript | 27.1% |
+| Go | 22.4% |
+| C# | 16.5% |
 
 ### Seniority
 
@@ -54,30 +54,30 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 
 | Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
-| z-ai/glm-5.3-flash | 52 | 252 | 36% | 17% | 69% | 4% |
+| z-ai/glm-5.3-flash | 75 | 393 | 36% | 12% | 71% | 3% |
 | google/gemini-4-argon | 20 | 99 | 47% | 25% | 55% | 20% |
-| google/gemini-3.8-flash | 11 | 77 | 1% | 91% | 0% | 0% |
+| google/gemini-3.8-flash | 12 | 80 | 1% | 92% | 0% | 0% |
 
 ![Per-task pass rate by model](assets/system-design_per_task.svg)
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 61 of the 61 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 85 of the 85 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 475.5 |
-| Median turn count | 467.4 |
+| Average turn count | 480.0 |
+| Median turn count | 461.1 |
 | Range | 107 to 948 |
-| Long-horizon tasks (200+ turns) | 92% of tasks |
+| Long-horizon tasks (200+ turns) | 93% of tasks |
 
 ![Turns per task](assets/system-design_turns.svg)
 
 | Model | % of tasks | Mean turns | % of runs with 200+ turns |
 |---|---:|---:|---:|
-| z-ai/glm-5.3-flash | 85% | 561.9 | 93% |
-| google/gemini-4-argon | 33% | 349.9 | 89% |
-| google/gemini-3.8-flash | 18% | 281.3 | 58% |
+| z-ai/glm-5.3-flash | 88% | 534.9 | 93% |
+| google/gemini-4-argon | 24% | 349.9 | 89% |
+| google/gemini-3.8-flash | 14% | 276.7 | 56% |
 
 ## Sample tasks
 

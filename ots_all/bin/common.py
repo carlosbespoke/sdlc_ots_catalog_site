@@ -14,7 +14,8 @@ MM = {k: {'claude-opus-5-5': 'anthropic/claude-opus-5-5', 'gpt-6-astra': 'openai
 from common_drop import DROPPED, EXCLUDED_TASKS
 SNAPSHOT = open(f'{H}/SNAPSHOT').read().strip()
 ALL_TASKS = json.load(open(f'{G}/universe.json'))['tasks']  # 1,356 tasks: the 2 Nov sheet's catalog plus the five new System design tasks
-TASKS = [t for t in ALL_TASKS if t['id'] not in EXCLUDED_TASKS]  # 1,280 in the report
+ALL_TASKS += json.load(open(f'{H}/cat/extra_tasks.json'))['tasks']  # 25 more from the 'Updated selection 120' tab
+TASKS = [t for t in ALL_TASKS if t['id'] not in EXCLUDED_TASKS]  # 1,305 in the report
 RO = {t['id']: json.load(open(f"{H}/ro/{t['id']}.json")) for t in TASKS}
 TURNS = {t['id']: [r for r in json.load(open(f"{H}/turns/{t['id']}.json"))['runs'] if r['model'] not in DROPPED] for t in TASKS}
 def runs(tid):

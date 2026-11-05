@@ -8,12 +8,12 @@
 <main id="content" tabindex="-1"><article id="catalog-content">
 <header class="hero"><h1 id="system-design">System design</h1><div class="hero-meta" aria-hidden="true"></div></header>
 <div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
-<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,280 tasks">1,280</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html" aria-current="page"><span>System design</span><span class="count" aria-label="61 tasks">61</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="300 tasks">300</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a><a href="optimization.html"><span>Optimization</span><span class="count" aria-label="9 tasks">9</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-payments-banking-typescript">Example 1: Payments &amp; banking (TypeScript)</a><a class="level-3" href="#example-2-secrets-access-control-go">Example 2: Secrets &amp; access control (Go)</a><a class="level-3" href="#example-3-software-supply-chain-c">Example 3: Software supply chain (C#)</a><a class="level-3" href="#example-4-web-applications-typescript">Example 4: Web applications (TypeScript)</a><a class="level-3" href="#example-5-media-processing-typescript">Example 5: Media processing (TypeScript)</a><a class="level-3" href="#example-6-payments-banking-typescript">Example 6: Payments &amp; banking (TypeScript)</a></nav></aside>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html" aria-current="page"><span>System design</span><span class="count" aria-label="85 tasks">85</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a><a href="optimization.html"><span>Optimization</span><span class="count" aria-label="9 tasks">9</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-payments-banking-typescript">Example 1: Payments &amp; banking (TypeScript)</a><a class="level-3" href="#example-2-secrets-access-control-go">Example 2: Secrets &amp; access control (Go)</a><a class="level-3" href="#example-3-software-supply-chain-c">Example 3: Software supply chain (C#)</a><a class="level-3" href="#example-4-web-applications-typescript">Example 4: Web applications (TypeScript)</a><a class="level-3" href="#example-5-media-processing-typescript">Example 5: Media processing (TypeScript)</a><a class="level-3" href="#example-6-payments-banking-typescript">Example 6: Payments &amp; banking (TypeScript)</a></nav></aside>
 <div class="reading">
 <h2 id="executive-summary">Executive summary</h2>
-<div class="kpis"><div class="kpi"><div class="kpi-value">61</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">61</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">36%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
-<p>Each task changes a production service that must keep running. The agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and delivers the change as a patch. The main languages are Go (31%), Python (26%) and C# (21%).</p>
-<p>Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, passes 36% of its 252 graded runs and fails every run on 17% of the 52 tasks it ran.</p>
+<div class="kpis"><div class="kpi"><div class="kpi-value">85</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">85</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">36%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<p>Each task changes a production service that must keep running. The agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and delivers the change as a patch. The main languages are Python (34%), TypeScript (27%) and Go (22%).</p>
+<p>Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, passes 36% of its 393 graded runs and fails every run on 12% of the 75 tasks it ran.</p>
 <h2 id="why-this-catalog">Why this catalog</h2>
 <h3 id="problems-engineers-face">Problems engineers face</h3>
 <p>Production systems fail in specific ways when they change while running. In services where several processes share state and any of them can stop, the failures are duplicate effects after retries, lost notifications, stale writers returning after a takeover, limits that hold in one process but not across instances, and partial state after a crash.</p>
@@ -25,7 +25,7 @@
 <li>A closing paragraph with the repository path, how to start each service and the build command.</li>
 </ul>
 <h2 id="domain-breakdown">Domain breakdown</h2>
-<p>The tasks span ten domains. The largest, Applications &amp; business domains, makes up 46% of the catalog.</p>
+<p>The tasks span ten domains. The largest, Applications &amp; business domains, makes up 44% of the catalog.</p>
 <figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Share of tasks by domain</h4></div><div class="fig-box"><img src="assets/system-design_domain.svg" alt="Share of tasks by domain" /></div></figure><h2 id="language-and-seniority">Language and seniority</h2>
 <figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Primary language and seniority</h4></div><div class="fig-box"><img src="assets/system-design_metadata.svg" alt="Primary language and seniority" /></div></figure><h3 id="primary-language">Primary language</h3>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
@@ -38,20 +38,20 @@
 </thead>
 <tbody>
 <tr>
-<td>Go</td>
-<td class="numeric">31.1%</td>
-</tr>
-<tr>
 <td>Python</td>
-<td class="numeric">26.2%</td>
-</tr>
-<tr>
-<td>C#</td>
-<td class="numeric">21.3%</td>
+<td class="numeric">34.1%</td>
 </tr>
 <tr>
 <td>TypeScript</td>
-<td class="numeric">21.3%</td>
+<td class="numeric">27.1%</td>
+</tr>
+<tr>
+<td>Go</td>
+<td class="numeric">22.4%</td>
+</tr>
+<tr>
+<td>C#</td>
+<td class="numeric">16.5%</td>
 </tr>
 </tbody>
 </table>
@@ -91,12 +91,12 @@
 <tbody>
 <tr>
 <td>z-ai/glm-5.3-flash</td>
-<td class="numeric">52</td>
-<td class="numeric">252</td>
+<td class="numeric">75</td>
+<td class="numeric">393</td>
 <td class="numeric">36%</td>
-<td class="numeric">17%</td>
-<td class="numeric">69%</td>
-<td class="numeric">4%</td>
+<td class="numeric">12%</td>
+<td class="numeric">71%</td>
+<td class="numeric">3%</td>
 </tr>
 <tr>
 <td>google/gemini-4-argon</td>
@@ -109,10 +109,10 @@
 </tr>
 <tr>
 <td>google/gemini-3.8-flash</td>
-<td class="numeric">11</td>
-<td class="numeric">77</td>
+<td class="numeric">12</td>
+<td class="numeric">80</td>
 <td class="numeric">1%</td>
-<td class="numeric">91%</td>
+<td class="numeric">92%</td>
 <td class="numeric">0%</td>
 <td class="numeric">0%</td>
 </tr>
@@ -120,7 +120,7 @@
 </table>
 </div>
 <figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/system-design_per_task.svg" alt="Per-task pass rate by model" /></div></figure><h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
-<p>A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 61 of the 61 tasks have a completed run.</p>
+<p>A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 85 of the 85 tasks have a completed run.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
@@ -132,11 +132,11 @@
 <tbody>
 <tr>
 <td>Average turn count</td>
-<td class="numeric">475.5</td>
+<td class="numeric">480.0</td>
 </tr>
 <tr>
 <td>Median turn count</td>
-<td class="numeric">467.4</td>
+<td class="numeric">461.1</td>
 </tr>
 <tr>
 <td>Range</td>
@@ -144,7 +144,7 @@
 </tr>
 <tr>
 <td>Long-horizon tasks (200+ turns)</td>
-<td>92% of tasks</td>
+<td>93% of tasks</td>
 </tr>
 </tbody>
 </table>
@@ -162,21 +162,21 @@
 <tbody>
 <tr>
 <td>z-ai/glm-5.3-flash</td>
-<td class="numeric">85%</td>
-<td class="numeric">561.9</td>
+<td class="numeric">88%</td>
+<td class="numeric">534.9</td>
 <td class="numeric">93%</td>
 </tr>
 <tr>
 <td>google/gemini-4-argon</td>
-<td class="numeric">33%</td>
+<td class="numeric">24%</td>
 <td class="numeric">349.9</td>
 <td class="numeric">89%</td>
 </tr>
 <tr>
 <td>google/gemini-3.8-flash</td>
-<td class="numeric">18%</td>
-<td class="numeric">281.3</td>
-<td class="numeric">58%</td>
+<td class="numeric">14%</td>
+<td class="numeric">276.7</td>
+<td class="numeric">56%</td>
 </tr>
 </tbody>
 </table>
