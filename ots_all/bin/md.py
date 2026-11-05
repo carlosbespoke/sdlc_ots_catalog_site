@@ -170,7 +170,24 @@ L.append(table(['Catalog', 'Example', 'Task id', 'Model with most graded runs', 
 allt = [m for s in S.values() for m in s['turns']['task_means']]
 L.append('## Turn counts\n')
 L.append(f"A task's turn count is the average over its completed runs, from every model. Across all catalogs the average is {sum(allt) / len(allt):.0f} turns, and {100 * sum(m >= 200 for m in allt) / len(allt):.0f}% of tasks average 200 turns or more.\n")
-L.append('![Turns per task, all catalogs](assets/all_turns.svg)\n')
+# interactive version of the turns histogram: per task, the turn sums and run counts of each model
+TXM = [m for m, _ in sorted(allm.items(), key=lambda kv: -kv[1][0])]; TXC = [s_['title'] for s_ in S.values()]
+txt = []
+for t in TASKS:
+    if not TURNS[t['id']]: continue
+    acc = collections.defaultdict(lambda: [0, 0])
+    for q in TURNS[t['id']]: a_ = acc[MM[q['model']]]; a_[0] += q['turn_count']; a_[1] += 1
+    txt.append([TXC.index(t['catalog']), [[TXM.index(m), v[0], v[1]] for m, v in acc.items()]])
+TXD = {'bin': 50, 'xmax': 1000, 'threshold': 200, 'catalogs': [S[k]['name'] for k in S], 'tasks': txt,
+       'models': [{'name': m, 'tasks': sum(1 for t in txt if any(r[0] == i for r in t[1]))} for i, m in enumerate(TXM)]}
+nob = lambda x: '\n'.join(l for l in x.splitlines() if l.strip())
+L.append(nob('<div class="fig" data-turns-explorer>\n<div class="fig-head"><span class="lab">Interactive figure</span><h4>Turns per task, all catalogs</h4></div>\n'
+    '<div class="fig-box">\n<style>' + open(f'{H}/bin/turns_explorer.css').read() + '</style>\n'
+    '<div class="tx-chips" data-chips aria-label="Models"></div>\n<p class="tx-summary" data-summary></p>\n'
+    '<svg class="tx-svg" viewBox="0 0 940 330" role="img" aria-label="Histogram of average turns per task"></svg>\n'
+    '<p class="tx-hint">Toggle models to recompute each task from their runs only. Drag the red line to move the long-horizon threshold. Click a bar to see its tasks by catalog.</p>\n'
+    '<div data-panel></div>\n<script type="application/json">' + json.dumps(TXD, separators=(',', ':')) + '</script>\n'
+    '<script>' + open(f'{H}/bin/turns_explorer.js').read() + '</script>\n</div></div>') + '\n')
 open(f'{OUT}/README.md', 'w').write('\n'.join(L))
 print('README', TOT, 'tasks,', len(smp), 'samples')
 # CSVs: every task with its catalog, metadata and per-model results; and the samples
