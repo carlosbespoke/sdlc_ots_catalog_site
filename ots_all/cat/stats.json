@@ -1474,15 +1474,15 @@
  "system-design": {
   "title": "System design",
   "name": "System design",
-  "tasks": 85,
-  "tasks_graded": 85,
+  "tasks": 94,
+  "tasks_graded": 94,
   "min_tasks": 5,
   "turns": {
-   "tasks_with_turns": 85,
-   "runs": 572,
-   "mean_of_task_means": 479.9723618538324,
-   "median_of_task_means": 461.1111111111111,
-   "long_horizon_tasks": 79,
+   "tasks_with_turns": 94,
+   "runs": 638,
+   "mean_of_task_means": 460.19752578981297,
+   "median_of_task_means": 425.0,
+   "long_horizon_tasks": 88,
    "threshold": 200,
    "task_means": [
     163.55555555555554,
@@ -1500,8 +1500,10 @@
     873.25,
     154.0,
     255.0,
+    231.16666666666666,
     580.0909090909091,
     635.5,
+    225.66666666666666,
     846.2222222222222,
     655.6,
     588.0,
@@ -1509,6 +1511,7 @@
     375.0,
     694.5,
     257.6666666666667,
+    289.1666666666667,
     376.22222222222223,
     553.5454545454545,
     546.25,
@@ -1518,22 +1521,28 @@
     351.6666666666667,
     353.1,
     461.1111111111111,
+    294.8333333333333,
     337.3333333333333,
     404.6363636363636,
     757.5,
     478.25,
     338.5833333333333,
+    234.33333333333334,
+    262.3333333333333,
     183.25,
     334.0,
     245.75,
+    297.5,
     295.3333333333333,
     467.44444444444446,
     533.5,
+    215.41666666666666,
     556.3333333333334,
     106.83333333333333,
     295.0,
     310.0,
     328.8888888888889,
+    410.5,
     492.0,
     246.83333333333334,
     439.5,
@@ -1576,10 +1585,17 @@
    "by_model": [
     {
      "model": "z-ai/glm-5.3-flash",
-     "runs": 393,
-     "tasks": 75,
-     "mean": 534.8676844783715,
-     "runs_200_plus": 364
+     "runs": 405,
+     "tasks": 77,
+     "mean": 524.7382716049383,
+     "runs_200_plus": 369
+    },
+    {
+     "model": "google/gemini-3.8-flash",
+     "runs": 134,
+     "tasks": 21,
+     "mean": 277.82835820895525,
+     "runs_200_plus": 88
     },
     {
      "model": "google/gemini-4-argon",
@@ -1587,13 +1603,6 @@
      "tasks": 20,
      "mean": 349.8787878787879,
      "runs_200_plus": 88
-    },
-    {
-     "model": "google/gemini-3.8-flash",
-     "runs": 80,
-     "tasks": 12,
-     "mean": 276.6625,
-     "runs_200_plus": 45
     }
    ]
   },
@@ -1603,195 +1612,205 @@
    {
     "super_group": "Applications & business domains",
     "tasks": 37,
-    "pct": 43.5,
+    "pct": 39.4,
     "categories": [
      {
       "category": "Web applications",
       "tasks": 21,
-      "pct": 24.7
+      "pct": 22.3
      },
      {
       "category": "Payments & banking",
       "tasks": 8,
-      "pct": 9.4
+      "pct": 8.5
      },
      {
       "category": "Collaborative documents",
       "tasks": 4,
-      "pct": 4.7
+      "pct": 4.3
      },
      {
       "category": "Media processing",
       "tasks": 2,
-      "pct": 2.4
+      "pct": 2.1
      },
      {
       "category": "Education tooling",
       "tasks": 1,
-      "pct": 1.2
+      "pct": 1.1
      },
      {
       "category": "Calendaring & recurrence",
       "tasks": 1,
-      "pct": 1.2
+      "pct": 1.1
+     }
+    ]
+   },
+   {
+    "super_group": "Scientific & ML software",
+    "tasks": 14,
+    "pct": 14.9,
+    "categories": [
+     {
+      "category": "Machine learning & MLOps",
+      "tasks": 5,
+      "pct": 5.3
+     },
+     {
+      "category": "Statistics & numerical methods",
+      "tasks": 3,
+      "pct": 3.2
+     },
+     {
+      "category": "AI agents & retrieval",
+      "tasks": 2,
+      "pct": 2.1
+     },
+     {
+      "category": "Graph algorithms",
+      "tasks": 1,
+      "pct": 1.1
+     },
+     {
+      "category": "Medical imaging & healthcare",
+      "tasks": 1,
+      "pct": 1.1
+     },
+     {
+      "category": "Scientific computing",
+      "tasks": 1,
+      "pct": 1.1
+     },
+     {
+      "category": "Geospatial",
+      "tasks": 1,
+      "pct": 1.1
      }
     ]
    },
    {
     "super_group": "Distributed systems & coordination",
     "tasks": 10,
-    "pct": 11.8,
+    "pct": 10.6,
     "categories": [
      {
       "category": "Messaging & event streaming",
       "tasks": 6,
-      "pct": 7.1
+      "pct": 6.4
      },
      {
       "category": "Workflow automation",
       "tasks": 3,
-      "pct": 3.5
+      "pct": 3.2
      },
      {
       "category": "Job scheduling",
       "tasks": 1,
-      "pct": 1.2
+      "pct": 1.1
      }
     ]
    },
    {
     "super_group": "Data engineering & databases",
     "tasks": 8,
-    "pct": 9.4,
+    "pct": 8.5,
     "categories": [
      {
       "category": "Databases & storage engines",
       "tasks": 6,
-      "pct": 7.1
+      "pct": 6.4
      },
      {
       "category": "Data pipelines & ETL",
       "tasks": 2,
-      "pct": 2.4
-     }
-    ]
-   },
-   {
-    "super_group": "Scientific & ML software",
-    "tasks": 7,
-    "pct": 8.2,
-    "categories": [
-     {
-      "category": "AI agents & retrieval",
-      "tasks": 2,
-      "pct": 2.4
-     },
-     {
-      "category": "Machine learning & MLOps",
-      "tasks": 2,
-      "pct": 2.4
-     },
-     {
-      "category": "Graph algorithms",
-      "tasks": 1,
-      "pct": 1.2
-     },
-     {
-      "category": "Medical imaging & healthcare",
-      "tasks": 1,
-      "pct": 1.2
-     },
-     {
-      "category": "Geospatial",
-      "tasks": 1,
-      "pct": 1.2
+      "pct": 2.1
      }
     ]
    },
    {
     "super_group": "Security",
     "tasks": 6,
-    "pct": 7.1,
+    "pct": 6.4,
     "categories": [
      {
       "category": "Secrets & access control",
       "tasks": 6,
-      "pct": 7.1
+      "pct": 6.4
      }
     ]
    },
    {
     "super_group": "Observability & reliability",
     "tasks": 5,
-    "pct": 5.9,
+    "pct": 5.3,
     "categories": [
      {
       "category": "Monitoring & observability",
       "tasks": 5,
-      "pct": 5.9
+      "pct": 5.3
      }
     ]
    },
    {
     "super_group": "Build, release & supply chain",
     "tasks": 5,
-    "pct": 5.9,
+    "pct": 5.3,
     "categories": [
      {
       "category": "CI/CD",
       "tasks": 3,
-      "pct": 3.5
+      "pct": 3.2
      },
      {
       "category": "Software supply chain",
       "tasks": 2,
-      "pct": 2.4
+      "pct": 2.1
      }
     ]
    },
    {
     "super_group": "Systems, hardware & accelerators",
-    "tasks": 3,
-    "pct": 3.5,
+    "tasks": 5,
+    "pct": 5.3,
     "categories": [
+     {
+      "category": "Networking & HTTP",
+      "tasks": 3,
+      "pct": 3.2
+     },
      {
       "category": "IoT & smart home",
       "tasks": 1,
-      "pct": 1.2
+      "pct": 1.1
      },
      {
       "category": "Filesystems",
       "tasks": 1,
-      "pct": 1.2
-     },
-     {
-      "category": "Networking & HTTP",
-      "tasks": 1,
-      "pct": 1.2
+      "pct": 1.1
      }
     ]
    },
    {
     "super_group": "Cloud infrastructure & IaC",
     "tasks": 2,
-    "pct": 2.4,
+    "pct": 2.1,
     "categories": [
      {
       "category": "Cloud infra: containers & self-hosted platforms",
       "tasks": 2,
-      "pct": 2.4
+      "pct": 2.1
      }
     ]
    },
    {
     "super_group": "Languages & developer tooling",
     "tasks": 2,
-    "pct": 2.4,
+    "pct": 2.1,
     "categories": [
      {
       "category": "API tooling",
       "tasks": 2,
-      "pct": 2.4
+      "pct": 2.1
      }
     ]
    }
@@ -1799,85 +1818,95 @@
   "language": [
    {
     "value": "Python",
-    "tasks": 29,
-    "pct": 34.1
+    "tasks": 36,
+    "pct": 38.3
    },
    {
     "value": "TypeScript",
     "tasks": 23,
-    "pct": 27.1
+    "pct": 24.5
    },
    {
     "value": "Go",
-    "tasks": 19,
-    "pct": 22.4
+    "tasks": 21,
+    "pct": 22.3
    },
    {
     "value": "C#",
     "tasks": 14,
-    "pct": 16.5
+    "pct": 14.9
    }
   ],
   "role": [
    {
     "value": "Distributed Systems Engineer",
     "tasks": 71,
-    "pct": 83.5
+    "pct": 75.5
+   },
+   {
+    "value": "Performance Engineer",
+    "tasks": 9,
+    "pct": 9.6
    },
    {
     "value": "Backend Engineer",
     "tasks": 5,
-    "pct": 5.9
+    "pct": 5.3
    },
    {
     "value": "Library / Backend Engineer",
     "tasks": 2,
-    "pct": 2.4
+    "pct": 2.1
    },
    {
     "value": "ML / AI Engineer",
     "tasks": 2,
-    "pct": 2.4
+    "pct": 2.1
    },
    {
     "value": "Platform Engineer",
     "tasks": 2,
-    "pct": 2.4
+    "pct": 2.1
    },
    {
     "value": "Security Engineer",
     "tasks": 1,
-    "pct": 1.2
+    "pct": 1.1
    },
    {
     "value": "Data Engineer",
     "tasks": 1,
-    "pct": 1.2
+    "pct": 1.1
    },
    {
     "value": "Systems Engineer",
     "tasks": 1,
-    "pct": 1.2
+    "pct": 1.1
    }
   ],
   "seniority": [
    {
     "value": "Staff+",
     "tasks": 85,
-    "pct": 100.0
+    "pct": 90.4
+   },
+   {
+    "value": "Senior",
+    "tasks": 9,
+    "pct": 9.6
    }
   ],
   "models": [
    {
     "model": "z-ai/glm-5.3-flash",
-    "tasks": 75,
-    "rollouts": 419,
-    "graded": 393,
-    "passed": 143,
-    "pass_rate": 0.3638676844783715,
-    "error_rate": 0.06205250596658711,
-    "tasks_graded": 75,
-    "tasks_0": 9,
+    "tasks": 77,
+    "rollouts": 437,
+    "graded": 405,
+    "passed": 144,
+    "pass_rate": 0.35555555555555557,
+    "error_rate": 0.07322654462242563,
+    "tasks_graded": 77,
+    "tasks_0": 10,
     "tasks_100": 2,
     "tasks_20_80": 53,
     "per_task_rates": [
@@ -1893,6 +1922,7 @@
      0.0,
      0.3333333333333333,
      0.5,
+     0.0,
      0.0,
      0.6,
      0.25,
@@ -1919,6 +1949,7 @@
      0.5,
      0.25,
      0.75,
+     0.16666666666666666,
      0.3333333333333333,
      0.75,
      0.25,
@@ -1959,13 +1990,49 @@
     ]
    },
    {
+    "model": "google/gemini-3.8-flash",
+    "tasks": 23,
+    "rollouts": 194,
+    "graded": 134,
+    "passed": 3,
+    "pass_rate": 0.022388059701492536,
+    "error_rate": 0.30927835051546393,
+    "tasks_graded": 21,
+    "tasks_0": 18,
+    "tasks_100": 0,
+    "tasks_20_80": 0,
+    "per_task_rates": [
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.16666666666666666,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
     "model": "google/gemini-4-argon",
-    "tasks": 22,
-    "rollouts": 103,
+    "tasks": 23,
+    "rollouts": 104,
     "graded": 99,
     "passed": 47,
     "pass_rate": 0.47474747474747475,
-    "error_rate": 0.038834951456310676,
+    "error_rate": 0.04807692307692308,
     "tasks_graded": 20,
     "tasks_0": 5,
     "tasks_100": 4,
@@ -1991,33 +2058,6 @@
      0.2,
      0.8,
      1.0
-    ]
-   },
-   {
-    "model": "google/gemini-3.8-flash",
-    "tasks": 14,
-    "rollouts": 87,
-    "graded": 80,
-    "passed": 1,
-    "pass_rate": 0.0125,
-    "error_rate": 0.08045977011494253,
-    "tasks_graded": 12,
-    "tasks_0": 11,
-    "tasks_100": 0,
-    "tasks_20_80": 0,
-    "per_task_rates": [
-     0.0,
-     0.0,
-     0.16666666666666666,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0
     ]
    }
   ],
@@ -6093,171 +6133,5 @@
     ]
    }
   ]
- },
- "optimization": {
-  "title": "Optimization",
-  "name": "Optimization",
-  "tasks": 9,
-  "tasks_graded": 9,
-  "min_tasks": 5,
-  "turns": {
-   "tasks_with_turns": 9,
-   "runs": 66,
-   "mean_of_task_means": 273.43518518518516,
-   "median_of_task_means": 262.3333333333333,
-   "long_horizon_tasks": 9,
-   "threshold": 200,
-   "task_means": [
-    231.16666666666666,
-    225.66666666666666,
-    289.1666666666667,
-    294.8333333333333,
-    234.33333333333334,
-    262.3333333333333,
-    297.5,
-    215.41666666666666,
-    410.5
-   ],
-   "max_task_mean": 410.5,
-   "min_task_mean": 215.41666666666666,
-   "by_model": [
-    {
-     "model": "google/gemini-3.8-flash",
-     "runs": 54,
-     "tasks": 9,
-     "mean": 279.55555555555554,
-     "runs_200_plus": 43
-    },
-    {
-     "model": "z-ai/glm-5.3-flash",
-     "runs": 12,
-     "tasks": 2,
-     "mean": 193.0,
-     "runs_200_plus": 5
-    }
-   ]
-  },
-  "super_groups": 2,
-  "folded": {},
-  "domain": [
-   {
-    "super_group": "Scientific & ML software",
-    "tasks": 7,
-    "pct": 77.8,
-    "categories": [
-     {
-      "category": "Statistics & numerical methods",
-      "tasks": 3,
-      "pct": 33.3
-     },
-     {
-      "category": "Machine learning & MLOps",
-      "tasks": 3,
-      "pct": 33.3
-     },
-     {
-      "category": "Scientific computing",
-      "tasks": 1,
-      "pct": 11.1
-     }
-    ]
-   },
-   {
-    "super_group": "Systems, hardware & accelerators",
-    "tasks": 2,
-    "pct": 22.2,
-    "categories": [
-     {
-      "category": "Networking & HTTP",
-      "tasks": 2,
-      "pct": 22.2
-     }
-    ]
-   }
-  ],
-  "language": [
-   {
-    "value": "Python",
-    "tasks": 7,
-    "pct": 77.8
-   },
-   {
-    "value": "Go",
-    "tasks": 2,
-    "pct": 22.2
-   }
-  ],
-  "role": [
-   {
-    "value": "Performance Engineer",
-    "tasks": 9,
-    "pct": 100.0
-   }
-  ],
-  "seniority": [
-   {
-    "value": "Senior",
-    "tasks": 9,
-    "pct": 100.0
-   }
-  ],
-  "models": [
-   {
-    "model": "google/gemini-3.8-flash",
-    "tasks": 9,
-    "rollouts": 107,
-    "graded": 54,
-    "passed": 2,
-    "pass_rate": 0.037037037037037035,
-    "error_rate": 0.4953271028037383,
-    "tasks_graded": 9,
-    "tasks_0": 7,
-    "tasks_100": 0,
-    "tasks_20_80": 0,
-    "per_task_rates": [
-     0.0,
-     0.0,
-     0.16666666666666666,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.16666666666666666,
-     0.0
-    ]
-   },
-   {
-    "model": "z-ai/glm-5.3-flash",
-    "tasks": 2,
-    "rollouts": 18,
-    "graded": 12,
-    "passed": 1,
-    "pass_rate": 0.08333333333333333,
-    "error_rate": 0.3333333333333333,
-    "tasks_graded": 2,
-    "tasks_0": 1,
-    "tasks_100": 0,
-    "tasks_20_80": 0,
-    "per_task_rates": [
-     0.0,
-     0.16666666666666666
-    ]
-   },
-   {
-    "model": "google/gemini-4-argon",
-    "tasks": 1,
-    "rollouts": 1,
-    "graded": 0,
-    "passed": 0,
-    "pass_rate": null,
-    "error_rate": 1.0,
-    "tasks_graded": 0,
-    "tasks_0": 0,
-    "tasks_100": 0,
-    "tasks_20_80": 0,
-    "per_task_rates": []
-   }
-  ],
-  "showcase": []
  }
 }

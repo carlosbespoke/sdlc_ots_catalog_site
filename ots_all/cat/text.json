@@ -73,15 +73,5 @@
    "A request framed by a business reason for the move, such as retiring a JVM dependency, with emphasis on exact reproduction of seeded output.",
    "A bullet list of language-specific pitfalls, such as RE2 regular expression syntax and reserved name prefixes."
   ]
- },
- "optimization": {
-  "one": "Make existing code faster or leaner without changing what it does.",
-  "work": "Each task asks the agent to make existing code cheaper in time or memory without changing its behaviour, its public API or its existing tests. The tasks cover Go HTTP code and Python scientific libraries.",
-  "problems": "Performance engineers are asked to remove unnecessary work from a slow path in a library they did not write. The task names a workload and the entry points that must keep their behaviour. The engineer has to profile and read before editing, find where the time or memory goes, and avoid special-casing the visible benchmark.",
-  "how": "Each task gives the agent a repository in `/app` in an offline container, with workload scripts or a benchmark command. The instruction lists the behaviour that must be preserved and limits where code may change. After the session, the verifier restores its own workloads and tests, checks that results are unchanged and compares the candidate's speed with the baseline's on inputs the agent has not seen.",
-  "prompts": [
-   "A title of the form \"Reduce X overhead\", a description of the slow component, a list of workload scripts or a benchmark command, then requirements and grading sections.",
-   "A list of the exact public functions whose behaviour must be preserved and where edits may be made."
-  ]
  }
 }

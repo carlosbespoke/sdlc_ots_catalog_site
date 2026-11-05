@@ -26,7 +26,7 @@ except ImportError:
                      'python -m pip install "markdown-it-py>=3,<4"')
 
 FILES = ('README.md', 'programbench.md', 'system-design.md', 'debugging.md', 'feature-implementation.md',
-         'infrastructure-as-code.md', 'data-engineering.md', 'migration.md', 'optimization.md')
+         'infrastructure-as-code.md', 'data-engineering.md', 'migration.md')
 MERMAID_URL = 'https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js'
 NUMERIC = re.compile(r'^[+−-]?(?:\d[\d,]*(?:\.\d+)?|\.\d+)%?(?:\s*\([\d.,]+%?\))?$')
 

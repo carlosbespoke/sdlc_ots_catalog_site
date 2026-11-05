@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">85</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">85</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">36%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">36%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
 
-Each task changes a production service that must keep running. The agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and delivers the change as a patch. The main languages are Python (34%), TypeScript (27%) and Go (22%).
+Each task changes a production service that must keep running. The agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and delivers the change as a patch. The main languages are Python (38%), TypeScript (24%) and Go (22%).
 
-Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, passes 36% of its 393 graded runs and fails every run on 12% of the 75 tasks it ran.
+Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, passes 36% of its 405 graded runs and fails every run on 13% of the 77 tasks it ran.
 
 ## Why this catalog
 
@@ -25,7 +25,7 @@ Each task pins an open-source repository at a base commit, with a short specific
 
 ## Domain breakdown
 
-The tasks span ten domains. The largest, Applications & business domains, makes up 44% of the catalog.
+The tasks span ten domains. The largest, Applications & business domains, makes up 39% of the catalog.
 
 ![Share of tasks by domain](assets/system-design_domain.svg)
 
@@ -37,16 +37,17 @@ The tasks span ten domains. The largest, Applications & business domains, makes 
 
 | Primary language | % of catalog |
 |---|---:|
-| Python | 34.1% |
-| TypeScript | 27.1% |
-| Go | 22.4% |
-| C# | 16.5% |
+| Python | 38.3% |
+| TypeScript | 24.5% |
+| Go | 22.3% |
+| C# | 14.9% |
 
 ### Seniority
 
 | Seniority | % of catalog |
 |---|---:|
-| Staff+ | 100.0% |
+| Staff+ | 90.4% |
+| Senior | 9.6% |
 
 ## Model pass rates across the catalog
 
@@ -54,30 +55,30 @@ A model's pass rate is its passed runs over its graded runs, pooled across the t
 
 | Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
-| z-ai/glm-5.3-flash | 75 | 393 | 36% | 12% | 71% | 3% |
+| z-ai/glm-5.3-flash | 77 | 405 | 36% | 13% | 69% | 3% |
+| google/gemini-3.8-flash | 21 | 134 | 2% | 86% | 0% | 0% |
 | google/gemini-4-argon | 20 | 99 | 47% | 25% | 55% | 20% |
-| google/gemini-3.8-flash | 12 | 80 | 1% | 92% | 0% | 0% |
 
 ![Per-task pass rate by model](assets/system-design_per_task.svg)
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 85 of the 85 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 94 of the 94 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 480.0 |
-| Median turn count | 461.1 |
+| Average turn count | 460.2 |
+| Median turn count | 425.0 |
 | Range | 107 to 948 |
-| Long-horizon tasks (200+ turns) | 93% of tasks |
+| Long-horizon tasks (200+ turns) | 94% of tasks |
 
 ![Turns per task](assets/system-design_turns.svg)
 
 | Model | % of tasks | Mean turns | % of runs with 200+ turns |
 |---|---:|---:|---:|
-| z-ai/glm-5.3-flash | 88% | 534.9 | 93% |
-| google/gemini-4-argon | 24% | 349.9 | 89% |
-| google/gemini-3.8-flash | 14% | 276.7 | 56% |
+| z-ai/glm-5.3-flash | 82% | 524.7 | 91% |
+| google/gemini-3.8-flash | 22% | 277.8 | 66% |
+| google/gemini-4-argon | 21% | 349.9 | 89% |
 
 ## Sample tasks
 

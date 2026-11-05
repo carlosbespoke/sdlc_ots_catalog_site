@@ -2,18 +2,17 @@
 
 <div class="kpis"><div class="kpi"><div class="kpi-value">1,305</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">3</div><div class="kpi-label">Models with graded runs</div></div><div class="kpi"><div class="kpi-value">7,999</div><div class="kpi-label">Graded runs</div></div></div>
 
-Our coding RL environments, grouped into eight catalogs, with the pass rates of every model that has run them. All numbers come from one snapshot of Horizon runs (2026-11-02), at the task versions selected on the 2 Nov sheet.
+Our coding RL environments, grouped into seven catalogs, with the pass rates of every model that has run them. All numbers come from one snapshot of Horizon runs (2026-11-02), at the task versions selected on the 2 Nov sheet.
 
 | Catalog | Tasks | What the tasks do | % of all tasks | Tasks with graded runs | Average turn count |
 |---|---:|---|---:|---:|---:|
 | [ProgramBench](programbench.md) | 434 | Rebuild or upgrade programs so they behave exactly like a reference version. | 33.3% | 434 | 476 |
-| [System design](system-design.md) | 85 | Keep multi-process services correct through crashes, retries and races. | 6.5% | 85 | 480 |
+| [System design](system-design.md) | 94 | Keep multi-process services correct through crashes, retries and races. | 7.2% | 94 | 460 |
 | [Diagnosis, Debugging, and Bug Fixing](debugging.md) | 324 | Find and fix faults in real codebases from symptoms or documentation. | 24.8% | 324 | 423 |
 | [Feature implementation](feature-implementation.md) | 117 | Add capabilities to existing libraries and services without breaking current behaviour. | 9.0% | 117 | 344 |
 | [Infrastructure as code](infrastructure-as-code.md) | 301 | Restructure live Terraform, CDK and Pulumi code without touching deployed resources. | 23.1% | 301 | 115 |
 | [Data engineering](data-engineering.md) | 17 | Repair pipelines and data libraries after an upstream format or schema change. | 1.3% | 17 | 173 |
 | [Migration](migration.md) | 18 | Port Java and Rust libraries to Go or C++ with identical behaviour. | 1.4% | 18 | 364 |
-| [Optimization](optimization.md) | 9 | Make existing code faster or leaner without changing what it does. | 0.7% | 9 | 273 |
 | **Total** | **1,305** |  | **100%** | **1,305** |  |
 
 ## Model pass rates

@@ -16,7 +16,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.join(HERE, 'site')
 OUT = os.path.join(HERE, 'ots-catalogs-all-models.html')
 MERMAID = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, 'vendor', 'mermaid-10.9.1.min.js')
-PAGES = ['index', 'programbench', 'system-design', 'debugging', 'feature-implementation', 'infrastructure-as-code', 'data-engineering', 'migration', 'optimization']
+PAGES = ['index', 'programbench', 'system-design', 'debugging', 'feature-implementation', 'infrastructure-as-code', 'data-engineering', 'migration']
 MIME = {'.woff2': 'font/woff2', '.ttf': 'font/ttf', '.svg': 'image/svg+xml'}
 
 
