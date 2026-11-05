@@ -5,6 +5,7 @@ H = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); C = f'{H}/catal
 MM = json.load(open('/Users/carlos/code/sdlc_final_samples/pipeline/ro_models.json'))
 GEM = {k: v for k, v in MM.items() if 'gemini' in v and v != 'google/gemini-3.7-flash'}  # 3.7 Flash is left out of the report
 RO = {f[:-5]: json.load(open(f'{H}/ro3/{f}')) for f in os.listdir(f'{H}/ro3')}
+RO.update({f[:-5]: json.load(open(f'{H}/ro3_refresh/{f}')) for f in os.listdir(f'{H}/ro3_refresh')})  # runs refreshed after the snapshot
 TU = {f[:-5]: [r for r in json.load(open(f'{H}/turns/{f}'))['runs'] if r['model'] in GEM] for f in os.listdir(f'{H}/turns')}
 U = json.load(open(f'{H}/universe.json'))
 SEL = [t for t in U['tasks'] if t.get('tier')]
@@ -14,17 +15,19 @@ GLMF = 'z-ai/glm-5.3-flash'
 def _raw(tid, src):
     if src == 'own': return {q['id']: q for q in RO[tid]['rollouts']}
     return {q['id']: q for o in json.load(open(f'{H}/origins/{tid}.json'))['origins'] for q in o['rollouts']}
-GLM = {}
+GLM, FLB = {}, {}
+FLASHM = 'google/gemini-3.8-flash'
 for t in SEL:
-    if not t.get('glm'): continue
-    raw = _raw(t['id'], t['glm']['source'])
-    for q in t['glm']['runs']:
-        x = raw.get(q['id'])
-        if not x or MM.get(x['model']) != GLMF or x.get('is_errored') or bool(x.get('passed')) != q['passed']: print('GLM run not in raw files:', t['name'], q['id']); sys.exit(1)
-    GLM[t['id']] = [q['passed'] for q in t['glm']['runs']]
+    for key, model, store in (('glm', GLMF, GLM), ('flash_borrowed', FLASHM, FLB)):
+        if not t.get(key): continue
+        raw = _raw(t['id'], t[key]['source'])
+        for q in t[key]['runs']:
+            x = raw.get(q['id'])
+            if not x or MM.get(x['model']) != model or x.get('is_errored') or bool(x.get('passed')) != q['passed']: print('borrowed run not in raw files:', t['name'], q['id']); sys.exit(1)
+        store[t['id']] = [q['passed'] for q in t[key]['runs']]
 for f in os.listdir(f'{H}/turns_glm'):
-    if f[:-5] in GLM: TU.setdefault(f[:-5], []); TU[f[:-5]] = TU[f[:-5]] + json.load(open(f'{H}/turns_glm/{f}'))['runs']
-NAME = {**GEM, **{k: v for k, v in MM.items() if v == GLMF}, GLMF: GLMF}
+    if f[:-5] in GLM or f[:-5] in FLB: TU.setdefault(f[:-5], []); TU[f[:-5]] = TU[f[:-5]] + json.load(open(f'{H}/turns_glm/{f}'))['runs']
+NAME = {**GEM, **{k: v for k, v in MM.items() if v == GLMF}, GLMF: GLMF, FLASHM: FLASHM}
 MERGE = {'Migration': 'ProgramBench', 'Infrastructure as code': 'System design', 'Data engineering': 'Feature implementation'}
 PAGE = {'ProgramBench': 'programbench', 'System design': 'system-design', 'Diagnosis, Debugging, and Bug Fixing': 'debugging', 'Feature implementation': 'feature-implementation'}
 page_of = lambda t: PAGE[MERGE.get(t['catalog'], t['catalog'])]
@@ -37,6 +40,7 @@ def runs(tid, glm=True):
     """Model -> list of (passed, score) over graded runs: Gemini models from the raw run file, GLM-5.3 Flash from the checked runs above."""
     out = collections.defaultdict(list)
     if glm and tid in GLM: out[GLMF] = [(p, 0) for p in GLM[tid]]
+    if glm and tid in FLB: out[FLASHM] = [(p, 0) for p in FLB[tid]]
     for q in RO[tid]['rollouts']:
         if q['model'] in GEM and not q.get('is_errored') and q.get('passed') is not None:
             out[GEM[q['model']]].append((bool(q['passed']), q.get('extracted_score') or 0))

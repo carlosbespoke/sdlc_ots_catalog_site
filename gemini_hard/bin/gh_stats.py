@@ -9,6 +9,8 @@ CANON = {k: next(c for c, w in GEM.items() if w == v) for k, v in GEM.items()}
 # A task's GLM runs are its own, or borrowed from the task it was copied from or the same repo's reimplementation task (universe.json 'glm').
 GLM_CN = next(k for k, v in MM.items() if v == GLMF); CANON[GLM_CN] = GLM_CN
 GLM = {t['id']: t['glm'] for t in U['tasks'] if t.get('glm')}
+FLB = {t['id']: t['flash_borrowed'] for t in U['tasks'] if t.get('flash_borrowed')}  # Gemini 3.8 Flash runs borrowed from a related task
+FL_CN = next(k for k, v in GEM.items() if v == FLASH)
 TURNS_GLM = {f[:-5]: json.load(open(f'{H}/turns_glm/{f}'))['runs'] for f in os.listdir(f'{H}/turns_glm')} if os.path.isdir(f'{H}/turns_glm') else {}
 LONG = 200
 MIN_TASKS = 5  # a model gets a row in a page's pass-rate table once it has graded runs on this many tasks
@@ -36,7 +38,7 @@ def meta(t):
 TURNS = {f[:-5]: [r for r in json.load(open(f'{H}/turns/{f}'))['runs'] if r['model'] in GEM] for f in os.listdir(f'{H}/turns')}
 SHOWN = {t['id'] for t in SEL}
 for tid, v in TURNS_GLM.items():
-    if tid in SHOWN: TURNS.setdefault(tid, []); TURNS[tid] = TURNS[tid] + [{**r, 'model': GLM_CN} for r in v]
+    if tid in SHOWN: TURNS.setdefault(tid, []); TURNS[tid] = TURNS[tid] + [{**r, 'model': FL_CN if r['model'] == FLASH else GLM_CN} for r in v]
 def turn_stats(tid, glm=True):
     runs = [r for r in TURNS.get(tid) or [] if glm or r['model'] != GLM_CN]
     if not runs: return None
@@ -50,6 +52,8 @@ def model_rows(tid, glm=True):
     out = collections.defaultdict(lambda: dict(rollouts=0, graded=0, passed=0, errors=0, score_sum=0.0))
     if glm and tid in GLM and tid in SHOWN:
         o = out[GLM_CN]; g = GLM[tid]['runs']; o['rollouts'] = o['graded'] = len(g); o['passed'] = sum(q['passed'] for q in g)
+    if glm and tid in FLB and tid in SHOWN:
+        o = out[FL_CN]; g = FLB[tid]['runs']; o['rollouts'] = o['graded'] = len(g); o['passed'] = sum(q['passed'] for q in g)
     for q in RO.get(tid, {}).get('rollouts', []):
         if q['model'] not in GEM: continue
         o = out[CANON[q['model']]]; o['rollouts'] += 1
@@ -127,6 +131,7 @@ for slug, cat in CATS:
             if q['model'] not in GEM or q.get('is_errored') or q.get('passed') is None: continue
             sc[MM[q['model']]].append(int(bool(q['passed'])))
         if r['id'] in GLM: sc[GLMF] = [int(q['passed']) for q in GLM[r['id']]['runs']]
+        if r['id'] in FLB: sc[FLASH] = [int(q['passed']) for q in FLB[r['id']]['runs']]
         tu = collections.defaultdict(lambda: [0, 0])
         for x in TURNS.get(r['id']) or []: v = tu[MM[x['model']]]; v[0] += x['turn_count']; v[1] += 1
         trows.append({'sg': dg(r), 'cat': r['cat'], 'lang': r['lang'], 'sen': r['sen'], 'scores': dict(sc), 'turns': dict(tu)})
@@ -141,6 +146,7 @@ for slug, cat in CATS:
     out[slug] = {'attached': attached, 'title': cat, 'name': DISPLAY.get(cat, cat), 'tasks': n, 'groups': {g: sum(1 for r in R if r['group'] == g) for g in groups}, 'group_domain': {g: GROUP_DOMAIN[g] for g in groups if g in GROUP_DOMAIN}, 'tiers': dict(collections.Counter(r['tier'] for r in R)), 'not_in_catalog': sum(1 for r in R if not r['in_catalog']),
                  'estimate': e, 'argon_catalog_rates': argon_all, 'turns': turns, 'super_groups': len(dom), 'folded': fold, 'domain': dom,
                  'language': dist('lang'), 'role': dist('role'), 'seniority': dist('sen'), 'models': models, 'showcase': show, 'min_tasks': MIN_TASKS, 'task_rows': trows,
-                 'glm_borrowed': dict(collections.Counter(GLM[r['id']]['source'] for r in R if r['id'] in GLM and GLM[r['id']]['source'] != 'own'))}
+                 'glm_borrowed': dict(collections.Counter(GLM[r['id']]['source'] for r in R if r['id'] in GLM and GLM[r['id']]['source'] != 'own')),
+                 'flash_borrowed': len([r for r in R if r['id'] in FLB]), 'refreshed': [r['id'] for r in R if r['id'] in REFRESH]}
     print(slug, n, out[slug]['tiers'], 'models', [(m['model'], m['tasks_graded']) for m in models], 'turn tasks', len(TS), 'samples', len(show))
 json.dump(out, open(f'{H}/cat/stats.json', 'w'), indent=1)

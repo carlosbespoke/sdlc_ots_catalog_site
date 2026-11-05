@@ -28,7 +28,7 @@ Each task pins an open-source repository, mostly Go or Python, in an offline con
 
 ## Domain breakdown
 
-The tasks span 10 domains. The largest, Languages & developer tooling, makes up 22% of the catalog.
+The tasks span ten domains. The largest, Languages & developer tooling, makes up 22% of the catalog.
 
 <div class="cx" data-chart="bars" data-dims="g>c=Domain" data-hint="Click a domain to filter the charts on this page; use the arrow to see its sub-domains.">
 <div class="fig-head"><span class="lab">Interactive figure</span><h4>Share of tasks by domain</h4></div>

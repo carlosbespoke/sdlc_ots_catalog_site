@@ -1,10 +1,13 @@
-# Turn count of every GLM-5.3 Flash run shown for the selected tasks (its own runs, or the borrowed ones recorded in universe.json), into turns_glm/.
+# Turn count of every GLM-5.3 Flash run shown for the selected tasks (its own runs, or the borrowed ones recorded in universe.json), into turns_glm/,
+# and of the Gemini 3.8 Flash runs borrowed for a task with no runs of its own ('flash_borrowed').
 # Counts already in the catalog pipeline's cache (pipeline/turns_all) are reused by run id; the rest are fetched read-only.
 import sys, os, json, time, concurrent.futures as cf
 sys.path.insert(0, os.path.expanduser('~/.claude/skills'))
 H = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); P = '/Users/carlos/code/sdlc_final_samples/pipeline'
 os.makedirs(f'{H}/turns_glm', exist_ok=True)
-U = [t for t in json.load(open(f'{H}/universe.json'))['tasks'] if t.get('tier') and t.get('glm') and not os.path.exists(f"{H}/turns_glm/{t['id']}.json")]
+U = [t for t in json.load(open(f'{H}/universe.json'))['tasks'] if t.get('tier') and (t.get('glm') or t.get('flash_borrowed')) and not os.path.exists(f"{H}/turns_glm/{t['id']}.json")]
+for t in U:
+    if not t.get('glm'): t['glm'] = {**t['flash_borrowed'], 'model': 'google/gemini-3.8-flash'}
 cache = {}
 for f in os.listdir(f'{P}/turns_all'):
     if f.endswith('.json'):
@@ -27,6 +30,6 @@ for t in U:
     for q in t['glm']['runs']:
         x = cache.get(q['id']) or got.get(q['id']) or {}
         if not isinstance(x.get('turn_count'), (int, float)): miss += 1; continue
-        out.append({'id': q['id'], 'model': 'z-ai/glm-5.3-flash', 'turn_count': x['turn_count'], 'max_turns': x.get('max_turns'), 'passed': q['passed']})
+        out.append({'id': q['id'], 'model': t['glm'].get('model', 'z-ai/glm-5.3-flash'), 'turn_count': x['turn_count'], 'max_turns': x.get('max_turns'), 'passed': q['passed']})
     json.dump({'id': t['id'], 'source': t['glm']['source'], 'runs': out}, open(f'{H}/turns_glm/{t["id"]}.json', 'w'))
 print('tasks', len(U), 'GLM runs', sum(len(t['glm']['runs']) for t in U), 'from cache', sum(len(t['glm']['runs']) for t in U) - len(need), 'fetched', len(need), 'without turn count', miss)

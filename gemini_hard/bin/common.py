@@ -6,11 +6,15 @@ from cat_common import load_rows, green, dedupe, shortlist, CATS
 MM = json.load(open(f'{P}/ro_models.json'))
 ARGON, FLASH, GLMF = 'google/gemini-4-argon', 'google/gemini-3.8-flash', 'z-ai/glm-5.3-flash'
 DROPPED = 'google/gemini-3.7-flash'  # left out of every page, plot and CSV column (its runs still count as evidence in the selection)
-RO = {f[:-5]: json.load(open(f'{H}/ro3/{f}')) for f in os.listdir(f'{H}/ro3')}
-def mstats(tid):
+RO_SNAP = {f[:-5]: json.load(open(f'{H}/ro3/{f}')) for f in os.listdir(f'{H}/ro3')}  # the 2 Nov snapshot
+# runs refreshed after the snapshot (same task version), which replace the snapshot's for those tasks on the pages and in the tiers;
+# the estimate and the Likely predictions stay on the snapshot so the headline counts do not move (reviewer decision, 5 Nov)
+REFRESH = {f[:-5]: json.load(open(f'{H}/ro3_refresh/{f}')) for f in os.listdir(f'{H}/ro3_refresh')} if os.path.isdir(f'{H}/ro3_refresh') else {}
+RO = {**RO_SNAP, **REFRESH}
+def mstats(tid, snap=False):
     """model -> [graded, passed, mean score over graded]"""
     out = collections.defaultdict(lambda: [0, 0, 0.0])
-    for q in RO.get(tid, {}).get('rollouts', []):
+    for q in (RO_SNAP if snap else RO).get(tid, {}).get('rollouts', []):
         if q.get('is_errored') or q.get('passed') is None: continue
         o = out[MM.get(q['model'], q['model'])]; o[0] += 1; o[1] += bool(q['passed']); o[2] += q.get('extracted_score') or 0
     return {m: [g, p, s / g] for m, (g, p, s) in out.items() if g}

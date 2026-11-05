@@ -24,27 +24,31 @@ TASKS = [t for t in TASKS if t['catalog']]
 for t in TASKS:
     t['models'] = mstats(t['id'])
     a = t['models'].get(ARGON); t['argon'] = a and {'graded': a[0], 'passed': a[1], 'rate': a[1] / a[0], 'score': a[2]}
+    # the 2 Nov snapshot's view, for the estimate and the Likely model (refreshed runs only change tiers and page numbers)
+    t['models_snap'] = mstats(t['id'], snap=True); a = t['models_snap'].get(ARGON)
+    t['argon_snap'] = a and {'graded': a[0], 'passed': a[1], 'rate': a[1] / a[0]}
 def bucket(m, key):
     v = m.get(key)
     if not v: return 'none'
     r = v[1] / v[0]
     return '0' if r == 0 else '<.5' if r < .5 else '>=.5'
 # naive-Bayes odds from the tasks Argon has run: catalog prior x GLM-5.3 Flash evidence x Gemini 3.8 Flash evidence
-RUN = [t for t in TASKS if t['argon']]
+RUN = [t for t in TASKS if t['argon_snap']]
+hard_s = lambda t: t['argon_snap']['rate'] < CUT
 hard = lambda t: t['argon']['rate'] < CUT
 def lr(key):
-    c = collections.Counter((bucket(t['models'], key), hard(t)) for t in RUN)
-    nh = sum(hard(t) for t in RUN); ne = len(RUN) - nh; B4 = ('0', '<.5', '>=.5', 'none')
+    c = collections.Counter((bucket(t['models_snap'], key), hard_s(t)) for t in RUN)
+    nh = sum(hard_s(t) for t in RUN); ne = len(RUN) - nh; B4 = ('0', '<.5', '>=.5', 'none')
     return {b: ((c[(b, True)] + 1) / (nh + 4)) / ((c[(b, False)] + 1) / (ne + 4)) for b in B4}
 LR = {k: lr(k) for k in (GLMF, FLASH)}
 PRIOR = {}
 for slug, cat in CATS:
     R = [t for t in RUN if t['catalog'] == cat]
-    if R: PRIOR[cat] = (sum(hard(t) for t in R) + 1) / (len(R) + 2)
+    if R: PRIOR[cat] = (sum(hard_s(t) for t in R) + 1) / (len(R) + 2)
 for t in TASKS:
     p = PRIOR.get(t['catalog'])
     if p is None: t['p_hard'] = None; continue
-    o = p / (1 - p) * LR[GLMF][bucket(t['models'], GLMF)] * LR[FLASH][bucket(t['models'], FLASH)]
+    o = p / (1 - p) * LR[GLMF][bucket(t['models_snap'], GLMF)] * LR[FLASH][bucket(t['models_snap'], FLASH)]
     t['p_hard'] = o / (1 + o)
     t['evidence'] = sum(v[0] for v in t['models'].values())
 # portfolio estimate: each catalog's Argon share under 80% applied to its size (catalog tasks only)
@@ -56,11 +60,11 @@ EST = []
 for slug, cat in CATS:
     C = [t for t in TASKS if t['catalog'] == cat and t['in_catalog']]
     if not C: continue
-    R = [t for t in C if t['argon']]; k = sum(hard(t) for t in R); n = len(R)
+    R = [t for t in C if t['argon_snap']]; k = sum(hard_s(t) for t in R); n = len(R)
     lo, hi = wilson(k, n)
     EST.append({'slug': slug, 'catalog': cat, 'tasks': len(C), 'argon_tasks': n, 'argon_hard': k, 'share': k / n if n else None,
                 'estimate': len(C) * k / n if n else None, 'lo': len(C) * lo, 'hi': len(C) * hi,
-                'model_estimate': sum(1 if (t['argon'] and hard(t)) else 0 if t['argon'] else t['p_hard'] for t in C)})
+                'model_estimate': sum(1 if (t['argon_snap'] and hard_s(t)) else 0 if t['argon_snap'] else t['p_hard'] for t in C)})
 # universe: every task proven hard, plus every task with run evidence whose predicted chance of being hard is at least even
 FAIR = 0.5
 proven = [t for t in TASKS if t['argon'] and hard(t)]
@@ -76,7 +80,7 @@ for e in EST:
 extra = [t for t in proven if not t['in_catalog']]
 json.dump({'cut': CUT, 'target': TARGET, 'lr': LR, 'prior': PRIOR, 'estimate': EST, 'extra_proven': len(extra),
            'tasks': [{k: v for k, v in t.items()} for t in TASKS]}, open(f'{H}/universe.json', 'w'), indent=1, default=str)
-print('argon-run tasks', len(RUN), 'hard', sum(map(hard, RUN)), 'proven', len(proven), 'extra (not in catalog)', len(extra))
+print('argon-run tasks (snapshot)', len(RUN), 'hard', sum(map(hard_s, RUN)), 'proven', len(proven), 'extra (not in catalog)', len(extra))
 print('LR', {k: {b: round(v, 2) for b, v in d.items()} for k, d in LR.items()})
 print('prior', {k: round(v, 2) for k, v in PRIOR.items()})
 for e in EST: print(f"{e['catalog'][:22]:22} N={e['tasks']:4} argon {e['argon_hard']}/{e['argon_tasks']} est {e['estimate']:.0f} [{e['lo']:.0f}-{e['hi']:.0f}] model {e['model_estimate']:.0f} | universe {e['universe']} = {e['proven']} proven + {e['predicted']} predicted (pool {len(pool[e['catalog']])})")
@@ -152,26 +156,40 @@ _EN = collections.defaultdict(float)
 for e in EST: _EN[page(e['catalog'])] += e['estimate']
 _tot = round(sum(_EN.values())); PAGE_N = {k: int(v) for k, v in _EN.items()}
 for k in sorted(_EN, key=lambda k: -(_EN[k] - int(_EN[k])))[:_tot - sum(PAGE_N.values())]: PAGE_N[k] += 1
-def _glm(runs):
+def _glm(runs, model=GLMF):
     return [{'id': q['id'], 'passed': bool(q['passed'])} for q in runs
-            if MM.get(q['model'], q['model']) == GLMF and not q.get('is_errored') and q.get('passed') is not None]
-def glm_runs(t):
-    """A task's graded GLM-5.3 Flash runs: its own at the selected version, else the task it was copied from (any version), else the same repo's reimplementation task."""
-    v = _glm(RO.get(t['id'], {}).get('rollouts', []))
+            if MM.get(q['model'], q['model']) == model and not q.get('is_errored') and q.get('passed') is not None]
+def glm_runs(t, model=GLMF):
+    """A task's graded runs of a model: its own at the selected version, else the task it was copied from (any version), else the same repo's reimplementation task."""
+    v = _glm(RO.get(t['id'], {}).get('rollouts', []), model)
     if v: return 'own', v
     f = f'{H}/origins/{t["id"]}.json'
     if os.path.exists(f):
         O = json.load(open(f))['origins']
         for src, batches in (('copied-from task', ('programbench-repo-upgrade-ots', 'alpharecon-programbench-upgrade')), ('reimplementation task', ('programbench-reimplementation-ots',))):
-            v = _glm([q for o in O if o['batch'] in batches for q in o['rollouts']])
+            v = _glm([q for o in O if o['batch'] in batches for q in o['rollouts']], model)
             if v: return src, v
     return None
+# ProgramBench and Migration (reviewer decision, 5 Nov): every catalog task with graded runs from a model the pages show
+# (Gemini 4 Argon, Gemini 3.8 Flash, GLM-5.3 Flash), its own or borrowed from a related task (GLM-5.3 Flash and Gemini 3.8 Flash only,
+# never Argon). This includes the tasks Argon passes 80% or more, and leaves out tasks only other models have run.
+PB_PAGE = 'ProgramBench'
+def has_shown(t):
+    own = t['models']
+    return bool(own.get(ARGON) or own.get(FLASH) or own.get(GLMF) or glm_runs(t) or glm_runs(t, FLASH))
+pb = [t for t in TASKS if page(t['catalog']) == PB_PAGE and (t['in_catalog'] or t in UNI) and has_shown(t)]
+for t in pb:
+    if t not in UNI: t['status'] = 'easy' if t['argon'] else 'ranked'
+pb_out = [t for t in UNI if page(t['catalog']) == PB_PAGE and t not in pb]
+print('ProgramBench page:', len(pb), 'tasks with shown-model runs;', len(pb_out), 'selected tasks left out (no shown-model runs):', sorted(t['name'] for t in pb_out))
+UNI = [t for t in UNI if page(t['catalog']) != PB_PAGE] + pb
 def glm_evidence(t):
     g = glm_runs(t)
     return g and (g[0], len(g[1]), sum(q['passed'] for q in g[1]))
 filled = []
 for pg, target in PAGE_N.items():
     have = [t for t in UNI if page(t['catalog']) == pg]
+    if pg == PB_PAGE: assert len(have) == target, f'ProgramBench page has {len(have)} tasks, headline {target}'; continue
     cand = []
     for t in TASKS:
         if page(t['catalog']) != pg or t in UNI or t['argon'] or not t['in_catalog']: continue
@@ -186,14 +204,14 @@ for pg, target in PAGE_N.items():
     assert len(have) + len(add) >= target, f'{pg}: not enough GLM-run candidates'
 UNI = UNI + filled
 def tier(t):
-    return 'Proven' if t['status'] == 'proven' else 'Ranked' if t['status'] == 'ranked' else 'Likely'
+    return {'proven': 'Proven', 'ranked': 'Ranked', 'easy': 'Argon 80%+'}.get(t['status'], 'Likely')
 import csv
 with open(f'{H}/gemini_hard_universe.csv', 'w', newline='') as f:
     w = csv.writer(f)
     w.writerow(['Task', 'Horizon task id', 'Catalog', 'Domain', 'Category', 'Tier', 'Sample', 'Shortlist no.', 'In 1,342 catalog',
                 'Argon runs graded', 'Argon passes', 'Argon pass rate', 'Gemini 3.8 Flash runs graded', 'Gemini 3.8 Flash passes',
                 'Predicted P(Argon < 80%)', 'Other models (passed/graded)'])
-    order = {'main': 0, 'attached': 1, '': 2}; tord = {'Proven': 0, 'Likely': 1, 'Ranked': 2}
+    order = {'main': 0, 'attached': 1, '': 2}; tord = {'Proven': 0, 'Likely': 1, 'Ranked': 2, 'Argon 80%+': 3}
     for t in sorted(UNI, key=lambda t: ([c for _, c in CATS].index(t['catalog']), order[t['sample']], tord[tier(t)], -(t['p_hard'] or 0), t['name'])):
         a = t['argon'] or {}; fl = t['models'].get(FLASH) or [None, None]
         w.writerow([t['name'], t['id'], t['catalog'], t['domain'], t['category'], tier(t), t['sample'], t['shortlist_no'] or '', 'yes' if t['in_catalog'] else 'no',
@@ -204,6 +222,9 @@ for t in TASKS:
     t['tier'] = tier(t) if t in UNI else ''
     g = glm_runs(t) if t['tier'] else None
     t['glm'] = g and {'source': g[0], 'runs': g[1]}  # GLM-5.3 Flash runs shown on the pages for this task
+    # Gemini 3.8 Flash runs borrowed from a related task, only for a task with none of its own and no GLM-5.3 Flash runs at all
+    f = glm_runs(t, FLASH) if t['tier'] and not g and not t['models'].get(FLASH) else None
+    t['flash_borrowed'] = f and {'source': f[0], 'runs': f[1]}
 json.dump({'cut': CUT, 'target': TARGET, 'lr': LR, 'prior': PRIOR, 'estimate': EST, 'extra_proven': len(extra),
            'tasks': TASKS}, open(f'{H}/universe.json', 'w'), indent=1, default=str)
 print('samples', sorted((page(t['catalog']), t['sample_order'], t['name'], t['catalog'], f"{t['gemini_passed']}/{t['gemini_graded']}") for t in att))

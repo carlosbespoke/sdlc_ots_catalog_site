@@ -28,16 +28,17 @@
   "name": "ProgramBench and Migration",
   "tasks": 283,
   "groups": {
-   "ProgramBench": 253,
-   "Migration": 30
+   "ProgramBench": 265,
+   "Migration": 18
   },
   "group_domain": {
    "Migration": "Cross-language migration"
   },
   "tiers": {
-   "Ranked": 123,
-   "Likely": 145,
-   "Proven": 15
+   "Ranked": 130,
+   "Proven": 24,
+   "Likely": 116,
+   "Argon 80%+": 13
   },
   "not_in_catalog": 0,
   "estimate": {
@@ -54,10 +55,13 @@
    ]
   },
   "argon_catalog_rates": [
+   0.6666666666666666,
+   0.8333333333333334,
    0.5,
    0.5,
    1.0,
    1.0,
+   0.8,
    0.3333333333333333,
    1.0,
    0.0,
@@ -67,29 +71,38 @@
    0.5,
    1.0,
    1.0,
+   0.3333333333333333,
+   0.0,
    0.5,
+   0.5,
+   0.2,
    1.0,
+   0.8333333333333334,
    1.0,
    1.0,
    0.0,
    0.5,
+   0.0,
    0.3333333333333333,
+   0.0,
+   0.6666666666666666,
    1.0,
    0.5,
    0.0,
    0.75,
+   0.0,
    1.0
   ],
   "turns": {
-   "tasks_with_turns": 264,
-   "runs": 1371,
-   "mean_of_task_means": 623.6025677339347,
-   "median_of_task_means": 642.2,
-   "long_horizon_tasks": 254,
+   "tasks_with_turns": 283,
+   "runs": 1530,
+   "mean_of_task_means": 610.7776087327532,
+   "median_of_task_means": 620.3333333333334,
+   "long_horizon_tasks": 273,
    "threshold": 200,
    "task_means": [
     431.0,
-    739.4,
+    662.9090909090909,
     335.8888888888889,
     807.2,
     562.6,
@@ -99,7 +112,7 @@
     556.3333333333334,
     553.2,
     599.25,
-    829.4,
+    528.0909090909091,
     447.72727272727275,
     872.2,
     733.0,
@@ -116,19 +129,24 @@
     1000.0,
     804.6,
     346.8888888888889,
+    635.1666666666666,
     630.3333333333334,
     449.0,
     787.25,
     287.5,
     218.0,
+    366.0,
     799.0,
+    474.2,
     644.2857142857143,
     397.75,
     397.3333333333333,
+    469.3333333333333,
     686.2,
     488.0,
     697.6,
     975.3333333333334,
+    202.0,
     733.6,
     903.8,
     337.3333333333333,
@@ -136,6 +154,7 @@
     651.8571428571429,
     678.5,
     774.1666666666666,
+    580.0,
     6.0,
     725.6,
     843.6666666666666,
@@ -152,21 +171,24 @@
     253.5,
     685.0,
     600.0,
+    728.8,
     327.375,
     377.4,
+    557.4285714285714,
     915.0,
     403.72727272727275,
     639.3333333333334,
+    787.6,
     562.0,
-    796.75,
+    401.8,
     971.75,
     710.5,
-    773.2,
+    679.8,
     630.3333333333334,
     738.0,
     680.75,
     529.0,
-    586.2,
+    387.0,
     288.8333333333333,
     936.4,
     700.25,
@@ -181,7 +203,7 @@
     881.6666666666666,
     521.2,
     919.6666666666666,
-    553.2,
+    472.6,
     870.75,
     1000.0,
     456.2,
@@ -189,10 +211,13 @@
     967.0,
     523.0,
     753.8333333333334,
+    603.6,
     784.0,
     386.8,
-    694.0,
+    516.7272727272727,
+    214.5,
     394.5,
+    418.5,
     799.0,
     829.4,
     586.2,
@@ -218,16 +243,16 @@
     670.75,
     890.0,
     870.75,
-    928.2,
+    800.9,
     291.25,
     521.0,
     823.0,
     731.0,
     367.0,
     785.0,
-    642.2,
+    586.5,
     551.75,
-    377.4,
+    269.45454545454544,
     987.25,
     991.1666666666666,
     381.8333333333333,
@@ -248,14 +273,17 @@
     739.4,
     448.0,
     970.6666666666666,
+    501.6,
     189.33333333333334,
     725.6,
+    713.1666666666666,
     814.0,
     361.3333333333333,
     548.0909090909091,
     655.4,
     339.8181818181818,
     594.2,
+    668.4,
     456.1,
     789.6,
     863.0,
@@ -316,6 +344,7 @@
     785.0,
     557.3333333333334,
     784.0,
+    282.2,
     735.25,
     520.9,
     993.5555555555555,
@@ -324,7 +353,7 @@
     832.0,
     958.0,
     264.5833333333333,
-    670.75,
+    489.875,
     481.3333333333333,
     542.3333333333334,
     594.2,
@@ -347,10 +376,13 @@
     867.5,
     904.8333333333334,
     729.4,
+    761.2,
     991.0,
     939.3333333333334,
+    760.3333333333334,
     560.6666666666666,
     776.0,
+    290.0,
     367.0
    ],
    "max_task_mean": 1000.0,
@@ -359,26 +391,26 @@
     {
      "codename": "steppe",
      "model": "z-ai/glm-5.3-flash",
-     "runs": 911,
-     "tasks": 218,
-     "mean": 680.9648737650933,
-     "runs_200_plus": 842
+     "runs": 969,
+     "tasks": 231,
+     "mean": 680.3054695562436,
+     "runs_200_plus": 899
     },
     {
      "codename": "kittiwake",
      "model": "google/gemini-3.8-flash",
-     "runs": 427,
-     "tasks": 67,
-     "mean": 471.2224824355972,
-     "runs_200_plus": 359
+     "runs": 446,
+     "tasks": 69,
+     "mean": 470.9439461883408,
+     "runs_200_plus": 378
     },
     {
      "codename": "umbra",
      "model": "google/gemini-4-argon",
-     "runs": 33,
-     "tasks": 15,
-     "mean": 257.1212121212121,
-     "runs_200_plus": 22
+     "runs": 115,
+     "tasks": 37,
+     "mean": 334.4695652173913,
+     "runs_200_plus": 85
     }
    ]
   },
@@ -389,8 +421,8 @@
   "domain": [
    {
     "super_group": "Languages & developer tooling",
-    "tasks": 115,
-    "pct": 40.6,
+    "tasks": 120,
+    "pct": 42.4,
     "categories": [
      {
       "category": "Compilers & language runtimes",
@@ -399,13 +431,13 @@
      },
      {
       "category": "CLI tooling",
-      "tasks": 26,
-      "pct": 9.2
+      "tasks": 32,
+      "pct": 11.3
      },
      {
       "category": "API tooling",
-      "tasks": 16,
-      "pct": 5.7
+      "tasks": 15,
+      "pct": 5.3
      },
      {
       "category": "Logic programming",
@@ -421,8 +453,8 @@
    },
    {
     "super_group": "Applications & business domains",
-    "tasks": 38,
-    "pct": 13.4,
+    "tasks": 39,
+    "pct": 13.8,
     "categories": [
      {
       "category": "Media processing",
@@ -430,12 +462,12 @@
       "pct": 10.6
      },
      {
-      "category": "Calendaring & recurrence",
-      "tasks": 2,
-      "pct": 0.7
+      "category": "Games & game engines",
+      "tasks": 3,
+      "pct": 1.1
      },
      {
-      "category": "Games & game engines",
+      "category": "Calendaring & recurrence",
       "tasks": 2,
       "pct": 0.7
      },
@@ -489,86 +521,9 @@
     ]
    },
    {
-    "super_group": "Cross-language migration",
-    "tasks": 30,
-    "pct": 10.6,
-    "categories": [
-     {
-      "category": "Compilers & language runtimes",
-      "tasks": 6,
-      "pct": 2.1
-     },
-     {
-      "category": "Media processing",
-      "tasks": 5,
-      "pct": 1.8
-     },
-     {
-      "category": "Statistics & numerical methods",
-      "tasks": 4,
-      "pct": 1.4
-     },
-     {
-      "category": "Data formats & serialization",
-      "tasks": 3,
-      "pct": 1.1
-     },
-     {
-      "category": "Collaborative documents",
-      "tasks": 2,
-      "pct": 0.7
-     },
-     {
-      "category": "CLI tooling",
-      "tasks": 2,
-      "pct": 0.7
-     },
-     {
-      "category": "Graph algorithms",
-      "tasks": 1,
-      "pct": 0.4
-     },
-     {
-      "category": "Games & game engines",
-      "tasks": 1,
-      "pct": 0.4
-     },
-     {
-      "category": "Text & NLP processing",
-      "tasks": 1,
-      "pct": 0.4
-     },
-     {
-      "category": "Scientific computing",
-      "tasks": 1,
-      "pct": 0.4
-     },
-     {
-      "category": "Data structures",
-      "tasks": 1,
-      "pct": 0.4
-     },
-     {
-      "category": "Calendaring & recurrence",
-      "tasks": 1,
-      "pct": 0.4
-     },
-     {
-      "category": "Probabilistic data structures",
-      "tasks": 1,
-      "pct": 0.4
-     },
-     {
-      "category": "Software supply chain",
-      "tasks": 1,
-      "pct": 0.4
-     }
-    ]
-   },
-   {
     "super_group": "Systems, hardware & accelerators",
-    "tasks": 25,
-    "pct": 8.8,
+    "tasks": 26,
+    "pct": 9.2,
     "categories": [
      {
       "category": "Compression & data integrity",
@@ -586,21 +541,21 @@
       "pct": 0.7
      },
      {
-      "category": "Networking & HTTP",
+      "category": "Hardware RTL",
       "tasks": 2,
       "pct": 0.7
      },
      {
-      "category": "Hardware RTL",
-      "tasks": 1,
-      "pct": 0.4
+      "category": "Networking & HTTP",
+      "tasks": 2,
+      "pct": 0.7
      }
     ]
    },
    {
     "super_group": "Data engineering & databases",
-    "tasks": 23,
-    "pct": 8.1,
+    "tasks": 24,
+    "pct": 8.5,
     "categories": [
      {
       "category": "Data formats & serialization",
@@ -614,8 +569,8 @@
      },
      {
       "category": "SQL tooling",
-      "tasks": 3,
-      "pct": 1.1
+      "tasks": 4,
+      "pct": 1.4
      },
      {
       "category": "Data validation",
@@ -625,9 +580,56 @@
     ]
    },
    {
+    "super_group": "Cross-language migration",
+    "tasks": 18,
+    "pct": 6.4,
+    "categories": [
+     {
+      "category": "Compilers & language runtimes",
+      "tasks": 4,
+      "pct": 1.4
+     },
+     {
+      "category": "Media processing",
+      "tasks": 4,
+      "pct": 1.4
+     },
+     {
+      "category": "Data formats & serialization",
+      "tasks": 3,
+      "pct": 1.1
+     },
+     {
+      "category": "Graph algorithms",
+      "tasks": 2,
+      "pct": 0.7
+     },
+     {
+      "category": "CLI tooling",
+      "tasks": 2,
+      "pct": 0.7
+     },
+     {
+      "category": "Statistics & numerical methods",
+      "tasks": 1,
+      "pct": 0.4
+     },
+     {
+      "category": "Collaborative documents",
+      "tasks": 1,
+      "pct": 0.4
+     },
+     {
+      "category": "Probabilistic data structures",
+      "tasks": 1,
+      "pct": 0.4
+     }
+    ]
+   },
+   {
     "super_group": "Security",
-    "tasks": 9,
-    "pct": 3.2,
+    "tasks": 11,
+    "pct": 3.9,
     "categories": [
      {
       "category": "Cryptography & secure protocols",
@@ -635,19 +637,19 @@
       "pct": 1.1
      },
      {
-      "category": "Secret scanning",
+      "category": "Binary analysis",
       "tasks": 2,
       "pct": 0.7
      },
      {
-      "category": "Binary analysis",
-      "tasks": 1,
-      "pct": 0.4
+      "category": "Secrets & access control",
+      "tasks": 2,
+      "pct": 0.7
      },
      {
-      "category": "Secrets & access control",
-      "tasks": 1,
-      "pct": 0.4
+      "category": "Secret scanning",
+      "tasks": 2,
+      "pct": 0.7
      },
      {
       "category": "Parser security hardening",
@@ -663,13 +665,13 @@
    },
    {
     "super_group": "Build, release & supply chain",
-    "tasks": 6,
-    "pct": 2.1,
+    "tasks": 7,
+    "pct": 2.5,
     "categories": [
      {
       "category": "Build systems",
-      "tasks": 5,
-      "pct": 1.8
+      "tasks": 6,
+      "pct": 2.1
      },
      {
       "category": "Software supply chain",
@@ -680,13 +682,13 @@
    },
    {
     "super_group": "Cloud infrastructure & IaC",
-    "tasks": 5,
-    "pct": 1.8,
+    "tasks": 6,
+    "pct": 2.1,
     "categories": [
      {
       "category": "Configuration management",
-      "tasks": 4,
-      "pct": 1.4
+      "tasks": 5,
+      "pct": 1.8
      },
      {
       "category": "Cloud infra: containers & self-hosted platforms",
@@ -698,14 +700,14 @@
   ],
   "language": [
    {
-    "value": "Go",
+    "value": "Agent's choice",
     "tasks": 82,
     "pct": 29.0
    },
    {
-    "value": "Agent's choice",
-    "tasks": 75,
-    "pct": 26.5
+    "value": "Go",
+    "tasks": 76,
+    "pct": 26.9
    },
    {
     "value": "C",
@@ -714,40 +716,40 @@
    },
    {
     "value": "C++",
-    "tasks": 45,
-    "pct": 15.9
+    "tasks": 43,
+    "pct": 15.2
    },
    {
     "value": "Rust",
-    "tasks": 34,
-    "pct": 12.0
+    "tasks": 35,
+    "pct": 12.4
    }
   ],
   "role": [
    {
     "value": "Compiler / Language Engineer",
-    "tasks": 74,
-    "pct": 26.1
+    "tasks": 72,
+    "pct": 25.4
    },
    {
     "value": "Developer Tools Engineer",
-    "tasks": 46,
-    "pct": 16.3
-   },
-   {
-    "value": "Library / Backend Engineer",
-    "tasks": 36,
-    "pct": 12.7
+    "tasks": 51,
+    "pct": 18.0
    },
    {
     "value": "Media Software Engineer",
-    "tasks": 35,
-    "pct": 12.4
+    "tasks": 34,
+    "pct": 12.0
+   },
+   {
+    "value": "Library / Backend Engineer",
+    "tasks": 33,
+    "pct": 11.7
    },
    {
     "value": "Research Software Engineer",
-    "tasks": 30,
-    "pct": 10.6
+    "tasks": 26,
+    "pct": 9.2
    },
    {
     "value": "Systems Engineer",
@@ -755,24 +757,24 @@
     "pct": 7.4
    },
    {
+    "value": "Security Engineer",
+    "tasks": 9,
+    "pct": 3.2
+   },
+   {
+    "value": "Database Engineer",
+    "tasks": 8,
+    "pct": 2.8
+   },
+   {
     "value": "Build & Release Engineer",
     "tasks": 7,
     "pct": 2.5
    },
    {
-    "value": "Database Engineer",
-    "tasks": 7,
-    "pct": 2.5
-   },
-   {
-    "value": "Security Engineer",
-    "tasks": 7,
-    "pct": 2.5
-   },
-   {
     "value": "Platform Engineer",
-    "tasks": 5,
-    "pct": 1.8
+    "tasks": 6,
+    "pct": 2.1
    },
    {
     "value": "Embedded / IoT Engineer",
@@ -790,14 +792,14 @@
     "pct": 0.7
    },
    {
-    "value": "Backend Engineer",
+    "value": "Hardware Engineer",
     "tasks": 2,
     "pct": 0.7
    },
    {
-    "value": "Hardware Engineer",
-    "tasks": 1,
-    "pct": 0.4
+    "value": "Backend Engineer",
+    "tasks": 2,
+    "pct": 0.7
    },
    {
     "value": "Full-stack Engineer",
@@ -818,64 +820,88 @@
   "seniority": [
    {
     "value": "Senior",
-    "tasks": 208,
-    "pct": 73.5
+    "tasks": 201,
+    "pct": 71.0
    },
    {
     "value": "Staff+",
-    "tasks": 75,
-    "pct": 26.5
+    "tasks": 82,
+    "pct": 29.0
    }
   ],
   "models": [
    {
     "codename": "umbra",
     "model": "google/gemini-4-argon",
-    "tasks": 19,
-    "rollouts": 42,
-    "graded": 33,
-    "passed": 13,
-    "pass_rate": 0.3939393939393939,
-    "error_rate": 0.21428571428571427,
-    "tasks_graded": 15,
-    "tasks_0": 4,
-    "tasks_100": 0,
-    "tasks_20_80": 11,
+    "tasks": 40,
+    "rollouts": 130,
+    "graded": 115,
+    "passed": 58,
+    "pass_rate": 0.5043478260869565,
+    "error_rate": 0.11538461538461539,
+    "tasks_graded": 37,
+    "tasks_0": 8,
+    "tasks_100": 10,
+    "tasks_20_80": 17,
     "per_task_rates": [
+     0.6666666666666666,
+     0.8333333333333334,
      0.5,
      0.5,
+     1.0,
+     1.0,
+     0.8,
+     0.3333333333333333,
+     1.0,
+     0.0,
+     0.5,
+     0.0,
+     0.5,
+     0.5,
+     1.0,
+     1.0,
      0.3333333333333333,
      0.0,
      0.5,
+     0.5,
+     0.2,
+     1.0,
+     0.8333333333333334,
+     1.0,
+     1.0,
      0.0,
      0.5,
-     0.5,
-     0.5,
      0.0,
-     0.5,
      0.3333333333333333,
+     0.0,
+     0.6666666666666666,
+     1.0,
      0.5,
      0.0,
-     0.75
+     0.75,
+     0.0,
+     1.0
     ]
    },
    {
     "codename": "kittiwake",
     "model": "google/gemini-3.8-flash",
-    "tasks": 75,
-    "rollouts": 548,
-    "graded": 427,
+    "tasks": 77,
+    "rollouts": 568,
+    "graded": 446,
     "passed": 4,
-    "pass_rate": 0.00936768149882904,
-    "error_rate": 0.2208029197080292,
-    "tasks_graded": 67,
-    "tasks_0": 64,
+    "pass_rate": 0.008968609865470852,
+    "error_rate": 0.2147887323943662,
+    "tasks_graded": 69,
+    "tasks_0": 66,
     "tasks_100": 0,
     "tasks_20_80": 0,
     "per_task_rates": [
      0.0,
      0.0,
      0.16666666666666666,
+     0.0,
+     0.0,
      0.0,
      0.0,
      0.0,
@@ -945,16 +971,16 @@
    {
     "codename": "steppe",
     "model": "z-ai/glm-5.3-flash",
-    "tasks": 218,
-    "rollouts": 911,
-    "graded": 911,
-    "passed": 46,
-    "pass_rate": 0.050493962678375415,
+    "tasks": 231,
+    "rollouts": 969,
+    "graded": 969,
+    "passed": 77,
+    "pass_rate": 0.07946336429308566,
     "error_rate": 0.0,
-    "tasks_graded": 218,
-    "tasks_0": 188,
+    "tasks_graded": 231,
+    "tasks_0": 191,
     "tasks_100": 0,
-    "tasks_20_80": 29,
+    "tasks_20_80": 39,
     "per_task_rates": [
      0.2,
      0.0,
@@ -978,10 +1004,12 @@
      0.6,
      0.4,
      0.0,
+     0.25,
      0.0,
      0.0,
      0.0,
      0.0,
+     0.8,
      0.3333333333333333,
      0.0,
      0.0,
@@ -994,6 +1022,7 @@
      0.0,
      0.0,
      0.0,
+     0.8,
      0.0,
      0.0,
      0.0,
@@ -1010,7 +1039,10 @@
      0.0,
      0.0,
      0.0,
+     0.4,
      0.0,
+     0.0,
+     0.6,
      0.25,
      0.0,
      0.0,
@@ -1026,6 +1058,7 @@
      0.0,
      0.2,
      0.4,
+     0.0,
      0.0,
      0.0,
      0.0,
@@ -1085,11 +1118,14 @@
      0.0,
      0.0,
      0.0,
+     0.8,
+     0.0,
      0.0,
      0.0,
      0.0,
      0.2,
      0.0,
+     0.6,
      0.0,
      0.0,
      0.0,
@@ -1144,6 +1180,7 @@
      0.0,
      0.0,
      0.0,
+     0.8,
      0.25,
      0.0,
      0.0,
@@ -1169,8 +1206,10 @@
      0.0,
      0.0,
      0.0,
+     0.8,
      0.0,
      0.0,
+     0.6666666666666666,
      0.0,
      0.0,
      0.0
@@ -1356,6 +1395,14 @@
     "lang": "Agent's choice",
     "sen": "Staff+",
     "scores": {
+     "google/gemini-4-argon": [
+      0,
+      1,
+      1,
+      1,
+      1,
+      0
+     ],
      "z-ai/glm-5.3-flash": [
       0,
       0,
@@ -1365,6 +1412,10 @@
      ]
     },
     "turns": {
+     "google/gemini-4-argon": [
+      3595,
+      6
+     ],
      "z-ai/glm-5.3-flash": [
       3697,
       5
@@ -1579,6 +1630,14 @@
     "lang": "Agent's choice",
     "sen": "Staff+",
     "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1,
+      0,
+      1,
+      1,
+      1
+     ],
      "z-ai/glm-5.3-flash": [
       0,
       0,
@@ -1588,6 +1647,10 @@
      ]
     },
     "turns": {
+     "google/gemini-4-argon": [
+      1662,
+      6
+     ],
      "z-ai/glm-5.3-flash": [
       4147,
       5
@@ -1967,6 +2030,34 @@
     }
    },
    {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Agent's choice",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      976,
+      2
+     ],
+     "z-ai/glm-5.3-flash": [
+      2835,
+      4
+     ]
+    }
+   },
+   {
     "sg": "Applications & business domains",
     "cat": "Media processing",
     "lang": "C++",
@@ -2071,11 +2162,27 @@
    },
    {
     "sg": "Cross-language migration",
-    "cat": "Collaborative documents",
+    "cat": "Compilers & language runtimes",
     "lang": "Go",
     "sen": "Senior",
-    "scores": {},
-    "turns": {}
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0
+     ],
+     "google/gemini-4-argon": [
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      381,
+      1
+     ],
+     "google/gemini-4-argon": [
+      351,
+      1
+     ]
+    }
    },
    {
     "sg": "Languages & developer tooling",
@@ -2094,6 +2201,38 @@
     "turns": {
      "z-ai/glm-5.3-flash": [
       3995,
+      5
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Agent's choice",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1,
+      0,
+      1,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      1,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      936,
+      5
+     ],
+     "z-ai/glm-5.3-flash": [
+      3806,
       5
      ]
     }
@@ -2183,12 +2322,38 @@
     }
    },
    {
-    "sg": "Languages & developer tooling",
-    "cat": "API tooling",
-    "lang": "Go",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
+    "sg": "Build, release & supply chain",
+    "cat": "Build systems",
+    "lang": "Agent's choice",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      8448,
+      18
+     ]
+    }
    },
    {
     "sg": "Languages & developer tooling",
@@ -2253,14 +2418,6 @@
     }
    },
    {
-    "sg": "Cross-language migration",
-    "cat": "Statistics & numerical methods",
-    "lang": "C++",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
-   },
-   {
     "sg": "Languages & developer tooling",
     "cat": "Compilers & language runtimes",
     "lang": "C++",
@@ -2276,6 +2433,23 @@
      "z-ai/glm-5.3-flash": [
       2926,
       3
+     ]
+    }
+   },
+   {
+    "sg": "Cross-language migration",
+    "cat": "Graph algorithms",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      202,
+      1
      ]
     }
    },
@@ -2434,12 +2608,25 @@
     }
    },
    {
-    "sg": "Cross-language migration",
+    "sg": "Languages & developer tooling",
     "cat": "CLI tooling",
     "lang": "Go",
     "sen": "Senior",
-    "scores": {},
-    "turns": {}
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      0,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2900,
+      5
+     ]
+    }
    },
    {
     "sg": "Applications & business domains",
@@ -2558,14 +2745,6 @@
       5
      ]
     }
-   },
-   {
-    "sg": "Cross-language migration",
-    "cat": "Statistics & numerical methods",
-    "lang": "Go",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
    },
    {
     "sg": "Cross-language migration",
@@ -2776,14 +2955,6 @@
    },
    {
     "sg": "Cross-language migration",
-    "cat": "Games & game engines",
-    "lang": "Go",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
-   },
-   {
-    "sg": "Cross-language migration",
     "cat": "Compilers & language runtimes",
     "lang": "Go",
     "sen": "Senior",
@@ -2800,6 +2971,33 @@
      "z-ai/glm-5.3-flash": [
       3000,
       5
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Games & game engines",
+    "lang": "Agent's choice",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      761,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      2883,
+      4
      ]
     }
    },
@@ -2855,6 +3053,35 @@
     }
    },
    {
+    "sg": "Cross-language migration",
+    "cat": "Media processing",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      902,
+      2
+     ],
+     "z-ai/glm-5.3-flash": [
+      3000,
+      5
+     ]
+    }
+   },
+   {
     "sg": "Languages & developer tooling",
     "cat": "Compilers & language runtimes",
     "lang": "C",
@@ -2873,14 +3100,6 @@
       4
      ]
     }
-   },
-   {
-    "sg": "Cross-language migration",
-    "cat": "Media processing",
-    "lang": "Go",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
    },
    {
     "sg": "Scientific & ML software",
@@ -2938,6 +3157,27 @@
     }
    },
    {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Hardware RTL",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      1,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      3938,
+      5
+     ]
+    }
+   },
+   {
     "sg": "Data engineering & databases",
     "cat": "Data validation",
     "lang": "Go",
@@ -2963,6 +3203,14 @@
     "lang": "Agent's choice",
     "sen": "Staff+",
     "scores": {
+     "google/gemini-4-argon": [
+      1,
+      0,
+      1,
+      0,
+      0,
+      0
+     ],
      "z-ai/glm-5.3-flash": [
       0,
       0,
@@ -2971,6 +3219,10 @@
      ]
     },
     "turns": {
+     "google/gemini-4-argon": [
+      831,
+      6
+     ],
      "z-ai/glm-5.3-flash": [
       3187,
       4
@@ -3023,6 +3275,13 @@
     "lang": "Agent's choice",
     "sen": "Staff+",
     "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
      "z-ai/glm-5.3-flash": [
       0,
       0,
@@ -3032,6 +3291,10 @@
      ]
     },
     "turns": {
+     "google/gemini-4-argon": [
+      2932,
+      5
+     ],
      "z-ai/glm-5.3-flash": [
       3866,
       5
@@ -3125,6 +3388,14 @@
     "lang": "Agent's choice",
     "sen": "Staff+",
     "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1,
+      1,
+      0,
+      0,
+      0
+     ],
      "z-ai/glm-5.3-flash": [
       0,
       0,
@@ -3134,6 +3405,10 @@
      ]
     },
     "turns": {
+     "google/gemini-4-argon": [
+      1326,
+      6
+     ],
      "z-ai/glm-5.3-flash": [
       2931,
       5
@@ -3455,6 +3730,13 @@
     "lang": "Agent's choice",
     "sen": "Staff+",
     "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      1,
+      0,
+      0
+     ],
      "z-ai/glm-5.3-flash": [
       0,
       0,
@@ -3464,6 +3746,10 @@
      ]
     },
     "turns": {
+     "google/gemini-4-argon": [
+      1960,
+      5
+     ],
      "z-ai/glm-5.3-flash": [
       2766,
       5
@@ -3638,6 +3924,33 @@
    },
    {
     "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Agent's choice",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      373,
+      2
+     ],
+     "z-ai/glm-5.3-flash": [
+      2645,
+      3
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
     "cat": "API tooling",
     "lang": "Go",
     "sen": "Senior",
@@ -3684,6 +3997,14 @@
     "lang": "Agent's choice",
     "sen": "Staff+",
     "scores": {
+     "google/gemini-4-argon": [
+      1,
+      0,
+      1,
+      1,
+      1,
+      1
+     ],
      "z-ai/glm-5.3-flash": [
       0,
       0,
@@ -3693,9 +4014,31 @@
      ]
     },
     "turns": {
+     "google/gemini-4-argon": [
+      2214,
+      6
+     ],
      "z-ai/glm-5.3-flash": [
       3470,
       5
+     ]
+    }
+   },
+   {
+    "sg": "Cross-language migration",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      429,
+      2
      ]
     }
    },
@@ -3716,6 +4059,24 @@
      "z-ai/glm-5.3-flash": [
       1578,
       4
+     ]
+    }
+   },
+   {
+    "sg": "Cross-language migration",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      837,
+      2
      ]
     }
    },
@@ -3847,14 +4208,6 @@
       5
      ]
     }
-   },
-   {
-    "sg": "Cross-language migration",
-    "cat": "Statistics & numerical methods",
-    "lang": "Go",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
    },
    {
     "sg": "Data engineering & databases",
@@ -4197,14 +4550,6 @@
     }
    },
    {
-    "sg": "Cross-language migration",
-    "cat": "Media processing",
-    "lang": "Go",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
-   },
-   {
     "sg": "Security",
     "cat": "Parser security hardening",
     "lang": "Go",
@@ -4271,6 +4616,13 @@
     "lang": "Agent's choice",
     "sen": "Staff+",
     "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
      "z-ai/glm-5.3-flash": [
       0,
       0,
@@ -4280,6 +4632,10 @@
      ]
     },
     "turns": {
+     "google/gemini-4-argon": [
+      3368,
+      5
+     ],
      "z-ai/glm-5.3-flash": [
       4641,
       5
@@ -4414,6 +4770,13 @@
     "lang": "Agent's choice",
     "sen": "Staff+",
     "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
      "z-ai/glm-5.3-flash": [
       0,
       0,
@@ -4423,6 +4786,10 @@
      ]
     },
     "turns": {
+     "google/gemini-4-argon": [
+      2654,
+      5
+     ],
      "z-ai/glm-5.3-flash": [
       3211,
       5
@@ -4455,6 +4822,14 @@
     "lang": "Agent's choice",
     "sen": "Staff+",
     "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1,
+      1,
+      0,
+      0,
+      1
+     ],
      "z-ai/glm-5.3-flash": [
       0,
       0,
@@ -4464,6 +4839,10 @@
      ]
     },
     "turns": {
+     "google/gemini-4-argon": [
+      1077,
+      6
+     ],
      "z-ai/glm-5.3-flash": [
       1887,
       5
@@ -4778,14 +5157,6 @@
     }
    },
    {
-    "sg": "Cross-language migration",
-    "cat": "Media processing",
-    "lang": "Go",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
-   },
-   {
     "sg": "Languages & developer tooling",
     "cat": "Compilers & language runtimes",
     "lang": "C",
@@ -4844,14 +5215,6 @@
     }
    },
    {
-    "sg": "Cross-language migration",
-    "cat": "Text & NLP processing",
-    "lang": "Go",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
-   },
-   {
     "sg": "Applications & business domains",
     "cat": "Media processing",
     "lang": "Agent's choice",
@@ -4892,12 +5255,25 @@
     }
    },
    {
-    "sg": "Cross-language migration",
-    "cat": "Scientific computing",
+    "sg": "Security",
+    "cat": "Binary analysis",
     "lang": "Go",
     "sen": "Senior",
-    "scores": {},
-    "turns": {}
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      1,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2508,
+      5
+     ]
+    }
    },
    {
     "sg": "Languages & developer tooling",
@@ -4943,6 +5319,34 @@
     }
    },
    {
+    "sg": "Data engineering & databases",
+    "cat": "SQL tooling",
+    "lang": "Agent's choice",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      777,
+      2
+     ],
+     "z-ai/glm-5.3-flash": [
+      3502,
+      4
+     ]
+    }
+   },
+   {
     "sg": "Languages & developer tooling",
     "cat": "Compilers & language runtimes",
     "lang": "Agent's choice",
@@ -4962,14 +5366,6 @@
       5
      ]
     }
-   },
-   {
-    "sg": "Cross-language migration",
-    "cat": "Compilers & language runtimes",
-    "lang": "Go",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
    },
    {
     "sg": "Applications & business domains",
@@ -5096,12 +5492,25 @@
     }
    },
    {
-    "sg": "Cross-language migration",
-    "cat": "Data structures",
-    "lang": "C++",
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
     "sen": "Senior",
-    "scores": {},
-    "turns": {}
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      3342,
+      5
+     ]
+    }
    },
    {
     "sg": "Scientific & ML software",
@@ -5155,14 +5564,6 @@
       5
      ]
     }
-   },
-   {
-    "sg": "Cross-language migration",
-    "cat": "Calendaring & recurrence",
-    "lang": "Go",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
    },
    {
     "sg": "Languages & developer tooling",
@@ -6436,14 +6837,6 @@
     }
    },
    {
-    "sg": "Cross-language migration",
-    "cat": "CLI tooling",
-    "lang": "Go",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
-   },
-   {
     "sg": "Systems, hardware & accelerators",
     "cat": "IoT & smart home",
     "lang": "Rust",
@@ -6482,6 +6875,27 @@
     "turns": {
      "z-ai/glm-5.3-flash": [
       3920,
+      5
+     ]
+    }
+   },
+   {
+    "sg": "Security",
+    "cat": "Secrets & access control",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      1,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      1411,
       5
      ]
     }
@@ -6531,14 +6945,6 @@
       10
      ]
     }
-   },
-   {
-    "sg": "Cross-language migration",
-    "cat": "Compilers & language runtimes",
-    "lang": "Go",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
    },
    {
     "sg": "Scientific & ML software",
@@ -6680,6 +7086,12 @@
     "lang": "Agent's choice",
     "sen": "Staff+",
     "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      0,
+      0
+     ],
      "z-ai/glm-5.3-flash": [
       0,
       0,
@@ -6688,6 +7100,10 @@
      ]
     },
     "turns": {
+     "google/gemini-4-argon": [
+      1236,
+      4
+     ],
      "z-ai/glm-5.3-flash": [
       2683,
       4
@@ -6712,14 +7128,6 @@
       3
      ]
     }
-   },
-   {
-    "sg": "Cross-language migration",
-    "cat": "Software supply chain",
-    "lang": "Go",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
    },
    {
     "sg": "Languages & developer tooling",
@@ -6856,14 +7264,6 @@
       6
      ]
     }
-   },
-   {
-    "sg": "Cross-language migration",
-    "cat": "Compilers & language runtimes",
-    "lang": "Go",
-    "sen": "Senior",
-    "scores": {},
-    "turns": {}
    },
    {
     "sg": "Languages & developer tooling",
@@ -7196,6 +7596,27 @@
    },
    {
     "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      1,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      3806,
+      5
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
     "cat": "Compilers & language runtimes",
     "lang": "Agent's choice",
     "sen": "Staff+",
@@ -7230,6 +7651,25 @@
     "turns": {
      "z-ai/glm-5.3-flash": [
       2818,
+      3
+     ]
+    }
+   },
+   {
+    "sg": "Cloud infrastructure & IaC",
+    "cat": "Configuration management",
+    "lang": "Agent's choice",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2281,
       3
      ]
     }
@@ -7275,6 +7715,24 @@
     }
    },
    {
+    "sg": "Cross-language migration",
+    "cat": "Media processing",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      580,
+      2
+     ]
+    }
+   },
+   {
     "sg": "Systems, hardware & accelerators",
     "cat": "Compression & data integrity",
     "lang": "C++",
@@ -7294,9 +7752,24 @@
    }
   ],
   "glm_borrowed": {
-   "reimplementation task": 130,
-   "copied-from task": 6
-  }
+   "reimplementation task": 134,
+   "copied-from task": 8
+  },
+  "flash_borrowed": 1,
+  "refreshed": [
+   "df15afb4-19f7-4fb4-b5d5-e4467a42bb0e",
+   "5e22537e-038b-4ad3-b6d9-c7d306e233be",
+   "9b114dca-e1c7-4f2d-b4f3-9e77b4ee2969",
+   "4b5415de-a742-4828-80f1-764d3cd045eb",
+   "c60298f2-7a67-4077-b86c-8016393513db",
+   "6a104165-1e3f-4c41-948e-7df7d39ce90e",
+   "00e91ce9-1c3b-4ae9-a323-813c5da81550",
+   "910420ed-07bb-43e6-bfe7-94885a719fa2",
+   "4f189e26-d279-4f5a-b808-696fa6722684",
+   "b1de032a-ec25-4d37-a7b0-9ab46afdb448",
+   "dc1e9c44-243d-43e4-ab6f-8dffb7ea22e7",
+   "3c8b729b-420d-4644-aceb-228535e8dc70"
+  ]
  },
  "system-design": {
   "attached": [
@@ -11204,7 +11677,9 @@
     }
    }
   ],
-  "glm_borrowed": {}
+  "glm_borrowed": {},
+  "flash_borrowed": 0,
+  "refreshed": []
  },
  "debugging": {
   "attached": [
@@ -14339,7 +14814,9 @@
     }
    }
   ],
-  "glm_borrowed": {}
+  "glm_borrowed": {},
+  "flash_borrowed": 0,
+  "refreshed": []
  },
  "feature-implementation": {
   "attached": [
@@ -17835,6 +18312,8 @@
     }
    }
   ],
-  "glm_borrowed": {}
+  "glm_borrowed": {},
+  "flash_borrowed": 0,
+  "refreshed": []
  }
 }

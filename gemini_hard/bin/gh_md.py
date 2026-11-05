@@ -59,7 +59,7 @@ NUM = {k: int(v) for k, v in EN.items()}
 for k in sorted(EN, key=lambda k: -(EN[k] - int(EN[k])))[:total - sum(NUM.values())]: NUM[k] += 1
 SUM = json.load(open(f'{H}/cat/summary_text.json'))
 WHY = json.load(open(f'{H}/cat/why_text.json'))  # written for the merged catalogs, from the selected tasks' prompts and files
-NUMW = {1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine'}
+NUMW = {1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten', 11: 'eleven', 12: 'twelve'}
 def kpi(value, label): return f'<div class="kpi"><div class="kpi-value">{value.replace("<", "&lt;")}</div><div class="kpi-label">{label}</div></div>'
 # interactive charts, the same code as the all-models report (../ots_all/bin/charts.js), here with pass rates (bin/charts.js)
 nob = lambda x: '\n'.join(l for l in x.splitlines() if l.strip())  # raw HTML blocks must not contain blank lines
@@ -122,10 +122,14 @@ for slug, s in S.items():
         L.append(table(['Model', 'Pass rate', 'Tasks at 0%', 'Tasks at 20-80%', 'Tasks at 100%'],
             [[m['model'], pct(m['pass_rate']), Q(m['tasks_0'], m['tasks_graded']), Q(m['tasks_20_80'], m['tasks_graded']), Q(m['tasks_100'], m['tasks_graded'])] for m in M]) + '\n')
         L.append(chart('reward', 'Per-task pass rate by model'))
+        rf = [r for r in s.get('refreshed', [])]
+        if rf: L.append(f"Runs on {NUMW.get(len(rf), len(rf))} tasks were refreshed on 5 Nov, after the 2 Nov snapshot, at the same task version. Their Gemini 4 Argon results set their place in the catalog; the headline task counts still come from the snapshot.\n")
         bw = s.get('glm_borrowed') or {}
         if bw:
             k_ = sum(bw.values()); parts = [f"{v} from the task it was copied from" if src == 'copied-from task' else f"{v} from the same repository's reimplementation task" for src, v in sorted(bw.items())]
-            L.append(f"GLM-5.3 Flash is shown so that every task in the catalog has results. {k_} tasks have no GLM-5.3 Flash runs of their own, so their GLM-5.3 Flash results come from a closely related task: {' and '.join(parts)}.\n")
+            fb = s.get('flash_borrowed') or 0
+            L.append(f"GLM-5.3 Flash is shown so that every task in the catalog has results. {k_} tasks have no GLM-5.3 Flash runs of their own, so their GLM-5.3 Flash results come from a closely related task: {' and '.join(parts)}."
+                     + (f" For {'one task' if fb == 1 else f'{fb} tasks'} with no GLM-5.3 Flash runs at all, the Gemini 3.8 Flash results come from a related task in the same way." if fb else '') + "\n")
         hid = [m['model'] for m in M if m['tasks_100'] / m['tasks_graded'] >= 0.8]
         if hid: L.append(f"The chart starts with {' and '.join(hid)} hidden, because {'it passes' if len(hid) == 1 else 'they pass'} every run on 80% or more of {'its' if len(hid) == 1 else 'their'} tasks. Click {'its' if len(hid) == 1 else 'their'} button to show {'it' if len(hid) == 1 else 'them'}.\n")
     else: L.append('No model has graded runs on five or more of the selected tasks.\n')
