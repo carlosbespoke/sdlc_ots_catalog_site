@@ -144,8 +144,11 @@ with open(f'{H}/samples.csv', 'w', newline='') as f:
     PAGES = [c for _, c in CATS if c not in PAGE]
     for t in sorted(att, key=lambda t: (t['sample'] != 'main', PAGES.index(page(t['catalog'])), t['sample_order'])):
         a_ = t['argon']; fl = t['models'].get(FLASH) or [None, None]
-        w.writerow([t['sample'], SID[t['name']], URLS[SID[t['name']]], t['name'], t['id'], RO[t['id']]['version'], {'ProgramBench': 'ProgramBench and Migration', 'System design': 'System design & IaC'}.get(page(t['catalog']), page(t['catalog'])), t['catalog'], 'yes' if t in UNI else 'no (Argon at 80%)',
+        w.writerow([t['sample'], SID[t['name']], URLS[SID[t['name']]], t['name'], t['id'], RO[t['id']]['version'], {'ProgramBench': 'ProgramBench and Migration', 'System design': 'System design & IaC'}.get(page(t['catalog']), page(t['catalog'])), t['catalog'], 'yes',  # every sample is in the selection (added below if Argon is at 80%)
                     t['shortlist_no'] or f"original catalog shortlist {t['old_shortlist']}", a_['graded'], a_['passed'], f"{a_['rate']:.0%}", fl[0] or '', fl[1] if fl[0] else ''])
+# every sample, main and attached, is in its page's selection, including the attached ones Argon passes 80% (reviewer decision, 5 Nov)
+for t in TASKS:
+    if t['sample'] and t not in UNI: t['status'] = 'easy'; UNI.append(t); print('sample added to the selection:', t['name'])
 # fill: each catalog page holds its headline count (the estimate, rounded so the pages add up to the rounded total).
 # Pages short of it take more tasks, hardest first by GLM-5.3 Flash pass rate. A task's GLM runs are its own; a task with none
 # borrows them from the task it was copied from, or else from the same repo's reimplementation task (origins/, all versions, bin/fetch_origins.py).

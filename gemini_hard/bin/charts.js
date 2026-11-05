@@ -1,5 +1,5 @@
 // Interactive charts for the Gemini-hard catalog site, ported from ../ots_all/bin/charts.js with pass rate in place of average reward:
-// bar counts are of the selected tasks (the pages' headline task counts are estimates); each run is 1 (passed) or 0, a task's value is its share of passed runs, and a model's rate pools runs across tasks, as in the tables.
+// bar counts are of the selected tasks; each run is 1 (passed) or 0, a task's value is its share of passed runs, and a model's rate pools runs across tasks, as in the tables.
 // Interactive charts for the catalog site. Each page carries one JSON data block; charts on a page share a store,
 // so a click in one chart can filter the others. No element ids are used (the single-file build prefixes them),
 // everything is found through data attributes inside the page's own view.

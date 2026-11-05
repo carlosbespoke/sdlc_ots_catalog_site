@@ -7881,7 +7881,7 @@
     "group": "System design",
     "category": "Media processing",
     "language": "TypeScript",
-    "in_selection": false,
+    "in_selection": true,
     "models": {
      "google/gemini-4-argon": {
       "graded": 5,
@@ -7898,7 +7898,7 @@
     "group": "System design",
     "category": "Payments & banking",
     "language": "TypeScript",
-    "in_selection": false,
+    "in_selection": true,
     "models": {
      "google/gemini-4-argon": {
       "graded": 5,
@@ -7912,18 +7912,19 @@
   "name": "System design & IaC",
   "tasks": 123,
   "groups": {
-   "System design": 44,
-   "Infrastructure as code": 79
+   "System design": 46,
+   "Infrastructure as code": 77
   },
   "group_domain": {
    "Infrastructure as code": "State-preserving infrastructure changes"
   },
   "tiers": {
-   "Ranked": 84,
+   "Ranked": 82,
    "Likely": 21,
-   "Proven": 18
+   "Proven": 18,
+   "Argon 80%+": 2
   },
-  "not_in_catalog": 3,
+  "not_in_catalog": 4,
   "estimate": {
    "tasks": 356,
    "argon_tasks": 35,
@@ -7976,10 +7977,10 @@
   ],
   "turns": {
    "tasks_with_turns": 123,
-   "runs": 865,
-   "mean_of_task_means": 250.0756364457584,
-   "median_of_task_means": 144.2,
-   "long_horizon_tasks": 42,
+   "runs": 873,
+   "mean_of_task_means": 255.56181530754702,
+   "median_of_task_means": 148.4,
+   "long_horizon_tasks": 44,
    "threshold": 200,
    "task_means": [
     73.0,
@@ -8040,7 +8041,6 @@
     84.85714285714286,
     295.25,
     104.0,
-    110.8,
     134.0,
     73.4,
     132.5,
@@ -8073,6 +8073,7 @@
     556.3333333333334,
     106.83333333333333,
     95.2,
+    310.0,
     328.8888888888889,
     152.2,
     125.06666666666666,
@@ -8097,14 +8098,14 @@
     80.85714285714286,
     80.6,
     110.6,
-    101.4,
     158.4,
     154.6,
     765.0,
     931.3333333333334,
     480.22222222222223,
     519.125,
-    369.72727272727275
+    369.72727272727275,
+    577.0
    ],
    "max_task_mean": 947.5,
    "min_task_mean": 56.2,
@@ -8112,10 +8113,10 @@
     {
      "codename": "steppe",
      "model": "z-ai/glm-5.3-flash",
-     "runs": 702,
+     "runs": 700,
      "tasks": 113,
-     "mean": 261.968824624245,
-     "tasks_200_plus": 36
+     "mean": 270.41174497822726,
+     "tasks_200_plus": 38
     },
     {
      "codename": "kittiwake",
@@ -8128,10 +8129,10 @@
     {
      "codename": "umbra",
      "model": "google/gemini-4-argon",
-     "runs": 71,
-     "tasks": 18,
-     "mean": 264.17499999999995,
-     "tasks_200_plus": 12
+     "runs": 81,
+     "tasks": 20,
+     "mean": 270.9375,
+     "tasks_200_plus": 14
     }
    ]
   },
@@ -8142,8 +8143,8 @@
   "domain": [
    {
     "super_group": "State-preserving infrastructure changes",
-    "tasks": 79,
-    "pct": 64.2,
+    "tasks": 77,
+    "pct": 62.6,
     "categories": [
      {
       "category": "Cloud infra: AWS platform stacks",
@@ -8152,8 +8153,8 @@
      },
      {
       "category": "Cloud infra: containers & self-hosted platforms",
-      "tasks": 27,
-      "pct": 22.0
+      "tasks": 25,
+      "pct": 20.3
      },
      {
       "category": "Cloud infra: serverless & event-driven",
@@ -8164,8 +8165,8 @@
    },
    {
     "super_group": "Applications & business domains",
-    "tasks": 20,
-    "pct": 16.3,
+    "tasks": 22,
+    "pct": 17.9,
     "categories": [
      {
       "category": "Web applications",
@@ -8174,18 +8175,18 @@
      },
      {
       "category": "Payments & banking",
-      "tasks": 4,
-      "pct": 3.3
+      "tasks": 5,
+      "pct": 4.1
+     },
+     {
+      "category": "Media processing",
+      "tasks": 2,
+      "pct": 1.6
      },
      {
       "category": "Collaborative documents",
       "tasks": 2,
       "pct": 1.6
-     },
-     {
-      "category": "Media processing",
-      "tasks": 1,
-      "pct": 0.8
      },
      {
       "category": "API tooling",
@@ -8302,8 +8303,8 @@
   "language": [
    {
     "value": "HCL (Terraform)",
-    "tasks": 78,
-    "pct": 63.4
+    "tasks": 76,
+    "pct": 61.8
    },
    {
     "value": "Python",
@@ -8317,8 +8318,8 @@
    },
    {
     "value": "TypeScript",
-    "tasks": 10,
-    "pct": 8.1
+    "tasks": 12,
+    "pct": 9.8
    },
    {
     "value": "C#",
@@ -8329,13 +8330,13 @@
   "role": [
    {
     "value": "Platform Engineer",
-    "tasks": 81,
-    "pct": 65.9
+    "tasks": 79,
+    "pct": 64.2
    },
    {
     "value": "Distributed Systems Engineer",
-    "tasks": 33,
-    "pct": 26.8
+    "tasks": 35,
+    "pct": 28.5
    },
    {
     "value": "Backend Engineer",
@@ -8366,29 +8367,29 @@
   "seniority": [
    {
     "value": "Senior",
-    "tasks": 79,
-    "pct": 64.2
+    "tasks": 77,
+    "pct": 62.6
    },
    {
     "value": "Staff+",
-    "tasks": 44,
-    "pct": 35.8
+    "tasks": 46,
+    "pct": 37.4
    }
   ],
   "models": [
    {
     "codename": "umbra",
     "model": "google/gemini-4-argon",
-    "tasks": 20,
-    "rollouts": 89,
-    "graded": 71,
-    "passed": 14,
-    "pass_rate": 0.19718309859154928,
-    "error_rate": 0.20224719101123595,
-    "tasks_graded": 18,
+    "tasks": 22,
+    "rollouts": 99,
+    "graded": 81,
+    "passed": 22,
+    "pass_rate": 0.2716049382716049,
+    "error_rate": 0.18181818181818182,
+    "tasks_graded": 20,
     "tasks_0": 8,
     "tasks_100": 0,
-    "tasks_20_80": 10,
+    "tasks_20_80": 12,
     "per_task_rates": [
      0.5,
      0.5,
@@ -8401,13 +8402,15 @@
      0.0,
      0.0,
      0.0,
+     0.8,
      0.0,
      0.0,
      0.6,
      0.5,
      0.2,
      0.75,
-     0.2
+     0.2,
+     0.8
     ]
    },
    {
@@ -8446,10 +8449,10 @@
     "codename": "steppe",
     "model": "z-ai/glm-5.3-flash",
     "tasks": 113,
-    "rollouts": 702,
-    "graded": 702,
-    "passed": 245,
-    "pass_rate": 0.349002849002849,
+    "rollouts": 700,
+    "graded": 700,
+    "passed": 242,
+    "pass_rate": 0.3457142857142857,
     "error_rate": 0.0,
     "tasks_graded": 113,
     "tasks_0": 18,
@@ -8507,7 +8510,6 @@
      0.4,
      0.0,
      0.42857142857142855,
-     0.6,
      0.0,
      0.4,
      0.1875,
@@ -8540,6 +8542,7 @@
      0.3333333333333333,
      0.0,
      0.25,
+     0.25,
      0.6,
      0.26666666666666666,
      0.36363636363636365,
@@ -8564,10 +8567,10 @@
      0.6,
      0.6,
      0.6,
-     0.6,
      0.125,
      0.0,
      0.0,
+     0.5,
      0.5
     ]
    }
@@ -10084,27 +10087,6 @@
    },
    {
     "sg": "State-preserving infrastructure changes",
-    "cat": "Cloud infra: containers & self-hosted platforms",
-    "lang": "HCL (Terraform)",
-    "sen": "Senior",
-    "scores": {
-     "z-ai/glm-5.3-flash": [
-      1,
-      1,
-      1,
-      0,
-      0
-     ]
-    },
-    "turns": {
-     "z-ai/glm-5.3-flash": [
-      554,
-      5
-     ]
-    }
-   },
-   {
-    "sg": "State-preserving infrastructure changes",
     "cat": "Cloud infra: AWS platform stacks",
     "lang": "HCL (Terraform)",
     "sen": "Senior",
@@ -10877,6 +10859,37 @@
    },
    {
     "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      1,
+      1,
+      1,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      1258,
+      5
+     ],
+     "z-ai/glm-5.3-flash": [
+      1532,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
     "cat": "API tooling",
     "lang": "TypeScript",
     "sen": "Staff+",
@@ -11481,27 +11494,6 @@
     "scores": {
      "z-ai/glm-5.3-flash": [
       0,
-      1,
-      1,
-      0,
-      1
-     ]
-    },
-    "turns": {
-     "z-ai/glm-5.3-flash": [
-      507,
-      5
-     ]
-    }
-   },
-   {
-    "sg": "State-preserving infrastructure changes",
-    "cat": "Cloud infra: containers & self-hosted platforms",
-    "lang": "HCL (Terraform)",
-    "sen": "Senior",
-    "scores": {
-     "z-ai/glm-5.3-flash": [
-      0,
       0,
       1,
       1,
@@ -11673,6 +11665,37 @@
      "z-ai/glm-5.3-flash": [
       3053,
       6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Payments & banking",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1,
+      1,
+      0,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      2060,
+      5
+     ],
+     "z-ai/glm-5.3-flash": [
+      3133,
+      4
      ]
     }
    }
