@@ -12,7 +12,7 @@ Almost all tasks are senior engineering work in a few languages. Senior engineer
 
 The tasks are long. An agent averages 361 turns (one model reply plus its tool calls) on a task, and 66% of tasks average 200 turns or more. ProgramBench and System design run longest, at about 470 turns. Infrastructure as code tasks are the shortest, at 115 turns.
 
-The closest public benchmarks are DeepSWE and SWE-bench Pro for long engineering work, and ProgramBench for rebuilding programs. With 1,305 tasks, our set is larger than DeepSWE (113) or ProgramBench (200) and, unlike DeepSWE, includes Terraform, C and C++. Like DeepSWE, most of its tasks were written for the catalog rather than taken from past fixes a model may have memorized.
+The model cards for Claude Opus 5.5 and GPT-6 Astra report coding results on Terminal-Bench 4.0 and FrontierCode, plus CursorBench for Opus 5.5 and DeepSWE for Astra. Our tasks are closest to DeepSWE and FrontierCode: long changes to real repositories, checked by tests the agent cannot see. With 1,305 tasks, the set is larger than DeepSWE (113) and, unlike DeepSWE, includes Terraform, C and C++. Like DeepSWE, most of its tasks were written for the catalog rather than taken from past fixes a model may have memorized.
 
 ## Catalogs
 
@@ -29,17 +29,17 @@ The closest public benchmarks are DeepSWE and SWE-bench Pro for long engineering
 
 ## How the catalogs compare with public benchmarks
 
-The closest professional benchmarks are DeepSWE (Datacurve, 2026: 113 original, long-horizon tasks in active open-source repositories, in TypeScript, Go, Python, JavaScript and Rust, checked by program-based verifiers), SWE-bench Pro (Scale: 1,865 long-horizon tasks across 41 repositories, some of them private commercial code), Terminal-Bench 2.0 (89 containerized terminal tasks) and METR's HCAST (180+ tasks that take people from a minute to more than eight hours). Like DeepSWE, most of our tasks are written for the catalog rather than mined from merged fixes, so a model cannot pass them from memory of the upstream change. The table maps each catalog to the benchmarks nearest its task type.
+Claude Opus 5.5 and GPT-6 Astra report their coding results on four public benchmarks. Terminal-Bench 4.0 measures multi-step professional tasks in a command line, and FrontierCode measures whether an agent's code changes would be merged. CursorBench uses ambiguous, multi-file tasks from real Cursor sessions, and DeepSWE has 113 original, long-horizon tasks in active open-source repositories. The table maps each catalog to the closest of them.
 
 | Catalog | Closest public benchmarks | What ours add |
 |---|---|---|
-| ProgramBench | ProgramBench (Yang, Press et al., 2026): 200 programs, and no model fully rebuilds any of them | 434 programs, more than twice the public set |
-| System design | DeepSWE and SWE-bench Pro for long-horizon work in real services; DDBench (60 bugs from open-source distributed systems) for distributed faults | New guarantees in running multi-process services, graded through crashes, retries and races |
-| Diagnosis, Debugging, and Bug Fixing | SWE-bench Pro, SWE-bench Verified, Multi-SWE-bench | Go, C and Rust next to Python, with faults found from symptoms or documentation drift rather than from an issue text |
-| Feature implementation | DeepSWE, FEA-Bench, SWE-Dev, NoCode-bench | Mostly Go, and existing behaviour must stay unchanged |
-| Infrastructure as code | IaC-Eval, Multi-IaC-Eval | Changes to stacks that are already deployed, where the plan must change nothing that runs, instead of new templates |
-| Data engineering | ELT-Bench, Spider 2.0 | Repairs to existing data libraries and pipelines after an upstream format or schema change |
-| Migration | RustRepoTrans (translation into Rust) | Rust and Java ported into Go and C++, a direction the public translation benchmarks we found do not cover |
+| ProgramBench | Terminal-Bench 4.0 is the nearest. Neither model card reports a benchmark that rebuilds whole programs | 434 programs, each rebuilt from its observable behaviour alone |
+| System design | DeepSWE, FrontierCode | New guarantees in running multi-process services, graded through crashes, retries and races |
+| Diagnosis, Debugging, and Bug Fixing | FrontierCode, Terminal-Bench 4.0 | Go, C and Rust next to Python, with faults found from symptoms or documentation drift rather than from an issue text |
+| Feature implementation | DeepSWE, FrontierCode, CursorBench | Mostly Go, and existing behaviour must stay unchanged |
+| Infrastructure as code | Terminal-Bench 4.0 (system configuration). Neither card reports an infrastructure-as-code benchmark | Changes to Terraform stacks that are already deployed, where the plan must change nothing that runs |
+| Data engineering | Terminal-Bench 4.0 (data analysis). GPT-6 Astra also reports internal database-migration tasks | Repairs to existing data libraries and pipelines after an upstream format or schema change |
+| Migration | Neither card reports a public translation benchmark. The Opus 5.5 announcement describes an internal C-to-Rust rewrite of HAProxy | Rust and Java libraries ported into Go and C++, checked by the original project's own tests |
 
 ## Model pass rates
 

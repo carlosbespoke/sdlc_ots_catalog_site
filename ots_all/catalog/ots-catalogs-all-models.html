@@ -46,7 +46,7 @@ details{margin:18px 0 28px;border:1px solid var(--line-2);border-left:2px solid 
 <p>The tasks fall into seven catalogs, and three of them hold 81%. In ProgramBench (434 tasks) the agent rebuilds a program from how it behaves. In Debugging (324) it finds and fixes faults, and in Infrastructure as code (301) it restructures deployed Terraform without changing what runs. Feature implementation (117) adds capabilities to existing libraries, and System design (94) keeps running services correct through crashes and retries. Data engineering (17) and Migration (18) cover data pipelines and ports to another language.</p>
 <p>Almost all tasks are senior engineering work in a few languages. Senior engineers are the target for 86% of tasks and staff engineers for 13%. Go, Terraform and Python account for 67% of tasks, and Rust, C and C++ for another 22%.</p>
 <p>The tasks are long. An agent averages 361 turns (one model reply plus its tool calls) on a task, and 66% of tasks average 200 turns or more. ProgramBench and System design run longest, at about 470 turns. Infrastructure as code tasks are the shortest, at 115 turns.</p>
-<p>The closest public benchmarks are DeepSWE and SWE-bench Pro for long engineering work, and ProgramBench for rebuilding programs. With 1,305 tasks, our set is larger than DeepSWE (113) or ProgramBench (200) and, unlike DeepSWE, includes Terraform, C and C++. Like DeepSWE, most of its tasks were written for the catalog rather than taken from past fixes a model may have memorized.</p>
+<p>The model cards for Claude Opus 5.5 and GPT-6 Astra report coding results on Terminal-Bench 4.0 and FrontierCode, plus CursorBench for Opus 5.5 and DeepSWE for Astra. Our tasks are closest to DeepSWE and FrontierCode: long changes to real repositories, checked by tests the agent cannot see. With 1,305 tasks, the set is larger than DeepSWE (113) and, unlike DeepSWE, includes Terraform, C and C++. Like DeepSWE, most of its tasks were written for the catalog rather than taken from past fixes a model may have memorized.</p>
 <h2 id="overview--catalogs">Catalogs</h2>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
@@ -129,7 +129,7 @@ details{margin:18px 0 28px;border:1px solid var(--line-2);border-left:2px solid 
 </table>
 </div>
 <h2 id="overview--how-the-catalogs-compare-with-public-benchmarks">How the catalogs compare with public benchmarks</h2>
-<p>The closest professional benchmarks are DeepSWE (Datacurve, 2026: 113 original, long-horizon tasks in active open-source repositories, in TypeScript, Go, Python, JavaScript and Rust, checked by program-based verifiers), SWE-bench Pro (Scale: 1,865 long-horizon tasks across 41 repositories, some of them private commercial code), Terminal-Bench 2.0 (89 containerized terminal tasks) and METR's HCAST (180+ tasks that take people from a minute to more than eight hours). Like DeepSWE, most of our tasks are written for the catalog rather than mined from merged fixes, so a model cannot pass them from memory of the upstream change. The table maps each catalog to the benchmarks nearest its task type.</p>
+<p>Claude Opus 5.5 and GPT-6 Astra report their coding results on four public benchmarks. Terminal-Bench 4.0 measures multi-step professional tasks in a command line, and FrontierCode measures whether an agent's code changes would be merged. CursorBench uses ambiguous, multi-file tasks from real Cursor sessions, and DeepSWE has 113 original, long-horizon tasks in active open-source repositories. The table maps each catalog to the closest of them.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
@@ -142,38 +142,38 @@ details{margin:18px 0 28px;border:1px solid var(--line-2);border-left:2px solid 
 <tbody>
 <tr>
 <td>ProgramBench</td>
-<td>ProgramBench (Yang, Press et al., 2026): 200 programs, and no model fully rebuilds any of them</td>
-<td>434 programs, more than twice the public set</td>
+<td>Terminal-Bench 4.0 is the nearest. Neither model card reports a benchmark that rebuilds whole programs</td>
+<td>434 programs, each rebuilt from its observable behaviour alone</td>
 </tr>
 <tr>
 <td>System design</td>
-<td>DeepSWE and SWE-bench Pro for long-horizon work in real services; DDBench (60 bugs from open-source distributed systems) for distributed faults</td>
+<td>DeepSWE, FrontierCode</td>
 <td>New guarantees in running multi-process services, graded through crashes, retries and races</td>
 </tr>
 <tr>
 <td>Diagnosis, Debugging, and Bug Fixing</td>
-<td>SWE-bench Pro, SWE-bench Verified, Multi-SWE-bench</td>
+<td>FrontierCode, Terminal-Bench 4.0</td>
 <td>Go, C and Rust next to Python, with faults found from symptoms or documentation drift rather than from an issue text</td>
 </tr>
 <tr>
 <td>Feature implementation</td>
-<td>DeepSWE, FEA-Bench, SWE-Dev, NoCode-bench</td>
+<td>DeepSWE, FrontierCode, CursorBench</td>
 <td>Mostly Go, and existing behaviour must stay unchanged</td>
 </tr>
 <tr>
 <td>Infrastructure as code</td>
-<td>IaC-Eval, Multi-IaC-Eval</td>
-<td>Changes to stacks that are already deployed, where the plan must change nothing that runs, instead of new templates</td>
+<td>Terminal-Bench 4.0 (system configuration). Neither card reports an infrastructure-as-code benchmark</td>
+<td>Changes to Terraform stacks that are already deployed, where the plan must change nothing that runs</td>
 </tr>
 <tr>
 <td>Data engineering</td>
-<td>ELT-Bench, Spider 2.0</td>
+<td>Terminal-Bench 4.0 (data analysis). GPT-6 Astra also reports internal database-migration tasks</td>
 <td>Repairs to existing data libraries and pipelines after an upstream format or schema change</td>
 </tr>
 <tr>
 <td>Migration</td>
-<td>RustRepoTrans (translation into Rust)</td>
-<td>Rust and Java ported into Go and C++, a direction the public translation benchmarks we found do not cover</td>
+<td>Neither card reports a public translation benchmark. The Opus 5.5 announcement describes an internal C-to-Rust rewrite of HAProxy</td>
+<td>Rust and Java libraries ported into Go and C++, checked by the original project's own tests</td>
 </tr>
 </tbody>
 </table>
