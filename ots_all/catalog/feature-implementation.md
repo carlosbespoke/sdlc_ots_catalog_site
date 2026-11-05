@@ -119,3 +119,59 @@ In the non-test code you add, please avoid: new `init()` functions; the `syscall
 #### Environment
 
 ![How the task works](assets/env-memdb-txn-ots.svg)
+
+### Example 2: Networking & HTTP (Go)
+
+| Field | Value |
+|---|---|
+| Task id | `hertz-buffer-leases` |
+| Final category | Feature implementation |
+| Domain | Systems, hardware & accelerators |
+| Sub-domain | Networking & HTTP |
+| Language | Go |
+| Seniority | Senior |
+| Turn count | 284 (google/gemini-4-argon) |
+| Long horizon | yes |
+
+#### Prompt
+
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+
+Hertz cannot accept borrowed buffers while reporting exactly when they are safe to reuse. Add that support to writers, HTTP/1 serialization, and connection lifecycles without changing wire output, request targets, or runtime error classification.
+
+Each built-in writer must give every submission one immutable, ordered terminal result and retain ownership until copying, retention, flush, immediate failure, or abandonment completes. Failures report affected bytes and preserve causes through `(e *LeaseError) Error() string` and `(e *LeaseError) Unwrap() error`. Lease-aware fallback must copy input before returning and preserve formatting and flush errors. Existing Writer-only implementations remain valid.
+
+Fixed, suppressed-body, streamed, and chunked responses must aggregate emitted bytes, including framing, trailers, and final flushes. Empty chunks complete with zero-byte ownership and no termination output. Chunk payloads, terminal framing, trailers, and source failures form one ordered completion across unlike backends. Partial server flushes settle completed prefix leases, fail remaining ownership, and preserve error classification.
+
+Direct and proxy requests keep their target forms. Missing-host rejection creates no ownership. Client submission or flush failure settles attempt ownership before retry evaluation; later exchanges cannot change terminal results. Server backend leases settle before keep-alive context reuse. Interrupted streams and connection transfer settle temporary ownership before context recycling. Runtimes settle ownership before retry, pooling, discard, context reuse, or transfer.
+
+`WriteResponseBorrowed(resp *protocol.Response, w network.Writer) (network.OutputCompletion, error)`, `WriteRequestBorrowed(req *protocol.Request, w network.Writer) (network.OutputCompletion, error)`, and `WriteProxyRequestBorrowed(req *protocol.Request, w network.Writer) (network.OutputCompletion, error)` expose aggregate completion. `NewWriter(w io.Writer) Writer` and `NewBorrowedChunkWriter(r *protocol.Response, w network.Writer) BorrowedChunkWriter` provide constructors.
+
+These are required in what you deliver:
+
+- From github.com/cloudwego/hertz/pkg/network: LeaseState, LeaseResult, BufferLease, BorrowingWriter, LeaseError, OutputCompletion, NewWriter.
+- LeaseState uint8: LeasePending = iota, LeaseReleased, LeaseFailed, LeaseAbandoned.
+- LeaseResult struct: State LeaseState; Bytes int; Err error.
+- BufferLease interface: Done() &lt;-chan struct{}; Result() LeaseResult.
+- BorrowingWriter interface: Writer; WriteBorrowed(b []byte) (BufferLease, error).
+- LeaseError struct: State LeaseState; Bytes int; Err error.
+- OutputCompletion interface: Done() &lt;-chan struct{}; Result() LeaseResult.
+- From github.com/cloudwego/hertz/pkg/protocol/http1/resp: WriteResponseBorrowed, BorrowedChunkWriter, NewBorrowedChunkWriter.
+- BorrowedChunkWriter interface: network.ExtWriter; WriteBorrowed(p []byte) (network.BufferLease, error); FinalizeCompletion() (network.OutputCompletion, error).
+- From github.com/cloudwego/hertz/pkg/protocol/http1/req: WriteRequestBorrowed, WriteProxyRequestBorrowed.
+
+Before you edit any code, write your research and your plan to /app/RESEARCH_AND_PLANNING.md. Cover what you learned about the existing code and the constraints that shape the change, then how you intend to carry it out and why, including how you will know it works. Be concrete - the files, names and decisions specific to this codebase, not generalities. Complete the document before you touch any code: it is the record of your up-front investigation and decisions, and it should not be rewritten to match whatever the implementation turns into afterwards. Once it is done, implement the plan.
+
+</div>
+</details>
+
+#### Pass rates
+
+| Model | Graded runs | Pass rate |
+|---|---:|---:|
+| google/gemini-4-argon | 3 | 0% |
+
+#### Environment
+
+![How the task works](assets/env-hertz-buffer-leases.svg)
