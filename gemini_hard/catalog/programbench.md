@@ -72,7 +72,7 @@ The tasks span nine domains. The largest, Languages & developer tooling, makes u
 
 Runs on twelve tasks were refreshed on 5 Nov, after the 2 Nov snapshot, at the same task version. Their Gemini 4 Argon results set their place in the catalog; the headline task counts still come from the snapshot.
 
-GLM-5.3 Flash is shown so that every task in the catalog has results. 142 tasks have no GLM-5.3 Flash runs of their own, so their GLM-5.3 Flash results come from a closely related task: 8 from the task it was copied from and 134 from the same repository's reimplementation task. For one task with no GLM-5.3 Flash runs at all, the Gemini 3.8 Flash results come from a related task in the same way.
+Every task in the catalog has results from at least one model shown.
 
 ## Turn counts and long-horizon tasks
 

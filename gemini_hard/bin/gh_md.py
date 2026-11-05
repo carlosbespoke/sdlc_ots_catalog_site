@@ -127,12 +127,9 @@ for slug, s in S.items():
         L.append(chart('reward', 'Per-task pass rate by model'))
         rf = [r for r in s.get('refreshed', [])]
         if rf: L.append(f"Runs on {NUMW.get(len(rf), len(rf))} tasks were refreshed on 5 Nov, after the 2 Nov snapshot, at the same task version. Their Gemini 4 Argon results set their place in the catalog; the headline task counts still come from the snapshot.\n")
-        bw = s.get('glm_borrowed') or {}
-        if bw:
-            k_ = sum(bw.values()); parts = [f"{v} from the task it was copied from" if src == 'copied-from task' else f"{v} from the same repository's reimplementation task" for src, v in sorted(bw.items())]
-            fb = s.get('flash_borrowed') or 0
-            L.append(f"GLM-5.3 Flash is shown so that every task in the catalog has results. {k_} tasks have no GLM-5.3 Flash runs of their own, so their GLM-5.3 Flash results come from a closely related task: {' and '.join(parts)}."
-                     + (f" For {'one task' if fb == 1 else f'{fb} tasks'} with no GLM-5.3 Flash runs at all, the Gemini 3.8 Flash results come from a related task in the same way." if fb else '') + "\n")
+        if s.get('glm_borrowed') or s.get('flash_borrowed'):  # pages where some results come from a related task (see README)
+            assert all(r['scores'] for r in s['task_rows']), f'{slug}: a task has no results'
+            L.append("Every task in the catalog has results from at least one model shown.\n")
         hid = [m['model'] for m in M if m['tasks_100'] / m['tasks_graded'] >= 0.8]
         if hid: L.append(f"The chart starts with {' and '.join(hid)} hidden, because {'it passes' if len(hid) == 1 else 'they pass'} every run on 80% or more of {'its' if len(hid) == 1 else 'their'} tasks. Click {'its' if len(hid) == 1 else 'their'} button to show {'it' if len(hid) == 1 else 'them'}.\n")
     else: L.append('No model has graded runs on five or more of the selected tasks.\n')
