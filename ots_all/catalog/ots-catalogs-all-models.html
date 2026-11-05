@@ -38,7 +38,7 @@ details{margin:18px 0 28px;border:1px solid var(--line-2);border-left:2px solid 
 <section class="view" data-view="overview" data-title="Coding OTS RL Envs | Bespoke Labs" data-crumb="Coding OTS RL Envs" hidden><article id="overview--catalog-content">
 <header class="hero"><h1 id="overview--coding-ots-rl-envs">Coding OTS RL Envs</h1><div class="hero-meta" aria-hidden="true"></div></header>
 <div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
-<nav class="catalog-nav" aria-label="Catalogs"><a href="#overview" aria-current="page"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="#programbench"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="#system-design"><span>System design</span><span class="count" aria-label="94 tasks">94</span></a><a href="#debugging"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="#feature-implementation"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="#infrastructure-as-code"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="#data-engineering"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="#migration"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#overview--executive-summary">Executive summary</a><a class="level-2" href="#overview--catalogs">Catalogs</a><a class="level-2" href="#overview--how-the-catalogs-compare-with-public-benchmarks">How the catalogs compare with public benchmarks</a><a class="level-2" href="#overview--model-pass-rates">Model pass rates</a><a class="level-2" href="#overview--samples">Samples</a><a class="level-2" href="#overview--turn-counts">Turn counts</a></nav></aside>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="#overview" aria-current="page"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="#programbench"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="#system-design"><span>System design</span><span class="count" aria-label="94 tasks">94</span></a><a href="#debugging"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="#feature-implementation"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="#infrastructure-as-code"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="#data-engineering"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="#migration"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#overview--executive-summary">Executive summary</a><a class="level-2" href="#overview--catalogs">Catalogs</a><a class="level-2" href="#overview--benchmarks-each-catalog-trains-for">Benchmarks each catalog trains for</a><a class="level-2" href="#overview--model-pass-rates">Model pass rates</a><a class="level-2" href="#overview--samples">Samples</a><a class="level-2" href="#overview--turn-counts">Turn counts</a></nav></aside>
 <div class="reading">
 <div class="kpis"><div class="kpi"><div class="kpi-value">1,305</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">42%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div><div class="kpi"><div class="kpi-value">60%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
 <h2 id="overview--executive-summary">Executive summary</h2>
@@ -128,52 +128,68 @@ details{margin:18px 0 28px;border:1px solid var(--line-2);border-left:2px solid 
 </tbody>
 </table>
 </div>
-<h2 id="overview--how-the-catalogs-compare-with-public-benchmarks">How the catalogs compare with public benchmarks</h2>
-<p>Claude Opus 5.5 and GPT-6 Astra report their coding results on four public benchmarks. Terminal-Bench 4.0 measures multi-step professional tasks in a command line, and FrontierCode measures whether an agent's code changes would be merged. CursorBench uses ambiguous, multi-file tasks from real Cursor sessions, and DeepSWE has 113 original, long-horizon tasks in active open-source repositories. For rebuilding programs we also compare with ProgramBench, the public benchmark our ProgramBench catalog follows. The table maps each catalog to the closest of them.</p>
+<h2 id="overview--benchmarks-each-catalog-trains-for">Benchmarks each catalog trains for</h2>
+<p>Claude Opus 5.5 and GPT-6 Astra report their coding results on four public benchmarks. Terminal-Bench 4.0 measures multi-step professional tasks in a command line, and FrontierCode measures whether an agent's code changes would be merged. CursorBench uses ambiguous, multi-file tasks from real Cursor sessions, and DeepSWE has 113 original, long-horizon tasks in active open-source repositories. ProgramBench, the public benchmark our ProgramBench catalog follows, asks the agent to rebuild a program from its behaviour. A check means the catalog trains the skills that benchmark measures.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
 <tr>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Catalog</button></th>
-<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Closest public benchmarks</button></th>
-<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">What ours add</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">ProgramBench</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">DeepSWE</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">FrontierCode</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">CursorBench</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Terminal-Bench 4.0</button></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>ProgramBench</td>
-<td>ProgramBench (Yang, Press et al., 2026): 200 programs, and no model fully rebuilds any of them. Terminal-Bench 4.0 is the nearest benchmark in either model card</td>
-<td>434 programs, more than twice the public set</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
 </tr>
 <tr>
 <td>System design</td>
-<td>DeepSWE, FrontierCode</td>
-<td>New guarantees in running multi-process services, graded through crashes, retries and races</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>Diagnosis, Debugging, and Bug Fixing</td>
-<td>FrontierCode, Terminal-Bench 4.0</td>
-<td>Go, C and Rust next to Python, with faults found from symptoms or documentation drift rather than from an issue text</td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
 </tr>
 <tr>
 <td>Feature implementation</td>
-<td>DeepSWE, FrontierCode, CursorBench</td>
-<td>Mostly Go, and existing behaviour must stay unchanged</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
 </tr>
 <tr>
 <td>Infrastructure as code</td>
-<td>Terminal-Bench 4.0 (system configuration). Neither card reports an infrastructure-as-code benchmark</td>
-<td>Changes to Terraform stacks that are already deployed, where the plan must change nothing that runs</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
 </tr>
 <tr>
 <td>Data engineering</td>
-<td>Terminal-Bench 4.0 (data analysis). GPT-6 Astra also reports internal database-migration tasks</td>
-<td>Repairs to existing data libraries and pipelines after an upstream format or schema change</td>
-</tr>
-<tr>
-<td>Migration</td>
-<td>Neither card reports a public translation benchmark. The Opus 5.5 announcement describes an internal C-to-Rust rewrite of HAProxy</td>
-<td>Rust and Java libraries ported into Go and C++, checked by the original project's own tests</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
 </tr>
 </tbody>
 </table>

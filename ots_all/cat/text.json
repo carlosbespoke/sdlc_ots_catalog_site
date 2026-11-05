@@ -9,8 +9,10 @@
    "Reproduce the documented behaviour of an execute-only program, delivered as source code plus `compile.sh`.",
    "Update an existing repository to match a reference program, after first writing a research and plan file."
   ],
-  "bench": "ProgramBench (Yang, Press et al., 2026): 200 programs, and no model fully rebuilds any of them. Terminal-Bench 4.0 is the nearest benchmark in either model card",
-  "adds": "434 programs, more than twice the public set"
+  "bench_map": [
+   "ProgramBench",
+   "Terminal-Bench 4.0"
+  ]
  },
  "system-design": {
   "one": "Keep multi-process services correct through crashes, retries and races.",
@@ -21,8 +23,10 @@
    "A capability gap stated as \"X cannot do Y\", followed by measurable requirements, many with time limits.",
    "A closing paragraph with the repository path, how to start each service and the build command."
   ],
-  "bench": "DeepSWE, FrontierCode",
-  "adds": "New guarantees in running multi-process services, graded through crashes, retries and races"
+  "bench_map": [
+   "DeepSWE",
+   "FrontierCode"
+  ]
  },
  "debugging": {
   "one": "Find and fix faults in real codebases from symptoms or documentation.",
@@ -34,8 +38,10 @@
    "A stated number of undocumented edits and a JSON schema for the root-cause report.",
    "A library description with the source paths and documentation pages in scope, and the rule that documentation outranks code."
   ],
-  "bench": "FrontierCode, Terminal-Bench 4.0",
-  "adds": "Go, C and Rust next to Python, with faults found from symptoms or documentation drift rather than from an issue text"
+  "bench_map": [
+   "FrontierCode",
+   "Terminal-Bench 4.0"
+  ]
  },
  "feature-implementation": {
   "one": "Add capabilities to existing libraries and services without breaking current behaviour.",
@@ -46,8 +52,11 @@
    "A capability gap stated as \"X cannot Y\", then dense paragraphs on the behaviour to add and the behaviour to preserve.",
    "A bullet list of required exported names, constants and signatures, with a research and plan file due before any code change."
   ],
-  "bench": "DeepSWE, FrontierCode, CursorBench",
-  "adds": "Mostly Go, and existing behaviour must stay unchanged"
+  "bench_map": [
+   "DeepSWE",
+   "FrontierCode",
+   "CursorBench"
+  ]
  },
  "infrastructure-as-code": {
   "one": "Restructure live Terraform, CDK and Pulumi code without touching deployed resources.",
@@ -59,8 +68,9 @@
    "A componentization request that lists every construct class with its path, props and public properties, and requires identical synthesized templates.",
    "A migration brief for an imported stack with an empty program, with naming, config and equivalence rules and banned options."
   ],
-  "bench": "Terminal-Bench 4.0 (system configuration). Neither card reports an infrastructure-as-code benchmark",
-  "adds": "Changes to Terraform stacks that are already deployed, where the plan must change nothing that runs"
+  "bench_map": [
+   "Terminal-Bench 4.0"
+  ]
  },
  "data-engineering": {
   "one": "Repair pipelines and data libraries after an upstream format or schema change.",
@@ -72,8 +82,9 @@
    "A behaviour spec in prose with edge cases, defaults and idempotence rules, ending with a request to fix the library without breaking existing tests.",
    "An opt-in feature request for a parser or loader, with defaults that must not change."
   ],
-  "bench": "Terminal-Bench 4.0 (data analysis). GPT-6 Astra also reports internal database-migration tasks",
-  "adds": "Repairs to existing data libraries and pipelines after an upstream format or schema change"
+  "bench_map": [
+   "Terminal-Bench 4.0"
+  ]
  },
  "migration": {
   "one": "Port Java and Rust libraries to Go or C++ with identical behaviour.",
@@ -85,10 +96,16 @@
    "A request framed by a business reason for the move, such as retiring a JVM dependency, with emphasis on exact reproduction of seeded output.",
    "A bullet list of language-specific pitfalls, such as RE2 regular expression syntax and reserved name prefixes."
   ],
-  "bench": "Neither card reports a public translation benchmark. The Opus 5.5 announcement describes an internal C-to-Rust rewrite of HAProxy",
-  "adds": "Rust and Java libraries ported into Go and C++, checked by the original project's own tests"
+  "bench_map": []
  },
  "_bench_sources": "Benchmarks limited to those in the Claude Opus 5.5 and GPT-6 Astra model cards. Opus 5.5: anthropic.com/claude-opus-5-5 (first-party): Terminal-Bench 4.0 66.4%, FrontierCode v1.1 54.4%, CursorBench 4.0 57.8%, internal HAProxy C-to-Rust rewrite. GPT-6 Astra: OpenAI's tables as reproduced by DataCamp and Vellum (the OpenAI page returned 403): Terminal-Bench 4.0 57.7%, FrontierCode 1.1 53.3%, DeepSWE v1.1 74.1%, internal database-migration tasks 63.9%. DeepSWE size (113 tasks): arXiv 2607.07946. Not used: SWE-bench Pro and Multilingual, which secondary sources attribute to the Opus 5.5 system card but which could not be checked. ProgramBench kept by request (not in either model card): arXiv 2605.03546. Checked 2026-11-04.",
- "_bench_intro": "Claude Opus 5.5 and GPT-6 Astra report their coding results on four public benchmarks. Terminal-Bench 4.0 measures multi-step professional tasks in a command line, and FrontierCode measures whether an agent's code changes would be merged. CursorBench uses ambiguous, multi-file tasks from real Cursor sessions, and DeepSWE has 113 original, long-horizon tasks in active open-source repositories. For rebuilding programs we also compare with ProgramBench, the public benchmark our ProgramBench catalog follows. The table maps each catalog to the closest of them.",
- "_summary_bench": "The model cards for Claude Opus 5.5 and GPT-6 Astra report coding results on Terminal-Bench 4.0 and FrontierCode, plus CursorBench for Opus 5.5 and DeepSWE for Astra. Our tasks are closest to DeepSWE and FrontierCode: long changes to real repositories, checked by tests the agent cannot see. Our ProgramBench catalog uses the same design as the public ProgramBench (Yang, Press et al., 2026), where the agent rebuilds a program from its behaviour, with 434 programs against the public set's 200. With 1,305 tasks, the set is larger than DeepSWE (113) and, unlike DeepSWE, includes Terraform, C and C++. Like DeepSWE, most of its tasks were written for the catalog rather than taken from past fixes a model may have memorized."
+ "_bench_intro": "Claude Opus 5.5 and GPT-6 Astra report their coding results on four public benchmarks. Terminal-Bench 4.0 measures multi-step professional tasks in a command line, and FrontierCode measures whether an agent's code changes would be merged. CursorBench uses ambiguous, multi-file tasks from real Cursor sessions, and DeepSWE has 113 original, long-horizon tasks in active open-source repositories. ProgramBench, the public benchmark our ProgramBench catalog follows, asks the agent to rebuild a program from its behaviour. A check means the catalog trains the skills that benchmark measures.",
+ "_summary_bench": "The model cards for Claude Opus 5.5 and GPT-6 Astra report coding results on Terminal-Bench 4.0 and FrontierCode, plus CursorBench for Opus 5.5 and DeepSWE for Astra. Our tasks are closest to DeepSWE and FrontierCode: long changes to real repositories, checked by tests the agent cannot see. Our ProgramBench catalog uses the same design as the public ProgramBench (Yang, Press et al., 2026), where the agent rebuilds a program from its behaviour, with 434 programs against the public set's 200. With 1,305 tasks, the set is larger than DeepSWE (113) and, unlike DeepSWE, includes Terraform, C and C++. Like DeepSWE, most of its tasks were written for the catalog rather than taken from past fixes a model may have memorized.",
+ "_bench_columns": [
+  "ProgramBench",
+  "DeepSWE",
+  "FrontierCode",
+  "CursorBench",
+  "Terminal-Bench 4.0"
+ ]
 }

@@ -27,19 +27,18 @@ The model cards for Claude Opus 5.5 and GPT-6 Astra report coding results on Ter
 | [Migration](migration.md) | 18 | Port Java and Rust libraries to Go or C++ with identical behaviour. | 1.4% | 18 | 364 |
 | **Total** | **1,305** |  | **100%** | **1,305** |  |
 
-## How the catalogs compare with public benchmarks
+## Benchmarks each catalog trains for
 
-Claude Opus 5.5 and GPT-6 Astra report their coding results on four public benchmarks. Terminal-Bench 4.0 measures multi-step professional tasks in a command line, and FrontierCode measures whether an agent's code changes would be merged. CursorBench uses ambiguous, multi-file tasks from real Cursor sessions, and DeepSWE has 113 original, long-horizon tasks in active open-source repositories. For rebuilding programs we also compare with ProgramBench, the public benchmark our ProgramBench catalog follows. The table maps each catalog to the closest of them.
+Claude Opus 5.5 and GPT-6 Astra report their coding results on four public benchmarks. Terminal-Bench 4.0 measures multi-step professional tasks in a command line, and FrontierCode measures whether an agent's code changes would be merged. CursorBench uses ambiguous, multi-file tasks from real Cursor sessions, and DeepSWE has 113 original, long-horizon tasks in active open-source repositories. ProgramBench, the public benchmark our ProgramBench catalog follows, asks the agent to rebuild a program from its behaviour. A check means the catalog trains the skills that benchmark measures.
 
-| Catalog | Closest public benchmarks | What ours add |
-|---|---|---|
-| ProgramBench | ProgramBench (Yang, Press et al., 2026): 200 programs, and no model fully rebuilds any of them. Terminal-Bench 4.0 is the nearest benchmark in either model card | 434 programs, more than twice the public set |
-| System design | DeepSWE, FrontierCode | New guarantees in running multi-process services, graded through crashes, retries and races |
-| Diagnosis, Debugging, and Bug Fixing | FrontierCode, Terminal-Bench 4.0 | Go, C and Rust next to Python, with faults found from symptoms or documentation drift rather than from an issue text |
-| Feature implementation | DeepSWE, FrontierCode, CursorBench | Mostly Go, and existing behaviour must stay unchanged |
-| Infrastructure as code | Terminal-Bench 4.0 (system configuration). Neither card reports an infrastructure-as-code benchmark | Changes to Terraform stacks that are already deployed, where the plan must change nothing that runs |
-| Data engineering | Terminal-Bench 4.0 (data analysis). GPT-6 Astra also reports internal database-migration tasks | Repairs to existing data libraries and pipelines after an upstream format or schema change |
-| Migration | Neither card reports a public translation benchmark. The Opus 5.5 announcement describes an internal C-to-Rust rewrite of HAProxy | Rust and Java libraries ported into Go and C++, checked by the original project's own tests |
+| Catalog | ProgramBench | DeepSWE | FrontierCode | CursorBench | Terminal-Bench 4.0 |
+|---|:---:|:---:|:---:|:---:|:---:|
+| ProgramBench | ✓ |  |  |  | ✓ |
+| System design |  | ✓ | ✓ |  |  |
+| Diagnosis, Debugging, and Bug Fixing |  |  | ✓ |  | ✓ |
+| Feature implementation |  | ✓ | ✓ | ✓ |  |
+| Infrastructure as code |  |  |  |  | ✓ |
+| Data engineering |  |  |  |  | ✓ |
 
 ## Model pass rates
 

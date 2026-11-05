@@ -9,7 +9,7 @@ S = json.load(open(f'{H}/cat/stats.json')); TXT = json.load(open(f'{H}/cat/text.
 NUMW = {1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten'}
 def table(head, rows, left=False, text_cols=1, align=None):
     """align: optional string of l/r per column; otherwise the first text_cols columns are left-aligned."""
-    out = ['| ' + ' | '.join(head) + ' |', '|' + '|'.join(('---' if align[i] == 'l' else '---:') if align else ('---' if i < text_cols or left else '---:') for i in range(len(head))) + '|']
+    out = ['| ' + ' | '.join(head) + ' |', '|' + '|'.join({'l': '---', 'c': ':---:'}.get(align[i], '---:') if align else ('---' if i < text_cols or left else '---:') for i in range(len(head))) + '|']
     out += ['| ' + ' | '.join(str(c) for c in r) + ' |' for r in rows]
     return '\n'.join(out)
 def kpi(value, label): return f'<div class="kpi"><div class="kpi-value">{value.replace("<", "&lt;")}</div><div class="kpi-label">{label}</div></div>'
@@ -155,9 +155,11 @@ tt = lambda s: f"{s['turns']['mean_of_task_means']:.0f}" if s['turns']['tasks_wi
 L.append(table(['Catalog', 'Tasks', 'What the tasks do', '% of all tasks', 'Tasks with graded runs', 'Average turn count'],
     [[f"[{s['name']}]({slug}.md)", f"{s['tasks']:,}", TXT[slug]['one'], f"{100 * s['tasks'] / TOT:.1f}%", f"{s['tasks_graded']:,}", tt(s)] for slug, s in S.items()]
     + [['**Total**', f"**{TOT:,}**", '', '**100%**', f"**{sum(s['tasks_graded'] for s in S.values()):,}**", '']], align='lrlrrr') + '\n')
-L.append('## How the catalogs compare with public benchmarks\n')
+L.append('## Benchmarks each catalog trains for\n')
 L.append(TXT['_bench_intro'] + '\n')
-L.append(table(['Catalog', 'Closest public benchmarks', 'What ours add'], [[s_['name'], TXT[k]['bench'], TXT[k]['adds']] for k, s_ in S.items()], left=True) + '\n')
+BENCH = TXT['_bench_columns']
+L.append(table(['Catalog'] + BENCH, [[s_['name']] + ['✓' if b in TXT[k].get('bench_map', []) else '' for b in BENCH] for k, s_ in S.items() if TXT[k].get('bench_map')],
+               align='l' + 'c' * len(BENCH)) + '\n')
 L.append('## Model pass rates\n')
 L.append(f"Pass rates and turn counts come from Horizon runs up to {SNAPSHOT[:10]}. Each cell is a model's pass rate in one catalog: passed runs over graded runs, pooled across the tasks it ran there. A cell is blank when the model has graded runs on fewer than {NUMW[S['programbench']['min_tasks']]} tasks in that catalog.\n")
 L.append('![Pass rate by model and catalog](assets/overview_models.svg)\n')
