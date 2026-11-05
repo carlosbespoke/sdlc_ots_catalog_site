@@ -25,13 +25,32 @@ Every other catalog and model pair already meets the target.
 
 ## Settings
 
-| Setting | Value | How it is set |
+Settings come from each task's own `task.toml` at the plan version (parsed into `task_infra.json`) and from Horizon's evaluation config. `bin/rollout_settings.py` writes them per task and model to `runs.csv`, which is what gets submitted.
+
+**Same for every run**
+
+| Setting | Value | Source |
 |---|---|---|
-| Agent | Terminus V2 | `agent_type: typhoon` (Typhoon is Horizon's codename for TerminusV2Agent, the agent the existing runs used) |
-| Turn limit | 1,200 | `max_turns: 1200`. The CLI only accepts up to 1,000, so submit through `POST /api/v1/evaluations` (it accepts up to 10,000) |
-| Effort | max | `effort: "max"`. Validated per model when you submit |
-| Max output tokens | 32,000 | `max_tokens: 32000` (the most allowed) |
-| Agent timeout | 43,200 s | Not a submit option. It is `[agent] timeout_sec` in each task's `task.toml`, so it needs new task versions or a platform-side override. **Open** |
+| Agent | Terminus V2 (`typhoon`) | the agent behind the existing runs |
+| Turn limit | 1,200 | submitted through the API (the CLI stops at 1,000) |
+| Max output tokens | 32,000 | Horizon's limit |
+| Effort | top tier (`effort_tier: 3`) | Horizon maps it per model: `max` for GLM 5.3 Flash, `high` for both Gemini models, which offer no `max` |
+| Sandbox | Cloud Batch, named explicitly | all 34 Dockerfiles install ca-certificates, which the tensorlake backend can refuse (HRZN-835 item 19); only Cloud Batch takes a machine type |
+| Network, GPU | none, none | every task sets no network and 0 GPUs |
+
+**Set by the task**
+
+| Catalog | Model | Tasks | VM | Agent container | Verifier | Agent timeout | Verifier timeout |
+|---|---|---|---|---|---|---|---|
+| ProgramBench | Gemini 4 Argon | 12 | 8 CPU / 16 GB | 2 CPU / 8 GB | separate, same size | 6 h | 2 h |
+| IaC | Gemini 3.8 Flash | 8 | 8 CPU / 16 GB | 4 CPU / 8 GB | separate, 2 CPU / 4 GB | 6 h (one task 3 h) | 30-60 min |
+| Data engineering | GLM 5.3 Flash, Gemini 3.8 Flash | 5 each | 8 CPU / 16 GB | 4 CPU / 8 GB | separate, same size | 6 h | 30 min |
+| Migration | GLM 5.3 Flash, Gemini 3.8 Flash | 1 each | 8 CPU / 16 GB | 2 CPU / 8 GB | separate, same size | 6 h | 40 min |
+| Optimization | GLM 5.3 Flash (3), Gemini 4 Argon (5) | 6 distinct | 8 CPU / 16 GB, or 2 CPU / 4 GB for the two fasthttp tasks | 4 CPU / 16 GB, or 2 CPU / 4 GB | shared (runs in the agent container) | 4 h, or 3 h for fasthttp | 4 h, or 40 min for fasthttp |
+
+- **VM size rule:** the smallest allowed VM whose CPUs cover the largest container and whose memory covers the agent container plus a separate verifier container. Horizon's default VM is 2 CPU / 4 GB and does not follow `task.toml`; a container asking for more CPUs than the VM has fails before the first turn, which is what broke the first Flash pilots. 8 CPU / 16 GB is the size the Flash retries passed on.
+- **Agent timeout** is whatever the task sets (3, 4 or 6 hours). It is not a submit option.
+- **VM cost** is extra to the model cost. At GCE list price an 8 CPU / 16 GB VM is about $0.22 an hour. If every run used its full build, agent and verifier time, VMs would add about $340 over the 204 runs; real runs finish much sooner.
 
 ## Task choice
 
