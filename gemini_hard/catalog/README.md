@@ -4,7 +4,7 @@
 
 We selected our coding RL Envs where Gemini models fail and grouped them into four catalogs.
 
-| Catalog | Tasks (estimated) | What the tasks do | % of all tasks | Average turn count |
+| Catalog | Tasks | What the tasks do | % of all tasks | Average turn count |
 |---|---:|---|---:|---:|
 | [ProgramBench and Migration](programbench.md) | 283 | Rebuild or upgrade programs to match a reference exactly, or port libraries to another language. | 46.8% | 425 |
 | [System design & IaC](system-design.md) | 123 | Keep running services and live infrastructure correct through failures and refactors. | 20.3% | 265 |
