@@ -135,21 +135,15 @@ AC = "Agent's choice"
 lp = lambda *ks: f"{100 * sum(LANG[k] for k in ks) / TOT:.0f}%"
 allt0 = [m for s_ in S.values() for m in s_['turns']['task_means']]
 T_ = {k: s_['tasks'] for k, s_ in S.items()}; TM = {k: s_['turns']['mean_of_task_means'] for k, s_ in S.items()}
-PR = {m: v[1] / v[0] for m, v in allm.items()}; lo, hi = min(PR, key=PR.get), max(PR, key=PR.get)
-big3 = T_['programbench'] + T_['debugging'] + T_['infrastructure-as-code']
-NM = {'z-ai/glm-5.3-flash': 'GLM 5.3 Flash', 'google/gemini-3.8-flash': 'Gemini 3.8 Flash', 'google/gemini-4-argon': 'Gemini 4 Argon'}
-nm = lambda m: NM.get(m, m)
 L.append('## Executive summary\n')
-L.append(f"These {TOT:,} tasks train and test AI coding agents on long, senior-level software work: rebuilding whole programs, fixing faults in real codebases and changing live systems without breaking them. "
-         f"Pass rates vary widely by model, from {pct(PR[lo])} for {nm(lo)} over {len(allm[lo][2]):,} tasks to {pct(PR[hi])} for {nm(hi)} over the {len(allm[hi][2]):,} tasks it ran.\n")
-L.append(f"The tasks fall into {NUMW[len(S)]} catalogs, and three of them hold {100 * big3 / TOT:.0f}%. In ProgramBench ({T_['programbench']} tasks) the agent rebuilds a program from how it behaves. "
+L.append("This OTS catalog helps AI coding agents develop capabilities on long, senior-level software work: rebuilding whole programs, fixing faults in real codebases and changing live systems without breaking them.\n")
+L.append(f"The tasks fall into {NUMW[len(S)]} catalogs. In ProgramBench ({T_['programbench']} tasks) the agent rebuilds a program from how it behaves. "
          f"In Debugging ({T_['debugging']}) it finds and fixes faults, and in Infrastructure as code ({T_['infrastructure-as-code']}) it restructures deployed Terraform without changing what runs. "
          f"Feature implementation ({T_['feature-implementation']}) adds capabilities to existing libraries, and System design ({T_['system-design']}) keeps running services correct through crashes and retries. Data engineering ({T_['data-engineering']}) and Migration ({T_['migration']}) cover data pipelines and ports to another language.\n")
 L.append(f"Almost all tasks are senior engineering work in a few languages. Senior engineers are the target for {100 * SEN['Senior'] / TOT:.0f}% of tasks and staff engineers for {100 * SEN['Staff+'] / TOT:.0f}%. "
          f"Go, Terraform and Python account for {lp('Go', 'HCL (Terraform)', 'Python')} of tasks, and Rust, C and C++ for another {lp('Rust', 'C', 'C++')}.\n")
-L.append(f"The tasks are long. An agent averages {sum(allt0) / len(allt0):.0f} turns (one model reply plus its tool calls) on a task, and {100 * sum(m >= 200 for m in allt0) / len(allt0):.0f}% of tasks average 200 turns or more. "
+L.append(f"The catalogs include long-horizon coding tasks. An agent averages {sum(allt0) / len(allt0):.0f} turns (one model reply plus its tool calls) on a task, and {100 * sum(m >= 200 for m in allt0) / len(allt0):.0f}% of tasks average 200 turns or more. "
          f"ProgramBench and System design run longest, at about {round((TM['programbench'] + TM['system-design']) / 2, -1):.0f} turns. Infrastructure as code tasks are the shortest, at {TM['infrastructure-as-code']:.0f} turns.\n")
-L.append(TXT['_summary_bench'] + '\n')
 L.append('## Catalogs\n')
 tt = lambda s: f"{s['turns']['mean_of_task_means']:.0f}" if s['turns']['tasks_with_turns'] else 'n/a'
 L.append(table(['Catalog', 'Tasks', 'What the tasks do', '% of all tasks', 'Tasks with graded runs', 'Average turn count'],
