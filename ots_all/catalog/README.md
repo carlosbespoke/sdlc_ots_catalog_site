@@ -14,16 +14,16 @@ The catalogs include long-horizon coding tasks. An agent averages 361 turns (one
 
 ## Catalogs
 
-| Catalog | Tasks | What the tasks do | % of all tasks | Tasks with graded runs | Average turn count |
-|---|---:|---|---:|---:|---:|
-| [ProgramBench](programbench.md) | 434 | Rebuild or upgrade programs so they behave exactly like a reference version. | 33.3% | 434 | 476 |
-| [System design](system-design.md) | 94 | Keep multi-process services correct through crashes, retries and races. | 7.2% | 94 | 460 |
-| [Diagnosis, Debugging, and Bug Fixing](debugging.md) | 324 | Find and fix faults in real codebases from symptoms or documentation. | 24.8% | 324 | 423 |
-| [Feature implementation](feature-implementation.md) | 117 | Add capabilities to existing libraries and services without breaking current behaviour. | 9.0% | 117 | 344 |
-| [Infrastructure as code](infrastructure-as-code.md) | 301 | Restructure live Terraform, CDK and Pulumi code without touching deployed resources. | 23.1% | 301 | 115 |
-| [Data engineering](data-engineering.md) | 17 | Repair pipelines and data libraries after an upstream format or schema change. | 1.3% | 17 | 173 |
-| [Migration](migration.md) | 18 | Port Java and Rust libraries to Go or C++ with identical behaviour. | 1.4% | 18 | 364 |
-| **Total** | **1,305** |  | **100%** | **1,305** |  |
+| Catalog | Tasks | What the tasks do | Average turn count |
+|---|---:|---|---:|
+| [ProgramBench](programbench.md) | 434 | Rebuild or upgrade programs so they behave exactly like a reference version. | 476 |
+| [System design](system-design.md) | 94 | Keep multi-process services correct through crashes, retries and races. | 460 |
+| [Diagnosis, Debugging, and Bug Fixing](debugging.md) | 324 | Find and fix faults in real codebases from symptoms or documentation. | 423 |
+| [Feature implementation](feature-implementation.md) | 117 | Add capabilities to existing libraries and services without breaking current behaviour. | 344 |
+| [Infrastructure as code](infrastructure-as-code.md) | 301 | Restructure live Terraform, CDK and Pulumi code without touching deployed resources. | 115 |
+| [Data engineering](data-engineering.md) | 17 | Repair pipelines and data libraries after an upstream format or schema change. | 173 |
+| [Migration](migration.md) | 18 | Port Java and Rust libraries to Go or C++ with identical behaviour. | 364 |
+| **Total** | **1,305** |  |  |
 
 ## Benchmarks each catalog lifts
 

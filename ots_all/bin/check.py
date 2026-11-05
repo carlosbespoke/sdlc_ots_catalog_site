@@ -84,7 +84,7 @@ eq('overview card: count', len(K), 1 + len(PM))
 for r in rows(md, '['):
     slug = re.search(r'\(([\w-]+)\.md\)', r[0]).group(1); cat = dict(CATS)[slug]; T = [t for t in TASKS if t['catalog'] == cat]
     tm = [statistics.mean(x['turn_count'] for x in TURNS[t['id']]) for t in T if TURNS[t['id']]]
-    eq(f'overview table: {slug}', [r[1], r[3], r[4], r[5]], [f'{len(T):,}', f'{100 * len(T) / total:.1f}%', f"{sum(1 for t in T if runs(t['id'])):,}", f'{statistics.mean(tm):.0f}'])
+    eq(f'overview table: {slug}', [r[1], r[3]], [f'{len(T):,}', f'{statistics.mean(tm):.0f}'])
 for r in rows(section(md, 'Model pass rates')):
     if r[0] in PM: eq(f'overview models: {r[0]}', r[3], pct(PM[r[0]][1] / PM[r[0]][0]))
 SM = rows(section(md, 'Samples')); SM = [r for r in SM if r[0] != 'Catalog']

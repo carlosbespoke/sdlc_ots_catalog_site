@@ -146,9 +146,9 @@ L.append(f"The catalogs include long-horizon coding tasks. An agent averages {su
          f"ProgramBench and System design run longest, at about {round((TM['programbench'] + TM['system-design']) / 2, -1):.0f} turns. Infrastructure as code tasks are the shortest, at {TM['infrastructure-as-code']:.0f} turns.\n")
 L.append('## Catalogs\n')
 tt = lambda s: f"{s['turns']['mean_of_task_means']:.0f}" if s['turns']['tasks_with_turns'] else 'n/a'
-L.append(table(['Catalog', 'Tasks', 'What the tasks do', '% of all tasks', 'Tasks with graded runs', 'Average turn count'],
-    [[f"[{s['name']}]({slug}.md)", f"{s['tasks']:,}", TXT[slug]['one'], f"{100 * s['tasks'] / TOT:.1f}%", f"{s['tasks_graded']:,}", tt(s)] for slug, s in S.items()]
-    + [['**Total**', f"**{TOT:,}**", '', '**100%**', f"**{sum(s['tasks_graded'] for s in S.values()):,}**", '']], align='lrlrrr') + '\n')
+L.append(table(['Catalog', 'Tasks', 'What the tasks do', 'Average turn count'],
+    [[f"[{s['name']}]({slug}.md)", f"{s['tasks']:,}", TXT[slug]['one'], tt(s)] for slug, s in S.items()]
+    + [['**Total**', f"**{TOT:,}**", '', '']], align='lrlr') + '\n')
 L.append('## Benchmarks each catalog lifts\n')
 L.append(TXT['_bench_intro'] + '\n')
 BENCH = TXT['_bench_columns']
