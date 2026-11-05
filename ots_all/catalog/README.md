@@ -17,12 +17,14 @@ Go (25%), Terraform (23%) and Python (20%) make up most of the tasks. Rust, C an
 
 ## How the catalogs compare with public benchmarks
 
+The closest professional benchmarks are DeepSWE (Datacurve, 2026: 113 original, long-horizon tasks in active open-source repositories, in TypeScript, Go, Python, JavaScript and Rust, checked by program-based verifiers), SWE-bench Pro (Scale: 1,865 long-horizon tasks across 41 repositories, some of them private commercial code), Terminal-Bench 2.0 (89 containerized terminal tasks) and METR's HCAST (180+ tasks that take people from a minute to more than eight hours). Like DeepSWE, most of our tasks are written for the catalog rather than mined from merged fixes, so a model cannot pass them from memory of the upstream change. The table maps each catalog to the benchmarks nearest its task type.
+
 | Catalog | Closest public benchmarks | What ours add |
 |---|---|---|
 | ProgramBench | ProgramBench (Yang, Press et al., 2026): 200 programs, and no model fully rebuilds any of them | 434 programs, more than twice the public set |
-| System design | No direct match. DDBench (60 bugs from open-source distributed systems) and SWE-bench Pro (long-horizon tasks) are the closest | New guarantees in running multi-process services, graded through crashes, retries and races |
-| Diagnosis, Debugging, and Bug Fixing | SWE-bench Verified and Pro, Multi-SWE-bench | Go, C and Rust next to Python, with faults found from symptoms or documentation drift rather than from an issue text |
-| Feature implementation | FEA-Bench, SWE-Dev, NoCode-bench | Mostly Go, and existing behaviour must stay unchanged |
+| System design | DeepSWE and SWE-bench Pro for long-horizon work in real services; DDBench (60 bugs from open-source distributed systems) for distributed faults | New guarantees in running multi-process services, graded through crashes, retries and races |
+| Diagnosis, Debugging, and Bug Fixing | SWE-bench Pro, SWE-bench Verified, Multi-SWE-bench | Go, C and Rust next to Python, with faults found from symptoms or documentation drift rather than from an issue text |
+| Feature implementation | DeepSWE, FEA-Bench, SWE-Dev, NoCode-bench | Mostly Go, and existing behaviour must stay unchanged |
 | Infrastructure as code | IaC-Eval, Multi-IaC-Eval | Changes to stacks that are already deployed, where the plan must change nothing that runs, instead of new templates |
 | Data engineering | ELT-Bench, Spider 2.0 | Repairs to existing data libraries and pipelines after an upstream format or schema change |
 | Migration | RustRepoTrans (translation into Rust) | Rust and Java ported into Go and C++, a direction the public translation benchmarks we found do not cover |

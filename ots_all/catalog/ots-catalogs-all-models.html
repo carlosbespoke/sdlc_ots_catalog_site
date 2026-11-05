@@ -123,6 +123,7 @@ details{margin:18px 0 28px;border:1px solid var(--line-2);border-left:2px solid 
 </table>
 </div>
 <h2 id="overview--how-the-catalogs-compare-with-public-benchmarks">How the catalogs compare with public benchmarks</h2>
+<p>The closest professional benchmarks are DeepSWE (Datacurve, 2026: 113 original, long-horizon tasks in active open-source repositories, in TypeScript, Go, Python, JavaScript and Rust, checked by program-based verifiers), SWE-bench Pro (Scale: 1,865 long-horizon tasks across 41 repositories, some of them private commercial code), Terminal-Bench 2.0 (89 containerized terminal tasks) and METR's HCAST (180+ tasks that take people from a minute to more than eight hours). Like DeepSWE, most of our tasks are written for the catalog rather than mined from merged fixes, so a model cannot pass them from memory of the upstream change. The table maps each catalog to the benchmarks nearest its task type.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
@@ -140,17 +141,17 @@ details{margin:18px 0 28px;border:1px solid var(--line-2);border-left:2px solid 
 </tr>
 <tr>
 <td>System design</td>
-<td>No direct match. DDBench (60 bugs from open-source distributed systems) and SWE-bench Pro (long-horizon tasks) are the closest</td>
+<td>DeepSWE and SWE-bench Pro for long-horizon work in real services; DDBench (60 bugs from open-source distributed systems) for distributed faults</td>
 <td>New guarantees in running multi-process services, graded through crashes, retries and races</td>
 </tr>
 <tr>
 <td>Diagnosis, Debugging, and Bug Fixing</td>
-<td>SWE-bench Verified and Pro, Multi-SWE-bench</td>
+<td>SWE-bench Pro, SWE-bench Verified, Multi-SWE-bench</td>
 <td>Go, C and Rust next to Python, with faults found from symptoms or documentation drift rather than from an issue text</td>
 </tr>
 <tr>
 <td>Feature implementation</td>
-<td>FEA-Bench, SWE-Dev, NoCode-bench</td>
+<td>DeepSWE, FEA-Bench, SWE-Dev, NoCode-bench</td>
 <td>Mostly Go, and existing behaviour must stay unchanged</td>
 </tr>
 <tr>

@@ -21,7 +21,7 @@
    "A capability gap stated as \"X cannot do Y\", followed by measurable requirements, many with time limits.",
    "A closing paragraph with the repository path, how to start each service and the build command."
   ],
-  "bench": "No direct match. DDBench (60 bugs from open-source distributed systems) and SWE-bench Pro (long-horizon tasks) are the closest",
+  "bench": "DeepSWE and SWE-bench Pro for long-horizon work in real services; DDBench (60 bugs from open-source distributed systems) for distributed faults",
   "adds": "New guarantees in running multi-process services, graded through crashes, retries and races"
  },
  "debugging": {
@@ -34,7 +34,7 @@
    "A stated number of undocumented edits and a JSON schema for the root-cause report.",
    "A library description with the source paths and documentation pages in scope, and the rule that documentation outranks code."
   ],
-  "bench": "SWE-bench Verified and Pro, Multi-SWE-bench",
+  "bench": "SWE-bench Pro, SWE-bench Verified, Multi-SWE-bench",
   "adds": "Go, C and Rust next to Python, with faults found from symptoms or documentation drift rather than from an issue text"
  },
  "feature-implementation": {
@@ -46,7 +46,7 @@
    "A capability gap stated as \"X cannot Y\", then dense paragraphs on the behaviour to add and the behaviour to preserve.",
    "A bullet list of required exported names, constants and signatures, with a research and plan file due before any code change."
   ],
-  "bench": "FEA-Bench, SWE-Dev, NoCode-bench",
+  "bench": "DeepSWE, FEA-Bench, SWE-Dev, NoCode-bench",
   "adds": "Mostly Go, and existing behaviour must stay unchanged"
  },
  "infrastructure-as-code": {
@@ -88,5 +88,6 @@
   "bench": "RustRepoTrans (translation into Rust)",
   "adds": "Rust and Java ported into Go and C++, a direction the public translation benchmarks we found do not cover"
  },
- "_bench_sources": "ProgramBench arXiv 2605.03546; SWE-bench Pro arXiv 2509.16941; Multi-SWE-bench arXiv 2504.02605; DDBench arXiv 2608.14863; FEA-Bench arXiv 2503.06680; SWE-Dev arXiv 2505.16975; NoCode-bench arXiv 2507.18130; IaC-Eval NeurIPS 2024; Multi-IaC-Eval (Davidson et al. 2025); ELT-Bench arXiv 2504.04808; Spider 2.0; RustRepoTrans arXiv 2411.13990. Checked 2026-11-04."
+ "_bench_sources": "ProgramBench arXiv 2605.03546; SWE-bench Pro arXiv 2509.16941; Multi-SWE-bench arXiv 2504.02605; DDBench arXiv 2608.14863; FEA-Bench arXiv 2503.06680; SWE-Dev arXiv 2505.16975; NoCode-bench arXiv 2507.18130; IaC-Eval NeurIPS 2024; Multi-IaC-Eval (Davidson et al. 2025); ELT-Bench arXiv 2504.04808; Spider 2.0; RustRepoTrans arXiv 2411.13990. Checked 2026-11-04. DeepSWE arXiv 2607.07946 (github.com/datacurve-ai/deep-swe); Terminal-Bench 2.0 (Snorkel/Laude, 2026); METR HCAST arXiv 2503.17354.",
+ "_bench_intro": "The closest professional benchmarks are DeepSWE (Datacurve, 2026: 113 original, long-horizon tasks in active open-source repositories, in TypeScript, Go, Python, JavaScript and Rust, checked by program-based verifiers), SWE-bench Pro (Scale: 1,865 long-horizon tasks across 41 repositories, some of them private commercial code), Terminal-Bench 2.0 (89 containerized terminal tasks) and METR's HCAST (180+ tasks that take people from a minute to more than eight hours). Like DeepSWE, most of our tasks are written for the catalog rather than mined from merged fixes, so a model cannot pass them from memory of the upstream change. The table maps each catalog to the benchmarks nearest its task type."
 }

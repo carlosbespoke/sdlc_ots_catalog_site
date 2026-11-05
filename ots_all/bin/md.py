@@ -141,6 +141,7 @@ L.append(table(['Catalog', 'Tasks', 'What the tasks do', '% of all tasks', 'Task
     [[f"[{s['name']}]({slug}.md)", f"{s['tasks']:,}", TXT[slug]['one'], f"{100 * s['tasks'] / TOT:.1f}%", f"{s['tasks_graded']:,}", tt(s)] for slug, s in S.items()]
     + [['**Total**', f"**{TOT:,}**", '', '**100%**', f"**{sum(s['tasks_graded'] for s in S.values()):,}**", '']], align='lrlrrr') + '\n')
 L.append('## How the catalogs compare with public benchmarks\n')
+L.append(TXT['_bench_intro'] + '\n')
 L.append(table(['Catalog', 'Closest public benchmarks', 'What ours add'], [[s_['name'], TXT[k]['bench'], TXT[k]['adds']] for k, s_ in S.items()], left=True) + '\n')
 L.append('## Model pass rates\n')
 L.append(f"Pass rates and turn counts come from Horizon runs up to {SNAPSHOT[:10]}. Each cell is a model's pass rate in one catalog: passed runs over graded runs, pooled across the tasks it ran there. A cell is blank when the model has graded runs on fewer than {NUMW[S['programbench']['min_tasks']]} tasks in that catalog.\n")
