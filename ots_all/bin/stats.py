@@ -36,6 +36,7 @@ def model_rows(tid):
     return dict(out)
 rate = lambda a, b: None if not b else a / b
 # samples: the earlier main samples first, then the promoted ones, each in their earlier order
+SUPER = json.load(open(f'{H}/super/super.json'))['samples']; BYID = {t['id']: t for t in ALL_TASKS}
 SAMPLES = sorted([t for t in TASKS if t.get('sample') in ('main', 'attached')], key=lambda t: (t['sample'] != 'main', t['sample_order']))
 out = {}
 for slug, cat in CATS:
@@ -69,6 +70,21 @@ for slug, cat in CATS:
         show.append({'url': URL[SID[t['name']]], 'task_id': SID[t['name']], 'turns': turn_stats(t['id']), 'name': t['name'], 'id': t['id'], 'version': RO[t['id']]['version'],
                      'earlier': t['sample'], 'final': r['final'], 'super_group': r['sg'], 'category': r['cat'], 'language': r['lang'], 'role': r['role'], 'seniority': r['sen'],
                      'models': [{'model': m, **o, 'pass_rate': rate(o['passed'], o['graded'])} for m, o in sorted(mr.items(), key=lambda x: -x[1]['rollouts'])]})
+    for s in [s for s in SUPER if s['catalog'] == cat]:  # super-samples: the copy's own version and runs, the original's classification
+        o = {**BYID[s['original_id']], **meta(BYID[s['original_id']])}; rs = json.load(open(f"{H}/super/data/{s['client_id']}.json"))['rollouts']
+        mr = collections.defaultdict(lambda: dict(rollouts=0, graded=0, passed=0, errors=0, score_sum=0.0)); by = collections.defaultdict(list)
+        for q in rs:
+            if q['model'] in DROPPED: continue
+            x = mr[MM[q['model']]]; x['rollouts'] += 1
+            if q.get('is_errored'): x['errors'] += 1; continue
+            if q.get('turn_count') is not None: by[MM[q['model']]].append(q['turn_count'])
+            if q.get('passed') is None: continue
+            x['graded'] += 1; x['passed'] += bool(q['passed']); x['score_sum'] += q.get('extracted_score') or 0
+        allt = [v for x in by.values() for v in x]
+        show.append({'url': URL.get(s['client_id']), 'task_id': s['client_id'], 'name': s['horizon_name'], 'id': s['horizon_id'], 'version': s['version'], 'earlier': 'super',
+                     'turns': {'runs': len(allt), 'mean': sum(allt) / len(allt), 'by_model': {m: sum(x) / len(x) for m, x in sorted(by.items(), key=lambda kv: -len(kv[1]))}} if allt else None,
+                     'final': o['final'], 'super_group': o['sg'], 'category': o['cat'], 'language': o['lang'], 'role': o['role'], 'seniority': o['sen'],
+                     'models': [{'model': m, **x, 'pass_rate': rate(x['passed'], x['graded'])} for m, x in sorted(mr.items(), key=lambda kv: -kv[1]['rollouts'])]})
     TS = [x for x in (turn_stats(r['id']) for r in R) if x]
     means = [x['mean'] for x in TS]
     tm = collections.defaultdict(lambda: [0, 0.0, 0, set()])

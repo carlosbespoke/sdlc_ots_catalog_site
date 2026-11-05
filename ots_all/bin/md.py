@@ -15,9 +15,9 @@ def table(head, rows, left=False, text_cols=1, align=None):
 def kpi(value, label): return f'<div class="kpi"><div class="kpi-value">{value.replace("<", "&lt;")}</div><div class="kpi-label">{label}</div></div>'
 def instruction(t):
     """The sample's instruction.md: the copy checked against the selected version, else the shipped sample's own."""
-    for p in (f"{G}/audit/instr/{t['id']}.md", f"{P}/show/{t['name']}/instruction.md", f"{G}/show/{t['name']}/instruction.md",
+    for p in (f"{H}/super/tasks/{t['task_id']}/instruction.md" if t.get('earlier') == 'super' else '', f"{G}/audit/instr/{t['id']}.md", f"{P}/show/{t['name']}/instruction.md", f"{G}/show/{t['name']}/instruction.md",
               f"{G}/samples/main/{t['task_id']}/instruction.md", f"{G}/samples/attached/{t['task_id']}/instruction.md"):
-        if os.path.exists(p) and os.path.getsize(p): return open(p).read().strip()
+        if p and os.path.exists(p) and os.path.getsize(p): return open(p).read().strip()
 def prompt_md(src):
     """Render an instruction as Markdown inside the page: demote its headings below the page's own, escape stray HTML."""
     out, fence = [], None
@@ -100,7 +100,7 @@ for slug, s in S.items():
     for i, t in enumerate(s['showcase'], 1):
         L.append(f"### {ex_title(i, t)}\n")
         L.append(table(['Field', 'Value'], [
-            ['Task id', f"[`{t['task_id']}`]({t['url']})"], ['Final category', t['final']], ['Domain', t['super_group']], ['Sub-domain', t['category']],
+            ['Task id', f"[`{t['task_id']}`]({t['url']})" if t.get('url') else f"`{t['task_id']}`"], ['Final category', t['final']], ['Domain', t['super_group']], ['Sub-domain', t['category']],
             ['Language', t['language']], ['Seniority', t['seniority']],
             ['Turn count', (', '.join(f"{v:.0f} ({m})" for m, v in t['turns']['by_model'].items()) if t['turns'] else 'no completed run')],
             ['Long horizon', ('yes' if t['turns']['mean'] >= 200 else 'no') if t['turns'] else 'n/a']], left=True) + '\n')
@@ -111,7 +111,7 @@ for slug, s in S.items():
         g = [m for m in t['models'] if m['graded']]
         L.append(table(['Model', 'Graded runs', 'Pass rate'], [[m['model'], m['graded'], pct(m['pass_rate'])] for m in g]) + '\n' if g else 'No graded runs on the selected version.\n')
         L.append('#### Environment\n')
-        src = f"{G}/diagrams/{t['task_id']}/diagram.svg"
+        src = next((p for p in (f"{H}/super/diagrams/{t['task_id']}/diagram.svg", f"{G}/diagrams/{t['task_id']}/diagram.svg") if os.path.exists(p)), '')
         if os.path.exists(src):
             shutil.copyfile(src, f"{OUT}/assets/env-{t['task_id']}.svg"); L.append(f"![How the task works](assets/env-{t['task_id']}.svg)\n")
         else: L.append('_Diagram pending._\n')
@@ -143,7 +143,7 @@ def best(t):
     g = [m for m in t['models'] if m['graded']]  # the model with the most graded runs; a tie goes to the one with more runs
     return max(g, key=lambda m: m['graded']) if g else None
 L.append(table(['Catalog', 'Example', 'Task id', 'Model with most graded runs', 'Pass rate'],
-    [[s['name'], f"[{ex_title(i, t)}]({slug}.md#{anchor(ex_title(i, t))})", f"[`{t['task_id']}`]({t['url']})", (best(t) or {}).get('model', ''),
+    [[s['name'], f"[{ex_title(i, t)}]({slug}.md#{anchor(ex_title(i, t))})", f"[`{t['task_id']}`]({t['url']})" if t.get('url') else f"`{t['task_id']}`", (best(t) or {}).get('model', ''),
       f"{pct(best(t)['pass_rate'])} of {best(t)['graded']}" if best(t) else ''] for slug, s, i, t in smp], text_cols=4) + '\n')
 allt = [m for s in S.values() for m in s['turns']['task_means']]
 L.append('## Turn counts\n')
@@ -171,5 +171,5 @@ with open(f'{H}/samples.csv', 'w', newline='') as f:
     w = csv.writer(f)
     w.writerow(['Catalog', 'Example', 'Task id', 'Download URL', 'Horizon task name', 'Horizon task id', 'Horizon URL', 'Selected version', 'Earlier role'])
     for slug, s, i, t in smp:
-        w.writerow([s['name'], i, t['task_id'], t['url'], t['name'], t['id'], f"https://horizon.bespokelabs.ai/tasks/{t['id']}", t['version'], 'main sample' if t['earlier'] == 'main' else 'attached sample'])
+        w.writerow([s['name'], i, t['task_id'], t.get('url') or '', t['name'], t['id'], f"https://horizon.bespokelabs.ai/tasks/{t['id']}", t['version'], {'main': 'main sample', 'attached': 'attached sample', 'super': 'super-sample'}[t['earlier']]])
 print('ots_tasks.csv', sum(1 for _ in open(f'{H}/ots_tasks.csv')) - 1, 'rows; samples.csv', len(smp), 'rows')

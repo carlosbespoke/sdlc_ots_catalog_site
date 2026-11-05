@@ -185,3 +185,48 @@ whichever comes first.
 #### Environment
 
 ![How the task works](assets/env-svtav1-encoder-rebuild.svg)
+
+### Example 2: Build systems (Agent's choice)
+
+| Field | Value |
+|---|---|
+| Task id | `bazel-gazelle-rebuild` |
+| Final category | ProgramBench reimplementation |
+| Domain | Build, release & supply chain |
+| Sub-domain | Build systems |
+| Language | Agent's choice |
+| Seniority | Staff+ |
+| Turn count | 617 (google/gemini-4-argon) |
+| Long horizon | yes |
+
+#### Prompt
+
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+
+Our build team uses Gazelle to write and update the Bazel BUILD files in our Go and protobuf repositories. We want to add rules of our own to it later, so we need our own version that writes exactly the same BUILD files. All we have is the installed program and its docs, so work out how it behaves by running it.
+
+Build it in `/workspace`. It should work the way the original does for:
+- its three commands: `update` (the default), `fix` and `update-repos`
+- generating Go and proto rules from the source tree, including build constraints, embeds, cgo options and import naming
+- `# gazelle:` directives, and merging into existing BUILD files, including `# keep` comments
+- resolving imports to labels, with the rule index and external repositories
+- updating repository rules from Go module files
+- help and version output, errors, and unusual inputs such as empty files, non-ASCII text and odd file names
+
+The original is at `/opt/reference/executable`. Running `./compile.sh` on a fresh checkout must build `./executable` in `/workspace`. Our builds run in an offline image, so both have to work with no internet, no package registries, and no copy of the original or any other Gazelle. For the same arguments and input, your version must give the same exit code, standard output, standard error and file changes as the original, byte for byte. Write it yourself: don't copy the original program.
+
+`/workspace/README.md` explains how to work with the original and what counts as the same.
+
+</div>
+</details>
+
+#### Pass rates
+
+| Model | Graded runs | Pass rate |
+|---|---:|---:|
+| google/gemini-4-argon | 5 | 0% |
+
+#### Environment
+
+![How the task works](assets/env-bazel-gazelle-rebuild.svg)

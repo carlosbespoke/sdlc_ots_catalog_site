@@ -8,7 +8,7 @@
 <main id="content" tabindex="-1"><article id="catalog-content">
 <header class="hero"><h1 id="programbench">ProgramBench</h1><div class="hero-meta" aria-hidden="true"></div></header>
 <div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
-<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="programbench.html" aria-current="page"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="94 tasks">94</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-media-processing-agents-choice">Example 1: Media processing (Agent&#x27;s choice)</a></nav></aside>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="programbench.html" aria-current="page"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="94 tasks">94</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-media-processing-agents-choice">Example 1: Media processing (Agent&#x27;s choice)</a><a class="level-3" href="#example-2-build-systems-agents-choice">Example 2: Build systems (Agent&#x27;s choice)</a></nav></aside>
 <div class="reading">
 <h2 id="executive-summary">Executive summary</h2>
 <div class="kpis"><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
@@ -190,7 +190,7 @@
 </table>
 </div>
 <h2 id="sample-tasks">Sample tasks</h2>
-<nav class="task-chips" data-ui aria-label="Example tasks"><a href="#example-1-media-processing-agents-choice">Example 1: Media processing (Agent&#x27;s choice)</a></nav>
+<nav class="task-chips" data-ui aria-label="Example tasks"><a href="#example-1-media-processing-agents-choice">Example 1: Media processing (Agent&#x27;s choice)</a><a href="#example-2-build-systems-agents-choice">Example 2: Build systems (Agent&#x27;s choice)</a></nav>
 <h3 id="example-1-media-processing-agents-choice">Example 1: Media processing (Agent's choice)</h3>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
@@ -320,7 +320,89 @@ whichever comes first.</p>
 </table>
 </div>
 <h4 id="environment">Environment</h4>
-<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-svtav1-encoder-rebuild.svg" alt="How the task works" /></div></figure>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-svtav1-encoder-rebuild.svg" alt="How the task works" /></div></figure><h3 id="example-2-build-systems-agents-choice">Example 2: Build systems (Agent's choice)</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Field</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Value</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Task id</td>
+<td><code>bazel-gazelle-rebuild</code></td>
+</tr>
+<tr>
+<td>Final category</td>
+<td>ProgramBench reimplementation</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>Build, release &amp; supply chain</td>
+</tr>
+<tr>
+<td>Sub-domain</td>
+<td>Build systems</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Agent's choice</td>
+</tr>
+<tr>
+<td>Seniority</td>
+<td>Staff+</td>
+</tr>
+<tr>
+<td>Turn count</td>
+<td>617 (google/gemini-4-argon)</td>
+</tr>
+<tr>
+<td>Long horizon</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="prompt-2">Prompt</h4>
+<details open><summary>Full instruction given to the agent (instruction.md)</summary>
+<div class="prompt-md">
+<p>Our build team uses Gazelle to write and update the Bazel BUILD files in our Go and protobuf repositories. We want to add rules of our own to it later, so we need our own version that writes exactly the same BUILD files. All we have is the installed program and its docs, so work out how it behaves by running it.</p>
+<p>Build it in <code>/workspace</code>. It should work the way the original does for:</p>
+<ul>
+<li>its three commands: <code>update</code> (the default), <code>fix</code> and <code>update-repos</code></li>
+<li>generating Go and proto rules from the source tree, including build constraints, embeds, cgo options and import naming</li>
+<li><code># gazelle:</code> directives, and merging into existing BUILD files, including <code># keep</code> comments</li>
+<li>resolving imports to labels, with the rule index and external repositories</li>
+<li>updating repository rules from Go module files</li>
+<li>help and version output, errors, and unusual inputs such as empty files, non-ASCII text and odd file names</li>
+</ul>
+<p>The original is at <code>/opt/reference/executable</code>. Running <code>./compile.sh</code> on a fresh checkout must build <code>./executable</code> in <code>/workspace</code>. Our builds run in an offline image, so both have to work with no internet, no package registries, and no copy of the original or any other Gazelle. For the same arguments and input, your version must give the same exit code, standard output, standard error and file changes as the original, byte for byte. Write it yourself: don't copy the original program.</p>
+<p><code>/workspace/README.md</code> explains how to work with the original and what counts as the same.</p>
+</div>
+</details>
+<h4 id="pass-rates-2">Pass rates</h4>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">5</td>
+<td class="numeric">0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="environment-2">Environment</h4>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>How the task works</h4></div><div class="fig-box"><img src="assets/env-bazel-gazelle-rebuild.svg" alt="How the task works" /></div></figure>
 <footer class="page-footer" data-ui><a class="back-top" href="#top">Back to top ↑</a><nav class="page-nav" aria-label="Previous and next catalogs"><a rel="prev" href="index.html"><small>Previous</small>Overview</a><a rel="next" href="system-design.html"><small>Next</small>System design</a></nav>
 <p class="footer-word">Bespoke Labs · Coding OTS RL Envs</p></footer></div></div></article></main>
 </body></html>

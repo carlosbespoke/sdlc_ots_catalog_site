@@ -4,6 +4,8 @@ import csv, hashlib, html, statistics
 from common import *
 C = f'{H}/catalog'; errors, checked = [], collections.Counter()
 NEWC = json.load(open(f'{H}/cat/new_task_classes.json')); SID = json.load(open(f'{H}/cat/sample_ids.json'))
+SUPER = json.load(open(f'{H}/super/super.json'))['samples']; SDATA = {x['client_id']: json.load(open(f"{H}/super/data/{x['client_id']}.json")) for x in SUPER}
+BYID = {t['id']: t for t in ALL_TASKS}
 ROWS = {r['id']: r for r in dedupe([r for r in green(load_rows()) if r['catalog']], shortlist())}
 def eq(what, got, want):
     checked[what.split(':')[0]] += 1
@@ -45,23 +47,33 @@ for slug, cat in CATS:
     # samples
     blocks = re.split(r'^### Example ', md, flags=re.M)[1:]
     want = sorted([t for t in TASKS if t.get('sample') in ('main', 'attached') and t['catalog'] == cat], key=lambda t: (t['sample'] != 'main', t['sample_order']))
+    want += [{'super': x, **BYID[x['original_id']]} for x in SUPER if x['catalog'] == cat]
     eq(f'sample count: {slug}', len(blocks), len(want))
     for i, (blk, t) in enumerate(zip(blocks, want), 1):
-        sid = SID[t['name']]
+        sx = t.get('super'); sid = sx['client_id'] if sx else SID[t['name']]
+        if sx:  # super-sample: runs and turns come from its own pinned version
+            rs = [q for q in SDATA[sid]['rollouts'] if q['model'] not in DROPPED]
+            srun = collections.defaultdict(list); sturn = collections.defaultdict(list)
+            for q in rs:
+                if q.get('is_errored'): continue
+                if q.get('turn_count') is not None: sturn[MM[q['model']]].append(q['turn_count'])
+                if q.get('passed') is not None: srun[MM[q['model']]].append((bool(q['passed']), 0))
         F = dict(re.findall(r'^\| (Task id|Final category|Domain|Sub-domain|Language|Seniority) \| (.*?) \|$', blk, re.M))
         r = ROWS.get(t['id']); c = NEWC.get(t['name'], {})
         eq(f'field table: {slug} {i}', (F.get('Task id', '').split('`')[1:2], F.get('Sub-domain'), F.get('Language')), ([sid], r['cat'] if r else c['cat'], r['lang'] if r else c['lang']))
         pr = {x[0]: x[1:] for x in rows(blk.split('#### Pass rates')[1].split('####')[0]) if x[0] != 'Model'}
-        eq(f'sample pass rates: {slug} {i}', sorted(pr.items()), sorted((m, [str(len(v)), pct(sum(x for x, _ in v) / len(v))]) for m, v in runs(t['id']).items()))
+        eq(f'sample pass rates: {slug} {i}', sorted(pr.items()), sorted((m, [str(len(v)), pct(sum(x for x, _ in v) / len(v))]) for m, v in (srun if sx else runs(t['id'])).items()))
         tl = re.search(r'^\| Turn count \| (.*) \|$', blk, re.M).group(1); bt = collections.defaultdict(list)
-        for q in TURNS[t['id']]: bt[MM[q['model']]].append(q['turn_count'])
+        if sx: bt = sturn
+        else:
+            for q in TURNS[t['id']]: bt[MM[q['model']]].append(q['turn_count'])
         eq(f'sample turns: {slug} {i}', sorted(tl.split(', ')), sorted(f'{statistics.mean(x):.0f} ({m})' for m, x in bt.items()) if bt else ['no completed run'])
         pm = re.search(r'<div class="prompt-md">\n\n(.*?)\n\n</div>', blk, re.S).group(1)
-        src = next(open(p).read() for p in (f"{G}/audit/instr/{t['id']}.md", f"{G}/samples/{t['sample']}/{sid}/instruction.md") if os.path.exists(p) and os.path.getsize(p))
+        src = next(open(p).read() for p in ((f"{H}/super/tasks/{sid}/instruction.md",) if sx else ()) + (f"{G}/audit/instr/{t['id']}.md", f"{G}/samples/{t['sample']}/{sid}/instruction.md") if os.path.exists(p) and os.path.getsize(p))
         words = lambda z: re.findall(r'[A-Za-z0-9]{3,}', z)
         eq(f'prompt: {slug} {i}', words(pm)[:80] == words(src)[:80] and abs(len(words(pm)) - len(words(src))) <= 3, True)
         img = re.search(r'!\[How the task works\]\(assets/([^)]+)\)', blk)
-        d = f'{G}/diagrams/{sid}/diagram.svg'
+        d = f'{H}/super/diagrams/{sid}/diagram.svg' if os.path.exists(f'{H}/super/diagrams/{sid}/diagram.svg') else f'{G}/diagrams/{sid}/diagram.svg'
         if not os.path.exists(d): errors.append(f'diagram: {slug} {i} {sid} not drawn yet'); continue
         eq(f'diagram: {slug} {i}', img and hashlib.md5(open(f'{C}/assets/{img.group(1)}', 'rb').read()).digest() == hashlib.md5(open(d, 'rb').read()).digest(), True)
 # overview
@@ -75,10 +87,11 @@ for r in rows(md, '['):
 for r in rows(section(md, 'Model pass rates')):
     if r[0] in PM: eq(f'overview models: {r[0]}', r[3], pct(PM[r[0]][1] / PM[r[0]][0]))
 SM = rows(section(md, 'Samples')); SM = [r for r in SM if r[0] != 'Catalog']
-eq('overview samples', len(SM), 22)
+eq('overview samples', len(SM), sum(1 for t in TASKS if t.get('sample') in ('main', 'attached')) + len(SUPER))
 SL = list(csv.DictReader(open(f'{H}/samples.csv')))
-eq('samples.csv', sorted((r['Horizon task id'], r['Task id']) for r in SL), sorted((t['id'], SID[t['name']]) for t in TASKS if t.get('sample') in ('main', 'attached')))
-for r in SL: eq(f"samples.csv version: {r['Task id']}", r['Selected version'], RO[r['Horizon task id']]['version'])
+eq('samples.csv', sorted((r['Horizon task id'], r['Task id']) for r in SL), sorted([(t['id'], SID[t['name']]) for t in TASKS if t.get('sample') in ('main', 'attached')] + [(x['horizon_id'], x['client_id']) for x in SUPER]))
+SV = {x['horizon_id']: x['version'] for x in SUPER}
+for r in SL: eq(f"samples.csv version: {r['Task id']}", r['Selected version'], SV.get(r['Horizon task id']) or RO[r['Horizon task id']]['version'])
 # CSV
 TC = list(csv.DictReader(open(f'{H}/ots_tasks.csv')))
 eq('csv: task set', sorted(r['Horizon task id'] for r in TC), sorted(t['id'] for t in TASKS))
