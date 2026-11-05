@@ -2,7 +2,19 @@
 
 <div class="kpis"><div class="kpi"><div class="kpi-value">1,305</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">42%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div><div class="kpi"><div class="kpi-value">60%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
 
-Go (25%), Terraform (23%) and Python (20%) make up most of the tasks. Rust, C and C++ add another 22%, and 6% leave the language to the agent. 86% are pitched at senior engineers and 13% at staff level. These are long jobs: a task averages 361 turns over every model's runs, and 66% of tasks average 200 turns or more.
+## Executive summary
+
+These 1,305 tasks train and test AI coding agents on long, senior-level software work: rebuilding whole programs, fixing faults in real codebases and changing live systems without breaking them. Pass rates vary widely by model, from 2% for Gemini 3.8 Flash over 561 tasks to 60% for Gemini 4 Argon over the 119 tasks it ran.
+
+The tasks fall into seven catalogs, and three of them hold 81%. In ProgramBench (434 tasks) the agent rebuilds a program from how it behaves. In Debugging (324) it finds and fixes faults, and in Infrastructure as code (301) it restructures deployed Terraform without changing what runs. Feature implementation (117) adds capabilities to existing libraries, System design (94) keeps running services correct through crashes and retries, and Data engineering (17) and Migration (18) cover data pipelines and ports to another language.
+
+Almost all tasks are senior engineering work in a few languages. Senior engineers are the target for 86% of tasks and staff engineers for 13%. Go, Terraform and Python account for 67% of tasks, and Rust, C and C++ for another 22%.
+
+The tasks are long. An agent averages 361 turns (one model reply plus its tool calls) on a task, and 66% of tasks average 200 turns or more. ProgramBench and System design run longest, at about 470 turns. Infrastructure as code tasks are the shortest, at 115 turns.
+
+The closest public benchmarks are DeepSWE and SWE-bench Pro for long engineering work, and ProgramBench for rebuilding programs. With 1,305 tasks, our set is larger than DeepSWE (113) or ProgramBench (200) and, unlike DeepSWE, includes Terraform, C and C++. Like DeepSWE, most of its tasks were written for the catalog rather than taken from past fixes a model may have memorized.
+
+## Catalogs
 
 | Catalog | Tasks | What the tasks do | % of all tasks | Tasks with graded runs | Average turn count |
 |---|---:|---|---:|---:|---:|
