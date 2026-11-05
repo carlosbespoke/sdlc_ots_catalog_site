@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">123</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">20%</div><div class="kpi-label">Gemini 4 Argon pass rate</div></div><div class="kpi"><div class="kpi-value">10%</div><div class="kpi-label">Gemini 3.8 Flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">123</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">20%</div><div class="kpi-label">Gemini 4 Argon pass rate</div></div><div class="kpi"><div class="kpi-value">12%</div><div class="kpi-label">Gemini 3.8 Flash pass rate</div></div></div>
 
-Each task changes a production system that must keep running. In the system design tasks the agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers. In the infrastructure tasks the agent restructures live Terraform or Pulumi code so that the plan against production state changes nothing that is deployed. The main languages are HCL (Terraform) (33%), Go (31%) and Python (13%).
+Each task changes a production system that must keep running. In the system design tasks the agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers. In the infrastructure tasks the agent restructures live Terraform or Pulumi code so that the plan against production state changes nothing that is deployed. The main languages are HCL (Terraform) (63%), Python (11%) and Go (10%).
 
-Gemini 4 Argon passes 20% of its runs and fails every run on 44% of them. Gemini 3.8 Flash passes 10% of its runs and fails every run on 73% of them.
+Gemini 4 Argon passes 20% of its runs and fails every run on 44% of them. Gemini 3.8 Flash passes 12% of its runs and fails every run on 69% of them.
 
 ## Why this catalog
 
@@ -26,7 +26,7 @@ Both kinds of task give the agent a working copy of the system and grade the res
 
 ## Domain breakdown
 
-The tasks span nine domains. The largest, State-preserving infrastructure changes, makes up 36% of the catalog.
+The tasks span nine domains. The largest, State-preserving infrastructure changes, makes up 64% of the catalog.
 
 <div class="cx" data-chart="bars" data-dims="g>c=Domain" data-hint="Click a domain to filter the charts on this page; use the arrow to see its sub-domains.">
 <div class="fig-head"><span class="lab">Interactive figure</span><h4>Share of tasks by domain</h4></div>
@@ -44,25 +44,25 @@ The tasks span nine domains. The largest, State-preserving infrastructure change
 
 | Primary language | % of catalog |
 |---|---:|
-| HCL (Terraform) | 33.3% |
-| Go | 30.8% |
-| Python | 12.8% |
-| TypeScript | 12.8% |
-| C# | 10.3% |
+| HCL (Terraform) | 63.4% |
+| Python | 11.4% |
+| Go | 9.8% |
+| TypeScript | 8.1% |
+| C# | 7.3% |
 
 ### Seniority
 
 | Seniority | % of catalog |
 |---|---:|
-| Staff+ | 64.1% |
-| Senior | 35.9% |
+| Senior | 64.2% |
+| Staff+ | 35.8% |
 
 ## Gemini pass rates across the catalog
 
 | Model | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|
 | google/gemini-4-argon | 20% | 44% | 56% | 0% |
-| google/gemini-3.8-flash | 10% | 73% | 7% | 13% |
+| google/gemini-3.8-flash | 12% | 69% | 12% | 12% |
 
 <div class="cx" data-chart="reward">
 <div class="fig-head"><span class="lab">Interactive figure</span><h4>Per-task pass rate by Gemini model</h4></div>
@@ -75,10 +75,10 @@ A task's turn count is the average over its Gemini runs. A task is long horizon 
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 264.6 |
-| Median turn count | 241.0 |
+| Average turn count | 261.0 |
+| Median turn count | 235.2 |
 | Range | 36 to 931 |
-| Long-horizon tasks (200+ turns) | 62% of tasks |
+| Long-horizon tasks (200+ turns) | 61% of tasks |
 
 <div class="cx" data-chart="turns" data-group="Domain">
 <div class="fig-head"><span class="lab">Interactive figure</span><h4>Turns per task</h4></div>
@@ -87,8 +87,8 @@ A task's turn count is the average over its Gemini runs. A task is long horizon 
 
 | Model | % of tasks | Mean turns | % with 200+ turns |
 |---|---:|---:|---:|
-| google/gemini-3.8-flash | 47% | 259.7 | 52% |
-| google/gemini-4-argon | 56% | 313.2 | 79% |
+| google/gemini-3.8-flash | 48% | 256.0 | 50% |
+| google/gemini-4-argon | 55% | 313.2 | 79% |
 
 ## Sample tasks
 
@@ -274,7 +274,7 @@ The source is at `/app`. Build and run with `dotnet build src/BaGetter/BaGetter.
 .cx-mini-bar{background:var(--ink);min-height:1px}.cx-mini-n{font:600 11px var(--sans);color:var(--ink);margin-top:3px}.cx-mini-lab{font:10px var(--sans);color:var(--muted)}
 @media (max-width:640px){.cx-row{grid-template-columns:minmax(0,1fr) 64px 64px 80px}.cx-grid5 .cx-row{grid-template-columns:minmax(0,1fr) 44px 60px 52px 52px 56px}.cx-meter{display:none}.cx-bar{grid-template-columns:minmax(90px,45%) 1fr 46px}}
 </style>
-<script type="application/json" data-chart-data>{"cross":true,"models":["google/gemini-4-argon","google/gemini-3.8-flash"],"dims":{"g":["Applications & business domains","Build, release & supply chain","Cloud infrastructure & IaC","Data engineering & databases","Distributed systems & coordination","Languages & developer tooling","Scientific & ML software","Security","State-preserving infrastructure changes"],"c":["AI agents & retrieval","API tooling","CI/CD","Cloud infra: AWS platform stacks","Cloud infra: containers & self-hosted platforms","Data pipelines & ETL","Graph algorithms","Job scheduling","Media processing","Messaging & event streaming","Payments & banking","Secrets & access control","Software supply chain","Web applications"],"l":["C#","Go","HCL (Terraform)","Python","TypeScript"],"s":["Senior","Staff+"]},"tasks":[[6,6,1,1,{"1":[0,0,0,0,0,0,0,0,0,0,0]},{"1":[1209,11]}],[0,13,3,1,{"1":[0,0,0,0,0,0]},{"1":[3231,6]}],[8,3,2,0,{"0":[1,0]},{"0":[117,2]}],[0,13,1,1,{"1":[0,0,0,0,1,0]},{"1":[1956,6]}],[6,0,3,1,{"1":[0,0,0,0,0,0]},{"1":[1549,6]}],[0,10,3,1,{"1":[0,0,0,0,0,0,0,0,0,0,0,0]},{"1":[1848,12]}],[8,4,4,0,{"0":[1,0],"1":[1,0,1]},{"0":[178,2],"1":[629,3]}],[7,11,3,1,{"1":[0,0,0,0,0,0]},{"1":[1352,6]}],[0,10,4,1,{"0":[1,0,0,0,0]},{"0":[2128,5]}],[4,7,1,1,{"0":[0,0,0,0,0]},{"0":[3616,5]}],[0,8,1,1,{"0":[0,0,0,0,0]},{"0":[1736,5]}],[4,9,1,1,{"1":[0,0,0,0,0,0]},{"1":[1546,6]}],[8,3,2,0,{},{}],[0,13,0,1,{"0":[0,0,0,0,1]},{"0":[1718,5]}],[0,10,4,1,{"0":[0,0,0,0,1]},{"0":[2068,5]}],[8,4,2,0,{"0":[0,0]},{"0":[93,2]}],[4,9,0,1,{},{}],[8,3,2,0,{},{}],[8,3,2,0,{"0":[0,0]},{"0":[140,2]}],[0,13,0,1,{"0":[0,0,0,0,0]},{"0":[1375,5]}],[1,12,1,1,{"0":[0,0,0,0,0]},{"0":[1176,5]}],[1,2,1,1,{},{}],[2,4,1,1,{"1":[0,0,0,0,0,0]},{"1":[1260,6]}],[8,4,2,0,{},{}],[8,4,2,0,{},{}],[8,4,2,0,{"1":[1,1,1]},{"1":[317,3]}],[3,5,1,1,{"1":[0,0,0,0,0,0]},{"1":[641,6]}],[8,3,2,0,{},{}],[5,1,4,1,{"0":[0,0,0,0,0]},{"0":[1439,5]}],[8,3,2,0,{"0":[0,0]},{"0":[140,2]}],[8,3,2,0,{"1":[1,1,1]},{"1":[274,3]}],[6,0,1,1,{"1":[0,0,0,0,0,0]},{"1":[1481,6]}],[3,5,3,1,{"0":[0,1,1,0,1]},{"0":[1681,5]}],[8,3,2,0,{"0":[0,1]},{"0":[71,2]}],[8,4,2,0,{"1":[0,0,0]},{"1":[234,3]}],[2,4,1,1,{"1":[0,0,0,0,0,0]},{"1":[5588,6]}],[7,11,1,1,{"0":[0,0,0,1,0]},{"0":[1826,5]}],[0,13,4,1,{"0":[0,1,1,1]},{"0":[1721,4]}],[1,12,0,1,{"0":[1,0,0,0,0]},{"0":[1014,5]}]],"minTasks":5,"sat":0.8,"bin":50,"xmax":1000,"threshold":200}</script>
+<script type="application/json" data-chart-data>{"cross":true,"models":["google/gemini-4-argon","google/gemini-3.8-flash"],"dims":{"g":["Applications & business domains","Build, release & supply chain","Cloud infrastructure & IaC","Data engineering & databases","Distributed systems & coordination","Observability & reliability","Scientific & ML software","Security","State-preserving infrastructure changes"],"c":["AI agents & retrieval","API tooling","CI/CD","Cloud infra: AWS platform stacks","Cloud infra: containers & self-hosted platforms","Cloud infra: serverless & event-driven","Collaborative documents","Data pipelines & ETL","Graph algorithms","Job scheduling","Media processing","Medical imaging & healthcare","Messaging & event streaming","Monitoring & observability","Payments & banking","Secrets & access control","Software supply chain","Web applications"],"l":["C#","Go","HCL (Terraform)","Python","TypeScript"],"s":["Senior","Staff+"]},"tasks":[[8,3,2,0,{},{}],[8,5,2,0,{},{}],[0,14,3,1,{},{}],[8,3,2,0,{},{}],[5,13,3,1,{},{}],[6,8,1,1,{"1":[0,0,0,0,0,0,0,0,0,0,0]},{"1":[1209,11]}],[8,4,2,0,{},{}],[8,3,2,0,{},{}],[5,13,3,1,{},{}],[8,3,2,0,{},{}],[0,17,3,1,{"1":[0,0,0,0,0,0]},{"1":[3231,6]}],[5,13,3,1,{},{}],[8,3,2,0,{"0":[1,0]},{"0":[117,2]}],[8,5,2,0,{},{}],[0,17,0,1,{},{}],[8,3,2,0,{},{}],[0,17,1,1,{"1":[0,0,0,0,1,0]},{"1":[1956,6]}],[7,15,0,1,{},{}],[6,11,4,1,{},{}],[6,0,3,1,{"1":[0,0,0,0,0,0]},{"1":[1549,6]}],[8,3,2,0,{},{}],[0,14,3,1,{"1":[0,0,0,0,0,0,0,0,0,0,0,0]},{"1":[1848,12]}],[8,3,2,0,{},{}],[8,4,2,0,{},{}],[8,4,4,0,{"0":[1,0],"1":[1,0,1]},{"0":[178,2],"1":[629,3]}],[8,3,2,0,{},{}],[8,3,2,0,{},{}],[8,3,2,0,{},{}],[8,4,2,0,{},{}],[8,3,2,0,{},{}],[8,4,2,0,{},{}],[7,15,3,1,{"1":[0,0,0,0,0,0]},{"1":[1352,6]}],[8,3,2,0,{},{}],[8,3,2,0,{},{}],[8,3,2,0,{},{}],[0,14,4,1,{"0":[1,0,0,0,0]},{"0":[2128,5]}],[8,3,2,0,{},{}],[1,2,3,1,{},{}],[8,4,2,0,{},{}],[4,9,1,1,{"0":[0,0,0,0,0]},{"0":[3616,5]}],[8,3,2,0,{},{}],[5,13,3,1,{},{}],[0,17,4,1,{},{}],[0,10,1,1,{"0":[0,0,0,0,0]},{"0":[1736,5]}],[8,5,2,0,{"1":[1,0,1]},{"1":[435,3]}],[8,4,2,0,{},{}],[4,12,1,1,{"1":[0,0,0,0,0,0]},{"1":[1546,6]}],[8,4,2,0,{},{}],[8,3,2,0,{},{}],[0,17,0,1,{"0":[0,0,0,0,1]},{"0":[1718,5]}],[8,5,2,0,{},{}],[0,14,4,1,{"0":[0,0,0,0,1]},{"0":[2068,5]}],[8,3,2,0,{},{}],[7,15,3,1,{},{}],[8,3,2,0,{},{}],[8,4,2,0,{"0":[0,0]},{"0":[93,2]}],[4,12,0,1,{},{}],[8,4,2,0,{},{}],[8,4,2,0,{},{}],[8,3,2,0,{},{}],[8,5,2,0,{},{}],[8,3,2,0,{"0":[0,0]},{"0":[140,2]}],[8,4,2,0,{},{}],[8,3,2,0,{},{}],[8,4,2,0,{},{}],[0,17,0,1,{"0":[0,0,0,0,0]},{"0":[1375,5]}],[8,3,2,0,{},{}],[1,16,1,1,{"0":[0,0,0,0,0]},{"0":[1176,5]}],[8,3,2,0,{},{}],[0,6,3,1,{},{}],[1,2,1,1,{},{}],[8,4,2,0,{},{}],[2,4,1,1,{"1":[0,0,0,0,0,0]},{"1":[1260,6]}],[8,3,2,0,{},{}],[4,12,0,1,{},{}],[8,3,2,0,{},{}],[8,3,2,0,{},{}],[8,3,2,0,{},{}],[0,17,0,1,{},{}],[8,3,2,0,{},{}],[8,4,2,0,{},{}],[8,4,2,0,{},{}],[8,4,2,0,{},{}],[0,17,4,1,{},{}],[8,4,2,0,{},{}],[8,4,2,0,{"1":[1,1,1]},{"1":[317,3]}],[8,3,2,0,{},{}],[8,3,2,0,{},{}],[0,6,4,1,{},{}],[3,7,1,1,{"1":[0,0,0,0,0,0]},{"1":[641,6]}],[8,3,2,0,{},{}],[0,1,4,1,{"0":[0,0,0,0,0]},{"0":[1439,5]}],[8,4,2,0,{},{}],[8,3,2,0,{},{}],[8,4,2,0,{},{}],[8,3,2,0,{},{}],[8,3,2,0,{"0":[0,0]},{"0":[140,2]}],[8,5,2,0,{},{}],[8,4,2,0,{},{}],[8,3,2,0,{"1":[1,1,1]},{"1":[274,3]}],[6,0,1,1,{"1":[0,0,0,0,0,0]},{"1":[1481,6]}],[8,3,2,0,{},{}],[8,5,2,0,{},{}],[8,4,2,0,{},{}],[0,17,3,1,{},{}],[8,3,2,0,{},{}],[0,17,0,1,{},{}],[8,3,2,0,{},{}],[3,7,3,1,{"0":[0,1,1,0,1]},{"0":[1681,5]}],[8,3,2,0,{"0":[0,1]},{"0":[71,2]}],[8,3,2,0,{},{}],[8,4,2,0,{},{}],[8,4,2,0,{"1":[0,0,0]},{"1":[234,3]}],[8,3,2,0,{},{}],[8,3,2,0,{},{}],[8,4,2,0,{},{}],[8,4,2,0,{},{}],[8,3,2,0,{},{}],[0,17,4,1,{},{}],[2,4,1,1,{"1":[0,0,0,0,0,0]},{"1":[5588,6]}],[7,15,1,1,{"0":[0,0,0,1,0]},{"0":[1826,5]}],[0,17,4,1,{"0":[0,1,1,1]},{"0":[1721,4]}],[1,16,0,1,{"0":[1,0,0,0,0]},{"0":[1014,5]}]],"minTasks":5,"sat":0.8,"bin":50,"xmax":1000,"threshold":200}</script>
 <script>// Interactive charts for the Gemini-hard catalog site, ported from ../ots_all/bin/charts.js with pass rate in place of average reward:
 // bar counts are of the selected tasks (the pages' headline task counts are estimates); each run is 1 (passed) or 0, a task's value is its share of passed runs, and a model's rate pools runs across tasks, as in the tables.
 // Interactive charts for the catalog site. Each page carries one JSON data block; charts on a page share a store,

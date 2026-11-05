@@ -142,15 +142,59 @@ with open(f'{H}/samples.csv', 'w', newline='') as f:
         a_ = t['argon']; fl = t['models'].get(FLASH) or [None, None]
         w.writerow([t['sample'], SID[t['name']], URLS[SID[t['name']]], t['name'], t['id'], RO[t['id']]['version'], {'ProgramBench': 'ProgramBench and Migration', 'System design': 'System design & IaC'}.get(page(t['catalog']), page(t['catalog'])), t['catalog'], 'yes' if t in UNI else 'no (Argon at 80%)',
                     t['shortlist_no'] or f"original catalog shortlist {t['old_shortlist']}", a_['graded'], a_['passed'], f"{a_['rate']:.0%}", fl[0] or '', fl[1] if fl[0] else ''])
+# fill: each catalog page holds its headline count (the estimate, rounded so the pages add up to the rounded total).
+# Pages short of it take more tasks, hardest first by GLM-5.3 Flash pass rate. A task's GLM runs are its own; a task with none
+# borrows them from the task it was copied from (origins/, any version), or else from the same repo's reimplementation task.
+# Borrowed runs only rank tasks; the pages' pass rates and turn counts still use each task's own runs. Pages already over
+# their count keep every task (reviewer decision, 5 Nov).
+import re as _re
+_EN = collections.defaultdict(float)
+for e in EST: _EN[page(e['catalog'])] += e['estimate']
+_tot = round(sum(_EN.values())); PAGE_N = {k: int(v) for k, v in _EN.items()}
+for k in sorted(_EN, key=lambda k: -(_EN[k] - int(_EN[k])))[:_tot - sum(PAGE_N.values())]: PAGE_N[k] += 1
+_norm = lambda n: _re.sub(r'[^a-z0-9]', '', _re.sub(r'\.[0-9a-f]{7}$', '', n.lower()))
+_REIMPL = collections.defaultdict(list)
+for x in json.load(open(f'{P}/rfc/tasks.json')):
+    if x['batch_name'] == 'programbench-reimplementation-ots': _REIMPL[_norm(x['name'])].append(x['id'])
+def _glm(runs):
+    g = [q for q in runs if MM.get(q['model'], q['model']) == GLMF and not q.get('is_errored') and q.get('passed') is not None]
+    return (len(g), sum(bool(q['passed']) for q in g)) if g else None
+def glm_evidence(t):
+    if t['models'].get(GLMF): v = t['models'][GLMF]; return 'own', v[0], v[1]
+    f = f'{H}/origins/{t["id"]}.json'
+    if os.path.exists(f):
+        v = _glm([q for o in json.load(open(f))['origins'] for q in o['rollouts']])
+        if v: return 'copied-from task', *v
+    for i in _REIMPL.get(_norm(t['name']), []):
+        if i == t['id'] or not os.path.exists(f'{P}/ro/{i}.json'): continue
+        v = _glm(json.load(open(f'{P}/ro/{i}.json'))['rollouts'])
+        if v: return 'reimplementation task', *v
+    return None
+filled = []
+for pg, target in PAGE_N.items():
+    have = [t for t in UNI if page(t['catalog']) == pg]
+    cand = []
+    for t in TASKS:
+        if page(t['catalog']) != pg or t in UNI or t['argon'] or not t['in_catalog']: continue
+        ev = glm_evidence(t)
+        if ev: t['glm_source'], t['glm_graded'], t['glm_passed'] = ev; cand.append(t)
+    cand.sort(key=lambda t: (t['glm_passed'] / t['glm_graded'], -t['glm_graded'], t['glm_source'] != 'own', -(t['p_hard'] or 0), t['name']))
+    add = cand[:max(0, target - len(have))]
+    for t in add: t['status'] = 'ranked'
+    filled += add
+    print(f'fill {pg[:22]:22} target {target} had {len(have)} +{len(add)} (candidates {len(cand)}) sources {dict(collections.Counter(t["glm_source"] for t in add))}'
+          + (f' worst GLM rate added {add[-1]["glm_passed"]}/{add[-1]["glm_graded"]}' if add else ''))
+    assert len(have) + len(add) >= target, f'{pg}: not enough GLM-run candidates'
+UNI = UNI + filled
 def tier(t):
-    return 'Proven' if t['status'] == 'proven' else 'Likely'
+    return 'Proven' if t['status'] == 'proven' else 'Ranked' if t['status'] == 'ranked' else 'Likely'
 import csv
 with open(f'{H}/gemini_hard_universe.csv', 'w', newline='') as f:
     w = csv.writer(f)
     w.writerow(['Task', 'Horizon task id', 'Catalog', 'Domain', 'Category', 'Tier', 'Sample', 'Shortlist no.', 'In 1,342 catalog',
                 'Argon runs graded', 'Argon passes', 'Argon pass rate', 'Gemini 3.8 Flash runs graded', 'Gemini 3.8 Flash passes',
                 'Predicted P(Argon < 80%)', 'Other models (passed/graded)'])
-    order = {'main': 0, 'attached': 1, '': 2}; tord = {'Proven': 0, 'Likely': 1, 'Possible': 2}
+    order = {'main': 0, 'attached': 1, '': 2}; tord = {'Proven': 0, 'Likely': 1, 'Ranked': 2}
     for t in sorted(UNI, key=lambda t: ([c for _, c in CATS].index(t['catalog']), order[t['sample']], tord[tier(t)], -(t['p_hard'] or 0), t['name'])):
         a = t['argon'] or {}; fl = t['models'].get(FLASH) or [None, None]
         w.writerow([t['name'], t['id'], t['catalog'], t['domain'], t['category'], tier(t), t['sample'], t['shortlist_no'] or '', 'yes' if t['in_catalog'] else 'no',

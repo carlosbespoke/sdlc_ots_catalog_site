@@ -11,7 +11,7 @@ for d in ():
         if f.startswith('_'): continue
         for q in json.load(open(f'{P}/{d}/{f}')).get('runs', []):
             if q.get('id') and isinstance(q.get('turn_count'), (int, float)): cache[q['id']] = q
-U = [t for t in json.load(open(f'{H}/universe.json'))['tasks'] if t.get('tier')]
+U = [t for t in json.load(open(f'{H}/universe.json'))['tasks'] if t.get('tier') and not os.path.exists(f"{H}/turns/{t['id']}.json")]  # delete turns/ to refetch all
 runs = {t['id']: [q for q in json.load(open(f"{H}/ro3/{t['id']}.json"))['rollouts'] if q['model'] in GEM and not q.get('is_errored')] for t in U}
 need = [q['id'] for v in runs.values() for q in v if q['id'] not in cache]
 def get(i):

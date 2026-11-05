@@ -12,7 +12,7 @@
 <div class="reading">
 <h2 id="executive-summary">Executive summary</h2>
 <div class="kpis"><div class="kpi"><div class="kpi-value">98</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">25%</div><div class="kpi-label">Gemini 4 Argon pass rate</div></div><div class="kpi"><div class="kpi-value">7%</div><div class="kpi-label">Gemini 3.8 Flash pass rate</div></div></div>
-<p>Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Python (60%) and Go (40%).</p>
+<p>Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Python (84%), Go (6%) and Rust (4%).</p>
 <p>Gemini 4 Argon passes 25% of its runs and fails every run on 71% of them. Gemini 3.8 Flash passes 7% of its runs and fails every run on 67% of them.</p>
 <h2 id="why-this-catalog">Why this catalog</h2>
 <h3 id="problems-engineers-face">Problems engineers face</h3>
@@ -26,7 +26,7 @@
 <li>A library description with the source paths and documentation pages in scope, and the rule that documentation outranks code.</li>
 </ul>
 <h2 id="domain-breakdown">Domain breakdown</h2>
-<p>The tasks span five domains. The largest, Languages &amp; developer tooling, makes up 47% of the catalog.</p>
+<p>The tasks span 10 domains. The largest, Scientific &amp; ML software, makes up 37% of the catalog.</p>
 <div class="cx" data-chart="bars" data-dims="g>c=Domain" data-hint="Click a domain to filter the charts on this page; use the arrow to see its sub-domains.">
 <div class="fig-head"><span class="lab">Interactive figure</span><h4>Share of tasks by domain</h4></div>
 <div class="fig-box" data-body></div>
@@ -48,11 +48,23 @@
 <tbody>
 <tr>
 <td>Python</td>
-<td class="numeric">60.0%</td>
+<td class="numeric">83.7%</td>
 </tr>
 <tr>
 <td>Go</td>
-<td class="numeric">40.0%</td>
+<td class="numeric">6.1%</td>
+</tr>
+<tr>
+<td>Rust</td>
+<td class="numeric">4.1%</td>
+</tr>
+<tr>
+<td>C</td>
+<td class="numeric">4.1%</td>
+</tr>
+<tr>
+<td>TypeScript</td>
+<td class="numeric">2.0%</td>
 </tr>
 </tbody>
 </table>
@@ -69,11 +81,11 @@
 <tbody>
 <tr>
 <td>Senior</td>
-<td class="numeric">93.3%</td>
+<td class="numeric">99.0%</td>
 </tr>
 <tr>
 <td>Mid-Senior</td>
-<td class="numeric">6.7%</td>
+<td class="numeric">1.0%</td>
 </tr>
 </tbody>
 </table>
@@ -491,7 +503,7 @@ note. <code>reproducer</code> is the repo-relative path of your regression test.
 .cx-mini-bar{background:var(--ink);min-height:1px}.cx-mini-n{font:600 11px var(--sans);color:var(--ink);margin-top:3px}.cx-mini-lab{font:10px var(--sans);color:var(--muted)}
 @media (max-width:640px){.cx-row{grid-template-columns:minmax(0,1fr) 64px 64px 80px}.cx-grid5 .cx-row{grid-template-columns:minmax(0,1fr) 44px 60px 52px 52px 56px}.cx-meter{display:none}.cx-bar{grid-template-columns:minmax(90px,45%) 1fr 46px}}
 </style>
-<script type="application/json" data-chart-data>{"cross":true,"models":["google/gemini-4-argon","google/gemini-3.8-flash"],"dims":{"g":["Applications & business domains","Data engineering & databases","Distributed systems & coordination","Languages & developer tooling","Scientific & ML software"],"c":["AI agents & retrieval","CLI tooling","Calendaring & recurrence","Collaborative documents","Compilers & language runtimes","Data validation","General-purpose utility libraries","Logic programming","Machine learning & MLOps","Medical imaging & healthcare","SQL tooling","Web crawling"],"l":["Go","Python"],"s":["Mid-Senior","Senior"]},"tasks":[[3,1,0,1,{"1":[0,0,0,0,0,0]},{"1":[2598,6]}],[3,7,0,1,{"0":[0,1],"1":[0,0,0,0,0,0,0,0,0,0,0,0,0,0]},{"0":[1163,2],"1":[9205,14]}],[3,1,0,1,{"1":[0,0,0,0,0,0]},{"1":[3831,6]}],[4,8,1,0,{"0":[0]},{"0":[54,1]}],[4,9,1,1,{"0":[0,0]},{"0":[625,2]}],[4,0,1,1,{"0":[0],"1":[0,1,0,0,0,0]},{"0":[199,1],"1":[4099,6]}],[2,2,1,1,{"1":[0,0,0,0,0,0]},{"1":[3262,6]}],[1,10,1,1,{"1":[0]},{"1":[127,1]}],[3,1,0,1,{"0":[0],"1":[0,0,1,0,0,0]},{"0":[266,1],"1":[3137,6]}],[3,6,1,1,{"1":[0,0,0,0,0,0]},{"1":[563,6]}],[3,1,0,1,{"1":[0,0,0,0,0,0]},{"1":[4363,6]}],[3,4,1,1,{"0":[0,0]},{"0":[561,2]}],[0,11,1,1,{"1":[1,1],"0":[1,0,1]},{"1":[502,2],"0":[499,3]}],[0,3,0,1,{"1":[0,0,0,0,1,0]},{"1":[5499,6]}],[1,5,1,1,{"1":[0,0,0,0,0,0]},{"1":[1121,6]}]],"minTasks":5,"sat":0.8,"bin":50,"xmax":1000,"threshold":200}</script>
+<script type="application/json" data-chart-data>{"cross":true,"models":["google/gemini-4-argon","google/gemini-3.8-flash"],"dims":{"g":["Applications & business domains","Build, release & supply chain","Cloud infrastructure & IaC","Data engineering & databases","Distributed systems & coordination","Languages & developer tooling","Observability & reliability","Scientific & ML software","Security","Systems, hardware & accelerators"],"c":["AI agents & retrieval","API tooling","Analytics engineering","Build systems","CLI tooling","Calendaring & recurrence","Cloud security & compliance","Collaborative documents","Compilers & language runtimes","Compression & data integrity","Configuration management","Cryptography & secure protocols","Data formats & serialization","Data validation","Databases & storage engines","Emulators","Filesystems","Frontend & UI state","General-purpose utility libraries","IoT & smart home","Logic programming","Machine learning & MLOps","Media processing","Medical imaging & healthcare","Messaging & event streaming","Monitoring & observability","Networking & HTTP","Parser security hardening","SQL tooling","Scientific computing","Secrets & access control","Statistics & numerical methods","Web applications","Web crawling"],"l":["C","Go","Python","Rust","TypeScript"],"s":["Mid-Senior","Senior"]},"tasks":[[1,3,2,1,{},{}],[5,4,1,1,{"1":[0,0,0,0,0,0]},{"1":[2598,6]}],[9,26,3,1,{},{}],[5,20,1,1,{"0":[0,1],"1":[0,0,0,0,0,0,0,0,0,0,0,0,0,0]},{"0":[1163,2],"1":[9205,14]}],[5,4,1,1,{"1":[0,0,0,0,0,0]},{"1":[3831,6]}],[7,23,2,1,{},{}],[7,21,2,1,{},{}],[7,21,2,1,{},{}],[5,4,2,1,{},{}],[9,26,2,1,{},{}],[2,10,2,1,{},{}],[4,5,2,1,{},{}],[7,21,2,0,{"0":[0]},{"0":[54,1]}],[7,0,2,1,{},{}],[0,32,2,1,{},{}],[4,24,2,1,{},{}],[9,9,2,1,{},{}],[9,16,2,1,{},{}],[7,0,2,1,{},{}],[7,29,2,1,{},{}],[5,8,2,1,{},{}],[7,31,2,1,{},{}],[5,1,2,1,{},{}],[5,4,4,1,{},{}],[0,32,4,1,{},{}],[7,0,2,1,{},{}],[7,31,2,1,{},{}],[8,27,0,1,{},{}],[2,10,2,1,{},{}],[8,6,2,1,{},{}],[7,29,2,1,{},{}],[7,29,2,1,{},{}],[7,23,2,1,{"0":[0,0]},{"0":[625,2]}],[7,0,2,1,{"0":[0],"1":[0,1,0,0,0,0]},{"0":[199,1],"1":[4099,6]}],[4,5,3,1,{},{}],[7,0,2,1,{},{}],[0,17,2,1,{},{}],[7,21,2,1,{},{}],[5,4,3,1,{},{}],[3,12,2,1,{},{}],[7,0,2,1,{},{}],[0,32,2,1,{},{}],[7,31,2,1,{},{}],[4,5,2,1,{"1":[0,0,0,0,0,0]},{"1":[3262,6]}],[2,10,2,1,{},{}],[9,26,2,1,{},{}],[7,29,2,1,{},{}],[7,0,2,1,{},{}],[8,30,2,1,{},{}],[7,0,2,1,{},{}],[0,32,2,1,{},{}],[0,22,0,1,{},{}],[0,22,0,1,{},{}],[3,2,2,1,{},{}],[5,4,2,1,{},{}],[7,0,2,1,{},{}],[7,21,2,1,{},{}],[0,17,2,1,{},{}],[7,0,2,1,{},{}],[3,28,2,1,{"1":[0]},{"1":[127,1]}],[8,11,2,1,{},{}],[7,29,2,1,{},{}],[0,32,2,1,{},{}],[3,13,2,1,{},{}],[7,0,2,1,{},{}],[7,31,2,1,{},{}],[7,29,2,1,{},{}],[9,19,2,1,{},{}],[7,0,2,1,{},{}],[5,4,1,1,{"0":[0],"1":[0,0,1,0,0,0]},{"0":[266,1],"1":[3137,6]}],[7,0,2,1,{},{}],[0,17,3,1,{},{}],[7,0,2,1,{},{}],[7,21,2,1,{},{}],[3,28,2,1,{},{}],[0,32,2,1,{},{}],[5,18,2,1,{"1":[0,0,0,0,0,0]},{"1":[563,6]}],[5,4,2,1,{},{}],[8,30,2,1,{},{}],[9,26,2,1,{},{}],[0,32,2,1,{},{}],[3,14,2,1,{},{}],[7,31,2,1,{},{}],[3,13,2,1,{},{}],[5,4,1,1,{"1":[0,0,0,0,0,0]},{"1":[4363,6]}],[9,15,0,1,{},{}],[9,19,2,1,{},{}],[9,19,2,1,{},{}],[7,0,2,1,{},{}],[5,8,2,1,{"0":[0,0]},{"0":[561,2]}],[6,25,2,1,{},{}],[3,14,2,1,{},{}],[7,0,2,1,{},{}],[7,0,2,1,{},{}],[0,33,2,1,{"1":[1,1],"0":[1,0,1]},{"1":[502,2],"0":[499,3]}],[0,7,1,1,{"1":[0,0,0,0,1,0]},{"1":[5499,6]}],[0,32,2,1,{},{}],[3,13,2,1,{"1":[0,0,0,0,0,0]},{"1":[1121,6]}]],"minTasks":5,"sat":0.8,"bin":50,"xmax":1000,"threshold":200}</script>
 <script>// Interactive charts for the Gemini-hard catalog site, ported from ../ots_all/bin/charts.js with pass rate in place of average reward:
 // bar counts are of the selected tasks (the pages' headline task counts are estimates); each run is 1 (passed) or 0, a task's value is its share of passed runs, and a model's rate pools runs across tasks, as in the tables.
 // Interactive charts for the catalog site. Each page carries one JSON data block; charts on a page share a store,

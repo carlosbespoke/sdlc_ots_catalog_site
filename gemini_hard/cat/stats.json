@@ -26,15 +26,16 @@
   ],
   "title": "ProgramBench",
   "name": "ProgramBench and Migration",
-  "tasks": 160,
+  "tasks": 283,
   "groups": {
-   "ProgramBench": 133,
-   "Migration": 27
+   "ProgramBench": 253,
+   "Migration": 30
   },
   "group_domain": {
    "Migration": "Cross-language migration"
   },
   "tiers": {
+   "Ranked": 123,
    "Likely": 145,
    "Proven": 15
   },
@@ -195,387 +196,442 @@
   "domain": [
    {
     "super_group": "Languages & developer tooling",
-    "tasks": 59,
-    "pct": 36.9,
+    "tasks": 115,
+    "pct": 40.6,
     "categories": [
      {
       "category": "Compilers & language runtimes",
-      "tasks": 33,
-      "pct": 20.6
+      "tasks": 67,
+      "pct": 23.7
      },
      {
       "category": "CLI tooling",
-      "tasks": 13,
-      "pct": 8.1
+      "tasks": 26,
+      "pct": 9.2
      },
      {
       "category": "API tooling",
-      "tasks": 8,
-      "pct": 5.0
+      "tasks": 16,
+      "pct": 5.7
      },
      {
       "category": "Logic programming",
       "tasks": 4,
-      "pct": 2.5
+      "pct": 1.4
      },
      {
       "category": "Text & NLP processing",
-      "tasks": 1,
-      "pct": 0.6
-     }
-    ]
-   },
-   {
-    "super_group": "Cross-language migration",
-    "tasks": 27,
-    "pct": 16.9,
-    "categories": [
-     {
-      "category": "Compilers & language runtimes",
-      "tasks": 5,
-      "pct": 3.1
-     },
-     {
-      "category": "Statistics & numerical methods",
-      "tasks": 4,
-      "pct": 2.5
-     },
-     {
-      "category": "Media processing",
-      "tasks": 4,
-      "pct": 2.5
-     },
-     {
-      "category": "Collaborative documents",
       "tasks": 2,
-      "pct": 1.2
-     },
-     {
-      "category": "Data formats & serialization",
-      "tasks": 2,
-      "pct": 1.2
-     },
-     {
-      "category": "CLI tooling",
-      "tasks": 2,
-      "pct": 1.2
-     },
-     {
-      "category": "Graph algorithms",
-      "tasks": 1,
-      "pct": 0.6
-     },
-     {
-      "category": "Games & game engines",
-      "tasks": 1,
-      "pct": 0.6
-     },
-     {
-      "category": "Text & NLP processing",
-      "tasks": 1,
-      "pct": 0.6
-     },
-     {
-      "category": "Scientific computing",
-      "tasks": 1,
-      "pct": 0.6
-     },
-     {
-      "category": "Data structures",
-      "tasks": 1,
-      "pct": 0.6
-     },
-     {
-      "category": "Calendaring & recurrence",
-      "tasks": 1,
-      "pct": 0.6
-     },
-     {
-      "category": "Probabilistic data structures",
-      "tasks": 1,
-      "pct": 0.6
-     },
-     {
-      "category": "Software supply chain",
-      "tasks": 1,
-      "pct": 0.6
+      "pct": 0.7
      }
     ]
    },
    {
     "super_group": "Applications & business domains",
-    "tasks": 22,
-    "pct": 13.8,
+    "tasks": 38,
+    "pct": 13.4,
     "categories": [
      {
       "category": "Media processing",
-      "tasks": 18,
-      "pct": 11.2
+      "tasks": 30,
+      "pct": 10.6
+     },
+     {
+      "category": "Calendaring & recurrence",
+      "tasks": 2,
+      "pct": 0.7
+     },
+     {
+      "category": "Games & game engines",
+      "tasks": 2,
+      "pct": 0.7
      },
      {
       "category": "Web applications",
       "tasks": 2,
-      "pct": 1.2
+      "pct": 0.7
      },
      {
-      "category": "Games & game engines",
-      "tasks": 1,
-      "pct": 0.6
-     },
-     {
-      "category": "Calendaring & recurrence",
-      "tasks": 1,
-      "pct": 0.6
+      "category": "Fonts & text rendering",
+      "tasks": 2,
+      "pct": 0.7
      }
     ]
    },
    {
     "super_group": "Scientific & ML software",
-    "tasks": 21,
-    "pct": 13.1,
+    "tasks": 32,
+    "pct": 11.3,
     "categories": [
      {
       "category": "Scientific computing",
-      "tasks": 13,
-      "pct": 8.1
+      "tasks": 21,
+      "pct": 7.4
      },
      {
       "category": "CAD / CAM",
+      "tasks": 3,
+      "pct": 1.1
+     },
+     {
+      "category": "Graph algorithms",
+      "tasks": 3,
+      "pct": 1.1
+     },
+     {
+      "category": "Machine learning & MLOps",
       "tasks": 2,
-      "pct": 1.2
+      "pct": 0.7
      },
      {
       "category": "Geospatial",
       "tasks": 2,
-      "pct": 1.2
-     },
-     {
-      "category": "Graph algorithms",
-      "tasks": 2,
-      "pct": 1.2
-     },
-     {
-      "category": "Machine learning & MLOps",
-      "tasks": 1,
-      "pct": 0.6
+      "pct": 0.7
      },
      {
       "category": "Probabilistic data structures",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
+     }
+    ]
+   },
+   {
+    "super_group": "Cross-language migration",
+    "tasks": 30,
+    "pct": 10.6,
+    "categories": [
+     {
+      "category": "Compilers & language runtimes",
+      "tasks": 6,
+      "pct": 2.1
+     },
+     {
+      "category": "Media processing",
+      "tasks": 5,
+      "pct": 1.8
+     },
+     {
+      "category": "Statistics & numerical methods",
+      "tasks": 4,
+      "pct": 1.4
+     },
+     {
+      "category": "Data formats & serialization",
+      "tasks": 3,
+      "pct": 1.1
+     },
+     {
+      "category": "Collaborative documents",
+      "tasks": 2,
+      "pct": 0.7
+     },
+     {
+      "category": "CLI tooling",
+      "tasks": 2,
+      "pct": 0.7
+     },
+     {
+      "category": "Graph algorithms",
+      "tasks": 1,
+      "pct": 0.4
+     },
+     {
+      "category": "Games & game engines",
+      "tasks": 1,
+      "pct": 0.4
+     },
+     {
+      "category": "Text & NLP processing",
+      "tasks": 1,
+      "pct": 0.4
+     },
+     {
+      "category": "Scientific computing",
+      "tasks": 1,
+      "pct": 0.4
+     },
+     {
+      "category": "Data structures",
+      "tasks": 1,
+      "pct": 0.4
+     },
+     {
+      "category": "Calendaring & recurrence",
+      "tasks": 1,
+      "pct": 0.4
+     },
+     {
+      "category": "Probabilistic data structures",
+      "tasks": 1,
+      "pct": 0.4
+     },
+     {
+      "category": "Software supply chain",
+      "tasks": 1,
+      "pct": 0.4
      }
     ]
    },
    {
     "super_group": "Systems, hardware & accelerators",
-    "tasks": 11,
-    "pct": 6.9,
+    "tasks": 25,
+    "pct": 8.8,
     "categories": [
      {
       "category": "Compression & data integrity",
-      "tasks": 9,
-      "pct": 5.6
+      "tasks": 17,
+      "pct": 6.0
      },
      {
       "category": "Filesystems",
-      "tasks": 1,
-      "pct": 0.6
+      "tasks": 3,
+      "pct": 1.1
      },
      {
       "category": "IoT & smart home",
+      "tasks": 2,
+      "pct": 0.7
+     },
+     {
+      "category": "Networking & HTTP",
+      "tasks": 2,
+      "pct": 0.7
+     },
+     {
+      "category": "Hardware RTL",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      }
     ]
    },
    {
     "super_group": "Data engineering & databases",
-    "tasks": 8,
-    "pct": 5.0,
+    "tasks": 23,
+    "pct": 8.1,
     "categories": [
      {
       "category": "Data formats & serialization",
-      "tasks": 5,
-      "pct": 3.1
+      "tasks": 15,
+      "pct": 5.3
      },
      {
       "category": "Databases & storage engines",
-      "tasks": 2,
-      "pct": 1.2
+      "tasks": 4,
+      "pct": 1.4
      },
      {
       "category": "SQL tooling",
+      "tasks": 3,
+      "pct": 1.1
+     },
+     {
+      "category": "Data validation",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      }
     ]
    },
    {
     "super_group": "Security",
-    "tasks": 5,
-    "pct": 3.1,
+    "tasks": 9,
+    "pct": 3.2,
     "categories": [
      {
       "category": "Cryptography & secure protocols",
-      "tasks": 2,
-      "pct": 1.2
+      "tasks": 3,
+      "pct": 1.1
      },
      {
       "category": "Secret scanning",
       "tasks": 2,
-      "pct": 1.2
+      "pct": 0.7
+     },
+     {
+      "category": "Binary analysis",
+      "tasks": 1,
+      "pct": 0.4
+     },
+     {
+      "category": "Secrets & access control",
+      "tasks": 1,
+      "pct": 0.4
+     },
+     {
+      "category": "Parser security hardening",
+      "tasks": 1,
+      "pct": 0.4
      },
      {
       "category": "Cloud security & compliance",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      }
     ]
    },
    {
     "super_group": "Build, release & supply chain",
-    "tasks": 4,
-    "pct": 2.5,
+    "tasks": 6,
+    "pct": 2.1,
     "categories": [
      {
       "category": "Build systems",
-      "tasks": 3,
-      "pct": 1.9
+      "tasks": 5,
+      "pct": 1.8
      },
      {
       "category": "Software supply chain",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      }
     ]
    },
    {
     "super_group": "Cloud infrastructure & IaC",
-    "tasks": 3,
-    "pct": 1.9,
+    "tasks": 5,
+    "pct": 1.8,
     "categories": [
      {
       "category": "Configuration management",
-      "tasks": 3,
-      "pct": 1.9
+      "tasks": 4,
+      "pct": 1.4
+     },
+     {
+      "category": "Cloud infra: containers & self-hosted platforms",
+      "tasks": 1,
+      "pct": 0.4
      }
     ]
    }
   ],
   "language": [
    {
-    "value": "Agent's choice",
-    "tasks": 68,
-    "pct": 42.5
-   },
-   {
     "value": "Go",
-    "tasks": 37,
-    "pct": 23.1
+    "tasks": 82,
+    "pct": 29.0
    },
    {
-    "value": "C++",
-    "tasks": 21,
-    "pct": 13.1
+    "value": "Agent's choice",
+    "tasks": 75,
+    "pct": 26.5
    },
    {
     "value": "C",
-    "tasks": 18,
-    "pct": 11.2
+    "tasks": 47,
+    "pct": 16.6
+   },
+   {
+    "value": "C++",
+    "tasks": 45,
+    "pct": 15.9
    },
    {
     "value": "Rust",
-    "tasks": 16,
-    "pct": 10.0
+    "tasks": 34,
+    "pct": 12.0
    }
   ],
   "role": [
    {
     "value": "Compiler / Language Engineer",
-    "tasks": 41,
-    "pct": 25.6
+    "tasks": 74,
+    "pct": 26.1
    },
    {
     "value": "Developer Tools Engineer",
-    "tasks": 25,
-    "pct": 15.6
-   },
-   {
-    "value": "Media Software Engineer",
-    "tasks": 22,
-    "pct": 13.8
-   },
-   {
-    "value": "Research Software Engineer",
-    "tasks": 20,
-    "pct": 12.5
+    "tasks": 46,
+    "pct": 16.3
    },
    {
     "value": "Library / Backend Engineer",
-    "tasks": 18,
-    "pct": 11.2
+    "tasks": 36,
+    "pct": 12.7
+   },
+   {
+    "value": "Media Software Engineer",
+    "tasks": 35,
+    "pct": 12.4
+   },
+   {
+    "value": "Research Software Engineer",
+    "tasks": 30,
+    "pct": 10.6
    },
    {
     "value": "Systems Engineer",
-    "tasks": 11,
-    "pct": 6.9
+    "tasks": 21,
+    "pct": 7.4
    },
    {
     "value": "Build & Release Engineer",
-    "tasks": 5,
-    "pct": 3.1
-   },
-   {
-    "value": "Security Engineer",
-    "tasks": 4,
+    "tasks": 7,
     "pct": 2.5
    },
    {
     "value": "Database Engineer",
-    "tasks": 3,
-    "pct": 1.9
+    "tasks": 7,
+    "pct": 2.5
    },
    {
-    "value": "Embedded / IoT Engineer",
-    "tasks": 3,
-    "pct": 1.9
+    "value": "Security Engineer",
+    "tasks": 7,
+    "pct": 2.5
    },
    {
     "value": "Platform Engineer",
-    "tasks": 3,
-    "pct": 1.9
+    "tasks": 5,
+    "pct": 1.8
+   },
+   {
+    "value": "Embedded / IoT Engineer",
+    "tasks": 4,
+    "pct": 1.4
    },
    {
     "value": "Game Developer",
-    "tasks": 2,
-    "pct": 1.2
+    "tasks": 3,
+    "pct": 1.1
    },
    {
     "value": "ML / AI Engineer",
+    "tasks": 2,
+    "pct": 0.7
+   },
+   {
+    "value": "Backend Engineer",
+    "tasks": 2,
+    "pct": 0.7
+   },
+   {
+    "value": "Hardware Engineer",
     "tasks": 1,
-    "pct": 0.6
+    "pct": 0.4
    },
    {
     "value": "Full-stack Engineer",
     "tasks": 1,
-    "pct": 0.6
+    "pct": 0.4
+   },
+   {
+    "value": "SRE",
+    "tasks": 1,
+    "pct": 0.4
    },
    {
     "value": "Cloud Security Engineer",
     "tasks": 1,
-    "pct": 0.6
+    "pct": 0.4
    }
   ],
   "seniority": [
    {
     "value": "Senior",
-    "tasks": 92,
-    "pct": 57.5
+    "tasks": 208,
+    "pct": 73.5
    },
    {
     "value": "Staff+",
-    "tasks": 68,
-    "pct": 42.5
+    "tasks": 75,
+    "pct": 26.5
    }
   ],
   "models": [
@@ -855,6 +911,14 @@
     "turns": {}
    },
    {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Agent's choice",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Build, release & supply chain",
     "cat": "Build systems",
     "lang": "Go",
@@ -881,6 +945,14 @@
     "cat": "Compilers & language runtimes",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -951,6 +1023,30 @@
     }
    },
    {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Compression & data integrity",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Agent's choice",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Scientific & ML software",
     "cat": "Scientific computing",
     "lang": "C",
@@ -976,6 +1072,62 @@
       11
      ]
     }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Security",
+    "cat": "Binary analysis",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Filesystems",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "IoT & smart home",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Cross-language migration",
@@ -1014,6 +1166,14 @@
       4
      ]
     }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Build systems",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Languages & developer tooling",
@@ -1084,6 +1244,14 @@
    },
    {
     "sg": "Data engineering & databases",
+    "cat": "SQL tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Data engineering & databases",
     "cat": "Data formats & serialization",
     "lang": "Go",
     "sen": "Senior",
@@ -1105,10 +1273,26 @@
     }
    },
    {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Scientific & ML software",
     "cat": "Machine learning & MLOps",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Rust",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -1159,6 +1343,14 @@
    {
     "sg": "Cross-language migration",
     "cat": "Collaborative documents",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
     "lang": "Go",
     "sen": "Senior",
     "scores": {},
@@ -1248,6 +1440,14 @@
     "turns": {}
    },
    {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Systems, hardware & accelerators",
     "cat": "Compression & data integrity",
     "lang": "Agent's choice",
@@ -1272,10 +1472,42 @@
     "turns": {}
    },
    {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Applications & business domains",
     "cat": "Media processing",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Agent's choice",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "C",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -1296,6 +1528,14 @@
       2
      ]
     }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Languages & developer tooling",
@@ -1324,6 +1564,30 @@
     "turns": {}
    },
    {
+    "sg": "Applications & business domains",
+    "cat": "Calendaring & recurrence",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Scientific & ML software",
     "cat": "Scientific computing",
     "lang": "Agent's choice",
@@ -1336,6 +1600,14 @@
     "cat": "Scientific computing",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C++",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -1372,6 +1644,14 @@
     }
    },
    {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "Agent's choice",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Scientific & ML software",
     "cat": "Scientific computing",
     "lang": "C++",
@@ -1392,6 +1672,14 @@
       6
      ]
     }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Languages & developer tooling",
@@ -1476,6 +1764,14 @@
     "turns": {}
    },
    {
+    "sg": "Cross-language migration",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Applications & business domains",
     "cat": "Media processing",
     "lang": "C",
@@ -1496,6 +1792,22 @@
       6
      ]
     }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Cross-language migration",
@@ -1551,6 +1863,14 @@
    },
    {
     "sg": "Data engineering & databases",
+    "cat": "Data validation",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Data engineering & databases",
     "cat": "SQL tooling",
     "lang": "Agent's choice",
     "sen": "Staff+",
@@ -1566,6 +1886,14 @@
     "turns": {}
    },
    {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Applications & business domains",
     "cat": "Media processing",
     "lang": "Agent's choice",
@@ -1578,6 +1906,22 @@
     "cat": "Media processing",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Cloud infrastructure & IaC",
+    "cat": "Configuration management",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -1650,6 +1994,22 @@
     "turns": {}
    },
    {
+    "sg": "Security",
+    "cat": "Secrets & access control",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Cross-language migration",
+    "cat": "Data formats & serialization",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Cross-language migration",
     "cat": "Media processing",
     "lang": "C++",
@@ -1666,6 +2026,14 @@
       2
      ]
     }
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Networking & HTTP",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Build, release & supply chain",
@@ -1732,6 +2100,30 @@
       6
      ]
     }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Security",
@@ -1832,6 +2224,14 @@
     "turns": {}
    },
    {
+    "sg": "Scientific & ML software",
+    "cat": "Graph algorithms",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Languages & developer tooling",
     "cat": "Compilers & language runtimes",
     "lang": "Go",
@@ -1855,6 +2255,22 @@
    },
    {
     "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Compression & data integrity",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
     "cat": "Compilers & language runtimes",
     "lang": "Agent's choice",
     "sen": "Staff+",
@@ -1874,6 +2290,22 @@
     "cat": "Compilers & language runtimes",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Filesystems",
+    "lang": "Rust",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -1939,6 +2371,22 @@
     "turns": {}
    },
    {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Languages & developer tooling",
     "cat": "CLI tooling",
     "lang": "Rust",
@@ -1996,10 +2444,58 @@
     }
    },
    {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Text & NLP processing",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Applications & business domains",
     "cat": "Media processing",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -2020,6 +2516,14 @@
       2
      ]
     }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Scientific & ML software",
@@ -2070,6 +2574,30 @@
     "turns": {}
    },
    {
+    "sg": "Security",
+    "cat": "Parser security hardening",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Cloud infrastructure & IaC",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Languages & developer tooling",
     "cat": "API tooling",
     "lang": "Agent's choice",
@@ -2104,6 +2632,14 @@
     }
    },
    {
+    "sg": "Data engineering & databases",
+    "cat": "Databases & storage engines",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Languages & developer tooling",
     "cat": "CLI tooling",
     "lang": "Agent's choice",
@@ -2112,10 +2648,26 @@
     "turns": {}
    },
    {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Systems, hardware & accelerators",
     "cat": "Compression & data integrity",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "C",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -2140,6 +2692,14 @@
     "cat": "Probabilistic data structures",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -2196,10 +2756,34 @@
     "turns": {}
    },
    {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Applications & business domains",
     "cat": "Media processing",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -2236,6 +2820,22 @@
    {
     "sg": "Languages & developer tooling",
     "cat": "Compilers & language runtimes",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Compression & data integrity",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
     "lang": "C",
     "sen": "Senior",
     "scores": {
@@ -2256,8 +2856,48 @@
     }
    },
    {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Hardware RTL",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Cross-language migration",
     "cat": "Media processing",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
     "lang": "Go",
     "sen": "Senior",
     "scores": {},
@@ -2276,6 +2916,14 @@
     "cat": "Media processing",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -2383,6 +3031,14 @@
     }
    },
    {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Systems, hardware & accelerators",
     "cat": "Compression & data integrity",
     "lang": "C",
@@ -2443,8 +3099,24 @@
     }
    },
    {
+    "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Cross-language migration",
     "cat": "Calendaring & recurrence",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
     "lang": "Go",
     "sen": "Senior",
     "scores": {},
@@ -2470,6 +3142,14 @@
    },
    {
     "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Agent's choice",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
     "cat": "Text & NLP processing",
     "lang": "Go",
     "sen": "Senior",
@@ -2491,10 +3171,26 @@
     }
    },
    {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Agent's choice",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Scientific & ML software",
     "cat": "Scientific computing",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -2565,6 +3261,14 @@
     }
    },
    {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Compression & data integrity",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Applications & business domains",
     "cat": "Media processing",
     "lang": "Agent's choice",
@@ -2595,10 +3299,34 @@
     }
    },
    {
+    "sg": "Security",
+    "cat": "Cryptography & secure protocols",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Agent's choice",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Applications & business domains",
     "cat": "Media processing",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -2631,6 +3359,22 @@
     }
    },
    {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Games & game engines",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Systems, hardware & accelerators",
     "cat": "Compression & data integrity",
     "lang": "Agent's choice",
@@ -2661,6 +3405,14 @@
     }
    },
    {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Compression & data integrity",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Scientific & ML software",
     "cat": "Scientific computing",
     "lang": "C",
@@ -2681,6 +3433,22 @@
       6
      ]
     }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "SQL tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Compression & data integrity",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Scientific & ML software",
@@ -2721,6 +3489,22 @@
     }
    },
    {
+    "sg": "Cross-language migration",
+    "cat": "Media processing",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Build systems",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Languages & developer tooling",
     "cat": "Compilers & language runtimes",
     "lang": "Agent's choice",
@@ -2747,10 +3531,34 @@
     }
    },
    {
+    "sg": "Applications & business domains",
+    "cat": "Fonts & text rendering",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Cloud infrastructure & IaC",
     "cat": "Configuration management",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Go",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -2807,6 +3615,22 @@
     }
    },
    {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Security",
     "cat": "Secret scanning",
     "lang": "Agent's choice",
@@ -2815,10 +3639,42 @@
     "turns": {}
    },
    {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Networking & HTTP",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Languages & developer tooling",
     "cat": "Compilers & language runtimes",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Fonts & text rendering",
+    "lang": "C++",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -2842,6 +3698,22 @@
       5
      ]
     }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Cross-language migration",
@@ -2886,6 +3758,30 @@
     }
    },
    {
+    "sg": "Data engineering & databases",
+    "cat": "Databases & storage engines",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Machine learning & MLOps",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Scientific & ML software",
     "cat": "Scientific computing",
     "lang": "Agent's choice",
@@ -2928,6 +3824,14 @@
     "cat": "API tooling",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -2999,6 +3903,22 @@
     "turns": {}
    },
    {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Languages & developer tooling",
     "cat": "Compilers & language runtimes",
     "lang": "Agent's choice",
@@ -3043,9 +3963,41 @@
     "turns": {}
    },
    {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Compression & data integrity",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Cross-language migration",
     "cat": "Software supply chain",
     "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
     "sen": "Senior",
     "scores": {},
     "turns": {}
@@ -3071,6 +4023,14 @@
       6
      ]
     }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Languages & developer tooling",
@@ -3104,9 +4064,25 @@
    },
    {
     "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
     "cat": "CLI tooling",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -3162,6 +4138,46 @@
    },
    {
     "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
     "cat": "CLI tooling",
     "lang": "Rust",
     "sen": "Senior",
@@ -3213,6 +4229,14 @@
     }
    },
    {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Languages & developer tooling",
     "cat": "Compilers & language runtimes",
     "lang": "Agent's choice",
@@ -3233,6 +4257,22 @@
     "cat": "Logic programming",
     "lang": "Agent's choice",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "CAD / CAM",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Compression & data integrity",
+    "lang": "C++",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    }
@@ -3377,15 +4417,16 @@
   ],
   "title": "System design",
   "name": "System design & IaC",
-  "tasks": 39,
+  "tasks": 123,
   "groups": {
-   "System design": 25,
-   "Infrastructure as code": 14
+   "System design": 44,
+   "Infrastructure as code": 79
   },
   "group_domain": {
    "Infrastructure as code": "State-preserving infrastructure changes"
   },
   "tiers": {
+   "Ranked": 84,
    "Likely": 21,
    "Proven": 18
   },
@@ -3441,10 +4482,10 @@
    1.0
   ],
   "turns": {
-   "tasks_with_turns": 32,
-   "runs": 160,
-   "mean_of_task_means": 264.5976799242424,
-   "median_of_task_means": 241.01666666666665,
+   "tasks_with_turns": 33,
+   "runs": 163,
+   "mean_of_task_means": 260.973507805326,
+   "median_of_task_means": 235.2,
    "long_horizon_tasks": 20,
    "threshold": 200,
    "task_means": [
@@ -3459,6 +4500,7 @@
     425.6,
     723.2,
     347.2,
+    145.0,
     257.6666666666667,
     343.6,
     413.6,
@@ -3487,9 +4529,9 @@
     {
      "codename": "kittiwake",
      "model": "google/gemini-3.8-flash",
-     "runs": 89,
-     "tasks": 15,
-     "mean": 259.7191011235955,
+     "runs": 92,
+     "tasks": 16,
+     "mean": 255.97826086956522,
      "runs_200_plus": 46
     },
     {
@@ -3503,143 +4545,165 @@
    ]
   },
   "super_groups": 9,
-  "folded": {},
+  "folded": {
+   "Languages & developer tooling": "Applications & business domains"
+  },
   "domain": [
    {
     "super_group": "State-preserving infrastructure changes",
-    "tasks": 14,
-    "pct": 35.9,
+    "tasks": 79,
+    "pct": 64.2,
     "categories": [
      {
       "category": "Cloud infra: AWS platform stacks",
-      "tasks": 8,
-      "pct": 20.5
+      "tasks": 45,
+      "pct": 36.6
      },
      {
       "category": "Cloud infra: containers & self-hosted platforms",
-      "tasks": 6,
-      "pct": 15.4
+      "tasks": 27,
+      "pct": 22.0
+     },
+     {
+      "category": "Cloud infra: serverless & event-driven",
+      "tasks": 7,
+      "pct": 5.7
      }
     ]
    },
    {
     "super_group": "Applications & business domains",
-    "tasks": 9,
-    "pct": 23.1,
+    "tasks": 20,
+    "pct": 16.3,
     "categories": [
      {
       "category": "Web applications",
-      "tasks": 5,
-      "pct": 12.8
+      "tasks": 12,
+      "pct": 9.8
      },
      {
       "category": "Payments & banking",
-      "tasks": 3,
-      "pct": 7.7
+      "tasks": 4,
+      "pct": 3.3
+     },
+     {
+      "category": "Collaborative documents",
+      "tasks": 2,
+      "pct": 1.6
      },
      {
       "category": "Media processing",
       "tasks": 1,
-      "pct": 2.6
+      "pct": 0.8
+     },
+     {
+      "category": "API tooling",
+      "tasks": 1,
+      "pct": 0.8
+     }
+    ]
+   },
+   {
+    "super_group": "Observability & reliability",
+    "tasks": 4,
+    "pct": 3.3,
+    "categories": [
+     {
+      "category": "Monitoring & observability",
+      "tasks": 4,
+      "pct": 3.3
      }
     ]
    },
    {
     "super_group": "Scientific & ML software",
-    "tasks": 3,
-    "pct": 7.7,
+    "tasks": 4,
+    "pct": 3.3,
     "categories": [
      {
       "category": "AI agents & retrieval",
       "tasks": 2,
-      "pct": 5.1
+      "pct": 1.6
      },
      {
       "category": "Graph algorithms",
       "tasks": 1,
-      "pct": 2.6
-     }
-    ]
-   },
-   {
-    "super_group": "Distributed systems & coordination",
-    "tasks": 3,
-    "pct": 7.7,
-    "categories": [
-     {
-      "category": "Messaging & event streaming",
-      "tasks": 2,
-      "pct": 5.1
+      "pct": 0.8
      },
      {
-      "category": "Job scheduling",
+      "category": "Medical imaging & healthcare",
       "tasks": 1,
-      "pct": 2.6
-     }
-    ]
-   },
-   {
-    "super_group": "Build, release & supply chain",
-    "tasks": 3,
-    "pct": 7.7,
-    "categories": [
-     {
-      "category": "Software supply chain",
-      "tasks": 2,
-      "pct": 5.1
-     },
-     {
-      "category": "CI/CD",
-      "tasks": 1,
-      "pct": 2.6
+      "pct": 0.8
      }
     ]
    },
    {
     "super_group": "Security",
-    "tasks": 2,
-    "pct": 5.1,
+    "tasks": 4,
+    "pct": 3.3,
     "categories": [
      {
       "category": "Secrets & access control",
+      "tasks": 4,
+      "pct": 3.3
+     }
+    ]
+   },
+   {
+    "super_group": "Build, release & supply chain",
+    "tasks": 4,
+    "pct": 3.3,
+    "categories": [
+     {
+      "category": "CI/CD",
       "tasks": 2,
-      "pct": 5.1
+      "pct": 1.6
+     },
+     {
+      "category": "Software supply chain",
+      "tasks": 2,
+      "pct": 1.6
+     }
+    ]
+   },
+   {
+    "super_group": "Distributed systems & coordination",
+    "tasks": 4,
+    "pct": 3.3,
+    "categories": [
+     {
+      "category": "Messaging & event streaming",
+      "tasks": 3,
+      "pct": 2.4
+     },
+     {
+      "category": "Job scheduling",
+      "tasks": 1,
+      "pct": 0.8
      }
     ]
    },
    {
     "super_group": "Cloud infrastructure & IaC",
     "tasks": 2,
-    "pct": 5.1,
+    "pct": 1.6,
     "categories": [
      {
       "category": "Cloud infra: containers & self-hosted platforms",
       "tasks": 2,
-      "pct": 5.1
+      "pct": 1.6
      }
     ]
    },
    {
     "super_group": "Data engineering & databases",
     "tasks": 2,
-    "pct": 5.1,
+    "pct": 1.6,
     "categories": [
      {
       "category": "Data pipelines & ETL",
       "tasks": 2,
-      "pct": 5.1
-     }
-    ]
-   },
-   {
-    "super_group": "Languages & developer tooling",
-    "tasks": 1,
-    "pct": 2.6,
-    "categories": [
-     {
-      "category": "API tooling",
-      "tasks": 1,
-      "pct": 2.6
+      "pct": 1.6
      }
     ]
    }
@@ -3647,89 +4711,89 @@
   "language": [
    {
     "value": "HCL (Terraform)",
-    "tasks": 13,
-    "pct": 33.3
+    "tasks": 78,
+    "pct": 63.4
+   },
+   {
+    "value": "Python",
+    "tasks": 14,
+    "pct": 11.4
    },
    {
     "value": "Go",
     "tasks": 12,
-    "pct": 30.8
-   },
-   {
-    "value": "Python",
-    "tasks": 5,
-    "pct": 12.8
+    "pct": 9.8
    },
    {
     "value": "TypeScript",
-    "tasks": 5,
-    "pct": 12.8
+    "tasks": 10,
+    "pct": 8.1
    },
    {
     "value": "C#",
-    "tasks": 4,
-    "pct": 10.3
+    "tasks": 9,
+    "pct": 7.3
    }
   ],
   "role": [
    {
     "value": "Platform Engineer",
-    "tasks": 16,
-    "pct": 41.0
+    "tasks": 81,
+    "pct": 65.9
    },
    {
     "value": "Distributed Systems Engineer",
-    "tasks": 14,
-    "pct": 35.9
+    "tasks": 33,
+    "pct": 26.8
    },
    {
     "value": "Backend Engineer",
     "tasks": 3,
-    "pct": 7.7
+    "pct": 2.4
    },
    {
     "value": "Library / Backend Engineer",
     "tasks": 2,
-    "pct": 5.1
+    "pct": 1.6
    },
    {
     "value": "ML / AI Engineer",
     "tasks": 2,
-    "pct": 5.1
+    "pct": 1.6
    },
    {
     "value": "Security Engineer",
     "tasks": 1,
-    "pct": 2.6
+    "pct": 0.8
    },
    {
     "value": "Data Engineer",
     "tasks": 1,
-    "pct": 2.6
+    "pct": 0.8
    }
   ],
   "seniority": [
    {
-    "value": "Staff+",
-    "tasks": 25,
-    "pct": 64.1
+    "value": "Senior",
+    "tasks": 79,
+    "pct": 64.2
    },
    {
-    "value": "Senior",
-    "tasks": 14,
-    "pct": 35.9
+    "value": "Staff+",
+    "tasks": 44,
+    "pct": 35.8
    }
   ],
   "models": [
    {
     "codename": "umbra",
     "model": "google/gemini-4-argon",
-    "tasks": 18,
-    "rollouts": 87,
+    "tasks": 20,
+    "rollouts": 89,
     "graded": 71,
     "passed": 14,
     "pass_rate": 0.19718309859154928,
-    "error_rate": 0.1839080459770115,
+    "error_rate": 0.20224719101123595,
     "tasks_graded": 18,
     "tasks_0": 8,
     "tasks_100": 0,
@@ -3758,16 +4822,16 @@
    {
     "codename": "kittiwake",
     "model": "google/gemini-3.8-flash",
-    "tasks": 18,
-    "rollouts": 106,
-    "graded": 89,
-    "passed": 9,
-    "pass_rate": 0.10112359550561797,
-    "error_rate": 0.16037735849056603,
-    "tasks_graded": 15,
+    "tasks": 21,
+    "rollouts": 114,
+    "graded": 92,
+    "passed": 11,
+    "pass_rate": 0.11956521739130435,
+    "error_rate": 0.19298245614035087,
+    "tasks_graded": 16,
     "tasks_0": 11,
     "tasks_100": 2,
-    "tasks_20_80": 1,
+    "tasks_20_80": 2,
     "per_task_rates": [
      0.0,
      0.0,
@@ -3776,6 +4840,7 @@
      0.0,
      0.6666666666666666,
      0.0,
+     0.6666666666666666,
      0.0,
      0.0,
      1.0,
@@ -3915,6 +4980,46 @@
   "min_tasks": 5,
   "task_rows": [
    {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: serverless & event-driven",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Payments & banking",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Observability & reliability",
+    "cat": "Monitoring & observability",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Scientific & ML software",
     "cat": "Graph algorithms",
     "lang": "Go",
@@ -3942,6 +5047,38 @@
     }
    },
    {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Observability & reliability",
+    "cat": "Monitoring & observability",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Applications & business domains",
     "cat": "Web applications",
     "lang": "Python",
@@ -3964,6 +5101,14 @@
     }
    },
    {
+    "sg": "Observability & reliability",
+    "cat": "Monitoring & observability",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "State-preserving infrastructure changes",
     "cat": "Cloud infra: AWS platform stacks",
     "lang": "HCL (Terraform)",
@@ -3980,6 +5125,30 @@
       2
      ]
     }
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: serverless & event-driven",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "C#",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Applications & business domains",
@@ -4004,6 +5173,22 @@
     }
    },
    {
+    "sg": "Security",
+    "cat": "Secrets & access control",
+    "lang": "C#",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Medical imaging & healthcare",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Scientific & ML software",
     "cat": "AI agents & retrieval",
     "lang": "Python",
@@ -4024,6 +5209,14 @@
       6
      ]
     }
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Applications & business domains",
@@ -4055,6 +5248,22 @@
    },
    {
     "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
     "cat": "Cloud infra: containers & self-hosted platforms",
     "lang": "TypeScript",
     "sen": "Senior",
@@ -4081,6 +5290,54 @@
     }
    },
    {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Security",
     "cat": "Secrets & access control",
     "lang": "Python",
@@ -4101,6 +5358,30 @@
       6
      ]
     }
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Applications & business domains",
@@ -4124,6 +5405,30 @@
     }
    },
    {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "CI/CD",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Distributed systems & coordination",
     "cat": "Job scheduling",
     "lang": "Go",
@@ -4143,6 +5448,30 @@
       5
      ]
     }
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Observability & reliability",
+    "cat": "Monitoring & observability",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Applications & business domains",
@@ -4166,6 +5495,33 @@
     }
    },
    {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: serverless & event-driven",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      1,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      435,
+      3
+     ]
+    }
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Distributed systems & coordination",
     "cat": "Messaging & event streaming",
     "lang": "Go",
@@ -4186,6 +5542,14 @@
       6
      ]
     }
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "State-preserving infrastructure changes",
@@ -4217,6 +5581,14 @@
     }
    },
    {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: serverless & event-driven",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Applications & business domains",
     "cat": "Payments & banking",
     "lang": "TypeScript",
@@ -4236,6 +5608,30 @@
       5
      ]
     }
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Security",
+    "cat": "Secrets & access control",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "State-preserving infrastructure changes",
@@ -4265,7 +5661,31 @@
    },
    {
     "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
     "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: serverless & event-driven",
     "lang": "HCL (Terraform)",
     "sen": "Senior",
     "scores": {},
@@ -4290,6 +5710,30 @@
     }
    },
    {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Applications & business domains",
     "cat": "Web applications",
     "lang": "C#",
@@ -4309,6 +5753,14 @@
       5
      ]
     }
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Build, release & supply chain",
@@ -4332,10 +5784,34 @@
     }
    },
    {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Collaborative documents",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Build, release & supply chain",
     "cat": "CI/CD",
     "lang": "Go",
     "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
     "scores": {},
     "turns": {}
    },
@@ -4363,9 +5839,89 @@
    },
    {
     "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Messaging & event streaming",
+    "lang": "C#",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "C#",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
     "cat": "Cloud infra: containers & self-hosted platforms",
     "lang": "HCL (Terraform)",
     "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
     "scores": {},
     "turns": {}
    },
@@ -4395,6 +5951,30 @@
       3
      ]
     }
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Collaborative documents",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Data engineering & databases",
@@ -4427,7 +6007,7 @@
     "turns": {}
    },
    {
-    "sg": "Languages & developer tooling",
+    "sg": "Applications & business domains",
     "cat": "API tooling",
     "lang": "TypeScript",
     "sen": "Staff+",
@@ -4449,6 +6029,38 @@
    },
    {
     "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
     "cat": "Cloud infra: AWS platform stacks",
     "lang": "HCL (Terraform)",
     "sen": "Senior",
@@ -4464,6 +6076,22 @@
       2
      ]
     }
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: serverless & event-driven",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "State-preserving infrastructure changes",
@@ -4507,6 +6135,62 @@
     }
    },
    {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: serverless & event-driven",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "C#",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Data engineering & databases",
     "cat": "Data pipelines & ETL",
     "lang": "Python",
@@ -4547,6 +6231,22 @@
    },
    {
     "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
     "cat": "Cloud infra: containers & self-hosted platforms",
     "lang": "HCL (Terraform)",
     "sen": "Senior",
@@ -4563,6 +6263,54 @@
       3
      ]
     }
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "State-preserving infrastructure changes",
+    "cat": "Cloud infra: AWS platform stacks",
+    "lang": "HCL (Terraform)",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Cloud infrastructure & IaC",
@@ -4677,12 +6425,13 @@
   ],
   "title": "Diagnosis, Debugging, and Bug Fixing",
   "name": "Diagnosis, Debugging, and Bug Fixing",
-  "tasks": 15,
+  "tasks": 98,
   "groups": {
-   "Diagnosis, Debugging, and Bug Fixing": 15
+   "Diagnosis, Debugging, and Bug Fixing": 98
   },
   "group_domain": {},
   "tiers": {
+   "Ranked": 83,
    "Likely": 8,
    "Proven": 7
   },
@@ -4773,101 +6522,246 @@
     }
    ]
   },
-  "super_groups": 5,
+  "super_groups": 10,
   "folded": {},
   "domain": [
    {
-    "super_group": "Languages & developer tooling",
-    "tasks": 7,
-    "pct": 46.7,
-    "categories": [
-     {
-      "category": "CLI tooling",
-      "tasks": 4,
-      "pct": 26.7
-     },
-     {
-      "category": "Logic programming",
-      "tasks": 1,
-      "pct": 6.7
-     },
-     {
-      "category": "General-purpose utility libraries",
-      "tasks": 1,
-      "pct": 6.7
-     },
-     {
-      "category": "Compilers & language runtimes",
-      "tasks": 1,
-      "pct": 6.7
-     }
-    ]
-   },
-   {
     "super_group": "Scientific & ML software",
-    "tasks": 3,
-    "pct": 20.0,
+    "tasks": 36,
+    "pct": 36.7,
     "categories": [
+     {
+      "category": "AI agents & retrieval",
+      "tasks": 17,
+      "pct": 17.3
+     },
      {
       "category": "Machine learning & MLOps",
-      "tasks": 1,
-      "pct": 6.7
+      "tasks": 6,
+      "pct": 6.1
+     },
+     {
+      "category": "Scientific computing",
+      "tasks": 6,
+      "pct": 6.1
+     },
+     {
+      "category": "Statistics & numerical methods",
+      "tasks": 5,
+      "pct": 5.1
      },
      {
       "category": "Medical imaging & healthcare",
-      "tasks": 1,
-      "pct": 6.7
-     },
-     {
-      "category": "AI agents & retrieval",
-      "tasks": 1,
-      "pct": 6.7
-     }
-    ]
-   },
-   {
-    "super_group": "Data engineering & databases",
-    "tasks": 2,
-    "pct": 13.3,
-    "categories": [
-     {
-      "category": "SQL tooling",
-      "tasks": 1,
-      "pct": 6.7
-     },
-     {
-      "category": "Data validation",
-      "tasks": 1,
-      "pct": 6.7
+      "tasks": 2,
+      "pct": 2.0
      }
     ]
    },
    {
     "super_group": "Applications & business domains",
-    "tasks": 2,
-    "pct": 13.3,
+    "tasks": 15,
+    "pct": 15.3,
     "categories": [
+     {
+      "category": "Web applications",
+      "tasks": 8,
+      "pct": 8.2
+     },
+     {
+      "category": "Frontend & UI state",
+      "tasks": 3,
+      "pct": 3.1
+     },
+     {
+      "category": "Media processing",
+      "tasks": 2,
+      "pct": 2.0
+     },
      {
       "category": "Web crawling",
       "tasks": 1,
-      "pct": 6.7
+      "pct": 1.0
      },
      {
       "category": "Collaborative documents",
       "tasks": 1,
-      "pct": 6.7
+      "pct": 1.0
+     }
+    ]
+   },
+   {
+    "super_group": "Languages & developer tooling",
+    "tasks": 14,
+    "pct": 14.3,
+    "categories": [
+     {
+      "category": "CLI tooling",
+      "tasks": 9,
+      "pct": 9.2
+     },
+     {
+      "category": "Compilers & language runtimes",
+      "tasks": 2,
+      "pct": 2.0
+     },
+     {
+      "category": "Logic programming",
+      "tasks": 1,
+      "pct": 1.0
+     },
+     {
+      "category": "API tooling",
+      "tasks": 1,
+      "pct": 1.0
+     },
+     {
+      "category": "General-purpose utility libraries",
+      "tasks": 1,
+      "pct": 1.0
+     }
+    ]
+   },
+   {
+    "super_group": "Systems, hardware & accelerators",
+    "tasks": 10,
+    "pct": 10.2,
+    "categories": [
+     {
+      "category": "Networking & HTTP",
+      "tasks": 4,
+      "pct": 4.1
+     },
+     {
+      "category": "IoT & smart home",
+      "tasks": 3,
+      "pct": 3.1
+     },
+     {
+      "category": "Compression & data integrity",
+      "tasks": 1,
+      "pct": 1.0
+     },
+     {
+      "category": "Filesystems",
+      "tasks": 1,
+      "pct": 1.0
+     },
+     {
+      "category": "Emulators",
+      "tasks": 1,
+      "pct": 1.0
+     }
+    ]
+   },
+   {
+    "super_group": "Data engineering & databases",
+    "tasks": 9,
+    "pct": 9.2,
+    "categories": [
+     {
+      "category": "Data validation",
+      "tasks": 3,
+      "pct": 3.1
+     },
+     {
+      "category": "SQL tooling",
+      "tasks": 2,
+      "pct": 2.0
+     },
+     {
+      "category": "Databases & storage engines",
+      "tasks": 2,
+      "pct": 2.0
+     },
+     {
+      "category": "Data formats & serialization",
+      "tasks": 1,
+      "pct": 1.0
+     },
+     {
+      "category": "Analytics engineering",
+      "tasks": 1,
+      "pct": 1.0
+     }
+    ]
+   },
+   {
+    "super_group": "Security",
+    "tasks": 5,
+    "pct": 5.1,
+    "categories": [
+     {
+      "category": "Secrets & access control",
+      "tasks": 2,
+      "pct": 2.0
+     },
+     {
+      "category": "Parser security hardening",
+      "tasks": 1,
+      "pct": 1.0
+     },
+     {
+      "category": "Cloud security & compliance",
+      "tasks": 1,
+      "pct": 1.0
+     },
+     {
+      "category": "Cryptography & secure protocols",
+      "tasks": 1,
+      "pct": 1.0
      }
     ]
    },
    {
     "super_group": "Distributed systems & coordination",
-    "tasks": 1,
-    "pct": 6.7,
+    "tasks": 4,
+    "pct": 4.1,
     "categories": [
      {
       "category": "Calendaring & recurrence",
+      "tasks": 3,
+      "pct": 3.1
+     },
+     {
+      "category": "Messaging & event streaming",
       "tasks": 1,
-      "pct": 6.7
+      "pct": 1.0
+     }
+    ]
+   },
+   {
+    "super_group": "Cloud infrastructure & IaC",
+    "tasks": 3,
+    "pct": 3.1,
+    "categories": [
+     {
+      "category": "Configuration management",
+      "tasks": 3,
+      "pct": 3.1
+     }
+    ]
+   },
+   {
+    "super_group": "Build, release & supply chain",
+    "tasks": 1,
+    "pct": 1.0,
+    "categories": [
+     {
+      "category": "Build systems",
+      "tasks": 1,
+      "pct": 1.0
+     }
+    ]
+   },
+   {
+    "super_group": "Observability & reliability",
+    "tasks": 1,
+    "pct": 1.0,
+    "categories": [
+     {
+      "category": "Monitoring & observability",
+      "tasks": 1,
+      "pct": 1.0
      }
     ]
    }
@@ -4875,64 +6769,139 @@
   "language": [
    {
     "value": "Python",
-    "tasks": 9,
-    "pct": 60.0
+    "tasks": 82,
+    "pct": 83.7
    },
    {
     "value": "Go",
     "tasks": 6,
-    "pct": 40.0
+    "pct": 6.1
+   },
+   {
+    "value": "Rust",
+    "tasks": 4,
+    "pct": 4.1
+   },
+   {
+    "value": "C",
+    "tasks": 4,
+    "pct": 4.1
+   },
+   {
+    "value": "TypeScript",
+    "tasks": 2,
+    "pct": 2.0
    }
   ],
   "role": [
    {
-    "value": "Developer Tools Engineer",
-    "tasks": 4,
-    "pct": 26.7
+    "value": "ML / AI Engineer",
+    "tasks": 24,
+    "pct": 24.5
    },
    {
     "value": "Library / Backend Engineer",
-    "tasks": 4,
-    "pct": 26.7
+    "tasks": 13,
+    "pct": 13.3
    },
    {
-    "value": "Compiler / Language Engineer",
-    "tasks": 3,
-    "pct": 20.0
-   },
-   {
-    "value": "ML / AI Engineer",
-    "tasks": 3,
-    "pct": 20.0
+    "value": "Developer Tools Engineer",
+    "tasks": 10,
+    "pct": 10.2
    },
    {
     "value": "Backend Engineer",
+    "tasks": 10,
+    "pct": 10.2
+   },
+   {
+    "value": "Research Software Engineer",
+    "tasks": 10,
+    "pct": 10.2
+   },
+   {
+    "value": "Embedded / IoT Engineer",
+    "tasks": 5,
+    "pct": 5.1
+   },
+   {
+    "value": "Compiler / Language Engineer",
+    "tasks": 4,
+    "pct": 4.1
+   },
+   {
+    "value": "Systems Engineer",
+    "tasks": 4,
+    "pct": 4.1
+   },
+   {
+    "value": "Full-stack Engineer",
+    "tasks": 4,
+    "pct": 4.1
+   },
+   {
+    "value": "Platform Engineer",
+    "tasks": 3,
+    "pct": 3.1
+   },
+   {
+    "value": "Data Scientist",
+    "tasks": 3,
+    "pct": 3.1
+   },
+   {
+    "value": "Security Engineer",
+    "tasks": 2,
+    "pct": 2.0
+   },
+   {
+    "value": "Media Software Engineer",
+    "tasks": 2,
+    "pct": 2.0
+   },
+   {
+    "value": "Build & Release Engineer",
     "tasks": 1,
-    "pct": 6.7
+    "pct": 1.0
+   },
+   {
+    "value": "Analytics Engineer",
+    "tasks": 1,
+    "pct": 1.0
+   },
+   {
+    "value": "Data Engineer",
+    "tasks": 1,
+    "pct": 1.0
+   },
+   {
+    "value": "Observability Engineer",
+    "tasks": 1,
+    "pct": 1.0
    }
   ],
   "seniority": [
    {
     "value": "Senior",
-    "tasks": 14,
-    "pct": 93.3
+    "tasks": 97,
+    "pct": 99.0
    },
    {
     "value": "Mid-Senior",
     "tasks": 1,
-    "pct": 6.7
+    "pct": 1.0
    }
   ],
   "models": [
    {
     "codename": "umbra",
     "model": "google/gemini-4-argon",
-    "tasks": 8,
-    "rollouts": 18,
+    "tasks": 9,
+    "rollouts": 19,
     "graded": 12,
     "passed": 3,
     "pass_rate": 0.25,
-    "error_rate": 0.3333333333333333,
+    "error_rate": 0.3684210526315789,
     "tasks_graded": 7,
     "tasks_0": 5,
     "tasks_100": 0,
@@ -4950,12 +6919,12 @@
    {
     "codename": "kittiwake",
     "model": "google/gemini-3.8-flash",
-    "tasks": 15,
-    "rollouts": 108,
+    "tasks": 16,
+    "rollouts": 109,
     "graded": 71,
     "passed": 5,
     "pass_rate": 0.07042253521126761,
-    "error_rate": 0.3425925925925926,
+    "error_rate": 0.3486238532110092,
     "tasks_graded": 12,
     "tasks_0": 8,
     "tasks_100": 1,
@@ -5140,6 +7109,14 @@
   "min_tasks": 5,
   "task_rows": [
    {
+    "sg": "Build, release & supply chain",
+    "cat": "Build systems",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Languages & developer tooling",
     "cat": "CLI tooling",
     "lang": "Go",
@@ -5160,6 +7137,14 @@
       6
      ]
     }
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Networking & HTTP",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Languages & developer tooling",
@@ -5223,6 +7208,62 @@
    },
    {
     "sg": "Scientific & ML software",
+    "cat": "Medical imaging & healthcare",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Machine learning & MLOps",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Machine learning & MLOps",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Networking & HTTP",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Cloud infrastructure & IaC",
+    "cat": "Configuration management",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Calendaring & recurrence",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
     "cat": "Machine learning & MLOps",
     "lang": "Python",
     "sen": "Mid-Senior",
@@ -5237,6 +7278,158 @@
       1
      ]
     }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Messaging & event streaming",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Compression & data integrity",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Filesystems",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Statistics & numerical methods",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "TypeScript",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Statistics & numerical methods",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Security",
+    "cat": "Parser security hardening",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Cloud infrastructure & IaC",
+    "cat": "Configuration management",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Security",
+    "cat": "Cloud security & compliance",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Scientific & ML software",
@@ -5288,6 +7481,78 @@
    {
     "sg": "Distributed systems & coordination",
     "cat": "Calendaring & recurrence",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Frontend & UI state",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Machine learning & MLOps",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Statistics & numerical methods",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Calendaring & recurrence",
     "lang": "Python",
     "sen": "Senior",
     "scores": {
@@ -5308,6 +7573,126 @@
     }
    },
    {
+    "sg": "Cloud infrastructure & IaC",
+    "cat": "Configuration management",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Networking & HTTP",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Security",
+    "cat": "Secrets & access control",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Analytics engineering",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Machine learning & MLOps",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Frontend & UI state",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Data engineering & databases",
     "cat": "SQL tooling",
     "lang": "Python",
@@ -5323,6 +7708,78 @@
       1
      ]
     }
+   },
+   {
+    "sg": "Security",
+    "cat": "Cryptography & secure protocols",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data validation",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Statistics & numerical methods",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "IoT & smart home",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Languages & developer tooling",
@@ -5354,6 +7811,54 @@
     }
    },
    {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Frontend & UI state",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Machine learning & MLOps",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "SQL tooling",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Languages & developer tooling",
     "cat": "General-purpose utility libraries",
     "lang": "Python",
@@ -5378,6 +7883,62 @@
    {
     "sg": "Languages & developer tooling",
     "cat": "CLI tooling",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Security",
+    "cat": "Secrets & access control",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Networking & HTTP",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Databases & storage engines",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Statistics & numerical methods",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data validation",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
     "lang": "Go",
     "sen": "Senior",
     "scores": {
@@ -5398,6 +7959,38 @@
     }
    },
    {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Emulators",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "IoT & smart home",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "IoT & smart home",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
     "sg": "Languages & developer tooling",
     "cat": "Compilers & language runtimes",
     "lang": "Python",
@@ -5414,6 +8007,38 @@
       2
      ]
     }
+   },
+   {
+    "sg": "Observability & reliability",
+    "cat": "Monitoring & observability",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Databases & storage engines",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "AI agents & retrieval",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Applications & business domains",
@@ -5463,6 +8088,14 @@
       6
      ]
     }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Python",
+    "sen": "Senior",
+    "scores": {},
+    "turns": {}
    },
    {
     "sg": "Data engineering & databases",
