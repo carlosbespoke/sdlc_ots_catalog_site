@@ -96,7 +96,18 @@ for slug, cat in CATS:
              'max_task_mean': max(means) if means else None, 'min_task_mean': min(means) if means else None,
              'by_model': [{'model': m, 'runs': v[0], 'tasks': len(v[3]), 'mean': v[1] / v[0], 'runs_200_plus': v[2]} for m, v in sorted(tm.items(), key=lambda x: -x[1][0])]}
     run_any = sum(1 for r in R if any(o['graded'] for o in model_rows(r['id']).values()))
+    # one row per task for the interactive charts: folded domain, sub-domain, language, seniority,
+    # each model's grader scores (graded runs) and turn totals (completed runs)
+    trows = []
+    for r in R:
+        sc = collections.defaultdict(list)
+        for q in RO[r['id']]['rollouts']:
+            if q['model'] in DROPPED or q.get('is_errored') or q.get('passed') is None: continue
+            sc[MM[q['model']]].append(round(q.get('extracted_score') or 0, 4))
+        tu = collections.defaultdict(lambda: [0, 0])
+        for x in TURNS[r['id']]: v = tu[MM[x['model']]]; v[0] += x['turn_count']; v[1] += 1
+        trows.append({'sg': dg(r), 'cat': r['cat'], 'lang': r['lang'], 'sen': r['sen'], 'scores': dict(sc), 'turns': {m: v for m, v in tu.items()}})
     out[slug] = {'title': cat, 'name': cat, 'tasks': n, 'tasks_graded': run_any, 'min_tasks': MIN_TASKS, 'turns': turns, 'super_groups': len(dom), 'folded': fold, 'domain': dom,
-                 'language': dist('lang'), 'role': dist('role'), 'seniority': dist('sen'), 'models': models, 'showcase': show}
+                 'language': dist('lang'), 'role': dist('role'), 'seniority': dist('sen'), 'models': models, 'showcase': show, 'task_rows': trows}
     print(slug, n, 'graded', run_any, 'models', [(m['model'], m['rollouts'], m['tasks_graded']) for m in models][:5], 'turn tasks', len(TS), 'samples', len(show))
 json.dump(out, open(f'{H}/cat/stats.json', 'w'), indent=1)

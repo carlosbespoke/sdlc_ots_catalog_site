@@ -49,6 +49,23 @@ def langs(s):
     named = ', '.join(f"{x['value']} ({x['pct']:.0f}%)" for x in rest[:-1]) + (' and ' if len(rest) > 1 else '') + (f"{rest[-1]['value']} ({rest[-1]['pct']:.0f}%)" if rest else '')
     if choice: return f"In {choice['pct']:.0f}% of tasks the agent chooses the language; the most common fixed languages are {named}."
     return f"The language is {named}." if len(rest) == 1 else f"The main languages are {named}."
+nob = lambda x: '\n'.join(l for l in x.splitlines() if l.strip())  # raw HTML blocks must not contain blank lines
+CX_CSS, CX_JS = open(f'{H}/bin/charts.css').read(), open(f'{H}/bin/charts.js').read()
+def chart(kind, title, extra=''):
+    return nob(f'<div class="cx" data-chart="{kind}"{extra}>\n<div class="fig-head"><span class="lab">Interactive figure</span><h4>{title}</h4></div>\n<div class="fig-box" data-body></div>\n</div>') + '\n'
+def runtime(data):
+    return nob('<div data-chart-runtime>\n<style>' + CX_CSS + '</style>\n<script type="application/json" data-chart-data>' + json.dumps(data, separators=(',', ':'))
+               + '</script>\n<script>' + CX_JS + '</script>\n</div>') + '\n'
+def page_data(s):
+    """Per-task rows for a catalog page: domain, sub-domain, language, seniority, scores and turns per model."""
+    tr = s['task_rows']; models = [m['model'] for m in s['models']]
+    for r in tr:
+        for m in list(r['scores']) + list(r['turns']):
+            if m not in models: models.append(m)
+    dims = {k: sorted({r[f] for r in tr}) for k, f in (('g', 'sg'), ('c', 'cat'), ('l', 'lang'), ('s', 'sen'))}
+    rows = [[dims['g'].index(r['sg']), dims['c'].index(r['cat']), dims['l'].index(r['lang']), dims['s'].index(r['sen']),
+             {models.index(m): v for m, v in r['scores'].items() if v}, {models.index(m): v for m, v in r['turns'].items()}] for r in tr]
+    return {'cross': True, 'models': models, 'dims': dims, 'tasks': rows, 'minTasks': s['min_tasks'], 'sat': 0.8, 'bin': 50, 'xmax': 1000, 'threshold': s['turns']['threshold']}
 for slug, s in S.items():
     W = TXT[slug]; n = s['tasks']; MIN = s['min_tasks']; tm = top(s); L = []
     L.append(f"# {s['name']}\n")
@@ -68,9 +85,9 @@ for slug, s in S.items():
     d0 = s['domain'][0]
     L.append(f"The tasks span {NUMW.get(len(s['domain']), len(s['domain']))} domain{'s' if len(s['domain']) > 1 else ''}."
              + (f" The largest, {d0['super_group']}, makes up {d0['pct']:.0f}% of the catalog.\n" if len(s['domain']) > 1 else '\n'))
-    L.append(f'![Share of tasks by domain](assets/{slug}_domain.svg)\n')
+    L.append(chart('bars', 'Share of tasks by domain', ' data-dims="g>c=Domain" data-hint="Click a domain to filter the charts on this page; use the arrow to see its sub-domains."'))
     L.append('## Language and seniority\n')
-    L.append(f'![Primary language and seniority](assets/{slug}_metadata.svg)\n')
+    L.append(chart('bars', 'Primary language and seniority', ' data-dims="l:8=Primary language,s=Seniority"'))
     for key, title in [('language', 'Primary language'), ('seniority', 'Seniority')]:
         L.append(f'### {title}\n'); L.append(table([title, '% of catalog'], [[x['value'], f"{100 * x['tasks'] / n:.1f}%"] for x in s[key]]) + '\n')
     L.append('## Model average reward across the catalog\n')
@@ -80,10 +97,9 @@ for slug, s in S.items():
         Q = lambda a, b: 'n/a' if not b else f"{100 * a / b:.0f}%"
         L.append(table(['Model', 'Tasks run', 'Graded runs', 'Average reward', 'Tasks at 0%', 'Tasks at 20-80%', 'Tasks at 100%'],
             [[m['model'], f"{m['tasks_graded']:,}", f"{m['graded']:,}", pct(m['reward']), Q(m['tasks_0'], m['tasks_graded']), Q(m['tasks_20_80'], m['tasks_graded']), Q(m['tasks_100'], m['tasks_graded'])] for m in M]) + '\n')
-        if os.path.exists(f'{OUT}/assets/{slug}_per_task.svg'):
-            sat = [m['model'] for m in M if m['tasks_100'] / m['tasks_graded'] >= 0.8]
-            L.append('![Per-task average reward by model](assets/' + slug + '_per_task.svg)\n')
-            if sat: L.append(f"The chart leaves out {' and '.join(sat)}, which score{'s' if len(sat) == 1 else ''} full marks on every run of 80% or more of {'its' if len(sat) == 1 else 'their'} tasks.\n")
+        sat = [m['model'] for m in M if m['tasks_100'] / m['tasks_graded'] >= 0.8]
+        L.append(chart('reward', 'Per-task average reward by model'))
+        if sat: L.append(f"The chart starts with {' and '.join(sat)} hidden, because {'it scores' if len(sat) == 1 else 'they score'} full marks on every run of 80% or more of {'its' if len(sat) == 1 else 'their'} tasks. Click {'its' if len(sat) == 1 else 'their'} button to show {'it' if len(sat) == 1 else 'them'}.\n")
     if few: L.append(f"Also run on fewer than {NUMW[MIN]} tasks: " + ', '.join(f"{m['model']} ({m['tasks_graded']} task{'s' if m['tasks_graded'] > 1 else ''}, {pct(m['reward'])} average reward over {m['graded']} runs)" for m in few) + '.\n')
     TT = s['turns']
     L.append('## Turn counts and long-horizon tasks\n')
@@ -92,7 +108,7 @@ for slug, s in S.items():
         L.append(f"A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is {TT['threshold']} or more turns. {k:,} of the {n:,} tasks have a completed run.\n")
         L.append(table(['Measure', 'Value'], [['Average turn count', f"{TT['mean_of_task_means']:.1f}"], ['Median turn count', f"{TT['median_of_task_means']:.1f}"],
             ['Range', f"{TT['min_task_mean']:.0f} to {TT['max_task_mean']:.0f}"], [f"Long-horizon tasks ({TT['threshold']}+ turns)", f"{100 * TT['long_horizon_tasks'] / k:.0f}% of tasks"]]) + '\n')
-        L.append(f'![Turns per task](assets/{slug}_turns.svg)\n')
+        L.append(chart('turns', 'Turns per task', ' data-group="Domain"'))
         L.append(table(['Model', '% of tasks', 'Mean turns', f"% of runs with {TT['threshold']}+ turns"],
             [[m['model'], (f"{100 * m['tasks'] / k:.0f}%" if 100 * m['tasks'] / k >= 0.5 else '<1%'), f"{m['mean']:.1f}", f"{100 * m['runs_200_plus'] / m['runs']:.0f}%"] for m in TT['by_model']]) + '\n')
     L.append('## Sample tasks\n')
@@ -115,6 +131,7 @@ for slug, s in S.items():
         if os.path.exists(src):
             shutil.copyfile(src, f"{OUT}/assets/env-{t['task_id']}.svg"); L.append(f"![How the task works](assets/env-{t['task_id']}.svg)\n")
         else: L.append('_Diagram pending._\n')
+    L.append(runtime(page_data(s)))
     open(f'{OUT}/{slug}.md', 'w').write('\n'.join(L))
     print(slug, n, 'tasks', len(s['showcase']), 'samples')
 # overview
@@ -156,7 +173,11 @@ L.append(table(['Catalog'] + BENCH, [[s_['name']] + ['✓' if b in TXT[k].get('b
                align='l' + 'c' * len(BENCH)) + '\n')
 L.append('## Model average reward\n')
 L.append("Each cell is a model's average reward in one catalog (average@k): on each task, the mean grader score over its graded runs, partial credit included; then the mean over the tasks it ran there.\n")
-L.append('![Average reward by model and catalog](assets/overview_models.svg)\n')
+HM = [m for m, _ in sorted(allm.items(), key=lambda kv: -kv[1][0])]
+HEAT = {'models': HM, 'catalogs': [s_['name'] for s_ in S.values()], 'minTasks': S['programbench']['min_tasks'],
+        'cells': [[j, HM.index(m['model']), m['graded'], [round(v, 4) for v in m['per_task_rates']]] for j, s_ in enumerate(S.values()) for m in s_['models'] if m['model'] in HM and m['per_task_rates']]}
+L.append(chart('heat', 'Average reward by model and catalog', '').replace('<div class="fig-box" data-body></div>',
+    '<div class="fig-box" data-body></div>\n<span data-links hidden>' + ''.join(f'<a href="{k}.html">{s_["name"]}</a>' for k, s_ in S.items()) + '</span>'))
 L.append(table(['Model', 'Tasks run', 'Graded runs', 'Average reward'], [[m, f"{len(v[2]):,}", f"{v[0]:,}", pct(sum(v[3]) / len(v[3]))] for m, v in sorted(allm.items(), key=lambda kv: -kv[1][0])]) + '\n')
 L.append('## Samples\n')
 L.append("Each sample is a full task, downloadable from its task id. The average reward is that of the model with the most graded runs on the task.\n")
@@ -170,24 +191,16 @@ L.append(table(['Catalog', 'Example', 'Task id', 'Model with most graded runs', 
 allt = [m for s in S.values() for m in s['turns']['task_means']]
 L.append('## Turn counts\n')
 L.append(f"A task's turn count is the average over its completed runs, from every model. Across all catalogs the average is {sum(allt) / len(allt):.0f} turns, and {100 * sum(m >= 200 for m in allt) / len(allt):.0f}% of tasks average 200 turns or more.\n")
-# interactive version of the turns histogram: per task, the turn sums and run counts of each model
+# the overview's turns chart: per task, its catalog and each model's turn total and run count
 TXM = [m for m, _ in sorted(allm.items(), key=lambda kv: -kv[1][0])]; TXC = [s_['title'] for s_ in S.values()]
 txt = []
 for t in TASKS:
     if not TURNS[t['id']]: continue
     acc = collections.defaultdict(lambda: [0, 0])
     for q in TURNS[t['id']]: a_ = acc[MM[q['model']]]; a_[0] += q['turn_count']; a_[1] += 1
-    txt.append([TXC.index(t['catalog']), [[TXM.index(m), v[0], v[1]] for m, v in acc.items()]])
-TXD = {'bin': 50, 'xmax': 1000, 'threshold': 200, 'catalogs': [S[k]['name'] for k in S], 'tasks': txt,
-       'models': [{'name': m, 'tasks': sum(1 for t in txt if any(r[0] == i for r in t[1]))} for i, m in enumerate(TXM)]}
-nob = lambda x: '\n'.join(l for l in x.splitlines() if l.strip())
-L.append(nob('<div class="fig" data-turns-explorer>\n<div class="fig-head"><span class="lab">Interactive figure</span><h4>Turns per task, all catalogs</h4></div>\n'
-    '<div class="fig-box">\n<style>' + open(f'{H}/bin/turns_explorer.css').read() + '</style>\n'
-    '<div class="tx-chips" data-chips aria-label="Models"></div>\n<p class="tx-summary" data-summary></p>\n'
-    '<svg class="tx-svg" viewBox="0 0 940 330" role="img" aria-label="Histogram of average turns per task"></svg>\n'
-    '<p class="tx-hint">Toggle models to recompute each task from their runs only. Drag the red line to move the long-horizon threshold. Click a bar to see its tasks by catalog.</p>\n'
-    '<div data-panel></div>\n<script type="application/json">' + json.dumps(TXD, separators=(',', ':')) + '</script>\n'
-    '<script>' + open(f'{H}/bin/turns_explorer.js').read() + '</script>\n</div></div>') + '\n')
+    txt.append([TXC.index(t['catalog']), 0, 0, 0, {}, {TXM.index(m): v for m, v in acc.items()}])
+L.append(chart('turns', 'Turns per task, all catalogs', ' data-group="Catalog"'))
+L.append(runtime({'cross': False, 'models': TXM, 'dims': {'g': [s_['name'] for s_ in S.values()]}, 'tasks': txt, 'bin': 50, 'xmax': 1000, 'threshold': 200, 'heat': HEAT}))
 open(f'{OUT}/README.md', 'w').write('\n'.join(L))
 print('README', TOT, 'tasks,', len(smp), 'samples')
 # CSVs: every task with its catalog, metadata and per-model results; and the samples
