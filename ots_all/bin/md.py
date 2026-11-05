@@ -126,7 +126,7 @@ for slug, s in S.items():
         for m, v in runs(t['id']).items(): a = allm[m]; a[0] += len(v); a[1] += sum(x for x, _ in v); a[2].add(t['id'])
 graded = sum(v[0] for v in allm.values())
 L = ['# Coding OTS RL Envs\n']
-L.append('<div class="kpis">' + kpi(f"{TOT:,}", 'Tasks') + kpi(f"{len(allm)}", 'Models with graded runs') + kpi(f"{graded:,}", 'Graded runs') + '</div>\n')
+L.append('<div class="kpis">' + kpi(f"{TOT:,}", 'Tasks') + ''.join(kpi(pct(v[1] / v[0]), f'{m} pass rate') for m, v in sorted(allm.items(), key=lambda kv: -kv[1][0])) + '</div>\n')
 L.append(f"Our coding RL environments, grouped into {NUMW[len(S)]} catalogs, with the pass rates of every model that has run them. All numbers come from one snapshot of Horizon runs ({SNAPSHOT[:10]}), at the task versions selected on the 2 Nov sheet.\n")
 tt = lambda s: f"{s['turns']['mean_of_task_means']:.0f}" if s['turns']['tasks_with_turns'] else 'n/a'
 L.append(table(['Catalog', 'Tasks', 'What the tasks do', '% of all tasks', 'Tasks with graded runs', 'Average turn count'],

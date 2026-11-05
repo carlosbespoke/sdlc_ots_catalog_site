@@ -79,7 +79,8 @@ for slug, cat in CATS:
 # overview
 md = open(f'{C}/README.md').read(); K = kpis(md); PM = per_model(TASKS)
 eq('overview card: tasks', K.get('Tasks'), f'{total:,}')
-eq('overview card: graded runs', K.get('Graded runs'), f"{sum(v[0] for v in PM.values()):,}")
+for m, v in PM.items(): eq(f'overview card: {m}', K.get(f'{m} pass rate'), pct(v[1] / v[0]))
+eq('overview card: count', len(K), 1 + len(PM))
 for r in rows(md, '['):
     slug = re.search(r'\(([\w-]+)\.md\)', r[0]).group(1); cat = dict(CATS)[slug]; T = [t for t in TASKS if t['catalog'] == cat]
     tm = [statistics.mean(x['turn_count'] for x in TURNS[t['id']]) for t in T if TURNS[t['id']]]

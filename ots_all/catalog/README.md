@@ -1,6 +1,6 @@
 # Coding OTS RL Envs
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">1,305</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">3</div><div class="kpi-label">Models with graded runs</div></div><div class="kpi"><div class="kpi-value">7,999</div><div class="kpi-label">Graded runs</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">1,305</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">42%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div><div class="kpi"><div class="kpi-value">60%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
 
 Our coding RL environments, grouped into seven catalogs, with the pass rates of every model that has run them. All numbers come from one snapshot of Horizon runs (2026-11-02), at the task versions selected on the 2 Nov sheet.
 
