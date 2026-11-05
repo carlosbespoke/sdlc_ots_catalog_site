@@ -34,5 +34,32 @@
    "task_id": "4b5ae5a6-e206-4fa0-9299-ab4e94f3fd93",
    "submitted": "2026-11-04T23:17:36Z"
   }
- ]
+ ],
+ "retries": [
+  {
+   "evaluation_id": "6153f7e7-e3b0-4c84-bd06-697e3fd2eb8a",
+   "codename": "kittiwake",
+   "model": "Gemini 3.8 Flash",
+   "catalog": "Infrastructure as code",
+   "task": "terraform-multi-model-router-module-refactor",
+   "task_id": "4ebfe45f-42ba-4277-b053-47c9dfca7eb5",
+   "submitted": "2026-11-05T01:13:05Z",
+   "retry_of": "839769ce-3ec5-4aec-9d91-d7aa9b9bc3ab"
+  },
+  {
+   "evaluation_id": "17c448b6-0fe8-4a70-92ff-19b40c8c113c",
+   "codename": "steppe",
+   "model": "GLM 5.3 Flash",
+   "catalog": "Data engineering",
+   "task": "pdk-sqlite-history-json-schema",
+   "task_id": "4b5ae5a6-e206-4fa0-9299-ab4e94f3fd93",
+   "submitted": "2026-11-05T01:13:07Z",
+   "retry_of": "bd7faa3c-067b-488b-b9af-90b672ae4192"
+  }
+ ],
+ "first_round": {
+  "umbra": "completed, 198 turns, $6.31, passed",
+  "kittiwake": "failed: trial_exception (RuntimeError before first turn)",
+  "steppe": "failed: trial_exception (RuntimeError before first turn)"
+ }
 }
