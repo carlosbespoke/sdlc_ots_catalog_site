@@ -13,7 +13,6 @@ export HORIZON_API_KEY="$(security find-generic-password -a "$USER" -s HORIZON_A
 ~/code/horizon_env/bin/python3 bin/fetch_turns.py         # turn counts of Gemini runs (turns/)
 ~/code/horizon_env/bin/python3 bin/fetch_files.py         # task files for samples without a local copy (show/; untrusted, never run)
 ~/code/horizon_env/bin/python3 bin/gh_stats.py            # cat/stats.json
-../pipeline/.venv/bin/python bin/gh_plots.py              # catalog/assets/*.svg
 ~/code/horizon_env/bin/python3 bin/gh_md.py               # catalog/*.md and the CSV's example column
 cd catalog && ../../pipeline/.venv/bin/python build_site.py --verify && python3 build_single.py && cd ..
 ~/code/horizon_env/bin/python3 bin/check_consistency.py      # recomputes every number on the pages from ro3/ and turns/
@@ -28,6 +27,8 @@ Write-ups for samples that are not OTS catalog examples are in `cat/samples_text
 ## Rules
 
 - **Gemini-hard:** Argon pass rate under 80% (passes over graded runs).
+- **Charts:** the figures are interactive, built by `bin/charts.js` and `bin/charts.css`, ported from the all-models report (`../ots_all/bin/charts.js`) with pass rate in place of average reward. `gh_md.py` embeds one JSON data block per page from `task_rows` in `cat/stats.json`. A task's value is its share of passed Gemini runs, and a model's rate pools its runs across tasks, so the charts give the same numbers as the tables. Bar-chart counts are of the selected tasks; the headline task counts are estimates.
+- **Argon failure modes:** the overview's failure-mode section is the 4 Nov supplement on the 22 samples (`cat/failure_modes.json`). `gh_md.py` computes the run totals and pass@1/pass@2 from the snapshot and stops if the supplement's counts do not add up to them.
 - **Models shown:** Gemini 4 Argon and Gemini 3.8 Flash. Gemini 3.7 Flash is left out of every page, plot, turn count and CSV column (`DROPPED` in `bin/common.py`). Its runs still count as evidence when predicting Likely tasks, so the selection is unchanged.
 - **Proven:** Argon has run the task and is under 80%.
 - **Likely:** no Argon runs, at least one graded run from some model, and a predicted chance of 50% or more. The prediction is the catalog's Argon share, adjusted by GLM-5.3 Flash and Gemini 3.8 Flash results on the task (naive Bayes, `bin/universe.py`).

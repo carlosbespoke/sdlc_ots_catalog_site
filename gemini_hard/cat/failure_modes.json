@@ -1,0 +1,35 @@
+{
+ "_source": "Long Horizon OTS supplement, Gemini 4 Argon failure modes and improvement opportunities (Bespoke Labs, 4 Nov 2026). Each of the 22 samples is counted once under its main failure mode; runs are Argon's graded runs that did not pass. gh_md.py checks that the counts add up to the snapshot's totals.",
+ "modes": [
+  {"mode": "Workflow and access failures", "runs": 15, "tasks": 6,
+   "summary": "Missed cleanup, conflict handling or permitted access during a workflow.",
+   "examples": [
+    ["Cancelled upload", "Cancelling an upload should free its reserved space. Argon's version kept the space occupied, so the next upload was rejected as over quota."],
+    ["Overlapping upload and delete", "A valid package upload should still finish when a delete overlaps with it. Argon's version rejected the upload as a conflict."],
+    ["Download permissions", "A scanner should be allowed to download from its assigned repository. Argon's security change blocked that permitted download."]]},
+  {"mode": "Incorrect data or state", "runs": 6, "tasks": 4,
+   "summary": "Lost values, changed future behavior or missed database-change notifications.",
+   "examples": [
+    ["Saving and reopening a frequency counter", "After reopening, the counter used a different random sequence, so it no longer continued identically when given the same new inputs."],
+    ["Adding CSV support", "The data-processing tool should preserve correct summary totals. Argon's changes produced a count of 75 matching records where 119 were expected."],
+    ["Restoring an older database", "Restoration should preserve values in columns added later. Argon's version lost those values when restoring an older-format database."]]},
+  {"mode": "Incomplete ports and rebuilds", "runs": 5, "tasks": 3,
+   "summary": "Failed to preserve the original behavior across inputs or deliver a program that builds.",
+   "examples": [
+    ["Porting a counting library", "Ordinary counts worked, but the largest supported count failed in one storage format. The port should match the original at that limit."],
+    ["Rebuilding a video encoder", "Argon selected from fixed encoded samples, which could not handle the wider range of video inputs. Only 32 of 453 checks passed."],
+    ["Porting a graph library", "Duplicate functions and incompatible function calls stopped the submitted code from compiling, so none of the behavior checks could run."]]},
+  {"mode": "Missing required behavior", "runs": 6, "tasks": 4,
+   "summary": "Passed many checks while missing required modes, interfaces or processing paths.",
+   "examples": [
+    ["Combining image filters", "Argon's repair still failed when inclusion and exclusion filters were used together. Only images allowed by both rules should be processed."],
+    ["Fixing incorrect experiment results", "Failed training runs were being reported as zero loss. Argon reproduced the bug, but its fix covered only two of four tested variants."]]},
+  {"mode": "Unfinished integration and features", "runs": 7, "tasks": 5,
+   "summary": "Left configuration dependencies, module connections or requested API options incomplete.",
+   "examples": [
+    ["Changing a deployment's project name", "Generated machine startup scripts still contained the old project name. The setting should have updated everywhere it was used."],
+    ["Splitting infrastructure into modules", "The top-level configuration still read outputs from the old resources, rather than from the new modules as required."],
+    ["Adding XML options", "New options were meant to control null values and whitespace. Argon's submitted library rejected both options as unrecognized arguments."]]}
+ ],
+ "headroom": "Argon often implements much of the solution, but misses conditions that matter in real use: cancelling an upload, restoring older data, combining settings, or keeping totals correct after a change. More training examples covering these situations can help strengthen that behavior. These environments provide concrete failure cases, realistic implementation work, and executable checks to measure whether the gaps are closing."
+}

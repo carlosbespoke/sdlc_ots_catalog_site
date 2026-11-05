@@ -61,6 +61,24 @@ SUM = json.load(open(f'{H}/cat/summary_text.json'))
 WHY = json.load(open(f'{H}/cat/why_text.json'))  # written for the merged catalogs, from the selected tasks' prompts and files
 NUMW = {1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine'}
 def kpi(value, label): return f'<div class="kpi"><div class="kpi-value">{value.replace("<", "&lt;")}</div><div class="kpi-label">{label}</div></div>'
+# interactive charts, the same code as the all-models report (../ots_all/bin/charts.js), here with pass rates (bin/charts.js)
+nob = lambda x: '\n'.join(l for l in x.splitlines() if l.strip())  # raw HTML blocks must not contain blank lines
+CX_CSS, CX_JS = open(f'{H}/bin/charts.css').read(), open(f'{H}/bin/charts.js').read()
+def chart(kind, title, extra=''):
+    return nob(f'<div class="cx" data-chart="{kind}"{extra}>\n<div class="fig-head"><span class="lab">Interactive figure</span><h4>{title}</h4></div>\n<div class="fig-box" data-body></div>\n</div>') + '\n'
+def runtime(data):
+    return nob('<div data-chart-runtime>\n<style>' + CX_CSS + '</style>\n<script type="application/json" data-chart-data>' + json.dumps(data, separators=(',', ':'))
+               + '</script>\n<script>' + CX_JS + '</script>\n</div>') + '\n'
+def page_data(s):
+    """Per-task rows for a catalog page: domain, sub-domain, language, seniority, each Gemini model's runs (1 passed, 0 not) and turns."""
+    tr = s['task_rows']; models = [m['model'] for m in s['models']]
+    for r in tr:
+        for m in list(r['scores']) + list(r['turns']):
+            if m not in models: models.append(m)
+    dims = {k: sorted({r[f] for r in tr}) for k, f in (('g', 'sg'), ('c', 'cat'), ('l', 'lang'), ('s', 'sen'))}
+    rows = [[dims['g'].index(r['sg']), dims['c'].index(r['cat']), dims['l'].index(r['lang']), dims['s'].index(r['sen']),
+             {models.index(m): v for m, v in r['scores'].items() if v}, {models.index(m): v for m, v in r['turns'].items()}] for r in tr]
+    return {'cross': True, 'models': models, 'dims': dims, 'tasks': rows, 'minTasks': s['min_tasks'], 'sat': 0.8, 'bin': 50, 'xmax': 1000, 'threshold': s['turns']['threshold']}
 index = []
 for slug, s in S.items():
     T = TXT[s['title']]; tx = TX; mo = T.get('motivation', {})
@@ -91,10 +109,10 @@ for slug, s in S.items():
     L.append('## Domain breakdown\n')
     top = s['domain'][0]
     L.append(f"The tasks span {NUMW.get(len(s['domain']), len(s['domain']))} domains. The largest, {top['super_group']}, makes up {top['pct']:.0f}% of the catalog.\n")
-    L.append(f'![Share of tasks by domain](assets/{slug}_domain.svg)\n')
+    L.append(chart('bars', 'Share of tasks by domain', ' data-dims="g>c=Domain" data-hint="Click a domain to filter the charts on this page; use the arrow to see its sub-domains."'))
     Pc = lambda k: 100 * k / n
     L.append('## Language and seniority\n')
-    L.append(f'![Primary language and seniority](assets/{slug}_metadata.svg)\n')
+    L.append(chart('bars', 'Primary language and seniority', ' data-dims="l:8=Primary language,s=Seniority"'))
     for key, title in [('language', 'Primary language'), ('seniority', 'Seniority')]:
         L.append(f'### {title}\n'); L.append(table([title, '% of catalog'], [[x['value'], f"{Pc(x['tasks']):.1f}%"] for x in s[key]]) + '\n')
     L.append('## Gemini pass rates across the catalog\n')
@@ -103,7 +121,9 @@ for slug, s in S.items():
         Q = lambda a, b: 'n/a' if not b else f"{100 * a / b:.0f}%"
         L.append(table(['Model', 'Pass rate', 'Tasks at 0%', 'Tasks at 20-80%', 'Tasks at 100%'],
             [[m['model'], pct(m['pass_rate']), Q(m['tasks_0'], m['tasks_graded']), Q(m['tasks_20_80'], m['tasks_graded']), Q(m['tasks_100'], m['tasks_graded'])] for m in M]) + '\n')
-        if os.path.exists(f'{OUT}/assets/{slug}_per_task.svg'): L.append(f'![Per-task pass rate by Gemini model](assets/{slug}_per_task.svg)\n')
+        L.append(chart('reward', 'Per-task pass rate by Gemini model'))
+        hid = [m['model'] for m in M if m['tasks_100'] / m['tasks_graded'] >= 0.8]
+        if hid: L.append(f"The chart starts with {' and '.join(hid)} hidden, because {'it passes' if len(hid) == 1 else 'they pass'} every run on 80% or more of {'its' if len(hid) == 1 else 'their'} tasks. Click {'its' if len(hid) == 1 else 'their'} button to show {'it' if len(hid) == 1 else 'them'}.\n")
     else: L.append('No Gemini model has graded runs on five or more of the selected tasks.\n')
     TT = s.get('turns') or {}
     L.append('## Turn counts and long-horizon tasks\n')
@@ -112,7 +132,7 @@ for slug, s in S.items():
         L.append(f"A task's turn count is the average over its Gemini runs. A task is long horizon when that average is {TT['threshold']} or more turns.\n")
         L.append(table(['Measure', 'Value'], [['Average turn count', f"{TT['mean_of_task_means']:.1f}"], ['Median turn count', f"{TT['median_of_task_means']:.1f}"],
             ['Range', f"{TT['min_task_mean']:.0f} to {TT['max_task_mean']:.0f}"], [f"Long-horizon tasks ({TT['threshold']}+ turns)", f"{100 * lh / k:.0f}% of tasks"]]) + '\n')
-        L.append(f'![Turns per task](assets/{slug}_turns.svg)\n')
+        L.append(chart('turns', 'Turns per task', ' data-group="Domain"'))
         L.append(table(['Model', '% of tasks', 'Mean turns', f"% with {TT['threshold']}+ turns"],
             [[m['model'], (f"{100 * m['tasks'] / k:.0f}%" if 100 * m['tasks'] / k >= 0.5 else '<1%'), f"{m['mean']:.1f}", f"{100 * m['runs_200_plus'] / m['runs']:.0f}%"] for m in TT['by_model']]) + '\n')
     else: L.append('No Gemini turn data for the selected tasks.\n')
@@ -148,6 +168,7 @@ for slug, s in S.items():
         elif x.get('environment_mermaid'):
             L.append('```mermaid\n' + x['environment_mermaid'].strip() + '\n```\n')
         else: L.append('_Pending._\n')
+    L.append(runtime(page_data(s)))
     md = '\n'.join(L)
     open(f'{OUT}/{slug}.md', 'w').write(md)
     index.append((slug, s))
@@ -176,28 +197,58 @@ L.append("We selected our coding RL Envs where Gemini models fail and grouped th
 L.append(table(['Catalog', 'Tasks (estimated)', 'What the tasks do', '% of all tasks', 'Average turn count'],
     [[f"[{s['name']}]({slug}.md)", f"{NUM[slug]:,}", ONE[slug], f"{100 * NUM[slug] / total:.1f}%", tt(s)] for slug, s in index]
     + [['**Total**', f"**{total:,}**", '', '**100%**', '']], align='lrlrr') + '\n')
-L.append('## Gemini pass rates\n')
-L.append('![Gemini pass rates by catalog](assets/overview_gemini.svg)\n')
-L.append(table(['Model', 'Pass rate'], [[k, pct(v[1] / v[0]) if v[0] else 'n/a'] for k, v in allm.items()]) + '\n')
-L.append('## Samples\n')
 smp = [(slug, s, i, t) for slug, s in index for i, t in enumerate(s['showcase'], 1)]
 gm = lambda t, name: next((pct(m['pass_rate']) for m in t['models'] if m['model'] == name and m['graded']), '')
-import unicodedata
+import unicodedata, math, html as _html
 def anchor(title):
     """The heading id build_site.py gives a heading with this text (same rule)."""
     slug = re.sub(r'[^\w\s-]', '', unicodedata.normalize('NFKC', title).lower())
     return re.sub(r'[-\s]+', '-', slug).strip('-') or 'section'
 ex_title = lambda i, t: f"Example {i}: {t['category']} ({t['language']})"
+L.append('## Samples\n')
+L.append("Each sample is a full task. Click its task id to download it, or a main sample's example to read its prompt and environment diagram on its catalog page. Attached samples are extra tasks shared as downloads only.\n")
 L.append(table(['Sample', 'Catalog', 'Example', 'Task id', 'Gemini 4 Argon', 'Gemini 3.8 Flash'],
     [['Main', s['name'], f"[{ex_title(i, t)}]({slug}.md#{anchor(ex_title(i, t))})", f"[`{t['task_id']}`]({t['url']})", gm(t, 'google/gemini-4-argon'), gm(t, 'google/gemini-3.8-flash')]
      for slug, s, i, t in smp]
     + [['Attached', s['name'], f"{a['category']} ({a['language']})", f"[`{a['task_id']}`]({a['url']})", pct(a['models']['google/gemini-4-argon']['pass_rate']),
         pct(a['models']['google/gemini-3.8-flash']['pass_rate']) if a['models'].get('google/gemini-3.8-flash', {}).get('graded') else '']
        for slug, s in index for a in s['attached']], text_cols=4) + '\n')
+# Gemini 4 Argon failure modes on the samples (the 4 Nov supplement); its counts must add up to the snapshot's Argon runs on the samples
+FM = json.load(open(f'{H}/cat/failure_modes.json'))
+AR = [next(((m['graded'], m['passed']) for m in t['models'] if m['model'] == 'google/gemini-4-argon'), (0, 0)) for _, _, _, t in smp] \
+   + [(a['models']['google/gemini-4-argon']['graded'], a['models']['google/gemini-4-argon']['passed']) for _, s in index for a in s['attached']]
+ag, ap = sum(g for g, _ in AR), sum(p for _, p in AR)
+assert sum(m['runs'] for m in FM['modes']) == ag - ap and sum(m['tasks'] for m in FM['modes']) == len(AR), 'failure modes do not add up to the snapshot'
+two = [(g, p) for g, p in AR if g >= 2]
+p1 = sum(p / g for g, p in two) / len(two); p2 = sum(1 - math.comb(g - p, 2) / math.comb(g, 2) for g, p in two) / len(two)
+L.append('## Where Gemini 4 Argon fails\n')
+L.append(f"Across the {len(AR)} samples, Gemini 4 Argon did not pass {ag - ap} of its {ag} graded runs and passed the other {ap}. We sorted the failures into five failure modes. Each sample is counted once, under its main failure mode, though single runs can fail in different ways.\n")
+L.append('<div class="kpis">' + kpi(f'{ag - ap} of {ag}', 'Argon runs not passed') + kpi(pct(p1), 'Argon pass@1') + kpi(pct(p2), 'Argon pass@2') + '</div>\n')
+e_ = lambda x: _html.escape(x, quote=False)
+rows_ = ''.join(f'<tr><td>{e_(m["mode"])}</td><td><span class="fm-sum">{e_(m["summary"])}</span><ul class="fm-ex">' + ''.join(f'<li><b>{e_(k)}:</b> {e_(v)}</li>' for k, v in m['examples'])
+                + f'</ul></td><td class="numeric">{m["runs"]}</td><td class="numeric">{m["tasks"]}</td></tr>' for m in FM['modes'])
+L.append(nob('<div class="table-scroll"><table class="data fm">\n<thead><tr><th>Failure mode</th><th>Details and examples</th><th class="numeric">Runs not passed</th><th class="numeric">Samples</th></tr></thead>\n<tbody>' + rows_
+             + f'</tbody>\n<tfoot><tr><td><b>Total</b></td><td></td><td class="numeric"><b>{ag - ap}</b></td><td class="numeric"><b>{len(AR)}</b></td></tr></tfoot>\n</table></div>\n<style>table.fm td{{vertical-align:top}}table.fm .fm-sum{{display:block;font-weight:600;margin-bottom:6px}}table.fm ul{{margin:0;padding-left:18px}}table.fm li{{margin:0 0 6px}}table.fm tfoot td{{border-top:1px solid var(--ink)}}</style>') + '\n')
+L.append('### Headroom for improvement\n')
+L.append(f"On the {len(two)} samples with two or more graded Argon runs, the chance that one run passes (pass@1) is {pct(p1)}, and the chance that at least one of two runs passes (pass@2) is {pct(p2)}, with each sample weighted equally. Argon can often reach a working solution but does not get there reliably.\n")
+L.append(FM['headroom'] + '\n')
+L.append('## Gemini pass rates\n')
+L.append("Each cell is a Gemini model's pass rate in one catalog: its passed runs over its graded runs there, with errored runs left out.\n")
+HM = list(allm)
+HEAT = {'models': HM, 'catalogs': [s_['name'] for _, s_ in index], 'minTasks': 5,
+        'cells': [[j, HM.index(m['model']), m['graded'], [round(v, 4) for v in m['per_task_rates']], m['passed']] for j, (_, s_) in enumerate(index) for m in s_['models'] if m['per_task_rates']]}
+L.append(chart('heat', 'Pass rate by Gemini model and catalog').replace('<div class="fig-box" data-body></div>',
+    '<div class="fig-box" data-body></div>\n<span data-links hidden>' + ''.join(f'<a href="{k}.html">{s_["name"]}</a>' for k, s_ in index) + '</span>'))
+L.append(table(['Model', 'Pass rate'], [[k, pct(v[1] / v[0]) if v[0] else 'n/a'] for k, v in allm.items()]) + '\n')
 allt = [m for _, s_ in index for m in (s_.get('turns') or {}).get('task_means') or []]
 L.append('## Turn counts\n')
 L.append(f"A task's turn count is the average over its Gemini runs. Across all catalogs the average is {sum(allt) / len(allt):.0f} turns, and {100 * sum(m >= 200 for m in allt) / len(allt):.0f}% of tasks average 200 turns or more.\n")
-L.append('![Turns per task, all catalogs](assets/all_turns.svg)\n')
+TXM = HM; txt = []
+for j, (_, s_) in enumerate(index):
+    for r in s_['task_rows']:
+        if r['turns']: txt.append([j, 0, 0, 0, {}, {TXM.index(m): v for m, v in r['turns'].items()}])
+L.append(chart('turns', 'Turns per task, all catalogs', ' data-group="Catalog"'))
+L.append(runtime({'cross': False, 'models': TXM, 'dims': {'g': [s_['name'] for _, s_ in index]}, 'tasks': txt, 'bin': 50, 'xmax': 1000, 'threshold': 200, 'heat': HEAT}))
 open(f'{OUT}/README.md', 'w').write('\n'.join(L))
 print('README', TOT, 'tasks')
 # tie each sample in the CSV to its example on the catalog pages

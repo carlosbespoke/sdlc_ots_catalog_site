@@ -6,6 +6,7 @@ ROWS = {r['id']: r for r in dedupe([r for r in green(load_rows()) if r['catalog'
 GEM = {k: v for k, v in MM.items() if 'gemini' in v and v != DROPPED}  # 3.7 Flash is left out of the report
 CANON = {k: next(c for c, w in GEM.items() if w == v) for k, v in GEM.items()}
 LONG = 200
+MIN_TASKS = 5  # a model gets a row in a page's pass-rate table once it has graded runs on this many tasks
 AFFINITY = {'Distributed systems & coordination': 'Applications & business domains', 'Observability & reliability': 'Cloud infrastructure & IaC',
             'Security': 'Systems, hardware & accelerators', 'Build, release & supply chain': 'Languages & developer tooling',
             'Cloud infrastructure & IaC': 'Languages & developer tooling', 'Data engineering & databases': 'Scientific & ML software',
@@ -107,6 +108,17 @@ for slug, cat in CATS:
              'median_of_task_means': median(means), 'long_horizon_tasks': sum(1 for m in means if m >= LONG), 'threshold': LONG, 'task_means': means,
              'max_task_mean': max(means) if means else None, 'min_task_mean': min(means) if means else None,
              'by_model': [{'codename': m, 'model': MM[m], 'runs': v[0], 'tasks': len(v[3]), 'mean': v[1] / v[0], 'runs_200_plus': v[2]} for m, v in sorted(tm.items(), key=lambda x: -x[1][0])]}
+    # one row per task for the interactive charts (bin/charts.js): folded domain, sub-domain, language, seniority,
+    # each Gemini model's graded runs as 1 (passed) or 0, and its turn total and count over completed runs
+    trows = []
+    for r in R:
+        sc = collections.defaultdict(list)
+        for q in RO.get(r['id'], {}).get('rollouts', []):
+            if q['model'] not in GEM or q.get('is_errored') or q.get('passed') is None: continue
+            sc[MM[q['model']]].append(int(bool(q['passed'])))
+        tu = collections.defaultdict(lambda: [0, 0])
+        for x in TURNS.get(r['id']) or []: v = tu[MM[x['model']]]; v[0] += x['turn_count']; v[1] += 1
+        trows.append({'sg': dg(r), 'cat': r['cat'], 'lang': r['lang'], 'sen': r['sen'], 'scores': dict(sc), 'turns': dict(tu)})
     e = combine([EST[g] for g in groups])
     argon_all = [t['argon']['rate'] for t in U['tasks'] if dest(t['catalog']) == cat and t['in_catalog'] and t['argon']]
     # attached samples for this page (any task on the shortlist, selected or not): shown only in the overview's samples table
@@ -117,6 +129,6 @@ for slug, cat in CATS:
                          'models': {MM[k]: {'graded': o['graded'], 'passed': o['passed'], 'pass_rate': rate(o['passed'], o['graded'])} for k, o in mr.items()}})
     out[slug] = {'attached': attached, 'title': cat, 'name': DISPLAY.get(cat, cat), 'tasks': n, 'groups': {g: sum(1 for r in R if r['group'] == g) for g in groups}, 'group_domain': {g: GROUP_DOMAIN[g] for g in groups if g in GROUP_DOMAIN}, 'tiers': dict(collections.Counter(r['tier'] for r in R)), 'not_in_catalog': sum(1 for r in R if not r['in_catalog']),
                  'estimate': e, 'argon_catalog_rates': argon_all, 'turns': turns, 'super_groups': len(dom), 'folded': fold, 'domain': dom,
-                 'language': dist('lang'), 'role': dist('role'), 'seniority': dist('sen'), 'models': models, 'showcase': show}
+                 'language': dist('lang'), 'role': dist('role'), 'seniority': dist('sen'), 'models': models, 'showcase': show, 'min_tasks': MIN_TASKS, 'task_rows': trows}
     print(slug, n, out[slug]['tiers'], 'models', [(m['model'], m['tasks_graded']) for m in models], 'turn tasks', len(TS), 'samples', len(show))
 json.dump(out, open(f'{H}/cat/stats.json', 'w'), indent=1)

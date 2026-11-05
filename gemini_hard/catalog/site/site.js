@@ -8,6 +8,7 @@ document.querySelectorAll('article table').forEach(table => {
   const headers = Array.from(table.tHead.rows[0].cells);
   headers.forEach((header, column) => {
     const button = header.querySelector('button');
+    if (!button) return;
     button.addEventListener('click', () => {
       const direction = header.getAttribute('aria-sort') === 'ascending' ? -1 : 1;
       headers.forEach(h => h.setAttribute('aria-sort', 'none'));
