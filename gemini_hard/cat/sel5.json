@@ -462,28 +462,6 @@
   "theme": "Software delivery and artifact integrity; Immutable generations and coherent publication"
  },
  {
-  "id": "cd058b63-120a-4dac-8a52-2ed7140da46f",
-  "name": "pdk-standardnotes-file-quota-ledger",
-  "version": 7,
-  "pipeline": "System design",
-  "catalog": "System design",
-  "known": true,
-  "via": "gemini",
-  "what": "Upload reservations, actual usage, owner moves and shared-vault accounting protect a concrete multi-owner limit.\nPractices: Cross-service reservations, expiry, transition deduplication, ownership accounting",
-  "theme": "Efficient and bounded resource use; Ownership, fencing and coordinated admission"
- },
- {
-  "id": "b6f71157-3d17-433f-b425-97d8619a4c0a",
-  "name": "eshop-catalog-order-stock-reservations",
-  "version": 9,
-  "pipeline": "System design",
-  "catalog": "System design",
-  "known": true,
-  "via": "gemini",
-  "what": "Overselling gives a clear business problem; reservation conversion/release must survive duplicate and out-of-order events.\nPractices: idempotent event handling, out-of-order message reasoning, concurrency-safe inventory, resilience to DB outages, schema migration at startup",
-  "theme": "Business workflow integrity; Durable idempotency and recovery"
- },
- {
   "id": "49431a76-2e5d-4de6-99a4-ba6407c6e5cc",
   "name": "houseme--qrcode-rs-xai",
   "version": 4,
@@ -4873,17 +4851,6 @@
   "theme": "Behavioral compatibility and contract maintenance; Black-box behavioral reconstruction"
  },
  {
-  "id": "9b114dca-e1c7-4f2d-b4f3-9e77b4ee2969",
-  "name": "presmihaylov__todocheck.8ae9332",
-  "version": 2,
-  "pipeline": "ProgramBench \u00b7 Reimplementation",
-  "catalog": "ProgramBench",
-  "known": true,
-  "via": "gemini",
-  "what": "Build an independent offline executable matching documented behavior using reference-program observations.\nPractices: documentation analysis, behavioral experimentation, standalone implementation, offline build reproducibility",
-  "theme": "Behavioral compatibility and contract maintenance; Black-box behavioral reconstruction"
- },
- {
   "id": "9ce2db2d-1c27-433a-a872-d56581b68e46",
   "name": "gabotechs__graphqxl.e14bc28",
   "version": 1,
@@ -5676,17 +5643,6 @@
   "theme": "A team needs a compatible replacement for a documented tool."
  },
  {
-  "id": "3355845a-5def-4297-a8f3-2916529270c8",
-  "name": "pdk-squidex-asset-blob-consistency",
-  "version": 4,
-  "pipeline": "System Design",
-  "catalog": "System design",
-  "known": false,
-  "via": "gemini",
-  "what": "Keep Squidex asset records, downloadable versions and usage totals consistent through storage failures and worker replay.\nPractices: Object-store consistency, Upload deduplication, Staging cleanup, Idempotent usage accounting",
-  "theme": "Editors receive readable uploads, reliable deletion and accurate storage usage."
- },
- {
   "id": "38de2e21-ad3c-42fa-bc82-74b63cb7cc6e",
   "name": "ouch-org__ouch.3843842",
   "version": 5,
@@ -6345,17 +6301,6 @@
   "via": "glm",
   "what": "Build an independent, offline-buildable implementation matching a documented command-line interface.\nPractices: Black-box behavior discovery, Interface implementation, Differential testing, Reproducible builds",
   "theme": "A team needs a compatible replacement for a documented tool."
- },
- {
-  "id": "d170695b-87cc-41e2-b2df-3554fb92795d",
-  "name": "pdk-harbor-task-job-reconciliation-v3",
-  "version": 10,
-  "pipeline": "System Design",
-  "catalog": "System design",
-  "known": false,
-  "via": "gemini",
-  "what": "Reconcile Harbor task and job states after Redis loss or worker death without repeating already-started external work.\nPractices: Cross-store reconciliation, Worker liveness, Safe retry classification, Terminal-state recovery",
-  "theme": "Registry operators recover stuck scans and replications without duplicate external requests."
  },
  {
   "id": "d1d49bf2-e98e-4b22-959f-232655057afb",
