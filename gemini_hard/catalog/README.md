@@ -1,16 +1,16 @@
 # Coding OTS RL Envs
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">605</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">35%</div><div class="kpi-label">Gemini 4 Argon pass rate</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">Gemini 3.8 Flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">612</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">35%</div><div class="kpi-label">Gemini 4 Argon pass rate</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">Gemini 3.8 Flash pass rate</div></div></div>
 
 We selected our coding RL Envs where Gemini models fail and grouped them into four catalogs.
 
 | Catalog | Tasks | What the tasks do | % of all tasks | Average turn count |
 |---|---:|---|---:|---:|
-| [ProgramBench and Migration](programbench.md) | 283 | Rebuild or upgrade programs to match a reference exactly, or port libraries to another language. | 46.8% | 611 |
-| [System design & IaC](system-design.md) | 123 | Keep running services and live infrastructure correct through failures and refactors. | 20.3% | 250 |
-| [Diagnosis, Debugging, and Bug Fixing](debugging.md) | 98 | Find and fix faults in real codebases from symptoms or documentation. | 16.2% | 471 |
-| [Feature implementation](feature-implementation.md) | 101 | Add capabilities to existing libraries and services without breaking current behaviour. | 16.7% | 345 |
-| **Total** | **605** |  | **100%** |  |
+| [ProgramBench and Migration](programbench.md) | 283 | Rebuild or upgrade programs to match a reference exactly, or port libraries to another language. | 46.2% | 611 |
+| [System design & IaC](system-design.md) | 123 | Keep running services and live infrastructure correct through failures and refactors. | 20.1% | 250 |
+| [Diagnosis, Debugging, and Bug Fixing](debugging.md) | 98 | Find and fix faults in real codebases from symptoms or documentation. | 16.0% | 471 |
+| [Feature implementation](feature-implementation.md) | 108 | Add capabilities to existing libraries and services without breaking current behaviour. | 17.6% | 345 |
+| **Total** | **612** |  | **100%** |  |
 
 ## Samples
 

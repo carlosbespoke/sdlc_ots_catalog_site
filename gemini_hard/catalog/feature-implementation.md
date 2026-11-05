@@ -2,7 +2,7 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">101</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">11%</div><div class="kpi-label">Gemini 4 Argon pass rate</div></div><div class="kpi"><div class="kpi-value">&lt;1%</div><div class="kpi-label">Gemini 3.8 Flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">108</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">11%</div><div class="kpi-label">Gemini 4 Argon pass rate</div></div><div class="kpi"><div class="kpi-value">&lt;1%</div><div class="kpi-label">Gemini 3.8 Flash pass rate</div></div></div>
 
 Each task asks the agent to add a capability to an existing open-source library or service, specified as the public types and functions to deliver. The data pipeline tasks extend data libraries so pipelines keep producing correct results after an upstream format or schema change. The main languages are Go (68%), Python (32%) and C# (1%).
 

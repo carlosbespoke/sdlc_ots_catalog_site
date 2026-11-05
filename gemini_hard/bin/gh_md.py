@@ -57,6 +57,9 @@ TX = {t['name']: t for d in TXT.values() for t in d.get('tasks', [])}; TX.update
 EN = {slug: s['estimate']['estimate'] for slug, s in S.items()}; total = round(sum(EN.values()))
 NUM = {k: int(v) for k, v in EN.items()}
 for k in sorted(EN, key=lambda k: -(EN[k] - int(EN[k])))[:total - sum(NUM.values())]: NUM[k] += 1
+# a page that holds more tasks than its estimate shows the tasks it holds (Feature implementation, 108; reviewer decision, 5 Nov)
+for k in NUM: NUM[k] = max(NUM[k], S[k]['tasks'])
+total = sum(NUM.values())
 SUM = json.load(open(f'{H}/cat/summary_text.json'))
 WHY = json.load(open(f'{H}/cat/why_text.json'))  # written for the merged catalogs, from the selected tasks' prompts and files
 NUMW = {1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten', 11: 'eleven', 12: 'twelve'}

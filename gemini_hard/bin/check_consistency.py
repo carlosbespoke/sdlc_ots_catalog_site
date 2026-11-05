@@ -62,6 +62,8 @@ EN = collections.defaultdict(float)
 for e in U['estimate']: EN[PAGE[MERGE.get(e['catalog'], e['catalog'])]] += e['estimate']
 total = round(sum(EN.values())); NUM = {k: int(v) for k, v in EN.items()}
 for k in sorted(EN, key=lambda k: -(EN[k] - int(EN[k])))[:total - sum(NUM.values())]: NUM[k] += 1
+for k in NUM: NUM[k] = max(NUM[k], sum(1 for t in SEL if page_of(t) == k))  # a page over its estimate shows the tasks it holds
+total = sum(NUM.values())
 CSV = list(csv.DictReader(open(f'{H}/gemini_hard_universe.csv')))
 EX = {r['Catalog example']: r for r in CSV if r['Catalog example']}
 for slug in PAGE.values():
