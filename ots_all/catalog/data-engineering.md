@@ -6,7 +6,7 @@
 
 Each task extends or repairs a data library or pipeline so it keeps producing correct results after an upstream format or schema change, while old inputs still read the same. The main languages are Python (88%) and SQL (12%).
 
-Every task has graded runs. The model with the most runs here, google/gemini-4-argon, passes 74% of its 34 graded runs and fails every run on 24% of the 17 tasks it ran.
+Every task has graded runs. The model with the most runs here, google/gemini-4-argon, has an average@k pass rate of 74% over 34 graded runs and fails every run on 24% of the 17 tasks it ran.
 
 ## Why this catalog
 
@@ -49,7 +49,7 @@ The tasks span three domains. The largest, Data engineering & databases, makes u
 
 ## Model pass rates across the catalog
 
-A model's pass rate is its passed runs over its graded runs, pooled across the tasks it ran; runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
 
 | Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|

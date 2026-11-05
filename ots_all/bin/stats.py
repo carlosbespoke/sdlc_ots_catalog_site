@@ -62,7 +62,7 @@ for slug, cat in CATS:
     for m, p in sorted(pm.items(), key=lambda x: -x[1]['rollouts']):
         pt = p['per_task']
         models.append({'model': m, 'tasks': p['tasks'], 'rollouts': p['rollouts'], 'graded': p['graded'], 'passed': p['passed'],
-                       'pass_rate': rate(p['passed'], p['graded']), 'error_rate': rate(p['errors'], p['rollouts']), 'tasks_graded': len(pt),
+                       'pass_rate': (sum(pt) / len(pt)) if pt else None, 'pooled_pass_rate': rate(p['passed'], p['graded']), 'error_rate': rate(p['errors'], p['rollouts']), 'tasks_graded': len(pt),
                        'tasks_0': sum(1 for v in pt if v == 0), 'tasks_100': sum(1 for v in pt if v == 1), 'tasks_20_80': sum(1 for v in pt if 0.2 <= v <= 0.8), 'per_task_rates': pt})
     show = []
     for t in [t for t in SAMPLES if t['catalog'] == cat]:

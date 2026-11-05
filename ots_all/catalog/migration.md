@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">58%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">59%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
 
 Each task asks the agent to port a Java or Rust library to Go or C++ behind fixed signatures, so that the original project's own tests, translated to the target language, pass against the port. The main languages are Go (89%) and C++ (11%).
 
-Every task has graded runs. The model with the most runs here, google/gemini-4-argon, passes 58% of its 31 graded runs and fails every run on 20% of the 15 tasks it ran.
+Every task has graded runs. The model with the most runs here, google/gemini-4-argon, has an average@k pass rate of 59% over 31 graded runs and fails every run on 20% of the 15 tasks it ran.
 
 ## Why this catalog
 
@@ -49,15 +49,15 @@ The tasks span four domains. The largest, Languages & developer tooling, makes u
 
 ## Model pass rates across the catalog
 
-A model's pass rate is its passed runs over its graded runs, pooled across the tasks it ran; runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
 
 | Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
-| google/gemini-4-argon | 15 | 31 | 58% | 20% | 40% | 40% |
+| google/gemini-4-argon | 15 | 31 | 59% | 20% | 40% | 40% |
 
 ![Per-task pass rate by model](assets/migration_per_task.svg)
 
-Also run on fewer than five tasks: z-ai/glm-5.3-flash (4 tasks, 35% of 20 runs), google/gemini-3.8-flash (4 tasks, 0% of 4 runs).
+Also run on fewer than five tasks: z-ai/glm-5.3-flash (4 tasks, 35% average@k over 20 runs), google/gemini-3.8-flash (4 tasks, 0% average@k over 4 runs).
 
 ## Turn counts and long-horizon tasks
 

@@ -59,7 +59,7 @@ for slug, s in S.items():
     cov = (f"Every task has graded runs." if s['tasks_graded'] == n else f"{s['tasks_graded']:,} of the {n:,} tasks have graded runs from at least one model.")
     if tm:
         fails = f" and fails every run on {pct(tm['tasks_0'] / tm['tasks_graded'])} of the {tm['tasks_graded']:,} tasks it ran" if tm['tasks_0'] else f" on the {tm['tasks_graded']:,} tasks it ran"
-        L.append(f"{cov} The model with the most runs here, {tm['model']}, passes {pct(tm['pass_rate'])} of its {tm['graded']:,} graded runs{fails}.\n")
+        L.append(f"{cov} The model with the most runs here, {tm['model']}, has an average@k pass rate of {pct(tm['pass_rate'])} over {tm['graded']:,} graded runs{fails}.\n")
     L.append('## Why this catalog\n')
     L.append('### Problems engineers face\n'); L.append(W['problems'] + '\n')
     L.append('### How the tasks reproduce them\n'); L.append(W['how'] + '\n')
@@ -75,7 +75,7 @@ for slug, s in S.items():
         L.append(f'### {title}\n'); L.append(table([title, '% of catalog'], [[x['value'], f"{100 * x['tasks'] / n:.1f}%"] for x in s[key]]) + '\n')
     L.append('## Model pass rates across the catalog\n')
     M = [m for m in s['models'] if m['tasks_graded'] >= MIN]; few = [m for m in s['models'] if 0 < m['tasks_graded'] < MIN]
-    L.append(f"A model's pass rate is its passed runs over its graded runs, pooled across the tasks it ran; runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on {NUMW[MIN]} or more tasks for a row.\n")
+    L.append(f"A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on {NUMW[MIN]} or more tasks for a row.\n")
     if M:
         Q = lambda a, b: 'n/a' if not b else f"{100 * a / b:.0f}%"
         L.append(table(['Model', 'Tasks run', 'Graded runs', 'Pass rate', 'Tasks at 0%', 'Tasks at 20-80%', 'Tasks at 100%'],
@@ -84,7 +84,7 @@ for slug, s in S.items():
             sat = [m['model'] for m in M if m['tasks_100'] / m['tasks_graded'] >= 0.8]
             L.append('![Per-task pass rate by model](assets/' + slug + '_per_task.svg)\n')
             if sat: L.append(f"The chart leaves out {' and '.join(sat)}, which pass{'es' if len(sat) == 1 else ''} every run on 80% or more of {'its' if len(sat) == 1 else 'their'} tasks.\n")
-    if few: L.append(f"Also run on fewer than {NUMW[MIN]} tasks: " + ', '.join(f"{m['model']} ({m['tasks_graded']} task{'s' if m['tasks_graded'] > 1 else ''}, {pct(m['pass_rate'])} of {m['graded']} runs)" for m in few) + '.\n')
+    if few: L.append(f"Also run on fewer than {NUMW[MIN]} tasks: " + ', '.join(f"{m['model']} ({m['tasks_graded']} task{'s' if m['tasks_graded'] > 1 else ''}, {pct(m['pass_rate'])} average@k over {m['graded']} runs)" for m in few) + '.\n')
     TT = s['turns']
     L.append('## Turn counts and long-horizon tasks\n')
     if TT['tasks_with_turns']:
@@ -119,14 +119,14 @@ for slug, s in S.items():
     print(slug, n, 'tasks', len(s['showcase']), 'samples')
 # overview
 TOT = sum(s['tasks'] for s in S.values())
-allm = collections.defaultdict(lambda: [0, 0, set()])
+allm = collections.defaultdict(lambda: [0, 0, set(), []])  # graded, passed, tasks, per-task rates
 for slug, s in S.items():
     for t in TASKS:
         if t['catalog'] != s['title']: continue
-        for m, v in runs(t['id']).items(): a = allm[m]; a[0] += len(v); a[1] += sum(x for x, _ in v); a[2].add(t['id'])
+        for m, v in runs(t['id']).items(): a = allm[m]; a[0] += len(v); a[1] += sum(x for x, _ in v); a[2].add(t['id']); a[3].append(sum(x for x, _ in v) / len(v))
 graded = sum(v[0] for v in allm.values())
 L = ['# Coding OTS RL Envs\n']
-L.append('<div class="kpis">' + kpi(f"{TOT:,}", 'Tasks') + ''.join(kpi(pct(v[1] / v[0]), f'{m} pass rate') for m, v in sorted(allm.items(), key=lambda kv: -kv[1][0])) + '</div>\n')
+L.append('<div class="kpis">' + kpi(f"{TOT:,}", 'Tasks') + ''.join(kpi(pct(sum(v[3]) / len(v[3])), f'{m} pass rate') for m, v in sorted(allm.items(), key=lambda kv: -kv[1][0])) + '</div>\n')
 LANG = collections.Counter(); SEN = collections.Counter()
 for s_ in S.values():
     for x in s_['language']: LANG[x['value']] += x['tasks']
@@ -155,9 +155,9 @@ BENCH = TXT['_bench_columns']
 L.append(table(['Catalog'] + BENCH, [[s_['name']] + ['✓' if b in TXT[k].get('bench_map', []) else '' for b in BENCH] for k, s_ in S.items() if TXT[k].get('bench_map')],
                align='l' + 'c' * len(BENCH)) + '\n')
 L.append('## Model pass rates\n')
-L.append("Each cell is a model's pass rate in one catalog: passed runs over graded runs, averaged across the tasks it ran there.\n")
+L.append("Each cell is a model's pass rate in one catalog: the share of its graded runs that pass on each task, averaged over the tasks it ran there (average@k).\n")
 L.append('![Pass rate by model and catalog](assets/overview_models.svg)\n')
-L.append(table(['Model', 'Tasks run', 'Graded runs', 'Pass rate'], [[m, f"{len(v[2]):,}", f"{v[0]:,}", pct(v[1] / v[0])] for m, v in sorted(allm.items(), key=lambda kv: -kv[1][0])]) + '\n')
+L.append(table(['Model', 'Tasks run', 'Graded runs', 'Pass rate'], [[m, f"{len(v[2]):,}", f"{v[0]:,}", pct(sum(v[3]) / len(v[3]))] for m, v in sorted(allm.items(), key=lambda kv: -kv[1][0])]) + '\n')
 L.append('## Samples\n')
 L.append("Each sample is a full task, downloadable from its task id. The pass rate is that of the model with the most graded runs on the task.\n")
 smp = [(slug, s, i, t) for slug, s in S.items() for i, t in enumerate(s['showcase'], 1)]

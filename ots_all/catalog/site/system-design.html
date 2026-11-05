@@ -13,7 +13,7 @@
 <h2 id="executive-summary">Executive summary</h2>
 <div class="kpis"><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">36%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
 <p>Each task changes a production service that must keep running. The agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and delivers the change as a patch. The main languages are Python (38%), TypeScript (24%) and Go (22%).</p>
-<p>Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, passes 36% of its 405 graded runs and fails every run on 13% of the 77 tasks it ran.</p>
+<p>Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, has an average@k pass rate of 36% over 405 graded runs and fails every run on 13% of the 77 tasks it ran.</p>
 <h2 id="why-this-catalog">Why this catalog</h2>
 <h3 id="problems-engineers-face">Problems engineers face</h3>
 <p>Production systems fail in specific ways when they change while running. In services where several processes share state and any of them can stop, the failures are duplicate effects after retries, lost notifications, stale writers returning after a takeover, limits that hold in one process but not across instances, and partial state after a crash.</p>
@@ -78,7 +78,7 @@
 </table>
 </div>
 <h2 id="model-pass-rates-across-the-catalog">Model pass rates across the catalog</h2>
-<p>A model's pass rate is its passed runs over its graded runs, pooled across the tasks it ran; runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.</p>
+<p>A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
@@ -115,7 +115,7 @@
 <td>google/gemini-4-argon</td>
 <td class="numeric">20</td>
 <td class="numeric">99</td>
-<td class="numeric">47%</td>
+<td class="numeric">48%</td>
 <td class="numeric">25%</td>
 <td class="numeric">55%</td>
 <td class="numeric">20%</td>

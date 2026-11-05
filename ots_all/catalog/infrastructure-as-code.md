@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">301</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">301</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">63%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">301</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">301</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">66%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
 
 Each task restructures infrastructure code that is already deployed. The agent splits a flat Terraform stack into modules with stable keys, componentizes a CDK app or moves a stack to Pulumi, so that the plan against production state changes nothing that is running. The main languages are HCL (Terraform) (99%), TypeScript (1%) and Python (0%).
 
-Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, passes 63% of its 1,601 graded runs and fails every run on 3% of the 295 tasks it ran.
+Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, has an average@k pass rate of 66% over 1,601 graded runs and fails every run on 3% of the 295 tasks it ran.
 
 ## Why this catalog
 
@@ -51,11 +51,11 @@ The tasks span two domains. The largest, Cloud infrastructure & IaC, makes up 99
 
 ## Model pass rates across the catalog
 
-A model's pass rate is its passed runs over its graded runs, pooled across the tasks it ran; runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
 
 | Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
-| z-ai/glm-5.3-flash | 295 | 1,601 | 63% | 3% | 89% | 7% |
+| z-ai/glm-5.3-flash | 295 | 1,601 | 66% | 3% | 89% | 7% |
 | google/gemini-4-argon | 20 | 40 | 78% | 15% | 15% | 70% |
 | google/gemini-3.8-flash | 8 | 24 | 67% | 12% | 50% | 38% |
 

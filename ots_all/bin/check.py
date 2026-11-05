@@ -32,11 +32,11 @@ for slug, cat in CATS:
     eq(f'tasks card: {slug}', K.get('Tasks'), f'{len(T):,}')
     eq(f'graded card: {slug}', K.get('Tasks with graded runs'), f"{sum(1 for t in T if runs(t['id'])):,}")
     topm = max((m for m in PM if PM[m][0]), key=lambda m: PM[m][3])
-    eq(f'headline: {slug}', K.get(f'{topm} pass rate'), pct(PM[topm][1] / PM[topm][0]))
+    eq(f'headline: {slug}', K.get(f'{topm} pass rate'), pct(statistics.mean(PM[topm][2])))
     tab = {r[0]: r for r in rows(section(md, 'Model pass rates across the catalog')) if r[0] != 'Model'}
     for m, (g, p, per, _) in PM.items():
         if len(per) >= 5:
-            eq(f'model table: {slug} {m}', tab.get(m, [None])[1:], [f'{len(per):,}', f'{g:,}', pct(p / g), Q(sum(v == 0 for v in per), len(per)), Q(sum(0.2 <= v <= 0.8 for v in per), len(per)), Q(sum(v == 1 for v in per), len(per))])
+            eq(f'model table: {slug} {m}', tab.get(m, [None])[1:], [f'{len(per):,}', f'{g:,}', pct(statistics.mean(per)), Q(sum(v == 0 for v in per), len(per)), Q(sum(0.2 <= v <= 0.8 for v in per), len(per)), Q(sum(v == 1 for v in per), len(per))])
         else: eq(f'model table: {slug} {m} absent', m in tab, False)
     # turn counts over every model's completed runs
     tm = [statistics.mean(r['turn_count'] for r in TURNS[t['id']]) for t in T if TURNS[t['id']]]
@@ -79,14 +79,14 @@ for slug, cat in CATS:
 # overview
 md = open(f'{C}/README.md').read(); K = kpis(md); PM = per_model(TASKS)
 eq('overview card: tasks', K.get('Tasks'), f'{total:,}')
-for m, v in PM.items(): eq(f'overview card: {m}', K.get(f'{m} pass rate'), pct(v[1] / v[0]))
+for m, v in PM.items(): eq(f'overview card: {m}', K.get(f'{m} pass rate'), pct(statistics.mean(v[2])))
 eq('overview card: count', len(K), 1 + len(PM))
 for r in rows(md, '['):
     slug = re.search(r'\(([\w-]+)\.md\)', r[0]).group(1); cat = dict(CATS)[slug]; T = [t for t in TASKS if t['catalog'] == cat]
     tm = [statistics.mean(x['turn_count'] for x in TURNS[t['id']]) for t in T if TURNS[t['id']]]
     eq(f'overview table: {slug}', [r[1], r[3]], [f'{len(T):,}', f'{statistics.mean(tm):.0f}'])
 for r in rows(section(md, 'Model pass rates')):
-    if r[0] in PM: eq(f'overview models: {r[0]}', r[3], pct(PM[r[0]][1] / PM[r[0]][0]))
+    if r[0] in PM: eq(f'overview models: {r[0]}', r[3], pct(statistics.mean(PM[r[0]][2])))
 SM = rows(section(md, 'Samples')); SM = [r for r in SM if r[0] != 'Catalog']
 eq('overview samples', len(SM), sum(1 for t in TASKS if t.get('sample') in ('main', 'attached')) + len(SUPER))
 SL = list(csv.DictReader(open(f'{H}/samples.csv')))

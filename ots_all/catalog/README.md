@@ -1,6 +1,6 @@
 # Coding OTS RL Envs
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">1,305</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">42%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div><div class="kpi"><div class="kpi-value">60%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">1,305</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">42%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div><div class="kpi"><div class="kpi-value">3%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div><div class="kpi"><div class="kpi-value">65%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
 
 ## Executive summary
 
@@ -40,15 +40,15 @@ Our catalogs enable models to climb on different benchmarks, including but not l
 
 ## Model pass rates
 
-Each cell is a model's pass rate in one catalog: passed runs over graded runs, averaged across the tasks it ran there.
+Each cell is a model's pass rate in one catalog: the share of its graded runs that pass on each task, averaged over the tasks it ran there (average@k).
 
 ![Pass rate by model and catalog](assets/overview_models.svg)
 
 | Model | Tasks run | Graded runs | Pass rate |
 |---|---:|---:|---:|
 | z-ai/glm-5.3-flash | 788 | 4,166 | 42% |
-| google/gemini-3.8-flash | 561 | 3,546 | 2% |
-| google/gemini-4-argon | 119 | 287 | 60% |
+| google/gemini-3.8-flash | 561 | 3,546 | 3% |
+| google/gemini-4-argon | 119 | 287 | 65% |
 
 ## Samples
 

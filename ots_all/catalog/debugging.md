@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">324</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">324</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">37%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">324</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">324</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">35%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
 
 Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Python (54%), Go (32%) and C (7%).
 
-Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, passes 37% of its 1,426 graded runs and fails every run on 51% of the 263 tasks it ran.
+Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, has an average@k pass rate of 35% over 1,426 graded runs and fails every run on 51% of the 263 tasks it ran.
 
 ## Why this catalog
 
@@ -53,13 +53,13 @@ The tasks span ten domains. The largest, Scientific & ML software, makes up 24% 
 
 ## Model pass rates across the catalog
 
-A model's pass rate is its passed runs over its graded runs, pooled across the tasks it ran; runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
 
 | Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
-| z-ai/glm-5.3-flash | 263 | 1,426 | 37% | 51% | 26% | 15% |
-| google/gemini-3.8-flash | 75 | 425 | 4% | 76% | 0% | 3% |
-| google/gemini-4-argon | 27 | 43 | 79% | 19% | 7% | 74% |
+| z-ai/glm-5.3-flash | 263 | 1,426 | 35% | 51% | 26% | 15% |
+| google/gemini-3.8-flash | 75 | 425 | 6% | 76% | 0% | 3% |
+| google/gemini-4-argon | 27 | 43 | 78% | 19% | 7% | 74% |
 
 ![Per-task pass rate by model](assets/debugging_per_task.svg)
 

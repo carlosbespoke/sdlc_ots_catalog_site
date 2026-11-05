@@ -13,7 +13,7 @@
 <h2 id="executive-summary">Executive summary</h2>
 <div class="kpis"><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
 <p>Each task asks the agent to make software behave exactly like a reference version. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from a reference program and its documentation. In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code. In 19% of tasks the agent chooses the language; the most common fixed languages are Rust (26%) and Go (23%).</p>
-<p>Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, passes 1% of its 2,318 graded runs and fails every run on 93% of the 353 tasks it ran.</p>
+<p>Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, has an average@k pass rate of 1% over 2,318 graded runs and fails every run on 93% of the 353 tasks it ran.</p>
 <h2 id="why-this-catalog">Why this catalog</h2>
 <h3 id="problems-engineers-face">Problems engineers face</h3>
 <p>Engineers often have to make software behave exactly like a version they cannot reuse: rebuilding a tool whose source is unavailable, or bringing an old codebase up to a newer release. In both cases the specification is observable behaviour. The hard part is inferring the rules from outputs and documentation, then matching exit codes, output, file effects and numeric precision without seeing the tests.</p>
@@ -82,7 +82,7 @@
 </table>
 </div>
 <h2 id="model-pass-rates-across-the-catalog">Model pass rates across the catalog</h2>
-<p>A model's pass rate is its passed runs over its graded runs, pooled across the tasks it ran; runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.</p>
+<p>A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
@@ -119,7 +119,7 @@
 <td>google/gemini-4-argon</td>
 <td class="numeric">10</td>
 <td class="numeric">19</td>
-<td class="numeric">63%</td>
+<td class="numeric">65%</td>
 <td class="numeric">10%</td>
 <td class="numeric">50%</td>
 <td class="numeric">40%</td>

@@ -31,7 +31,7 @@ cd catalog && ../../pipeline/.venv/bin/python build_site.py --verify && python3 
 
 ## Rules
 
-- **Pass rate:** passed runs over graded runs, pooled across tasks. Errored runs are left out.
+- **Pass rate:** average@k. For each task, passed runs over graded runs; then the mean over tasks. Errored runs are left out.
 - **Model rows:** a model gets a row in a catalog's tables once it has graded runs on 5 or more tasks there. Models with fewer are listed in a sentence below the table.
 - **Headline pass rate:** each catalog's headline pass rate is for the model with the most runs in that catalog.
 - **Turn counts:** a task's turn count is the average over its completed runs from every model. A task is long horizon at 200 or more turns.

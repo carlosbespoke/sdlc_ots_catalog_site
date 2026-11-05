@@ -6,7 +6,7 @@
 
 Each task asks the agent to add a capability to an existing open-source library or service, specified as the public types and functions to deliver, while existing callers see no change. The main languages are Go (71%), Python (27%) and C# (1%).
 
-Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, passes <1% of its 641 graded runs and fails every run on 98% of the 100 tasks it ran.
+Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, has an average@k pass rate of <1% over 641 graded runs and fails every run on 98% of the 100 tasks it ran.
 
 ## Why this catalog
 
@@ -51,13 +51,13 @@ The tasks span nine domains. The largest, Languages & developer tooling, makes u
 
 ## Model pass rates across the catalog
 
-A model's pass rate is its passed runs over its graded runs, pooled across the tasks it ran; runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
 
 | Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
 | google/gemini-3.8-flash | 100 | 641 | <1% | 98% | 0% | 0% |
-| z-ai/glm-5.3-flash | 29 | 148 | 23% | 52% | 48% | 0% |
-| google/gemini-4-argon | 10 | 21 | 29% | 70% | 10% | 20% |
+| z-ai/glm-5.3-flash | 29 | 148 | 29% | 52% | 48% | 0% |
+| google/gemini-4-argon | 10 | 21 | 27% | 70% | 10% | 20% |
 
 ![Per-task pass rate by model](assets/feature-implementation_per_task.svg)
 

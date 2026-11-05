@@ -13,7 +13,7 @@
 <h2 id="executive-summary">Executive summary</h2>
 <div class="kpis"><div class="kpi"><div class="kpi-value">117</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">117</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">&lt;1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
 <p>Each task asks the agent to add a capability to an existing open-source library or service, specified as the public types and functions to deliver, while existing callers see no change. The main languages are Go (71%), Python (27%) and C# (1%).</p>
-<p>Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, passes &lt;1% of its 641 graded runs and fails every run on 98% of the 100 tasks it ran.</p>
+<p>Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, has an average@k pass rate of &lt;1% over 641 graded runs and fails every run on 98% of the 100 tasks it ran.</p>
 <h2 id="why-this-catalog">Why this catalog</h2>
 <h3 id="problems-engineers-face">Problems engineers face</h3>
 <p>Maintainers add a capability that runs through many code paths of an unfamiliar library or service, while existing callers must see no change. Typical requests add an opt-in mode or policy, keep information the library currently drops, or make a subsystem safe under concurrency and failure.</p>
@@ -78,7 +78,7 @@
 </table>
 </div>
 <h2 id="model-pass-rates-across-the-catalog">Model pass rates across the catalog</h2>
-<p>A model's pass rate is its passed runs over its graded runs, pooled across the tasks it ran; runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.</p>
+<p>A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
@@ -106,7 +106,7 @@
 <td>z-ai/glm-5.3-flash</td>
 <td class="numeric">29</td>
 <td class="numeric">148</td>
-<td class="numeric">23%</td>
+<td class="numeric">29%</td>
 <td class="numeric">52%</td>
 <td class="numeric">48%</td>
 <td class="numeric">0%</td>
@@ -115,7 +115,7 @@
 <td>google/gemini-4-argon</td>
 <td class="numeric">10</td>
 <td class="numeric">21</td>
-<td class="numeric">29%</td>
+<td class="numeric">27%</td>
 <td class="numeric">70%</td>
 <td class="numeric">10%</td>
 <td class="numeric">20%</td>

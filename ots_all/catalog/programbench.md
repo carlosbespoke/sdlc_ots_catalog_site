@@ -6,7 +6,7 @@
 
 Each task asks the agent to make software behave exactly like a reference version. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from a reference program and its documentation. In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code. In 19% of tasks the agent chooses the language; the most common fixed languages are Rust (26%) and Go (23%).
 
-Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, passes 1% of its 2,318 graded runs and fails every run on 93% of the 353 tasks it ran.
+Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, has an average@k pass rate of 1% over 2,318 graded runs and fails every run on 93% of the 353 tasks it ran.
 
 ## Why this catalog
 
@@ -52,13 +52,13 @@ The tasks span eight domains. The largest, Languages & developer tooling, makes 
 
 ## Model pass rates across the catalog
 
-A model's pass rate is its passed runs over its graded runs, pooled across the tasks it ran; runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
 
 | Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
 | google/gemini-3.8-flash | 353 | 2,318 | 1% | 93% | 0% | 0% |
 | z-ai/glm-5.3-flash | 120 | 566 | 5% | 87% | 12% | 0% |
-| google/gemini-4-argon | 10 | 19 | 63% | 10% | 50% | 40% |
+| google/gemini-4-argon | 10 | 19 | 65% | 10% | 50% | 40% |
 
 ![Per-task pass rate by model](assets/programbench_per_task.svg)
 

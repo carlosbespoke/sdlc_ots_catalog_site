@@ -89,7 +89,7 @@ grid = np.full((len(models), len(cats)), np.nan); ntask = np.zeros((len(models),
 for j, c in enumerate(cats):
     for x in S[c]['models']:
         if x['model'] in models and x['tasks_graded'] >= MIN:
-            grid[models.index(x['model']), j] = 100 * x['passed'] / x['graded']; ntask[models.index(x['model']), j] = x['tasks_graded']
+            grid[models.index(x['model']), j] = 100 * x['pass_rate']; ntask[models.index(x['model']), j] = x['tasks_graded']
 cell = lambda v: '<1%' if 0 < v < 0.5 else f'{v:.0f}%'  # same rounding as the tables
 from matplotlib.colors import LinearSegmentedColormap
 cmap = LinearSegmentedColormap.from_list('b', ['#fbf9f4', '#7fb3aa', INK])
