@@ -35,9 +35,10 @@ def state(tid):
     ev = [w for w in W if w['task_id'] == tid and w.get('evaluation_id')]
     runs = [r for w in ev for r in RES.get(w['evaluation_id'], {}).get('runs', [])]
     pending = any(not RES.get(w['evaluation_id'], {}).get('final') for w in ev)
-    graded = [r for r in runs if not r['is_errored'] and (r['passed'] is not None or r['extracted_score'] is not None)]
+    done = [r for r in runs if r['evaluation_status'] in ('completed', 'failed', 'errored', 'cancelled', 'error')]  # a running run reports passed=false
+    graded = [r for r in done if not r['is_errored'] and (r['passed'] is not None or r['extracted_score'] is not None)]
     passed = any(r['passed'] or (r['extracted_score'] or 0) >= 0.999 for r in graded)
-    errored = sum(1 for r in runs if r['is_errored']) + sum(1 for w in ev if RES.get(w['evaluation_id'], {}).get('final') and not RES[w['evaluation_id']]['runs'])
+    errored = sum(1 for r in done if r['is_errored']) + sum(1 for w in ev if RES.get(w['evaluation_id'], {}).get('final') and not RES[w['evaluation_id']]['runs'])
     return {'graded': len(graded), 'passed': passed, 'errored': errored, 'pending': pending, 'cost': sum(r['total_cost'] or 0 for r in runs)}
 def needs(tid):
     s = state(tid); return not s['passed'] and not s['pending'] and s['graded'] < MAX_GRADED and s['errored'] < MAX_ERRORED
