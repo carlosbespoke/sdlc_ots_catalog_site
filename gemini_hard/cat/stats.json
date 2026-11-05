@@ -26,16 +26,16 @@
   ],
   "title": "ProgramBench",
   "name": "ProgramBench and Migration",
-  "tasks": 166,
+  "tasks": 164,
   "groups": {
-   "ProgramBench": 154,
+   "ProgramBench": 152,
    "Migration": 12
   },
   "group_domain": {
    "Migration": "Cross-language migration"
   },
   "tiers": {
-   "Gemini runs": 30,
+   "Gemini runs": 28,
    "GLM-5.3 Flash 10% or less": 136
   },
   "not_in_catalog": 0,
@@ -95,18 +95,17 @@
    1.0
   ],
   "turns": {
-   "tasks_with_turns": 166,
-   "runs": 786,
-   "mean_of_task_means": 603.4595044680888,
-   "median_of_task_means": 610.125,
-   "long_horizon_tasks": 158,
+   "tasks_with_turns": 164,
+   "runs": 764,
+   "mean_of_task_means": 604.4479241456376,
+   "median_of_task_means": 613.825,
+   "long_horizon_tasks": 156,
    "threshold": 200,
    "task_means": [
     662.9090909090909,
     807.2,
     724.6666666666666,
     658.3333333333334,
-    528.0909090909091,
     603.7272727272727,
     301.2857142857143,
     449.0,
@@ -139,7 +138,6 @@
     472.6,
     870.75,
     967.0,
-    516.7272727272727,
     394.5,
     799.0,
     755.2,
@@ -275,18 +273,18 @@
     {
      "codename": "steppe",
      "model": "z-ai/glm-5.3-flash",
-     "runs": 675,
-     "tasks": 156,
-     "mean": 645.5071937321937,
-     "tasks_200_plus": 151
+     "runs": 665,
+     "tasks": 154,
+     "mean": 643.9981962481962,
+     "tasks_200_plus": 149
     },
     {
      "codename": "umbra",
      "model": "google/gemini-4-argon",
-     "runs": 103,
-     "tasks": 30,
-     "mean": 302.6,
-     "tasks_200_plus": 21
+     "runs": 91,
+     "tasks": 28,
+     "mean": 301.14285714285717,
+     "tasks_200_plus": 19
     },
     {
      "codename": "kittiwake",
@@ -305,28 +303,28 @@
   "domain": [
    {
     "super_group": "Languages & developer tooling",
-    "tasks": 70,
-    "pct": 42.2,
+    "tasks": 68,
+    "pct": 41.5,
     "categories": [
      {
       "category": "Compilers & language runtimes",
-      "tasks": 38,
-      "pct": 22.9
+      "tasks": 36,
+      "pct": 22.0
      },
      {
       "category": "CLI tooling",
       "tasks": 13,
-      "pct": 7.8
+      "pct": 7.9
      },
      {
       "category": "API tooling",
       "tasks": 9,
-      "pct": 5.4
+      "pct": 5.5
      },
      {
       "category": "Text & NLP processing",
       "tasks": 7,
-      "pct": 4.2
+      "pct": 4.3
      },
      {
       "category": "Logic programming",
@@ -338,12 +336,12 @@
    {
     "super_group": "Applications & business domains",
     "tasks": 25,
-    "pct": 15.1,
+    "pct": 15.2,
     "categories": [
      {
       "category": "Media processing",
       "tasks": 21,
-      "pct": 12.7
+      "pct": 12.8
      },
      {
       "category": "Fonts & text rendering",
@@ -365,12 +363,12 @@
    {
     "super_group": "Scientific & ML software",
     "tasks": 21,
-    "pct": 12.7,
+    "pct": 12.8,
     "categories": [
      {
       "category": "Scientific computing",
       "tasks": 14,
-      "pct": 8.4
+      "pct": 8.5
      },
      {
       "category": "Machine learning & MLOps",
@@ -397,12 +395,12 @@
    {
     "super_group": "Systems, hardware & accelerators",
     "tasks": 13,
-    "pct": 7.8,
+    "pct": 7.9,
     "categories": [
      {
       "category": "Compression & data integrity",
       "tasks": 9,
-      "pct": 5.4
+      "pct": 5.5
      },
      {
       "category": "Filesystems",
@@ -429,7 +427,7 @@
    {
     "super_group": "Cross-language migration",
     "tasks": 12,
-    "pct": 7.2,
+    "pct": 7.3,
     "categories": [
      {
       "category": "Data formats & serialization",
@@ -476,12 +474,12 @@
    {
     "super_group": "Data engineering & databases",
     "tasks": 10,
-    "pct": 6.0,
+    "pct": 6.1,
     "categories": [
      {
       "category": "Data formats & serialization",
       "tasks": 7,
-      "pct": 4.2
+      "pct": 4.3
      },
      {
       "category": "Databases & storage engines",
@@ -498,7 +496,7 @@
    {
     "super_group": "Security",
     "tasks": 6,
-    "pct": 3.6,
+    "pct": 3.7,
     "categories": [
      {
       "category": "Secret scanning",
@@ -560,13 +558,13 @@
   "language": [
    {
     "value": "Agent's choice",
-    "tasks": 149,
-    "pct": 89.8
+    "tasks": 147,
+    "pct": 89.6
    },
    {
     "value": "Go",
     "tasks": 10,
-    "pct": 6.0
+    "pct": 6.1
    },
    {
     "value": "C++",
@@ -587,33 +585,33 @@
   "role": [
    {
     "value": "Compiler / Language Engineer",
-    "tasks": 43,
-    "pct": 25.9
+    "tasks": 41,
+    "pct": 25.0
    },
    {
     "value": "Developer Tools Engineer",
     "tasks": 32,
-    "pct": 19.3
+    "pct": 19.5
    },
    {
     "value": "Media Software Engineer",
     "tasks": 25,
-    "pct": 15.1
+    "pct": 15.2
    },
    {
     "value": "Research Software Engineer",
     "tasks": 16,
-    "pct": 9.6
+    "pct": 9.8
    },
    {
     "value": "Library / Backend Engineer",
     "tasks": 15,
-    "pct": 9.0
+    "pct": 9.1
    },
    {
     "value": "Systems Engineer",
     "tasks": 11,
-    "pct": 6.6
+    "pct": 6.7
    },
    {
     "value": "Security Engineer",
@@ -669,13 +667,13 @@
   "seniority": [
    {
     "value": "Staff+",
-    "tasks": 107,
-    "pct": 64.5
+    "tasks": 105,
+    "pct": 64.0
    },
    {
     "value": "Senior",
     "tasks": 56,
-    "pct": 33.7
+    "pct": 34.1
    },
    {
     "value": "Mid-Senior",
@@ -687,19 +685,18 @@
    {
     "codename": "umbra",
     "model": "google/gemini-4-argon",
-    "tasks": 33,
-    "rollouts": 114,
-    "graded": 103,
-    "passed": 42,
-    "pass_rate": 0.4077669902912621,
-    "error_rate": 0.09649122807017543,
-    "tasks_graded": 30,
+    "tasks": 31,
+    "rollouts": 102,
+    "graded": 91,
+    "passed": 32,
+    "pass_rate": 0.3516483516483517,
+    "error_rate": 0.10784313725490197,
+    "tasks_graded": 28,
     "tasks_0": 11,
     "tasks_100": 0,
     "tasks_20_80": 17,
     "per_task_rates": [
      0.6666666666666666,
-     0.8333333333333334,
      0.5,
      0.5,
      0.8,
@@ -717,7 +714,6 @@
      0.0,
      0.6666666666666666,
      0.2,
-     0.8333333333333334,
      0.0,
      0.5,
      0.0,
@@ -753,22 +749,21 @@
    {
     "codename": "steppe",
     "model": "z-ai/glm-5.3-flash",
-    "tasks": 156,
-    "rollouts": 675,
-    "graded": 675,
-    "passed": 13,
-    "pass_rate": 0.01925925925925926,
+    "tasks": 154,
+    "rollouts": 665,
+    "graded": 665,
+    "passed": 11,
+    "pass_rate": 0.016541353383458645,
     "error_rate": 0.0,
-    "tasks_graded": 156,
-    "tasks_0": 149,
+    "tasks_graded": 154,
+    "tasks_0": 148,
     "tasks_100": 0,
-    "tasks_20_80": 5,
+    "tasks_20_80": 4,
     "per_task_rates": [
      0.0,
      0.0,
      0.0,
      0.0,
-     0.4,
      0.0,
      0.6,
      0.0,
@@ -791,7 +786,6 @@
      0.0,
      0.0,
      0.2,
-     0.0,
      0.0,
      0.0,
      0.0,
@@ -1177,39 +1171,6 @@
      "z-ai/glm-5.3-flash": [
       1975,
       3
-     ]
-    }
-   },
-   {
-    "sg": "Languages & developer tooling",
-    "cat": "Compilers & language runtimes",
-    "lang": "Agent's choice",
-    "sen": "Staff+",
-    "scores": {
-     "google/gemini-4-argon": [
-      1,
-      1,
-      0,
-      1,
-      1,
-      1
-     ],
-     "z-ai/glm-5.3-flash": [
-      0,
-      0,
-      0,
-      1,
-      1
-     ]
-    },
-    "turns": {
-     "google/gemini-4-argon": [
-      1662,
-      6
-     ],
-     "z-ai/glm-5.3-flash": [
-      4147,
-      5
      ]
     }
    },
@@ -1975,39 +1936,6 @@
      "z-ai/glm-5.3-flash": [
       1934,
       2
-     ]
-    }
-   },
-   {
-    "sg": "Languages & developer tooling",
-    "cat": "Compilers & language runtimes",
-    "lang": "Agent's choice",
-    "sen": "Staff+",
-    "scores": {
-     "google/gemini-4-argon": [
-      1,
-      0,
-      1,
-      1,
-      1,
-      1
-     ],
-     "z-ai/glm-5.3-flash": [
-      0,
-      0,
-      0,
-      0,
-      0
-     ]
-    },
-    "turns": {
-     "google/gemini-4-argon": [
-      2214,
-      6
-     ],
-     "z-ai/glm-5.3-flash": [
-      3470,
-      5
      ]
     }
    },
