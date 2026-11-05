@@ -201,7 +201,7 @@ for _, s in index:
 ar = allm['google/gemini-4-argon']; fl = allm['google/gemini-3.8-flash']
 L = ['# Coding OTS RL Envs\n']
 L.append('<div class="kpis">' + kpi(f"{total:,}", 'Tasks') + kpi(pct(ar[1] / ar[0]), 'Gemini 4 Argon pass rate') + kpi(pct(fl[1] / fl[0]), 'Gemini 3.8 Flash pass rate') + '</div>\n')
-L.append("We selected our coding RL Envs where Gemini models fail and grouped them into four catalogs.\n")
+L.append("We selected coding RL Envs that challenge Gemini models and grouped them into four catalogs.\n")
 L.append(table(['Catalog', 'Tasks', 'What the tasks do', '% of all tasks', 'Average turn count'],
     [[f"[{s['name']}]({slug}.md)", f"{NUM[slug]:,}", ONE[slug], f"{100 * NUM[slug] / total:.1f}%", tt(s)] for slug, s in index]
     + [['**Total**', f"**{total:,}**", '', '**100%**', '']], align='lrlrr') + '\n')

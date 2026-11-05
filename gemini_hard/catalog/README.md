@@ -2,7 +2,7 @@
 
 <div class="kpis"><div class="kpi"><div class="kpi-value">612</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">35%</div><div class="kpi-label">Gemini 4 Argon pass rate</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">Gemini 3.8 Flash pass rate</div></div></div>
 
-We selected our coding RL Envs where Gemini models fail and grouped them into four catalogs.
+We selected coding RL Envs that challenge Gemini models and grouped them into four catalogs.
 
 | Catalog | Tasks | What the tasks do | % of all tasks | Average turn count |
 |---|---:|---|---:|---:|
