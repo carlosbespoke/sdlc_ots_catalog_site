@@ -1,0 +1,41 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-squidex-rule-webhook-exactly-once"
+description = "Replay-safe exactly-once content webhooks across worker failures"
+authors = []
+keywords = ["csharp", "system-design", "postgresql", "webhooks"]
+
+[metadata]
+task_id = "pdk-squidex-rule-webhook-exactly-once"
+display_title = "Replay-safe content webhooks"
+repository_url = "https://github.com/Squidex/squidex.git"
+base_commit_hash = "7f6e2170507c012c165974eca930cb25b79159ee"
+language = "csharp"
+category = "system_design"
+
+[verifier]
+environment_mode = "separate"
+# At least 3x one full grade (both suites) on 4 CPUs, and never below 1800.
+timeout_sec = 2400
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached 7f6e2170507c012c165974eca930cb25b79159ee > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+
+[environment]
+# false for single-container tasks. Compose tasks need true: with it off, Harbor joins every
+# container into one network namespace and the service host names stop resolving.
+allow_internet = false
+build_timeout_sec = 2400
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+# The solver runs unprivileged; the environment image keeps root as its default user.
+user = "agent"
+timeout_sec = 43200.0

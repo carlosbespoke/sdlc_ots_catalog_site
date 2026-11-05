@@ -1,0 +1,46 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-lightdash-coherent-auth-caches"
+description = "Cross-process cache consistency for Lightdash auth and warehouse access"
+authors = []
+keywords = ["typescript", "system-design"]
+
+[metadata]
+task_id = "pdk-lightdash-coherent-auth-caches"
+display_title = "Coherent auth caches across Lightdash services"
+repository_url = "https://github.com/lightdash/lightdash.git"
+base_commit_hash = "1860770778a281254478582ff58c529b199dc9be"
+language = "typescript"
+category = "system_design"
+
+[verifier]
+environment_mode = "separate"
+# At least 3x one full grade (both suites) on 4 CPUs; hidden suites wait out real outages, and
+# Horizon's graders are slower than a build sandbox.
+timeout_sec = 5400.0
+
+# Collected as the solver's own user, with no external diff or textconv: git config or attributes
+# the solver plants in /app would otherwise run as root here.
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --no-ext-diff --no-textconv --cached 1860770778a281254478582ff58c529b199dc9be > /logs/artifacts/model.patch'"
+service = "main"
+user = "agent"
+timeout_sec = 60
+
+[environment]
+# Always false. A compose task attaches every service, main included, in both compose files to one
+# network declared `internal: true`, so host names resolve but nothing reaches the internet.
+allow_internet = false
+build_timeout_sec = 5400.0
+cpus = 8
+memory_mb = 16384
+storage_mb = 20480
+gpus = 0
+
+[agent]
+# The solver runs unprivileged; the environment image keeps root as its default user. Multi-service
+# work with real outages needs long test cycles, so the solver gets twelve hours.
+user = "agent"
+timeout_sec = 43200.0

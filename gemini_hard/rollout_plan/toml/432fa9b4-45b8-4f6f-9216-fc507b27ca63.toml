@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "BinomialLLC/basis_universal.e4f439f"
+description = "Reimplement BinomialLLC/basis_universal from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "binomialllc__basis_universal.e4f439f"
+display_title = "Reimplement BinomialLLC/basis_universal from observable behavior"
+category = "reimplementation"
+language = "cpp"
+repository_url = "https://github.com/BinomialLLC/basis_universal"
+base_commit_hash = "e4f439fc9545b6a9e1fd26fc7ffd0c682c4b96d4"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

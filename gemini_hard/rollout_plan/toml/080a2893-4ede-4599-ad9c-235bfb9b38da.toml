@@ -1,0 +1,32 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+[task]
+name = "authored/pdk-heyform-paid-submissions-holds"
+description = "Paid form quota reservations and payment-confirmed notifications"
+authors = []
+keywords = ["typescript", "system-design"]
+[metadata]
+task_id = "pdk-heyform-paid-submissions-holds"
+display_title = "Paid form submission holds"
+repository_url = "https://github.com/heyform/heyform.git"
+base_commit_hash = "a9b55b9df695708f2fd9bd9c9ac13fdca6c622e5"
+language = "typescript"
+category = "system_design"
+[verifier]
+environment_mode = "separate"
+timeout_sec = 5400.0
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --no-ext-diff --no-textconv --cached a9b55b9df695708f2fd9bd9c9ac13fdca6c622e5 > /logs/artifacts/model.patch'"
+service = "main"
+user = "agent"
+timeout_sec = 60
+[environment]
+allow_internet = false
+build_timeout_sec = 5400.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+[agent]
+user = "agent"
+timeout_sec = 43200.0

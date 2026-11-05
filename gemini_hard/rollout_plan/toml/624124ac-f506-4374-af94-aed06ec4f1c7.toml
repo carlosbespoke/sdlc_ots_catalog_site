@@ -1,0 +1,32 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+[task]
+name = "authored/trdsql-multi-result-export-documents"
+description = ""
+authors = []
+keywords = []
+[metadata]
+task_id = "trdsql-multi-result-export-documents"
+display_title = "Multi-Result Export Documents"
+repository_url = "https://github.com/noborus/trdsql.git"
+base_commit_hash = "ed7c4d54574a7bc0340143e8f5be80ffdb3ba179"
+language = "go"
+category = "feature_request"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 2400
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached ed7c4d54574a7bc0340143e8f5be80ffdb3ba179 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+[agent]
+user = "agent"
+timeout_sec = 21600
+[environment]
+allow_internet = false
+network_mode = "no-network"
+build_timeout_sec = 1800
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

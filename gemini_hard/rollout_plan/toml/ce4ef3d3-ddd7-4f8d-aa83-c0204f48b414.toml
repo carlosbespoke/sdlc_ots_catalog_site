@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "jnz/q3vm.a18c027"
+description = "Reimplement jnz/q3vm from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "jnz__q3vm.a18c027"
+display_title = "Reimplement jnz/q3vm from observable behavior"
+category = "reimplementation"
+language = "c"
+repository_url = "https://github.com/jnz/q3vm"
+base_commit_hash = "a18c027c8ebc57b1e996c6e987c74129b4482691"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

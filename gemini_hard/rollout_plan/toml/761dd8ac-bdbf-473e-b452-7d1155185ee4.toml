@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "ccsb-scripps/AutoDock-Vina.726844f"
+description = "Reimplement ccsb-scripps/AutoDock-Vina from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "ccsb-scripps__autodock-vina.726844f"
+display_title = "Reimplement ccsb-scripps/AutoDock-Vina from observable behavior"
+category = "reimplementation"
+language = "cpp"
+repository_url = "https://github.com/ccsb-scripps/AutoDock-Vina"
+base_commit_hash = "726844fcc4fc49306b808ab56b3c6c29b12db7ec"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

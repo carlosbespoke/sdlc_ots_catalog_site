@@ -1,0 +1,33 @@
+schema_version = "1.3"
+[task]
+name = "bespokelabsai/mpeg5-xeve"
+description = "Update an existing repository to match the required behavior"
+authors = []
+keywords = ["repository-update", "behavioral-testing"]
+[metadata]
+task_id = "mpeg5-xeve"
+category = "repository-update"
+language = "c"
+repository_url = "https://github.com/mpeg5/xeve.git"
+base_commit_hash = "7a57f0f136d8ee260920fede07b7e4a054cc6fbd"
+target_commit_hash = "9efa6d6090712907bf54fb1ac7c302cbd08960ba"
+variant = "oracle"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+[environment]
+build_timeout_sec = 5400.0
+os = "linux"
+workdir = "/app"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

@@ -1,0 +1,32 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+[task]
+name = "authored/kind-operation-scoped-runtime-readiness-reports"
+description = ""
+authors = []
+keywords = []
+[metadata]
+task_id = "kind-operation-scoped-runtime-readiness-reports"
+display_title = "Operation-Scoped Runtime Readiness Reports"
+repository_url = "https://github.com/kubernetes-sigs/kind.git"
+base_commit_hash = "aa74c7f3e55dbadccd61199b75c01a591a6c2267"
+language = "go"
+category = "feature_request"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 2400
+[[verifier.collect]]
+command = "bash --noprofile --norc /opt/verifier/collect.sh aa74c7f3e55dbadccd61199b75c01a591a6c2267"
+service = "main"
+timeout_sec = 60
+[agent]
+user = "agent"
+timeout_sec = 21600
+[environment]
+allow_internet = false
+network_mode = "no-network"
+build_timeout_sec = 1800
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

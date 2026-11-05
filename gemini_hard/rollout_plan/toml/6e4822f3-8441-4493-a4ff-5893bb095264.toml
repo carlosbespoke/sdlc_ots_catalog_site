@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "versenilvis/IRIS.53b287e"
+description = "Reimplement versenilvis/IRIS from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "versenilvis__iris.53b287e"
+display_title = "Reimplement versenilvis/IRIS from observable behavior"
+category = "reimplementation"
+language = "go"
+repository_url = "https://github.com/versenilvis/IRIS"
+base_commit_hash = "53b287e20a880210ec39de4762de2a595f1d9ad9"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

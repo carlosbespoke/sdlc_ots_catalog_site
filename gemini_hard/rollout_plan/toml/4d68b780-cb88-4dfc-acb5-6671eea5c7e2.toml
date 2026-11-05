@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "chaisql/chai.d2dcbd9"
+description = "Reimplement chaisql/chai from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "chaisql__chai.d2dcbd9"
+display_title = "Reimplement chaisql/chai from observable behavior"
+category = "reimplementation"
+language = "go"
+repository_url = "https://github.com/chaisql/chai"
+base_commit_hash = "d2dcbd969c6f8004928b0ad7792b5d8ddd5309a7"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "Latias94/merman.b3588ab"
+description = "Reimplement Latias94/merman from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "latias94__merman.b3588ab"
+display_title = "Reimplement Latias94/merman from observable behavior"
+category = "reimplementation"
+language = "rs"
+repository_url = "https://github.com/Latias94/merman"
+base_commit_hash = "b3588ab06f50aae5eec728628e64c77e19e3ec88"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

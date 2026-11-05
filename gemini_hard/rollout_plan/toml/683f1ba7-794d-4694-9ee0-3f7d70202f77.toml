@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "boyter/cs.7b9aa17"
+description = "Reimplement boyter/cs from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "boyter__cs.7b9aa17"
+display_title = "Reimplement boyter/cs from observable behavior"
+category = "reimplementation"
+language = "go"
+repository_url = "https://github.com/boyter/cs"
+base_commit_hash = "7b9aa17f8c9f4142cd844e9e084602c18a20d126"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

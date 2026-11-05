@@ -1,0 +1,15 @@
+schema_version = "1.4"
+artifacts = ["/workdir"]
+[agent]
+user = "agent"
+timeout_sec = 21600
+network_mode = "no-network"
+[verifier]
+user = "root"
+environment_mode = "separate"
+network_mode = "no-network"
+timeout_sec = 3000
+[environment]
+workdir = "/workdir"
+network_mode = "no-network"
+build_timeout_sec = 1800

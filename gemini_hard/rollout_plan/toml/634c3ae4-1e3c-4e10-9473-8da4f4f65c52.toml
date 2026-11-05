@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "omissis/go-jsonschema.e6bc0fe"
+description = "Reimplement omissis/go-jsonschema from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "omissis__go-jsonschema.e6bc0fe"
+display_title = "Reimplement omissis/go-jsonschema from observable behavior"
+category = "reimplementation"
+language = "go"
+repository_url = "https://github.com/omissis/go-jsonschema"
+base_commit_hash = "e6bc0fe114bd52ebb8595b45df72738a406a53d1"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

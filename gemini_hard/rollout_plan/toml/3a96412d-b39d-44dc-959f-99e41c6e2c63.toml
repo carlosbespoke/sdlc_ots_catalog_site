@@ -1,0 +1,44 @@
+schema_version = "1.3"
+[task]
+name = "bespokelabsai/uw-hydro-vic"
+description = "Update an existing repository to match the required behavior"
+authors = []
+keywords = ["repository-update", "behavioral-testing"]
+[metadata]
+task_id = "uw-hydro-vic"
+category = "repository-update"
+language = "c"
+repository_url = "https://github.com/UW-Hydro/VIC.git"
+base_commit_hash = "1887a8fad51972bab67db3332d2fdeb95254acc8"
+target_commit_hash = "fd87eda0ad45056f6fb640c6b28f513c0fc88c4a"
+variant = "oracle"
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+[verifier.environment]
+build_timeout_sec = 5400.0
+os = "linux"
+workdir = "/app"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+[environment]
+build_timeout_sec = 5400.0
+os = "linux"
+workdir = "/app"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []
+[[artifacts]]
+source = "/app/repo"

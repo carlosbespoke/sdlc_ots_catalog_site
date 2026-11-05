@@ -1,0 +1,33 @@
+schema_version = "1.3"
+[task]
+name = "bespokelabsai/wilfred-difftastic"
+description = "Update an existing repository to match the required behavior"
+authors = []
+keywords = ["repository-update", "behavioral-testing"]
+[metadata]
+task_id = "wilfred-difftastic"
+category = "repository-update"
+language = "rust"
+repository_url = "https://github.com/Wilfred/difftastic.git"
+base_commit_hash = "90a0f1b6aa88401170405a87be139cbabe00b12a"
+target_commit_hash = "8033439debaa308d62582f52768a0a1d0c10ad55"
+variant = "oracle"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+[agent]
+timeout_sec = 14400.0
+user = "agent"
+network_mode = "no-network"
+[environment]
+build_timeout_sec = 5400.0
+os = "linux"
+workdir = "/app"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

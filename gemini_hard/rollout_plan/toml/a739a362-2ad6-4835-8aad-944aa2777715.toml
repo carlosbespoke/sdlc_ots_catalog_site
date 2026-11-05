@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "scip-code/scip.1c2b6db"
+description = "Reimplement scip-code/scip from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "scip-code__scip.1c2b6db"
+display_title = "Reimplement scip-code/scip from observable behavior"
+category = "reimplementation"
+language = "go"
+repository_url = "https://github.com/scip-code/scip"
+base_commit_hash = "1c2b6db7e560d5233c944f36e4ac1377cc6963fc"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

@@ -1,0 +1,32 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+[task]
+name = "authored/goss-package-dependency-closure-validation"
+description = ""
+authors = []
+keywords = []
+[metadata]
+task_id = "goss-package-dependency-closure-validation"
+display_title = "Package dependency-closure validation"
+repository_url = "https://github.com/goss-org/goss.git"
+base_commit_hash = "678fad7b52c24a200d687d294b9c0754fa9508dc"
+language = "go"
+category = "feature_request"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 2400
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached 678fad7b52c24a200d687d294b9c0754fa9508dc > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+[agent]
+user = "agent"
+timeout_sec = 21600
+[environment]
+allow_internet = false
+network_mode = "no-network"
+build_timeout_sec = 1800
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

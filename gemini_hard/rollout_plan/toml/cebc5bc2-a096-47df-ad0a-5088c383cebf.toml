@@ -1,0 +1,59 @@
+schema_version = "1.3"
+artifacts = ["/logs/artifacts"]
+
+[task]
+name = "bespokelabsai/fzf-30f-3ceeba10"
+description = "A pinned checkout of junegunn/fzf has been altered in thirty separate one-line places, spread across terminal startup and drawing, key naming and binding, list loading, field ranges and command templates, the matching paths over byte and rune text, match ordering, reuse of earlier work, and a few small shared helpers. The agent receives the faulted tree with no test suite and only a behavioural report of what a user observed, and must restore the intended behaviour and name every function that was edited."
+authors = []
+keywords = ["diagnosis", "root-cause", "fault-chain", "go", "go test"]
+
+[metadata]
+task_id = "fzf-30f-3ceeba10"
+display_title = "fzf misreads keys, miscounts rows and misorders matches — diagnosing it without a test suite"
+display_description = "A pinned checkout of junegunn/fzf has been altered in thirty separate one-line places, spread across terminal startup and drawing, key naming and binding, list loading, field ranges and command templates, the matching paths over byte and rune text, match ordering, reuse of earlier work, and a few small shared helpers. The agent receives the faulted tree with no test suite and only a behavioural report of what a user observed, and must restore the intended behaviour and name every function that was edited."
+category = "bugfix"
+difficulty = "hard"
+language = "go"
+repository_url = "https://github.com/junegunn/fzf.git"
+base_commit_hash = "bd4efa277b49ef34ca4025bff9b1a288e1980eff"
+target_test = ""
+fault_count = 30
+fault_files = "src/algo/algo.go;src/algo/runeindex_ref.go;src/algo/runeindex_x86.go;src/ansi.go;src/cache.go;src/chunklist.go;src/functions.go;src/merger.go;src/options.go;src/pattern.go;src/result_x86.go;src/tokenizer.go;src/tui/light.go;src/tui/light_unix.go;src/tui/tui.go;src/util/atexit.go;src/util/atomicbool.go;src/util/chars.go;src/util/util.go;src/util/util_unix.go"
+fault_ids = "5f26f2cf,00780b8a,cf858c10,b9919fcc,f0e50a72,75c20e0f,044140cc,60db56e5,fd4787da,272740a9,84e2e4a8,99cc4ecf,3a8e4a5b,d708c695,ca939c4b,b7676a48,b5a07bee,9f5e26d6,5ef5ee53,57982909,5420ce47,94f9b69c,8915c925,b90a427b,86f3f1e2,675b80f6,629513e3,0223a6fa,5e7763b9,21a05a24"
+why_hard = "30 edits across 20 files, one per function, and the repository's own suite is the only thing that shows them"
+generated_by = "voyager-diagnosis-pipeline"
+
+# Single-container (shared) verifier: grading runs in the agent's OWN container after the
+# agent phase, so there is no separate verifier image. The repository's own suite is kept
+# out of the agent's tree during its phase (environment/Dockerfile removes it) and restored
+# at grade time by tests/grade.py from the root-owned /tests mount, so the "no test suite"
+# premise still holds inside one container. The grader runs as root (user below) so it can
+# read /tests and restore the suite; the tree under test still runs as the agent account
+# (answer_key run_tests_as = "agent"); and the seal in the grader neutralizes .git so root
+# git obeys nothing the agent planted (the shared-container exposure the separate verifier
+# used to close by isolation). environment_mode="shared" is incompatible with a
+# [verifier.environment] block, so that block is intentionally absent; the verifier
+# inherits the agent's environment.
+[verifier]
+environment_mode = "shared"
+user = "root"
+timeout_sec = 2940.0
+[[verifier.collect]]
+command = "bash -c 'mkdir -p /logs/artifacts && cd /workspace/repo && tar czf /logs/artifacts/worktree.tgz --exclude=./.git . ; cp -f /app/rca.json /logs/artifacts/rca.json 2>/dev/null || true ; cp -f /app/RESEARCH_AND_PLANNING.md /logs/artifacts/RESEARCH_AND_PLANNING.md 2>/dev/null || true'"
+service = "main"
+timeout_sec = 300
+
+# The solving agent's own budget, per language because Horizon doubles whatever is
+# declared here. AGENT_TIMEOUT_SEC holds the numbers and the reason.
+[agent]
+timeout_sec = 10800.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+os = "linux"
+workdir = "/workspace/repo"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

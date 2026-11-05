@@ -1,0 +1,32 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+[task]
+name = "authored/pdk-mapproxy-shared-s3-tile-cache"
+description = "Cluster-wide tile rendering with leased fencing and bounded refresh"
+authors = []
+keywords = ["python", "system-design"]
+[metadata]
+task_id = "pdk-mapproxy-shared-s3-tile-cache"
+display_title = "Shared S3 metatile rendering"
+repository_url = "https://github.com/mapproxy/mapproxy.git"
+base_commit_hash = "0305aa80f2acdac822d25f7ed35f6aebbbdd78e2"
+language = "python"
+category = "system_design"
+[verifier]
+environment_mode = "separate"
+timeout_sec = 5400.0
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --no-ext-diff --no-textconv --cached 0305aa80f2acdac822d25f7ed35f6aebbbdd78e2 > /logs/artifacts/model.patch'"
+service = "main"
+user = "agent"
+timeout_sec = 60
+[environment]
+allow_internet = false
+build_timeout_sec = 5400.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+[agent]
+user = "agent"
+timeout_sec = 43200.0

@@ -1,0 +1,32 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+[task]
+name = "authored/hvac-atomic-auth-role-mutation-transactions"
+description = ""
+authors = []
+keywords = []
+[metadata]
+task_id = "hvac-atomic-auth-role-mutation-transactions"
+display_title = "Atomic Auth Role Mutation Transactions"
+repository_url = "https://github.com/hvac/hvac.git"
+base_commit_hash = "09902dea41c2c6313cd7844be4d984c1514bd822"
+language = "python"
+category = "feature_request"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 2400
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached 09902dea41c2c6313cd7844be4d984c1514bd822 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+[agent]
+user = "agent"
+timeout_sec = 21600
+[environment]
+allow_internet = false
+network_mode = "no-network"
+build_timeout_sec = 1800
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

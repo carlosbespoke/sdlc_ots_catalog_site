@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "Parchive/par2cmdline.3a27718"
+description = "Reimplement Parchive/par2cmdline from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "parchive__par2cmdline.3a27718"
+display_title = "Reimplement Parchive/par2cmdline from observable behavior"
+category = "reimplementation"
+language = "cpp"
+repository_url = "https://github.com/Parchive/par2cmdline"
+base_commit_hash = "3a27718ac77e638bd4ad5c2f14a2349759fcec15"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

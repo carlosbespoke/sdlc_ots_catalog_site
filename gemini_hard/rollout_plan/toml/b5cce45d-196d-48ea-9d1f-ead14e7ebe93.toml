@@ -1,0 +1,33 @@
+schema_version = "1.3"
+[task]
+name = "bespokelabsai/jstime-jstime"
+description = "Update an existing repository to match the required behavior"
+authors = []
+keywords = ["repository-update", "behavioral-testing"]
+[metadata]
+task_id = "jstime-jstime"
+category = "repository-update"
+language = "rust"
+repository_url = "https://github.com/jstime/jstime.git"
+base_commit_hash = "6a4e33086ec3440027970e5468b3b8216441357f"
+target_commit_hash = "f85999d4159fe5534b0523d3b1f2472a1024c937"
+variant = "oracle"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+[environment]
+build_timeout_sec = 5400.0
+os = "linux"
+workdir = "/app"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

@@ -1,0 +1,32 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+[task]
+name = "authored/python-statemachine-pluggable-event-priority-a0cf"
+description = ""
+authors = []
+keywords = []
+[metadata]
+task_id = "python-statemachine-pluggable-event-priority-a0cf"
+display_title = "Pluggable event-priority policies across all runtime queues"
+repository_url = "https://github.com/fgmacedo/python-statemachine.git"
+base_commit_hash = "525bcddcc5bb9793ce03d7b3e560f9c2ec0c5ee2"
+language = "python"
+category = "feature_request"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 2400
+[[verifier.collect]]
+command = "bash --noprofile --norc /opt/verifier/collect.sh 525bcddcc5bb9793ce03d7b3e560f9c2ec0c5ee2"
+service = "main"
+timeout_sec = 60
+[agent]
+user = "agent"
+timeout_sec = 21600
+[environment]
+allow_internet = false
+network_mode = "no-network"
+build_timeout_sec = 1800
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

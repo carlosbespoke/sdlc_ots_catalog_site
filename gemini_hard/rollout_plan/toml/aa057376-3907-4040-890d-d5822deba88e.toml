@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "railwayapp/nixpacks.81be35a"
+description = "Reimplement railwayapp/nixpacks from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "railwayapp__nixpacks.81be35a"
+display_title = "Reimplement railwayapp/nixpacks from observable behavior"
+category = "reimplementation"
+language = "rs"
+repository_url = "https://github.com/railwayapp/nixpacks"
+base_commit_hash = "81be35aaa341021e02b66253edeadd8bb4a24a0d"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

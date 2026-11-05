@@ -1,0 +1,33 @@
+schema_version = "1.3"
+[task]
+name = "bespokelabsai/plc-lang-rusty"
+description = "Update an existing repository to match the required behavior"
+authors = []
+keywords = ["repository-update", "behavioral-testing"]
+[metadata]
+task_id = "plc-lang-rusty"
+category = "repository-update"
+language = "rust"
+repository_url = "https://github.com/PLC-lang/rusty.git"
+base_commit_hash = "a838e919f50a428720fcbe5c2a9d7788cf2362d7"
+target_commit_hash = "a148bd2cda04d446d73f3520c743d5864310c40c"
+variant = "oracle"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+[agent]
+timeout_sec = 14400.0
+user = "agent"
+network_mode = "no-network"
+[environment]
+build_timeout_sec = 5400.0
+os = "linux"
+workdir = "/app"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

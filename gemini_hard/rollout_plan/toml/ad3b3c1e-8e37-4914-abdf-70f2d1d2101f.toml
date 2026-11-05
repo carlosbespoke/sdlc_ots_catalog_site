@@ -1,0 +1,59 @@
+schema_version = "1.3"
+artifacts = ["/logs/artifacts"]
+
+[task]
+name = "bespokelabsai/jjui-30f-4393c289"
+description = "Working with a recent build of this keyboard-driven terminal front end for a version control system, I hit a scatter of misbehaviour that does not seem to share one cause. The repository has received 30 separate undocumented edits. Below is everything I could reproduce, written as what I did and wha"
+authors = []
+keywords = ["diagnosis", "root-cause", "fault-chain", "go", "go test"]
+
+[metadata]
+task_id = "jjui-30f-4393c289"
+display_title = "jjui-regen"
+display_description = "Working with a recent build of this keyboard-driven terminal front end for a version control system, I hit a scatter of misbehaviour that does not seem to share one cause. The repository has received 30 separate undocumented edits. Below is everything I could reproduce, written as what I did and wha"
+category = "bugfix"
+difficulty = "hard"
+language = "go"
+repository_url = "https://github.com/idursun/jjui.git"
+base_commit_hash = "a052016779e1688e9d4933343b855e1381c922a3"
+target_test = ""
+fault_count = 30
+fault_files = "cmd/genactions/main.go;internal/askpass/ppid_linux.go;internal/askpass/server.go;internal/jj/commands.go;internal/jj/source/function_source.go;internal/jj/source/source.go;internal/scripting/config.go;internal/scripting/lua.go;internal/ui/actionargs/bool.go;internal/ui/bookmarks/bookmarks.go;internal/ui/choose/choose.go;internal/ui/flash/command_history.go;internal/ui/fuzzy_files/fuzzy_files.go;internal/ui/fuzzy_input/fuzzy_input.go;internal/ui/operations/details/details.go;internal/ui/operations/target_picker/target_picker.go;internal/ui/redo/redo.go;internal/ui/split.go;internal/ui/ui.go;internal/ui/undo/undo.go"
+fault_ids = "34d77a7d,9afa4f26,71289c2b,ee6ae8c4,9dee50c3,dfa9a072,25a3a89b,ba65fe1f,7c099536,bbb681c8,6405f794,2c2b440b,41b3029c,ceed19e3,8dfcb14c,42c3ce09,cad905b1,617647dd,df6d3717,3bbf8d7a,4fe86963,72e7cbf8,e5b14fd1,a13fd056,688d2c77,4dcbaaec,0fb6a970,fd947003,2ce79dc5,aa16ac46"
+why_hard = "30 edits across 20 files, one per function, and the repository's own suite is the only thing that shows them"
+generated_by = "voyager-diagnosis-pipeline"
+
+# Single-container (shared) verifier: grading runs in the agent's OWN container after the
+# agent phase, so there is no separate verifier image. The repository's own suite is kept
+# out of the agent's tree during its phase (environment/Dockerfile removes it) and restored
+# at grade time by tests/grade.py from the root-owned /tests mount, so the "no test suite"
+# premise still holds inside one container. The grader runs as root (user below) so it can
+# read /tests and restore the suite; the tree under test still runs as the agent account
+# (answer_key run_tests_as = "agent"); and the seal in the grader neutralizes .git so root
+# git obeys nothing the agent planted (the shared-container exposure the separate verifier
+# used to close by isolation). environment_mode="shared" is incompatible with a
+# [verifier.environment] block, so that block is intentionally absent; the verifier
+# inherits the agent's environment.
+[verifier]
+environment_mode = "shared"
+user = "root"
+timeout_sec = 2400.0
+[[verifier.collect]]
+command = "bash -c 'mkdir -p /logs/artifacts && cd /workspace/repo && tar czf /logs/artifacts/worktree.tgz --exclude=./.git . ; cp -f /app/rca.json /logs/artifacts/rca.json 2>/dev/null || true ; cp -f /app/RESEARCH_AND_PLANNING.md /logs/artifacts/RESEARCH_AND_PLANNING.md 2>/dev/null || true'"
+service = "main"
+timeout_sec = 300
+
+# The solving agent's own budget, per language because Horizon doubles whatever is
+# declared here. AGENT_TIMEOUT_SEC holds the numbers and the reason.
+[agent]
+timeout_sec = 10800.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+os = "linux"
+workdir = "/workspace/repo"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

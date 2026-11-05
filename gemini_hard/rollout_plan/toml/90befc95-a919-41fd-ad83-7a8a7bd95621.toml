@@ -1,0 +1,46 @@
+schema_version = "1.4"
+
+[[artifacts]]
+source = "/workspace/infra"
+exclude = [".terraform", ".git", "*.tfstate", "*.tfstate.backup", "*.tfplan"]
+
+[metadata]
+difficulty = "hard"
+category = "Infrastructure as Code"
+tags = ["iac", "terraform", "aws", "migrate", "refactor"]
+expert_time_estimate_minutes = 300
+display_description = "Refactor a flat, count-indexed Terraform stack (164 AWS resources across 15 services) into network/delivery/tooling/observability modules keyed by availability zone and tool, with variables and outputs, so the production-state plan is moves only"
+source_repository = ""
+source_commit = ""
+source_license = ""
+terraform_version = "1.16.4"
+aws_provider_version = "5.100.0"
+grading = "partial: 0 if any gate fails (static bans, offline init/validate/plan, moves-only plan, CI policies, no pasted IDs, remapped state, outputs) or any core check fails (a key added - also under a fresh name nobody can list in advance - removed or changed; a rename; module ownership; the module layout; keying by dimension; no count; a probe the spec marks core), else passed/36 requirement checks"
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[verifier]
+timeout_sec = 3600.0
+environment_mode = "separate"
+network_mode = "no-network"
+user = "root"
+
+[verifier.environment]
+build_timeout_sec = 1800.0
+cpus = 2
+memory_mb = 4096
+storage_mb = 10240
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 1800.0
+memory_mb = 8192
+cpus = 4
+storage_mb = 20480
+network_mode = "no-network"
+workdir = "/workspace/infra"
+gpus = 0
+mcp_servers = []

@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "cloudwego/thriftgo.86d0b17"
+description = "Reimplement cloudwego/thriftgo from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "cloudwego__thriftgo.86d0b17"
+display_title = "Reimplement cloudwego/thriftgo from observable behavior"
+category = "reimplementation"
+language = "go"
+repository_url = "https://github.com/cloudwego/thriftgo"
+base_commit_hash = "86d0b174fff9dc6ec0e7175bab01a1c2a21237f6"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

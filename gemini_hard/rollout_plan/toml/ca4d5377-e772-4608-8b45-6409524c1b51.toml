@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "google/liblc3.48bbd3e"
+description = "Reimplement google/liblc3 from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "google__liblc3.48bbd3e"
+display_title = "Reimplement google/liblc3 from observable behavior"
+category = "reimplementation"
+language = "c"
+repository_url = "https://github.com/google/liblc3"
+base_commit_hash = "48bbd3eacd36e99a57317a0a4867002e0b09e183"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

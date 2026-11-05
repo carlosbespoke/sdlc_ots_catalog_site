@@ -1,0 +1,32 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+[task]
+name = "authored/dongle-incremental-codec-recognition-and-570d"
+description = ""
+authors = []
+keywords = []
+[metadata]
+task_id = "dongle-incremental-codec-recognition-and-570d"
+display_title = "Incremental Codec Recognition and Auto-Decoding"
+repository_url = "https://github.com/dromara/dongle.git"
+base_commit_hash = "a95277f3be3a65302b6ad70778404895774f1726"
+language = "go"
+category = "feature_request"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 2400
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached a95277f3be3a65302b6ad70778404895774f1726 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+[agent]
+user = "agent"
+timeout_sec = 21600
+[environment]
+allow_internet = false
+network_mode = "no-network"
+build_timeout_sec = 1800
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

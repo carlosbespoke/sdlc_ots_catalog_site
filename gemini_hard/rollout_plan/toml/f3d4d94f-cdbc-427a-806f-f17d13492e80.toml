@@ -1,0 +1,37 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-baserow-job-lease-recovery"
+description = "Recover crashed background jobs using leases and atomic admission"
+authors = []
+keywords = ["python", "system-design", "celery", "postgresql"]
+
+[metadata]
+task_id = "pdk-baserow-job-lease-recovery"
+display_title = "Recover background jobs after worker loss"
+repository_url = "https://github.com/baserow/baserow.git"
+base_commit_hash = "b510613b123907bb6d7425fb0c51a35390633da8"
+language = "python"
+category = "system_design"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 5400.0
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached b510613b123907bb6d7425fb0c51a35390633da8 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+
+[environment]
+allow_internet = true
+build_timeout_sec = 5400.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+user = "agent"
+timeout_sec = 43200.0

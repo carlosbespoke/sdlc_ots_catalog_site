@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "easyp-tech/easyp.bf0c63d"
+description = "Reimplement easyp-tech/easyp from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "easyp-tech__easyp.bf0c63d"
+display_title = "Reimplement easyp-tech/easyp from observable behavior"
+category = "reimplementation"
+language = "go"
+repository_url = "https://github.com/easyp-tech/easyp"
+base_commit_hash = "bf0c63d7a8e9f70b8b00ab33cc065c56f1aa6eda"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

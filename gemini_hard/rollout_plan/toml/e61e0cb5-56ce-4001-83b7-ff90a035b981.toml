@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "switchupcb/copygen.5abea72"
+description = "Reimplement switchupcb/copygen from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "switchupcb__copygen.5abea72"
+display_title = "Reimplement switchupcb/copygen from observable behavior"
+category = "reimplementation"
+language = "go"
+repository_url = "https://github.com/switchupcb/copygen"
+base_commit_hash = "5abea724a1b63b9a42a60ad21827306708f20c66"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

@@ -1,0 +1,46 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-peeringdb-cache-and-incremental-sync-handoff"
+description = ""
+authors = []
+keywords = ["python", "system-design"]
+
+[metadata]
+task_id = "pdk-peeringdb-cache-and-incremental-sync-handoff"
+display_title = "Consistent cached snapshots and incremental sync"
+repository_url = "https://github.com/peeringdb/peeringdb.git"
+base_commit_hash = "09d9a3e1704ddd711b5f7c7d2e5ae13a7b18ae1a"
+language = "python"
+category = "system_design"
+
+[verifier]
+environment_mode = "separate"
+# At least 3x one full grade (both suites) on 4 CPUs; hidden suites wait out real outages, and
+# Horizon's graders are slower than a build sandbox.
+timeout_sec = 5400.0
+
+# Collected as the solver's own user, with no external diff or textconv: git config or attributes
+# the solver plants in /app would otherwise run as root here.
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --no-ext-diff --no-textconv --cached 09d9a3e1704ddd711b5f7c7d2e5ae13a7b18ae1a > /logs/artifacts/model.patch'"
+service = "main"
+user = "agent"
+timeout_sec = 60
+
+[environment]
+# Always false. A compose task attaches every service, main included, in both compose files to one
+# network declared `internal: true`, so host names resolve but nothing reaches the internet.
+allow_internet = false
+build_timeout_sec = 5400.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+# The solver runs unprivileged; the environment image keeps root as its default user. Multi-service
+# work with real outages needs long test cycles, so the solver gets twelve hours.
+user = "agent"
+timeout_sec = 43200.0

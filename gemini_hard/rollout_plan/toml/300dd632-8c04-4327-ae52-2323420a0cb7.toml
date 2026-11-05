@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "errata-ai/vale.ed71176"
+description = "Reimplement errata-ai/vale from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "errata-ai__vale.ed71176"
+display_title = "Reimplement errata-ai/vale from observable behavior"
+category = "reimplementation"
+language = "go"
+repository_url = "https://github.com/errata-ai/vale"
+base_commit_hash = "ed7117697bd9e8e0f8cd6b6217125878321ef17b"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

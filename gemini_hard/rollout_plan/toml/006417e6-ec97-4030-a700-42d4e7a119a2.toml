@@ -1,0 +1,32 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+[task]
+name = "authored/client-python-coherent-portable-collection-dc91"
+description = ""
+authors = []
+keywords = []
+[metadata]
+task_id = "client-python-coherent-portable-collection-dc91"
+display_title = "Coherent, portable collection snapshots"
+repository_url = "https://github.com/prometheus/client_python.git"
+base_commit_hash = "209834673397d48340e3b3bde6dfd4383087a359"
+language = "python"
+category = "feature_request"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 2400
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached 209834673397d48340e3b3bde6dfd4383087a359 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+[agent]
+user = "agent"
+timeout_sec = 5400
+[environment]
+allow_internet = false
+network_mode = "no-network"
+build_timeout_sec = 1800
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

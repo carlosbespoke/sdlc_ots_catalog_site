@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "snowballstem/snowball.cd195b5"
+description = "Reimplement snowballstem/snowball from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "snowballstem__snowball.cd195b5"
+display_title = "Reimplement snowballstem/snowball from observable behavior"
+category = "reimplementation"
+language = "c"
+repository_url = "https://github.com/snowballstem/snowball"
+base_commit_hash = "cd195b51e948a902a4312f023f4a14392516a543"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

@@ -1,0 +1,36 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-eshop-consumer-retry-dead-letter-v2"
+description = "Reliable order-pipeline integration-event consumption across RabbitMQ, Ordering and Catalog"
+authors = []
+keywords = ["csharp", "system-design", "rabbitmq", "postgresql"]
+
+[metadata]
+task_id = "pdk-eshop-consumer-retry-dead-letter-v2"
+display_title = "Retry and deduplicate order integration events"
+repository_url = "https://github.com/dotnet/eShop.git"
+base_commit_hash = "dc7ea499cd356924fb6689b3702964a5869dbae9"
+language = "csharp"
+category = "system_design"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 3000
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached dc7ea499cd356924fb6689b3702964a5869dbae9 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+
+[environment]
+allow_internet = false
+build_timeout_sec = 2400
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+timeout_sec = 43200.0

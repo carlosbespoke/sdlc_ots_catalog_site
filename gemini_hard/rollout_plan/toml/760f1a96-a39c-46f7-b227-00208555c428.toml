@@ -1,0 +1,33 @@
+schema_version = "1.3"
+[task]
+name = "bespokelabsai/jahala-tilth"
+description = "Update an existing repository to match the required behavior"
+authors = []
+keywords = ["repository-update", "behavioral-testing"]
+[metadata]
+task_id = "jahala-tilth"
+category = "repository-update"
+language = "rust"
+repository_url = "https://github.com/jahala/tilth.git"
+base_commit_hash = "08ae11a377a4b3d9b754aa75274fffd15730336b"
+target_commit_hash = "f5c0afa97c6666a3d68dcbd965a4db5a44bc0905"
+variant = "oracle"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+[environment]
+build_timeout_sec = 5400.0
+os = "linux"
+workdir = "/app"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

@@ -1,0 +1,60 @@
+schema_version = "1.3"
+artifacts = ["/logs/artifacts"]
+
+[task]
+name = "bespokelabsai/code-generator-30f-03ff8c25"
+description = "The repository has received 30 separate undocumented edits. What follows is everything we noticed while using it; we have not looked for the cause of any of it. We use this tool to read annotated declarations in a project and write helper source beside them, and we also rely on the helper source it "
+authors = []
+keywords = ["diagnosis", "root-cause", "fault-chain", "go", "go test"]
+
+[metadata]
+task_id = "code-generator-30f-03ff8c25"
+display_title = "code-generator-regen"
+display_description = "The repository has received 30 separate undocumented edits. What follows is everything we noticed while using it; we have not looked for the cause of any of it. We use this tool to read annotated declarations in a project and write helper source beside them, and we also rely on the helper source it "
+category = "bugfix"
+difficulty = "hard"
+language = "go"
+repository_url = "https://github.com/kubernetes/code-generator.git"
+base_commit_hash = "eec8939efc3689763a1a28b5501dbf997d298ba6"
+target_test = ""
+fault_count = 30
+fault_files = "cmd/client-gen/args/gvpackages.go;cmd/client-gen/generators/util/gvpackages.go;cmd/deepcopy-gen/generators/deepcopy.go;cmd/deepcopy-gen/output_tests/aliases/zz_generated.deepcopy.go;cmd/validation-gen/output_tests/ratcheting/maps/eachval/zz_generated.validations.go;cmd/validation-gen/output_tests/tags/eachval/map_of_primitive/zz_generated.validations.go;cmd/validation-gen/output_tests/tags/item/multiple_keys/zz_generated.validations.go;cmd/validation-gen/output_tests/tags/maxitems/typedef_to_slice/zz_generated.validations.go;cmd/validation-gen/output_tests/tags/minproperties/zz_generated.validations.go;cmd/validation-gen/output_tests/tags/monotonic/zz_generated.validations.go;cmd/validation-gen/output_tests/tags/neq/neq/neqchained/zz_generated.validations.go;cmd/validation-gen/output_tests/tags/neq/neqbool/zz_generated.validations.go;cmd/validation-gen/output_tests/tags/options/discriminators/zz_generated.validations.go;cmd/validation-gen/output_tests/tags/options/maps/zz_generated.validations.go;cmd/validation-gen/output_tests/tags/options/subfields/zz_generated.validations.go;cmd/validation-gen/output_tests/tags/subfield/shortcircuit/zz_generated.validations.go;cmd/validation-gen/output_tests/tags/subfield/unions/zz_generated.validations.go;cmd/validation-gen/output_tests/typedefs/zz_generated.validations.go;cmd/validation-gen/util/util.go;cmd/validation-gen/validators/validators.go;pkg/apidefinitions/activation.go"
+fault_ids = "aeaf1bed,c126d6cb,6ace107e,cfaec820,dcd86a30,2b91cb81,6deb2bc5,b48d0dd9,55fc6bd5,d46f1106,e26435b4,73bb303b,2a4ae6fc,3a17757c,6d403019,d1ba2535,a4b061b6,d1ace27b,2d498aec,84be78e6,87cd5fc3,4fdb6dbc,c668e4c7,897839c7,56d9449a,533c7717,551ce604,33a71a45,4e60a6f8,52f8c169"
+why_hard = "30 edits across 21 files, one per function, and the repository's own suite is the only thing that shows them"
+generated_by = "voyager-diagnosis-pipeline"
+
+# Dual-container (separate) verifier, which the Voyager OTS spec requires of every task
+# (2026-09-29). Grading runs in its OWN container, built from tests/Dockerfile: the same
+# environment/Dockerfile the agent's image comes from, plus root-owned /tests layers the
+# agent image never holds. Nothing the agent did at run time reaches that container except
+# what the collect command below hands over - /logs/artifacts/worktree.tgz (the working
+# tree without .git) and /logs/artifacts/rca.json - and tests/grade.py adopts only source
+# files out of the archive. So the agent's .git, its venv, its home directory, its
+# processes and anything it planted outside the source roots never meet the grader. The
+# grader still runs as root (user below) and drops to the agent account for every suite run
+# (answer_key run_tests_as = "agent"). No [verifier.environment] block: Harbor then gives
+# the verifier a fresh copy of [environment] below, so one declaration governs both
+# containers' network, cpus, memory and storage.
+[verifier]
+environment_mode = "separate"
+user = "root"
+timeout_sec = 7200.0
+[[verifier.collect]]
+command = "bash -c 'mkdir -p /logs/artifacts && cd /workspace/repo && tar czf /logs/artifacts/worktree.tgz --exclude=./.git . ; cp -f /app/rca.json /logs/artifacts/rca.json 2>/dev/null || true'"
+service = "main"
+timeout_sec = 300
+
+# The solving agent's own budget, per language. Horizon applies it as written, with no
+# multiplier. AGENT_TIMEOUT_SEC holds the numbers and the reason.
+[agent]
+timeout_sec = 21600.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+os = "linux"
+workdir = "/workspace/repo"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

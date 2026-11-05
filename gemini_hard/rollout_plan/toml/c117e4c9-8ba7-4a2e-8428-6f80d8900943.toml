@@ -1,0 +1,38 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-dmoj-versioned-test-data-grading"
+description = "Coordinate published problem test-data versions across judges, submissions, and contests"
+authors = []
+keywords = ["python", "system-design"]
+
+[metadata]
+task_id = "pdk-dmoj-versioned-test-data-grading"
+display_title = "Version-consistent test-data grading"
+repository_url = "https://github.com/DMOJ/online-judge.git"
+base_commit_hash = "6aaddea6aaeabf4927b83787714509ff9fff8897"
+language = "python"
+category = "system_design"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 5400.0
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --no-ext-diff --no-textconv --cached 6aaddea6aaeabf4927b83787714509ff9fff8897 > /logs/artifacts/model.patch'"
+service = "main"
+user = "agent"
+timeout_sec = 60
+
+[environment]
+allow_internet = false
+build_timeout_sec = 5400.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+user = "agent"
+timeout_sec = 43200.0

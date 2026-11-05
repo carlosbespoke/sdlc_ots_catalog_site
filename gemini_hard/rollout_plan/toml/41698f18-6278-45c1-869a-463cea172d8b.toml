@@ -1,0 +1,33 @@
+schema_version = "1.3"
+[task]
+name = "bespokelabsai/jsinger67-parol"
+description = "Update an existing repository to match the required behavior"
+authors = []
+keywords = ["repository-update", "behavioral-testing"]
+[metadata]
+task_id = "jsinger67-parol"
+category = "repository-update"
+language = "rust"
+repository_url = "https://github.com/jsinger67/parol.git"
+base_commit_hash = "e944f58828ba8eb07e85c7432b32408955a7d753"
+target_commit_hash = "bd5a2c7022bf9790a656974fb1a8594d121d9354"
+variant = "oracle"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+[agent]
+timeout_sec = 14400.0
+user = "agent"
+network_mode = "no-network"
+[environment]
+build_timeout_sec = 5400.0
+os = "linux"
+workdir = "/app"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

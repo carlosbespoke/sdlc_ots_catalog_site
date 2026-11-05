@@ -1,0 +1,37 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-saleor-discounted-price-convergence"
+description = "Convergent Saleor catalogue discounted prices across workers"
+authors = []
+keywords = ["python", "system-design", "django", "celery"]
+
+[metadata]
+task_id = "pdk-saleor-discounted-price-convergence"
+display_title = "Reliable catalogue discounted prices"
+repository_url = "https://github.com/saleor/saleor.git"
+base_commit_hash = "bb75f87973abe24056a5d0dff1708ca097e95599"
+language = "python"
+category = "system_design"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 3600
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached bb75f87973abe24056a5d0dff1708ca097e95599 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+
+[environment]
+allow_internet = false
+build_timeout_sec = 2400
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+user = "agent"
+timeout_sec = 43200.0

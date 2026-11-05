@@ -1,0 +1,43 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-woodpecker-durable-workflow-leases"
+description = "Restore running workflows and cancellation after server restarts"
+authors = []
+keywords = ["go", "system-design"]
+
+[metadata]
+task_id = "pdk-woodpecker-durable-workflow-leases"
+display_title = "Durable workflow leases across server restarts"
+repository_url = "https://github.com/woodpecker-ci/woodpecker.git"
+base_commit_hash = "9f5568c20a1f7195d23c4194c49d53bd2580be41"
+language = "go"
+category = "system_design"
+
+[verifier]
+environment_mode = "separate"
+# At least 3x one full grade (both suites) on 4 CPUs; hidden suites wait out real outages, and
+# Horizon's graders are slower than a build sandbox.
+timeout_sec = 5400.0
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached 9f5568c20a1f7195d23c4194c49d53bd2580be41 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+
+[environment]
+# false for single-container tasks. Compose tasks need true: with it off, Harbor joins every
+# container into one network namespace and the service host names stop resolving.
+allow_internet = false
+build_timeout_sec = 5400.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+# The solver runs unprivileged; the environment image keeps root as its default user. Multi-service
+# work with real outages needs long test cycles, so the solver gets six hours.
+user = "agent"
+timeout_sec = 43200.0

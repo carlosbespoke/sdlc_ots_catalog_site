@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "cesanta/mjs.50f47be"
+description = "Reimplement cesanta/mjs from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "cesanta__mjs.50f47be"
+display_title = "Reimplement cesanta/mjs from observable behavior"
+category = "reimplementation"
+language = "c"
+repository_url = "https://github.com/cesanta/mjs"
+base_commit_hash = "50f47be8c6232e34256756159d5f97796106a006"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

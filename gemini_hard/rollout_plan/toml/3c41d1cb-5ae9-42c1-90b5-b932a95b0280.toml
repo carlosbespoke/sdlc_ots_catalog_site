@@ -1,0 +1,38 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-mlflow-rolling-schema-upgrade"
+description = "Rolling MLflow run-tag schema upgrade"
+authors = []
+keywords = ["python", "system-design", "postgresql"]
+
+[metadata]
+task_id = "pdk-mlflow-rolling-schema-upgrade"
+display_title = "Rolling run-tag schema upgrade"
+repository_url = "https://github.com/mlflow/mlflow.git"
+base_commit_hash = "a252dd302136bd3cfcef1bc101cc372b59d138d4"
+language = "python"
+category = "system_design"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 5400.0
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --no-ext-diff --no-textconv --cached a252dd302136bd3cfcef1bc101cc372b59d138d4 > /logs/artifacts/model.patch'"
+service = "main"
+user = "agent"
+timeout_sec = 60
+
+[environment]
+allow_internet = false
+build_timeout_sec = 5400.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+user = "agent"
+timeout_sec = 43200.0

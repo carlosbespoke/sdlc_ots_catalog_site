@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "amterp/rad.8b07cf2"
+description = "Reimplement amterp/rad from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "amterp__rad.8b07cf2"
+display_title = "Reimplement amterp/rad from observable behavior"
+category = "reimplementation"
+language = "go"
+repository_url = "https://github.com/amterp/rad"
+base_commit_hash = "8b07cf24ec93597547c9a6d01178cd86404ee687"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

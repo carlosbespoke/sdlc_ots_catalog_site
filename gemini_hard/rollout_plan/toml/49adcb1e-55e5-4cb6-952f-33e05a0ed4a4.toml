@@ -1,0 +1,33 @@
+schema_version = "1.3"
+[task]
+name = "bespokelabsai/palantir-log4j-sniffer"
+description = "Update an existing repository to match the required behavior"
+authors = []
+keywords = ["repository-update", "behavioral-testing"]
+[metadata]
+task_id = "palantir-log4j-sniffer"
+category = "repository-update"
+language = "go"
+repository_url = "https://github.com/palantir/log4j-sniffer.git"
+base_commit_hash = "99484e0a00c8b006c9f0f15c7c5f64a189628340"
+target_commit_hash = "dca58ac20cbfba281dde15f1cfd80ee03ab94054"
+variant = "oracle"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+[environment]
+build_timeout_sec = 5400.0
+os = "linux"
+workdir = "/app"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

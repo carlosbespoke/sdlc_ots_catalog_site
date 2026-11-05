@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "dvidelabs/flatcc.571dc41"
+description = "Reimplement dvidelabs/flatcc from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "dvidelabs__flatcc.571dc41"
+display_title = "Reimplement dvidelabs/flatcc from observable behavior"
+category = "reimplementation"
+language = "c"
+repository_url = "https://github.com/dvidelabs/flatcc"
+base_commit_hash = "571dc4100670b0df51f727dc6ab747a8851f4695"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

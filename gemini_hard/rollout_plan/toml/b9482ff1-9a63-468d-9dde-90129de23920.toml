@@ -1,0 +1,38 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-tracim-search-index-consistency"
+description = "Keep Tracim content search safe through moves, purges, outages, and online index upgrades"
+authors = []
+keywords = ["python", "system-design", "search", "elasticsearch"]
+
+[metadata]
+task_id = "pdk-tracim-search-index-consistency"
+display_title = "Consistent content search during online upgrades"
+repository_url = "https://github.com/tracim/tracim.git"
+base_commit_hash = "07487d3e4e2464cf5aadb7f9ff9ad26e731a9eea"
+language = "python"
+category = "system_design"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 5400.0
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --no-ext-diff --no-textconv --cached 07487d3e4e2464cf5aadb7f9ff9ad26e731a9eea > /logs/artifacts/model.patch'"
+service = "main"
+user = "agent"
+timeout_sec = 60
+
+[environment]
+allow_internet = false
+build_timeout_sec = 5400.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+user = "agent"
+timeout_sec = 43200.0

@@ -1,0 +1,38 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+
+[task]
+name = "authored/pdk-backstage-events-ack-rolling-upgrade"
+description = "Acked event delivery to Backstage subscriptions during rolling client upgrades"
+authors = []
+keywords = ["typescript", "system-design", "postgresql", "events"]
+
+[metadata]
+task_id = "pdk-backstage-events-ack-rolling-upgrade"
+display_title = "Acknowledged event delivery across mixed-version consumers"
+repository_url = "https://github.com/backstage/backstage.git"
+base_commit_hash = "b9fa010fb0ca91d2da2cb38f640d9c86cb1c1a26"
+language = "typescript"
+category = "system_design"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 5400.0
+
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --no-ext-diff --no-textconv --cached b9fa010fb0ca91d2da2cb38f640d9c86cb1c1a26 > /logs/artifacts/model.patch'"
+service = "main"
+user = "agent"
+timeout_sec = 60
+
+[environment]
+allow_internet = false
+build_timeout_sec = 5400.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+
+[agent]
+user = "agent"
+timeout_sec = 43200.0

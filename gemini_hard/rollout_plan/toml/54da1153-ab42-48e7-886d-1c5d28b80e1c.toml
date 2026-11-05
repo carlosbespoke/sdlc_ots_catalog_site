@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "thoughtworks/talisman.efcb1a3"
+description = "Reimplement thoughtworks/talisman from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "thoughtworks__talisman.efcb1a3"
+display_title = "Reimplement thoughtworks/talisman from observable behavior"
+category = "reimplementation"
+language = "go"
+repository_url = "https://github.com/thoughtworks/talisman"
+base_commit_hash = "efcb1a3629f60b5e0bec21c1f2a74c19bd2210f5"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

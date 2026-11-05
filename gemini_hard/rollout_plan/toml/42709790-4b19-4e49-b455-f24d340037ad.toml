@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "bazel-contrib/buildtools.f6a1982"
+description = "Reimplement bazel-contrib/buildtools from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "bazel-contrib__buildtools.f6a1982"
+display_title = "Reimplement bazel-contrib/buildtools from observable behavior"
+category = "reimplementation"
+language = "go"
+repository_url = "https://github.com/bazel-contrib/buildtools"
+base_commit_hash = "f6a1982250030df9c2d24a675a04f150ff6aca6b"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

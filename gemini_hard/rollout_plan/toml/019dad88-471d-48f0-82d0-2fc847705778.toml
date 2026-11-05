@@ -1,0 +1,42 @@
+schema_version = "1.3"
+
+[task]
+name = "sipin/gorazor.cdef90a"
+description = "Reimplement sipin/gorazor from observable behavior"
+authors = []
+keywords = ["reimplementation"]
+
+[metadata]
+task_id = "sipin__gorazor.cdef90a"
+display_title = "Reimplement sipin/gorazor from observable behavior"
+category = "reimplementation"
+language = "go"
+repository_url = "https://github.com/sipin/gorazor"
+base_commit_hash = "cdef90a5cd3dccbe313ee2ee9256c92180ebfb6e"
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 7200.0
+user = "root"
+network_mode = "no-network"
+
+[[artifacts]]
+source = "/workspace"
+destination = "workspace"
+exclude = ["docs", "executable"]
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 2400.0
+os = "linux"
+workdir = "/workspace"
+network_mode = "no-network"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+mcp_servers = []

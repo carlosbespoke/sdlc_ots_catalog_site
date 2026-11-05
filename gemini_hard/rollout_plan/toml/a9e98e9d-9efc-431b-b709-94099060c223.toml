@@ -1,0 +1,32 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+[task]
+name = "authored/pdk-tus-horizontal-fenced-uploads"
+description = "Fenced uploads shared across tus instances with Redis and S3"
+authors = []
+keywords = ["typescript", "system-design", "tus", "s3", "redis"]
+[metadata]
+task_id = "pdk-tus-horizontal-fenced-uploads"
+display_title = "Horizontally shared tus uploads"
+repository_url = "https://github.com/tus/tus-node-server.git"
+base_commit_hash = "e94dad4a2b8edc880ed6e8a4b5297f8c62490c59"
+language = "typescript"
+category = "system_design"
+[verifier]
+environment_mode = "separate"
+timeout_sec = 5400.0
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --no-ext-diff --no-textconv --cached e94dad4a2b8edc880ed6e8a4b5297f8c62490c59 > /logs/artifacts/model.patch'"
+service = "main"
+user = "agent"
+timeout_sec = 60
+[environment]
+allow_internet = false
+build_timeout_sec = 5400.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
+[agent]
+user = "agent"
+timeout_sec = 43200.0
