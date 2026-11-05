@@ -8,6 +8,23 @@ RO = {f[:-5]: json.load(open(f'{H}/ro3/{f}')) for f in os.listdir(f'{H}/ro3')}
 TU = {f[:-5]: [r for r in json.load(open(f'{H}/turns/{f}'))['runs'] if r['model'] in GEM] for f in os.listdir(f'{H}/turns')}
 U = json.load(open(f'{H}/universe.json'))
 SEL = [t for t in U['tasks'] if t.get('tier')]
+# GLM-5.3 Flash: each selected task's runs as recorded in universe.json, each one checked against the raw run files
+# (ro3/ for the task's own runs, origins/ for runs borrowed from the copied-from or reimplementation task)
+GLMF = 'z-ai/glm-5.3-flash'
+def _raw(tid, src):
+    if src == 'own': return {q['id']: q for q in RO[tid]['rollouts']}
+    return {q['id']: q for o in json.load(open(f'{H}/origins/{tid}.json'))['origins'] for q in o['rollouts']}
+GLM = {}
+for t in SEL:
+    if not t.get('glm'): continue
+    raw = _raw(t['id'], t['glm']['source'])
+    for q in t['glm']['runs']:
+        x = raw.get(q['id'])
+        if not x or MM.get(x['model']) != GLMF or x.get('is_errored') or bool(x.get('passed')) != q['passed']: print('GLM run not in raw files:', t['name'], q['id']); sys.exit(1)
+    GLM[t['id']] = [q['passed'] for q in t['glm']['runs']]
+for f in os.listdir(f'{H}/turns_glm'):
+    if f[:-5] in GLM: TU.setdefault(f[:-5], []); TU[f[:-5]] = TU[f[:-5]] + json.load(open(f'{H}/turns_glm/{f}'))['runs']
+NAME = {**GEM, **{k: v for k, v in MM.items() if v == GLMF}, GLMF: GLMF}
 MERGE = {'Migration': 'ProgramBench', 'Infrastructure as code': 'System design', 'Data engineering': 'Feature implementation'}
 PAGE = {'ProgramBench': 'programbench', 'System design': 'system-design', 'Diagnosis, Debugging, and Bug Fixing': 'debugging', 'Feature implementation': 'feature-implementation'}
 page_of = lambda t: PAGE[MERGE.get(t['catalog'], t['catalog'])]
@@ -16,9 +33,10 @@ errors, checked = [], collections.Counter()
 def eq(what, got, want):
     checked[what.split(':')[0]] += 1
     if str(got) != str(want): errors.append(f'{what}: page says {got!r}, snapshot gives {want!r}')
-def runs(tid):
-    """Gemini model -> list of (passed, score) over graded runs, from the raw run file."""
+def runs(tid, glm=True):
+    """Model -> list of (passed, score) over graded runs: Gemini models from the raw run file, GLM-5.3 Flash from the checked runs above."""
     out = collections.defaultdict(list)
+    if glm and tid in GLM: out[GLMF] = [(p, 0) for p in GLM[tid]]
     for q in RO[tid]['rollouts']:
         if q['model'] in GEM and not q.get('is_errored') and q.get('passed') is not None:
             out[GEM[q['model']]].append((bool(q['passed']), q.get('extracted_score') or 0))
@@ -50,7 +68,7 @@ for slug in PAGE.values():
         g, p, per = pooled(T, model)
         shown = len(per) >= 5
         eq(f'pass-rate card: {slug} {short}', K.get(f'{short} pass rate'), pct(p / g) if shown else None)
-        tab = {r[0]: r for r in rows(section(md, 'Gemini pass rates across the catalog'), 'google/')}
+        tab = {r[0]: r for r in rows(section(md, 'Pass rates across the catalog'), 'google/') + rows(section(md, 'Pass rates across the catalog'), 'z-ai/')}
         if shown:
             r = tab.get(model) or [None] * 5
             eq(f'pass-rate table: {slug} {short}', r[1:5], [pct(p / g), pct(sum(v == 0 for v in per) / len(per)), pct(sum(0.2 <= v <= 0.8 for v in per) / len(per)), pct(sum(v == 1 for v in per) / len(per))])
@@ -67,8 +85,8 @@ for slug in PAGE.values():
         eq(f'turns: {slug} long horizon', M.get('Long-horizon tasks (200+ turns)'), f'{100 * sum(x >= 200 for x in v) / len(v):.0f}% of tasks')
         by = collections.defaultdict(list); tasks_by = collections.defaultdict(set)
         for t in T:
-            for r in TU.get(t['id']) or []: by[GEM[r['model']]].append(r['turn_count']); tasks_by[GEM[r['model']]].add(t['id'])
-        R = {r[0]: r for r in rows(ts, 'google/')}
+            for r in TU.get(t['id']) or []: by[NAME[r['model']]].append(r['turn_count']); tasks_by[NAME[r['model']]].add(t['id'])
+        R = {r[0]: r for r in rows(ts, 'google/') + rows(ts, 'z-ai/')}
         for m_, x in by.items():
             k = len(tm); share = 100 * len(tasks_by[m_]) / k
             eq(f'turns: {slug} {m_}', R.get(m_, [None] * 4)[1:4], [f'{share:.0f}%' if share >= 0.5 else '<1%', f'{statistics.mean(x):.1f}', f'{100 * sum(y >= 200 for y in x) / len(x):.0f}%'])
@@ -76,13 +94,14 @@ for slug in PAGE.values():
     for i, blk in enumerate(re.split(r'^### Example ', md, flags=re.M)[1:], 1):
         r = EX.get(f"{ {'programbench': 'ProgramBench and Migration', 'system-design': 'System design & IaC', 'debugging': 'Diagnosis, Debugging, and Bug Fixing', 'feature-implementation': 'Feature implementation'}[slug] }, Example {i}")
         if not r: errors.append(f'example {slug} {i}: no CSV row'); continue
-        tid = r['Horizon task id']; rr = runs(tid)
+        tid = r['Horizon task id']; rr = runs(tid, glm=False)
         want = [[m_, pct(sum(x for x, _ in v_) / len(v_))] for m_, v_ in sorted(rr.items(), key=lambda kv: kv[0] != 'google/gemini-4-argon')]
         got = [r_[:2] for r_ in rows(blk, 'google/') if len(r_) == 2]
         eq(f'example pass rates: {slug} {i}', got, want)
         tl = re.search(r'^\| Turn count \| (.*) \|$', blk, re.M).group(1)
         bt = collections.defaultdict(list)
-        for q in TU.get(tid) or []: bt[GEM[q['model']]].append(q['turn_count'])
+        for q in TU.get(tid) or []:
+            if q['model'] in GEM: bt[GEM[q['model']]].append(q['turn_count'])
         eq(f'example turns: {slug} {i}', sorted(tl.split(', ')), sorted(f'{statistics.mean(x):.0f} ({m_})' for m_, x in bt.items()) if bt else ['no completed run'])
 # overview
 md = open(f'{C}/README.md').read()
@@ -93,16 +112,16 @@ for model, short in (('google/gemini-4-argon', 'Gemini 4 Argon'), ('google/gemin
 for r in rows(md, '['):
     slug = re.search(r'\(([\w-]+)\.md\)', r[0]).group(1); T = [t for t in SEL if page_of(t) == slug]; tm = turn_means(T)
     eq(f'overview table: {slug}', [r[1], r[3], r[4]], [f'{NUM[slug]:,}', f'{100 * NUM[slug] / total:.1f}%', f'{statistics.mean(tm.values()):.0f}' if tm else 'n/a'])
-for r in rows(section(md, 'Gemini pass rates'), 'google/'):
+for r in rows(section(md, 'Pass rates by catalog'), 'google/') + rows(section(md, 'Pass rates by catalog'), 'z-ai/'):
     g, p, _ = pooled(SEL, r[0]); eq(f'overview pass table: {r[0]}', r[1], pct(p / g) if g else 'n/a')
 for r in rows(section(md, 'Samples'), 'Main'):
-    n = int(re.search(r'Example (\d+)', r[2]).group(1)); row = EX[f'{r[1]}, Example {n}']; rr = runs(row['Horizon task id'])
+    n = int(re.search(r'Example (\d+)', r[2]).group(1)); row = EX[f'{r[1]}, Example {n}']; rr = runs(row['Horizon task id'], glm=False)
     eq(f'overview samples: {r[1]} {n}', r[4:6], [pct(sum(x for x, _ in rr[m]) / len(rr[m])) if rr.get(m) else '' for m in ('google/gemini-4-argon', 'google/gemini-3.8-flash')])
 # CSV
 ids = {t['id'] for t in SEL}
 eq('csv: task set', sorted(r['Horizon task id'] for r in CSV), sorted(ids))
 for r in CSV:
-    rr = runs(r['Horizon task id']); a = rr.get('google/gemini-4-argon'); f = rr.get('google/gemini-3.8-flash')
+    rr = runs(r['Horizon task id'], glm=False); a = rr.get('google/gemini-4-argon'); f = rr.get('google/gemini-3.8-flash')
     eq(f"csv: {r['Task']} argon", [r['Argon runs graded'], r['Argon passes']], [str(len(a)), str(sum(x for x, _ in a))] if a else ['', ''])
     eq(f"csv: {r['Task']} flash", [r['Gemini 3.8 Flash runs graded'], r['Gemini 3.8 Flash passes']], [str(len(f)), str(sum(x for x, _ in f))] if f else ['', ''])
 print('snapshot', open(f'{H}/SNAPSHOT').read().strip(), '| checks by kind:', dict(checked))

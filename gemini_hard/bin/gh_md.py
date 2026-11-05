@@ -115,21 +115,25 @@ for slug, s in S.items():
     L.append(chart('bars', 'Primary language and seniority', ' data-dims="l:8=Primary language,s=Seniority"'))
     for key, title in [('language', 'Primary language'), ('seniority', 'Seniority')]:
         L.append(f'### {title}\n'); L.append(table([title, '% of catalog'], [[x['value'], f"{Pc(x['tasks']):.1f}%"] for x in s[key]]) + '\n')
-    L.append('## Gemini pass rates across the catalog\n')
+    L.append('## Pass rates across the catalog\n')
     M = [m for m in s['models'] if m['tasks_graded'] >= 5]
     if M:
         Q = lambda a, b: 'n/a' if not b else f"{100 * a / b:.0f}%"
         L.append(table(['Model', 'Pass rate', 'Tasks at 0%', 'Tasks at 20-80%', 'Tasks at 100%'],
             [[m['model'], pct(m['pass_rate']), Q(m['tasks_0'], m['tasks_graded']), Q(m['tasks_20_80'], m['tasks_graded']), Q(m['tasks_100'], m['tasks_graded'])] for m in M]) + '\n')
-        L.append(chart('reward', 'Per-task pass rate by Gemini model'))
+        L.append(chart('reward', 'Per-task pass rate by model'))
+        bw = s.get('glm_borrowed') or {}
+        if bw:
+            k_ = sum(bw.values()); parts = [f"{v} from the task it was copied from" if src == 'copied-from task' else f"{v} from the same repository's reimplementation task" for src, v in sorted(bw.items())]
+            L.append(f"GLM-5.3 Flash is shown so that every task in the catalog has results. {k_} tasks have no GLM-5.3 Flash runs of their own, so their GLM-5.3 Flash results come from a closely related task: {' and '.join(parts)}.\n")
         hid = [m['model'] for m in M if m['tasks_100'] / m['tasks_graded'] >= 0.8]
         if hid: L.append(f"The chart starts with {' and '.join(hid)} hidden, because {'it passes' if len(hid) == 1 else 'they pass'} every run on 80% or more of {'its' if len(hid) == 1 else 'their'} tasks. Click {'its' if len(hid) == 1 else 'their'} button to show {'it' if len(hid) == 1 else 'them'}.\n")
-    else: L.append('No Gemini model has graded runs on five or more of the selected tasks.\n')
+    else: L.append('No model has graded runs on five or more of the selected tasks.\n')
     TT = s.get('turns') or {}
     L.append('## Turn counts and long-horizon tasks\n')
     if TT.get('tasks_with_turns'):
         k = TT['tasks_with_turns']; lh = TT['long_horizon_tasks']
-        L.append(f"A task's turn count is the average over its Gemini runs. A task is long horizon when that average is {TT['threshold']} or more turns.\n")
+        L.append(f"A task's turn count is the average over its runs by Gemini 4 Argon, Gemini 3.8 Flash and GLM-5.3 Flash. A task is long horizon when that average is {TT['threshold']} or more turns.\n")
         L.append(table(['Measure', 'Value'], [['Average turn count', f"{TT['mean_of_task_means']:.1f}"], ['Median turn count', f"{TT['median_of_task_means']:.1f}"],
             ['Range', f"{TT['min_task_mean']:.0f} to {TT['max_task_mean']:.0f}"], [f"Long-horizon tasks ({TT['threshold']}+ turns)", f"{100 * lh / k:.0f}% of tasks"]]) + '\n')
         L.append(chart('turns', 'Turns per task', ' data-group="Domain"'))
@@ -232,17 +236,17 @@ L.append(nob('<div class="table-scroll"><table class="data fm">\n<thead><tr><th>
 L.append('### Headroom for improvement\n')
 L.append(f"On the {len(two)} samples with two or more graded Argon runs, the chance that one run passes (pass@1) is {pct(p1)}, and the chance that at least one of two runs passes (pass@2) is {pct(p2)}, with each sample weighted equally. Argon can often reach a working solution but does not get there reliably.\n")
 L.append(FM['headroom'] + '\n')
-L.append('## Gemini pass rates\n')
-L.append("Each cell is a Gemini model's pass rate in one catalog: its passed runs over its graded runs there, with errored runs left out.\n")
+L.append('## Pass rates by catalog\n')
+L.append("Each cell is a model's pass rate in one catalog: its passed runs over its graded runs there, with errored runs left out. GLM-5.3 Flash is shown beside the Gemini models so that every selected task has results.\n")
 HM = list(allm)
 HEAT = {'models': HM, 'catalogs': [s_['name'] for _, s_ in index], 'minTasks': 5,
         'cells': [[j, HM.index(m['model']), m['graded'], [round(v, 4) for v in m['per_task_rates']], m['passed']] for j, (_, s_) in enumerate(index) for m in s_['models'] if m['per_task_rates']]}
-L.append(chart('heat', 'Pass rate by Gemini model and catalog').replace('<div class="fig-box" data-body></div>',
+L.append(chart('heat', 'Pass rate by model and catalog').replace('<div class="fig-box" data-body></div>',
     '<div class="fig-box" data-body></div>\n<span data-links hidden>' + ''.join(f'<a href="{k}.html">{s_["name"]}</a>' for k, s_ in index) + '</span>'))
 L.append(table(['Model', 'Pass rate'], [[k, pct(v[1] / v[0]) if v[0] else 'n/a'] for k, v in allm.items()]) + '\n')
 allt = [m for _, s_ in index for m in (s_.get('turns') or {}).get('task_means') or []]
 L.append('## Turn counts\n')
-L.append(f"A task's turn count is the average over its Gemini runs. Across all catalogs the average is {sum(allt) / len(allt):.0f} turns, and {100 * sum(m >= 200 for m in allt) / len(allt):.0f}% of tasks average 200 turns or more.\n")
+L.append(f"A task's turn count is the average over its runs by Gemini 4 Argon, Gemini 3.8 Flash and GLM-5.3 Flash. Across all catalogs the average is {sum(allt) / len(allt):.0f} turns, and {100 * sum(m >= 200 for m in allt) / len(allt):.0f}% of tasks average 200 turns or more.\n")
 TXM = HM; txt = []
 for j, (_, s_) in enumerate(index):
     for r in s_['task_rows']:
