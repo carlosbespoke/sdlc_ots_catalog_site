@@ -127,13 +127,23 @@ for slug, s in S.items():
 graded = sum(v[0] for v in allm.values())
 L = ['# Coding OTS RL Envs\n']
 L.append('<div class="kpis">' + kpi(f"{TOT:,}", 'Tasks') + ''.join(kpi(pct(v[1] / v[0]), f'{m} pass rate') for m, v in sorted(allm.items(), key=lambda kv: -kv[1][0])) + '</div>\n')
-L.append(f"Our coding RL environments, grouped into {NUMW[len(S)]} catalogs, with the pass rates of every model that has run them. All numbers come from one snapshot of Horizon runs ({SNAPSHOT[:10]}), at the task versions selected on the 2 Nov sheet.\n")
+LANG = collections.Counter(); SEN = collections.Counter()
+for s_ in S.values():
+    for x in s_['language']: LANG[x['value']] += x['tasks']
+    for x in s_['seniority']: SEN[x['value']] += x['tasks']
+AC = "Agent's choice"
+lp = lambda *ks: f"{100 * sum(LANG[k] for k in ks) / TOT:.0f}%"
+allt0 = [m for s_ in S.values() for m in s_['turns']['task_means']]
+L.append(f"Go ({lp('Go')}), Terraform ({lp('HCL (Terraform)')}) and Python ({lp('Python')}) make up most of the tasks. Rust, C and C++ add another {lp('Rust', 'C', 'C++')}, and {lp(AC)} leave the language to the agent. "
+         f"{100 * SEN['Senior'] / TOT:.0f}% are pitched at senior engineers and {100 * SEN['Staff+'] / TOT:.0f}% at staff level. These are long jobs: a task averages {sum(allt0) / len(allt0):.0f} turns over every model's runs, and {100 * sum(m >= 200 for m in allt0) / len(allt0):.0f}% of tasks average 200 turns or more.\n")
 tt = lambda s: f"{s['turns']['mean_of_task_means']:.0f}" if s['turns']['tasks_with_turns'] else 'n/a'
 L.append(table(['Catalog', 'Tasks', 'What the tasks do', '% of all tasks', 'Tasks with graded runs', 'Average turn count'],
     [[f"[{s['name']}]({slug}.md)", f"{s['tasks']:,}", TXT[slug]['one'], f"{100 * s['tasks'] / TOT:.1f}%", f"{s['tasks_graded']:,}", tt(s)] for slug, s in S.items()]
     + [['**Total**', f"**{TOT:,}**", '', '**100%**', f"**{sum(s['tasks_graded'] for s in S.values()):,}**", '']], align='lrlrrr') + '\n')
+L.append('## How the catalogs compare with public benchmarks\n')
+L.append(table(['Catalog', 'Closest public benchmarks', 'What ours add'], [[s_['name'], TXT[k]['bench'], TXT[k]['adds']] for k, s_ in S.items()], left=True) + '\n')
 L.append('## Model pass rates\n')
-L.append(f"Each cell is a model's pass rate in one catalog: passed runs over graded runs, pooled across the tasks it ran there. A cell is blank when the model has graded runs on fewer than {NUMW[S['programbench']['min_tasks']]} tasks in that catalog.\n")
+L.append(f"Pass rates and turn counts come from Horizon runs up to {SNAPSHOT[:10]}. Each cell is a model's pass rate in one catalog: passed runs over graded runs, pooled across the tasks it ran there. A cell is blank when the model has graded runs on fewer than {NUMW[S['programbench']['min_tasks']]} tasks in that catalog.\n")
 L.append('![Pass rate by model and catalog](assets/overview_models.svg)\n')
 L.append(table(['Model', 'Tasks run', 'Graded runs', 'Pass rate'], [[m, f"{len(v[2]):,}", f"{v[0]:,}", pct(v[1] / v[0])] for m, v in sorted(allm.items(), key=lambda kv: -kv[1][0])]) + '\n')
 L.append('## Samples\n')

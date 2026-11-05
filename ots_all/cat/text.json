@@ -8,7 +8,9 @@
   "prompts": [
    "Reproduce the documented behaviour of an execute-only program, delivered as source code plus `compile.sh`.",
    "Update an existing repository to match a reference program, after first writing a research and plan file."
-  ]
+  ],
+  "bench": "ProgramBench (Yang, Press et al., 2026): 200 programs, and no model fully rebuilds any of them",
+  "adds": "434 programs, more than twice the public set"
  },
  "system-design": {
   "one": "Keep multi-process services correct through crashes, retries and races.",
@@ -18,7 +20,9 @@
   "prompts": [
    "A capability gap stated as \"X cannot do Y\", followed by measurable requirements, many with time limits.",
    "A closing paragraph with the repository path, how to start each service and the build command."
-  ]
+  ],
+  "bench": "No direct match. DDBench (60 bugs from open-source distributed systems) and SWE-bench Pro (long-horizon tasks) are the closest",
+  "adds": "New guarantees in running multi-process services, graded through crashes, retries and races"
  },
  "debugging": {
   "one": "Find and fix faults in real codebases from symptoms or documentation.",
@@ -29,7 +33,9 @@
    "A first-person list of symptoms grouped by feature, with no file or function named, ending in a request to fix and report.",
    "A stated number of undocumented edits and a JSON schema for the root-cause report.",
    "A library description with the source paths and documentation pages in scope, and the rule that documentation outranks code."
-  ]
+  ],
+  "bench": "SWE-bench Verified and Pro, Multi-SWE-bench",
+  "adds": "Go, C and Rust next to Python, with faults found from symptoms or documentation drift rather than from an issue text"
  },
  "feature-implementation": {
   "one": "Add capabilities to existing libraries and services without breaking current behaviour.",
@@ -39,7 +45,9 @@
   "prompts": [
    "A capability gap stated as \"X cannot Y\", then dense paragraphs on the behaviour to add and the behaviour to preserve.",
    "A bullet list of required exported names, constants and signatures, with a research and plan file due before any code change."
-  ]
+  ],
+  "bench": "FEA-Bench, SWE-Dev, NoCode-bench",
+  "adds": "Mostly Go, and existing behaviour must stay unchanged"
  },
  "infrastructure-as-code": {
   "one": "Restructure live Terraform, CDK and Pulumi code without touching deployed resources.",
@@ -50,7 +58,9 @@
    "A first-person request to modularize a named production stack, listing target modules, ownership, key rules, root variables and outputs, and requiring a plan of moves only.",
    "A componentization request that lists every construct class with its path, props and public properties, and requires identical synthesized templates.",
    "A migration brief for an imported stack with an empty program, with naming, config and equivalence rules and banned options."
-  ]
+  ],
+  "bench": "IaC-Eval, Multi-IaC-Eval",
+  "adds": "Changes to stacks that are already deployed, where the plan must change nothing that runs, instead of new templates"
  },
  "data-engineering": {
   "one": "Repair pipelines and data libraries after an upstream format or schema change.",
@@ -61,7 +71,9 @@
    "A first-person production symptom after a vendor or connector change, with sample files in `/data`.",
    "A behaviour spec in prose with edge cases, defaults and idempotence rules, ending with a request to fix the library without breaking existing tests.",
    "An opt-in feature request for a parser or loader, with defaults that must not change."
-  ]
+  ],
+  "bench": "ELT-Bench, Spider 2.0",
+  "adds": "Repairs to existing data libraries and pipelines after an upstream format or schema change"
  },
  "migration": {
   "one": "Port Java and Rust libraries to Go or C++ with identical behaviour.",
@@ -72,6 +84,9 @@
    "A first-person request to port a named library to Go from a reference folder, with a stub skeleton and withheld tests.",
    "A request framed by a business reason for the move, such as retiring a JVM dependency, with emphasis on exact reproduction of seeded output.",
    "A bullet list of language-specific pitfalls, such as RE2 regular expression syntax and reserved name prefixes."
-  ]
- }
+  ],
+  "bench": "RustRepoTrans (translation into Rust)",
+  "adds": "Rust and Java ported into Go and C++, a direction the public translation benchmarks we found do not cover"
+ },
+ "_bench_sources": "ProgramBench arXiv 2605.03546; SWE-bench Pro arXiv 2509.16941; Multi-SWE-bench arXiv 2504.02605; DDBench arXiv 2608.14863; FEA-Bench arXiv 2503.06680; SWE-Dev arXiv 2505.16975; NoCode-bench arXiv 2507.18130; IaC-Eval NeurIPS 2024; Multi-IaC-Eval (Davidson et al. 2025); ELT-Bench arXiv 2504.04808; Spider 2.0; RustRepoTrans arXiv 2411.13990. Checked 2026-11-04."
 }

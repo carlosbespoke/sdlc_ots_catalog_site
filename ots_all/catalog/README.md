@@ -2,7 +2,7 @@
 
 <div class="kpis"><div class="kpi"><div class="kpi-value">1,305</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">42%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div><div class="kpi"><div class="kpi-value">60%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
 
-Our coding RL environments, grouped into seven catalogs, with the pass rates of every model that has run them. All numbers come from one snapshot of Horizon runs (2026-11-02), at the task versions selected on the 2 Nov sheet.
+Go (25%), Terraform (23%) and Python (20%) make up most of the tasks. Rust, C and C++ add another 22%, and 6% leave the language to the agent. 86% are pitched at senior engineers and 13% at staff level. These are long jobs: a task averages 361 turns over every model's runs, and 66% of tasks average 200 turns or more.
 
 | Catalog | Tasks | What the tasks do | % of all tasks | Tasks with graded runs | Average turn count |
 |---|---:|---|---:|---:|---:|
@@ -15,9 +15,21 @@ Our coding RL environments, grouped into seven catalogs, with the pass rates of 
 | [Migration](migration.md) | 18 | Port Java and Rust libraries to Go or C++ with identical behaviour. | 1.4% | 18 | 364 |
 | **Total** | **1,305** |  | **100%** | **1,305** |  |
 
+## How the catalogs compare with public benchmarks
+
+| Catalog | Closest public benchmarks | What ours add |
+|---|---|---|
+| ProgramBench | ProgramBench (Yang, Press et al., 2026): 200 programs, and no model fully rebuilds any of them | 434 programs, more than twice the public set |
+| System design | No direct match. DDBench (60 bugs from open-source distributed systems) and SWE-bench Pro (long-horizon tasks) are the closest | New guarantees in running multi-process services, graded through crashes, retries and races |
+| Diagnosis, Debugging, and Bug Fixing | SWE-bench Verified and Pro, Multi-SWE-bench | Go, C and Rust next to Python, with faults found from symptoms or documentation drift rather than from an issue text |
+| Feature implementation | FEA-Bench, SWE-Dev, NoCode-bench | Mostly Go, and existing behaviour must stay unchanged |
+| Infrastructure as code | IaC-Eval, Multi-IaC-Eval | Changes to stacks that are already deployed, where the plan must change nothing that runs, instead of new templates |
+| Data engineering | ELT-Bench, Spider 2.0 | Repairs to existing data libraries and pipelines after an upstream format or schema change |
+| Migration | RustRepoTrans (translation into Rust) | Rust and Java ported into Go and C++, a direction the public translation benchmarks we found do not cover |
+
 ## Model pass rates
 
-Each cell is a model's pass rate in one catalog: passed runs over graded runs, pooled across the tasks it ran there. A cell is blank when the model has graded runs on fewer than five tasks in that catalog.
+Pass rates and turn counts come from Horizon runs up to 2026-11-02. Each cell is a model's pass rate in one catalog: passed runs over graded runs, pooled across the tasks it ran there. A cell is blank when the model has graded runs on fewer than five tasks in that catalog.
 
 ![Pass rate by model and catalog](assets/overview_models.svg)
 

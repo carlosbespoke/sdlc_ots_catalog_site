@@ -8,10 +8,10 @@
 <main id="content" tabindex="-1"><article id="catalog-content">
 <header class="hero"><h1 id="coding-ots-rl-envs">Coding OTS RL Envs</h1><div class="hero-meta" aria-hidden="true"></div></header>
 <div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
-<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html" aria-current="page"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="94 tasks">94</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#model-pass-rates">Model pass rates</a><a class="level-2" href="#samples">Samples</a><a class="level-2" href="#turn-counts">Turn counts</a></nav></aside>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html" aria-current="page"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="94 tasks">94</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#how-the-catalogs-compare-with-public-benchmarks">How the catalogs compare with public benchmarks</a><a class="level-2" href="#model-pass-rates">Model pass rates</a><a class="level-2" href="#samples">Samples</a><a class="level-2" href="#turn-counts">Turn counts</a></nav></aside>
 <div class="reading">
 <div class="kpis"><div class="kpi"><div class="kpi-value">1,305</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">42%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div><div class="kpi"><div class="kpi-value">60%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
-<p>Our coding RL environments, grouped into seven catalogs, with the pass rates of every model that has run them. All numbers come from one snapshot of Horizon runs (2026-11-02), at the task versions selected on the 2 Nov sheet.</p>
+<p>Go (25%), Terraform (23%) and Python (20%) make up most of the tasks. Rust, C and C++ add another 22%, and 6% leave the language to the agent. 86% are pitched at senior engineers and 13% at staff level. These are long jobs: a task averages 361 turns over every model's runs, and 66% of tasks average 200 turns or more.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
@@ -92,8 +92,57 @@
 </tbody>
 </table>
 </div>
+<h2 id="how-the-catalogs-compare-with-public-benchmarks">How the catalogs compare with public benchmarks</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<table class="data">
+<thead>
+<tr>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Catalog</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Closest public benchmarks</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">What ours add</button></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ProgramBench</td>
+<td>ProgramBench (Yang, Press et al., 2026): 200 programs, and no model fully rebuilds any of them</td>
+<td>434 programs, more than twice the public set</td>
+</tr>
+<tr>
+<td>System design</td>
+<td>No direct match. DDBench (60 bugs from open-source distributed systems) and SWE-bench Pro (long-horizon tasks) are the closest</td>
+<td>New guarantees in running multi-process services, graded through crashes, retries and races</td>
+</tr>
+<tr>
+<td>Diagnosis, Debugging, and Bug Fixing</td>
+<td>SWE-bench Verified and Pro, Multi-SWE-bench</td>
+<td>Go, C and Rust next to Python, with faults found from symptoms or documentation drift rather than from an issue text</td>
+</tr>
+<tr>
+<td>Feature implementation</td>
+<td>FEA-Bench, SWE-Dev, NoCode-bench</td>
+<td>Mostly Go, and existing behaviour must stay unchanged</td>
+</tr>
+<tr>
+<td>Infrastructure as code</td>
+<td>IaC-Eval, Multi-IaC-Eval</td>
+<td>Changes to stacks that are already deployed, where the plan must change nothing that runs, instead of new templates</td>
+</tr>
+<tr>
+<td>Data engineering</td>
+<td>ELT-Bench, Spider 2.0</td>
+<td>Repairs to existing data libraries and pipelines after an upstream format or schema change</td>
+</tr>
+<tr>
+<td>Migration</td>
+<td>RustRepoTrans (translation into Rust)</td>
+<td>Rust and Java ported into Go and C++, a direction the public translation benchmarks we found do not cover</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h2 id="model-pass-rates">Model pass rates</h2>
-<p>Each cell is a model's pass rate in one catalog: passed runs over graded runs, pooled across the tasks it ran there. A cell is blank when the model has graded runs on fewer than five tasks in that catalog.</p>
+<p>Pass rates and turn counts come from Horizon runs up to 2026-11-02. Each cell is a model's pass rate in one catalog: passed runs over graded runs, pooled across the tasks it ran there. A cell is blank when the model has graded runs on fewer than five tasks in that catalog.</p>
 <figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Pass rate by model and catalog</h4></div><div class="fig-box"><img src="assets/overview_models.svg" alt="Pass rate by model and catalog" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
