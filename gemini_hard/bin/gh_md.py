@@ -141,8 +141,8 @@ for slug, s in S.items():
         L.append(table(['Measure', 'Value'], [['Average turn count', f"{TT['mean_of_task_means']:.1f}"], ['Median turn count', f"{TT['median_of_task_means']:.1f}"],
             ['Range', f"{TT['min_task_mean']:.0f} to {TT['max_task_mean']:.0f}"], [f"Long-horizon tasks ({TT['threshold']}+ turns)", f"{100 * lh / k:.0f}% of tasks"]]) + '\n')
         L.append(chart('turns', 'Turns per task', ' data-group="Domain"'))
-        L.append(table(['Model', '% of tasks', 'Mean turns', f"% with {TT['threshold']}+ turns"],
-            [[m['model'], (f"{100 * m['tasks'] / k:.0f}%" if 100 * m['tasks'] / k >= 0.5 else '<1%'), f"{m['mean']:.1f}", f"{100 * m['runs_200_plus'] / m['runs']:.0f}%"] for m in TT['by_model']]) + '\n')
+        L.append(table(['Model', '% of tasks run', 'Mean turns per task', f"% of its tasks at {TT['threshold']}+ turns"],
+            [[m['model'], (f"{100 * m['tasks'] / k:.0f}%" if 100 * m['tasks'] / k >= 0.5 else '<1%'), f"{m['mean']:.1f}", f"{100 * m['tasks_200_plus'] / m['tasks']:.0f}%"] for m in TT['by_model']]) + '\n')
     else: L.append('No Gemini turn data for the selected tasks.\n')
     L.append('## Sample tasks\n')
     if not s['showcase']:

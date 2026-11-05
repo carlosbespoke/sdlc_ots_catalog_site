@@ -114,14 +114,17 @@ for slug, cat in CATS:
                                  'avg_score': (o['score_sum'] / o['graded']) if o['graded'] else None} for m, o in sorted(mr.items(), key=lambda x: MM[x[0]] != 'google/gemini-4-argon')]})
     TS = [(r, turn_stats(r['id'])) for r in R]; TS = [(r, t) for r, t in TS if t]
     means = [t['mean'] for _, t in TS]
-    tm = collections.defaultdict(lambda: [0, 0.0, 0, set()])
+    # per model, per task: a task's turn count under a model is the average over that model's runs on it (same definition as the page)
+    tm = collections.defaultdict(lambda: [0, {}])
     for r in R:
-        for x in TURNS.get(r['id']) or []:
-            v = tm[CANON[x['model']]]; v[0] += 1; v[1] += x['turn_count']; v[2] += x['turn_count'] >= LONG; v[3].add(r['id'])
+        bym = collections.defaultdict(list)
+        for x in TURNS.get(r['id']) or []: bym[CANON[x['model']]].append(x['turn_count'])
+        for m, v in bym.items(): tm[m][0] += len(v); tm[m][1][r['id']] = sum(v) / len(v)
     turns = {'tasks_with_turns': len(TS), 'runs': sum(t['runs'] for _, t in TS), 'mean_of_task_means': (sum(means) / len(means)) if means else None,
              'median_of_task_means': median(means), 'long_horizon_tasks': sum(1 for m in means if m >= LONG), 'threshold': LONG, 'task_means': means,
              'max_task_mean': max(means) if means else None, 'min_task_mean': min(means) if means else None,
-             'by_model': [{'codename': m, 'model': MM[m], 'runs': v[0], 'tasks': len(v[3]), 'mean': v[1] / v[0], 'runs_200_plus': v[2]} for m, v in sorted(tm.items(), key=lambda x: -x[1][0])]}
+             'by_model': [{'codename': m, 'model': MM[m], 'runs': v[0], 'tasks': len(v[1]), 'mean': sum(v[1].values()) / len(v[1]),
+                           'tasks_200_plus': sum(x >= LONG for x in v[1].values())} for m, v in sorted(tm.items(), key=lambda x: -x[1][0])]}
     # one row per task for the interactive charts (bin/charts.js): folded domain, sub-domain, language, seniority,
     # each Gemini model's graded runs as 1 (passed) or 0, and its turn total and count over completed runs
     trows = []

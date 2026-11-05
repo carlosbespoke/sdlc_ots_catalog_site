@@ -86,11 +86,11 @@ A task's turn count is the average over its runs by Gemini 4 Argon, Gemini 3.8 F
 <div class="fig-box" data-body></div>
 </div>
 
-| Model | % of tasks | Mean turns | % with 200+ turns |
+| Model | % of tasks run | Mean turns per task | % of its tasks at 200+ turns |
 |---|---:|---:|---:|
-| z-ai/glm-5.3-flash | 92% | 240.3 | 34% |
-| google/gemini-3.8-flash | 13% | 256.0 | 50% |
-| google/gemini-4-argon | 15% | 313.2 | 79% |
+| z-ai/glm-5.3-flash | 92% | 262.0 | 32% |
+| google/gemini-3.8-flash | 13% | 249.6 | 56% |
+| google/gemini-4-argon | 15% | 264.2 | 67% |
 
 ## Sample tasks
 

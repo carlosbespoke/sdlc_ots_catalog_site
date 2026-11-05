@@ -89,13 +89,15 @@ for slug in PAGE.values():
         eq(f'turns: {slug} median', M.get('Median turn count'), f'{statistics.median(v):.1f}')
         eq(f'turns: {slug} range', M.get('Range'), f'{min(v):.0f} to {max(v):.0f}')
         eq(f'turns: {slug} long horizon', M.get('Long-horizon tasks (200+ turns)'), f'{100 * sum(x >= 200 for x in v) / len(v):.0f}% of tasks')
-        by = collections.defaultdict(list); tasks_by = collections.defaultdict(set)
+        by = collections.defaultdict(dict)  # model -> task -> mean turns over that model's runs
         for t in T:
-            for r in TU.get(t['id']) or []: by[NAME[r['model']]].append(r['turn_count']); tasks_by[NAME[r['model']]].add(t['id'])
+            bm = collections.defaultdict(list)
+            for r in TU.get(t['id']) or []: bm[NAME[r['model']]].append(r['turn_count'])
+            for m_, x in bm.items(): by[m_][t['id']] = statistics.mean(x)
         R = {r[0]: r for r in rows(ts, 'google/') + rows(ts, 'z-ai/')}
         for m_, x in by.items():
-            k = len(tm); share = 100 * len(tasks_by[m_]) / k
-            eq(f'turns: {slug} {m_}', R.get(m_, [None] * 4)[1:4], [f'{share:.0f}%' if share >= 0.5 else '<1%', f'{statistics.mean(x):.1f}', f'{100 * sum(y >= 200 for y in x) / len(x):.0f}%'])
+            k = len(tm); share = 100 * len(x) / k; v_ = list(x.values())
+            eq(f'turns: {slug} {m_}', R.get(m_, [None] * 4)[1:4], [f'{share:.0f}%' if share >= 0.5 else '<1%', f'{statistics.mean(v_):.1f}', f'{100 * sum(y >= 200 for y in v_) / len(v_):.0f}%'])
     # examples
     for i, blk in enumerate(re.split(r'^### Example ', md, flags=re.M)[1:], 1):
         r = EX.get(f"{ {'programbench': 'ProgramBench and Migration', 'system-design': 'System design & IaC', 'debugging': 'Diagnosis, Debugging, and Bug Fixing', 'feature-implementation': 'Feature implementation'}[slug] }, Example {i}")
