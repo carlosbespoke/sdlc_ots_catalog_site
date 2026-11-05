@@ -126,7 +126,7 @@ for slug, s in S.items():
             [[m['model'], pct(m['pass_rate']), Q(m['tasks_0'], m['tasks_graded']), Q(m['tasks_20_80'], m['tasks_graded']), Q(m['tasks_100'], m['tasks_graded'])] for m in M]) + '\n')
         L.append(chart('reward', 'Per-task pass rate by model'))
         rf = [r for r in s.get('refreshed', [])]
-        if rf: L.append(f"Runs on {NUMW.get(len(rf), len(rf))} tasks were refreshed on 5 Nov, after the 2 Nov snapshot, at the same task version. Their Gemini 4 Argon results set their place in the catalog; the headline task counts still come from the snapshot.\n")
+        if rf: L.append(f"Runs on {NUMW.get(len(rf), len(rf))} tasks were refreshed on 5 Nov, after the 2 Nov snapshot, at the same task version. Their Gemini 4 Argon results set their place in the catalog.\n")
         if s.get('glm_borrowed') or s.get('flash_borrowed'):  # pages where some results come from a related task (see README)
             assert all(r['scores'] for r in s['task_rows']), f'{slug}: a task has no results'
             L.append("Every task in the catalog has results from at least one model shown.\n")

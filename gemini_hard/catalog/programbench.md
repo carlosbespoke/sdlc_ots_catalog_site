@@ -70,7 +70,7 @@ The tasks span nine domains. The largest, Languages & developer tooling, makes u
 <div class="fig-box" data-body></div>
 </div>
 
-Runs on twelve tasks were refreshed on 5 Nov, after the 2 Nov snapshot, at the same task version. Their Gemini 4 Argon results set their place in the catalog; the headline task counts still come from the snapshot.
+Runs on twelve tasks were refreshed on 5 Nov, after the 2 Nov snapshot, at the same task version. Their Gemini 4 Argon results set their place in the catalog.
 
 Every task in the catalog has results from at least one model shown.
 
