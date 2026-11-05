@@ -2,7 +2,7 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">59%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">33%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward (4 tasks)</div></div><div class="kpi"><div class="kpi-value">0%</div><div class="kpi-label">google/gemini-3.8-flash average reward (4 tasks)</div></div><div class="kpi"><div class="kpi-value">59%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
 Each task asks the agent to port a Java or Rust library to Go or C++ behind fixed signatures, so that the original project's own tests, translated to the target language, pass against the port. The main languages are Go (89%) and C++ (11%).
 

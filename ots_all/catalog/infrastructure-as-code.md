@@ -2,7 +2,7 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">301</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">301</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">66%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">301</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">66%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">67%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">78%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
 Each task restructures infrastructure code that is already deployed. The agent splits a flat Terraform stack into modules with stable keys, componentizes a CDK app or moves a stack to Pulumi, so that the plan against production state changes nothing that is running. The main languages are HCL (Terraform) (99%), TypeScript (1%) and Python (0%).
 

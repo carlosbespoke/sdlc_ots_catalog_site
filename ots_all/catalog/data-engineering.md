@@ -2,7 +2,7 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">74%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">74%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
 Each task extends or repairs a data library or pipeline so it keeps producing correct results after an upstream format or schema change, while old inputs still read the same. The main languages are Python (88%) and SQL (12%).
 

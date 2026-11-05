@@ -2,7 +2,7 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">1%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">8%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">1%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">52%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
 Each task asks the agent to make software behave exactly like a reference version. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from a reference program and its documentation. In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code. In 19% of tasks the agent chooses the language; the most common fixed languages are Rust (26%) and Go (23%).
 

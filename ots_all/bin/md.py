@@ -66,12 +66,16 @@ def page_data(s):
     rows = [[dims['g'].index(r['sg']), dims['c'].index(r['cat']), dims['l'].index(r['lang']), dims['s'].index(r['sen']),
              {models.index(m): v for m, v in r['scores'].items() if v}, {models.index(m): v for m, v in r['turns'].items()}] for r in tr]
     return {'cross': True, 'models': models, 'dims': dims, 'tasks': rows, 'minTasks': s['min_tasks'], 'sat': 0.8, 'bin': 50, 'xmax': 1000, 'threshold': s['turns']['threshold']}
+_g = collections.Counter()
+for s_ in S.values():
+    for m_ in s_['models']: _g[m_['model']] += m_['graded']
+CARD_ORDER = [m for m, _ in _g.most_common()]  # the overview's order: most graded runs first
 for slug, s in S.items():
     W = TXT[slug]; n = s['tasks']; MIN = s['min_tasks']; tm = top(s); L = []
     L.append(f"# {s['name']}\n")
     L.append('## Executive summary\n')
-    L.append('<div class="kpis">' + kpi(f"{n:,}", 'Tasks') + kpi(f"{s['tasks_graded']:,}", 'Tasks with graded runs')
-             + (kpi(pct(tm['reward']), f"{tm['model']} average reward") if tm else '') + '</div>\n')
+    L.append('<div class="kpis">' + kpi(f"{n:,}", 'Tasks') + ''.join(kpi(pct(m['reward']), f"{m['model']} average reward" + (f" ({m['tasks_graded']} tasks)" if m['tasks_graded'] < MIN else ''))
+             for m in sorted((m for m in s['models'] if m['tasks_graded']), key=lambda m: CARD_ORDER.index(m['model']))) + '</div>\n')
     L.append(W['work'] + ' ' + langs(s) + '\n')
     cov = (f"Every task has graded runs." if s['tasks_graded'] == n else f"{s['tasks_graded']:,} of the {n:,} tasks have graded runs from at least one model.")
     if tm:

@@ -2,7 +2,7 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">117</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">117</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">&lt;1%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">117</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">29%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">&lt;1%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">27%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
 Each task asks the agent to add a capability to an existing open-source library or service, specified as the public types and functions to deliver, while existing callers see no change. The main languages are Go (71%), Python (27%) and C# (1%).
 

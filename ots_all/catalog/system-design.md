@@ -2,7 +2,7 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">36%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">36%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">48%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
 Each task changes a production service that must keep running. The agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and delivers the change as a patch. The main languages are Python (38%), TypeScript (24%) and Go (22%).
 

@@ -30,9 +30,9 @@ for slug, cat in CATS:
     md = open(f'{C}/{slug}.md').read(); T = [t for t in TASKS if t['catalog'] == cat]; PM = per_model(T)
     K = kpis(section(md, 'Executive summary'))
     eq(f'tasks card: {slug}', K.get('Tasks'), f'{len(T):,}')
-    eq(f'graded card: {slug}', K.get('Tasks with graded runs'), f"{sum(1 for t in T if runs(t['id'])):,}")
-    topm = max((m for m in PM if PM[m][0]), key=lambda m: PM[m][3])
-    eq(f'headline: {slug}', K.get(f'{topm} average reward'), pct(statistics.mean(PM[topm][2])))
+    for m, v in PM.items():  # one average-reward card per model with graded runs here
+        if v[2]: eq(f'model card: {slug} {m}', K.get(f'{m} average reward' + (f' ({len(v[2])} tasks)' if len(v[2]) < 5 else '')), pct(statistics.mean(v[2])))
+    eq(f'card count: {slug}', len(K), 1 + sum(1 for v in PM.values() if v[2]))
     tab = {r[0]: r for r in rows(section(md, 'Model average reward across the catalog')) if r[0] != 'Model'}
     for m, (g, p, per, _) in PM.items():
         if len(per) >= 5:

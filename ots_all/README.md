@@ -33,7 +33,7 @@ cd catalog && ../../pipeline/.venv/bin/python build_site.py --verify && python3 
 
 - **Average reward:** average@k. For each task, the mean grader score over graded runs, partial credit included (no pass/fail cut-off); then the mean over tasks. Errored runs are left out.
 - **Model rows:** a model gets a row in a catalog's tables once it has graded runs on 5 or more tasks there. Models with fewer are listed in a sentence below the table.
-- **Headline average reward:** each catalog's headline average reward is for the model with the most runs in that catalog.
+- **Average reward cards:** every page opens with one card per model that has graded runs there, in the same order everywhere (most graded runs overall first). A card notes the task count when the model ran fewer than 5 tasks in that catalog.
 - **Turn counts:** a task's turn count is the average over its completed runs from every model. A task is long horizon at 200 or more turns.
 - **Models:** model names come from `../pipeline/ro_models.json`. Two came from the vendored Horizon model map: `helm` is cohere/command-a and `granola-plus` is meta/muse-spark-1.3. Eleven models are left out everywhere (`bin/common_drop.py`): Gemini 3.7 Flash, Cohere Command A, Grok 4.7, Claude Opus 5.5, GPT-6 Astra, Qwen 3.8 Max, GLM 5.2, GLM 5.3, Muse Wonder, Muse Spark 1.3 and Kimi K3.1 Pro.
 - **Samples:** the 22 samples are the 12 earlier main samples and the 10 earlier attached ones, all shown as sample tasks on their own catalog page. 

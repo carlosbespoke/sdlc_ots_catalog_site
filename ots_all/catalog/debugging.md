@@ -2,7 +2,7 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">324</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">324</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">28%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">324</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">28%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">6%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">78%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
 Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Python (54%), Go (32%) and C (7%).
 
