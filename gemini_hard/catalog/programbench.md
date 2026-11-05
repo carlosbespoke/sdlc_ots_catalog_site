@@ -65,6 +65,8 @@ The tasks span nine domains. The largest, Languages & developer tooling, makes u
 | google/gemini-3.8-flash | 1% | 96% | 0% | 0% |
 | z-ai/glm-5.3-flash | 8% | 83% | 17% | 0% |
 
+Tasks with pass rates between 0% and 20%, or between 80% and 100%, fall outside these three columns.
+
 <div class="cx" data-chart="reward">
 <div class="fig-head"><span class="lab">Interactive figure</span><h4>Per-task pass rate by model</h4></div>
 <div class="fig-box" data-body></div>

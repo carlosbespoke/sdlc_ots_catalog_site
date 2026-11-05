@@ -41,7 +41,7 @@ for slug, s in S.items():
         eq(f'heading: {slug} {i}', blk.split('\n', 1)[0], f'{i}: {cat} ({lang})')
         F = dict(re.findall(r'^\| (Final category|Domain|Sub-domain|Language|Seniority) \| (.*?) \|$', blk, re.M))
         # tasks from a moved group show that group's domain, as in the domain breakdown
-        GD = {'Migration': 'Cross-language migration', 'Infrastructure as code': 'State-preserving infrastructure changes', 'Data engineering': 'Data pipelines'}
+        GD = {'Migration': 'Cross-language migration', 'Infrastructure as code': 'State-preserving infrastructure changes', 'Data engineering': 'Data engineering & databases'}  # folded into the existing domain (5 Nov)
         NC = json.load(open(f'{H}/cat/new_task_classes.json'))
         if not r and t['name'] in NC:
             c = NC[t['name']]; eq(f'field table: {slug} {i}', F, {'Final category': t['catalog'], 'Domain': c['sg'], 'Sub-domain': c['cat'], 'Language': c['lang'], 'Seniority': c['sen']})

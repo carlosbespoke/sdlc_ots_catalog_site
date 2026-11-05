@@ -124,6 +124,7 @@ for slug, s in S.items():
         Q = lambda a, b: 'n/a' if not b else f"{100 * a / b:.0f}%"
         L.append(table(['Model', 'Pass rate', 'Tasks at 0%', 'Tasks at 20-80%', 'Tasks at 100%'],
             [[m['model'], pct(m['pass_rate']), Q(m['tasks_0'], m['tasks_graded']), Q(m['tasks_20_80'], m['tasks_graded']), Q(m['tasks_100'], m['tasks_graded'])] for m in M]) + '\n')
+        L.append("Tasks with pass rates between 0% and 20%, or between 80% and 100%, fall outside these three columns.\n")
         L.append(chart('reward', 'Per-task pass rate by model'))
         rf = [r for r in s.get('refreshed', [])]
         if rf: L.append(f"Runs on {NUMW.get(len(rf), len(rf))} tasks were refreshed on 5 Nov, after the 2 Nov snapshot, at the same task version. Their Gemini 4 Argon results set their place in the catalog.\n")

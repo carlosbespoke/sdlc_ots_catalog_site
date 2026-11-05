@@ -65,6 +65,8 @@ The tasks span nine domains. The largest, State-preserving infrastructure change
 | google/gemini-3.8-flash | 12% | 69% | 12% | 12% |
 | z-ai/glm-5.3-flash | 35% | 16% | 79% | 0% |
 
+Tasks with pass rates between 0% and 20%, or between 80% and 100%, fall outside these three columns.
+
 <div class="cx" data-chart="reward">
 <div class="fig-head"><span class="lab">Interactive figure</span><h4>Per-task pass rate by model</h4></div>
 <div class="fig-box" data-body></div>

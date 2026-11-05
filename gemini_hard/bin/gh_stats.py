@@ -25,7 +25,7 @@ SID = json.load(open(f'{H}/cat/sample_ids.json'))  # client-facing task ids of t
 URL = {k: f'https://drive.google.com/file/d/{v[0]}/view' for k, v in json.load(open(f'{H}/cat/sample_urls.json')).items() if not k.startswith('_')}  # Drive copies of the sample zips
 # smaller task groups are presented inside a larger catalog, as one domain of its domain breakdown
 MERGE = {'Migration': 'ProgramBench', 'Infrastructure as code': 'System design', 'Data engineering': 'Feature implementation'}
-GROUP_DOMAIN = {'Migration': 'Cross-language migration', 'Infrastructure as code': 'State-preserving infrastructure changes', 'Data engineering': 'Data pipelines'}
+GROUP_DOMAIN = {'Migration': 'Cross-language migration', 'Infrastructure as code': 'State-preserving infrastructure changes', 'Data engineering': 'Data engineering & databases'}  # folded into the existing domain (5 Nov)
 dest = lambda c: MERGE.get(c, c)
 DISPLAY = {'ProgramBench': 'ProgramBench and Migration', 'System design': 'System design & IaC'}  # catalog names once the groups are merged
 LANG_NEW = {'pdk-harbor-scan-ephemeral-credentials': 'Go', 'pdk-bagetter-fenced-package-writes': 'C#', 'pdk-dittofeed-user-deletion-in-flight': 'TypeScript'}  # from each task's base image
