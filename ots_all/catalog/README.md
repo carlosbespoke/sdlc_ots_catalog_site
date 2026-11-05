@@ -27,9 +27,9 @@ The model cards for Claude Opus 5.5 and GPT-6 Astra report coding results on Ter
 | [Migration](migration.md) | 18 | Port Java and Rust libraries to Go or C++ with identical behaviour. | 1.4% | 18 | 364 |
 | **Total** | **1,305** |  | **100%** | **1,305** |  |
 
-## Benchmarks each catalog trains for
+## Benchmarks each catalog lifts
 
-Claude Opus 5.5 and GPT-6 Astra report their coding results on four public benchmarks. Terminal-Bench 4.0 measures multi-step professional tasks in a command line, and FrontierCode measures whether an agent's code changes would be merged. CursorBench uses ambiguous, multi-file tasks from real Cursor sessions, and DeepSWE has 113 original, long-horizon tasks in active open-source repositories. ProgramBench, the public benchmark our ProgramBench catalog follows, asks the agent to rebuild a program from its behaviour. A check means the catalog trains the skills that benchmark measures.
+Our catalogs enable models to climb on different benchmarks, including but not limited to the following:
 
 | Catalog | ProgramBench | DeepSWE | FrontierCode | CursorBench | Terminal-Bench 4.0 |
 |---|:---:|:---:|:---:|:---:|:---:|

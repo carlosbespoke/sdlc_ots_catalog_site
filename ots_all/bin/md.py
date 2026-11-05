@@ -155,7 +155,7 @@ tt = lambda s: f"{s['turns']['mean_of_task_means']:.0f}" if s['turns']['tasks_wi
 L.append(table(['Catalog', 'Tasks', 'What the tasks do', '% of all tasks', 'Tasks with graded runs', 'Average turn count'],
     [[f"[{s['name']}]({slug}.md)", f"{s['tasks']:,}", TXT[slug]['one'], f"{100 * s['tasks'] / TOT:.1f}%", f"{s['tasks_graded']:,}", tt(s)] for slug, s in S.items()]
     + [['**Total**', f"**{TOT:,}**", '', '**100%**', f"**{sum(s['tasks_graded'] for s in S.values()):,}**", '']], align='lrlrrr') + '\n')
-L.append('## Benchmarks each catalog trains for\n')
+L.append('## Benchmarks each catalog lifts\n')
 L.append(TXT['_bench_intro'] + '\n')
 BENCH = TXT['_bench_columns']
 L.append(table(['Catalog'] + BENCH, [[s_['name']] + ['✓' if b in TXT[k].get('bench_map', []) else '' for b in BENCH] for k, s_ in S.items() if TXT[k].get('bench_map')],
