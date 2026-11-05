@@ -1,4 +1,4 @@
-# Catalog statistics for all 1,356 tasks and every model (cat/stats.json): domains, languages, seniority, per-model pass rates,
+# Catalog statistics for all 1,356 tasks and every model (cat/stats.json): domains, languages, seniority, per-model average reward (average@k),
 # turn counts and the samples of each catalog.
 from common import *
 ROWS = {r['id']: r for r in dedupe([r for r in green(load_rows()) if r['catalog']], shortlist())}
@@ -57,19 +57,19 @@ for slug, cat in CATS:
         for m, o in model_rows(r['id']).items():
             p = pm[m]; p['tasks'] += 1
             for k in ('rollouts', 'graded', 'passed', 'errors'): p[k] += o[k]
-            if o['graded']: p['per_task'].append(o['passed'] / o['graded'])
+            if o['graded']: p['per_task'].append(o['score_sum'] / o['graded'])
     models = []
     for m, p in sorted(pm.items(), key=lambda x: -x[1]['rollouts']):
         pt = p['per_task']
         models.append({'model': m, 'tasks': p['tasks'], 'rollouts': p['rollouts'], 'graded': p['graded'], 'passed': p['passed'],
-                       'pass_rate': (sum(pt) / len(pt)) if pt else None, 'pooled_pass_rate': rate(p['passed'], p['graded']), 'error_rate': rate(p['errors'], p['rollouts']), 'tasks_graded': len(pt),
+                       'reward': (sum(pt) / len(pt)) if pt else None, 'error_rate': rate(p['errors'], p['rollouts']), 'tasks_graded': len(pt),
                        'tasks_0': sum(1 for v in pt if v == 0), 'tasks_100': sum(1 for v in pt if v == 1), 'tasks_20_80': sum(1 for v in pt if 0.2 <= v <= 0.8), 'per_task_rates': pt})
     show = []
     for t in [t for t in SAMPLES if t['catalog'] == cat]:
         r = {**t, **meta(t)}; mr = model_rows(t['id'])
         show.append({'url': URL[SID[t['name']]], 'task_id': SID[t['name']], 'turns': turn_stats(t['id']), 'name': t['name'], 'id': t['id'], 'version': RO[t['id']]['version'],
                      'earlier': t['sample'], 'final': r['final'], 'super_group': r['sg'], 'category': r['cat'], 'language': r['lang'], 'role': r['role'], 'seniority': r['sen'],
-                     'models': [{'model': m, **o, 'pass_rate': rate(o['passed'], o['graded'])} for m, o in sorted(mr.items(), key=lambda x: -x[1]['rollouts'])]})
+                     'models': [{'model': m, **o, 'reward': rate(o['score_sum'], o['graded'])} for m, o in sorted(mr.items(), key=lambda x: -x[1]['rollouts'])]})
     for s in [s for s in SUPER if s['catalog'] == cat]:  # super-samples: the copy's own version and runs, the original's classification
         o = {**BYID[s['original_id']], **meta(BYID[s['original_id']])}; rs = json.load(open(f"{H}/super/data/{s['client_id']}.json"))['rollouts']
         mr = collections.defaultdict(lambda: dict(rollouts=0, graded=0, passed=0, errors=0, score_sum=0.0)); by = collections.defaultdict(list)
@@ -84,7 +84,7 @@ for slug, cat in CATS:
         show.append({'url': URL.get(s['client_id']), 'task_id': s['client_id'], 'name': s['horizon_name'], 'id': s['horizon_id'], 'version': s['version'], 'earlier': 'super',
                      'turns': {'runs': len(allt), 'mean': sum(allt) / len(allt), 'by_model': {m: sum(x) / len(x) for m, x in sorted(by.items(), key=lambda kv: -len(kv[1]))}} if allt else None,
                      'final': o['final'], 'super_group': o['sg'], 'category': o['cat'], 'language': o['lang'], 'role': o['role'], 'seniority': o['sen'],
-                     'models': [{'model': m, **x, 'pass_rate': rate(x['passed'], x['graded'])} for m, x in sorted(mr.items(), key=lambda kv: -kv[1]['rollouts'])]})
+                     'models': [{'model': m, **x, 'reward': rate(x['score_sum'], x['graded'])} for m, x in sorted(mr.items(), key=lambda kv: -kv[1]['rollouts'])]})
     TS = [x for x in (turn_stats(r['id']) for r in R) if x]
     means = [x['mean'] for x in TS]
     tm = collections.defaultdict(lambda: [0, 0.0, 0, set()])

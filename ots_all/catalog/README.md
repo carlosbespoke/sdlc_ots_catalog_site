@@ -1,6 +1,6 @@
 # Coding OTS RL Envs
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">1,305</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">42%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div><div class="kpi"><div class="kpi-value">3%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div><div class="kpi"><div class="kpi-value">65%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">1,305</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">40%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">63%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
 ## Executive summary
 
@@ -38,26 +38,26 @@ Our catalogs enable models to climb on different benchmarks, including but not l
 | Infrastructure as code |  |  |  |  | ✓ |
 | Data engineering |  |  |  |  | ✓ |
 
-## Model pass rates
+## Model average reward
 
-Each cell is a model's pass rate in one catalog: the share of its graded runs that pass on each task, averaged over the tasks it ran there (average@k).
+Each cell is a model's average reward in one catalog (average@k): on each task, the mean grader score over its graded runs, partial credit included; then the mean over the tasks it ran there.
 
-![Pass rate by model and catalog](assets/overview_models.svg)
+![Average reward by model and catalog](assets/overview_models.svg)
 
-| Model | Tasks run | Graded runs | Pass rate |
+| Model | Tasks run | Graded runs | Average reward |
 |---|---:|---:|---:|
-| z-ai/glm-5.3-flash | 788 | 4,166 | 42% |
-| google/gemini-3.8-flash | 561 | 3,546 | 3% |
-| google/gemini-4-argon | 119 | 287 | 65% |
+| z-ai/glm-5.3-flash | 788 | 4,166 | 40% |
+| google/gemini-3.8-flash | 561 | 3,546 | 2% |
+| google/gemini-4-argon | 119 | 287 | 63% |
 
 ## Samples
 
-Each sample is a full task, downloadable from its task id. The pass rate is that of the model with the most graded runs on the task.
+Each sample is a full task, downloadable from its task id. The average reward is that of the model with the most graded runs on the task.
 
-| Catalog | Example | Task id | Model with most graded runs | Pass rate |
+| Catalog | Example | Task id | Model with most graded runs | Average reward |
 |---|---|---|---|---:|
-| ProgramBench | [Example 1: Media processing (Agent's choice)](programbench.md#example-1-media-processing-agents-choice) | [`svtav1-encoder-rebuild`](https://drive.google.com/file/d/1JmlCRxmj-7RJ9yZ698lASh-GGDr2N9Je/view) | z-ai/glm-5.3-flash | 0% of 5 |
-| ProgramBench | [Example 2: Build systems (Agent's choice)](programbench.md#example-2-build-systems-agents-choice) | `bazel-gazelle-rebuild` | google/gemini-4-argon | 0% of 5 |
+| ProgramBench | [Example 1: Media processing (Agent's choice)](programbench.md#example-1-media-processing-agents-choice) | [`svtav1-encoder-rebuild`](https://drive.google.com/file/d/1JmlCRxmj-7RJ9yZ698lASh-GGDr2N9Je/view) | z-ai/glm-5.3-flash | 7% of 5 |
+| ProgramBench | [Example 2: Build systems (Agent's choice)](programbench.md#example-2-build-systems-agents-choice) | `bazel-gazelle-rebuild` | google/gemini-4-argon | 27% of 5 |
 | System design | [Example 1: Payments & banking (TypeScript)](system-design.md#example-1-payments-banking-typescript) | [`actual-sync-compaction`](https://drive.google.com/file/d/1_sEAFRDztsqj6IIzgfOQ4KVr7m7Ff0-0/view) | z-ai/glm-5.3-flash | 17% of 6 |
 | System design | [Example 2: Secrets & access control (Go)](system-design.md#example-2-secrets-access-control-go) | [`harbor-scanner-credentials`](https://drive.google.com/file/d/1aHmGorPxaObXqhuZbCDJxOM00L7U6V0m/view) | google/gemini-4-argon | 20% of 5 |
 | System design | [Example 3: Software supply chain (C#)](system-design.md#example-3-software-supply-chain-c) | [`bagetter-fenced-writes`](https://drive.google.com/file/d/1yHr7nw0bfAZG5xO4uxrn_gH3GXffUFla/view) | z-ai/glm-5.3-flash | 50% of 6 |

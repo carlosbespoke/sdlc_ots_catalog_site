@@ -32,8 +32,8 @@ for slug, cat in CATS:
     eq(f'tasks card: {slug}', K.get('Tasks'), f'{len(T):,}')
     eq(f'graded card: {slug}', K.get('Tasks with graded runs'), f"{sum(1 for t in T if runs(t['id'])):,}")
     topm = max((m for m in PM if PM[m][0]), key=lambda m: PM[m][3])
-    eq(f'headline: {slug}', K.get(f'{topm} pass rate'), pct(statistics.mean(PM[topm][2])))
-    tab = {r[0]: r for r in rows(section(md, 'Model pass rates across the catalog')) if r[0] != 'Model'}
+    eq(f'headline: {slug}', K.get(f'{topm} average reward'), pct(statistics.mean(PM[topm][2])))
+    tab = {r[0]: r for r in rows(section(md, 'Model average reward across the catalog')) if r[0] != 'Model'}
     for m, (g, p, per, _) in PM.items():
         if len(per) >= 5:
             eq(f'model table: {slug} {m}', tab.get(m, [None])[1:], [f'{len(per):,}', f'{g:,}', pct(statistics.mean(per)), Q(sum(v == 0 for v in per), len(per)), Q(sum(0.2 <= v <= 0.8 for v in per), len(per)), Q(sum(v == 1 for v in per), len(per))])
@@ -57,11 +57,11 @@ for slug, cat in CATS:
             for q in rs:
                 if q.get('is_errored'): continue
                 if q.get('turn_count') is not None: sturn[MM[q['model']]].append(q['turn_count'])
-                if q.get('passed') is not None: srun[MM[q['model']]].append((bool(q['passed']), 0))
+                if q.get('passed') is not None: srun[MM[q['model']]].append((q.get('extracted_score') or 0, bool(q['passed'])))
         F = dict(re.findall(r'^\| (Task id|Final category|Domain|Sub-domain|Language|Seniority) \| (.*?) \|$', blk, re.M))
         r = ROWS.get(t['id']); c = NEWC.get(t['name'], {})
         eq(f'field table: {slug} {i}', (F.get('Task id', '').split('`')[1:2], F.get('Sub-domain'), F.get('Language')), ([sid], r['cat'] if r else c['cat'], r['lang'] if r else c['lang']))
-        pr = {x[0]: x[1:] for x in rows(blk.split('#### Pass rates')[1].split('####')[0]) if x[0] != 'Model'}
+        pr = {x[0]: x[1:] for x in rows(blk.split('#### Average reward')[1].split('####')[0]) if x[0] != 'Model'}
         eq(f'sample pass rates: {slug} {i}', sorted(pr.items()), sorted((m, [str(len(v)), pct(sum(x for x, _ in v) / len(v))]) for m, v in (srun if sx else runs(t['id'])).items()))
         tl = re.search(r'^\| Turn count \| (.*) \|$', blk, re.M).group(1); bt = collections.defaultdict(list)
         if sx: bt = sturn
@@ -79,13 +79,13 @@ for slug, cat in CATS:
 # overview
 md = open(f'{C}/README.md').read(); K = kpis(md); PM = per_model(TASKS)
 eq('overview card: tasks', K.get('Tasks'), f'{total:,}')
-for m, v in PM.items(): eq(f'overview card: {m}', K.get(f'{m} pass rate'), pct(statistics.mean(v[2])))
+for m, v in PM.items(): eq(f'overview card: {m}', K.get(f'{m} average reward'), pct(statistics.mean(v[2])))
 eq('overview card: count', len(K), 1 + len(PM))
 for r in rows(md, '['):
     slug = re.search(r'\(([\w-]+)\.md\)', r[0]).group(1); cat = dict(CATS)[slug]; T = [t for t in TASKS if t['catalog'] == cat]
     tm = [statistics.mean(x['turn_count'] for x in TURNS[t['id']]) for t in T if TURNS[t['id']]]
     eq(f'overview table: {slug}', [r[1], r[3]], [f'{len(T):,}', f'{statistics.mean(tm):.0f}'])
-for r in rows(section(md, 'Model pass rates')):
+for r in rows(section(md, 'Model average reward')):
     if r[0] in PM: eq(f'overview models: {r[0]}', r[3], pct(statistics.mean(PM[r[0]][2])))
 SM = rows(section(md, 'Samples')); SM = [r for r in SM if r[0] != 'Catalog']
 eq('overview samples', len(SM), sum(1 for t in TASKS if t.get('sample') in ('main', 'attached')) + len(SUPER))
@@ -97,7 +97,7 @@ for r in SL: eq(f"samples.csv version: {r['Task id']}", r['Selected version'], S
 TC = list(csv.DictReader(open(f'{H}/ots_tasks.csv')))
 eq('csv: task set', sorted(r['Horizon task id'] for r in TC), sorted(t['id'] for t in TASKS))
 for r in TC:
-    rr = runs(r['Horizon task id']); eq(f"csv: {r['Task']}", [r['Graded runs'], r['Passes']], [str(sum(map(len, rr.values()))), str(sum(x for v in rr.values() for x, _ in v))])
+    rr = runs(r['Horizon task id']); eq(f"csv: {r['Task']}", [r['Graded runs'], r['Average reward (all models)']], [str(sum(map(len, rr.values()))), (lambda g: f"{100 * sum(x for v in rr.values() for x, _ in v) / g:.0f}%" if g else '')(sum(map(len, rr.values())))])
 # writing rules, on everything but the agents' prompts
 names = sorted({t['name'] for t in TASKS if len(t['name']) > 6}, key=len, reverse=True)
 for f in sorted(os.listdir(C)):

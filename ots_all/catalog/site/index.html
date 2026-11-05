@@ -8,9 +8,9 @@
 <main id="content" tabindex="-1"><article id="catalog-content">
 <header class="hero"><h1 id="coding-ots-rl-envs">Coding OTS RL Envs</h1><div class="hero-meta" aria-hidden="true"></div></header>
 <div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
-<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html" aria-current="page"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="94 tasks">94</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#catalogs">Catalogs</a><a class="level-2" href="#benchmarks-each-catalog-lifts">Benchmarks each catalog lifts</a><a class="level-2" href="#model-pass-rates">Model pass rates</a><a class="level-2" href="#samples">Samples</a><a class="level-2" href="#turn-counts">Turn counts</a></nav></aside>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html" aria-current="page"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="94 tasks">94</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#catalogs">Catalogs</a><a class="level-2" href="#benchmarks-each-catalog-lifts">Benchmarks each catalog lifts</a><a class="level-2" href="#model-average-reward">Model average reward</a><a class="level-2" href="#samples">Samples</a><a class="level-2" href="#turn-counts">Turn counts</a></nav></aside>
 <div class="reading">
-<div class="kpis"><div class="kpi"><div class="kpi-value">1,305</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">42%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div><div class="kpi"><div class="kpi-value">3%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div><div class="kpi"><div class="kpi-value">65%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">1,305</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">40%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">63%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 <h2 id="executive-summary">Executive summary</h2>
 <p>This OTS catalog helps AI coding agents develop capabilities on long, senior-level software work: rebuilding whole programs, fixing faults in real codebases and changing live systems without breaking them.</p>
 <p>The tasks fall into seven catalogs. In ProgramBench (434 tasks) the agent rebuilds a program from how it behaves. In Debugging (324) it finds and fixes faults, and in Infrastructure as code (301) it restructures deployed Terraform without changing what runs. Feature implementation (117) adds capabilities to existing libraries, and System design (94) keeps running services correct through crashes and retries. Data engineering (17) and Migration (18) cover data pipelines and ports to another language.</p>
@@ -145,16 +145,16 @@
 </tbody>
 </table>
 </div>
-<h2 id="model-pass-rates">Model pass rates</h2>
-<p>Each cell is a model's pass rate in one catalog: the share of its graded runs that pass on each task, averaged over the tasks it ran there (average@k).</p>
-<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Pass rate by model and catalog</h4></div><div class="fig-box"><img src="assets/overview_models.svg" alt="Pass rate by model and catalog" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
+<h2 id="model-average-reward">Model average reward</h2>
+<p>Each cell is a model's average reward in one catalog (average@k): on each task, the mean grader score over its graded runs, partial credit included; then the mean over the tasks it ran there.</p>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Average reward by model and catalog</h4></div><div class="fig-box"><img src="assets/overview_models.svg" alt="Average reward by model and catalog" /></div></figure><div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
 <tr>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks run</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average reward</button></th>
 </tr>
 </thead>
 <tbody>
@@ -162,25 +162,25 @@
 <td>z-ai/glm-5.3-flash</td>
 <td class="numeric">788</td>
 <td class="numeric">4,166</td>
-<td class="numeric">42%</td>
+<td class="numeric">40%</td>
 </tr>
 <tr>
 <td>google/gemini-3.8-flash</td>
 <td class="numeric">561</td>
 <td class="numeric">3,546</td>
-<td class="numeric">3%</td>
+<td class="numeric">2%</td>
 </tr>
 <tr>
 <td>google/gemini-4-argon</td>
 <td class="numeric">119</td>
 <td class="numeric">287</td>
-<td class="numeric">65%</td>
+<td class="numeric">63%</td>
 </tr>
 </tbody>
 </table>
 </div>
 <h2 id="samples">Samples</h2>
-<p>Each sample is a full task, downloadable from its task id. The pass rate is that of the model with the most graded runs on the task.</p>
+<p>Each sample is a full task, downloadable from its task id. The average reward is that of the model with the most graded runs on the task.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
@@ -189,7 +189,7 @@
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Example</button></th>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Task id</button></th>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model with most graded runs</button></th>
-<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average reward</button></th>
 </tr>
 </thead>
 <tbody>
@@ -198,14 +198,14 @@
 <td><a href="programbench.html#example-1-media-processing-agents-choice">Example 1: Media processing (Agent's choice)</a></td>
 <td><a href="https://drive.google.com/file/d/1JmlCRxmj-7RJ9yZ698lASh-GGDr2N9Je/view"><code>svtav1-encoder-rebuild</code></a></td>
 <td>z-ai/glm-5.3-flash</td>
-<td>0% of 5</td>
+<td>7% of 5</td>
 </tr>
 <tr>
 <td>ProgramBench</td>
 <td><a href="programbench.html#example-2-build-systems-agents-choice">Example 2: Build systems (Agent's choice)</a></td>
 <td><code>bazel-gazelle-rebuild</code></td>
 <td>google/gemini-4-argon</td>
-<td>0% of 5</td>
+<td>27% of 5</td>
 </tr>
 <tr>
 <td>System design</td>

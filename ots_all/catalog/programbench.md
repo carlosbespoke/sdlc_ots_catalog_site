@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">1%</div><div class="kpi-label">google/gemini-3.8-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">1%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div></div>
 
 Each task asks the agent to make software behave exactly like a reference version. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from a reference program and its documentation. In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code. In 19% of tasks the agent chooses the language; the most common fixed languages are Rust (26%) and Go (23%).
 
-Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, has an average@k pass rate of 1% over 2,318 graded runs and fails every run on 93% of the 353 tasks it ran.
+Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, has an average reward of 1% over 2,318 graded runs and scores 0 on every run of 93% of the 353 tasks it ran.
 
 ## Why this catalog
 
@@ -50,17 +50,17 @@ The tasks span eight domains. The largest, Languages & developer tooling, makes 
 | Senior | 81.3% |
 | Staff+ | 18.7% |
 
-## Model pass rates across the catalog
+## Model average reward across the catalog
 
-A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+A model's average reward is average@k: on each task, the mean grader score over its graded runs, with partial credit counted as scored; then the mean over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
 
-| Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
+| Model | Tasks run | Graded runs | Average reward | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
 | google/gemini-3.8-flash | 353 | 2,318 | 1% | 93% | 0% | 0% |
-| z-ai/glm-5.3-flash | 120 | 566 | 5% | 87% | 12% | 0% |
-| google/gemini-4-argon | 10 | 19 | 65% | 10% | 50% | 40% |
+| z-ai/glm-5.3-flash | 120 | 566 | 8% | 55% | 13% | 0% |
+| google/gemini-4-argon | 10 | 19 | 52% | 0% | 80% | 0% |
 
-![Per-task pass rate by model](assets/programbench_per_task.svg)
+![Per-task average reward by model](assets/programbench_per_task.svg)
 
 ## Turn counts and long-horizon tasks
 
@@ -175,12 +175,12 @@ whichever comes first.
 </div>
 </details>
 
-#### Pass rates
+#### Average reward
 
-| Model | Graded runs | Pass rate |
+| Model | Graded runs | Average reward |
 |---|---:|---:|
-| z-ai/glm-5.3-flash | 5 | 0% |
-| google/gemini-4-argon | 2 | 0% |
+| z-ai/glm-5.3-flash | 5 | 7% |
+| google/gemini-4-argon | 2 | 4% |
 
 #### Environment
 
@@ -221,11 +221,11 @@ The original is at `/opt/reference/executable`. Running `./compile.sh` on a fres
 </div>
 </details>
 
-#### Pass rates
+#### Average reward
 
-| Model | Graded runs | Pass rate |
+| Model | Graded runs | Average reward |
 |---|---:|---:|
-| google/gemini-4-argon | 5 | 0% |
+| google/gemini-4-argon | 5 | 27% |
 
 #### Environment
 

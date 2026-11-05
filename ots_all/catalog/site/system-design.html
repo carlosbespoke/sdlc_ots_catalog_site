@@ -8,12 +8,12 @@
 <main id="content" tabindex="-1"><article id="catalog-content">
 <header class="hero"><h1 id="system-design">System design</h1><div class="hero-meta" aria-hidden="true"></div></header>
 <div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
-<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html" aria-current="page"><span>System design</span><span class="count" aria-label="94 tasks">94</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-payments-banking-typescript">Example 1: Payments &amp; banking (TypeScript)</a><a class="level-3" href="#example-2-secrets-access-control-go">Example 2: Secrets &amp; access control (Go)</a><a class="level-3" href="#example-3-software-supply-chain-c">Example 3: Software supply chain (C#)</a><a class="level-3" href="#example-4-web-applications-typescript">Example 4: Web applications (TypeScript)</a><a class="level-3" href="#example-5-media-processing-typescript">Example 5: Media processing (TypeScript)</a><a class="level-3" href="#example-6-payments-banking-typescript">Example 6: Payments &amp; banking (TypeScript)</a></nav></aside>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html" aria-current="page"><span>System design</span><span class="count" aria-label="94 tasks">94</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-average-reward-across-the-catalog">Model average reward across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-payments-banking-typescript">Example 1: Payments &amp; banking (TypeScript)</a><a class="level-3" href="#example-2-secrets-access-control-go">Example 2: Secrets &amp; access control (Go)</a><a class="level-3" href="#example-3-software-supply-chain-c">Example 3: Software supply chain (C#)</a><a class="level-3" href="#example-4-web-applications-typescript">Example 4: Web applications (TypeScript)</a><a class="level-3" href="#example-5-media-processing-typescript">Example 5: Media processing (TypeScript)</a><a class="level-3" href="#example-6-payments-banking-typescript">Example 6: Payments &amp; banking (TypeScript)</a></nav></aside>
 <div class="reading">
 <h2 id="executive-summary">Executive summary</h2>
-<div class="kpis"><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">36%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">36%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div></div>
 <p>Each task changes a production service that must keep running. The agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and delivers the change as a patch. The main languages are Python (38%), TypeScript (24%) and Go (22%).</p>
-<p>Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, has an average@k pass rate of 36% over 405 graded runs and fails every run on 13% of the 77 tasks it ran.</p>
+<p>Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, has an average reward of 36% over 405 graded runs and scores 0 on every run of 13% of the 77 tasks it ran.</p>
 <h2 id="why-this-catalog">Why this catalog</h2>
 <h3 id="problems-engineers-face">Problems engineers face</h3>
 <p>Production systems fail in specific ways when they change while running. In services where several processes share state and any of them can stop, the failures are duplicate effects after retries, lost notifications, stale writers returning after a takeover, limits that hold in one process but not across instances, and partial state after a crash.</p>
@@ -77,8 +77,8 @@
 </tbody>
 </table>
 </div>
-<h2 id="model-pass-rates-across-the-catalog">Model pass rates across the catalog</h2>
-<p>A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.</p>
+<h2 id="model-average-reward-across-the-catalog">Model average reward across the catalog</h2>
+<p>A model's average reward is average@k: on each task, the mean grader score over its graded runs, with partial credit counted as scored; then the mean over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
@@ -86,7 +86,7 @@
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks run</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average reward</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 0%</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 20-80%</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 100%</button></th>
@@ -123,7 +123,7 @@
 </tbody>
 </table>
 </div>
-<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/system-design_per_task.svg" alt="Per-task pass rate by model" /></div></figure><h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task average reward by model</h4></div><div class="fig-box"><img src="assets/system-design_per_task.svg" alt="Per-task average reward by model" /></div></figure><h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
 <p>A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 94 of the 94 tasks have a completed run.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
@@ -250,14 +250,14 @@
 <p>Work in <code>/app</code> (Node 22, Yarn 4); build the affected packages with <code>yarn workspace @actual-app/crdt build &amp;&amp; yarn workspace @actual-app/core build &amp;&amp; yarn workspace @actual-app/sync-server build &amp;&amp; yarn workspace @actual-app/api build</code>. Grading runs the packages as you leave them built in <code>/app</code>, without rebuilding, so rebuild after your last change. The sync server runs via <code>node packages/sync-server/build/app.js</code>, with SQLite files in <code>ACTUAL_DATA_DIR</code> and <code>ACTUAL_USER_FILES</code>. No Docker daemon or internet access is available inside the container.</p>
 </div>
 </details>
-<h4 id="pass-rates">Pass rates</h4>
+<h4 id="average-reward">Average reward</h4>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
 <tr>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average reward</button></th>
 </tr>
 </thead>
 <tbody>
@@ -334,14 +334,14 @@
 <p>Work in <code>/app</code> (<code>src/</code> is the Go module). PostgreSQL and Redis are installed; start them with <code>sudo service postgresql start</code> and <code>sudo service redis-server start</code>. Build offline from <code>/app/src</code> with <code>GOPROXY=off go build ./core ./jobservice</code>; generated Swagger server packages are present. Docker is unavailable inside the agent container. SBOM, scan-all, scanner registration and proxy-cache scanning are outside this change.</p>
 </div>
 </details>
-<h4 id="pass-rates-2">Pass rates</h4>
+<h4 id="average-reward-2">Average reward</h4>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
 <tr>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average reward</button></th>
 </tr>
 </thead>
 <tbody>
@@ -418,14 +418,14 @@
 <p>The source is at <code>/app</code>. Build and run with <code>dotnet build src/BaGetter/BaGetter.csproj -p:NuGetAudit=false</code> from <code>/app</code>. PostgreSQL is <code>postgres:5432</code>, S3 is <code>s3:4566</code> (S3-compatible LocalStack with path-style requests); both are provided as sidecars and the container has no Docker daemon. The deployment uses <code>Database__Type=PostgreSql</code>, <code>Storage__Type=AwsS3</code>, <code>Search__Type=Database</code>, <code>AllowPackageOverwrites=PrereleaseOnly</code>, and <code>PackageDeletionBehavior=HardDelete</code>; cold-mirror requests use <code>Mirror__Enabled=true</code> with a configured <code>Mirror__PackageSource</code>. Application settings use <code>Database__ConnectionString</code>, <code>Storage__Endpoint</code>, <code>Storage__Bucket</code>, <code>Storage__AccessKey</code>, <code>Storage__SecretKey</code>, <code>Storage__ForcePathStyle</code>, and <code>ApiKey</code>. The deployment database is <code>sd</code> with app-role credentials <code>app</code>/<code>app</code>; the S3 bucket is <code>packages</code> with credentials <code>test</code>/<code>test</code>, path-style access enabled, and the API key is <code>secret</code> (sent as <code>X-NuGet-ApiKey</code>). The app has no internet access.</p>
 </div>
 </details>
-<h4 id="pass-rates-3">Pass rates</h4>
+<h4 id="average-reward-3">Average reward</h4>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
 <tr>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average reward</button></th>
 </tr>
 </thead>
 <tbody>
@@ -502,14 +502,14 @@
 <p>The repository is at <code>/app</code>. The API and worker use PostgreSQL (<code>DATABASE_URL</code>), ClickHouse (<code>CLICKHOUSE_HOST</code>, <code>CLICKHOUSE_USER</code>, <code>CLICKHOUSE_PASSWORD</code>), and Temporal (<code>TEMPORAL_ADDRESS</code>); services are supplied by the environment. Implement the change in the existing TypeScript services and include any schema migration needed for persistence. Build from <code>/app</code> with <code>yarn workspace backend-lib build &amp;&amp; yarn workspace api build &amp;&amp; yarn workspace worker build</code>.</p>
 </div>
 </details>
-<h4 id="pass-rates-4">Pass rates</h4>
+<h4 id="average-reward-4">Average reward</h4>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
 <tr>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average reward</button></th>
 </tr>
 </thead>
 <tbody>
@@ -586,14 +586,14 @@
 <p>Work in <code>/app</code> (Immich at the pinned revision). PostgreSQL with VectorChord, Valkey/Redis and the shared <code>/data</code> upload directory are available through <code>DB_HOSTNAME=postgres</code>, <code>DB_USERNAME=postgres</code>, <code>DB_PASSWORD=postgres</code>, <code>DB_DATABASE_NAME=immich</code>, and <code>REDIS_HOSTNAME=redis</code>. Build with <code>pnpm --filter immich build</code> from <code>/app</code>. <code>api</code> and <code>microservices</code> run as separate workers via <code>IMMICH_WORKERS_INCLUDE</code>; Docker is unavailable inside the agent container.</p>
 </div>
 </details>
-<h4 id="pass-rates-5">Pass rates</h4>
+<h4 id="average-reward-5">Average reward</h4>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
 <tr>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average reward</button></th>
 </tr>
 </thead>
 <tbody>
@@ -665,14 +665,14 @@
 <p>Work in <code>/app</code>; the checked-out Medusa workspace is TypeScript. PostgreSQL and Redis are local (<code>DATABASE_URL=postgres://postgres:postgres@localhost:5432/sdmedusa</code>, <code>REDIS_URL=redis://localhost:6379</code>). The canonical application command is <code>node /app/packages/cli/medusa-cli/cli.js start --port 9121</code> from <code>/app/sd-project</code>, with <code>MEDUSA_WORKER_MODE=server</code> or <code>worker</code>. Start local services with <code>sudo service postgresql start</code> and <code>sudo service redis-server start</code> as needed.</p>
 </div>
 </details>
-<h4 id="pass-rates-6">Pass rates</h4>
+<h4 id="average-reward-6">Average reward</h4>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
 <tr>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average reward</button></th>
 </tr>
 </thead>
 <tbody>

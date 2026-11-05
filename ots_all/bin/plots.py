@@ -1,4 +1,4 @@
-# Plots for the all-models catalogs: domains, language and seniority, per-task pass rate by model, turn counts, and the overview's pass rate by model and catalog.
+# Plots for the all-models catalogs: domains, language and seniority, per-task average reward by model, turn counts, and the overview's average reward by model and catalog.
 import json, sys, matplotlib
 matplotlib.use('svg')
 import matplotlib.pyplot as plt, seaborn as sns, pandas as pd, numpy as np
@@ -55,7 +55,7 @@ for slug, s in S.items():
         hbars(ax, [a for a, _ in dd], [b for _, b in dd], col); ax.set_xlabel('% of catalog')
     axes[0].set_title('Primary language', loc='left', color=MUTED, fontsize=9.5); axes[1].set_title('Seniority', loc='left', color=MUTED, fontsize=9.5)
     save(fig, f'{slug}_metadata')
-    # per-task pass-rate distribution by model
+    # per-task average-reward distribution by model
     # saturated models (80%+ of tasks at 100%) are left out; boxes run easiest first: upper quartile, then median, then mean, descending
     SAT = 0.8
     keep = [m for m in s['models'] if m['tasks_graded'] >= s['min_tasks'] and m['tasks_100'] / m['tasks_graded'] < SAT]
@@ -71,14 +71,14 @@ for slug, s in S.items():
         sns.boxplot(df, y='Model', x='r', order=order, color=CARD, linecolor=INK, linewidth=1, fliersize=0, width=0.5, ax=ax)
         sns.stripplot(df, y='Model', x='r', order=order, color=RED, alpha=0.35, size=3, jitter=0.2, ax=ax)
         ax.grid(axis='y', visible=False); ax.spines['left'].set_visible(False)
-        ax.set_xlim(-3, 103); ax.set_ylabel(''); ax.set_xlabel('Per-task pass rate (%), shaded band 20-80%')
+        ax.set_xlim(-3, 103); ax.set_ylabel(''); ax.set_xlabel('Per-task average reward (%), shaded band 20-80%')
         save(fig, f'{slug}_per_task')
     tm = s.get('turns', {}).get('task_means') or []
     if tm: turn_hist(tm, f'{slug}_turns')
     print(slug, 'ok')
 if ALL: turn_hist(ALL, 'all_turns')
 
-# overview: pass rate of each model in each catalog, for models with graded runs on 5 or more tasks there (blank otherwise)
+# overview: average reward (average@k) of each model in each catalog, for models with graded runs on 5 or more tasks there (blank otherwise)
 LAB = {'Diagnosis, Debugging, and Bug Fixing': 'Debugging', 'Infrastructure as code': 'IaC', 'Feature implementation': 'Feature impl.'}
 cats = list(S); MIN = S[cats[0]]['min_tasks']
 tot = {}
@@ -89,7 +89,7 @@ grid = np.full((len(models), len(cats)), np.nan); ntask = np.zeros((len(models),
 for j, c in enumerate(cats):
     for x in S[c]['models']:
         if x['model'] in models and x['tasks_graded'] >= MIN:
-            grid[models.index(x['model']), j] = 100 * x['pass_rate']; ntask[models.index(x['model']), j] = x['tasks_graded']
+            grid[models.index(x['model']), j] = 100 * x['reward']; ntask[models.index(x['model']), j] = x['tasks_graded']
 cell = lambda v: '<1%' if 0 < v < 0.5 else f'{v:.0f}%'  # same rounding as the tables
 from matplotlib.colors import LinearSegmentedColormap
 cmap = LinearSegmentedColormap.from_list('b', ['#fbf9f4', '#7fb3aa', INK])

@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">74%</div><div class="kpi-label">google/gemini-4-argon pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">74%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
 Each task extends or repairs a data library or pipeline so it keeps producing correct results after an upstream format or schema change, while old inputs still read the same. The main languages are Python (88%) and SQL (12%).
 
-Every task has graded runs. The model with the most runs here, google/gemini-4-argon, has an average@k pass rate of 74% over 34 graded runs and fails every run on 24% of the 17 tasks it ran.
+Every task has graded runs. The model with the most runs here, google/gemini-4-argon, has an average reward of 74% over 34 graded runs and scores 0 on every run of 24% of the 17 tasks it ran.
 
 ## Why this catalog
 
@@ -47,15 +47,15 @@ The tasks span three domains. The largest, Data engineering & databases, makes u
 |---|---:|
 | Mid-Senior | 100.0% |
 
-## Model pass rates across the catalog
+## Model average reward across the catalog
 
-A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+A model's average reward is average@k: on each task, the mean grader score over its graded runs, with partial credit counted as scored; then the mean over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
 
-| Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
+| Model | Tasks run | Graded runs | Average reward | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
 | google/gemini-4-argon | 17 | 34 | 74% | 24% | 6% | 71% |
 
-![Per-task pass rate by model](assets/data-engineering_per_task.svg)
+![Per-task average reward by model](assets/data-engineering_per_task.svg)
 
 ## Turn counts and long-horizon tasks
 
@@ -105,9 +105,9 @@ Could you find what's wrong and fix it? There's no network here.
 </div>
 </details>
 
-#### Pass rates
+#### Average reward
 
-| Model | Graded runs | Pass rate |
+| Model | Graded runs | Average reward |
 |---|---:|---:|
 | google/gemini-4-argon | 2 | 0% |
 
@@ -142,9 +142,9 @@ Please fix etlplus in /app. The existing tests in /app/tests and the ruff, pydoc
 </div>
 </details>
 
-#### Pass rates
+#### Average reward
 
-| Model | Graded runs | Pass rate |
+| Model | Graded runs | Average reward |
 |---|---:|---:|
 | google/gemini-4-argon | 2 | 0% |
 
@@ -181,9 +181,9 @@ The environment has Python 3.12, installed project dependencies and no network. 
 </div>
 </details>
 
-#### Pass rates
+#### Average reward
 
-| Model | Graded runs | Pass rate |
+| Model | Graded runs | Average reward |
 |---|---:|---:|
 | google/gemini-4-argon | 2 | 50% |
 

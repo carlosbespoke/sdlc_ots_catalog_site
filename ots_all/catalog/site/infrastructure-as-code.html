@@ -8,12 +8,12 @@
 <main id="content" tabindex="-1"><article id="catalog-content">
 <header class="hero"><h1 id="infrastructure-as-code">Infrastructure as code</h1><div class="hero-meta" aria-hidden="true"></div></header>
 <div class="page"><aside class="contents" aria-label="Contents" data-ui><p class="contents-label">Contents</p>
-<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="94 tasks">94</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html" aria-current="page"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-pass-rates-across-the-catalog">Model pass rates across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-cloud-infra-containers-self-hosted-platforms-terraform">Example 1: Cloud infra: containers &amp; self-hosted platforms (Terraform)</a><a class="level-3" href="#example-2-cloud-infra-aws-platform-stacks-terraform">Example 2: Cloud infra: AWS platform stacks (Terraform)</a><a class="level-3" href="#example-3-cloud-infra-aws-platform-stacks-terraform">Example 3: Cloud infra: AWS platform stacks (Terraform)</a><a class="level-3" href="#example-4-cloud-infra-containers-self-hosted-platforms-typescript">Example 4: Cloud infra: containers &amp; self-hosted platforms (TypeScript)</a></nav></aside>
+<nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="94 tasks">94</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html" aria-current="page"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-average-reward-across-the-catalog">Model average reward across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-cloud-infra-containers-self-hosted-platforms-terraform">Example 1: Cloud infra: containers &amp; self-hosted platforms (Terraform)</a><a class="level-3" href="#example-2-cloud-infra-aws-platform-stacks-terraform">Example 2: Cloud infra: AWS platform stacks (Terraform)</a><a class="level-3" href="#example-3-cloud-infra-aws-platform-stacks-terraform">Example 3: Cloud infra: AWS platform stacks (Terraform)</a><a class="level-3" href="#example-4-cloud-infra-containers-self-hosted-platforms-typescript">Example 4: Cloud infra: containers &amp; self-hosted platforms (TypeScript)</a></nav></aside>
 <div class="reading">
 <h2 id="executive-summary">Executive summary</h2>
-<div class="kpis"><div class="kpi"><div class="kpi-value">301</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">301</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">66%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">301</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">301</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">66%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div></div>
 <p>Each task restructures infrastructure code that is already deployed. The agent splits a flat Terraform stack into modules with stable keys, componentizes a CDK app or moves a stack to Pulumi, so that the plan against production state changes nothing that is running. The main languages are HCL (Terraform) (99%), TypeScript (1%) and Python (0%).</p>
-<p>Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, has an average@k pass rate of 66% over 1,601 graded runs and fails every run on 3% of the 295 tasks it ran.</p>
+<p>Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, has an average reward of 66% over 1,601 graded runs and scores 0 on every run of 3% of the 295 tasks it ran.</p>
 <h2 id="why-this-catalog">Why this catalog</h2>
 <h3 id="problems-engineers-face">Problems engineers face</h3>
 <p>Platform engineers restructure infrastructure code that is already running, and the change must reach production as address moves only, because the team cannot plan against a live account. The most common case is a flat Terraform root module that has to become local modules with <code>for_each</code> keys. Others replace positional <code>count</code> with stable keys, extract reusable components from an app that builds everything inline, move a stack between tools while the preview stays clean, or bring a stack under a policy pack without replacing resources.</p>
@@ -74,8 +74,8 @@
 </tbody>
 </table>
 </div>
-<h2 id="model-pass-rates-across-the-catalog">Model pass rates across the catalog</h2>
-<p>A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.</p>
+<h2 id="model-average-reward-across-the-catalog">Model average reward across the catalog</h2>
+<p>A model's average reward is average@k: on each task, the mean grader score over its graded runs, with partial credit counted as scored; then the mean over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
@@ -83,7 +83,7 @@
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks run</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average reward</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 0%</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 20-80%</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks at 100%</button></th>
@@ -96,8 +96,8 @@
 <td class="numeric">1,601</td>
 <td class="numeric">66%</td>
 <td class="numeric">3%</td>
-<td class="numeric">89%</td>
-<td class="numeric">7%</td>
+<td class="numeric">88%</td>
+<td class="numeric">0%</td>
 </tr>
 <tr>
 <td>google/gemini-4-argon</td>
@@ -120,7 +120,7 @@
 </tbody>
 </table>
 </div>
-<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task pass rate by model</h4></div><div class="fig-box"><img src="assets/infrastructure-as-code_per_task.svg" alt="Per-task pass rate by model" /></div></figure><h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
+<figure class="fig"><div class="fig-head" data-ui><span class="lab">Figure</span><h4>Per-task average reward by model</h4></div><div class="fig-box"><img src="assets/infrastructure-as-code_per_task.svg" alt="Per-task average reward by model" /></div></figure><h2 id="turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</h2>
 <p>A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 301 of the 301 tasks have a completed run.</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
@@ -285,14 +285,14 @@
 <p><strong>Not allowed anywhere in the configuration:</strong> <code>ignore_changes</code>, <code>prevent_destroy</code> and <code>replace_triggered_by</code>, <code>removed</code> and <code>import</code> blocks, provisioners, <code>external</code> data sources, backend or cloud blocks, provider blocks other than the one in <code>providers.tf</code>, override files and <code>.tf.json</code> files.</p>
 </div>
 </details>
-<h4 id="pass-rates">Pass rates</h4>
+<h4 id="average-reward">Average reward</h4>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
 <tr>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average reward</button></th>
 </tr>
 </thead>
 <tbody>
@@ -437,14 +437,14 @@
 <p><strong>Not allowed anywhere in the configuration:</strong> <code>ignore_changes</code>, <code>prevent_destroy</code> and <code>replace_triggered_by</code>, <code>removed</code> and <code>import</code> blocks, provisioners, <code>external</code> data sources, backend or cloud blocks, provider blocks other than the one in <code>providers.tf</code>, override files and <code>.tf.json</code> files.</p>
 </div>
 </details>
-<h4 id="pass-rates-2">Pass rates</h4>
+<h4 id="average-reward-2">Average reward</h4>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
 <tr>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average reward</button></th>
 </tr>
 </thead>
 <tbody>
@@ -588,14 +588,14 @@
 <p><strong>Not allowed anywhere in the configuration:</strong> <code>ignore_changes</code>, <code>prevent_destroy</code> and <code>replace_triggered_by</code>, <code>removed</code> and <code>import</code> blocks, provisioners, <code>external</code> data sources, backend or cloud blocks, provider blocks other than the one in <code>providers.tf</code>, override files and <code>.tf.json</code> files.</p>
 </div>
 </details>
-<h4 id="pass-rates-3">Pass rates</h4>
+<h4 id="average-reward-3">Average reward</h4>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
 <tr>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average reward</button></th>
 </tr>
 </thead>
 <tbody>
@@ -687,14 +687,14 @@
 <p>No AWS access; <code>pulumi preview --refresh=false</code> works offline (backend <code>/workspace/pulumi-state</code> and passphrase preset) and <code>pulumi stack export</code> shows every URN. In <code>/workspace/terraform</code>, <code>terraform init -input=false</code> and <code>terraform plan -refresh=false</code> work offline from a provider mirror, including with <code>-var</code>/<code>-var-file</code>. <code>node_modules</code> links to the image's packages (Node.js 22, versions per <code>package.json</code>; <code>@pulumi/aws</code> 6.83.0 is built on Terraform's AWS provider 5.100.0); nothing can be installed. <code>templates/userdata.sh.tpl</code> copies the cluster module's template.</p>
 </div>
 </details>
-<h4 id="pass-rates-4">Pass rates</h4>
+<h4 id="average-reward-4">Average reward</h4>
 <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table">
 <table class="data">
 <thead>
 <tr>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Model</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Graded runs</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Pass rate</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average reward</button></th>
 </tr>
 </thead>
 <tbody>

@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">36%</div><div class="kpi-label">z-ai/glm-5.3-flash pass rate</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks with graded runs</div></div><div class="kpi"><div class="kpi-value">36%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div></div>
 
 Each task changes a production service that must keep running. The agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and delivers the change as a patch. The main languages are Python (38%), TypeScript (24%) and Go (22%).
 
-Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, has an average@k pass rate of 36% over 405 graded runs and fails every run on 13% of the 77 tasks it ran.
+Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, has an average reward of 36% over 405 graded runs and scores 0 on every run of 13% of the 77 tasks it ran.
 
 ## Why this catalog
 
@@ -49,17 +49,17 @@ The tasks span ten domains. The largest, Applications & business domains, makes 
 | Staff+ | 90.4% |
 | Senior | 9.6% |
 
-## Model pass rates across the catalog
+## Model average reward across the catalog
 
-A model's pass rate is average@k: the share of its graded runs that pass on each task, averaged over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+A model's average reward is average@k: on each task, the mean grader score over its graded runs, with partial credit counted as scored; then the mean over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
 
-| Model | Tasks run | Graded runs | Pass rate | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
+| Model | Tasks run | Graded runs | Average reward | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
 | z-ai/glm-5.3-flash | 77 | 405 | 36% | 13% | 69% | 3% |
 | google/gemini-3.8-flash | 21 | 134 | 2% | 86% | 0% | 0% |
 | google/gemini-4-argon | 20 | 99 | 48% | 25% | 55% | 20% |
 
-![Per-task pass rate by model](assets/system-design_per_task.svg)
+![Per-task average reward by model](assets/system-design_per_task.svg)
 
 ## Turn counts and long-horizon tasks
 
@@ -122,9 +122,9 @@ Work in `/app` (Node 22, Yarn 4); build the affected packages with `yarn workspa
 </div>
 </details>
 
-#### Pass rates
+#### Average reward
 
-| Model | Graded runs | Pass rate |
+| Model | Graded runs | Average reward |
 |---|---:|---:|
 | z-ai/glm-5.3-flash | 6 | 17% |
 | google/gemini-4-argon | 5 | 20% |
@@ -164,9 +164,9 @@ Work in `/app` (`src/` is the Go module). PostgreSQL and Redis are installed; st
 </div>
 </details>
 
-#### Pass rates
+#### Average reward
 
-| Model | Graded runs | Pass rate |
+| Model | Graded runs | Average reward |
 |---|---:|---:|
 | google/gemini-4-argon | 5 | 20% |
 | z-ai/glm-5.3-flash | 4 | 0% |
@@ -207,9 +207,9 @@ The source is at `/app`. Build and run with `dotnet build src/BaGetter/BaGetter.
 </div>
 </details>
 
-#### Pass rates
+#### Average reward
 
-| Model | Graded runs | Pass rate |
+| Model | Graded runs | Average reward |
 |---|---:|---:|
 | z-ai/glm-5.3-flash | 6 | 50% |
 | google/gemini-4-argon | 5 | 20% |
@@ -249,9 +249,9 @@ The repository is at `/app`. The API and worker use PostgreSQL (`DATABASE_URL`),
 </div>
 </details>
 
-#### Pass rates
+#### Average reward
 
-| Model | Graded runs | Pass rate |
+| Model | Graded runs | Average reward |
 |---|---:|---:|
 | google/gemini-4-argon | 4 | 75% |
 | z-ai/glm-5.3-flash | 4 | 0% |
@@ -291,9 +291,9 @@ Work in `/app` (Immich at the pinned revision). PostgreSQL with VectorChord, Val
 </div>
 </details>
 
-#### Pass rates
+#### Average reward
 
-| Model | Graded runs | Pass rate |
+| Model | Graded runs | Average reward |
 |---|---:|---:|
 | google/gemini-4-argon | 5 | 80% |
 | z-ai/glm-5.3-flash | 4 | 25% |
@@ -331,9 +331,9 @@ Work in `/app`; the checked-out Medusa workspace is TypeScript. PostgreSQL and R
 </div>
 </details>
 
-#### Pass rates
+#### Average reward
 
-| Model | Graded runs | Pass rate |
+| Model | Graded runs | Average reward |
 |---|---:|---:|
 | google/gemini-4-argon | 5 | 80% |
 | z-ai/glm-5.3-flash | 4 | 50% |

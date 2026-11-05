@@ -21,10 +21,10 @@ TASKS = [t for t in ALL_TASKS if t['id'] not in EXCLUDED_TASKS]  # 1,305 in the 
 RO = {t['id']: json.load(open(f"{H}/ro/{t['id']}.json")) for t in TASKS}
 TURNS = {t['id']: [r for r in json.load(open(f"{H}/turns/{t['id']}.json"))['runs'] if r['model'] not in DROPPED] for t in TASKS}
 def runs(tid):
-    """model -> list of (passed, score) over graded runs (errored runs excluded)."""
+    """model -> list of (score, passed) over graded runs (errored runs excluded). The score is the grader's reward, partial credit included."""
     out = collections.defaultdict(list)
     for q in RO[tid]['rollouts']:
         if q['model'] in DROPPED or q.get('is_errored') or q.get('passed') is None: continue
-        out[MM[q['model']]].append((bool(q['passed']), q.get('extracted_score') or 0))
+        out[MM[q['model']]].append((q.get('extracted_score') or 0, bool(q['passed'])))
     return out
 def pct(v): return 'n/a' if v is None else '<1%' if 0 < v < 0.005 else f'{100 * v:.0f}%'
