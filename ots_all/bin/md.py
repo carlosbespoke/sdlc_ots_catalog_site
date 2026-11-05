@@ -155,7 +155,7 @@ BENCH = TXT['_bench_columns']
 L.append(table(['Catalog'] + BENCH, [[s_['name']] + ['✓' if b in TXT[k].get('bench_map', []) else '' for b in BENCH] for k, s_ in S.items() if TXT[k].get('bench_map')],
                align='l' + 'c' * len(BENCH)) + '\n')
 L.append('## Model pass rates\n')
-L.append(f"Pass rates and turn counts come from Horizon runs up to {SNAPSHOT[:10]}. Each cell is a model's pass rate in one catalog: passed runs over graded runs, pooled across the tasks it ran there. A cell is blank when the model has graded runs on fewer than {NUMW[S['programbench']['min_tasks']]} tasks in that catalog.\n")
+L.append("Each cell is a model's pass rate in one catalog: passed runs over graded runs, averaged across the tasks it ran there.\n")
 L.append('![Pass rate by model and catalog](assets/overview_models.svg)\n')
 L.append(table(['Model', 'Tasks run', 'Graded runs', 'Pass rate'], [[m, f"{len(v[2]):,}", f"{v[0]:,}", pct(v[1] / v[0])] for m, v in sorted(allm.items(), key=lambda kv: -kv[1][0])]) + '\n')
 L.append('## Samples\n')

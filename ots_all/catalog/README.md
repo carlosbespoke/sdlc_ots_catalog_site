@@ -40,7 +40,7 @@ Our catalogs enable models to climb on different benchmarks, including but not l
 
 ## Model pass rates
 
-Pass rates and turn counts come from Horizon runs up to 2026-11-02. Each cell is a model's pass rate in one catalog: passed runs over graded runs, pooled across the tasks it ran there. A cell is blank when the model has graded runs on fewer than five tasks in that catalog.
+Each cell is a model's pass rate in one catalog: passed runs over graded runs, averaged across the tasks it ran there.
 
 ![Pass rate by model and catalog](assets/overview_models.svg)
 
