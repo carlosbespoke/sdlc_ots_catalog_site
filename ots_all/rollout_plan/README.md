@@ -1,5 +1,24 @@
 # Rollout plan
 
+## Result (5 Nov)
+
+All 40 task and model pairs finished with 4 or more graded runs on the first pass, counting the three graded pilot runs. No run errored, so the top-up step was not needed. Five runs ended without a grade (`no_progress`), and every task still reached 4 graded runs without them. Total model cost was $1,018, against $1,145 expected. Every kept model now has graded runs on 5 or more tasks in every catalog. Per-run results are in `launch_results.json`, and the runs are merged into the report by `bin/merge_rollouts.py`.
+
+| Catalog | Model | Tasks | Runs | Graded | Average reward | Mean turns | Cost |
+|---|---|---|---|---|---|---|---|
+| ProgramBench | Gemini 4 Argon | 12 | 67 | 64 | 37% | 369 | $559 |
+| IaC | Gemini 3.8 Flash | 8 | 37 | 37 | 70% | 123 | $108 |
+| Data engineering | GLM 5.3 Flash | 5 | 21 | 20 | 80% | 213 | $18 |
+| Data engineering | Gemini 3.8 Flash | 5 | 24 | 24 | 58% | 324 | $166 |
+| Migration | GLM 5.3 Flash | 1 | 5 | 4 | 0% | 954 | $13 |
+| Migration | Gemini 3.8 Flash | 1 | 5 | 5 | 0% | 443 | $43 |
+| Optimization | GLM 5.3 Flash | 3 | 13 | 13 | 38% | 424 | $22 |
+| Optimization | Gemini 4 Argon | 5 | 29 | 29 | 45% | 174 | $89 |
+
+Average reward here is the mean grader score over this run's graded runs only, pooled over runs. The report's per-catalog figures average per task and include the earlier runs.
+
+## Plan
+
 Goal: every kept model (GLM 5.3 Flash, Gemini 3.8 Flash, Gemini 4 Argon) has graded runs on at least 5% of each catalog's tasks, and on at least 5 tasks, so it gets a row in that catalog's tables and a cell in the overview heatmap. 4 graded runs per task. Built by `bin/rollout_plan.py`; the task list is `plan.csv` (40 tasks), the numbers are in `summary.json`.
 
 ## What to run

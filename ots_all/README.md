@@ -10,6 +10,7 @@ From this folder (Horizon key needed only for the fetch step):
 
 ```bash
 export HORIZON_API_KEY="$(security find-generic-password -a "$USER" -s HORIZON_API_KEY -w)"
+~/code/horizon_env/bin/python3 bin/merge_rollouts.py  # adds the rollout campaign's runs (rollout_plan/) to ro/
 ~/code/horizon_env/bin/python3 bin/fetch.py      # fills ro/ (runs) and turns/ (turn counts) where missing
 ~/code/horizon_env/bin/python3 bin/stats.py      # cat/stats.json
 ../pipeline/.venv/bin/python bin/plots.py        # catalog/assets/*.svg
@@ -23,6 +24,7 @@ cd catalog && ../../pipeline/.venv/bin/python build_site.py --verify && python3 
 - **Snapshot:** one snapshot, time in `SNAPSHOT`.
   - `ro/` is a copy of `../gemini_hard/ro3/`, the runs at each task's version selected on the 2 Nov sheet, plus 9 tasks first catalogued as Optimization, fetched at their selected versions and counted as System design.
   - `turns/` has the turn count of every completed run of every model.
+  - **Rollout campaign (5 Nov):** the runs started by the rollout plan in `rollout_plan/` are added on top of the snapshot by `bin/merge_rollouts.py`. That covers 212 runs on 34 tasks: the 201-run main run plus the pilot, retry and diagnostic runs. Each run is at the task's report version and is listed in `campaign_rollouts` in its `ro/` file. No other run made after the snapshot is included.
 - **Shared with `../gemini_hard/`:**
   - the task list (`universe.json`)
   - the sample task folders and zips
