@@ -1,6 +1,6 @@
 {
  "cut": 0.8,
- "target": 417,
+ "target": 422,
  "lr": {
   "z-ai/glm-5.3-flash": {
    "0": 2.4561403508771926,
@@ -43,14 +43,14 @@
   {
    "slug": "system-design",
    "catalog": "System design",
-   "tasks": 71,
+   "tasks": 66,
    "argon_tasks": 15,
    "argon_hard": 9,
    "share": 0.6,
-   "estimate": 42.6,
-   "lo": 25.379974357120467,
-   "hi": 56.92479806135779,
-   "model_estimate": 38.3144446259288,
+   "estimate": 39.6,
+   "lo": 23.592652219295083,
+   "hi": 52.91600946548752,
+   "model_estimate": 35.21281639283438,
    "universe": 33,
    "proven": 18,
    "predicted": 15
@@ -58,14 +58,14 @@
   {
    "slug": "debugging",
    "catalog": "Diagnosis, Debugging, and Bug Fixing",
-   "tasks": 444,
+   "tasks": 441,
    "argon_tasks": 27,
    "argon_hard": 7,
    "share": 0.25925925925925924,
-   "estimate": 115.11111111111111,
-   "lo": 58.47572539752849,
-   "hi": 198.3744509876136,
-   "model_estimate": 137.8720626092591,
+   "estimate": 114.33333333333333,
+   "lo": 58.08061914484249,
+   "hi": 197.03408307553514,
+   "model_estimate": 136.96864251891708,
    "universe": 17,
    "proven": 9,
    "predicted": 8
@@ -81,9 +81,9 @@
    "lo": 61.75976268681114,
    "hi": 118.85820055443264,
    "model_estimate": 101.95267362696818,
-   "universe": 107,
+   "universe": 109,
    "proven": 9,
-   "predicted": 98
+   "predicted": 100
   },
   {
    "slug": "infrastructure-as-code",
@@ -126,9 +126,9 @@
    "lo": 12.868719392342772,
    "hi": 28.86327789026592,
    "model_estimate": 21.58121114536196,
-   "universe": 25,
+   "universe": 28,
    "proven": 12,
-   "predicted": 13
+   "predicted": 16
   }
  ],
  "extra_proven": 3,
@@ -1757,19 +1757,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      4,
-     0.0
+     0.8
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -1790,39 +1790,15 @@
    },
    "p_hard": 0.11798250186406532,
    "evidence": 7,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "82eb3b26-db2f-4c8f-8057-ceccaf80e80b",
-      "passed": true
-     },
-     {
-      "id": "b1ba193b-692e-4e82-975e-4881f45269e2",
-      "passed": true
-     },
-     {
-      "id": "2a82fced-7516-42d3-b16b-a790c802825a",
-      "passed": true
-     },
-     {
-      "id": "ac8330b3-c82b-46bf-bbc8-6ef4ef3d9b52",
-      "passed": false
-     },
-     {
-      "id": "e1c331e5-4af3-46cf-ba6f-8bc0aecf8f85",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -2181,7 +2157,7 @@
     "google/gemini-4-argon": [
      1,
      1,
-     0.0
+     1.0
     ],
     "helm": [
      1,
@@ -2191,14 +2167,14 @@
     "z-ai/glm-5.3-flash": [
      5,
      1,
-     0.0
+     0.2
     ]
    },
    "argon": {
     "graded": 1,
     "passed": 1,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-3.8-flash": [
@@ -2229,39 +2205,15 @@
    },
    "p_hard": 0.3002728867232056,
    "evidence": 8,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 1,
    "gemini_rate": 0.5,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "afec42a4-c51f-4cc4-ac94-4ac4ceee7bd9",
-      "passed": false
-     },
-     {
-      "id": "145d41c8-f28d-4289-96cb-1d58a5f9f82e",
-      "passed": true
-     },
-     {
-      "id": "fc2ab1b8-a93b-432d-a131-9242b158c863",
-      "passed": false
-     },
-     {
-      "id": "16a7c81c-377a-44f4-a36c-b59117fe0d4b",
-      "passed": false
-     },
-     {
-      "id": "ef36bb85-2c7d-43cc-8bb6-091e4bfb2301",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -4180,19 +4132,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      3,
-     0.0
+     0.6
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -4213,39 +4165,15 @@
    },
    "p_hard": 0.11798250186406532,
    "evidence": 7,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "6df134e1-14f8-4a83-bc98-ebde68df90c1",
-      "passed": true
-     },
-     {
-      "id": "e97d92b5-e546-4874-940a-e86a29c2c8df",
-      "passed": false
-     },
-     {
-      "id": "a073efc8-e6f9-490d-b9d8-83549868b7fa",
-      "passed": true
-     },
-     {
-      "id": "5d15f4c7-9972-4c03-a26f-6939f3328923",
-      "passed": true
-     },
-     {
-      "id": "df30bad5-6c90-42f0-af89-ffdd2ee43aa9",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -4859,7 +4787,7 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "qwen/qwen3.8-max-0902": [
      3,
@@ -4869,14 +4797,14 @@
     "z-ai/glm-5.3-flash": [
      6,
      6,
-     0.0
+     0.7226666666666667
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -4902,43 +4830,15 @@
    },
    "p_hard": 0.0984455874469976,
    "evidence": 11,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "290bb18a-2330-43f4-a70b-38e587f41d7e",
-      "passed": true
-     },
-     {
-      "id": "f67d16b9-a34e-4dec-bd61-60b8ca968b3b",
-      "passed": true
-     },
-     {
-      "id": "dfc62ab7-bb07-4957-920c-a20e3c7e1eba",
-      "passed": true
-     },
-     {
-      "id": "6d311086-b174-49dc-b723-2a26fbe5cb44",
-      "passed": true
-     },
-     {
-      "id": "a00bd177-204b-4235-a558-cd3e0342bc7a",
-      "passed": true
-     },
-     {
-      "id": "f2721862-d4a5-4909-9264-ffded593e4b6",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -6372,19 +6272,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     0.7544351073762838
     ],
     "z-ai/glm-5.3-flash": [
      4,
      1,
-     0.0
+     0.25887021475256766
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 0.7544351073762838
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -6405,35 +6305,15 @@
    },
    "p_hard": 0.48237263332638364,
    "evidence": 6,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "d0d5b27c-d039-4609-881d-75d520d90d13",
-      "passed": false
-     },
-     {
-      "id": "2404f430-7043-4af2-bad9-4b82762bc059",
-      "passed": false
-     },
-     {
-      "id": "d3b203b4-4cf8-41c0-82a3-44c079c5b42b",
-      "passed": true
-     },
-     {
-      "id": "748478f5-3849-479f-ae36-632ccad21233",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -7020,16 +6900,6 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "abyss-pro": [
-     1,
-     0,
-     0.0
-    ],
-    "abyss": [
-     1,
-     0,
-     0.0
-    ],
     "google/gemini-3.8-flash": [
      1,
      0,
@@ -7038,19 +6908,19 @@
     "google/gemini-4-argon": [
      1,
      1,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      1,
-     0.0
+     0.125
     ]
    },
    "argon": {
     "graded": 1,
     "passed": 1,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-3.8-flash": [
@@ -7075,15 +6945,15 @@
     "rate": 1.0
    },
    "p_hard": 0.7322314992677685,
-   "evidence": 12,
-   "status": "gem5",
+   "evidence": 10,
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 1,
    "gemini_rate": 0.5,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -7127,27 +6997,22 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "google/gemini-3.8-flash": [
-     5,
-     5,
-     0.0
-    ],
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      4,
-     0.0
+     0.8
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -7167,40 +7032,16 @@
     "rate": 1.0
    },
    "p_hard": 0.11798250186406532,
-   "evidence": 12,
-   "status": "gem5",
-   "gemini_graded": 7,
-   "gemini_passed": 7,
+   "evidence": 7,
+   "status": "cleared",
+   "gemini_graded": 2,
+   "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "2aa2330c-fdfd-4b3a-a2bd-0a82d7a997b3",
-      "passed": true
-     },
-     {
-      "id": "367da096-c617-4938-bc22-0d784f8f58fa",
-      "passed": true
-     },
-     {
-      "id": "21a2f7a3-8646-43c7-9e56-74aeb173f64d",
-      "passed": true
-     },
-     {
-      "id": "98b1a56a-f235-4fe0-b313-e970dfdd4244",
-      "passed": true
-     },
-     {
-      "id": "5001287e-f47a-4bed-9a3b-c7f201da5b40",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -7367,38 +7208,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "abyss-pro": [
-     1,
-     1,
-     0.0
-    ],
-    "levanter": [
-     1,
-     1,
-     0.0
-    ],
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
-    "abyss": [
-     1,
-     0,
-     0.0
-    ],
     "z-ai/glm-5.3-flash": [
      9,
      3,
-     0.0
+     0.22333333333333336
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "z-ai/glm-5.3-flash": [
      9,
@@ -7408,56 +7224,16 @@
    },
    "argon_snap": null,
    "p_hard": 0.20228208954771462,
-   "evidence": 13,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 9,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "4b3593ae-fcc9-4a6c-9aa3-fcf698289301",
-      "passed": true
-     },
-     {
-      "id": "16750206-5ff2-4af7-bbad-ad9e523b8e47",
-      "passed": true
-     },
-     {
-      "id": "26e8412e-0b56-4ccf-8327-29689e324f94",
-      "passed": false
-     },
-     {
-      "id": "da3d42f9-4821-403a-92cb-4eb78d0b99a8",
-      "passed": false
-     },
-     {
-      "id": "1d310bcd-c350-43b6-bf91-9c49f9082032",
-      "passed": false
-     },
-     {
-      "id": "f1a92295-e7b4-46d0-9853-5fecb9deae30",
-      "passed": true
-     },
-     {
-      "id": "1294e472-c3a8-4cde-8423-3f793bbf0d7f",
-      "passed": false
-     },
-     {
-      "id": "b3a8098c-67de-447c-9ea1-89fd1c5d68ba",
-      "passed": false
-     },
-     {
-      "id": "f68d0732-79a3-48b4-8eba-e009c3cd6de6",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -7475,19 +7251,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      7,
-     0.0
+     0.875
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -7508,14 +7284,14 @@
    },
    "p_hard": 0.3429931401371973,
    "evidence": 10,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -7614,7 +7390,7 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     0.7812
     ],
     "moonshotai/kimi-k3.1-pro": [
      1,
@@ -7629,14 +7405,14 @@
     "z-ai/glm-5.3-flash": [
      5,
      4,
-     0.0
+     0.75624
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 0.7812
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -7667,39 +7443,15 @@
    },
    "p_hard": 0.0984455874469976,
    "evidence": 9,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "1f58a937-6006-4106-ae83-acc2589fa60c",
-      "passed": true
-     },
-     {
-      "id": "8fa9e04f-0076-4844-b063-d64c6de8924b",
-      "passed": false
-     },
-     {
-      "id": "170853c4-90bb-45ae-907e-982fa7c2cd24",
-      "passed": true
-     },
-     {
-      "id": "1d4a680d-2428-41d1-bb1d-dbb732fc6a46",
-      "passed": true
-     },
-     {
-      "id": "be7968bd-e5a5-459b-840e-b04b754e4931",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -8406,24 +8158,24 @@
     "google/gemini-3.8-flash": [
      1,
      1,
-     0.0
+     0.6464
     ],
     "google/gemini-4-argon": [
      1,
      1,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      8,
      2,
-     0.0
+     0.245525
     ]
    },
    "argon": {
     "graded": 1,
     "passed": 1,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-3.8-flash": [
@@ -8449,51 +8201,15 @@
    },
    "p_hard": 0.2598651738481138,
    "evidence": 10,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "4a3f85a7-8af6-4192-817b-7cd3642390f7",
-      "passed": false
-     },
-     {
-      "id": "0b5c8ca7-597d-4945-b2fe-6fe6634bc9d7",
-      "passed": true
-     },
-     {
-      "id": "58b3a9a2-781f-488d-8665-31628c82c338",
-      "passed": false
-     },
-     {
-      "id": "c731c7e5-235c-4bea-89d1-e5c3bcabfa57",
-      "passed": false
-     },
-     {
-      "id": "63c9047d-fc54-4ab3-b0b4-6d2bca93a7b1",
-      "passed": true
-     },
-     {
-      "id": "b67dbb20-6ad6-4386-8a34-d5a7520274ac",
-      "passed": false
-     },
-     {
-      "id": "c36690a5-f471-4d52-9b3f-41f7c7da9f7c",
-      "passed": false
-     },
-     {
-      "id": "ae3932a4-fa78-4afd-bd57-9a937f71d555",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -9240,27 +8956,22 @@
    "shortlist_no": 42,
    "old_shortlist": 50,
    "models": {
-    "google/gemini-3.8-flash": [
-     4,
-     4,
-     0.0
-    ],
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      3,
-     0.0
+     0.6
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -9280,40 +8991,16 @@
     "rate": 1.0
    },
    "p_hard": 0.11798250186406532,
-   "evidence": 11,
-   "status": "gem5",
-   "gemini_graded": 6,
-   "gemini_passed": 6,
+   "evidence": 7,
+   "status": "cleared",
+   "gemini_graded": 2,
+   "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "cf900a2b-816c-4869-8f83-d16f182c0d60",
-      "passed": false
-     },
-     {
-      "id": "9d009e4a-1d18-4a46-9492-9f9c8a4f6b3a",
-      "passed": true
-     },
-     {
-      "id": "6725d5af-df53-4af4-824b-659c98643303",
-      "passed": true
-     },
-     {
-      "id": "c8ec49c0-0d57-4123-b585-f95653837aa8",
-      "passed": true
-     },
-     {
-      "id": "9e705c56-0d8c-42d7-bc78-38b3184c71d5",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -9408,23 +9095,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
     "x-ai/grok-4.7": [
      8,
      4,
-     0.0
+     0.5
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "x-ai/grok-4.7": [
      8,
@@ -9434,15 +9111,15 @@
    },
    "argon_snap": null,
    "p_hard": 0.617719731733145,
-   "evidence": 9,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 8,
+   "status": "predicted",
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -9815,42 +9492,27 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "abyss-pro": [
-     1,
-     0,
-     0.0
-    ],
-    "levanter": [
-     1,
-     1,
-     0.0
-    ],
-    "abyss": [
-     1,
-     0,
-     0.0
-    ],
     "granola-plus": [
      1,
      1,
-     0.0
+     1.0
     ],
     "google/gemini-4-argon": [
      1,
      1,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      1,
-     0.0
+     0.125
     ]
    },
    "argon": {
     "graded": 1,
     "passed": 1,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "granola-plus": [
@@ -9875,15 +9537,15 @@
     "rate": 1.0
    },
    "p_hard": 0.617719731733145,
-   "evidence": 13,
-   "status": "gem5",
+   "evidence": 10,
+   "status": "cleared",
    "gemini_graded": 1,
    "gemini_passed": 1,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -10070,19 +9732,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      3,
-     0.0
+     0.375
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -10103,14 +9765,14 @@
    },
    "p_hard": 0.3429931401371973,
    "evidence": 10,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -10302,27 +9964,22 @@
    "shortlist_no": 22,
    "old_shortlist": 24,
    "models": {
-    "google/gemini-3.8-flash": [
-     5,
-     1,
-     0.0
-    ],
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      2,
-     0.0
+     0.25
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -10342,15 +9999,15 @@
     "rate": 1.0
    },
    "p_hard": 0.3429931401371973,
-   "evidence": 15,
-   "status": "gem5",
-   "gemini_graded": 7,
-   "gemini_passed": 3,
-   "gemini_rate": 0.42857142857142855,
+   "evidence": 10,
+   "status": "cleared",
+   "gemini_graded": 2,
+   "gemini_passed": 2,
+   "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -13530,23 +13187,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
     "z-ai/glm-5.3-flash": [
      4,
      0,
      0.0
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "z-ai/glm-5.3-flash": [
      4,
@@ -13556,36 +13203,16 @@
    },
    "argon_snap": null,
    "p_hard": 0.8672920609419037,
-   "evidence": 5,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 4,
+   "status": "predicted",
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "4a774e9c-5cf6-46d7-aafb-525776bd9b02",
-      "passed": false
-     },
-     {
-      "id": "36d2bbe5-8ed1-4b9e-adc4-360bac54849a",
-      "passed": false
-     },
-     {
-      "id": "b6336916-f60d-4592-8e25-0fb19823ab32",
-      "passed": false
-     },
-     {
-      "id": "9453451a-657c-45d4-94e6-7e1e4e91145f",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -13852,23 +13479,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
     "x-ai/grok-4.7": [
      8,
      3,
-     0.0
+     0.375
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "x-ai/grok-4.7": [
      8,
@@ -13878,15 +13495,15 @@
    },
    "argon_snap": null,
    "p_hard": 0.617719731733145,
-   "evidence": 9,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 8,
+   "status": "predicted",
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -14005,31 +13622,20 @@
    "in_catalog": true,
    "shortlist_no": 75,
    "old_shortlist": 88,
-   "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ]
-   },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "models": {},
+   "argon": null,
    "models_snap": {},
    "argon_snap": null,
    "p_hard": 0.301140030114003,
-   "evidence": 1,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 0,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -15087,11 +14693,6 @@
    "shortlist_no": 67,
    "old_shortlist": 80,
    "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
     "helm": [
      1,
      0,
@@ -15100,15 +14701,10 @@
     "z-ai/glm-5.3-flash": [
      5,
      1,
-     0.0
+     0.2
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "helm": [
      1,
@@ -15123,40 +14719,16 @@
    },
    "argon_snap": null,
    "p_hard": 0.20228208954771462,
-   "evidence": 7,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 6,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "f33e0114-e3fc-4d75-933b-415e4206e407",
-      "passed": false
-     },
-     {
-      "id": "3788e453-55e7-4b9b-9705-c0d21296a7bb",
-      "passed": false
-     },
-     {
-      "id": "5e15ed18-d486-4afb-82dc-da905f34a57e",
-      "passed": false
-     },
-     {
-      "id": "0b0cdf7f-a226-4ddb-8bb8-73a08b40ed90",
-      "passed": false
-     },
-     {
-      "id": "05f43b14-fc08-4691-9282-07418a6839ba",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -15414,23 +14986,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
     "z-ai/glm-5.3-flash": [
      5,
      2,
-     0.0
+     0.24101999999999996
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "z-ai/glm-5.3-flash": [
      5,
@@ -15440,40 +15002,16 @@
    },
    "argon_snap": null,
    "p_hard": 0.48741865805511675,
-   "evidence": 6,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 5,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "0d04b91b-e71c-4990-9914-3438894f11de",
-      "passed": false
-     },
-     {
-      "id": "0dea846e-dd83-4da7-a9ba-f6e90848aa58",
-      "passed": true
-     },
-     {
-      "id": "c9f086c2-a308-447b-b4bd-b3b8b60c06c4",
-      "passed": false
-     },
-     {
-      "id": "e05b98fe-c4c4-4c53-b432-50227f4e6106",
-      "passed": false
-     },
-     {
-      "id": "e88f03cf-82ad-41d8-b3d7-e0969e10521a",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -15531,19 +15069,19 @@
     "google/gemini-4-argon": [
      1,
      1,
-     0.0
+     0.6395348837209303
     ],
     "z-ai/glm-5.3-flash": [
      4,
      0,
-     0.0
+     0.20639534883720928
     ]
    },
    "argon": {
     "graded": 1,
     "passed": 1,
     "rate": 1.0,
-    "score": 0.0
+    "score": 0.6395348837209303
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -15564,35 +15102,15 @@
    },
    "p_hard": 0.7530758902559513,
    "evidence": 5,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 1,
    "gemini_passed": 1,
    "gemini_rate": 1.0,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "a50948ed-3bf0-4336-b08d-71acaec8a1b8",
-      "passed": false
-     },
-     {
-      "id": "41f7ae17-642e-464d-8159-32c53534aca3",
-      "passed": false
-     },
-     {
-      "id": "80c66fa3-4185-46a0-91d4-53b5a745fcc0",
-      "passed": false
-     },
-     {
-      "id": "954da408-7863-4599-9935-45a140705804",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -16059,19 +15577,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      3,
-     0.0
+     0.6
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -16092,39 +15610,15 @@
    },
    "p_hard": 0.11798250186406532,
    "evidence": 7,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "376e7c36-fb23-4226-ac81-89f3569d4cd6",
-      "passed": false
-     },
-     {
-      "id": "4c4758cc-bdf7-4ec6-a210-60b95171b157",
-      "passed": true
-     },
-     {
-      "id": "213ed798-8624-444c-ac10-501486d1d75f",
-      "passed": false
-     },
-     {
-      "id": "0bdcf716-8862-4e6e-b70f-8cb4d409f4be",
-      "passed": true
-     },
-     {
-      "id": "51690995-6d7c-4967-8bc7-4b0add9cb1c9",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -16299,15 +15793,10 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
     "claude-opus-5-5": [
      2,
      1,
-     0.0
+     0.5
     ],
     "google/gemini-3.8-flash": [
      6,
@@ -16315,12 +15804,7 @@
      0.0
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "claude-opus-5-5": [
      2,
@@ -16335,15 +15819,15 @@
    },
    "argon_snap": null,
    "p_hard": 0.8516891571595614,
-   "evidence": 9,
-   "status": "gem5",
-   "gemini_graded": 7,
-   "gemini_passed": 1,
-   "gemini_rate": 0.14285714285714285,
+   "evidence": 8,
+   "status": "predicted",
+   "gemini_graded": 6,
+   "gemini_passed": 0,
+   "gemini_rate": 0.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -16466,25 +15950,10 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "abyss-pro": [
-     1,
-     0,
-     0.0
-    ],
-    "levanter": [
-     1,
-     1,
-     0.0
-    ],
-    "abyss": [
-     1,
-     0,
-     0.0
-    ],
     "google/gemini-4-argon": [
      1,
      1,
-     0.0
+     1.0
     ],
     "helm": [
      1,
@@ -16499,14 +15968,14 @@
     "google/gemini-3.8-flash": [
      6,
      1,
-     0.0
+     0.16666666666666666
     ]
    },
    "argon": {
     "graded": 1,
     "passed": 1,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -16536,44 +16005,16 @@
     "rate": 1.0
    },
    "p_hard": 0.5346827708025015,
-   "evidence": 17,
-   "status": "gem5",
+   "evidence": 14,
+   "status": "cleared",
    "gemini_graded": 7,
    "gemini_passed": 2,
    "gemini_rate": 0.2857142857142857,
-   "solved_by_other": true,
+   "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "85448617-e743-4a09-8a3a-3eb0105dfa26",
-      "passed": false
-     },
-     {
-      "id": "6f2355e2-592e-4452-af75-259efa4b115d",
-      "passed": false
-     },
-     {
-      "id": "9bdb9e56-c983-44b7-86c6-215202594a2c",
-      "passed": false
-     },
-     {
-      "id": "bc83b8e9-2608-4b40-835c-0793e970e968",
-      "passed": false
-     },
-     {
-      "id": "8ebc1741-9784-4ec8-839d-eecacb34da4f",
-      "passed": false
-     },
-     {
-      "id": "cf3e0a9d-436a-492b-a125-417815981fde",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -17455,19 +16896,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      2,
-     0.0
+     0.29452
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -17488,39 +16929,15 @@
    },
    "p_hard": 0.48741865805511675,
    "evidence": 7,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "ac4f4a1a-65db-40fa-89b3-502351d4c753",
-      "passed": true
-     },
-     {
-      "id": "0785fe96-2a12-4d4d-b710-d8ae2b55bfa7",
-      "passed": false
-     },
-     {
-      "id": "6bd3bfba-2040-4576-8ebf-ae2ecc4a98a9",
-      "passed": false
-     },
-     {
-      "id": "297049f9-0bc7-4270-a485-60524b902c37",
-      "passed": false
-     },
-     {
-      "id": "c6f4b35b-acc6-4f1c-afbf-52f95947c0d5",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -17822,21 +17239,21 @@
    "old_shortlist": 77,
    "models": {
     "google/gemini-4-argon": [
-     3,
-     3,
-     0.0
+     2,
+     2,
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      2,
-     0.0
+     0.4
     ]
    },
    "argon": {
-    "graded": 3,
-    "passed": 3,
+    "graded": 2,
+    "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -17856,40 +17273,16 @@
     "rate": 1.0
    },
    "p_hard": 0.20228208954771462,
-   "evidence": 8,
-   "status": "gem5",
-   "gemini_graded": 3,
-   "gemini_passed": 3,
+   "evidence": 7,
+   "status": "cleared",
+   "gemini_graded": 2,
+   "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "ea47daa1-cd69-4a21-aad1-f06bd8279a0e",
-      "passed": false
-     },
-     {
-      "id": "70b77be7-2274-4a8f-8157-2ad6839cc956",
-      "passed": false
-     },
-     {
-      "id": "44cc2da1-d11d-484e-97a0-ebe24bc1b317",
-      "passed": true
-     },
-     {
-      "id": "9caabb24-0125-429d-ad54-0960514ac751",
-      "passed": true
-     },
-     {
-      "id": "3316baf8-a16f-401e-aeaa-39391048b921",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -18101,19 +17494,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      7,
      1,
-     0.0
+     0.14285714285714285
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -18134,14 +17527,14 @@
    },
    "p_hard": 0.3454875100725221,
    "evidence": 9,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -18384,19 +17777,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      5,
-     0.0
+     0.625
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -18417,14 +17810,14 @@
    },
    "p_hard": 0.3429931401371973,
    "evidence": 10,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -18922,7 +18315,7 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "claude-opus-5-5": [
      2,
@@ -18939,7 +18332,7 @@
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "helm": [
@@ -18970,14 +18363,14 @@
    },
    "p_hard": 0.8516891571595614,
    "evidence": 11,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 8,
    "gemini_passed": 2,
    "gemini_rate": 0.25,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -18996,19 +18389,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      5,
-     0.0
+     0.98284
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -19029,39 +18422,15 @@
    },
    "p_hard": 0.11798250186406532,
    "evidence": 7,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "de55c0ca-e234-4931-8ed7-115c9f05c16e",
-      "passed": true
-     },
-     {
-      "id": "2fd6c998-eec8-4a57-902e-5ff786dc36f1",
-      "passed": true
-     },
-     {
-      "id": "5a3f038b-66a5-4505-ba3f-5a03381f92ec",
-      "passed": true
-     },
-     {
-      "id": "01b2bbf1-d420-41a5-8fee-e43fd6e5ecea",
-      "passed": true
-     },
-     {
-      "id": "b31a1133-b4e9-4b92-8547-b519622615da",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -19661,23 +19030,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
     "z-ai/glm-5.3": [
      6,
      0,
      0.0
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "z-ai/glm-5.3": [
      6,
@@ -19687,15 +19046,15 @@
    },
    "argon_snap": null,
    "p_hard": 0.301140030114003,
-   "evidence": 7,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 6,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -22680,19 +22039,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      7,
-     0.0
+     0.875
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -22713,14 +22072,14 @@
    },
    "p_hard": 0.3429931401371973,
    "evidence": 10,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -23238,23 +22597,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
     "z-ai/glm-5.3-flash": [
      5,
      1,
-     0.0
+     0.2
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "z-ai/glm-5.3-flash": [
      5,
@@ -23264,40 +22613,16 @@
    },
    "argon_snap": null,
    "p_hard": 0.20228208954771462,
-   "evidence": 6,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 5,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "744afa91-884f-4823-a668-abdfec8e597a",
-      "passed": false
-     },
-     {
-      "id": "69fb2f0d-1235-4cb6-9935-fff1c4586e1c",
-      "passed": false
-     },
-     {
-      "id": "26c00d2b-3e5a-4625-8031-eb0fc0c71822",
-      "passed": true
-     },
-     {
-      "id": "266af956-a1df-4de0-bdce-d857aa5b3605",
-      "passed": false
-     },
-     {
-      "id": "b9ef3432-414f-4274-a980-dd553ca03301",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -23614,38 +22939,13 @@
    "shortlist_no": 74,
    "old_shortlist": 87,
    "models": {
-    "abyss-pro": [
-     1,
-     0,
-     0.0
-    ],
-    "levanter": [
-     1,
-     0,
-     0.0
-    ],
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
-    "abyss": [
-     1,
-     0,
-     0.0
-    ],
     "helm": [
      1,
      0,
      0.0
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "helm": [
      1,
@@ -23655,15 +22955,15 @@
    },
    "argon_snap": null,
    "p_hard": 0.301140030114003,
-   "evidence": 5,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 1,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -23771,27 +23071,22 @@
    "shortlist_no": 23,
    "old_shortlist": 25,
    "models": {
-    "google/gemini-3.8-flash": [
-     5,
-     3,
-     0.0
-    ],
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      4,
-     0.0
+     0.5
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -23811,15 +23106,15 @@
     "rate": 1.0
    },
    "p_hard": 0.3454875100725221,
-   "evidence": 15,
-   "status": "gem5",
-   "gemini_graded": 7,
-   "gemini_passed": 5,
-   "gemini_rate": 0.7142857142857143,
+   "evidence": 10,
+   "status": "cleared",
+   "gemini_graded": 2,
+   "gemini_passed": 2,
+   "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -24038,19 +23333,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      4,
      3,
-     0.0
+     0.731825
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -24071,35 +23366,15 @@
    },
    "p_hard": 0.11798250186406532,
    "evidence": 6,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "caedee40-7669-4afb-8eed-68930905051a",
-      "passed": true
-     },
-     {
-      "id": "6213c941-de7f-418a-8ff3-7ec8fa3234ef",
-      "passed": false
-     },
-     {
-      "id": "c7a3c049-5581-441d-96f8-448cd33db0ef",
-      "passed": true
-     },
-     {
-      "id": "2c4e1bf4-9164-4b09-97df-2a71cb8329fe",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -24145,19 +23420,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      6,
-     0.0
+     0.75
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -24178,14 +23453,14 @@
    },
    "p_hard": 0.3429931401371973,
    "evidence": 10,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -24565,37 +23840,22 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "abyss-pro": [
-     1,
-     0,
-     0.0
-    ],
-    "levanter": [
-     1,
-     0,
-     0.0
-    ],
-    "abyss": [
-     1,
-     0,
-     0.0
-    ],
     "google/gemini-4-argon": [
      1,
      1,
-     0.0
+     1.0
     ],
     "google/gemini-3.8-flash": [
      6,
      1,
-     0.0
+     0.16666666666666666
     ]
    },
    "argon": {
     "graded": 1,
     "passed": 1,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -24615,15 +23875,15 @@
     "rate": 1.0
    },
    "p_hard": 0.37368210329641,
-   "evidence": 10,
-   "status": "gem5",
+   "evidence": 7,
+   "status": "cleared",
    "gemini_graded": 7,
    "gemini_passed": 2,
    "gemini_rate": 0.2857142857142857,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -24870,19 +24130,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     0.9086021505376345
     ],
     "z-ai/glm-5.3-flash": [
      3,
      0,
-     0.0
+     0.16487455197132617
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 0.9086021505376345
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -24903,31 +24163,15 @@
    },
    "p_hard": 0.7530758902559513,
    "evidence": 5,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "71637530-0f11-4aeb-b815-c673a2a8b6e5",
-      "passed": false
-     },
-     {
-      "id": "0b32bc04-c0b0-44ec-855c-2ff76f2892a2",
-      "passed": false
-     },
-     {
-      "id": "8752d8d9-c0c2-435f-ba42-af42195ea4d2",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -25643,19 +24887,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      5,
-     0.0
+     0.625
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -25676,14 +24920,14 @@
    },
    "p_hard": 0.617719731733145,
    "evidence": 10,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -26042,19 +25286,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      4,
-     0.0
+     0.5
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -26075,14 +25319,14 @@
    },
    "p_hard": 0.617719731733145,
    "evidence": 10,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -26948,23 +26192,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
     "z-ai/glm-5.3-flash": [
      5,
      2,
-     0.0
+     0.4
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "z-ai/glm-5.3-flash": [
      5,
@@ -26974,40 +26208,16 @@
    },
    "argon_snap": null,
    "p_hard": 0.20228208954771462,
-   "evidence": 6,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 5,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "b2f4055a-232e-4952-90d9-8da6a4baa451",
-      "passed": false
-     },
-     {
-      "id": "389a671e-7771-4a4e-bb70-bc473c80d81b",
-      "passed": false
-     },
-     {
-      "id": "76f58d90-6f12-4a43-bf5e-1ef06bad76a1",
-      "passed": true
-     },
-     {
-      "id": "a6796d86-663a-4efe-a74e-7f4a4be88e2a",
-      "passed": true
-     },
-     {
-      "id": "66accab8-7cba-44c5-b13f-8218d78474e1",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -27859,19 +27069,19 @@
     "google/gemini-4-argon": [
      5,
      5,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      4,
      2,
-     0.0
+     0.5
     ]
    },
    "argon": {
     "graded": 5,
     "passed": 5,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -27892,35 +27102,15 @@
    },
    "p_hard": 0.2928026899518999,
    "evidence": 9,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 5,
    "gemini_passed": 5,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "db9a0486-3eed-4808-95f0-2858b6186b09",
-      "passed": false
-     },
-     {
-      "id": "9cbf158b-7dc6-488b-bce1-8b8005529041",
-      "passed": false
-     },
-     {
-      "id": "5f27685d-3fab-4cac-8439-65810571a15c",
-      "passed": true
-     },
-     {
-      "id": "66508f3e-6c7f-425d-a7af-c81c61b12322",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -28307,7 +27497,7 @@
     "google/gemini-4-argon": [
      1,
      1,
-     0.0
+     1.0
     ],
     "helm": [
      1,
@@ -28317,14 +27507,14 @@
     "z-ai/glm-5.3-flash": [
      5,
      1,
-     0.0
+     0.2
     ]
    },
    "argon": {
     "graded": 1,
     "passed": 1,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-3.8-flash": [
@@ -28355,39 +27545,15 @@
    },
    "p_hard": 0.3002728867232056,
    "evidence": 8,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 1,
    "gemini_rate": 0.5,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "cde23d9e-4a75-4478-8e44-6444052e054e",
-      "passed": false
-     },
-     {
-      "id": "83b55065-846e-462b-822e-e6f43763b088",
-      "passed": true
-     },
-     {
-      "id": "75e6f0ea-192f-4192-bb8a-f517d8f5d47d",
-      "passed": false
-     },
-     {
-      "id": "12d55253-5919-4904-bb00-210ba68b89b9",
-      "passed": false
-     },
-     {
-      "id": "5a406246-4d54-4652-8e19-dea49266c1b3",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -28698,27 +27864,22 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "z-ai/glm-5.3-flash": [
-     4,
-     4,
-     0.0
-    ],
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      7,
-     0.0
+     0.875
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -28738,36 +27899,16 @@
     "rate": 1.0
    },
    "p_hard": 0.3429931401371973,
-   "evidence": 14,
-   "status": "gem5",
+   "evidence": 10,
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "dc700c1a-c1f1-4681-a7a4-6b642f65ff1e",
-      "passed": true
-     },
-     {
-      "id": "43afff0d-e64c-469d-a7a2-4a81ac928871",
-      "passed": true
-     },
-     {
-      "id": "ebc86fb2-732b-4171-8e86-1d6b57731ecc",
-      "passed": true
-     },
-     {
-      "id": "84be9b65-cb9c-428d-a20f-7dea92728fc9",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -29044,38 +28185,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "abyss-pro": [
-     1,
-     0,
-     0.0
-    ],
-    "levanter": [
-     1,
-     0,
-     0.0
-    ],
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
-    "abyss": [
-     1,
-     0,
-     0.0
-    ],
     "z-ai/glm-5.3-flash": [
      5,
      1,
-     0.0
+     0.2
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "z-ai/glm-5.3-flash": [
      5,
@@ -29085,40 +28201,16 @@
    },
    "argon_snap": null,
    "p_hard": 0.20228208954771462,
-   "evidence": 9,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 5,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "70ada3dc-2b66-48b1-b02d-6c282982cb8f",
-      "passed": false
-     },
-     {
-      "id": "4ffaea54-52bf-4129-88d9-0eedf99b6123",
-      "passed": false
-     },
-     {
-      "id": "fc994fa6-e4a4-4722-9fdf-8db63174a46a",
-      "passed": false
-     },
-     {
-      "id": "926f4932-4cf7-432f-8bad-ce50fc0eb8cf",
-      "passed": false
-     },
-     {
-      "id": "1a148100-7196-4ba7-a63b-277b0aeb88c7",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -29768,27 +28860,22 @@
    "shortlist_no": 6,
    "old_shortlist": 6,
    "models": {
-    "google/gemini-3.8-flash": [
-     4,
-     0,
-     0.0
-    ],
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      2,
-     0.0
+     0.25
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -29808,15 +28895,15 @@
     "rate": 1.0
    },
    "p_hard": 0.3429931401371973,
-   "evidence": 14,
-   "status": "gem5",
-   "gemini_graded": 6,
+   "evidence": 10,
+   "status": "cleared",
+   "gemini_graded": 2,
    "gemini_passed": 2,
-   "gemini_rate": 0.3333333333333333,
+   "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -32306,27 +31393,22 @@
    "shortlist_no": 21,
    "old_shortlist": 23,
    "models": {
-    "z-ai/glm-5.3-flash": [
-     4,
-     3,
-     0.0
-    ],
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      3,
-     0.0
+     0.375
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -32346,36 +31428,16 @@
     "rate": 1.0
    },
    "p_hard": 0.3429931401371973,
-   "evidence": 14,
-   "status": "gem5",
+   "evidence": 10,
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "2bc3ef02-d11d-4ba2-83a6-82a41af8af7e",
-      "passed": true
-     },
-     {
-      "id": "ecb4d4d9-2427-4600-9fd7-dc229ba418ef",
-      "passed": true
-     },
-     {
-      "id": "835b1974-95f2-497d-956c-f320f84f1120",
-      "passed": true
-     },
-     {
-      "id": "49b722a2-a850-4ef4-8460-2b423da9a5c5",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -33525,19 +32587,19 @@
     "google/gemini-4-argon": [
      5,
      5,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      6,
      2,
-     0.0
+     0.3333333333333333
     ]
    },
    "argon": {
     "graded": 5,
     "passed": 5,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -33558,43 +32620,15 @@
    },
    "p_hard": 0.49017972377607627,
    "evidence": 11,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 5,
    "gemini_passed": 5,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "8171b9c8-b878-4d07-8372-691cf336ff90",
-      "passed": false
-     },
-     {
-      "id": "59cc28fc-64f9-4656-9c67-a5a742bed9ea",
-      "passed": false
-     },
-     {
-      "id": "d2a92604-dcf9-4c37-bffa-a2f919dd4ea2",
-      "passed": false
-     },
-     {
-      "id": "e1c211e4-0f95-465a-9ce1-7afc7dc7b412",
-      "passed": true
-     },
-     {
-      "id": "cc775286-7d49-4d2f-a797-6d420130d1b8",
-      "passed": false
-     },
-     {
-      "id": "b19bb60f-d8cd-4a1e-bc6e-92c60d76c295",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -33609,23 +32643,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
     "z-ai/glm-5.3-flash": [
      5,
      1,
-     0.0
+     0.2
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "z-ai/glm-5.3-flash": [
      5,
@@ -33635,40 +32659,16 @@
    },
    "argon_snap": null,
    "p_hard": 0.20228208954771462,
-   "evidence": 6,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 5,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "e209e58f-ea89-4c63-a867-cef51fd91bfc",
-      "passed": true
-     },
-     {
-      "id": "c46d83ff-d2ac-46e7-9103-a714b2e604ff",
-      "passed": false
-     },
-     {
-      "id": "ded3e3a4-a3e8-423a-9e55-6791d05a107c",
-      "passed": false
-     },
-     {
-      "id": "ac70821c-5e5b-4a04-b076-f99343c88902",
-      "passed": false
-     },
-     {
-      "id": "b339b556-3d17-4797-871d-faff61ad0653",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -34577,6 +33577,33 @@
      }
     ]
    },
+   "flash_borrowed": null
+  },
+  {
+   "id": "35ec046a-4f6f-4db6-ab1e-14bbff403bf7",
+   "name": "sklearn-metrics-perf-optimization",
+   "catalog": "Optimization",
+   "domain": "Scientific & ML software",
+   "category": "Machine learning & MLOps",
+   "language": "Python",
+   "batch": "alpharecon-optimization",
+   "in_catalog": true,
+   "shortlist_no": null,
+   "old_shortlist": null,
+   "models": {},
+   "argon": null,
+   "models_snap": {},
+   "argon_snap": null,
+   "p_hard": null,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
+   "solved_by_other": false,
+   "sample": "",
+   "sample_order": null,
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -35542,19 +34569,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      1,
-     0.0
+     0.125
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -35575,14 +34602,14 @@
    },
    "p_hard": 0.3429931401371973,
    "evidence": 10,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -37425,19 +36452,19 @@
     "google/gemini-4-argon": [
      1,
      1,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      7,
      2,
-     0.0
+     0.2285142857142857
     ]
    },
    "argon": {
     "graded": 1,
     "passed": 1,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -37458,47 +36485,15 @@
    },
    "p_hard": 0.20228208954771462,
    "evidence": 8,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 1,
    "gemini_passed": 1,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "d2d22ba7-96ac-4d50-8a13-390cab5c4bc5",
-      "passed": false
-     },
-     {
-      "id": "5cbb2f3f-569d-4b01-8973-8c2faa65f9a9",
-      "passed": false
-     },
-     {
-      "id": "4af0a29a-1a97-4222-ac02-a793e5383380",
-      "passed": false
-     },
-     {
-      "id": "c84d9a1c-28a9-4897-86b7-138e37172253",
-      "passed": true
-     },
-     {
-      "id": "9ab19fc3-7839-49cc-afba-c65bba280bf4",
-      "passed": true
-     },
-     {
-      "id": "16284987-4275-4e75-b0ee-81058696dcc5",
-      "passed": false
-     },
-     {
-      "id": "b907b068-2582-435d-97df-a790b678d625",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -37516,19 +36511,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      3,
-     0.0
+     0.375
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -37549,14 +36544,14 @@
    },
    "p_hard": 0.3429931401371973,
    "evidence": 10,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -38693,31 +37688,20 @@
    "in_catalog": true,
    "shortlist_no": 79,
    "old_shortlist": 92,
-   "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ]
-   },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "models": {},
+   "argon": null,
    "models_snap": {},
    "argon_snap": null,
    "p_hard": 0.301140030114003,
-   "evidence": 1,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 0,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -38732,31 +37716,20 @@
    "in_catalog": true,
    "shortlist_no": 76,
    "old_shortlist": 89,
-   "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ]
-   },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "models": {},
+   "argon": null,
    "models_snap": {},
    "argon_snap": null,
    "p_hard": 0.301140030114003,
-   "evidence": 1,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 0,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -39568,23 +38541,13 @@
    "shortlist_no": 66,
    "old_shortlist": 79,
    "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
     "z-ai/glm-5.3-flash": [
      5,
      2,
-     0.0
+     0.4
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "z-ai/glm-5.3-flash": [
      5,
@@ -39594,40 +38557,16 @@
    },
    "argon_snap": null,
    "p_hard": 0.20228208954771462,
-   "evidence": 6,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 5,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "94b4ff2d-b594-4c77-b35f-91f226cf7e71",
-      "passed": false
-     },
-     {
-      "id": "8324394b-345a-4104-9ed3-47c0aa13d34c",
-      "passed": true
-     },
-     {
-      "id": "5c03f89e-82ab-43a4-a0a9-729a547367c7",
-      "passed": false
-     },
-     {
-      "id": "2576ad44-2020-4851-873f-8ff51ad913d9",
-      "passed": true
-     },
-     {
-      "id": "6a6ab77d-914b-417b-9dd2-41a8df080faa",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -39909,19 +38848,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     0.6991935483870968
     ],
     "z-ai/glm-5.3-flash": [
      4,
      0,
-     0.0
+     0.04838709677419355
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 0.6991935483870968
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -39942,35 +38881,15 @@
    },
    "p_hard": 0.7530758902559513,
    "evidence": 6,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "0098788b-8341-4af5-a0e1-1df9938828f1",
-      "passed": false
-     },
-     {
-      "id": "11f66dc1-4d70-4a7b-bc2c-89603557169b",
-      "passed": false
-     },
-     {
-      "id": "0d8205ad-967d-460a-a83c-ad19faa709b9",
-      "passed": false
-     },
-     {
-      "id": "c810fe31-ca20-4549-bc45-6715a224ec92",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -40212,34 +39131,34 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "gpt-6-astra": [
      1,
      1,
-     0.0
+     1.0
     ],
     "claude-opus-5-5": [
      1,
      1,
-     0.0
+     1.0
     ],
     "google/gemini-3.8-flash": [
      3,
      3,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      5,
-     0.0
+     0.625
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -40275,14 +39194,14 @@
    },
    "p_hard": 0.42225778653206936,
    "evidence": 15,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 5,
    "gemini_passed": 5,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -40833,27 +39752,22 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "google/gemini-3.8-flash": [
-     5,
-     5,
-     0.0
-    ],
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      7,
      3,
-     0.0
+     0.42857142857142855
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -40873,48 +39787,16 @@
     "rate": 1.0
    },
    "p_hard": 0.23700848125927756,
-   "evidence": 14,
-   "status": "gem5",
-   "gemini_graded": 7,
-   "gemini_passed": 7,
+   "evidence": 9,
+   "status": "cleared",
+   "gemini_graded": 2,
+   "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "a59e8049-0c7f-448f-bc58-1854d46f8fcd",
-      "passed": true
-     },
-     {
-      "id": "de761a90-9a9e-47a0-9a2a-6d0866203e69",
-      "passed": false
-     },
-     {
-      "id": "6aa911c9-8819-4bfe-a0b6-6414b9b60d10",
-      "passed": false
-     },
-     {
-      "id": "36cb7ee6-3a0b-4b58-b73e-1db1e722a2f5",
-      "passed": true
-     },
-     {
-      "id": "60b63470-2c40-4c6a-b43c-5d68b220f8e2",
-      "passed": false
-     },
-     {
-      "id": "a979ece8-7e97-4e6c-9fd1-23ee12d685f0",
-      "passed": false
-     },
-     {
-      "id": "d1380960-f0ba-4d7d-b494-04f095d4ba89",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -41591,6 +40473,33 @@
    "argon_snap": null,
    "p_hard": 0.6129378127233739,
    "evidence": 0,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
+   "solved_by_other": false,
+   "sample": "",
+   "sample_order": null,
+   "tier": "",
+   "glm": null,
+   "flash_borrowed": null
+  },
+  {
+   "id": "b0f6f421-ad76-4b75-9ebd-f6612d733556",
+   "name": "sklearn-perf-optimization",
+   "catalog": "Optimization",
+   "domain": "Scientific & ML software",
+   "category": "Machine learning & MLOps",
+   "language": "Python",
+   "batch": "alpharecon-optimization",
+   "in_catalog": true,
+   "shortlist_no": null,
+   "old_shortlist": null,
+   "models": {},
+   "argon": null,
+   "models_snap": {},
+   "argon_snap": null,
+   "p_hard": null,
    "status": null,
    "gemini_graded": 0,
    "gemini_passed": 0,
@@ -43057,21 +41966,21 @@
    "old_shortlist": 72,
    "models": {
     "google/gemini-4-argon": [
-     3,
-     3,
-     0.0
+     2,
+     2,
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      1,
-     0.0
+     0.2
     ]
    },
    "argon": {
-    "graded": 3,
-    "passed": 3,
+    "graded": 2,
+    "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -43091,40 +42000,16 @@
     "rate": 1.0
    },
    "p_hard": 0.20228208954771462,
-   "evidence": 8,
-   "status": "gem5",
-   "gemini_graded": 3,
-   "gemini_passed": 3,
+   "evidence": 7,
+   "status": "cleared",
+   "gemini_graded": 2,
+   "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "aea8ced5-1249-4d65-b974-cad42153f026",
-      "passed": false
-     },
-     {
-      "id": "b750c051-6000-492b-9818-6300a2c79d95",
-      "passed": false
-     },
-     {
-      "id": "2f30f43e-889c-453b-853b-cac81bb4c8a6",
-      "passed": false
-     },
-     {
-      "id": "81241870-3b39-49f3-b7d5-a669eac7d52e",
-      "passed": false
-     },
-     {
-      "id": "cb49b024-0a63-4582-a0c9-00c6f4b4d832",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -43182,19 +42067,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      1,
-     0.0
+     0.125
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -43215,14 +42100,14 @@
    },
    "p_hard": 0.3429931401371973,
    "evidence": 10,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -43907,19 +42792,19 @@
     "google/gemini-4-argon": [
      5,
      5,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      4,
      1,
-     0.0
+     0.25
     ]
    },
    "argon": {
     "graded": 5,
     "passed": 5,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -43940,35 +42825,15 @@
    },
    "p_hard": 0.49017972377607627,
    "evidence": 9,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 5,
    "gemini_passed": 5,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "e58600ea-21c0-419b-a66e-ed36d344d49e",
-      "passed": false
-     },
-     {
-      "id": "dd6c51e3-a9f2-4e45-be3e-6908a9bbd6ba",
-      "passed": true
-     },
-     {
-      "id": "ea282b2c-d22f-476f-a18b-15fc972dbc2c",
-      "passed": false
-     },
-     {
-      "id": "2fc913ab-5a51-4676-bb7f-b4d921779edb",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -44426,9 +43291,9 @@
    "old_shortlist": null,
    "models": {
     "google/gemini-4-argon": [
-     3,
-     3,
-     0.0
+     2,
+     2,
+     1.0
     ],
     "google/gemini-3.8-flash": [
      6,
@@ -44437,10 +43302,10 @@
     ]
    },
    "argon": {
-    "graded": 3,
-    "passed": 3,
+    "graded": 2,
+    "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -44460,15 +43325,15 @@
     "rate": 1.0
    },
    "p_hard": 0.42170406780125136,
-   "evidence": 9,
-   "status": "gem5",
-   "gemini_graded": 9,
-   "gemini_passed": 3,
-   "gemini_rate": 0.3333333333333333,
+   "evidence": 8,
+   "status": "cleared",
+   "gemini_graded": 8,
+   "gemini_passed": 2,
+   "gemini_rate": 0.25,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -45006,7 +43871,7 @@
     "google/gemini-4-argon": [
      1,
      1,
-     0.0
+     1.0
     ],
     "helm": [
      1,
@@ -45016,14 +43881,14 @@
     "z-ai/glm-5.3-flash": [
      5,
      1,
-     0.0
+     0.2
     ]
    },
    "argon": {
     "graded": 1,
     "passed": 1,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-3.8-flash": [
@@ -45054,39 +43919,15 @@
    },
    "p_hard": 0.3002728867232056,
    "evidence": 8,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 1,
    "gemini_rate": 0.5,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "3ae17a4b-c47f-4720-a89c-2fc760ca3f17",
-      "passed": false
-     },
-     {
-      "id": "7607305f-fced-4180-8f96-df5533bc2141",
-      "passed": false
-     },
-     {
-      "id": "9e3cb8a5-6ada-49d3-82f3-65b6bdaaf45c",
-      "passed": false
-     },
-     {
-      "id": "42385b47-5ee7-47a8-a370-833f89d32bcb",
-      "passed": false
-     },
-     {
-      "id": "a85a7d1f-65b4-4bf0-9d72-98abbb7d8fa6",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -46837,23 +45678,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
     "z-ai/glm-5.3-flash": [
      5,
      2,
-     0.0
+     0.5363800000000001
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "z-ai/glm-5.3-flash": [
      5,
@@ -46863,40 +45694,16 @@
    },
    "argon_snap": null,
    "p_hard": 0.48741865805511675,
-   "evidence": 6,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 5,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "cb64c7be-481e-4a71-afb3-f17a3fecba2a",
-      "passed": true
-     },
-     {
-      "id": "34836380-1d8c-4501-808a-9eb1ab5a6178",
-      "passed": true
-     },
-     {
-      "id": "fd526e6b-0490-4fc9-a084-6802255c4608",
-      "passed": false
-     },
-     {
-      "id": "a9b72b0a-12de-4bc9-a8da-9993e7e87341",
-      "passed": false
-     },
-     {
-      "id": "3e3fb615-43d9-4f5e-8b21-1e9548e4f206",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -47201,7 +46008,7 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      6,
@@ -47213,7 +46020,7 @@
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "helm": [
@@ -47239,43 +46046,15 @@
    },
    "p_hard": 0.45351756446116753,
    "evidence": 9,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "fc4561b9-22c1-46a0-9370-0578a238b405",
-      "passed": false
-     },
-     {
-      "id": "5c985761-3924-4ca6-9237-6ffd266141dd",
-      "passed": false
-     },
-     {
-      "id": "da0d3f95-a187-4b85-8b49-d1e74103d6ca",
-      "passed": false
-     },
-     {
-      "id": "3f7abe68-bd4b-4fa3-b935-b914e52bd3b4",
-      "passed": false
-     },
-     {
-      "id": "dfccaa45-621c-456b-919c-f332b24254ae",
-      "passed": false
-     },
-     {
-      "id": "f417fe70-efbd-41c4-b225-443887452eca",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -47293,19 +46072,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      3,
-     0.0
+     0.6
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -47326,39 +46105,15 @@
    },
    "p_hard": 0.11798250186406532,
    "evidence": 7,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "da7e8bdd-a17a-43c5-bc2f-5d50c658d482",
-      "passed": true
-     },
-     {
-      "id": "0265bce8-64f2-47d7-87ce-5e166cb34a52",
-      "passed": true
-     },
-     {
-      "id": "f18d033d-c4c3-430c-9d86-5bdc452a98bb",
-      "passed": false
-     },
-     {
-      "id": "a9ecff66-9a7a-44b6-8552-ee8967c9e93c",
-      "passed": false
-     },
-     {
-      "id": "49ce35c8-7986-44e3-b98d-9cb7fb9f5a37",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -49126,7 +47881,7 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "google/gemini-3.8-flash": [
      6,
@@ -49138,7 +47893,7 @@
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -49159,14 +47914,14 @@
    },
    "p_hard": 0.8516891571595614,
    "evidence": 8,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 8,
    "gemini_passed": 2,
    "gemini_rate": 0.25,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -50292,23 +49047,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
     "z-ai/glm-5.3-flash": [
      5,
      1,
-     0.0
+     0.2
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "z-ai/glm-5.3-flash": [
      5,
@@ -50318,40 +49063,16 @@
    },
    "argon_snap": null,
    "p_hard": 0.20228208954771462,
-   "evidence": 6,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 5,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "7cfe8ac7-4bb7-4051-9afe-ffaa3a9f4ae9",
-      "passed": false
-     },
-     {
-      "id": "9515165b-9b46-418a-9117-e4ece26288af",
-      "passed": false
-     },
-     {
-      "id": "e0009f8a-4313-4618-b2a5-0654b831ed72",
-      "passed": false
-     },
-     {
-      "id": "8db8c70c-66dd-498b-8e35-f4f810088c90",
-      "passed": false
-     },
-     {
-      "id": "2c0919ae-8ff1-424f-b47a-0afee82627b3",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -51379,19 +50100,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      4,
-     0.0
+     0.8
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -51412,39 +50133,15 @@
    },
    "p_hard": 0.11798250186406532,
    "evidence": 7,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "0f242d10-7207-4fe7-b22e-a8146a05bd53",
-      "passed": true
-     },
-     {
-      "id": "5c45fe57-b91f-481c-9558-5fa12fdea3a6",
-      "passed": true
-     },
-     {
-      "id": "e61e6f73-54b5-4765-80b9-6c518a270ac1",
-      "passed": false
-     },
-     {
-      "id": "d6684bb7-d73d-4955-a909-6eb704295642",
-      "passed": true
-     },
-     {
-      "id": "93a6c982-01b5-48f5-899e-13598286e5a6",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -52907,19 +51604,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      6,
      5,
-     0.0
+     0.59005
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -52940,43 +51637,15 @@
    },
    "p_hard": 0.0984455874469976,
    "evidence": 8,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "96880ac7-beb2-4692-b1f0-b0d05f6e7d5a",
-      "passed": true
-     },
-     {
-      "id": "2e0ba8eb-5373-48cc-902a-c4bcfe3aa39f",
-      "passed": true
-     },
-     {
-      "id": "9c50f6bc-03e5-404a-a22f-97f064706d66",
-      "passed": true
-     },
-     {
-      "id": "2ec3911f-903d-42be-b90e-57faa741ae06",
-      "passed": false
-     },
-     {
-      "id": "4fc92264-3b82-446d-a98a-13e6987c63aa",
-      "passed": true
-     },
-     {
-      "id": "96a5d73f-55f5-4061-9c76-11009b835a5b",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -55419,19 +54088,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      3,
-     0.0
+     0.6
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -55452,39 +54121,15 @@
    },
    "p_hard": 0.0984455874469976,
    "evidence": 7,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "c703666b-7fd0-4c5a-b9b7-7e05f72fc3a0",
-      "passed": false
-     },
-     {
-      "id": "2094ab15-b6b8-43b2-8fe0-c1cef7a5fcc3",
-      "passed": true
-     },
-     {
-      "id": "f17ac7e5-0e43-4050-b17a-abf17e7346c7",
-      "passed": true
-     },
-     {
-      "id": "72e03644-83ee-4b90-bd2d-53facbdd35db",
-      "passed": true
-     },
-     {
-      "id": "62c3df1b-eca0-4e54-88f1-199a905df10e",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -55586,7 +54231,7 @@
     "google/gemini-4-argon": [
      1,
      1,
-     0.0
+     1.0
     ],
     "google/gemini-3.8-flash": [
      1,
@@ -55601,14 +54246,14 @@
     "z-ai/glm-5.3-flash": [
      5,
      1,
-     0.0
+     0.2
     ]
    },
    "argon": {
     "graded": 1,
     "passed": 1,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -55639,39 +54284,15 @@
    },
    "p_hard": 0.3002728867232056,
    "evidence": 8,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 1,
    "gemini_rate": 0.5,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "57058f86-5f69-43cf-91bc-88cf79bef713",
-      "passed": false
-     },
-     {
-      "id": "67b8356c-da8c-49d9-977a-33011c307cba",
-      "passed": true
-     },
-     {
-      "id": "d0fd6639-2447-43ac-9461-d1066354a59c",
-      "passed": false
-     },
-     {
-      "id": "65d7d908-ff0d-4c29-9c25-877d850777ff",
-      "passed": false
-     },
-     {
-      "id": "8bf10e46-b144-4788-b18e-af077e0bfbc7",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -55902,38 +54523,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "abyss-pro": [
-     1,
-     0,
-     0.0
-    ],
-    "levanter": [
-     1,
-     1,
-     0.0
-    ],
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
-    "abyss": [
-     1,
-     0,
-     0.0
-    ],
     "x-ai/grok-4.7": [
      8,
      3,
-     0.0
+     0.375
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "x-ai/grok-4.7": [
      8,
@@ -55943,15 +54539,15 @@
    },
    "argon_snap": null,
    "p_hard": 0.617719731733145,
-   "evidence": 12,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 8,
+   "status": "predicted",
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -56557,23 +55153,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
     "z-ai/glm-5.3-flash": [
      5,
      1,
-     0.0
+     0.2
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "z-ai/glm-5.3-flash": [
      5,
@@ -56583,40 +55169,16 @@
    },
    "argon_snap": null,
    "p_hard": 0.20228208954771462,
-   "evidence": 6,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 5,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "ec833422-8584-4355-b2af-48a738b6fb71",
-      "passed": false
-     },
-     {
-      "id": "d758b4ba-2fe6-4988-8334-f9bede565e52",
-      "passed": true
-     },
-     {
-      "id": "eed583c7-a509-479d-b9dd-96817c15b718",
-      "passed": false
-     },
-     {
-      "id": "cdd0966e-a0a4-4462-8261-93ef7acf6b93",
-      "passed": false
-     },
-     {
-      "id": "15c313b8-72a1-4d24-a1f4-830824c11b95",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -56639,7 +55201,7 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
@@ -56651,7 +55213,7 @@
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "helm": [
@@ -56677,39 +55239,15 @@
    },
    "p_hard": 0.45351756446116753,
    "evidence": 8,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "2051bea0-c76a-4d35-95a8-64191ccea8a0",
-      "passed": false
-     },
-     {
-      "id": "9ece74f9-3fae-4de7-abbf-17847bfd2115",
-      "passed": false
-     },
-     {
-      "id": "61a5157b-f7dd-4562-8732-7cff058e34a1",
-      "passed": false
-     },
-     {
-      "id": "80911fd3-f6ab-4fa5-802d-3f97a5b6bc93",
-      "passed": false
-     },
-     {
-      "id": "420646ba-72d9-411a-9ae7-b525511ae13a",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -57082,19 +55620,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      3,
-     0.0
+     0.6
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -57115,39 +55653,15 @@
    },
    "p_hard": 0.0984455874469976,
    "evidence": 7,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "4505faa7-7266-4dc6-8b15-a242711861ec",
-      "passed": false
-     },
-     {
-      "id": "c7ec404e-1831-486c-81e9-4f2916bd6c50",
-      "passed": true
-     },
-     {
-      "id": "1ce6b0d1-6fb2-414c-b1b1-842194db57ca",
-      "passed": false
-     },
-     {
-      "id": "57985727-a72c-46f3-abde-2669e32d539e",
-      "passed": true
-     },
-     {
-      "id": "173dd0c7-f657-4fca-b9d2-b5c9c27c0261",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -57163,21 +55677,21 @@
    "old_shortlist": 56,
    "models": {
     "google/gemini-4-argon": [
-     3,
-     3,
-     0.0
+     2,
+     2,
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      2,
-     0.0
+     0.4
     ]
    },
    "argon": {
-    "graded": 3,
-    "passed": 3,
+    "graded": 2,
+    "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -57197,40 +55711,16 @@
     "rate": 1.0
    },
    "p_hard": 0.20228208954771462,
-   "evidence": 8,
-   "status": "gem5",
-   "gemini_graded": 3,
-   "gemini_passed": 3,
+   "evidence": 7,
+   "status": "cleared",
+   "gemini_graded": 2,
+   "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "8a6ae2a4-1dfe-4885-a75a-d26d4818870b",
-      "passed": false
-     },
-     {
-      "id": "1cb16d65-60c2-45f0-a678-a97b8afc8f07",
-      "passed": false
-     },
-     {
-      "id": "bcfa877f-ff1b-4463-ad65-a5744ba6ddec",
-      "passed": true
-     },
-     {
-      "id": "a10b2034-da3b-4f7b-b680-e592a43e6b3c",
-      "passed": true
-     },
-     {
-      "id": "e6e682a4-62d0-4e92-8052-24c0b1a095ff",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -58594,19 +57084,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
      2,
-     0.0
+     0.4
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -58627,39 +57117,15 @@
    },
    "p_hard": 0.23700848125927756,
    "evidence": 7,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "478d9b91-d265-4eb2-9ff1-9489ae4e01f6",
-      "passed": true
-     },
-     {
-      "id": "a33389ed-32b2-40f7-9a1a-769aef499aca",
-      "passed": true
-     },
-     {
-      "id": "a0c53673-e494-4ebc-a455-c168be624b99",
-      "passed": false
-     },
-     {
-      "id": "05e1f374-3e84-40f5-a74b-8585e2a65c5a",
-      "passed": false
-     },
-     {
-      "id": "5b6d0944-5a59-4c4f-ab29-8b113fe987ab",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -58674,38 +57140,13 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "abyss-pro": [
-     1,
-     0,
-     0.0
-    ],
-    "levanter": [
-     1,
-     1,
-     0.0
-    ],
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
-    "abyss": [
-     1,
-     0,
-     0.0
-    ],
     "z-ai/glm-5.3-flash": [
      5,
      1,
-     0.0
+     0.2
     ]
    },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
+   "argon": null,
    "models_snap": {
     "z-ai/glm-5.3-flash": [
      5,
@@ -58715,40 +57156,16 @@
    },
    "argon_snap": null,
    "p_hard": 0.20228208954771462,
-   "evidence": 9,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
+   "evidence": 5,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "25adc149-2060-4163-8194-c568a6cd85d3",
-      "passed": false
-     },
-     {
-      "id": "33c1de30-c41a-4f49-8b6f-2b0f22c9f3f0",
-      "passed": false
-     },
-     {
-      "id": "163835c7-3932-44f1-ab65-225565db804d",
-      "passed": true
-     },
-     {
-      "id": "eefc9ee8-3205-4776-8afb-eab29bb0ed8a",
-      "passed": false
-     },
-     {
-      "id": "727da9fc-1f0a-4e5c-851a-24a27626f8bd",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -61072,25 +59489,10 @@
    "shortlist_no": null,
    "old_shortlist": null,
    "models": {
-    "abyss-pro": [
-     1,
-     0,
-     0.0
-    ],
-    "levanter": [
-     1,
-     1,
-     0.0
-    ],
-    "abyss": [
-     1,
-     0,
-     0.0
-    ],
     "google/gemini-4-argon": [
      1,
      1,
-     0.0
+     1.0
     ],
     "helm": [
      1,
@@ -61100,14 +59502,14 @@
     "google/gemini-3.8-flash": [
      6,
      1,
-     0.0
+     0.16666666666666666
     ]
    },
    "argon": {
     "graded": 1,
     "passed": 1,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -61132,15 +59534,15 @@
     "rate": 1.0
    },
    "p_hard": 0.37368210329641,
-   "evidence": 11,
-   "status": "gem5",
+   "evidence": 8,
+   "status": "cleared",
    "gemini_graded": 7,
    "gemini_passed": 2,
    "gemini_rate": 0.2857142857142857,
-   "solved_by_other": true,
+   "solved_by_other": false,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -61227,19 +59629,19 @@
     "google/gemini-4-argon": [
      2,
      2,
-     0.0
+     1.0
     ],
     "x-ai/grok-4.7": [
      8,
      3,
-     0.0
+     0.375
     ]
    },
    "argon": {
     "graded": 2,
     "passed": 2,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -61260,14 +59662,14 @@
    },
    "p_hard": 0.617719731733145,
    "evidence": 10,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 2,
    "gemini_passed": 2,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
+   "tier": "",
    "glm": null,
    "flash_borrowed": null
   },
@@ -61786,19 +60188,19 @@
     "google/gemini-4-argon": [
      5,
      5,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      4,
      4,
-     0.0
+     1.0
     ]
    },
    "argon": {
     "graded": 5,
     "passed": 5,
     "rate": 1.0,
-    "score": 0.0
+    "score": 1.0
    },
    "models_snap": {
     "google/gemini-4-argon": [
@@ -61819,35 +60221,15 @@
    },
    "p_hard": 0.2928026899518999,
    "evidence": 9,
-   "status": "gem5",
+   "status": "cleared",
    "gemini_graded": 5,
    "gemini_passed": 5,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "14af7d16-4cf4-4cfa-8847-065899d34925",
-      "passed": true
-     },
-     {
-      "id": "be56cae0-08b0-4f52-9e42-87f7e34da654",
-      "passed": true
-     },
-     {
-      "id": "aa55d8a7-8cea-4910-9c6f-3d62a378b8c9",
-      "passed": true
-     },
-     {
-      "id": "ce4d0854-33a3-4a0b-ac2a-b48ffd29394b",
-      "passed": true
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -62435,74 +60817,6 @@
      },
      {
       "id": "e262c9cd-dd1c-4b68-9c44-58c5e9ea4726",
-      "passed": false
-     }
-    ]
-   },
-   "flash_borrowed": null
-  },
-  {
-   "id": "13343686-5bd8-4c21-9491-5b23eca354a1",
-   "name": "whichllm-recommendation-core-v2-ots",
-   "catalog": "Diagnosis, Debugging, and Bug Fixing",
-   "domain": "Scientific & ML software",
-   "category": "Machine learning & MLOps",
-   "language": "Python",
-   "batch": null,
-   "in_catalog": true,
-   "shortlist_no": null,
-   "old_shortlist": null,
-   "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
-    "z-ai/glm-5.3-flash": [
-     5,
-     0,
-     0.0
-    ]
-   },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
-   "models_snap": {},
-   "argon_snap": null,
-   "p_hard": 0.301140030114003,
-   "evidence": 6,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
-   "solved_by_other": false,
-   "sample": "",
-   "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "e4d5cada-ff1a-4ae1-8071-76254f14631f",
-      "passed": false
-     },
-     {
-      "id": "0cf1b6ff-43b2-4e46-9737-544d0fb612e2",
-      "passed": false
-     },
-     {
-      "id": "82282dc2-4bea-4025-9ab3-cc0578985e7b",
-      "passed": false
-     },
-     {
-      "id": "79b9f66c-5200-4cc5-8ed1-f9d596890cf6",
-      "passed": false
-     },
-     {
-      "id": "e530aad2-e18f-4ff8-bfc7-cb9c3db13d62",
       "passed": false
      }
     ]
@@ -65466,100 +63780,6 @@
    "flash_borrowed": null
   },
   {
-   "id": "d0df956d-0050-4b32-8050-95b34dc71c60",
-   "name": "napalm-820a06b2-blind20-v2-ots",
-   "catalog": "Diagnosis, Debugging, and Bug Fixing",
-   "domain": "Systems, hardware & accelerators",
-   "category": "Networking & HTTP",
-   "language": "Python",
-   "batch": null,
-   "in_catalog": true,
-   "shortlist_no": null,
-   "old_shortlist": null,
-   "models": {
-    "abyss-pro": [
-     1,
-     0,
-     0.0
-    ],
-    "abyss": [
-     1,
-     0,
-     0.0
-    ],
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ],
-    "z-ai/glm-5.3-flash": [
-     9,
-     1,
-     0.0
-    ]
-   },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
-   "models_snap": {},
-   "argon_snap": null,
-   "p_hard": 0.301140030114003,
-   "evidence": 12,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
-   "solved_by_other": true,
-   "sample": "",
-   "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "1eb71a17-5a67-4826-863c-ac6961d425e5",
-      "passed": false
-     },
-     {
-      "id": "b990fbf2-1214-458b-b117-740ca44796b1",
-      "passed": false
-     },
-     {
-      "id": "34e36fc7-55ac-4e54-a1bd-fda02a527234",
-      "passed": false
-     },
-     {
-      "id": "c9608741-dadc-49e7-9746-42aba00b4b3c",
-      "passed": true
-     },
-     {
-      "id": "21f018c6-c58f-431a-819b-d9458f763166",
-      "passed": false
-     },
-     {
-      "id": "d9e6716a-ddd2-491d-b4b8-94a594b4cde4",
-      "passed": false
-     },
-     {
-      "id": "0d2c854e-de28-4a46-addb-c7a0c31ae84c",
-      "passed": false
-     },
-     {
-      "id": "54da8ae5-1c59-4f95-b0e1-f4ea9f7ab571",
-      "passed": false
-     },
-     {
-      "id": "aeb220c5-c52a-4ef3-b59f-4e6ae6f30b40",
-      "passed": false
-     }
-    ]
-   },
-   "flash_borrowed": null
-  },
-  {
    "id": "dd6cd05f-8317-4a35-bc44-6c0d53716261",
    "name": "isa-l-ebcec1ae-blind17",
    "catalog": "Diagnosis, Debugging, and Bug Fixing",
@@ -66101,45 +64321,6 @@
    "flash_borrowed": null
   },
   {
-   "id": "abe43578-63f3-4136-beae-465cd76da1bb",
-   "name": "telego-nullpair-v3",
-   "catalog": "Diagnosis, Debugging, and Bug Fixing",
-   "domain": "Languages & developer tooling",
-   "category": "API tooling",
-   "language": "Go",
-   "batch": null,
-   "in_catalog": true,
-   "shortlist_no": null,
-   "old_shortlist": null,
-   "models": {
-    "google/gemini-4-argon": [
-     1,
-     1,
-     0.0
-    ]
-   },
-   "argon": {
-    "graded": 1,
-    "passed": 1,
-    "rate": 1.0,
-    "score": 0.0
-   },
-   "models_snap": {},
-   "argon_snap": null,
-   "p_hard": 0.301140030114003,
-   "evidence": 1,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
-   "solved_by_other": false,
-   "sample": "",
-   "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": null,
-   "flash_borrowed": null
-  },
-  {
    "id": "b584b9f2-2219-41fe-a66d-b77381271586",
    "name": "tests-half-python-statemachine-pluggable-event-priority-a0cf",
    "catalog": "Feature implementation",
@@ -66183,78 +64364,6 @@
      },
      {
       "id": "30a5a359-3fba-4809-b6ec-a366e9ef3dc5",
-      "passed": false
-     }
-    ]
-   },
-   "flash_borrowed": null
-  },
-  {
-   "id": "cc4a1fe9-bda6-45f8-aaf4-5a8738e27452",
-   "name": "pdk-tyk-key-update-coherence",
-   "catalog": "System design",
-   "domain": "Security",
-   "category": "Secrets & access control",
-   "language": "Go",
-   "batch": null,
-   "in_catalog": true,
-   "shortlist_no": null,
-   "old_shortlist": null,
-   "models": {
-    "google/gemini-4-argon": [
-     5,
-     5,
-     0.0
-    ],
-    "z-ai/glm-5.3-flash": [
-     6,
-     3,
-     0.0
-    ]
-   },
-   "argon": {
-    "graded": 5,
-    "passed": 5,
-    "rate": 1.0,
-    "score": 0.0
-   },
-   "models_snap": {},
-   "argon_snap": null,
-   "p_hard": 0.6203256466188845,
-   "evidence": 11,
-   "status": "gem5",
-   "gemini_graded": 5,
-   "gemini_passed": 5,
-   "gemini_rate": 1.0,
-   "solved_by_other": true,
-   "sample": "",
-   "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "6f8a6cd1-5374-4f18-900c-b78b714fb171",
-      "passed": false
-     },
-     {
-      "id": "f49307a8-5e27-4a53-a2a6-d17c9759fbe7",
-      "passed": true
-     },
-     {
-      "id": "7a0df14e-eb01-481c-b069-6f2836fe34f8",
-      "passed": true
-     },
-     {
-      "id": "48391e0d-3d13-4d50-bd0c-38ff3d685188",
-      "passed": false
-     },
-     {
-      "id": "a5310185-6010-4477-a6a7-63545d7da4df",
-      "passed": true
-     },
-     {
-      "id": "02fbe277-8360-4e22-88c1-9f665afec58f",
       "passed": false
      }
     ]
@@ -67114,70 +65223,6 @@
      {
       "id": "0a2e743d-ddf5-47df-b361-8bf82d18c1d8",
       "passed": false
-     }
-    ]
-   },
-   "flash_borrowed": null
-  },
-  {
-   "id": "1d6c3cea-85f7-4b10-97d3-35d05aac8034",
-   "name": "pdk-zot-ns-byte-quota-upload-holds",
-   "catalog": "System design",
-   "domain": "Cloud infrastructure & IaC",
-   "category": "Cloud infra: containers & self-hosted platforms",
-   "language": "Go",
-   "batch": null,
-   "in_catalog": true,
-   "shortlist_no": null,
-   "old_shortlist": null,
-   "models": {
-    "google/gemini-4-argon": [
-     5,
-     5,
-     0.0
-    ],
-    "z-ai/glm-5.3-flash": [
-     4,
-     1,
-     0.0
-    ]
-   },
-   "argon": {
-    "graded": 5,
-    "passed": 5,
-    "rate": 1.0,
-    "score": 0.0
-   },
-   "models_snap": {},
-   "argon_snap": null,
-   "p_hard": 0.6203256466188845,
-   "evidence": 9,
-   "status": "gem5",
-   "gemini_graded": 5,
-   "gemini_passed": 5,
-   "gemini_rate": 1.0,
-   "solved_by_other": true,
-   "sample": "",
-   "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "119e9499-7f7e-4f28-be87-a807aecad49b",
-      "passed": false
-     },
-     {
-      "id": "cc10304c-dd40-46f0-a8d7-97f644d6d7ff",
-      "passed": false
-     },
-     {
-      "id": "1894b192-2ce2-4eb5-96d9-aac8d579c7df",
-      "passed": false
-     },
-     {
-      "id": "d121e986-2653-4204-9b8c-b971f8a7ce72",
-      "passed": true
      }
     ]
    },
@@ -68101,78 +66146,6 @@
    "flash_borrowed": null
   },
   {
-   "id": "4c4927c4-c5a9-4d39-a7c9-ecffd2530b6c",
-   "name": "pdk-opennext-multi-tier-cache-coherence",
-   "catalog": "System design",
-   "domain": "Cloud infrastructure & IaC",
-   "category": "Cloud infra: serverless & event-driven",
-   "language": "TypeScript",
-   "batch": null,
-   "in_catalog": true,
-   "shortlist_no": null,
-   "old_shortlist": null,
-   "models": {
-    "google/gemini-4-argon": [
-     5,
-     5,
-     0.0
-    ],
-    "z-ai/glm-5.3-flash": [
-     6,
-     2,
-     0.0
-    ]
-   },
-   "argon": {
-    "graded": 5,
-    "passed": 5,
-    "rate": 1.0,
-    "score": 0.0
-   },
-   "models_snap": {},
-   "argon_snap": null,
-   "p_hard": 0.6203256466188845,
-   "evidence": 11,
-   "status": "gem5",
-   "gemini_graded": 5,
-   "gemini_passed": 5,
-   "gemini_rate": 1.0,
-   "solved_by_other": true,
-   "sample": "",
-   "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "7d8238eb-1076-41f4-827e-e37c45aac63d",
-      "passed": false
-     },
-     {
-      "id": "c1b36186-9b29-42d9-9049-cd9336cc4d97",
-      "passed": true
-     },
-     {
-      "id": "9aed791b-eb67-49ef-ab3d-8fbd7c9ae154",
-      "passed": false
-     },
-     {
-      "id": "1c0fe5cc-9620-41f3-99cc-fabd06c6cb48",
-      "passed": false
-     },
-     {
-      "id": "f23bd994-a511-4adc-972c-ee93d4db27f0",
-      "passed": false
-     },
-     {
-      "id": "b2fb03cc-bf48-4ff5-a6fc-ab62104d4704",
-      "passed": true
-     }
-    ]
-   },
-   "flash_borrowed": null
-  },
-  {
    "id": "4ccee9c7-80ed-429f-8252-276e1b41e9ba",
    "name": "pkgconf__pkgconf.0c9e506",
    "catalog": "ProgramBench",
@@ -68850,70 +66823,6 @@
      },
      {
       "id": "0d5a1cdd-f1ed-4e21-a3ba-c3c4d0bd2d65",
-      "passed": false
-     }
-    ]
-   },
-   "flash_borrowed": null
-  },
-  {
-   "id": "6582d7b7-c362-4125-991a-acf5086829da",
-   "name": "pdk-saleor-checkout-fund-release",
-   "catalog": "System design",
-   "domain": "Applications & business domains",
-   "category": "Payments & banking",
-   "language": "Python",
-   "batch": null,
-   "in_catalog": true,
-   "shortlist_no": null,
-   "old_shortlist": null,
-   "models": {
-    "google/gemini-4-argon": [
-     5,
-     5,
-     0.0
-    ],
-    "z-ai/glm-5.3-flash": [
-     4,
-     1,
-     0.0
-    ]
-   },
-   "argon": {
-    "graded": 5,
-    "passed": 5,
-    "rate": 1.0,
-    "score": 0.0
-   },
-   "models_snap": {},
-   "argon_snap": null,
-   "p_hard": 0.6203256466188845,
-   "evidence": 9,
-   "status": "gem5",
-   "gemini_graded": 5,
-   "gemini_passed": 5,
-   "gemini_rate": 1.0,
-   "solved_by_other": true,
-   "sample": "",
-   "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "e7cb1b3a-5dbb-4046-8197-49d45bd1e791",
-      "passed": false
-     },
-     {
-      "id": "bb459da6-2dcd-4450-93aa-a17db63bebb0",
-      "passed": true
-     },
-     {
-      "id": "9dc7289f-bcfa-4bb8-9438-1233edfdf926",
-      "passed": false
-     },
-     {
-      "id": "ba4a4226-eab8-4fdc-95f0-e13a4876ab09",
       "passed": false
      }
     ]
@@ -70173,78 +68082,6 @@
      },
      {
       "id": "eeb0dcf2-730a-4f61-beb9-24d81b522c1c",
-      "passed": false
-     }
-    ]
-   },
-   "flash_borrowed": null
-  },
-  {
-   "id": "a38f8e57-ecef-4cf6-b76d-8e243541e9fa",
-   "name": "pdk-plunk-ses-events-via-sqs-convergence",
-   "catalog": "System design",
-   "domain": "Distributed systems & coordination",
-   "category": "Messaging & event streaming",
-   "language": "TypeScript",
-   "batch": null,
-   "in_catalog": true,
-   "shortlist_no": null,
-   "old_shortlist": null,
-   "models": {
-    "google/gemini-4-argon": [
-     5,
-     5,
-     0.0
-    ],
-    "z-ai/glm-5.3-flash": [
-     6,
-     1,
-     0.0
-    ]
-   },
-   "argon": {
-    "graded": 5,
-    "passed": 5,
-    "rate": 1.0,
-    "score": 0.0
-   },
-   "models_snap": {},
-   "argon_snap": null,
-   "p_hard": 0.6203256466188845,
-   "evidence": 11,
-   "status": "gem5",
-   "gemini_graded": 5,
-   "gemini_passed": 5,
-   "gemini_rate": 1.0,
-   "solved_by_other": true,
-   "sample": "",
-   "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "e1148130-1abd-482e-abcd-9a0709313dbd",
-      "passed": true
-     },
-     {
-      "id": "c5dc74c9-fa74-4ca0-985c-2b1274e1e6e2",
-      "passed": false
-     },
-     {
-      "id": "c15bc62f-a43d-47d6-967a-be81d625d00c",
-      "passed": false
-     },
-     {
-      "id": "da8a3ca6-11fd-4dca-aa7e-07adbf4fbce0",
-      "passed": false
-     },
-     {
-      "id": "d7aaaf07-723d-4c72-8b1a-447f21f44fae",
-      "passed": false
-     },
-     {
-      "id": "aba79393-5bb2-4a53-b870-4a68447f68ac",
       "passed": false
      }
     ]

@@ -1,16 +1,5 @@
 [
  {
-  "id": "1d53a74b-7350-4787-a59e-a76005a8399e",
-  "name": "pdk-dbconform-schema",
-  "version": 1,
-  "pipeline": "Data processing",
-  "catalog": "Data engineering",
-  "known": true,
-  "via": "gemini",
-  "what": "Data-preserving SQLite conformance addresses a common migration limitation with rollback, sequence preservation and sync/async parity.\nPractices: SQLAlchemy model comparison, SQLite table rebuilding, Atomic failure handling, Schema idempotence, Sync/async parity",
-  "theme": "Data continuity and durable state; Schema and stored-data migration"
- },
- {
   "id": "3e891a0e-fa1c-4898-9f42-e3471d6e3b7d",
   "name": "db-migration-ctfd-4-zero-downtime-migration",
   "version": 5,
@@ -20,39 +9,6 @@
   "via": "gemini",
   "what": "Mixed-version CTFd operation, staged schema changes, bounded backfills and rollback are one coherent online migration.\nPractices: PostgreSQL online migration, Concurrent index creation, Constraint validation, Mixed-version query compatibility, Rollback mapping",
   "theme": "Data continuity and durable state; Schema and stored-data migration"
- },
- {
-  "id": "70923a87-9542-4795-b668-f1b82bdd25e5",
-  "name": "pdk-patito-dataframe",
-  "version": 1,
-  "pipeline": "Needs classification",
-  "catalog": "Data engineering",
-  "known": true,
-  "via": "gemini",
-  "what": "The full nominated request connects nested parquet defaults, validation and typed iteration to an invoicing failure.\nPractices: Nested schema traversal, Polars/Pydantic integration, Validation error attribution, Optional/list semantics, Model materialization",
-  "theme": "Trustworthy data processing; Data modeling, transformation and reconciliation"
- },
- {
-  "id": "3e32174a-2492-43c7-8dd3-cf7f651e8e39",
-  "name": "pdk-databallpy-dataframe",
-  "version": 1,
-  "pipeline": "Data processing",
-  "catalog": "Data engineering",
-  "known": true,
-  "via": "gemini",
-  "what": "Halftime gaps and missing frames explain implausible physical speeds, and segmentation consistently governs differentiation and smoothing.\nPractices: Dataframe reasoning, Numerical differentiation, Time-series segmentation, Signal smoothing, Boundary handling",
-  "theme": "Trustworthy data processing; Data modeling, transformation and reconciliation"
- },
- {
-  "id": "0292e017-9f62-4695-8106-396a36b948ff",
-  "name": "pdk-sayn-pipeline",
-  "version": 2,
-  "pipeline": "Needs classification",
-  "catalog": "Data engineering",
-  "known": true,
-  "via": "gemini",
-  "what": "Composite order identities, incremental/full-refresh equivalence and append history belong to one concrete ingestion failure.\nPractices: Repository diagnosis, Composite-key SQL, Incremental merge semantics, Schema evolution, Idempotence",
-  "theme": "Trustworthy data processing; Data modeling, transformation and reconciliation"
  },
  {
   "id": "4b5ae5a6-e206-4fa0-9299-ab4e94f3fd93",
@@ -88,72 +44,6 @@
   "theme": "Calendar and temporal semantics; Symptom-led causal diagnosis"
  },
  {
-  "id": "c15f38ba-0f04-43c0-952f-8fe163f3989f",
-  "name": "chai-rangescan",
-  "version": 2,
-  "pipeline": "Needs classification",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "The minimum timestamp and two failed query paths provide a persuasive silent-data-loss symptom.\nPractices: Go, index/range-scan reasoning, fault localization, implementation-agnostic regression testing, RCA reporting",
-  "theme": "Data continuity and durable state; Symptom-led causal diagnosis"
- },
- {
-  "id": "c1ae4deb-10ab-4a59-ae91-04ca499c2c5f",
-  "name": "stonesoup-tracksplit",
-  "version": 3,
-  "pipeline": "Needs classification",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "The missed-scan tolerance versus split tracks creates a clear temporal investigation using supplied field-style evidence.\nPractices: Python, target-tracking pipeline reasoning, evidence analysis, fault localization, regression testing",
-  "theme": "Scientific and numerical correctness; Symptom-led causal diagnosis"
- },
- {
-  "id": "7a15c41d-2023-4576-9ef8-e86aefe9fb57",
-  "name": "kombu-codecswap",
-  "version": 2,
-  "pipeline": "Needs classification",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "The cp1252 byte/string contrast supplies a precise interoperability incident and a behavior-level regression deliverable.\nPractices: root-cause localization, text-encoding semantics, behavioral regression testing, minimal library fix",
-  "theme": "Protocol and representation interoperability; Symptom-led causal diagnosis"
- },
- {
-  "id": "8bc2d978-8bd1-4abd-b9ed-62ad9ac8706b",
-  "name": "pdk-dbt-unirate-dbt",
-  "version": 3,
-  "pipeline": "Needs classification",
-  "catalog": "Data engineering",
-  "known": true,
-  "via": "gemini",
-  "what": "The move to seeded rates explains NULL reports and the need for per-row, as-of cross-currency conversion.\nPractices: dbt macro SQL, cross-rate triangulation, as-of temporal joins, DuckDB compatibility",
-  "theme": "Trustworthy data processing; Data modeling, transformation and reconciliation"
- },
- {
-  "id": "9cd85a9b-326e-4450-81ef-03ccff156448",
-  "name": "pdk-dbt-opentelemetry-dbt",
-  "version": 5,
-  "pipeline": "Needs classification",
-  "catalog": "Data engineering",
-  "known": true,
-  "via": "gemini",
-  "what": "Exporter format changes explain duplicate identities and timestamp corruption.\nPractices: SQL/dbt modeling, incremental idempotence, data normalization, join integrity",
-  "theme": "Trustworthy data processing; Data modeling, transformation and reconciliation"
- },
- {
-  "id": "b90953d2-78ba-48d3-ad5b-36a07d6c3903",
-  "name": "pdk-schwifty-etl",
-  "version": 3,
-  "pipeline": "Needs classification",
-  "catalog": "Data engineering",
-  "known": true,
-  "via": "gemini",
-  "what": "Bank mergers explain successor resolution across multiple imports, and malformed-input rollback makes the refresh operationally useful.\nPractices: fixed-format file parsing, ETL idempotency, historical data merging, atomic failure handling, library API integration",
-  "theme": "Trustworthy data processing; Data modeling, transformation and reconciliation"
- },
- {
   "id": "e0173185-2e57-4689-9f1f-6949ea74b692",
   "name": "pdk-xmltodict-etl",
   "version": 5,
@@ -185,17 +75,6 @@
   "via": "gemini",
   "what": "Retired logins, overbroad database grants and secret roles give explicit remediation goals while credential continuity prevents a destructive shortcut.\nPractices: Terraform import-by-config, Vault policy/auth, PostgreSQL privileges, drift reconciliation, data-driven config",
   "theme": "Access and credential correctness; Authorization and credential semantics"
- },
- {
-  "id": "e16aaa95-b7b5-4056-ba10-ea5347541e00",
-  "name": "cdk-accelerator-platform-ts-componentize",
-  "version": 8,
-  "pipeline": "Needs classification",
-  "catalog": "Infrastructure as code",
-  "known": true,
-  "via": "gemini",
-  "what": "Three nonreusable stack constructors motivate reusable interfaces with synthesis preservation.\nPractices: AWS CDK construct design, TypeScript interface typing, logical-ID/path preservation, template-equivalence verification",
-  "theme": "Infrastructure evolution without disruption; Compatible API and modular interface evolution"
  },
  {
   "id": "3cdc2455-40be-41ba-8888-698b618e140c",
@@ -286,17 +165,6 @@
   "theme": "Document and presentation fidelity; Layout, rendering and style semantics"
  },
  {
-  "id": "37b4ed05-5e7d-470a-bd06-a90ea69a5e7f",
-  "name": "libexpat-realbug-a",
-  "version": 2,
-  "pipeline": "RCA / Diagnosis",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Four concrete parser defects cover resource bounds, nested resume and declaration behavior.\nPractices: Trace entity accounting, suspend/resume state, signed size limits, and token validation.",
-  "theme": "Safe input processing and execution; Symptom-led causal diagnosis"
- },
- {
   "id": "11dd413d-554b-4ffe-8109-839651c8394a",
   "name": "libexpat-realbug-b",
   "version": 2,
@@ -308,17 +176,6 @@
   "theme": "Safe input processing and execution; Symptom-led causal diagnosis"
  },
  {
-  "id": "f3d11cd0-6223-4340-87ff-ce4d8fa383d9",
-  "name": "bdwgc-2547e33a-blind27",
-  "version": 1,
-  "pipeline": "RCA / Diagnosis",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore allocation, roots, typed tracing, thread coordination and finalization.\nPractices: Symptom-led fault localization, Behavioral regression repair, Cause attribution, Garbage collector regression diagnosis",
-  "theme": "Reliable service execution; Symptom-led causal diagnosis"
- },
- {
   "id": "e39633e7-7fc3-4232-8354-f00300c31b70",
   "name": "torchio-canonical",
   "version": 6,
@@ -328,28 +185,6 @@
   "via": "gemini",
   "what": "Restore 3D image geometry, lazy data, transforms, inversion and patch pipelines.\nPractices: numerical/array library internals, 3D affine and spatial reasoning, doc-driven bug discovery, API-stable fixes",
   "theme": "Scientific and numerical correctness; Documentation-driven conformance repair"
- },
- {
-  "id": "5c17304d-0e08-4b4a-8d73-f0189e1e7b04",
-  "name": "pdk-gtfparse-dataframe",
-  "version": 1,
-  "pipeline": "Data processing",
-  "catalog": "Data engineering",
-  "known": true,
-  "via": "gemini",
-  "what": "Mixed annotation files and missing gene/transcript rows demand hierarchical interval synthesis and metadata consistency.\nPractices: grouped aggregation, hierarchy reconstruction, dtype preservation",
-  "theme": "Trustworthy data processing; Data modeling, transformation and reconciliation"
- },
- {
-  "id": "74bfa108-53b4-4288-bea2-c96862e48554",
-  "name": "pdk-sdmxthon-dataframe",
-  "version": 1,
-  "pipeline": "Data processing",
-  "catalog": "Data engineering",
-  "known": true,
-  "via": "gemini",
-  "what": "Dataflow partitioning and correctly scoped attributes explain a concrete collection-platform import failure.\nPractices: text-preserving parsing, partitioning, partial-key matching, round trips",
-  "theme": "Trustworthy data processing; Data modeling, transformation and reconciliation"
  },
  {
   "id": "18becaa6-defa-4fc9-8d28-b81093068c1c",
@@ -385,17 +220,6 @@
   "theme": "Audio and video processing fidelity; Symptom-led causal diagnosis"
  },
  {
-  "id": "8855e19c-58b1-4685-8e27-0f8d9444f349",
-  "name": "moviepy-pdk-ots",
-  "version": 5,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore clip timing, transforms, compositing and audio contracts using small in-memory media examples.\nPractices: Time transforms, array frames, audio/video composition",
-  "theme": "Audio and video processing fidelity; Documentation-driven conformance repair"
- },
- {
   "id": "d407adcb-2c01-448c-8f1f-40390249a7fe",
   "name": "homeassistant-powercalc-historical-power-a2db",
   "version": 2,
@@ -415,17 +239,6 @@
   "known": true,
   "via": "glm",
   "what": "Restore documented irradiance, temperature, electrical and system-model behavior.\nPractices: Documentation contract discovery, Implementation conformance, Public API preservation, Photovoltaic modelling conformance",
-  "theme": "Scientific and numerical correctness; Documentation-driven conformance repair"
- },
- {
-  "id": "ad6e2626-f2a4-43ac-9f52-16f8ca4fd911",
-  "name": "stone-soup-pdk-ots",
-  "version": 4,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore documented models, predictors and updaters across tracking filters.\nPractices: Documentation contract discovery, Implementation conformance, Public API preservation, State-estimation conformance",
   "theme": "Scientific and numerical correctness; Documentation-driven conformance repair"
  },
  {
@@ -449,17 +262,6 @@
   "via": "glm",
   "what": "Restore DICOM association negotiation, service statuses, PDUs and events.\nPractices: protocol-semantics discrepancy discovery, negotiation/status reasoning, loopback integration testing, API-stable repair",
   "theme": "Protocol and representation interoperability; Documentation-driven conformance repair"
- },
- {
-  "id": "3dbb95f8-e59f-4a92-9057-c9a7a99ef4b5",
-  "name": "pdk-imessage-conversation-analyzer-dataframe",
-  "version": 1,
-  "pipeline": "Data processing",
-  "catalog": "Data engineering",
-  "known": true,
-  "via": "gemini",
-  "what": "Reconstructing current tapbacks from additions, removals and localized messages makes conversation statistics match visible state.\nPractices: event reconciliation, temporal filtering, metadata interpretation, legacy compatibility",
-  "theme": "Trustworthy data processing; Data modeling, transformation and reconciliation"
  },
  {
   "id": "38777767-2c99-4e7b-b721-f7520c9f5501",
@@ -682,17 +484,6 @@
   "theme": "Business workflow integrity; Durable idempotency and recovery"
  },
  {
-  "id": "3adfbd0a-0ddf-4bd7-ae19-fd50f52178b2",
-  "name": "minab-secured-loan-origination",
-  "version": 11,
-  "pipeline": "Blueprint",
-  "catalog": "Feature implementation",
-  "known": true,
-  "via": "gemini",
-  "what": "Atomic secured origination closes a real consistency boundary across validation, collateral, competing applications and audit.\nPractices: Java service integration, transaction boundaries, aggregate persistence, API migration",
-  "theme": "Business workflow integrity; Atomic state transitions and compensation"
- },
- {
   "id": "49431a76-2e5d-4de6-99a4-ba6407c6e5cc",
   "name": "houseme--qrcode-rs-xai",
   "version": 4,
@@ -724,39 +515,6 @@
   "via": "gemini",
   "what": "Persistent aliases, field renames, merges and rollback let changing exports coexist without data loss.\nPractices: atomic schema migration, nested fields, aliases, type promotion",
   "theme": "Data continuity and durable state; Schema and stored-data migration"
- },
- {
-  "id": "4cede08d-ecac-44e2-b248-fbfe8d818bd8",
-  "name": "pdk-diffly-dataframe",
-  "version": 1,
-  "pipeline": "Data processing",
-  "catalog": "Data engineering",
-  "known": true,
-  "via": "gemini",
-  "what": "Symmetric typed comparisons keep a real nightly data check working after a writer changes dtypes.\nPractices: dtype reconciliation, key matching, tolerance semantics, API parity",
-  "theme": "Trustworthy data processing; Data modeling, transformation and reconciliation"
- },
- {
-  "id": "7640e253-3cf9-4327-8b53-ac7c8c071dba",
-  "name": "workforcepro-dual-clock-separation",
-  "version": 1,
-  "pipeline": "Blueprint",
-  "catalog": "Feature implementation",
-  "known": true,
-  "via": "gemini",
-  "what": "Separating tenant calendar rules from security time protects a precise semantic boundary.\nPractices: clock abstraction, layered refactoring, timezone boundaries",
-  "theme": "Calendar and temporal semantics; Temporal and calendar reasoning"
- },
- {
-  "id": "29bbc02e-ddd4-4d7d-863f-9ab1f45284e8",
-  "name": "pdk-elsa-external-callbacks-exactly-once",
-  "version": 2,
-  "pipeline": "System design",
-  "catalog": "System design",
-  "known": true,
-  "via": "gemini",
-  "what": "Lost task callbacks and duplicate bookmark continuation are connected workflow-reliability failures.\nPractices: Transactional delivery, stable identities, distributed locks, concurrent workflow branches",
-  "theme": "Reliable service execution; Durable idempotency and recovery"
  },
  {
   "id": "6ba5ef8d-6e41-4177-ab83-ad96a98e4377",
@@ -834,39 +592,6 @@
   "via": "gemini",
   "what": "Tracing actual consumed data through unordered pipelines and validating it before model mutation is a useful debugging capability.\nPractices: Go, concurrency-safe pairing, immutable API design, error attribution, backward compatibility",
   "theme": "Operational visibility and explainability; Provenance and truthful diagnostics"
- },
- {
-  "id": "0320ec16-c314-46a7-9038-9728966b3a16",
-  "name": "risor-rollbackplan",
-  "version": 4,
-  "pipeline": "Needs classification",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "A wrong rollback plan motivates tracing into shared runtime code, adding an implementation-independent reproducer and precise RCA.\nPractices: Evidence-led diagnosis, Language-runtime reasoning, Behavioral regression testing, Root-cause localization",
-  "theme": "Developer and interactive workflows; Symptom-led causal diagnosis"
- },
- {
-  "id": "af0f5597-eacf-4540-a2e0-c2ba1daa4730",
-  "name": "pulumi-cognito-nakama-py-migration",
-  "version": 4,
-  "pipeline": "Needs classification",
-  "catalog": "Infrastructure as code",
-  "known": true,
-  "via": "gemini",
-  "what": "An empty imported program planning deletion creates a clear migration blocker.\nPractices: Pulumi component modeling, Terraform semantics, provider default differences, plan equivalence",
-  "theme": "Infrastructure evolution without disruption; Deployment-model translation and parity"
- },
- {
-  "id": "eb9e8fc9-9887-4db7-86fb-ad39e24c53c7",
-  "name": "pulumi-cats-vs-dogs-ts-migration",
-  "version": 4,
-  "pipeline": "Needs classification",
-  "catalog": "Infrastructure as code",
-  "known": true,
-  "via": "gemini",
-  "what": "The imported empty program has an immediate destructive-preview problem and needs generalized plan parity.\nPractices: Terraform/Pulumi semantic equivalence, component resource design, config mapping, provider-behavior reasoning, offline preview verification",
-  "theme": "Infrastructure evolution without disruption; Deployment-model translation and parity"
  },
  {
   "id": "84d4c012-3c16-4be6-b442-19422bd1d176",
@@ -1155,17 +880,6 @@
   "theme": "Protocol and representation interoperability; Immutable generations and coherent publication"
  },
  {
-  "id": "d047f52f-ab6c-4df0-acfc-ac2c7ae930ac",
-  "name": "werkzeug-request-routing-canonical",
-  "version": 25,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore documented WSGI middleware, routing, URL building and response interactions.\nPractices: Documentation contract discovery, Implementation conformance, Public API preservation, Request dispatch conformance",
-  "theme": "Reliable service execution; Documentation-driven conformance repair"
- },
- {
   "id": "3720722a-9ca8-450c-8a4e-144506776f3b",
   "name": "mjlab-atomic-runtime-manager-profiles",
   "version": 3,
@@ -1175,17 +889,6 @@
   "via": "gemini",
   "what": "Publishing manager selections only between policy steps while retaining paused state and shapes is coherent runtime engineering.\nPractices: atomic multi-component state publishing, validation/rollback, step-boundary scheduling, interface stability",
   "theme": "Scientific and numerical correctness; Atomic state transitions and compensation"
- },
- {
-  "id": "b48b59d2-88f1-4114-b5e2-75a81c535f20",
-  "name": "pdk-tinode-topic-master-fencing",
-  "version": 4,
-  "pipeline": "System design",
-  "catalog": "System design",
-  "known": true,
-  "via": "gemini",
-  "what": "Stale topic owners and sequence writes ahead of messages explain the failover hazard clearly.\nPractices: distributed fencing/ownership, durable sequence allocation, failure-mode reasoning, Go server internals, PostgreSQL schema migration",
-  "theme": "Reliable service execution; Ownership, fencing and coordinated admission"
  },
  {
   "id": "42da3f5e-8f19-4375-abff-6312a0ee01b9",
@@ -1441,17 +1144,6 @@
   "theme": "Protocol and representation interoperability; Codec and representation fidelity"
  },
  {
-  "id": "1dce6c29-c289-4c4f-b370-ea5182fdfaf0",
-  "name": "mamrhein--fpdec.rs-xai",
-  "version": 3,
-  "pipeline": "Migration",
-  "catalog": "Migration",
-  "known": true,
-  "via": "gemini",
-  "what": "Implement the fixed destination API from the supplied source library with behavioral parity.\nPractices: source comprehension, cross-language semantic translation, API compatibility, error and ordering fidelity",
-  "theme": "Behavioral compatibility and contract maintenance; Source-grounded compatibility port"
- },
- {
   "id": "434588aa-7bc8-4725-a083-0129705e7c7d",
   "name": "toeverything--y-octo-xai",
   "version": 2,
@@ -1467,17 +1159,6 @@
   "name": "java--dynatrace-oss--dynahist-xai",
   "version": 3,
   "pipeline": "Needs classification",
-  "catalog": "Migration",
-  "known": true,
-  "via": "gemini",
-  "what": "Implement the provided target-language API so it preserves the supplied source library behavior.\nPractices: Source-to-target semantic translation, Fixed signature preservation, Error, edge-case, precision and ordering compatibility",
-  "theme": "Behavioral compatibility and contract maintenance; Source-grounded compatibility port"
- },
- {
-  "id": "7e3b1b27-71e9-4d16-be71-6416635a8026",
-  "name": "java--argparse4j--argparse4j--main-xai",
-  "version": 2,
-  "pipeline": "Migration",
   "catalog": "Migration",
   "known": true,
   "via": "gemini",
@@ -1637,17 +1318,6 @@
   "via": "gemini",
   "what": "Reconfigure live manager terms atomically while retaining compatible runtime state.\nPractices: Transactional reconfiguration, derived contracts, resource ownership",
   "theme": "Reliable service execution; Atomic state transitions and compensation"
- },
- {
-  "id": "fdc56b01-1e1b-4801-8047-e3f79834d075",
-  "name": "terraform-pseudopoll-serverless-module-refactor",
-  "version": 3,
-  "pipeline": "Infrastructure as code",
-  "catalog": "Infrastructure as code",
-  "known": true,
-  "via": "gemini",
-  "what": "Split a serverless platform into modules while keeping deployed microservices, choreography, operations and notification channels intact.\nPractices: Terraform module ownership, Configuration-only state-address migration, Keyed resource graphs, Dependency and collector preservation, Serverless cross-map event and API migration",
-  "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
  },
  {
   "id": "768dfa22-fc28-411c-9e24-d54a10411855",
@@ -1815,28 +1485,6 @@
   "theme": "Reliable service execution; Documentation-driven conformance repair"
  },
  {
-  "id": "7ca4a3a6-a4dd-4664-ab8e-d37ce439c84e",
-  "name": "pdk-zulip-outgoing-webhook-delivery",
-  "version": 3,
-  "pipeline": "System design",
-  "catalog": "System design",
-  "known": true,
-  "via": "gemini",
-  "what": "Lost bot triggers and duplicate replies motivate retries, stable identity and per-bot ordering.\nPractices: queue persistence, retry/backoff, crash recovery, idempotent replies, ordered multi-worker delivery",
-  "theme": "Reliable service execution; Durable idempotency and recovery"
- },
- {
-  "id": "b591b24c-3de9-4364-92bb-4604302bbd88",
-  "name": "pdk-erp-export-normalizer-dataframe",
-  "version": 1,
-  "pipeline": "Data processing",
-  "catalog": "Data engineering",
-  "known": true,
-  "via": "gemini",
-  "what": "Schema-driven validation, missingness and dual-backend dtype stability make weekly ERP exports usable.\nPractices: schema validation, nullable dates, typed empty frames, backend parity",
-  "theme": "Trustworthy data processing; Data modeling, transformation and reconciliation"
- },
- {
   "id": "4aea0cf8-80e3-4c18-81b7-2754044654a7",
   "name": "cyclopts-configuration-source-diagnostics",
   "version": 2,
@@ -1879,17 +1527,6 @@
   "via": "glm",
   "what": "A durable monotonic throttle window shared by APIs and queued workers addresses a coherent cross-process overload problem.\nPractices: Monotonic deadlines, shared persistence, worker coordination, wire compatibility",
   "theme": "Reliable service execution; Durable idempotency and recovery"
- },
- {
-  "id": "0e6836a0-6830-46d8-84fb-5ee15249dcf7",
-  "name": "terraform-grafana-ecs-observability-module-refactor",
-  "version": 3,
-  "pipeline": "Infrastructure as code",
-  "catalog": "Infrastructure as code",
-  "known": true,
-  "via": "gemini",
-  "what": "Legacy AZ order plus independent alert-routing and escalation selection gives this refactor useful ordering depth.\nPractices: Terraform moved blocks at scale, computed selection logic in HCL, module interface design, plan-level change control",
-  "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
  },
  {
   "id": "006417e6-ec97-4030-a700-42d4e7a119a2",
@@ -2101,17 +1738,6 @@
   "theme": "Efficient and bounded resource use; Cache identity and invalidation coherence"
  },
  {
-  "id": "ab47f92d-849c-415b-8ded-a1dd141b8ce9",
-  "name": "terraform-earthobs-stac-module-refactor",
-  "version": 4,
-  "pipeline": "Infrastructure as code",
-  "catalog": "Infrastructure as code",
-  "known": true,
-  "via": "gemini",
-  "what": "Preserve infrastructure while deriving old identities from actual references rather than list position.\nPractices: Terraform module ownership, State-preserving address migration, Keyed resource graphs, Configuration propagation and ordering",
-  "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
- },
- {
   "id": "8ecbdce1-2a61-4cbb-864f-934119c5e531",
   "name": "pdk-booking-seat-reservation-saga",
   "version": 9,
@@ -2189,17 +1815,6 @@
   "theme": "Scientific and numerical correctness; Documentation-driven conformance repair"
  },
  {
-  "id": "7b7f1031-c326-417d-93e7-9100614c7488",
-  "name": "geomstats-pdk-ots",
-  "version": 8,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore manifold-valued estimators, solvers and statistical interfaces to documentation.\nPractices: Estimator contracts, solvers, geometric statistics",
-  "theme": "Scientific and numerical correctness; Documentation-driven conformance repair"
- },
- {
   "id": "8a496146-a60b-4f54-b497-230c3921ecd7",
   "name": "kornia-canonical-ots",
   "version": 5,
@@ -2208,17 +1823,6 @@
   "known": true,
   "via": "glm",
   "what": "Restore documented image operations, losses and metrics across tensor and numerical semantics.\nPractices: Tensor dimensions, numerical operations, borders, reductions",
-  "theme": "Scientific and numerical correctness; Documentation-driven conformance repair"
- },
- {
-  "id": "6107d614-8d79-4aed-a13a-9077330254ba",
-  "name": "statrs-pipeline-ots",
-  "version": 5,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore distributions, special functions and statistical contracts in Statrs.\nPractices: Documentation contract discovery, Implementation conformance, Public API preservation, Statistical library conformance",
   "theme": "Scientific and numerical correctness; Documentation-driven conformance repair"
  },
  {
@@ -2385,28 +1989,6 @@
   "via": "glm",
   "what": "Restore documented drawing behavior across embedded-graphics and its core.\nPractices: Documentation contract discovery, Implementation conformance, Public API preservation, Embedded graphics conformance",
   "theme": "Document and presentation fidelity; Documentation-driven conformance repair"
- },
- {
-  "id": "3d70e787-4f29-4713-9975-275980990a77",
-  "name": "serde-pipeline-ots",
-  "version": 4,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore documented serialization/deserialization behavior across runtime and derive code.\nPractices: Rust, proc-macro/derive reasoning, doc-to-behavior auditing, regression preservation",
-  "theme": "Protocol and representation interoperability; Documentation-driven conformance repair"
- },
- {
-  "id": "39d57015-06f2-413e-a844-ee28fe1948a3",
-  "name": "binrw-pipeline-ots",
-  "version": 5,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore documented binary read/write and procedural-macro behavior.\nPractices: Rust proc-macro reasoning, doc-example verification, binary format semantics, API-stable fixes",
-  "theme": "Protocol and representation interoperability; Documentation-driven conformance repair"
  },
  {
   "id": "3b767496-b058-4d1e-bf64-094e3a041fe4",
@@ -2728,17 +2310,6 @@
   "theme": "Access and credential correctness; Symptom-led causal diagnosis"
  },
  {
-  "id": "c6d56ee3-b057-48e9-98ca-f3748cd1309e",
-  "name": "oasdiff-f2d2e121-blind26-ots",
-  "version": 4,
-  "pipeline": "RCA / Diagnosis",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore API compatibility classification, source locations and reports across request and response changes.\nPractices: Trace schema variance, nullability, defaults, alternatives, source locations, suppression, and report serialization",
-  "theme": "Behavioral compatibility and contract maintenance; Symptom-led causal diagnosis"
- },
- {
   "id": "d13708ce-6e20-474d-bd03-b265dae2b543",
   "name": "nezha-c3c165c1-blind30",
   "version": 2,
@@ -2772,17 +2343,6 @@
   "theme": "Operational visibility and explainability; Symptom-led causal diagnosis"
  },
  {
-  "id": "ea864469-6f3f-4003-a721-410b25be0a82",
-  "name": "kool-bb95d1be-blind30",
-  "version": 5,
-  "pipeline": "RCA / Diagnosis",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore command assembly, execution streams, environment reporting and release packaging.\nPractices: Symptom-led fault localization, Behavioral regression repair, Cause attribution, Container project CLI diagnosis",
-  "theme": "Developer and interactive workflows; Symptom-led causal diagnosis"
- },
- {
   "id": "bf1d129c-7032-4c33-a28a-a31969bb6a9d",
   "name": "plotnine-stats-canonical-ots",
   "version": 4,
@@ -2814,28 +2374,6 @@
   "via": "glm",
   "what": "Restore stateful Kafka consumer and producer internals, including accumulators, transactions and futures.\nPractices: protocol-client internals, async/future semantics, partitioning/serialization rules, doc auditing, self-built test harness, API-stable repair",
   "theme": "Reliable service execution; Documentation-driven conformance repair"
- },
- {
-  "id": "e0e1b168-355f-4797-8f9f-eb5404c44e0f",
-  "name": "pyatv-sdrift-ots",
-  "version": 4,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore device-client pairing, credential storage and Companion protocol behavior.\nPractices: asyncio semantics, binary encoding (OPACK, varints), auth/credential flows, doc auditing, self-built verification",
-  "theme": "Protocol and representation interoperability; Documentation-driven conformance repair"
- },
- {
-  "id": "e538c518-3945-4dda-b204-dd6333c81ddc",
-  "name": "wechatpy-canonical-ots",
-  "version": 4,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore callback parsing, signature/crypto handling, replies, token state and client APIs.\nPractices: XML message parsing, callback crypto/signature handling, HTTP client/token logic, doc-driven bug discovery, API-stable fixes",
-  "theme": "Access and credential correctness; Documentation-driven conformance repair"
  },
  {
   "id": "e8d3bc89-3abf-4775-9803-8c447c6b6fb1",
@@ -2893,17 +2431,6 @@
   "theme": "Reliable service execution; Documentation-driven conformance repair"
  },
  {
-  "id": "fafaea69-8272-49c6-9656-2b9139c60035",
-  "name": "guarddog-canonical-ots",
-  "version": 4,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore package scanning, metadata detectors, risk aggregation, reporters and CLI contracts.\nPractices: discrepancy discovery across many modules, detector/scoring semantics, offline test construction, API-stable repair",
-  "theme": "Operational visibility and explainability; Documentation-driven conformance repair"
- },
- {
   "id": "61590ab7-8f26-473f-b454-5527b25317ac",
   "name": "exp-starstar_zero_segment_collapse",
   "version": 1,
@@ -2923,17 +2450,6 @@
   "known": true,
   "via": "gemini",
   "what": "Immutable source records across middleware, multipart parsing and failures provide coherent diagnosability.\nPractices: ASGI message-flow internals, middleware/routing/auth interplay, immutable API design, failure-path preservation, multipart parsing",
-  "theme": "Operational visibility and explainability; Provenance and truthful diagnostics"
- },
- {
-  "id": "599c78fa-d91e-4b8f-8026-18fd3627719b",
-  "name": "brutespray-explainable-target-ingestion",
-  "version": 6,
-  "pipeline": "DeepSWE",
-  "catalog": "Feature implementation",
-  "known": true,
-  "via": "gemini",
-  "what": "Target ingestion must retain usable partial results while explaining failures across input sources and reporting paths.\nPractices: provenance, parser reconciliation, canonicalization, deterministic diagnostics",
   "theme": "Operational visibility and explainability; Provenance and truthful diagnostics"
  },
  {
@@ -2968,17 +2484,6 @@
   "via": "gemini",
   "what": "Transactions, stable snapshot queries, iteration and watch notifications form a useful in-process consistency API.\nPractices: transaction lifecycle, snapshot consistency, index iteration, channel watching, API compatibility",
   "theme": "Data continuity and durable state; Compatible API and modular interface evolution"
- },
- {
-  "id": "fbfa2182-d3e6-4c11-bbfe-6a3607568375",
-  "name": "gofakeit-struct",
-  "version": 5,
-  "pipeline": "Feature Bench",
-  "catalog": "Feature implementation",
-  "known": true,
-  "via": "gemini",
-  "what": "Nested and recursive fixture generation with custom hooks and deterministic random consumption is a connected reflection problem.\nPractices: Go reflection, recursive type handling, custom extension contracts, random stream consistency, serialization integration",
-  "theme": "Developer and interactive workflows; Compatible API and modular interface evolution"
  },
  {
   "id": "1acae46d-1ace-4d15-9d26-3fdeef0d0ca0",
@@ -3058,17 +2563,6 @@
   "theme": "Protocol and representation interoperability; Validation, admission and negotiation"
  },
  {
-  "id": "1fe05164-104a-407a-a1d7-80c9c76cdc7f",
-  "name": "terraform-netspire-vpc-module-refactor",
-  "version": 5,
-  "pipeline": "Infrastructure as code",
-  "catalog": "Infrastructure as code",
-  "known": true,
-  "via": "gemini",
-  "what": "Five keyed network dimensions and historical failover ordering make this a substantial VPC migration.\nPractices: State-address migration, mismatched positional lists, priority selection, policy references",
-  "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
- },
- {
   "id": "d8d54cc2-efe6-46f0-9fbd-c37a568dfb2f",
   "name": "jwt-runtime-cryptographic-self-tests-and-760c",
   "version": 7,
@@ -3111,17 +2605,6 @@
   "via": "gemini",
   "what": "Complete template-result reuse must remain valid under consumed lexical-binding changes and concurrent contexts.\nPractices: Dependency tracking, cache invalidation, interpreter and VM parity",
   "theme": "Language and runtime semantics; Cache identity and invalidation coherence"
- },
- {
-  "id": "02e6aff1-6084-4802-8d5e-4b31a25f48fc",
-  "name": "scikit-lego-pdk-ots",
-  "version": 5,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Preprocessing and meta-estimator contracts give scikit-lego a bounded maintenance purpose.\nPractices: preprocessing contracts, estimator API compatibility, documentation-to-code tracing",
-  "theme": "ML software stack correctness; Documentation-driven conformance repair"
  },
  {
   "id": "055ea1e7-4eef-4254-b8ec-556ec57c4f8e",
@@ -3223,28 +2706,6 @@
   "theme": "Developer and interactive workflows; Documentation-driven conformance repair"
  },
  {
-  "id": "155583e9-0633-492a-be2f-bc2fc7ec1a30",
-  "name": "h3-cd62033b-blind21",
-  "version": 2,
-  "pipeline": "RCA / Diagnosis",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Units, adjacency, inverse coordinates and hierarchy relations supply distinct numerical/topological debugging.\nPractices: C, numeric/geometric reasoning, symptom-driven localization, boundary-condition analysis",
-  "theme": "Scientific and numerical correctness; Symptom-led causal diagnosis"
- },
- {
-  "id": "103781ca-70e9-464b-b4cc-ed754acddac4",
-  "name": "soar-pipeline-ots",
-  "version": 5,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Acquisition, registry metadata and portable-format integration give the Rust conformance task a concrete operational boundary.\nPractices: doc-comment interpretation, multi-crate Rust debugging, regression preservation",
-  "theme": "Software delivery and artifact integrity; Documentation-driven conformance repair"
- },
- {
   "id": "11237278-4385-4c70-8c3c-cff4cc319abd",
   "name": "exo-canonical-ots",
   "version": 5,
@@ -3322,17 +2783,6 @@
   "theme": "Access and credential correctness; Documentation-driven conformance repair"
  },
  {
-  "id": "27c13265-0b78-44d7-8974-0af62874e4a0",
-  "name": "micro-1c8b82b3-blind16-ots",
-  "version": 3,
-  "pipeline": "RCA / Diagnosis",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Text coordinates, insertion, click handling and batch edits provide concrete stateful editor diagnosis.\nPractices: Trace event routing, insertion modes, text coordinates, replacement iteration, batch offsets, and save results.",
-  "theme": "Developer and interactive workflows; Symptom-led causal diagnosis"
- },
- {
   "id": "1d4064bc-c8fa-4f85-81b5-c7ae35fc8bdb",
   "name": "nebula-pdk-ots",
   "version": 6,
@@ -3342,17 +2792,6 @@
   "via": "glm",
   "what": "Local engagement data, persistence and import/export coherence define useful workbench conformance repair.\nPractices: Artifact identity, persistence, migrations, API/CLI state",
   "theme": "Data continuity and durable state; Documentation-driven conformance repair"
- },
- {
-  "id": "2fb35a71-8623-41a1-b2fd-70a6f51db9f3",
-  "name": "ormar-e2c8a526-blind28",
-  "version": 10,
-  "pipeline": "RCA / Diagnosis",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "ORM declarations, writes, queries and dumps must round-trip consistently across an object lifecycle.\nPractices: Schema validation, query construction, transactions, relationships and serialization",
-  "theme": "Data continuity and durable state; Symptom-led causal diagnosis"
  },
  {
   "id": "34d4bb00-8b82-4d07-a9f9-8918f570ba35",
@@ -3419,17 +2858,6 @@
   "via": "glm",
   "what": "Reconcile terminal CSS parsing, styles, color, geometry and layout with documented behavior.\nPractices: CSS/DSL parsing semantics, layout and geometry reasoning, documentation auditing, regression-safe fixes",
   "theme": "Document and presentation fidelity; Documentation-driven conformance repair"
- },
- {
-  "id": "309f5013-bcd6-4f54-96cd-7de6f3031aef",
-  "name": "jumanji-canonical-ots",
-  "version": 6,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore documented actions, masks, rewards and termination in JAX logic and packing environments.\nPractices: documentation auditing, JAX/functional code reading, game/puzzle rule semantics, API-stable fixes, scope discipline",
-  "theme": "Scientific and numerical correctness; Documentation-driven conformance repair"
  },
  {
   "id": "4cb89574-4520-43c0-9440-210bd2d8b47e",
@@ -3540,17 +2968,6 @@
   "via": "glm",
   "what": "Align packaging commands, configuration and environment management with their documented contract.\nPractices: CLI options, configuration, environment management, platform abstraction",
   "theme": "Software delivery and artifact integrity; Documentation-driven conformance repair"
- },
- {
-  "id": "45079e33-aa1e-416b-91bf-3bea6350fb2c",
-  "name": "throttled-canonical-ots",
-  "version": 4,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Align synchronous and asynchronous rate limiting and framework integration with documentation.\nPractices: Quota algorithms, time semantics, sync/async parity, stores",
-  "theme": "Efficient and bounded resource use; Documentation-driven conformance repair"
  },
  {
   "id": "456be8c0-1971-4b85-ab7e-952f9d2d49e3",
@@ -3685,17 +3102,6 @@
   "theme": "Efficient and bounded resource use; Documentation-driven conformance repair"
  },
  {
-  "id": "9a80820c-6e79-4e3f-b45e-80916acbbf59",
-  "name": "coveragepy-e14c88af-blind20-v4-ots",
-  "version": 1,
-  "pipeline": "RCA / Diagnosis",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore measurement, configuration, paths, merge and reporting behavior.\nPractices: Symptom-led fault localization, Regression repair, Function-level cause attribution, Coverage tooling regression diagnosis",
-  "theme": "Operational visibility and explainability; Symptom-led causal diagnosis"
- },
- {
   "id": "62b047eb-95c5-4a95-a796-b6c6bffbd8b6",
   "name": "comments-xtd-canonical-ots",
   "version": 6,
@@ -3749,17 +3155,6 @@
   "via": "gemini",
   "what": "Restore assistant settings, saved routines, storage and remote conversation state.\nPractices: Trace ordered config merges, placeholder expansion, archive paths, file paging, authorization discovery, and session replacement",
   "theme": "Reliable service execution; Symptom-led causal diagnosis"
- },
- {
-  "id": "753ecf08-a34d-4e67-bab7-e07f96db5cec",
-  "name": "daily-stock-analysis-pdk-ots",
-  "version": 5,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore backtesting and outcome evaluation across calendars, persistence, services and APIs.\nPractices: Time windows, trading calendars, SQLAlchemy persistence, service/API integration",
-  "theme": "Trustworthy data processing; Documentation-driven conformance repair"
  },
  {
   "id": "77529418-91de-4493-a1f7-3354262f7ee4",
@@ -3837,17 +3232,6 @@
   "via": "glm",
   "what": "Restore physical-network models and transport algorithms against documented topology and solver contracts.\nPractices: Topology, geometry, conductances, numerical solver contracts",
   "theme": "Scientific and numerical correctness; Documentation-driven conformance repair"
- },
- {
-  "id": "9e10aee5-500f-41b0-90a5-4c71e78f6e39",
-  "name": "code-puppy-pdk-ots",
-  "version": 6,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore locale messages, hooks, plugins and callback registries to documentation.\nPractices: Internationalization, pluralization, message dispatch, hooks, callback registries",
-  "theme": "Developer and interactive workflows; Documentation-driven conformance repair"
  },
  {
   "id": "a3389ace-f27d-4575-b90d-b8d48693dc56",
@@ -4026,28 +3410,6 @@
   "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
  },
  {
-  "id": "2778e00e-0219-4c3c-a0f8-5cc36d733d90",
-  "name": "terraform-lacework-agentless-org-module-refactor",
-  "version": 1,
-  "pipeline": "Infrastructure as code",
-  "catalog": "Infrastructure as code",
-  "known": true,
-  "via": "gemini",
-  "what": "Region/account identity, scanner roles and aggregate alarms must survive configuration-only migration.\nPractices: Terraform state mapping, region and account keys, cross-account IAM, ordered collectors",
-  "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
- },
- {
-  "id": "2a3a0d80-188d-43fd-9d45-50021f0ab472",
-  "name": "keon-algorithms-canonical-ots",
-  "version": 3,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "The complete prompt supports graph and dynamic-programming conformance with explicit authority and scope.\nPractices: Algorithm tracing, recurrences, boundary cases",
-  "theme": "Scientific and numerical correctness; Documentation-driven conformance repair"
- },
- {
   "id": "2e7417d6-3048-4fd5-a6f3-c44dc088cff1",
   "name": "terraform-snipe-it-production-module-refactor",
   "version": 6,
@@ -4136,17 +3498,6 @@
   "theme": "Scientific and numerical correctness; Documentation-driven conformance repair"
  },
  {
-  "id": "540866d3-6afd-4009-987b-cdc82861821a",
-  "name": "sdrift-tinydb-tinydb-001",
-  "version": 2,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Find and repair implementation drift within a small library's documented public contract.\nPractices: documentation-to-code tracing, API preservation, regression verification",
-  "theme": "Behavioral compatibility and contract maintenance; Documentation-driven conformance repair"
- },
- {
   "id": "56cdde31-19ae-4ada-a36d-b48705aa5d7f",
   "name": "terraform-bittrader-platform-module-refactor",
   "version": 3,
@@ -4156,17 +3507,6 @@
   "via": "glm",
   "what": "Modularize the service stack while preserving resource identities.\nPractices: Terraform module ownership, State-preserving address migration, Keyed resource graphs, Configuration propagation and ordering",
   "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
- },
- {
-  "id": "5aa2b7cd-eda1-4ba0-ad09-1966777dc6ff",
-  "name": "sdrift-parse-parse-003",
-  "version": 2,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore documented behavior in the parse package.\nPractices: Documentation contract discovery, Implementation conformance, Public API preservation, Python documentation-led repair",
-  "theme": "Behavioral compatibility and contract maintenance; Documentation-driven conformance repair"
  },
  {
   "id": "61b9366c-74a3-48e0-8e1b-daefc36324a4",
@@ -4191,28 +3531,6 @@
   "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
  },
  {
-  "id": "68be40fb-8153-4998-a9d0-594c4e541201",
-  "name": "stats-836e5219-blind30-ots",
-  "version": 5,
-  "pipeline": "RCA / Diagnosis",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Repair numerical formulas and boundary guards using concrete expected values.\nPractices: Numerical formulas, distributions, ranking, interpolation and boundary checks",
-  "theme": "Scientific and numerical correctness; Symptom-led causal diagnosis"
- },
- {
-  "id": "75da906f-2046-480a-940b-4c0243be5ee7",
-  "name": "terraform-consul-meshops-module-refactor",
-  "version": 2,
-  "pipeline": "Infrastructure as code",
-  "catalog": "Infrastructure as code",
-  "known": true,
-  "via": "gemini",
-  "what": "Preserve a four-module network, identity and compute graph with stable service collectors.\nPractices: Terraform module ownership, State-preserving address migration, Keyed resource graphs, Configuration propagation and ordering",
-  "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
- },
- {
   "id": "7cadc2ae-b623-4ecc-8a9f-3d3d83c5138b",
   "name": "validator-f9944c58-blind30",
   "version": 2,
@@ -4224,17 +3542,6 @@
   "theme": "Safe input processing and execution; Symptom-led causal diagnosis"
  },
  {
-  "id": "823dcb2b-2500-450c-8358-d3ac12505ff2",
-  "name": "terraform-mlops-delivery-module-refactor",
-  "version": 3,
-  "pipeline": "Infrastructure as code",
-  "catalog": "Infrastructure as code",
-  "known": true,
-  "via": "gemini",
-  "what": "Preserve model-registry and deployment-target identities across delivery and approval infrastructure.\nPractices: Terraform migration, model and target keys, approval API dependencies, cross-module IAM",
-  "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
- },
- {
   "id": "843474c9-e284-47b9-879d-56e449cb0107",
   "name": "terraform-devopsmono-blue-green-module-refactor",
   "version": 5,
@@ -4243,17 +3550,6 @@
   "known": true,
   "via": "gemini",
   "what": "Preserve deployment tracks while deriving routing priorities and deterministic tie breaks.\nPractices: Terraform state moves, module interface design, stable track keys, deterministic tie-breaking, launch-template parameterization",
-  "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
- },
- {
-  "id": "982526ef-c32c-4259-a570-eff1e50fd517",
-  "name": "terraform-vibium-analytics-module-refactor",
-  "version": 1,
-  "pipeline": "Infrastructure as code",
-  "catalog": "Infrastructure as code",
-  "known": true,
-  "via": "gemini",
-  "what": "Preserve specialized API, worker and orchestrator resources while keying expandable workloads.\nPractices: Terraform module ownership, State-preserving address migration, Keyed resource graphs, Configuration propagation and ordering",
   "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
  },
  {
@@ -4268,28 +3564,6 @@
   "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
  },
  {
-  "id": "9d8ad40e-4abc-4199-bd44-f1dbc74d228a",
-  "name": "form-pipeline-ots",
-  "version": 4,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore form state and validation lifecycle to the core API contract.\nPractices: State transitions, validation lifecycle, TypeScript APIs",
-  "theme": "Developer and interactive workflows; Documentation-driven conformance repair"
- },
- {
-  "id": "9ec658ec-48ee-46de-9ebd-aaeff20b744a",
-  "name": "terraform-tfe-airgap-production-module-refactor",
-  "version": 3,
-  "pipeline": "Infrastructure as code",
-  "catalog": "Infrastructure as code",
-  "known": true,
-  "via": "gemini",
-  "what": "Preserve deployment resources while keying AZs and artifacts.\nPractices: Terraform module ownership, State-preserving address migration, Keyed resource graphs, Configuration propagation and ordering",
-  "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
- },
- {
   "id": "a08cab7e-d851-4780-9232-44635af2f7be",
   "name": "pyocd-canonical-ots",
   "version": 4,
@@ -4299,17 +3573,6 @@
   "via": "glm",
   "what": "Restore debugger configuration precedence, parsing and command processing without hardware.\nPractices: Option precedence, parsing, command dispatch",
   "theme": "Developer and interactive workflows; Documentation-driven conformance repair"
- },
- {
-  "id": "a2ceebb0-68e6-46b4-adaa-818ba2e74aae",
-  "name": "terraform-rider-onboarding-module-refactor",
-  "version": 3,
-  "pipeline": "Infrastructure as code",
-  "catalog": "Infrastructure as code",
-  "known": true,
-  "via": "gemini",
-  "what": "Preserve onboarding infrastructure while keying stages and audiences.\nPractices: Terraform module ownership, State-preserving address migration, Keyed resource graphs, Configuration propagation and ordering",
-  "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
  },
  {
   "id": "b42c5ced-1298-457f-8154-11ecb39e9501",
@@ -4342,17 +3605,6 @@
   "known": true,
   "via": "gemini",
   "what": "Modularize multi-site hosting while preserving site routing, media resources and database/user-data naming.\nPractices: Terraform moved blocks, five-module decomposition, deterministic selection, templated user data, plan-diff reasoning",
-  "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
- },
- {
-  "id": "e049267b-f13a-4c4b-8f54-e1b1553d518c",
-  "name": "terraform-tfe-nomad-fdo-module-refactor",
-  "version": 2,
-  "pipeline": "Infrastructure as code",
-  "catalog": "Infrastructure as code",
-  "known": true,
-  "via": "gemini",
-  "what": "Modularize a stateful Nomad deployment while preserving node-group placement and computed private addresses.\nPractices: moved-block state mapping, cidrhost-based addressing, user-data templating, cross-module identity wiring, offline plan verification",
   "theme": "Infrastructure evolution without disruption; Infrastructure graph and state-address refactoring"
  },
  {
@@ -4442,17 +3694,6 @@
   "via": "glm",
   "what": "Bundled SQL rule docstrings and examples govern a specific lint/fix surface.\nPractices: doc-vs-code auditing, lint-rule logic, SQL parse-tree reasoning, regression avoidance",
   "theme": "Developer and interactive workflows; Documentation-driven conformance repair"
- },
- {
-  "id": "13343686-5bd8-4c21-9491-5b23eca354a1",
-  "name": "whichllm-recommendation-core-v2-ots",
-  "version": 2,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": false,
-  "via": "gemini",
-  "what": "The subsystem and authoritative scoring/hardware guides give a plausible maintenance boundary.\nPractices: documentation auditing, scoring/heuristic logic reading, API-preserving fixes, scoped code review",
-  "theme": "ML software stack correctness; Documentation-driven conformance repair"
  },
  {
   "id": "13501692-e656-4657-bd02-7444534f79ef",
@@ -4829,17 +4070,6 @@
   "theme": "Language and runtime semantics; Symptom-led causal diagnosis"
  },
  {
-  "id": "ad5b5c05-d9f7-4fff-bb19-07c28d743dd8",
-  "name": "umoci-f5d1219a-blind28-ots",
-  "version": 1,
-  "pipeline": "RCA / Diagnosis",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "Restore image-store, archive, layer, whiteout and configuration behavior.\nPractices: Symptom-led fault localization, Regression repair, Function-level cause attribution, Container image regression diagnosis",
-  "theme": "Software delivery and artifact integrity; Symptom-led causal diagnosis"
- },
- {
   "id": "aeb6de02-8fdb-491e-8785-8f682a509869",
   "name": "sunpy-coordinates-canonical-ots",
   "version": 1,
@@ -4972,28 +4202,6 @@
   "theme": "Behavioral compatibility and contract maintenance; Documentation-driven conformance repair"
  },
  {
-  "id": "1c4c2aa5-c14b-4d62-967a-e1a33adc6e6c",
-  "name": "austinhellerrepo--shiftnanigans-xai",
-  "version": 2,
-  "pipeline": "Migration",
-  "catalog": "Migration",
-  "known": true,
-  "via": "gemini",
-  "what": "Implement the fixed destination API from the supplied source library with behavioral parity.\nPractices: source comprehension, cross-language semantic translation, API compatibility, error and ordering fidelity",
-  "theme": "Behavioral compatibility and contract maintenance; Source-grounded compatibility port"
- },
- {
-  "id": "24c3c64a-2a18-4432-9e48-af96b767a261",
-  "name": "rlm-pdk-ots",
-  "version": 9,
-  "pipeline": "Spec drift",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": true,
-  "via": "gemini",
-  "what": "The scoped inference-loop and REPL documentation supports useful runtime maintenance.\nPractices: Execution loops, environment state, recursive calls, logging",
-  "theme": "Reliable service execution; Documentation-driven conformance repair"
- },
- {
   "id": "48832bd9-e18d-4662-a526-29a710177e19",
   "name": "java--yoyosource--yapion-xai",
   "version": 3,
@@ -5038,28 +4246,6 @@
   "theme": "Behavioral compatibility and contract maintenance; Source-grounded compatibility port"
  },
  {
-  "id": "99a0d6f6-8886-475b-8b24-0f8e195e9be5",
-  "name": "java--htmlunit--htmlunit-xpath-xai",
-  "version": 2,
-  "pipeline": "Migration",
-  "catalog": "Migration",
-  "known": true,
-  "via": "gemini",
-  "what": "Implement the provided target-language API so it preserves the supplied source library behavior.\nPractices: Source-to-target semantic translation, Fixed signature preservation, Error, edge-case, precision and ordering compatibility",
-  "theme": "Behavioral compatibility and contract maintenance; Source-grounded compatibility port"
- },
- {
-  "id": "a236a867-c009-409b-a5de-77b74662a771",
-  "name": "oxideav--oxideav-raster-xai",
-  "version": 2,
-  "pipeline": "Migration",
-  "catalog": "Migration",
-  "known": true,
-  "via": "gemini",
-  "what": "Implement the provided target-language API so it preserves the supplied source library behavior.\nPractices: Source-to-target semantic translation, Fixed signature preservation, Error, edge-case, precision and ordering compatibility",
-  "theme": "Behavioral compatibility and contract maintenance; Source-grounded compatibility port"
- },
- {
   "id": "cd8a4c9a-3d46-4d3d-86f7-d6a845e3efcf",
   "name": "dzfrias--scurry-xai",
   "version": 3,
@@ -5068,39 +4254,6 @@
   "known": true,
   "via": "gemini",
   "what": "Implement the provided target-language API so it preserves the supplied source library behavior.\nPractices: Source-to-target semantic translation, Fixed signature preservation, Error, edge-case, precision and ordering compatibility",
-  "theme": "Behavioral compatibility and contract maintenance; Source-grounded compatibility port"
- },
- {
-  "id": "d4c581ab-cb0a-4784-92e2-cdf2b4dc6d84",
-  "name": "xvi-xv-xii-ix-xxii-ix-xiv--xgraph-xai",
-  "version": 2,
-  "pipeline": "Migration",
-  "catalog": "Migration",
-  "known": true,
-  "via": "gemini",
-  "what": "Implement the provided target-language API so it preserves the supplied source library behavior.\nPractices: Source-to-target semantic translation, Fixed signature preservation, Error, edge-case, precision and ordering compatibility",
-  "theme": "Behavioral compatibility and contract maintenance; Source-grounded compatibility port"
- },
- {
-  "id": "eac2ec7a-0f17-4bde-a41a-a1c52b9dfffe",
-  "name": "vbasky--sheathe-xai",
-  "version": 3,
-  "pipeline": "Migration",
-  "catalog": "Migration",
-  "known": true,
-  "via": "gemini",
-  "what": "Implement the provided target-language API so it preserves the supplied source library behavior.\nPractices: Source-to-target semantic translation, Fixed signature preservation, Error, edge-case, precision and ordering compatibility",
-  "theme": "Behavioral compatibility and contract maintenance; Source-grounded compatibility port"
- },
- {
-  "id": "ef7402f6-3b67-42f1-8462-9e261fa9137b",
-  "name": "java--fmabap--amdp_pretty_printer--amdp-pretty-printer-java-amdp-pretty-printer-core-xai",
-  "version": 2,
-  "pipeline": "Migration",
-  "catalog": "Migration",
-  "known": true,
-  "via": "gemini",
-  "what": "Implement the fixed destination API from the supplied source library with behavioral parity.\nPractices: source comprehension, cross-language semantic translation, API compatibility, error and ordering fidelity",
   "theme": "Behavioral compatibility and contract maintenance; Source-grounded compatibility port"
  },
  {
@@ -5210,17 +4363,6 @@
   "catalog": "ProgramBench",
   "known": true,
   "via": "glm",
-  "what": "Build an independent offline executable matching documented observable behavior using reference-program experiments.\nPractices: documentation analysis, behavioral experimentation, standalone implementation, offline build reproducibility",
-  "theme": "Behavioral compatibility and contract maintenance; Black-box behavioral reconstruction"
- },
- {
-  "id": "10e6a5df-9263-4053-9f32-b931d0aea658",
-  "name": "fairy-stockfish__fairy-stockfish.433d411",
-  "version": 2,
-  "pipeline": "ProgramBench \u00b7 Reimplementation",
-  "catalog": "ProgramBench",
-  "known": true,
-  "via": "gemini",
   "what": "Build an independent offline executable matching documented observable behavior using reference-program experiments.\nPractices: documentation analysis, behavioral experimentation, standalone implementation, offline build reproducibility",
   "theme": "Behavioral compatibility and contract maintenance; Black-box behavioral reconstruction"
  },
@@ -5368,17 +4510,6 @@
   "theme": "Behavioral compatibility and contract maintenance; Documentation-driven conformance repair"
  },
  {
-  "id": "35ec046a-4f6f-4db6-ab1e-14bbff403bf7",
-  "name": "sklearn-metrics-perf-optimization",
-  "version": 4,
-  "pipeline": "Optimization",
-  "catalog": null,
-  "known": true,
-  "via": "gemini",
-  "what": "Behavior-preserving optimization of three sklearn workloads is useful, but unnamed paths do not establish metrics-specific algorithms.\nPractices: performance diagnosis, behavioral equivalence, Python package rebuilds, statistical benchmarking",
-  "theme": "Efficient and bounded resource use; Profiling and behavior-preserving optimization"
- },
- {
   "id": "3c8b729b-420d-4644-aceb-228535e8dc70",
   "name": "insidersec__insider.20af38a",
   "version": 1,
@@ -5500,17 +4631,6 @@
   "theme": "Behavioral compatibility and contract maintenance; Documentation-driven conformance repair"
  },
  {
-  "id": "4b340300-e172-4a57-977f-d2ff96095d74",
-  "name": "miniscruff__changie.77226df",
-  "version": 2,
-  "pipeline": "ProgramBench \u00b7 Reimplementation",
-  "catalog": "ProgramBench",
-  "known": true,
-  "via": "gemini",
-  "what": "Build an offline executable that matches documented reference behavior.\nPractices: Documentation and executable probing, Observable output, exit and filesystem parity, Fresh offline source builds",
-  "theme": "Behavioral compatibility and contract maintenance; Black-box behavioral reconstruction"
- },
- {
   "id": "4b5415de-a742-4828-80f1-764d3cd045eb",
   "name": "quarylabs__sqruff.f52c464",
   "version": 1,
@@ -5621,17 +4741,6 @@
   "theme": "Behavioral compatibility and contract maintenance; Black-box behavioral reconstruction"
  },
  {
-  "id": "5f75dccf-d126-49fc-9279-933c5583852b",
-  "name": "oxideav--oxideav-subtitle",
-  "version": 1,
-  "pipeline": "Migration",
-  "catalog": "Migration",
-  "known": true,
-  "via": "gemini",
-  "what": "Implement the fixed destination API from the supplied source library with behavioral parity.\nPractices: source comprehension, cross-language semantic translation, API compatibility, error and ordering fidelity",
-  "theme": "Behavioral compatibility and contract maintenance; Source-grounded compatibility port"
- },
- {
   "id": "62784fb9-55af-47a2-ba14-400ae80b42ca",
   "name": "sdrift-toolz-toolz-000",
   "version": 2,
@@ -5663,17 +4772,6 @@
   "via": "gemini",
   "what": "Build an independent offline executable matching documented behavior using reference-program observations.\nPractices: documentation analysis, behavioral experimentation, standalone implementation, offline build reproducibility",
   "theme": "Behavioral compatibility and contract maintenance; Black-box behavioral reconstruction"
- },
- {
-  "id": "6e160fe1-9d41-4442-b15d-4cf1a6ad6da7",
-  "name": "jorgsowa--rust-php-parser",
-  "version": 2,
-  "pipeline": "Migration",
-  "catalog": "Migration",
-  "known": true,
-  "via": "gemini",
-  "what": "Implement the fixed destination API from the supplied source library with behavioral parity.\nPractices: source comprehension, cross-language semantic translation, API compatibility, error and ordering fidelity",
-  "theme": "Behavioral compatibility and contract maintenance; Source-grounded compatibility port"
  },
  {
   "id": "6ee33121-4824-46b9-963a-6440dd0369bc",
@@ -5841,17 +4939,6 @@
   "theme": "Behavioral compatibility and contract maintenance; Black-box behavioral reconstruction"
  },
  {
-  "id": "b0f6f421-ad76-4b75-9ebd-f6612d733556",
-  "name": "sklearn-perf-optimization",
-  "version": 11,
-  "pipeline": "Optimization",
-  "catalog": null,
-  "known": true,
-  "via": "gemini",
-  "what": "Four generalized sklearn workload speedups with compatibility preservation are useful.\nPractices: Profiling, compatibility preservation, package rebuilding, performance measurement",
-  "theme": "Efficient and bounded resource use; Profiling and behavior-preserving optimization"
- },
- {
   "id": "b1de032a-ec25-4d37-a7b0-9ab46afdb448",
   "name": "linebender__resvg.68b14c4",
   "version": 1,
@@ -5914,17 +5001,6 @@
   "catalog": "ProgramBench",
   "known": true,
   "via": "glm",
-  "what": "Build an offline executable matching the documented reference interface.\nPractices: Documentation and executable probing, Output, exit and filesystem compatibility, Fresh offline builds",
-  "theme": "Behavioral compatibility and contract maintenance; Black-box behavioral reconstruction"
- },
- {
-  "id": "bca50db7-eaed-4387-8f6f-8d3cd21ac4df",
-  "name": "prql__prql.029b9c4",
-  "version": 1,
-  "pipeline": "ProgramBench \u00b7 Reimplementation",
-  "catalog": "ProgramBench",
-  "known": true,
-  "via": "gemini",
   "what": "Build an offline executable matching the documented reference interface.\nPractices: Documentation and executable probing, Output, exit and filesystem compatibility, Fresh offline builds",
   "theme": "Behavioral compatibility and contract maintenance; Black-box behavioral reconstruction"
  },
@@ -6050,30 +5126,8 @@
   "theme": "Behavioral compatibility and contract maintenance; Black-box behavioral reconstruction"
  },
  {
-  "id": "e0eaf160-5701-4992-b16d-fbae6714b875",
-  "name": "openblip25--blip25-vocoder",
-  "version": 3,
-  "pipeline": "Migration",
-  "catalog": "Migration",
-  "known": true,
-  "via": "gemini",
-  "what": "Implement the provided target-language API so it preserves the supplied source library behavior.\nPractices: Source-to-target semantic translation, Fixed signature preservation, Error, edge-case, precision and ordering compatibility",
-  "theme": "Behavioral compatibility and contract maintenance; Source-grounded compatibility port"
- },
- {
   "id": "e5b000a0-01d1-4951-8a7a-f1eda896b58e",
   "name": "psy-ex__svt-av1-psy.88cd12e",
-  "version": 1,
-  "pipeline": "ProgramBench \u00b7 Reimplementation",
-  "catalog": "ProgramBench",
-  "known": true,
-  "via": "gemini",
-  "what": "Build an offline executable matching the documented reference interface.\nPractices: Documentation and executable probing, Output, exit and filesystem compatibility, Fresh offline builds",
-  "theme": "Behavioral compatibility and contract maintenance; Black-box behavioral reconstruction"
- },
- {
-  "id": "e5e93958-8911-48b5-96f4-4e7d118c113d",
-  "name": "jayu__rev-dep.3b7f7af",
   "version": 1,
   "pipeline": "ProgramBench \u00b7 Reimplementation",
   "catalog": "ProgramBench",
@@ -6281,17 +5335,6 @@
   "theme": "Scientific and numerical correctness; Symptom-led causal diagnosis"
  },
  {
-  "id": "d0df956d-0050-4b32-8050-95b34dc71c60",
-  "name": "napalm-820a06b2-blind20-v2-ots",
-  "version": 1,
-  "pipeline": "RCA / Diagnosis",
-  "catalog": "Diagnosis, Debugging, and Bug Fixing",
-  "known": false,
-  "via": "gemini",
-  "what": "Restore device-output normalization across text, address and transport paths.\nPractices: Trace vendor text parsing, address normalization, replay sequencing, HTTP endpoints, and error conversion",
-  "theme": "Protocol and representation interoperability; Symptom-led causal diagnosis"
- },
- {
   "id": "dd6cd05f-8317-4a35-bc44-6c0d53716261",
   "name": "isa-l-ebcec1ae-blind17",
   "version": 2,
@@ -6402,17 +5445,6 @@
   "theme": null
  },
  {
-  "id": "abe43578-63f3-4136-beae-465cd76da1bb",
-  "name": "telego-nullpair-v3",
-  "version": 2,
-  "pipeline": "Needs classification",
-  "catalog": null,
-  "known": false,
-  "via": "gemini",
-  "what": null,
-  "theme": null
- },
- {
   "id": "b584b9f2-2219-41fe-a66d-b77381271586",
   "name": "tests-half-python-statemachine-pluggable-event-priority-a0cf",
   "version": 2,
@@ -6420,17 +5452,6 @@
   "catalog": null,
   "known": false,
   "via": "glm",
-  "what": null,
-  "theme": null
- },
- {
-  "id": "cc4a1fe9-bda6-45f8-aaf4-5a8738e27452",
-  "name": "pdk-tyk-key-update-coherence",
-  "version": 8,
-  "pipeline": "System design",
-  "catalog": "System design",
-  "known": false,
-  "via": "gemini",
   "what": null,
   "theme": null
  },
@@ -6598,17 +5619,6 @@
   "via": "glm",
   "what": "Build an independent, offline-buildable implementation matching a documented command-line interface.\nPractices: Black-box behavior discovery, Interface implementation, Differential testing, Reproducible builds",
   "theme": "A team needs a compatible replacement for a documented tool."
- },
- {
-  "id": "1d6c3cea-85f7-4b10-97d3-35d05aac8034",
-  "name": "pdk-zot-ns-byte-quota-upload-holds",
-  "version": 3,
-  "pipeline": "System Design",
-  "catalog": "System design",
-  "known": false,
-  "via": "gemini",
-  "what": "Enforce shared zot namespace byte budgets across uploads, deduplication, instance failures and garbage collection.\nPractices: Distributed quota accounting, Upload leases, Content-addressed storage, Garbage-collection accounting",
-  "theme": "Registry operators prevent shared namespaces from exhausting storage without rejecting legitimate deduplicated uploads."
  },
  {
   "id": "213d2959-94c7-48ed-962a-96d11512e3cb",
@@ -6798,28 +5808,6 @@
   "theme": "A team needs a compatible replacement for a documented tool."
  },
  {
-  "id": "4c551d4a-f200-4904-be4d-14d924c2255d",
-  "name": "pdk-seaweedfs-replica-delete-convergence",
-  "version": 2,
-  "pipeline": "System Design",
-  "catalog": "System design",
-  "known": true,
-  "via": "gemini",
-  "what": "Converge SeaweedFS replicated deletions before recovering holders expose stale objects or advertise volumes.\nPractices: Durable deletion intent, Replica catch-up, Read fencing, Concurrent recovery",
-  "theme": "Storage operators avoid deleted objects reappearing when offline replicas return."
- },
- {
-  "id": "4c4927c4-c5a9-4d39-a7c9-ecffd2530b6c",
-  "name": "pdk-opennext-multi-tier-cache-coherence",
-  "version": 2,
-  "pipeline": "System Design",
-  "catalog": "System design",
-  "known": false,
-  "via": "gemini",
-  "what": "Keep multi-tier ISR page revisions coherent across instances, late regenerations and interrupted S3/metadata publication.\nPractices: Atomic cache publication, Revision fencing, Cross-instance reads, Queue provenance",
-  "theme": "Site operators serve current pages without torn content during background regeneration."
- },
- {
   "id": "4ccee9c7-80ed-429f-8252-276e1b41e9ba",
   "name": "pkgconf__pkgconf.0c9e506",
   "version": 5,
@@ -6950,17 +5938,6 @@
   "via": "glm",
   "what": "Build an independent, offline-buildable implementation matching a documented command-line interface.\nPractices: Black-box behavior discovery, Interface implementation, Differential testing, Reproducible builds",
   "theme": "A team needs a compatible replacement for a documented tool."
- },
- {
-  "id": "6582d7b7-c362-4125-991a-acf5086829da",
-  "name": "pdk-saleor-checkout-fund-release",
-  "version": 5,
-  "pipeline": "System Design",
-  "catalog": "System design",
-  "known": false,
-  "via": "gemini",
-  "what": "Release abandoned checkout funds once without cancelling transactions transferred to completed orders.\nPractices: Payment-effect idempotency, Completion/release arbitration, Durable retry identity, Cross-process transactions",
-  "theme": "Customers and payment apps avoid duplicate refunds or cancelled authorizations on successful orders."
  },
  {
   "id": "67882767-1ee1-416e-8161-c3cf68ab816f",
@@ -7225,17 +6202,6 @@
   "via": "glm",
   "what": "Build an independent, offline-buildable implementation matching a documented command-line interface.\nPractices: Black-box behavior discovery, Interface implementation, Differential testing, Reproducible builds",
   "theme": "A team needs a compatible replacement for a documented tool."
- },
- {
-  "id": "a38f8e57-ecef-4cf6-b76d-8e243541e9fa",
-  "name": "pdk-plunk-ses-events-via-sqs-convergence",
-  "version": 5,
-  "pipeline": "System Design",
-  "catalog": "System design",
-  "known": false,
-  "via": "gemini",
-  "what": "Converge SES campaign engagement across SQS and signed HTTP delivery despite duplicate, reordered and early notifications.\nPractices: Event identity, Cross-channel deduplication, State precedence, Delayed correlation",
-  "theme": "Campaign operators receive consistent recipient engagement and suppression state."
  },
  {
   "id": "a3ec700b-9714-41d3-ab68-519ff1529a16",
