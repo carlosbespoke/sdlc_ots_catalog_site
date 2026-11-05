@@ -112,5 +112,51 @@
    "submitted": "2026-11-05T01:32:53Z"
   }
  ],
- "alt_task_result": "both failed: trial_exception before the first turn on a different task too, so the failure follows the model (or its effort tier 3 setting), not the task"
+ "alt_task_result": "both failed: trial_exception before the first turn on a different task too, so the failure follows the model (or its effort tier 3 setting), not the task",
+ "backend_note": "tensorlake refused (Dockerfile reinstalls ca-certificates, HRZN-835). Default machine is e2-custom-2-4096 (2 cpu, 4 GB); failing tasks ask for a 4 cpu / 8 GB agent env plus a separate verifier env. Retrying on e2-custom-8-16384.",
+ "machine_retry": [
+  {
+   "codename": "kittiwake",
+   "model": "Gemini 3.8 Flash",
+   "catalog": "Infrastructure as code",
+   "task": "terraform-multi-model-router-module-refactor",
+   "task_id": "4ebfe45f-42ba-4277-b053-47c9dfca7eb5",
+   "evaluation_id": "454184eb-b9d1-4b77-abb3-e9c3d43a2d9f",
+   "machine_type": "e2-custom-8-16384",
+   "submitted": "2026-11-05T03:09:59Z"
+  },
+  {
+   "codename": "steppe",
+   "model": "GLM 5.3 Flash",
+   "catalog": "Data engineering",
+   "task": "pdk-sqlite-history-json-schema",
+   "task_id": "4b5ae5a6-e206-4fa0-9299-ab4e94f3fd93",
+   "evaluation_id": "3f4d9244-f357-4da3-b236-1d1cee0995d8",
+   "machine_type": "e2-custom-8-16384",
+   "submitted": "2026-11-05T03:10:00Z"
+  }
+ ],
+ "machine_retry_result": {
+  "Gemini 3.8 Flash": {
+   "run": "209844af-33a0-453e-b38c-670c3e734f6d",
+   "status": "completed",
+   "passed": true,
+   "score": 1,
+   "turns": 115,
+   "usd": 5.2834,
+   "usd_per_turn": 0.0459,
+   "plan_usd_per_turn": 0.0426
+  },
+  "GLM 5.3 Flash": {
+   "run": "c2f83f38-7926-4d8f-9930-381082f04f15",
+   "status": "completed",
+   "passed": true,
+   "score": 1,
+   "turns": 241,
+   "usd": 0.9879,
+   "usd_per_turn": 0.0041,
+   "plan_usd_per_turn": 0.0057
+  },
+  "conclusion": "Both Flash pilots ran on machine_type e2-custom-8-16384. The earlier pre-first-turn RuntimeErrors came from the default 2 CPU / 4 GB VM being smaller than the task.toml request (4 CPU / 8 GB agent plus a separate verifier). Use e2-custom-8-16384 for tasks that ask for more than 2 CPUs."
+ }
 }
