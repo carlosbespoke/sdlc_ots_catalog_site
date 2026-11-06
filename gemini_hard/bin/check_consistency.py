@@ -48,7 +48,7 @@ for f in os.listdir(f'{H}/turns_glm'):
 NAME = {**GEM, **{k: v for k, v in MM.items() if v == GLMF}, GLMF: GLMF, FLASHM: FLASHM}
 NAME.update({v: v for v in GEM.values()})  # turns5/ records model names, not codenames
 if SEL5:  # turn counts of the selected version's Gemini and GLM-5.3 Flash runs
-    TU = {f[:-5]: [{**r, 'model': r['model']} for r in json.load(open(f'{H}/turns5/{f}'))['runs'] if r['model'] in set(GEM.values()) | {GLMF}] for f in os.listdir(f'{H}/turns5')}
+    TU = {f[:-5]: [{**r, 'model': r['model']} for r in json.load(open(f'{H}/turns5/{f}'))['runs'] if r['model'] in set(GEM.values())] for f in os.listdir(f'{H}/turns5')}  # Gemini only (GLM no longer shown)
 MERGE = {'Migration': 'ProgramBench', 'Infrastructure as code': 'System design', 'Data engineering': 'Feature implementation'}
 PAGE = {'ProgramBench': 'programbench', 'System design': 'system-design', 'Diagnosis, Debugging, and Bug Fixing': 'debugging', 'Feature implementation': 'feature-implementation'}
 page_of = lambda t: PAGE[MERGE.get(t['catalog'], t['catalog'])]
@@ -60,7 +60,7 @@ def eq(what, got, want):
 def runs(tid, glm=True):
     """Model -> list of (passed, score) over graded runs: Gemini models from the raw run file, GLM-5.3 Flash from the checked runs above."""
     out = collections.defaultdict(list)
-    if glm and tid in GLM: out[GLMF] = [(p, 0) for p in GLM[tid]]
+    if False and glm and tid in GLM: out[GLMF] = [(p, 0) for p in GLM[tid]]
     if glm and tid in FLB: out[FLASHM] = [(p, 0) for p in FLB[tid]]
     if tid in FAMR: out[FLASHM] = [(p, 0) for p in FAMR[tid]]
     for q in RO.get(tid, {'rollouts': []})['rollouts']:

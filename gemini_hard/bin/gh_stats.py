@@ -5,7 +5,8 @@ SEL = [t for t in U['tasks'] if t.get('tier')]
 ROWS = {r['id']: r for r in dedupe([r for r in green(load_rows()) if r['catalog']], shortlist())}
 GEM = {k: v for k, v in MM.items() if 'gemini' in v and v != DROPPED}  # 3.7 Flash is left out of the report
 CANON = {k: next(c for c, w in GEM.items() if w == v) for k, v in GEM.items()}
-# GLM-5.3 Flash is shown beside the Gemini models in the pass-rate and turn figures and tables, so every selected task has a model on them.
+# GLM-5.3 Flash is no longer shown (reviewer, 6 Nov: every task in the report has Gemini runs); SHOW_GLM brings it back.
+SHOW_GLM = False
 # A task's GLM runs are its own, or borrowed from the task it was copied from or the same repo's reimplementation task (universe.json 'glm').
 GLM_CN = next(k for k, v in MM.items() if v == GLMF); CANON[GLM_CN] = GLM_CN
 GLM = {t['id']: t['glm'] for t in U['tasks'] if t.get('glm')}
@@ -40,11 +41,12 @@ def meta(t):
     return {'sg': NEW, 'cat': t['category'].split(' / ')[-1], 'lang': LANG_NEW.get(t['name'], NEW), 'sen': NEW, 'role': NEW, 'final': t['catalog']}
 TURNS = {f[:-5]: [r for r in json.load(open(f'{H}/turns/{f}'))['runs'] if r['model'] in GEM] for f in os.listdir(f'{H}/turns')}
 SHOWN = {t['id'] for t in SEL}
-for tid, v in TURNS_GLM.items():
+for tid, v in (TURNS_GLM if SHOW_GLM else {}).items():
     if tid in SHOWN: TURNS.setdefault(tid, []); TURNS[tid] = TURNS[tid] + [{**r, 'model': FL_CN if r['model'] == FLASH else GLM_CN} for r in v]
 # 5 Nov selection: turn counts of the selected version's Gemini and GLM-5.3 Flash runs (turns5/, bin/fetch_turns5.py) replace the above
 if SEL5:
-    N2C = {GEM[k]: CANON[k] for k in GEM}; N2C[GLMF] = GLM_CN
+    N2C = {GEM[k]: CANON[k] for k in GEM}
+    if SHOW_GLM: N2C[GLMF] = GLM_CN
     TURNS = {f[:-5]: [{**r, 'model': N2C[r['model']]} for r in json.load(open(f'{H}/turns5/{f}'))['runs'] if r['model'] in N2C]
              for f in os.listdir(f'{H}/turns5') if f[:-5] in SHOWN}
 def turn_stats(tid, glm=True):
@@ -58,7 +60,7 @@ def median(v):
     return None if not n else (v[n // 2] if n % 2 else (v[n // 2 - 1] + v[n // 2]) / 2)
 def model_rows(tid, glm=True):
     out = collections.defaultdict(lambda: dict(rollouts=0, graded=0, passed=0, errors=0, score_sum=0.0))
-    if glm and tid in GLM and tid in SHOWN:
+    if SHOW_GLM and glm and tid in GLM and tid in SHOWN:
         o = out[GLM_CN]; g = GLM[tid]['runs']; o['rollouts'] = o['graded'] = len(g); o['passed'] = sum(q['passed'] for q in g)
     if tid in FAM and tid in SHOWN:
         o = out[FL_CN]; g = FAM[tid]['runs']; o['rollouts'] = o['graded'] = len(g); o['passed'] = sum(q['passed'] for q in g)
@@ -143,7 +145,7 @@ for slug, cat in CATS:
         for q in RO.get(r['id'], {}).get('rollouts', []):
             if q['model'] not in GEM or q.get('is_errored') or q.get('passed') is None: continue
             sc[MM[q['model']]].append(int(bool(q['passed'])))
-        if r['id'] in GLM: sc[GLMF] = [int(q['passed']) for q in GLM[r['id']]['runs']]
+        if SHOW_GLM and r['id'] in GLM: sc[GLMF] = [int(q['passed']) for q in GLM[r['id']]['runs']]
         if r['id'] in FLB: sc[FLASH] = [int(q['passed']) for q in FLB[r['id']]['runs']]
         if r['id'] in FAM: sc[FLASH] = [int(q['passed']) for q in FAM[r['id']]['runs']]
         tu = collections.defaultdict(lambda: [0, 0])

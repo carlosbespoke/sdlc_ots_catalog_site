@@ -138,7 +138,7 @@ for slug, s in S.items():
     L.append('## Turn counts and long-horizon tasks\n')
     if TT.get('tasks_with_turns'):
         k = TT['tasks_with_turns']; lh = TT['long_horizon_tasks']
-        L.append(f"A task's turn count is the average over its runs by Gemini 4 Argon, Gemini 3.8 Flash and GLM-5.3 Flash. A task is long horizon when that average is {TT['threshold']} or more turns.\n")
+        L.append(f"A task's turn count is the average over its runs by Gemini 4 Argon and Gemini 3.8 Flash. A task is long horizon when that average is {TT['threshold']} or more turns.\n")
         L.append(table(['Measure', 'Value'], [['Average turn count', f"{TT['mean_of_task_means']:.1f}"], ['Median turn count', f"{TT['median_of_task_means']:.1f}"],
             ['Range', f"{TT['min_task_mean']:.0f} to {TT['max_task_mean']:.0f}"], [f"Long-horizon tasks ({TT['threshold']}+ turns)", f"{100 * lh / k:.0f}% of tasks"]]) + '\n')
         L.append(chart('turns', 'Turns per task', ' data-group="Domain"'))
@@ -243,7 +243,7 @@ L.append('### Headroom for improvement\n')
 L.append(f"Across the {sum(1 for g, _ in AR if g)} samples, the chance that one Argon run passes (pass@1) is {pct(p1)}. On the {len(two)} samples with two or more graded Argon runs, the chance that at least one of two runs passes (pass@2) is {pct(p2)}. Each sample is weighted equally. Argon can often reach a working solution but does not get there reliably.\n")
 L.append(FM['headroom'] + '\n')
 L.append('## Pass rates by catalog\n')
-L.append("Each cell is a model's pass rate in one catalog: its passed runs over its graded runs there, with errored runs left out. GLM-5.3 Flash is shown beside the Gemini models for comparison.\n")
+L.append("Each cell is a model's pass rate in one catalog: its passed runs over its graded runs there, with errored runs left out.\n")
 HM = list(allm)
 HEAT = {'models': HM, 'catalogs': [s_['name'] for _, s_ in index], 'minTasks': 5,
         'cells': [[j, HM.index(m['model']), m['graded'], [round(v, 4) for v in m['per_task_rates']], m['passed']] for j, (_, s_) in enumerate(index) for m in s_['models'] if m['per_task_rates']]}
@@ -252,7 +252,7 @@ L.append(chart('heat', 'Pass rate by model and catalog').replace('<div class="fi
 L.append(table(['Model', 'Pass rate'], [[k, pct(v[1] / v[0]) if v[0] else 'n/a'] for k, v in allm.items()]) + '\n')
 allt = [m for _, s_ in index for m in (s_.get('turns') or {}).get('task_means') or []]
 L.append('## Turn counts\n')
-L.append(f"A task's turn count is the average over its runs by Gemini 4 Argon, Gemini 3.8 Flash and GLM-5.3 Flash. Across all catalogs the average is {sum(allt) / len(allt):.0f} turns, and {100 * sum(m >= 200 for m in allt) / len(allt):.0f}% of tasks average 200 turns or more.\n")
+L.append(f"A task's turn count is the average over its runs by Gemini 4 Argon and Gemini 3.8 Flash. Across all catalogs the average is {sum(allt) / len(allt):.0f} turns, and {100 * sum(m >= 200 for m in allt) / len(allt):.0f}% of tasks average 200 turns or more.\n")
 TXM = HM; txt = []
 for j, (_, s_) in enumerate(index):
     for r in s_['task_rows']:
