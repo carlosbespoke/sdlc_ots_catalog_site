@@ -14,7 +14,7 @@ y1 = stack([('rd', 'README.md', 'what Exo is and how to use it', 'file', 'markdo
             ('ds', 'Docstrings', 'module, class and function docstrings of the 42 in-scope modules, examples included', 'file', 'python')], 36, 298, top + 52)
 y2 = stack([('code', '42 in-scope modules', 'frontend, core, rewrite, backend, stdlib and API; src/exo/platforms/ is out of scope', 'svc', 'python'),
             ('cm', 'Code comments', 'supporting evidence only; when a comment contradicts the documentation, follow the documentation', 'muted', None),
-            ('api', 'Public API stays stable', 'behaviour that already matches its documentation must work exactly as before', 'muted', None)], 406, 298, top + 52, 16)
+            ('api', 'Public API stays stable', 'behavior that already matches its documentation must work exactly as before', 'muted', None)], 406, 298, top + 52, 16)
 y3 = stack([('ob', '124 observations', '123 small Exo programs compared with sealed expected values, plus one unedited-documentation check', 'fault', 'test-pipe'),
             ('f2p', '11 drift groups, 30 observations', 'fail on the delivered code, pass after the reference repair', 'fault', None),
             ('p2p', '44 guard groups, 94 observations', 'already pass and must keep passing', 'client', None),
@@ -41,7 +41,7 @@ D.box('doc', 36, ry, 240, 'The documentation says', 'a signature, a default, an 
 D.box('run', 36, ry + 116, 240, 'The code does', 'what Exo prints, returns or raises at runtime', 'svc', 'python', h=76)
 cx, cy = 356, ry + 96
 D.el.append(f'<circle cx="{cx}" cy="{cy}" r="38" fill="#ffffff" stroke="{TEAL}" stroke-width="1.4"/>')
-D._t(cx, cy - 3, 'same', 11.5, True, TEAL, 'middle'); D._t(cx, cy + 12, 'behaviour?', 11.5, True, TEAL, 'middle')
+D._t(cx, cy - 3, 'same', 11.5, True, TEAL, 'middle'); D._t(cx, cy + 12, 'behavior?', 11.5, True, TEAL, 'middle')
 D.arrow([(276, ry + 38), (300, ry + 38), (300, cy - 14), (318, cy - 14)])
 D.arrow([(276, ry + 154), (300, ry + 154), (300, cy + 14), (318, cy + 14)])
 D.box('keep', 470, ry - 4, 290, 'Yes: leave it exactly as it is', 'checked by the 94 guard observations', 'client', h=60)
@@ -53,6 +53,6 @@ D.arrow([(cx + 30, cy + 24), (430, cy + 24), (430, ry + 166), (470, ry + 166)], 
 D.cross(744, ry + 150, 8)
 D.note(790, ry + 10, 274, 'The prompt names the scope and the rule, not the drifts. The agent finds them by reading the documentation against the code, stage by stage.', 12.5, TEAL, True)
 H = ry + 212 + 22 - y0
-D.zone(20, y0, 1060, H, 'Where a drift can sit, and what to do with it', 'plain', 'every compiler stage is in scope; each documented behaviour is checked against what the code actually does')
+D.zone(20, y0, 1060, H, 'Where a drift can sit, and what to do with it', 'plain', 'every compiler stage is in scope; each documented behavior is checked against what the code actually does')
 D.h = y0 + H + 20
 D.save(HERE + '/diagram.svg')

@@ -20,7 +20,8 @@
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Tasks</button></th>
 <th scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">What the tasks do</button></th>
 <th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">% of all tasks</button></th>
-<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average turn count</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average turns, Gemini 4 Argon</button></th>
+<th class="numeric" scope="col" aria-sort="none"><button class="sort-button" type="button" title="Sort this column">Average turns, Gemini 3.8 Flash</button></th>
 </tr>
 </thead>
 <tbody>
@@ -29,34 +30,39 @@
 <td class="numeric">283</td>
 <td>Rebuild or upgrade programs to match a reference exactly, or port libraries to another language.</td>
 <td class="numeric">50.1%</td>
-<td class="numeric">473</td>
+<td class="numeric">426</td>
+<td class="numeric">440</td>
 </tr>
 <tr>
 <td><a href="system-design.html">System design &amp; IaC</a></td>
 <td class="numeric">76</td>
 <td>Keep running services and live infrastructure correct through failures and refactors.</td>
 <td class="numeric">13.5%</td>
-<td class="numeric">361</td>
+<td class="numeric">277</td>
+<td class="numeric">236</td>
 </tr>
 <tr>
 <td><a href="debugging.html">Diagnosis, Debugging, and Bug Fixing</a></td>
 <td class="numeric">98</td>
 <td>Find and fix faults in real codebases from symptoms or documentation.</td>
 <td class="numeric">17.3%</td>
-<td class="numeric">493</td>
+<td class="numeric">262</td>
+<td class="numeric">534</td>
 </tr>
 <tr>
 <td><a href="feature-implementation.html">Feature implementation</a></td>
 <td class="numeric">108</td>
-<td>Add capabilities to existing libraries and services without breaking current behaviour.</td>
+<td>Add capabilities to existing libraries and services without breaking current behavior.</td>
 <td class="numeric">19.1%</td>
-<td class="numeric">349</td>
+<td class="numeric">232</td>
+<td class="numeric">361</td>
 </tr>
 <tr>
 <td><strong>Total</strong></td>
 <td class="numeric"><strong>565</strong></td>
 <td></td>
 <td class="numeric"><strong>100%</strong></td>
+<td class="numeric"></td>
 <td class="numeric"></td>
 </tr>
 </tbody>
@@ -258,7 +264,7 @@
 </div>
 <h2 id="where-gemini-4-argon-fails">Where Gemini 4 Argon fails</h2>
 <p>Across the 22 samples, Gemini 4 Argon did not pass 39 of its 65 graded runs and passed the other 26. We sorted the failures into five failure modes. Each sample is counted once, under its main failure mode, though single runs can fail in different ways.</p>
-<div class="kpis"><div class="kpi"><div class="kpi-value">39 of 65</div><div class="kpi-label">Argon runs not passed</div></div><div class="kpi"><div class="kpi-value">35%</div><div class="kpi-label">Argon pass@1 on samples</div></div><div class="kpi"><div class="kpi-value">57%</div><div class="kpi-label">Argon pass@2 on samples</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">39 of 65</div><div class="kpi-label">Argon runs not passed</div></div><div class="kpi"><div class="kpi-value">33%</div><div class="kpi-label">Argon pass@1 on samples</div></div><div class="kpi"><div class="kpi-value">57%</div><div class="kpi-label">Argon pass@2 on the 21 samples with 2+ runs</div></div></div>
 <div class="table-scroll"><table class="data fm">
 <thead><tr><th>Failure mode</th><th>Details and examples</th><th class="numeric">Runs not passed</th><th class="numeric">Samples</th></tr></thead>
 <tbody><tr><td>Workflow and access failures</td><td><span class="fm-sum">Missed cleanup, conflict handling or permitted access during a workflow.</span><ul class="fm-ex"><li><b>Cancelled upload:</b> Cancelling an upload should free its reserved space. Argon's version kept the space occupied, so the next upload was rejected as over quota.</li><li><b>Overlapping upload and delete:</b> A valid package upload should still finish when a delete overlaps with it. Argon's version rejected the upload as a conflict.</li><li><b>Download permissions:</b> A scanner should be allowed to download from its assigned repository. Argon's security change blocked that permitted download.</li></ul></td><td class="numeric">15</td><td class="numeric">6</td></tr><tr><td>Incorrect data or state</td><td><span class="fm-sum">Lost values, changed future behavior or missed database-change notifications.</span><ul class="fm-ex"><li><b>Saving and reopening a frequency counter:</b> After reopening, the counter used a different random sequence, so it no longer continued identically when given the same new inputs.</li><li><b>Adding CSV support:</b> The data-processing tool should preserve correct summary totals. Argon's changes produced a count of 75 matching records where 119 were expected.</li><li><b>Restoring an older database:</b> Restoration should preserve values in columns added later. Argon's version lost those values when restoring an older-format database.</li></ul></td><td class="numeric">6</td><td class="numeric">4</td></tr><tr><td>Incomplete ports and rebuilds</td><td><span class="fm-sum">Failed to preserve the original behavior across inputs or deliver a program that builds.</span><ul class="fm-ex"><li><b>Porting a counting library:</b> Ordinary counts worked, but the largest supported count failed in one storage format. The port should match the original at that limit.</li><li><b>Rebuilding a video encoder:</b> Argon selected from fixed encoded samples, which could not handle the wider range of video inputs. Only 32 of 453 checks passed.</li><li><b>Porting a graph library:</b> Duplicate functions and incompatible function calls stopped the submitted code from compiling, so none of the behavior checks could run.</li></ul></td><td class="numeric">5</td><td class="numeric">3</td></tr><tr><td>Missing required behavior</td><td><span class="fm-sum">Passed many checks while missing required modes, interfaces or processing paths.</span><ul class="fm-ex"><li><b>Combining image filters:</b> Argon's repair still failed when inclusion and exclusion filters were used together. Only images allowed by both rules should be processed.</li><li><b>Fixing incorrect experiment results:</b> Failed training runs were being reported as zero loss. Argon reproduced the bug, but its fix covered only two of four tested variants.</li></ul></td><td class="numeric">6</td><td class="numeric">4</td></tr><tr><td>Unfinished integration and features</td><td><span class="fm-sum">Left configuration dependencies, module connections or requested API options incomplete.</span><ul class="fm-ex"><li><b>Changing a deployment's project name:</b> Generated machine startup scripts still contained the old project name. The setting should have updated everywhere it was used.</li><li><b>Splitting infrastructure into modules:</b> The top-level configuration still read outputs from the old resources, rather than from the new modules as required.</li><li><b>Adding XML options:</b> New options were meant to control null values and whitespace. Argon's submitted library rejected both options as unrecognized arguments.</li></ul></td><td class="numeric">7</td><td class="numeric">5</td></tr></tbody>
@@ -266,7 +272,7 @@
 </table></div>
 <style>table.fm td{vertical-align:top}table.fm .fm-sum{display:block;font-weight:600;margin-bottom:6px}table.fm ul{margin:0;padding-left:18px}table.fm li{margin:0 0 6px}table.fm tfoot td{border-top:1px solid var(--ink)}</style>
 <h3 id="headroom-for-improvement">Headroom for improvement</h3>
-<p>On the 21 samples with two or more graded Argon runs, the chance that one run passes (pass@1) is 35%, and the chance that at least one of two runs passes (pass@2) is 57%, with each sample weighted equally. Argon can often reach a working solution but does not get there reliably.</p>
+<p>Across the 22 samples, the chance that one Argon run passes (pass@1) is 33%. On the 21 samples with two or more graded Argon runs, the chance that at least one of two runs passes (pass@2) is 57%. Each sample is weighted equally. Argon can often reach a working solution but does not get there reliably.</p>
 <p>Argon often implements much of the solution, but misses conditions that matter in real use: cancelling an upload, restoring older data, combining settings, or keeping totals correct after a change. More training examples covering these situations can help strengthen that behavior. These environments provide concrete failure cases, realistic implementation work, and executable checks to measure whether the gaps are closing.</p>
 <h2 id="pass-rates-by-catalog">Pass rates by catalog</h2>
 <p>Each cell is a model's pass rate in one catalog: its passed runs over its graded runs there, with errored runs left out. GLM-5.3 Flash is shown beside the Gemini models so that every selected task has results.</p>

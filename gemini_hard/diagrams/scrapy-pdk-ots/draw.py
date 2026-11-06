@@ -13,7 +13,7 @@ y1 = stack([('dc', 'docs/topics/, 8 pages', 'request-response, scheduler, jobs, 
             ('cm', 'Code comments', 'also part of the documentation for this task', 'file', None)], 36, 298, top + 52)
 y2 = stack([('code', 'The request and response layer', 'scrapy/http/, core/scheduler.py, pqueues, squeues, dupefilters, utils (request, url, response, job), throttle, spiderstate, exceptions', 'svc', 'python'),
             ('mw', 'Built-in middlewares', 'every module in scrapy/downloadermiddlewares/ and scrapy/spidermiddlewares/', 'svc', 'python'),
-            ('api', 'Public API stays stable', 'behaviour that already matches its documentation must work exactly as before; no upstream tests supplied', 'muted', None)], 406, 298, top + 52, 16)
+            ('api', 'Public API stays stable', 'behavior that already matches its documentation must work exactly as before; no upstream tests supplied', 'muted', None)], 406, 298, top + 52, 16)
 y3 = stack([('ob', '147 observations', '146 small Scrapy programs compared with sealed expected values, plus one unedited-documentation check', 'fault', 'test-pipe'),
             ('f2p', '4 drift groups, 7 observations', 'fail on the delivered code, pass after the reference repair', 'fault', None),
             ('p2p', '35 guard groups, 140 observations', 'already pass and must keep passing', 'client', None),
@@ -48,7 +48,7 @@ D.box('at', at_x, py + 150, 236, 'AutoThrottle', 'adjusts download delays from o
 D.arrow([(ex + W / 2, py + 104), (ex + W / 2, py + 150)], kind='muted', both=True, width=1.2)
 D.arrow([(36 + 4 * (W + G) + W / 2, py + 150), (36 + 4 * (W + G) + W / 2, py + 104)], kind='muted', width=1.2)
 ry = py + 262
-D.note(36, ry, 1000, 'A drift can sit at any stage above. For each documented behaviour:', 12.5, TEAL, True)
+D.note(36, ry, 1000, 'A drift can sit at any stage above. For each documented behavior:', 12.5, TEAL, True)
 rules = [('keep', 'Code matches the docs: leave it', 'checked by the 140 guard observations', 'client'),
          ('fix', 'Code disagrees: change the code', 'checked by the 7 drift observations', 'new'),
          ('no', 'Never edit or delete the docs', 'one observation checks the documentation is unedited', 'fault')]

@@ -6,7 +6,7 @@
 
 Each task changes a production system that must keep running. In the system design tasks the agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers. In the infrastructure tasks the agent restructures live Terraform or Pulumi code so that the plan against production state changes nothing that is deployed. The main languages are Python (28%), HCL (Terraform) (24%) and TypeScript (22%).
 
-Gemini 4 Argon passes 27% of its runs and fails every run on 49% of them. Gemini 3.8 Flash passes 16% of its runs and fails every run on 65% of them.
+Gemini 4 Argon passes 27% of its runs and fails every run on 49% of the tasks it has run. Gemini 3.8 Flash passes 16% of its runs and fails every run on 65% of the tasks it has run.
 
 ## Why this catalog
 
@@ -16,7 +16,7 @@ Production systems fail in specific ways when they change while running. In serv
 
 ### How the tasks reproduce them
 
-Both kinds of task give the agent a working copy of the system and grade the result with hidden checks after the session. Service tasks pin an open-source repository at a base commit, with a short specification that often sets time limits. The agent runs the needed databases, caches or brokers locally and delivers a patch. Hidden tests then kill or pause processes and confirm existing behaviour still works. Infrastructure tasks ship the stack with its recorded production state. A verifier plans the result with refresh disabled, expects moves only, then plans hidden changes such as an added key.
+Both kinds of task give the agent a working copy of the system and grade the result with hidden checks after the session. Service tasks pin an open-source repository at a base commit, with a short specification that often sets time limits. The agent runs the needed databases, caches or brokers locally and delivers a patch. Hidden tests then kill or pause processes and confirm existing behavior still works. Infrastructure tasks ship the stack with its recorded production state. A verifier plans the result with refresh disabled, expects moves only, then plans hidden changes such as an added key.
 
 ### Typical prompts
 

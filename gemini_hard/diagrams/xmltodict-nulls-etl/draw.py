@@ -2,7 +2,7 @@ import os, sys; HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.inse
 from sd import *
 D = Diagram(1100, 1000)
 D.title('xmltodict: opt-in nulls and preserved whitespace for a partner XML feed',
-        'A partner feed now marks missing values with xsi:nil and protects padded text with xml:space. The agent extends xmltodict\'s parse and unparse in /app with two opt-in options, xsi_nil and xml_space, and leaves every default behaviour exactly as it was.')
+        'A partner feed now marks missing values with xsi:nil and protects padded text with xml:space. The agent extends xmltodict\'s parse and unparse in /app with two opt-in options, xsi_nil and xml_space, and leaves every default behavior exactly as it was.')
 top, bot = 104, 474
 D.zone(20, top, 250, bot - top, 'Sample data: /data', 'side', 'copied into the image, outside /app')
 D.box('feed', 36, top + 50, 218, 'partner-feed.xml', '3 entries; nil marked as true and as 1, under two different prefixes; padded codes', 'file', 'file-code')
@@ -22,7 +22,7 @@ for name, n in [('nil on parse', 2), ('xml:space', 2), ('nil on unparse', 2), ('
     D._t(840, y + 4, name, 12, False, INK); D._t(1050, y + 4, str(n), 12, True, '#c83220', 'end')
     D.el.append(f'<rect x="960" y="{y - 6}" width="{n / 2 * 70:.1f}" height="10" rx="2" fill="#f7b3a9"/>')
     y += 19
-D.box('p2', 826, y + 10, 238, '137 must keep passing', "134 of the repository's own tests and 3 checks of the default behaviour", 'dark')
+D.box('p2', 826, y + 10, 238, '137 must keep passing', "134 of the repository's own tests and 3 checks of the default behavior", 'dark')
 D.note(826, y + 104, 238, 'Reward 1 only when every one of the 145 tests passes.', 11.5, '#c83220', True)
 D.arrow([(790, top + 90), (826, top + 90)], 'patch', loff=(0, -8))
 # bottom: the first feed entry, parsed today and with the two options

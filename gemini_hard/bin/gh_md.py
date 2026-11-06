@@ -94,14 +94,14 @@ for slug, s in S.items():
     cards = [kpi(f"{NUM[slug]:,}", 'Tasks')] + [kpi(pct(m['pass_rate']), f"{nm} pass rate") for m, nm in ((am, 'Gemini 4 Argon'), (fm, 'Gemini 3.8 Flash')) if m]
     L.append('<div class="kpis">' + ''.join(cards) + '</div>\n')
     # paragraph 1: what the tasks are, including their languages
-    langs = [x for x in s['language'] if x['value'] != 'Not yet classified'][:3]
+    _ls = [x for x in s['language'] if x['value'] != 'Not yet classified']; langs = [x for x in _ls if x['tasks'] >= _ls[min(2, len(_ls) - 1)]['tasks']]  # top 3, plus any tied with the third
     choice = next((x for x in langs if x['value'] == "Agent's choice"), None); rest = [x for x in langs if x is not choice]
     named = ', '.join(f"{x['value']} ({x['pct']:.0f}%)" for x in rest[:-1]) + (' and ' if len(rest) > 1 else '') + f"{rest[-1]['value']} ({rest[-1]['pct']:.0f}%)"
     lang_s = (f"In {choice['pct']:.0f}% of tasks the agent chooses the language; the most common fixed languages are {named}." if choice
               else f"The main languages are {named}.")
     L.append(SUM[slug]['work'] + ' ' + lang_s + '\n')
     # paragraph 2: results, point first, each rate bounded to the tasks that model has run
-    fails = lambda m: f" and fails every run on {pct(m['tasks_0'] / m['tasks_graded'])} of them" if m['tasks_0'] else ''
+    fails = lambda m: f" and fails every run on {pct(m['tasks_0'] / m['tasks_graded'])} of the tasks it has run" if m['tasks_0'] else ''
     L.append(' '.join([f"Gemini 4 Argon passes {pct(am['pass_rate'])} of its runs{fails(am)}." if am else '',
                        f"Gemini 3.8 Flash passes {pct(fm['pass_rate'])} of its runs{fails(fm)}." if fm else '']).strip() + '\n')
     L.append('## Why this catalog\n')
@@ -184,8 +184,9 @@ for slug, s in S.items():
     print(slug, len(md), 'chars', len(s['showcase']), 'examples')
 # overview
 TOT = sum(s['tasks'] for _, s in index); EST = sum(s['estimate']['estimate'] for _, s in index)
-def tt(s):
+def tt(s, model=None):
     T = s.get('turns') or {}
+    if model: return next((f"{m['mean']:.0f}" for m in T.get('by_model') or [] if m['model'] == model), 'n/a')
     return f"{T['mean_of_task_means']:.0f}" if T.get('tasks_with_turns') else 'n/a'
 proven = sum(s['tiers'].get('Proven', 0) for _, s in index); likely = TOT - proven
 argon = [t for t in U['tasks'] if t['argon']]; argon_g = sum(t['argon']['graded'] for t in argon); argon_p = sum(t['argon']['passed'] for t in argon)
@@ -194,7 +195,7 @@ expected = round(proven + sum(t['p_hard'] for t in U['tasks'] if t.get('tier') =
 ONE = {'programbench': 'Rebuild or upgrade programs to match a reference exactly, or port libraries to another language.',
        'system-design': 'Keep running services and live infrastructure correct through failures and refactors.',
        'debugging': 'Find and fix faults in real codebases from symptoms or documentation.',
-       'feature-implementation': 'Add capabilities to existing libraries and services without breaking current behaviour.'}
+       'feature-implementation': 'Add capabilities to existing libraries and services without breaking current behavior.'}
 allm = {}
 for _, s in index:
     for m in s['models']:
@@ -203,9 +204,9 @@ ar = allm['google/gemini-4-argon']; fl = allm['google/gemini-3.8-flash']
 L = ['# Coding OTS RL Envs\n']
 L.append('<div class="kpis">' + kpi(f"{total:,}", 'Tasks') + kpi(pct(ar[1] / ar[0]), 'Gemini 4 Argon pass rate') + kpi(pct(fl[1] / fl[0]), 'Gemini 3.8 Flash pass rate') + '</div>\n')
 L.append("We selected coding RL Envs that challenge Gemini models and grouped them into four catalogs.\n")
-L.append(table(['Catalog', 'Tasks', 'What the tasks do', '% of all tasks', 'Average turn count'],
-    [[f"[{s['name']}]({slug}.md)", f"{NUM[slug]:,}", ONE[slug], f"{100 * NUM[slug] / total:.1f}%", tt(s)] for slug, s in index]
-    + [['**Total**', f"**{total:,}**", '', '**100%**', '']], align='lrlrr') + '\n')
+L.append(table(['Catalog', 'Tasks', 'What the tasks do', '% of all tasks', 'Average turns, Gemini 4 Argon', 'Average turns, Gemini 3.8 Flash'],
+    [[f"[{s['name']}]({slug}.md)", f"{NUM[slug]:,}", ONE[slug], f"{100 * NUM[slug] / total:.1f}%", tt(s, 'google/gemini-4-argon'), tt(s, 'google/gemini-3.8-flash')] for slug, s in index]
+    + [['**Total**', f"**{total:,}**", '', '**100%**', '', '']], align='lrlrrr') + '\n')
 smp = [(slug, s, i, t) for slug, s in index for i, t in enumerate(s['showcase'], 1)]
 gm = lambda t, name: next((pct(m['pass_rate']) for m in t['models'] if m['model'] == name and m['graded']), '')
 import unicodedata, math, html as _html
@@ -229,17 +230,17 @@ AR = [next(((m['graded'], m['passed']) for m in t['models'] if m['model'] == 'go
 ag, ap = sum(g for g, _ in AR), sum(p for _, p in AR)
 assert sum(m['runs'] for m in FM['modes']) == ag - ap and sum(m['tasks'] for m in FM['modes']) == len(AR), 'failure modes do not add up to the snapshot'
 two = [(g, p) for g, p in AR if g >= 2]
-p1 = sum(p / g for g, p in two) / len(two); p2 = sum(1 - math.comb(g - p, 2) / math.comb(g, 2) for g, p in two) / len(two)
+p1 = sum(p / g for g, p in AR if g) / sum(1 for g, _ in AR if g); p2 = sum(1 - math.comb(g - p, 2) / math.comb(g, 2) for g, p in two) / len(two)
 L.append('## Where Gemini 4 Argon fails\n')
 L.append(f"Across the {len(AR)} samples, Gemini 4 Argon did not pass {ag - ap} of its {ag} graded runs and passed the other {ap}. We sorted the failures into five failure modes. Each sample is counted once, under its main failure mode, though single runs can fail in different ways.\n")
-L.append('<div class="kpis">' + kpi(f'{ag - ap} of {ag}', 'Argon runs not passed') + kpi(pct(p1), 'Argon pass@1 on samples') + kpi(pct(p2), 'Argon pass@2 on samples') + '</div>\n')
+L.append('<div class="kpis">' + kpi(f'{ag - ap} of {ag}', 'Argon runs not passed') + kpi(pct(p1), 'Argon pass@1 on samples') + kpi(pct(p2), f'Argon pass@2 on the {len(two)} samples with 2+ runs') + '</div>\n')
 e_ = lambda x: _html.escape(x, quote=False)
 rows_ = ''.join(f'<tr><td>{e_(m["mode"])}</td><td><span class="fm-sum">{e_(m["summary"])}</span><ul class="fm-ex">' + ''.join(f'<li><b>{e_(k)}:</b> {e_(v)}</li>' for k, v in m['examples'])
                 + f'</ul></td><td class="numeric">{m["runs"]}</td><td class="numeric">{m["tasks"]}</td></tr>' for m in FM['modes'])
 L.append(nob('<div class="table-scroll"><table class="data fm">\n<thead><tr><th>Failure mode</th><th>Details and examples</th><th class="numeric">Runs not passed</th><th class="numeric">Samples</th></tr></thead>\n<tbody>' + rows_
              + f'</tbody>\n<tfoot><tr><td><b>Total</b></td><td></td><td class="numeric"><b>{ag - ap}</b></td><td class="numeric"><b>{len(AR)}</b></td></tr></tfoot>\n</table></div>\n<style>table.fm td{{vertical-align:top}}table.fm .fm-sum{{display:block;font-weight:600;margin-bottom:6px}}table.fm ul{{margin:0;padding-left:18px}}table.fm li{{margin:0 0 6px}}table.fm tfoot td{{border-top:1px solid var(--ink)}}</style>') + '\n')
 L.append('### Headroom for improvement\n')
-L.append(f"On the {len(two)} samples with two or more graded Argon runs, the chance that one run passes (pass@1) is {pct(p1)}, and the chance that at least one of two runs passes (pass@2) is {pct(p2)}, with each sample weighted equally. Argon can often reach a working solution but does not get there reliably.\n")
+L.append(f"Across the {sum(1 for g, _ in AR if g)} samples, the chance that one Argon run passes (pass@1) is {pct(p1)}. On the {len(two)} samples with two or more graded Argon runs, the chance that at least one of two runs passes (pass@2) is {pct(p2)}. Each sample is weighted equally. Argon can often reach a working solution but does not get there reliably.\n")
 L.append(FM['headroom'] + '\n')
 L.append('## Pass rates by catalog\n')
 L.append("Each cell is a model's pass rate in one catalog: its passed runs over its graded runs there, with errored runs left out. GLM-5.3 Flash is shown beside the Gemini models so that every selected task has results.\n")

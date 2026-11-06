@@ -33,7 +33,7 @@ D.zone(780, top, 300, bot - top, 'Hidden grader', 'grader', 'reward 1 only if R,
 gy = top + 52
 for k, t, b in [('R', 'Reproduce', 'the regression test fails on the current code and passes with correct fixes'),
                 ('L', 'Locate', 'rca.json root causes are compared with the known ones; extra entries count against it'),
-                ('F', 'Fix', 'hidden tests of the reported behaviour pass, and the full existing suite still passes')]:
+                ('F', 'Fix', 'hidden tests of the reported behavior pass, and the full existing suite still passes')]:
     D.badge(806, gy + 20, k, RED)
     h = D.box(k, 822, gy, 242, t, b, 'fault'); gy += h + 10
 # bottom: what the user sees today

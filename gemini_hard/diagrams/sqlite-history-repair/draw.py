@@ -34,7 +34,7 @@ for i, (a, b) in enumerate([('columns added', 'parcels.weight added after tracki
 D.zone(770, top, 310, bot - top, 'Hidden grader', 'grader', 'pytest on the patched /app')
 D.box('nt', 786, top + 52, 278, '18 hidden tests of the upgrade', 'history, row-history, restore and row-state-sql after drift, as the instruction describes', 'fault', 'test-pipe')
 y = top + 158
-D._t(790, y, '178 tests guard existing behaviour', 11.5, True, '#c83220'); y += 20
+D._t(790, y, '178 tests guard existing behavior', 11.5, True, '#c83220'); y += 20
 for name, n in [('core library', 86), ('CLI', 36), ('upgrade', 36), ('row-state-sql', 18), ('other', 2)]:
     D._t(790, y + 4, name, 12, False, INK); D._t(1050, y + 4, str(n), 12, True, '#c83220', 'end')
     D.el.append(f'<rect x="900" y="{y - 6}" width="{n / 86 * 120:.1f}" height="10" rx="2" fill="#f7b3a9"/>'); y += 22

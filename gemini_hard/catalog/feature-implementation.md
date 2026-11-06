@@ -4,9 +4,9 @@
 
 <div class="kpis"><div class="kpi"><div class="kpi-value">108</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">5%</div><div class="kpi-label">Gemini 4 Argon pass rate</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">Gemini 3.8 Flash pass rate</div></div></div>
 
-Each task asks the agent to add a capability to an existing open-source library or service, specified as the public types and functions to deliver. The data pipeline tasks extend data libraries so pipelines keep producing correct results after an upstream format or schema change. The main languages are Go (64%) and Python (36%).
+Each task asks the agent to add a capability to an existing open-source library or service, specified as the public types and functions to deliver. The data engineering tasks extend data libraries so pipelines keep producing correct results after an upstream format or schema change. The main languages are Go (64%) and Python (36%).
 
-Gemini 4 Argon passes 5% of its runs and fails every run on 90% of them. Gemini 3.8 Flash passes 2% of its runs and fails every run on 95% of them.
+Gemini 4 Argon passes 5% of its runs and fails every run on 90% of the tasks it has run. Gemini 3.8 Flash passes 2% of its runs and fails every run on 95% of the tasks it has run.
 
 ## Why this catalog
 
@@ -18,11 +18,11 @@ Data engineers face a related problem: after an upstream format or schema change
 
 ### How the tasks reproduce them
 
-Each task pins an open-source repository, mostly Go or Python, in an offline container and gives a written specification of the new behaviour. The agent's edits are collected as a diff against the base commit. After the session, hidden acceptance tests check the new behaviour and the project's existing tests check that nothing else changed. The data pipeline tasks also provide sample inputs in `/data`.
+Each task pins an open-source repository, in Go or Python, in an offline container and gives a written specification of the new behavior. The agent's edits are collected as a diff against the base commit. After the session, hidden acceptance tests check the new behavior and the project's existing tests check that nothing else changed. The data pipeline tasks also provide sample inputs in `/data`.
 
 ### Typical prompts
 
-- A capability gap stated as "X cannot Y", then dense paragraphs on the behaviour to add and the behaviour to preserve.
+- A capability gap stated as "X cannot Y", then dense paragraphs on the behavior to add and the behavior to preserve.
 - A bullet list of required exported names, constants and signatures, with a research and plan file due before any code change.
 - A first-person data problem after an upstream change, with sample files in `/data` and a request to keep existing results unchanged.
 

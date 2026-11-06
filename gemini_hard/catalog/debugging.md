@@ -4,9 +4,9 @@
 
 <div class="kpis"><div class="kpi"><div class="kpi-value">98</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">11%</div><div class="kpi-label">Gemini 4 Argon pass rate</div></div><div class="kpi"><div class="kpi-value">4%</div><div class="kpi-label">Gemini 3.8 Flash pass rate</div></div></div>
 
-Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Go (48%), Python (44%) and TypeScript (3%).
+Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Go (48%), Python (44%), TypeScript (3%) and C (3%).
 
-Gemini 4 Argon passes 11% of its runs and fails every run on 82% of them. Gemini 3.8 Flash passes 4% of its runs and fails every run on 76% of them.
+Gemini 4 Argon passes 11% of its runs and fails every run on 82% of the tasks it has run. Gemini 3.8 Flash passes 4% of its runs and fails every run on 76% of the tasks it has run.
 
 ## Why this catalog
 
@@ -16,7 +16,7 @@ Maintainers are handed code that is wrong in several places and must find the ca
 
 ### How the tasks reproduce them
 
-Each task ships a pinned checkout of an open-source project, with the tests withheld and no network. The prompt describes the symptoms or names the documentation in scope, never the location of the faults. Most diagnosis tasks also ask for `/app/rca.json`, which lists the file and function of each edit and is compared with an answer key. Drift tasks treat the documentation as the authority and forbid editing it. Hidden tests check the repairs and the behaviour that was already correct.
+Each task ships a pinned checkout of an open-source project, with the tests withheld and no network. The prompt describes the symptoms or names the documentation in scope, never the location of the faults. Most diagnosis tasks also ask for `/app/rca.json`, which lists the file and function of each edit and is compared with an answer key. Drift tasks treat the documentation as the authority and forbid editing it. Hidden tests check the repairs and the behavior that was already correct.
 
 ### Typical prompts
 

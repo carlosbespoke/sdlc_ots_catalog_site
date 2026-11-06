@@ -35,7 +35,7 @@ gy = bot + 20
 D.zone(20, gy, 1060, 132, 'Hidden grader', 'grader', 'starts the real server and real devices, then forces the hard timings')
 fx = 36
 for i, (t, b, k) in enumerate([
-        ('10 node tests', '8 new behaviours, 2 guards on existing routes', 'dark'),
+        ('10 node tests', '8 new behaviors, 2 guards on existing routes', 'dark'),
         ('Commit proxy', 'holds two checkpoint proposals, then releases both', 'fault'),
         ('Truncated body', 'declares 8192 bytes, sends 4096 and hangs up', 'fault'),
         ('Late arrival', 'a message older than the base, just before a commit', 'fault'),

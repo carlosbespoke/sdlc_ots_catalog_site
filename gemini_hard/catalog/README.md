@@ -4,13 +4,13 @@
 
 We selected coding RL Envs that challenge Gemini models and grouped them into four catalogs.
 
-| Catalog | Tasks | What the tasks do | % of all tasks | Average turn count |
-|---|---:|---|---:|---:|
-| [ProgramBench and Migration](programbench.md) | 283 | Rebuild or upgrade programs to match a reference exactly, or port libraries to another language. | 50.1% | 473 |
-| [System design & IaC](system-design.md) | 76 | Keep running services and live infrastructure correct through failures and refactors. | 13.5% | 361 |
-| [Diagnosis, Debugging, and Bug Fixing](debugging.md) | 98 | Find and fix faults in real codebases from symptoms or documentation. | 17.3% | 493 |
-| [Feature implementation](feature-implementation.md) | 108 | Add capabilities to existing libraries and services without breaking current behaviour. | 19.1% | 349 |
-| **Total** | **565** |  | **100%** |  |
+| Catalog | Tasks | What the tasks do | % of all tasks | Average turns, Gemini 4 Argon | Average turns, Gemini 3.8 Flash |
+|---|---:|---|---:|---:|---:|
+| [ProgramBench and Migration](programbench.md) | 283 | Rebuild or upgrade programs to match a reference exactly, or port libraries to another language. | 50.1% | 426 | 440 |
+| [System design & IaC](system-design.md) | 76 | Keep running services and live infrastructure correct through failures and refactors. | 13.5% | 277 | 236 |
+| [Diagnosis, Debugging, and Bug Fixing](debugging.md) | 98 | Find and fix faults in real codebases from symptoms or documentation. | 17.3% | 262 | 534 |
+| [Feature implementation](feature-implementation.md) | 108 | Add capabilities to existing libraries and services without breaking current behavior. | 19.1% | 232 | 361 |
+| **Total** | **565** |  | **100%** |  |  |
 
 ## Samples
 
@@ -45,7 +45,7 @@ Each sample is a full task. Click its task id to download it, or a main sample's
 
 Across the 22 samples, Gemini 4 Argon did not pass 39 of its 65 graded runs and passed the other 26. We sorted the failures into five failure modes. Each sample is counted once, under its main failure mode, though single runs can fail in different ways.
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">39 of 65</div><div class="kpi-label">Argon runs not passed</div></div><div class="kpi"><div class="kpi-value">35%</div><div class="kpi-label">Argon pass@1 on samples</div></div><div class="kpi"><div class="kpi-value">57%</div><div class="kpi-label">Argon pass@2 on samples</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">39 of 65</div><div class="kpi-label">Argon runs not passed</div></div><div class="kpi"><div class="kpi-value">33%</div><div class="kpi-label">Argon pass@1 on samples</div></div><div class="kpi"><div class="kpi-value">57%</div><div class="kpi-label">Argon pass@2 on the 21 samples with 2+ runs</div></div></div>
 
 <div class="table-scroll"><table class="data fm">
 <thead><tr><th>Failure mode</th><th>Details and examples</th><th class="numeric">Runs not passed</th><th class="numeric">Samples</th></tr></thead>
@@ -56,7 +56,7 @@ Across the 22 samples, Gemini 4 Argon did not pass 39 of its 65 graded runs and 
 
 ### Headroom for improvement
 
-On the 21 samples with two or more graded Argon runs, the chance that one run passes (pass@1) is 35%, and the chance that at least one of two runs passes (pass@2) is 57%, with each sample weighted equally. Argon can often reach a working solution but does not get there reliably.
+Across the 22 samples, the chance that one Argon run passes (pass@1) is 33%. On the 21 samples with two or more graded Argon runs, the chance that at least one of two runs passes (pass@2) is 57%. Each sample is weighted equally. Argon can often reach a working solution but does not get there reliably.
 
 Argon often implements much of the solution, but misses conditions that matter in real use: cancelling an upload, restoring older data, combining settings, or keeping totals correct after a change. More training examples covering these situations can help strengthen that behavior. These environments provide concrete failure cases, realistic implementation work, and executable checks to measure whether the gaps are closing.
 

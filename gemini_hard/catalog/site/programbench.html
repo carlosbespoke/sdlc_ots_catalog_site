@@ -13,15 +13,15 @@
 <h2 id="executive-summary">Executive summary</h2>
 <div class="kpis"><div class="kpi"><div class="kpi-value">283</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">13%</div><div class="kpi-label">Gemini 4 Argon pass rate</div></div><div class="kpi"><div class="kpi-value">0%</div><div class="kpi-label">Gemini 3.8 Flash pass rate</div></div></div>
 <p>Each task asks the agent to make software behave exactly like a reference version. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from a reference program and its documentation. In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code. In the migration tasks the agent ports a Java or Rust library to Go or C++ behind fixed signatures. In 28% of tasks the agent chooses the language; the most common fixed languages are Go (24%) and Rust (22%).</p>
-<p>Gemini 4 Argon passes 13% of its runs and fails every run on 68% of them. Gemini 3.8 Flash passes 0% of its runs and fails every run on 100% of them.</p>
+<p>Gemini 4 Argon passes 13% of its runs and fails every run on 68% of the tasks it has run. Gemini 3.8 Flash passes 0% of its runs and fails every run on 100% of the tasks it has run.</p>
 <h2 id="why-this-catalog">Why this catalog</h2>
 <h3 id="problems-engineers-face">Problems engineers face</h3>
-<p>Engineers often have to make software behave exactly like a version they cannot reuse: rebuilding a tool whose source is unavailable, bringing an old codebase up to a newer release, or replacing a Java or Rust dependency with a port in Go or C++. In each case the specification is observable behaviour. The hard part is inferring the rules from outputs and documentation, then matching exit codes, output, file effects, numeric precision and result ordering without seeing the tests.</p>
+<p>Engineers often have to make software behave exactly like a version they cannot reuse: rebuilding a tool whose source is unavailable, bringing an old codebase up to a newer release, or replacing a Java or Rust dependency with a port in Go or C++. In each case the specification is observable behavior. The hard part is inferring the rules from outputs and documentation, then matching exit codes, output, file effects, numeric precision and result ordering without seeing the tests.</p>
 <h3 id="how-the-tasks-reproduce-them">How the tasks reproduce them</h3>
 <p>Every task runs offline, and hidden tests compare the result with the reference. In reimplementation and upgrade tasks the reference is a program the agent can run but not read. For a reimplementation, the agent writes a source project and a <code>compile.sh</code> from the reference and its documentation. For an upgrade, the agent changes an existing repository in <code>/app/repo</code>, which is built with a fixed <code>/opt/task/build.sh</code>. Migration tasks provide the original source and a skeleton with final signatures, and most add a <code>mig-check</code> tool.</p>
 <h3 id="typical-prompts">Typical prompts</h3>
 <ul>
-<li>Reproduce the documented behaviour of an execute-only program, delivered as source code plus <code>compile.sh</code>.</li>
+<li>Reproduce the documented behavior of an execute-only program, delivered as source code plus <code>compile.sh</code>.</li>
 <li>Update an existing repository to match a reference program, after first writing a research and plan file.</li>
 <li>Port a named Java or Rust library to Go or C++ from a reference folder, keeping the given signatures, within per-test time and memory limits.</li>
 </ul>

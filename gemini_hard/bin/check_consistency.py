@@ -100,7 +100,7 @@ for slug in PAGE.values():
         if shown:
             r = tab.get(model) or [None] * 5
             eq(f'pass-rate table: {slug} {short}', r[1:5], [pct(p / g), pct(sum(v == 0 for v in per) / len(per)), pct(sum(0.2 <= v <= 0.8 for v in per) / len(per)), pct(sum(v == 1 for v in per) / len(per))])
-            m = re.search(rf'{short} passes (<?\d+%) of its runs(?: and fails every run on (\d+%) of them)?', ex)
+            m = re.search(rf'{short} passes (<?\d+%) of its runs(?: and fails every run on (\d+%) of the tasks it has run)?', ex)
             eq(f'summary sentence: {slug} {short}', m and (m.group(1), m.group(2)), (pct(p / g), pct(sum(v == 0 for v in per) / len(per)) if any(v == 0 for v in per) else None))
         else: eq(f'pass-rate table: {slug} {short} hidden', model in tab, False)
     # turn counts over Gemini runs
@@ -141,7 +141,10 @@ for model, short in (('google/gemini-4-argon', 'Gemini 4 Argon'), ('google/gemin
     g, p, _ = pooled(SEL, model); eq(f'overview card: {short}', K.get(f'{short} pass rate'), pct(p / g))
 for r in rows(md, '['):
     slug = re.search(r'\(([\w-]+)\.md\)', r[0]).group(1); T = [t for t in SEL if page_of(t) == slug]; tm = turn_means(T)
-    eq(f'overview table: {slug}', [r[1], r[3], r[4]], [f'{NUM[slug]:,}', f'{100 * NUM[slug] / total:.1f}%', f'{statistics.mean(tm.values()):.0f}' if tm else 'n/a'])
+    def _mt(model):  # a model's average turns per task: mean over tasks of that model's mean over its runs
+        x = [statistics.mean(r['turn_count'] for r in TU[t['id']] if NAME.get(r['model']) == model) for t in T if any(NAME.get(r['model']) == model for r in TU.get(t['id']) or [])]
+        return f'{statistics.mean(x):.0f}' if x else 'n/a'
+    eq(f'overview table: {slug}', [r[1], r[3], r[4], r[5]], [f'{NUM[slug]:,}', f'{100 * NUM[slug] / total:.1f}%', _mt('google/gemini-4-argon'), _mt('google/gemini-3.8-flash')])
 for r in rows(section(md, 'Pass rates by catalog'), 'google/') + rows(section(md, 'Pass rates by catalog'), 'z-ai/'):
     g, p, _ = pooled(SEL, r[0]); eq(f'overview pass table: {r[0]}', r[1], pct(p / g) if g else 'n/a')
 for r in rows(section(md, 'Samples'), 'Main'):

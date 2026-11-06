@@ -6,13 +6,13 @@
 
 Each task asks the agent to make software behave exactly like a reference version. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from a reference program and its documentation. In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code. In the migration tasks the agent ports a Java or Rust library to Go or C++ behind fixed signatures. In 28% of tasks the agent chooses the language; the most common fixed languages are Go (24%) and Rust (22%).
 
-Gemini 4 Argon passes 13% of its runs and fails every run on 68% of them. Gemini 3.8 Flash passes 0% of its runs and fails every run on 100% of them.
+Gemini 4 Argon passes 13% of its runs and fails every run on 68% of the tasks it has run. Gemini 3.8 Flash passes 0% of its runs and fails every run on 100% of the tasks it has run.
 
 ## Why this catalog
 
 ### Problems engineers face
 
-Engineers often have to make software behave exactly like a version they cannot reuse: rebuilding a tool whose source is unavailable, bringing an old codebase up to a newer release, or replacing a Java or Rust dependency with a port in Go or C++. In each case the specification is observable behaviour. The hard part is inferring the rules from outputs and documentation, then matching exit codes, output, file effects, numeric precision and result ordering without seeing the tests.
+Engineers often have to make software behave exactly like a version they cannot reuse: rebuilding a tool whose source is unavailable, bringing an old codebase up to a newer release, or replacing a Java or Rust dependency with a port in Go or C++. In each case the specification is observable behavior. The hard part is inferring the rules from outputs and documentation, then matching exit codes, output, file effects, numeric precision and result ordering without seeing the tests.
 
 ### How the tasks reproduce them
 
@@ -20,7 +20,7 @@ Every task runs offline, and hidden tests compare the result with the reference.
 
 ### Typical prompts
 
-- Reproduce the documented behaviour of an execute-only program, delivered as source code plus `compile.sh`.
+- Reproduce the documented behavior of an execute-only program, delivered as source code plus `compile.sh`.
 - Update an existing repository to match a reference program, after first writing a research and plan file.
 - Port a named Java or Rust library to Go or C++ from a reference folder, keeping the given signatures, within per-test time and memory limits.
 

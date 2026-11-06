@@ -12,13 +12,13 @@
 <div class="reading">
 <h2 id="executive-summary">Executive summary</h2>
 <div class="kpis"><div class="kpi"><div class="kpi-value">98</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">11%</div><div class="kpi-label">Gemini 4 Argon pass rate</div></div><div class="kpi"><div class="kpi-value">4%</div><div class="kpi-label">Gemini 3.8 Flash pass rate</div></div></div>
-<p>Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Go (48%), Python (44%) and TypeScript (3%).</p>
-<p>Gemini 4 Argon passes 11% of its runs and fails every run on 82% of them. Gemini 3.8 Flash passes 4% of its runs and fails every run on 76% of them.</p>
+<p>Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Go (48%), Python (44%), TypeScript (3%) and C (3%).</p>
+<p>Gemini 4 Argon passes 11% of its runs and fails every run on 82% of the tasks it has run. Gemini 3.8 Flash passes 4% of its runs and fails every run on 76% of the tasks it has run.</p>
 <h2 id="why-this-catalog">Why this catalog</h2>
 <h3 id="problems-engineers-face">Problems engineers face</h3>
 <p>Maintainers are handed code that is wrong in several places and must find the causes without a test suite to lean on. In the diagnosis tasks, many undocumented edits break unrelated features at once. In the documentation-drift tasks, the code still runs but contradicts its own documentation. One task starts from a single production symptom with a hidden root cause.</p>
 <h3 id="how-the-tasks-reproduce-them">How the tasks reproduce them</h3>
-<p>Each task ships a pinned checkout of an open-source project, with the tests withheld and no network. The prompt describes the symptoms or names the documentation in scope, never the location of the faults. Most diagnosis tasks also ask for <code>/app/rca.json</code>, which lists the file and function of each edit and is compared with an answer key. Drift tasks treat the documentation as the authority and forbid editing it. Hidden tests check the repairs and the behaviour that was already correct.</p>
+<p>Each task ships a pinned checkout of an open-source project, with the tests withheld and no network. The prompt describes the symptoms or names the documentation in scope, never the location of the faults. Most diagnosis tasks also ask for <code>/app/rca.json</code>, which lists the file and function of each edit and is compared with an answer key. Drift tasks treat the documentation as the authority and forbid editing it. Hidden tests check the repairs and the behavior that was already correct.</p>
 <h3 id="typical-prompts">Typical prompts</h3>
 <ul>
 <li>A first-person list of symptoms grouped by feature, with no file or function named, ending in a request to fix and report.</li>
