@@ -473,6 +473,28 @@
   "theme": "Software delivery and artifact integrity; Immutable generations and coherent publication"
  },
  {
+  "id": "cd058b63-120a-4dac-8a52-2ed7140da46f",
+  "name": "pdk-standardnotes-file-quota-ledger",
+  "version": 7,
+  "pipeline": "System design",
+  "catalog": "System design",
+  "known": true,
+  "via": "gemini",
+  "what": "Upload reservations, actual usage, owner moves and shared-vault accounting protect a concrete multi-owner limit.\nPractices: Cross-service reservations, expiry, transition deduplication, ownership accounting",
+  "theme": "Efficient and bounded resource use; Ownership, fencing and coordinated admission"
+ },
+ {
+  "id": "b6f71157-3d17-433f-b425-97d8619a4c0a",
+  "name": "eshop-catalog-order-stock-reservations",
+  "version": 9,
+  "pipeline": "System design",
+  "catalog": "System design",
+  "known": true,
+  "via": "gemini",
+  "what": "Overselling gives a clear business problem; reservation conversion/release must survive duplicate and out-of-order events.\nPractices: idempotent event handling, out-of-order message reasoning, concurrency-safe inventory, resilience to DB outages, schema migration at startup",
+  "theme": "Business workflow integrity; Durable idempotency and recovery"
+ },
+ {
   "id": "ed34106a-7b8c-426c-a906-023c181364f8",
   "name": "fasthttp-servefs-optimization",
   "version": 7,
@@ -5564,6 +5586,17 @@
   "via": "gemini",
   "what": "Charge each recurring contribution period once while handling ownership changes, lost payment responses and contributor edits.\nPractices: Payment idempotency, Lease fencing, Webhook reconciliation, Concurrent business-state changes",
   "theme": "Contributors avoid duplicate renewals and retain acknowledged cancellation or amount changes."
+ },
+ {
+  "id": "3355845a-5def-4297-a8f3-2916529270c8",
+  "name": "pdk-squidex-asset-blob-consistency",
+  "version": 4,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Keep Squidex asset records, downloadable versions and usage totals consistent through storage failures and worker replay.\nPractices: Object-store consistency, Upload deduplication, Staging cleanup, Idempotent usage accounting",
+  "theme": "Editors receive readable uploads, reliable deletion and accurate storage usage."
  },
  {
   "id": "355509e7-4c41-425d-bdff-2d0e90cac64b",

@@ -245,6 +245,16 @@ if SEL5:
              'models': {FLASH: [len(fr), sum(r['passed'] for r in fr), 0.0]}, 'argon': None, 'p_hard': None, 'status': 'gem5',
              'family_runs': {'source': fc['source'], 'runs': fr}, 'gemini_graded': len(fr), 'gemini_passed': sum(r['passed'] for r in fr), 'gemini_rate': 0.0, 'solved_by_other': False}
         TASKS.append(t); UNI.append(t); _pb += 1
+    # Diagnosis, Debugging, and Bug Fixing is trimmed to its target by dropping tasks with only GLM-5.3 Flash runs, easiest first
+    # (highest GLM pass rate, then fewest runs); samples stay (reviewer, 6 Nov)
+    DBG_TARGET = 98; _dbg = 'Diagnosis, Debugging, and Bug Fixing'
+    _over = sum(1 for t in UNI if page(t['catalog']) == _dbg) - DBG_TARGET
+    if _over > 0:
+        _g = lambda t: t['models'].get(GLMF) or [0, 0, 0]
+        _cut = sorted([t for t in UNI if page(t['catalog']) == _dbg and t['status'] == 'glm5' and not t['sample']],
+                      key=lambda t: (-(_g(t)[1] / _g(t)[0] if _g(t)[0] else 0), _g(t)[0], t['name']))[:_over]
+        assert len(_cut) == _over, 'not enough GLM-only Debugging tasks to trim'
+        _cut = {t['id'] for t in _cut}; UNI = [t for t in UNI if t['id'] not in _cut]
     print('5 Nov selection:', len(UNI), collections.Counter(page(t['catalog']) for t in UNI), collections.Counter(t['status'] for t in UNI))
 def tier(t):
     return {'proven': 'Proven', 'ranked': 'Ranked', 'easy': 'Argon 80%+', 'gem5': 'Gemini runs', 'glm5': 'GLM-5.3 Flash 10% or less'}.get(t['status'], 'Likely')

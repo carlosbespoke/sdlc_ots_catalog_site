@@ -34,7 +34,7 @@ for r in ROWS:
     old = OLD.get(tid) or OLDN.get(r['Task'])
     cat = old['catalog'] if old and old['catalog'] in REPORT else PIPE.get(r.get('Original pipeline') or '')
     ar = sum(bool(q['passed']) for q in a) / len(a) if a else 0
-    if a and ar > ARGON_MAX and tid not in SAMPLES and not (cat in SD_PAGE and ar < SD_ARGON_MAX): continue
+    if a and ar > ARGON_MAX and tid not in SAMPLES and not (cat in SD_PAGE and ar <= SD_ARGON_MAX): continue
     if tid not in SAMPLES and any(x and sum(bool(q['passed']) for q in x) / len(x) > EASY_MAX for x in (f, l)): continue  # any model above 80%: left out (reviewer, 6 Nov)  # Argon above 60%: left out, except the client's samples (reviewer decision, 5 Nov)
     out.append({'id': tid, 'name': r['Task'], 'version': v, 'pipeline': r.get('Original pipeline'), 'catalog': cat, 'known': bool(old),
                 'via': 'gemini' if (a or f) else 'glm', 'what': r.get('What it does and what the agent practices'), 'theme': r.get('Client theme and capability')})
