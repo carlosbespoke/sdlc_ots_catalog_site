@@ -231,6 +231,20 @@ if SEL5:
     UNI = [t for t in TASKS if t['id'] in _S5 and t['catalog'] in _CATS]
     for t in UNI: t['status'] = 'gem5' if (t['models'].get(ARGON) or t['models'].get(FLASH)) else 'glm5'
     assert all(t in UNI for t in TASKS if t['sample']), 'a sample is outside the 5 Nov selection'
+    # ProgramBench is topped up to 283 with repo-upgrade tasks whose Gemini 3.8 Flash runs sit under another id for the same task
+    # in Horizon (the sheet's "Other task IDs in this family", or the evaluations its rollout evidence names; family5/), hardest first
+    # (most runs, none passed; cat/family_candidates.json). Those runs are the task's own results (reviewer, 5 Nov).
+    PB_TARGET = 283
+    _have = {t['id'] for t in TASKS}; _pb = sum(1 for t in UNI if page(t['catalog']) == 'ProgramBench')
+    for fc in json.load(open(f'{H}/cat/family_candidates.json')):
+        if _pb >= PB_TARGET: break
+        if fc['id'] in _have or fc['id'] not in CL5: continue
+        c5 = CL5[fc['id']]; fr = fc['flash_runs']
+        t = {'id': fc['id'], 'name': fc['name'], 'catalog': 'ProgramBench', 'domain': c5['sg'], 'category': c5['cat'], 'language': c5['lang'],
+             'batch': None, 'in_catalog': True, 'shortlist_no': None, 'old_shortlist': None, 'sample': '', 'sample_order': None,
+             'models': {FLASH: [len(fr), sum(r['passed'] for r in fr), 0.0]}, 'argon': None, 'p_hard': None, 'status': 'gem5',
+             'family_runs': {'source': fc['source'], 'runs': fr}, 'gemini_graded': len(fr), 'gemini_passed': sum(r['passed'] for r in fr), 'gemini_rate': 0.0, 'solved_by_other': False}
+        TASKS.append(t); UNI.append(t); _pb += 1
     print('5 Nov selection:', len(UNI), collections.Counter(page(t['catalog']) for t in UNI), collections.Counter(t['status'] for t in UNI))
 def tier(t):
     return {'proven': 'Proven', 'ranked': 'Ranked', 'easy': 'Argon 80%+', 'gem5': 'Gemini runs', 'glm5': 'GLM-5.3 Flash 10% or less'}.get(t['status'], 'Likely')
@@ -245,7 +259,7 @@ with open(f'{H}/gemini_hard_universe.csv', 'w', newline='') as f:
         a = t['argon'] or {}; fl = t['models'].get(FLASH) or [None, None]
         w.writerow([t['name'], t['id'], t['catalog'], t['domain'], t['category'], tier(t), t['sample'], t['shortlist_no'] or '', 'yes' if t['in_catalog'] else 'no',
                     a.get('graded', ''), a.get('passed', ''), f"{a['rate']:.0%}" if a else '', fl[0] or '', fl[1] if fl[0] else '',
-                    '' if t['status'] == 'proven' else f"{t['p_hard']:.2f}",
+                    '' if t['status'] == 'proven' or t.get('p_hard') is None else f"{t['p_hard']:.2f}",
                     '; '.join(f'{m}: {v[1]}/{v[0]}' for m, v in sorted(t['models'].items()) if m not in (ARGON, FLASH, DROPPED))])
 for t in TASKS:
     t['tier'] = tier(t) if t in UNI else ''

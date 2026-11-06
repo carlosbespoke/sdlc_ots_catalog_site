@@ -20,6 +20,19 @@ def _raw(tid, src):
     if src == 'own': return {q['id']: q for q in RO[tid]['rollouts']}
     return {q['id']: q for o in json.load(open(f'{H}/origins/{tid}.json'))['origins'] for q in o['rollouts']}
 GLM, FLB = {}, {}
+# Gemini 3.8 Flash runs recorded under another id of the same task (family5/): each run id is checked against the pulled runs
+FAMR = {}
+_EV = json.load(open(f'{H}/family5/_evidence_evals.json')) if os.path.exists(f'{H}/family5/_evidence_evals.json') else {}
+for t in SEL:
+    if not t.get('family_runs'): continue
+    d = json.load(open(f"{H}/family5/{t['id']}.json"))
+    raw = {q['id']: q for m in d['members'] for q in m['rollouts']}
+    raw.update({r['id']: {**r, 'model': 'kittiwake'} for e in d.get('evidence_evals', []) if _EV.get(e, {}).get('model') == 'google/gemini-3.8-flash' for r in _EV[e]['runs']})
+    for q in t['family_runs']['runs']:
+        x = raw.get(q['id'])
+        if not x or MM.get(x['model'], x['model']) not in ('google/gemini-3.8-flash',) and x['model'] != 'kittiwake' or x.get('is_errored') or bool(x.get('passed')) != q['passed']:
+            print('family run not in raw files:', t['name'], q['id']); sys.exit(1)
+    FAMR[t['id']] = [q['passed'] for q in t['family_runs']['runs']]
 FLASHM = 'google/gemini-3.8-flash'
 for t in SEL:
     for key, model, store in (('glm', GLMF, GLM), ('flash_borrowed', FLASHM, FLB)):
@@ -48,7 +61,8 @@ def runs(tid, glm=True):
     out = collections.defaultdict(list)
     if glm and tid in GLM: out[GLMF] = [(p, 0) for p in GLM[tid]]
     if glm and tid in FLB: out[FLASHM] = [(p, 0) for p in FLB[tid]]
-    for q in RO[tid]['rollouts']:
+    if tid in FAMR: out[FLASHM] = [(p, 0) for p in FAMR[tid]]
+    for q in RO.get(tid, {'rollouts': []})['rollouts']:
         if q['model'] in GEM and not q.get('is_errored') and q.get('passed') is not None:
             out[GEM[q['model']]].append((bool(q['passed']), q.get('extracted_score') or 0))
     return out

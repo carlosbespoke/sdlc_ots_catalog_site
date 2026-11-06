@@ -9,7 +9,8 @@ CANON = {k: next(c for c, w in GEM.items() if w == v) for k, v in GEM.items()}
 # A task's GLM runs are its own, or borrowed from the task it was copied from or the same repo's reimplementation task (universe.json 'glm').
 GLM_CN = next(k for k, v in MM.items() if v == GLMF); CANON[GLM_CN] = GLM_CN
 GLM = {t['id']: t['glm'] for t in U['tasks'] if t.get('glm')}
-FLB = {t['id']: t['flash_borrowed'] for t in U['tasks'] if t.get('flash_borrowed')}  # Gemini 3.8 Flash runs borrowed from a related task
+FLB = {t['id']: t['flash_borrowed'] for t in U['tasks'] if t.get('flash_borrowed')}
+FAM = {t['id']: t['family_runs'] for t in U['tasks'] if t.get('family_runs')}  # the task's own Gemini 3.8 Flash runs, recorded under another id of the same task  # Gemini 3.8 Flash runs borrowed from a related task
 FL_CN = next(k for k, v in GEM.items() if v == FLASH)
 TURNS_GLM = {f[:-5]: json.load(open(f'{H}/turns_glm/{f}'))['runs'] for f in os.listdir(f'{H}/turns_glm')} if os.path.isdir(f'{H}/turns_glm') else {}
 LONG = 200
@@ -59,6 +60,8 @@ def model_rows(tid, glm=True):
     out = collections.defaultdict(lambda: dict(rollouts=0, graded=0, passed=0, errors=0, score_sum=0.0))
     if glm and tid in GLM and tid in SHOWN:
         o = out[GLM_CN]; g = GLM[tid]['runs']; o['rollouts'] = o['graded'] = len(g); o['passed'] = sum(q['passed'] for q in g)
+    if tid in FAM and tid in SHOWN:
+        o = out[FL_CN]; g = FAM[tid]['runs']; o['rollouts'] = o['graded'] = len(g); o['passed'] = sum(q['passed'] for q in g)
     if glm and tid in FLB and tid in SHOWN:
         o = out[FL_CN]; g = FLB[tid]['runs']; o['rollouts'] = o['graded'] = len(g); o['passed'] = sum(q['passed'] for q in g)
     for q in RO.get(tid, {}).get('rollouts', []):
@@ -142,6 +145,7 @@ for slug, cat in CATS:
             sc[MM[q['model']]].append(int(bool(q['passed'])))
         if r['id'] in GLM: sc[GLMF] = [int(q['passed']) for q in GLM[r['id']]['runs']]
         if r['id'] in FLB: sc[FLASH] = [int(q['passed']) for q in FLB[r['id']]['runs']]
+        if r['id'] in FAM: sc[FLASH] = [int(q['passed']) for q in FAM[r['id']]['runs']]
         tu = collections.defaultdict(lambda: [0, 0])
         for x in TURNS.get(r['id']) or []: v = tu[MM[x['model']]]; v[0] += x['turn_count']; v[1] += 1
         trows.append({'sg': dg(r), 'cat': r['cat'], 'lang': r['lang'], 'sen': r['sen'], 'scores': dict(sc), 'turns': dict(tu)})

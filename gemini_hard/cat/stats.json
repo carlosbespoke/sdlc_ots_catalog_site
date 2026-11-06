@@ -26,9 +26,9 @@
   ],
   "title": "ProgramBench",
   "name": "ProgramBench and Migration",
-  "tasks": 160,
+  "tasks": 283,
   "groups": {
-   "ProgramBench": 149,
+   "ProgramBench": 272,
    "Migration": 11
   },
   "group_domain": {
@@ -36,7 +36,7 @@
   },
   "tiers": {
    "GLM-5.3 Flash 10% or less": 136,
-   "Gemini runs": 24
+   "Gemini runs": 147
   },
   "not_in_catalog": 0,
   "estimate": {
@@ -95,11 +95,11 @@
    1.0
   ],
   "turns": {
-   "tasks_with_turns": 160,
-   "runs": 729,
-   "mean_of_task_means": 609.4597661886725,
-   "median_of_task_means": 617.8666666666667,
-   "long_horizon_tasks": 152,
+   "tasks_with_turns": 283,
+   "runs": 1941,
+   "mean_of_task_means": 537.8759949578932,
+   "median_of_task_means": 526.8333333333334,
+   "long_horizon_tasks": 259,
    "threshold": 200,
    "task_means": [
     807.2,
@@ -261,11 +261,142 @@
     785.8,
     903.8,
     821.8,
-    698.75
+    698.75,
+    364.85714285714283,
+    411.2083333333333,
+    202.88888888888889,
+    345.27777777777777,
+    999.9444444444445,
+    400.27777777777777,
+    216.55555555555554,
+    425.5,
+    903.5555555555555,
+    688.4705882352941,
+    447.6875,
+    448.3333333333333,
+    464.06666666666666,
+    302.7142857142857,
+    642.7857142857143,
+    398.1666666666667,
+    689.75,
+    591.6666666666666,
+    114.58333333333333,
+    396.9166666666667,
+    330.25,
+    1000.0,
+    317.0833333333333,
+    299.9166666666667,
+    716.5833333333334,
+    419.9166666666667,
+    328.25,
+    176.75,
+    388.8333333333333,
+    285.9166666666667,
+    709.4166666666666,
+    143.33333333333334,
+    718.3333333333334,
+    264.5833333333333,
+    226.16666666666666,
+    400.75,
+    200.41666666666666,
+    209.41666666666666,
+    865.75,
+    610.0833333333334,
+    136.5,
+    214.75,
+    376.5,
+    356.5,
+    412.8333333333333,
+    173.33333333333334,
+    447.72727272727275,
+    400.45454545454544,
+    968.1818181818181,
+    548.0909090909091,
+    788.5454545454545,
+    569.5454545454545,
+    266.54545454545456,
+    247.36363636363637,
+    360.5,
+    360.2,
+    229.2,
+    576.8,
+    705.3,
+    590.2222222222222,
+    148.22222222222223,
+    711.5555555555555,
+    572.7777777777778,
+    993.5555555555555,
+    887.7777777777778,
+    849.4444444444445,
+    425.77777777777777,
+    289.44444444444446,
+    191.0,
+    128.375,
+    474.25,
+    151.875,
+    413.14285714285717,
+    533.7142857142857,
+    757.1428571428571,
+    479.2857142857143,
+    614.7142857142857,
+    622.2857142857143,
+    466.2857142857143,
+    800.0,
+    249.0,
+    999.8333333333334,
+    375.6666666666667,
+    458.0,
+    381.8333333333333,
+    262.8333333333333,
+    238.33333333333334,
+    209.83333333333334,
+    932.5,
+    183.33333333333334,
+    416.6666666666667,
+    301.5,
+    618.8333333333334,
+    492.8333333333333,
+    486.5,
+    309.1666666666667,
+    872.3333333333334,
+    222.66666666666666,
+    700.0,
+    258.6666666666667,
+    260.1666666666667,
+    218.0,
+    526.8333333333334,
+    883.3333333333334,
+    454.3333333333333,
+    160.16666666666666,
+    395.6666666666667,
+    92.66666666666667,
+    150.5,
+    185.16666666666666,
+    315.6666666666667,
+    775.3333333333334,
+    166.16666666666666,
+    568.1666666666666,
+    294.5,
+    410.3333333333333,
+    280.5,
+    170.5,
+    252.33333333333334,
+    338.3333333333333,
+    335.6666666666667,
+    961.8333333333334,
+    232.16666666666666
    ],
-   "max_task_mean": 999.75,
+   "max_task_mean": 1000.0,
    "min_task_mean": 6.0,
    "by_model": [
+    {
+     "codename": "kittiwake",
+     "model": "google/gemini-3.8-flash",
+     "runs": 1220,
+     "tasks": 127,
+     "mean": 447.4767242747732,
+     "tasks_200_plus": 111
+    },
     {
      "codename": "steppe",
      "model": "z-ai/glm-5.3-flash",
@@ -281,14 +412,6 @@
      "tasks": 24,
      "mean": 302.3666666666667,
      "tasks_200_plus": 17
-    },
-    {
-     "codename": "kittiwake",
-     "model": "google/gemini-3.8-flash",
-     "runs": 8,
-     "tasks": 4,
-     "mean": 531.05,
-     "tasks_200_plus": 4
     }
    ]
   },
@@ -299,249 +422,284 @@
   "domain": [
    {
     "super_group": "Languages & developer tooling",
-    "tasks": 66,
-    "pct": 41.2,
+    "tasks": 133,
+    "pct": 47.0,
     "categories": [
      {
       "category": "Compilers & language runtimes",
-      "tasks": 35,
-      "pct": 21.9
+      "tasks": 65,
+      "pct": 23.0
      },
      {
       "category": "CLI tooling",
-      "tasks": 12,
-      "pct": 7.5
+      "tasks": 36,
+      "pct": 12.7
      },
      {
       "category": "API tooling",
-      "tasks": 9,
-      "pct": 5.6
+      "tasks": 16,
+      "pct": 5.7
      },
      {
       "category": "Text & NLP processing",
-      "tasks": 7,
-      "pct": 4.4
+      "tasks": 10,
+      "pct": 3.5
      },
      {
       "category": "Logic programming",
-      "tasks": 3,
-      "pct": 1.9
+      "tasks": 6,
+      "pct": 2.1
      }
     ]
    },
    {
     "super_group": "Applications & business domains",
-    "tasks": 25,
-    "pct": 15.6,
+    "tasks": 38,
+    "pct": 13.4,
     "categories": [
      {
       "category": "Media processing",
-      "tasks": 21,
-      "pct": 13.1
+      "tasks": 29,
+      "pct": 10.2
      },
      {
       "category": "Fonts & text rendering",
+      "tasks": 3,
+      "pct": 1.1
+     },
+     {
+      "category": "Calendaring & recurrence",
       "tasks": 2,
-      "pct": 1.2
+      "pct": 0.7
+     },
+     {
+      "category": "Web applications",
+      "tasks": 2,
+      "pct": 0.7
      },
      {
       "category": "Games & game engines",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      },
      {
-      "category": "Calendaring & recurrence",
+      "category": "Frontend & UI state",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      }
     ]
    },
    {
     "super_group": "Scientific & ML software",
-    "tasks": 20,
-    "pct": 12.5,
+    "tasks": 32,
+    "pct": 11.3,
     "categories": [
      {
       "category": "Scientific computing",
-      "tasks": 14,
-      "pct": 8.8
+      "tasks": 23,
+      "pct": 8.1
+     },
+     {
+      "category": "CAD / CAM",
+      "tasks": 4,
+      "pct": 1.4
      },
      {
       "category": "Machine learning & MLOps",
       "tasks": 3,
-      "pct": 1.9
+      "pct": 1.1
      },
      {
       "category": "Graph algorithms",
       "tasks": 2,
-      "pct": 1.2
-     },
-     {
-      "category": "CAD / CAM",
-      "tasks": 1,
-      "pct": 0.6
+      "pct": 0.7
      }
     ]
    },
    {
     "super_group": "Systems, hardware & accelerators",
-    "tasks": 13,
-    "pct": 8.1,
+    "tasks": 20,
+    "pct": 7.1,
     "categories": [
      {
       "category": "Compression & data integrity",
-      "tasks": 9,
-      "pct": 5.6
+      "tasks": 13,
+      "pct": 4.6
+     },
+     {
+      "category": "Networking & HTTP",
+      "tasks": 2,
+      "pct": 0.7
+     },
+     {
+      "category": "Emulators",
+      "tasks": 2,
+      "pct": 0.7
      },
      {
       "category": "Filesystems",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      },
      {
       "category": "Hardware RTL",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      },
      {
-      "category": "Networking & HTTP",
+      "category": "IoT & smart home",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
+     }
+    ]
+   },
+   {
+    "super_group": "Data engineering & databases",
+    "tasks": 19,
+    "pct": 6.7,
+    "categories": [
+     {
+      "category": "Data formats & serialization",
+      "tasks": 13,
+      "pct": 4.6
      },
      {
-      "category": "Emulators",
+      "category": "Databases & storage engines",
+      "tasks": 3,
+      "pct": 1.1
+     },
+     {
+      "category": "SQL tooling",
+      "tasks": 2,
+      "pct": 0.7
+     },
+     {
+      "category": "Data validation",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
+     }
+    ]
+   },
+   {
+    "super_group": "Build, release & supply chain",
+    "tasks": 13,
+    "pct": 4.6,
+    "categories": [
+     {
+      "category": "Build systems",
+      "tasks": 8,
+      "pct": 2.8
+     },
+     {
+      "category": "Software supply chain",
+      "tasks": 4,
+      "pct": 1.4
+     },
+     {
+      "category": "CI/CD",
+      "tasks": 1,
+      "pct": 0.4
      }
     ]
    },
    {
     "super_group": "Cross-language migration",
     "tasks": 11,
-    "pct": 6.9,
+    "pct": 3.9,
     "categories": [
      {
       "category": "Data formats & serialization",
       "tasks": 3,
-      "pct": 1.9
+      "pct": 1.1
      },
      {
       "category": "Compilers & language runtimes",
       "tasks": 2,
-      "pct": 1.2
+      "pct": 0.7
      },
      {
       "category": "Graph algorithms",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      },
      {
       "category": "CLI tooling",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      },
      {
       "category": "Media processing",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      },
      {
       "category": "Statistics & numerical methods",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      },
      {
       "category": "Collaborative documents",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      },
      {
       "category": "Probabilistic data structures",
       "tasks": 1,
-      "pct": 0.6
-     }
-    ]
-   },
-   {
-    "super_group": "Data engineering & databases",
-    "tasks": 10,
-    "pct": 6.2,
-    "categories": [
-     {
-      "category": "Data formats & serialization",
-      "tasks": 7,
-      "pct": 4.4
-     },
-     {
-      "category": "Databases & storage engines",
-      "tasks": 2,
-      "pct": 1.2
-     },
-     {
-      "category": "SQL tooling",
-      "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      }
     ]
    },
    {
     "super_group": "Security",
-    "tasks": 6,
-    "pct": 3.8,
+    "tasks": 10,
+    "pct": 3.5,
     "categories": [
+     {
+      "category": "Cryptography & secure protocols",
+      "tasks": 2,
+      "pct": 0.7
+     },
      {
       "category": "Secret scanning",
       "tasks": 2,
-      "pct": 1.2
+      "pct": 0.7
      },
      {
       "category": "Secrets & access control",
       "tasks": 2,
-      "pct": 1.2
+      "pct": 0.7
      },
      {
-      "category": "Cryptography & secure protocols",
-      "tasks": 1,
-      "pct": 0.6
+      "category": "Parser security hardening",
+      "tasks": 2,
+      "pct": 0.7
      },
      {
       "category": "Cloud security & compliance",
       "tasks": 1,
-      "pct": 0.6
-     }
-    ]
-   },
-   {
-    "super_group": "Build, release & supply chain",
-    "tasks": 5,
-    "pct": 3.1,
-    "categories": [
-     {
-      "category": "Build systems",
-      "tasks": 4,
-      "pct": 2.5
+      "pct": 0.4
      },
      {
-      "category": "Software supply chain",
+      "category": "Binary analysis",
       "tasks": 1,
-      "pct": 0.6
+      "pct": 0.4
      }
     ]
    },
    {
     "super_group": "Cloud infrastructure & IaC",
-    "tasks": 4,
+    "tasks": 7,
     "pct": 2.5,
     "categories": [
      {
       "category": "Configuration management",
-      "tasks": 3,
-      "pct": 1.9
+      "tasks": 4,
+      "pct": 1.4
      },
      {
       "category": "Cloud infra: containers & self-hosted platforms",
-      "tasks": 1,
-      "pct": 0.6
+      "tasks": 3,
+      "pct": 1.1
      }
     ]
    }
@@ -550,126 +708,131 @@
    {
     "value": "Agent's choice",
     "tasks": 144,
-    "pct": 90.0
+    "pct": 50.9
    },
    {
     "value": "Go",
-    "tasks": 10,
-    "pct": 6.2
-   },
-   {
-    "value": "C++",
-    "tasks": 2,
-    "pct": 1.2
+    "tasks": 50,
+    "pct": 17.7
    },
    {
     "value": "Rust",
-    "tasks": 2,
-    "pct": 1.2
+    "tasks": 38,
+    "pct": 13.4
    },
    {
     "value": "C",
-    "tasks": 2,
-    "pct": 1.2
+    "tasks": 26,
+    "pct": 9.2
+   },
+   {
+    "value": "C++",
+    "tasks": 25,
+    "pct": 8.8
    }
   ],
   "role": [
    {
     "value": "Compiler / Language Engineer",
-    "tasks": 40,
-    "pct": 25.0
+    "tasks": 70,
+    "pct": 24.7
    },
    {
     "value": "Developer Tools Engineer",
-    "tasks": 31,
-    "pct": 19.4
+    "tasks": 67,
+    "pct": 23.7
    },
    {
     "value": "Media Software Engineer",
-    "tasks": 24,
-    "pct": 15.0
-   },
-   {
-    "value": "Research Software Engineer",
-    "tasks": 16,
-    "pct": 10.0
+    "tasks": 33,
+    "pct": 11.7
    },
    {
     "value": "Library / Backend Engineer",
-    "tasks": 14,
+    "tasks": 26,
+    "pct": 9.2
+   },
+   {
+    "value": "Research Software Engineer",
+    "tasks": 25,
     "pct": 8.8
    },
    {
     "value": "Systems Engineer",
-    "tasks": 11,
-    "pct": 6.9
-   },
-   {
-    "value": "Security Engineer",
-    "tasks": 5,
-    "pct": 3.1
-   },
-   {
-    "value": "ML / AI Engineer",
-    "tasks": 4,
-    "pct": 2.5
+    "tasks": 15,
+    "pct": 5.3
    },
    {
     "value": "Build & Release Engineer",
-    "tasks": 4,
+    "tasks": 10,
+    "pct": 3.5
+   },
+   {
+    "value": "Security Engineer",
+    "tasks": 9,
+    "pct": 3.2
+   },
+   {
+    "value": "Platform Engineer",
+    "tasks": 7,
     "pct": 2.5
    },
    {
     "value": "Database Engineer",
-    "tasks": 3,
-    "pct": 1.9
+    "tasks": 5,
+    "pct": 1.8
    },
    {
-    "value": "Platform Engineer",
-    "tasks": 3,
-    "pct": 1.9
+    "value": "Embedded / IoT Engineer",
+    "tasks": 5,
+    "pct": 1.8
+   },
+   {
+    "value": "ML / AI Engineer",
+    "tasks": 4,
+    "pct": 1.4
+   },
+   {
+    "value": "SRE",
+    "tasks": 2,
+    "pct": 0.7
+   },
+   {
+    "value": "Full-stack Engineer",
+    "tasks": 2,
+    "pct": 0.7
    },
    {
     "value": "Cloud Security Engineer",
     "tasks": 1,
-    "pct": 0.6
+    "pct": 0.4
    },
    {
     "value": "Hardware Engineer",
     "tasks": 1,
-    "pct": 0.6
+    "pct": 0.4
    },
    {
     "value": "Game Developer",
     "tasks": 1,
-    "pct": 0.6
-   },
-   {
-    "value": "Embedded / IoT Engineer",
-    "tasks": 1,
-    "pct": 0.6
-   },
-   {
-    "value": "SRE",
-    "tasks": 1,
-    "pct": 0.6
+    "pct": 0.4
    }
   ],
   "seniority": [
    {
-    "value": "Staff+",
-    "tasks": 102,
-    "pct": 63.8
+    "value": "Senior",
+    "tasks": 173,
+    "pct": 61.1
    },
    {
-    "value": "Senior",
-    "tasks": 55,
-    "pct": 34.4
+    "value": "Staff+",
+    "tasks": 104,
+    "pct": 36.7
    },
    {
     "value": "Mid-Senior",
-    "tasks": 3,
-    "pct": 1.9
+    "tasks": 6,
+    "pct": 2.1
    }
   ],
   "models": [
@@ -716,17 +879,140 @@
    {
     "codename": "kittiwake",
     "model": "google/gemini-3.8-flash",
-    "tasks": 11,
-    "rollouts": 17,
-    "graded": 8,
+    "tasks": 134,
+    "rollouts": 1229,
+    "graded": 1220,
     "passed": 0,
     "pass_rate": 0.0,
-    "error_rate": 0.5294117647058824,
-    "tasks_graded": 4,
-    "tasks_0": 4,
+    "error_rate": 0.007323026851098454,
+    "tasks_graded": 127,
+    "tasks_0": 127,
     "tasks_100": 0,
     "tasks_20_80": 0,
     "per_task_rates": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
      0.0,
      0.0,
      0.0,
@@ -4466,6 +4752,3186 @@
      "z-ai/glm-5.3-flash": [
       2795,
       4
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Logic programming",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      12770,
+      35
+     ]
+    }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      9869,
+      24
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3652,
+      18
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      6215,
+      18
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      17999,
+      18
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Calendaring & recurrence",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      7205,
+      18
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3898,
+      18
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      7659,
+      18
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      16264,
+      18
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      11704,
+      17
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Text & NLP processing",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      7163,
+      16
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      6725,
+      15
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      6961,
+      15
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4238,
+      14
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      8999,
+      14
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4778,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Text & NLP processing",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      8277,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "IoT & smart home",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      7100,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1375,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "CAD / CAM",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4763,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3963,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      12000,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3805,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Compression & data integrity",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3599,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Security",
+    "cat": "Parser security hardening",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      8599,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      5039,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3939,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Cloud infrastructure & IaC",
+    "cat": "Configuration management",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2121,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4666,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3431,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      8513,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1720,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      8620,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3175,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Compression & data integrity",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2714,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "CAD / CAM",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4809,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2405,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2513,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      10389,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "CI/CD",
+    "lang": "Go",
+    "sen": "Mid-Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      7321,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1638,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2577,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Networking & HTTP",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4518,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4278,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4954,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2080,
+      12
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4925,
+      11
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4405,
+      11
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "CAD / CAM",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      10650,
+      11
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      6029,
+      11
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      8674,
+      11
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Software supply chain",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      6265,
+      11
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2932,
+      11
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2721,
+      11
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3605,
+      10
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Logic programming",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3602,
+      10
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Logic programming",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2292,
+      10
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      5768,
+      10
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      7053,
+      10
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      5312,
+      9
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1334,
+      9
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      6404,
+      9
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      5155,
+      9
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      8942,
+      9
+     ]
+    }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      7990,
+      9
+     ]
+    }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Databases & storage engines",
+    "lang": "C",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      7645,
+      9
+     ]
+    }
+   },
+   {
+    "sg": "Security",
+    "cat": "Cryptography & secure protocols",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3832,
+      9
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2605,
+      9
+     ]
+    }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data validation",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1528,
+      8
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1027,
+      8
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3794,
+      8
+     ]
+    }
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Compression & data integrity",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1215,
+      8
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2892,
+      7
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3736,
+      7
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      5300,
+      7
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3355,
+      7
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Software supply chain",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4303,
+      7
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4356,
+      7
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3264,
+      7
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4800,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Security",
+    "cat": "Parser security hardening",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1494,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      5999,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2254,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2748,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2291,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Rust",
+    "sen": "Mid-Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1577,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Text & NLP processing",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1430,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "SQL tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1259,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      5595,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1100,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2500,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1809,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3713,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Cloud infrastructure & IaC",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2957,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2919,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1855,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      5234,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1336,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Build systems",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4200,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Build systems",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1552,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1561,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1308,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3161,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Build systems",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      5300,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2726,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Compression & data integrity",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      961,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Emulators",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2374,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data formats & serialization",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      556,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Security",
+    "cat": "Binary analysis",
+    "lang": "C",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      903,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1111,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Build systems",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1894,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Scientific computing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      4652,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      997,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Frontend & UI state",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      3409,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1767,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2462,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "Compilers & language runtimes",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1683,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Fonts & text rendering",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1023,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Media processing",
+    "lang": "C++",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1514,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Software supply chain",
+    "lang": "Rust",
+    "sen": "Mid-Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2030,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "API tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      2014,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Cloud infrastructure & IaC",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "Rust",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      5771,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Languages & developer tooling",
+    "cat": "CLI tooling",
+    "lang": "Go",
+    "sen": "Senior",
+    "scores": {
+     "google/gemini-3.8-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-3.8-flash": [
+      1393,
+      6
      ]
     }
    }
