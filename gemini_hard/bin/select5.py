@@ -8,6 +8,7 @@ FC = list(wb['Full catalogue'].iter_rows(values_only=True)); hd = list(FC[5])
 ROWS = [dict(zip(hd, x)) for x in FC[6:] if len(x) > 1 and x[1]]
 MAP = {r[0]: r[1] for r in list(wb['Horizon task ID mapping'].iter_rows(values_only=True))[1:] if r and r[0]}
 GLM_MAX = 0.10
+ARUNS = json.load(open(f'{H}/rollout_plan/argon_runs.json')) if os.path.exists(f'{H}/rollout_plan/argon_runs.json') else {}  # finished Argon rollout runs (bin/merge_rollout5.py)
 ARGON_MAX = 0.60
 EASY_MAX = 0.80  # no task any shown model passes more than 80% of the time (samples excepted)
 OLD = {t['id']: t for t in json.load(open(f'{H}/universe_nov02.json'))['tasks']}; OLDN = {t['name']: t for t in OLD.values()}
@@ -25,7 +26,7 @@ for r in ROWS:
     tid = MAP[r['Task']]
     if tid in seen: continue
     seen.add(tid); v = ver(r)
-    runs = [q for q in json.load(open(f'{H}/ro5/{tid}.json'))['rollouts'] if v is None or q.get('task_version_number') == v]
+    runs = [q for q in json.load(open(f'{H}/ro5/{tid}.json'))['rollouts'] + ARUNS.get(tid, []) if v is None or q.get('task_version_number') == v]
     g = lambda m: [q for q in runs if MM.get(q['model']) == m and not q.get('is_errored') and q.get('passed') is not None]
     a, f, l = g(ARGON), g(FLASH), g(GLMF)
     if not (a or f or (l and sum(bool(q['passed']) for q in l) / len(l) <= GLM_MAX)): continue

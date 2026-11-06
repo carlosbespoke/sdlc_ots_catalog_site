@@ -8,8 +8,9 @@ RO = {f[:-5]: json.load(open(f'{H}/ro3/{f}')) for f in os.listdir(f'{H}/ro3')}
 RO.update({f[:-5]: json.load(open(f'{H}/ro3_refresh/{f}')) for f in os.listdir(f'{H}/ro3_refresh')})  # runs refreshed after the snapshot
 # 5 Nov selection: runs pulled 5 Nov (ro5/), at the 5 Nov sheet's selected version
 SEL5 = json.load(open(f'{H}/cat/sel5.json')) if os.path.exists(f'{H}/cat/sel5.json') else None
+_AR = json.load(open(f'{H}/rollout_plan/argon_runs.json')) if os.path.exists(f'{H}/rollout_plan/argon_runs.json') else {}  # finished Argon rollout runs
 for _t in SEL5 or []:
-    RO[_t['id']] = {'version': _t['version'], 'rollouts': [q for q in json.load(open(f"{H}/ro5/{_t['id']}.json"))['rollouts'] if _t['version'] is None or q.get('task_version_number') == _t['version']]}
+    RO[_t['id']] = {'version': _t['version'], 'rollouts': [q for q in json.load(open(f"{H}/ro5/{_t['id']}.json"))['rollouts'] + _AR.get(_t['id'], []) if _t['version'] is None or q.get('task_version_number') == _t['version']]}
 TU = {f[:-5]: [r for r in json.load(open(f'{H}/turns/{f}'))['runs'] if r['model'] in GEM] for f in os.listdir(f'{H}/turns')}
 U = json.load(open(f'{H}/universe.json'))
 SEL = [t for t in U['tasks'] if t.get('tier')]

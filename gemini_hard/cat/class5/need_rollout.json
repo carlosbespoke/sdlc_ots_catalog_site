@@ -1,0 +1,222 @@
+[
+ {
+  "id": "bf1813b8-4346-4623-846a-db053e4e48cb",
+  "name": "quant-mind-638d16a4-blind30",
+  "version": 8,
+  "pipeline": "RCA / Diagnosis",
+  "catalog": "Diagnosis, Debugging, and Bug Fixing",
+  "known": true,
+  "via": "gemini",
+  "what": "Restore article/feed/PDF ingestion, persistence, search and model-routing behavior.\nPractices: Symptom-led fault localization, Regression repair, Function-level cause attribution, Content ingestion and retrieval diagnosis",
+  "theme": "Trustworthy data processing; Symptom-led causal diagnosis"
+ },
+ {
+  "id": "96363fd6-27d0-4411-80ad-ca19f690fbb2",
+  "name": "harlan-zw-mdream",
+  "version": 2,
+  "pipeline": "ProgramBench \u00b7 Repo upgrade",
+  "catalog": "ProgramBench",
+  "known": true,
+  "via": "glm",
+  "what": null,
+  "theme": null
+ },
+ {
+  "id": "145b3ce1-e13d-41b8-9298-14f877ff628a",
+  "name": "pdk-appointment-availability-staleness-budget",
+  "version": 9,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Serve shared CalDAV availability within a freshness budget while ensuring booking decisions use fresh remote checks and concurrent requests cannot double-book.\nPractices: Shared cache freshness, Refresh deduplication, Lease recovery and stale-write fencing, Background refresh, Freshness versus availability tradeoffs, Concurrent booking control",
+  "theme": "A scheduling service needs fast public availability pages without excessive calendar fetches, but must reject bookings that conflict with newly created remote events. The prompt directly supports this operational tradeoff without establishing external demand."
+ },
+ {
+  "id": "1b103540-e24c-4a52-bcae-25849405ef98",
+  "name": "pdk-plunk-workflow-wait-resolves-once",
+  "version": 7,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Keep in-flight workflows stable across revisions and resolve event-versus-timeout waits once through worker crashes.\nPractices: Workflow versioning, Race resolution, Crash recovery, Queue idempotency",
+  "theme": "Workflow authors publish changes without duplicate or missing contact follow-ups."
+ },
+ {
+  "id": "2f2eb1c5-56bd-49e3-a6a6-ece28e7761c0",
+  "name": "pdk-inventree-pinned-api-versions",
+  "version": 4,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Preserve pinned pricing and BOM API semantics through independently upgraded web and import workers.\nPractices: API versioning, Data-semantics compatibility, Version-aware job routing, Crash-safe imports",
+  "theme": "Integrators keep their supported contract while services roll forward independently."
+ },
+ {
+  "id": "30788e6c-ec12-40f3-81bb-f1f0ac53303e",
+  "name": "pdk-openwisp-radius-shared-session-quota",
+  "version": 4,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Share RADIUS session slots and plan allowances across devices, NASes and API instances.\nPractices: Concurrent admission, Quota reservation, Monotonic accounting, Retry-safe disconnects",
+  "theme": "Subscribers receive one shared plan limit; operators avoid over-allocation and stranded sessions."
+ },
+ {
+  "id": "30cc259e-8059-4c40-95fa-4fbb62cc9782",
+  "name": "pdk-netbox-durable-event-webhooks",
+  "version": 9,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Deliver committed NetBox changes durably and in object order despite queue outages and worker crashes.\nPractices: Transactional event capture, Ordered delivery, Webhook retry, Signature compatibility",
+  "theme": "Webhook consumers receive infrastructure changes without silent loss or inconsistent ordering."
+ },
+ {
+  "id": "3229d94a-bc18-430e-8b93-a78c77874e2f",
+  "name": "pdk-opencollective-recurring-charge-fencing",
+  "version": 3,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Charge each recurring contribution period once while handling ownership changes, lost payment responses and contributor edits.\nPractices: Payment idempotency, Lease fencing, Webhook reconciliation, Concurrent business-state changes",
+  "theme": "Contributors avoid duplicate renewals and retain acknowledged cancellation or amount changes."
+ },
+ {
+  "id": "355509e7-4c41-425d-bdff-2d0e90cac64b",
+  "name": "pdk-eshop-catalog-authoritative-pricing-v2",
+  "version": 4,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Make Catalog prices authoritative at checkout while retaining usable acknowledged prices through service and broker outages.\nPractices: Trust-boundary validation, Versioned price events, Durable change propagation, Offline-service reads",
+  "theme": "Checkout accepts legitimate current prices and rejects client-supplied stale or invented product values."
+ },
+ {
+  "id": "391e1384-e30c-41ac-b11d-672fdec9f199",
+  "name": "pdk-mapproxy-shared-s3-tile-cache",
+  "version": 2,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Coordinate shared S3 map-tile rendering and refresh across serving and seeding processes.\nPractices: Distributed render leases, Metatile request coalescing, Stale-result fencing, Cross-node refresh",
+  "theme": "Map operators prevent upstream overload while serving timely tiles through failover."
+ },
+ {
+  "id": "3c41d1cb-5ae9-42c1-90b5-b932a95b0280",
+  "name": "pdk-mlflow-rolling-schema-upgrade",
+  "version": 7,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Roll out MLflow run-tag storage changes while old and upgraded tracking servers share a database.\nPractices: Expand/contract migration, Concurrent backfill, Crash-safe checkpoints, Mixed-version compatibility",
+  "theme": "Tracking users keep reading and writing experiments during upgrades."
+ },
+ {
+  "id": "43bf08c8-acae-4774-bcda-767c66d788aa",
+  "name": "pdk-dagster-pool-slot-leases",
+  "version": 11,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Reclaim abandoned Dagster pool slots and fence resumed workers that lost ownership.\nPractices: Expiring leases, Worker fencing, Priority admission, Cross-process visibility",
+  "theme": "Pipeline operators recover capacity without excess concurrency or false success reports."
+ },
+ {
+  "id": "48614966-2c9e-4252-a46c-c461edced3fb",
+  "name": "pdk-intelowl-shared-analyzer-rate-limits",
+  "version": 4,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Share external-analyzer rate limits fairly across organizations and workers without failing queued analyses.\nPractices: Rolling-window admission, Weighted fairness, Worker recovery, Provider backoff",
+  "theme": "Analysts share provider keys without quota exhaustion or smaller-team starvation."
+ },
+ {
+  "id": "4b5ac60a-cc4b-469a-86fd-91f3e5c93762",
+  "name": "pdk-pulpcore-content-cache-coherence",
+  "version": 2,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Keep Pulp distribution caches current across publication changes, late downloads and Redis outages without sacrificing cache hits.\nPractices: Publication-aware invalidation, Late-fill fencing, Cache availability, Cross-instance recovery",
+  "theme": "Mirror users receive committed publications while unchanged content retains fast cached reads."
+ },
+ {
+  "id": "64dcd0c2-05ec-4e18-bbbd-73c89a9ca598",
+  "name": "pdk-linkwarden-scaled-preservation",
+  "version": 4,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Coordinate Linkwarden archives and indexes across workers while handling link deletion, URL replacement and account backlogs.\nPractices: Versioned work claims, Cross-service cleanup, Crash recovery, Fair work selection",
+  "theme": "Users receive current archives without deleted or obsolete URL artifacts surviving."
+ },
+ {
+  "id": "7f8592d5-59bb-40ea-b27f-d245652a7688",
+  "name": "stub42-pytz",
+  "version": 2,
+  "pipeline": "ProgramBench repo upgrade",
+  "catalog": "ProgramBench",
+  "known": true,
+  "via": "glm",
+  "what": "Align stub42/pytz existing C code with documented behavior while preserving unaffected behavior.\nPractices: Behavior discovery, Existing-code maintenance, C integration, Regression compatibility",
+  "theme": "A maintainer needs a compatible implementation update."
+ },
+ {
+  "id": "8cead5c5-0508-4543-a422-14ebb501db4c",
+  "name": "pdk-webodm-fenced-task-processing",
+  "version": 8,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Fence WebODM task processing, command order and asset publication across paused workers and failed processing nodes.\nPractices: Worker ownership, Ordered commands, Node failover, Stale-result fencing",
+  "theme": "Mapping users retain their commands and receive assets only from the current processing attempt."
+ },
+ {
+  "id": "cd3ce10f-262f-43a7-94e2-852798083e84",
+  "name": "pdk-flagsmith-versioned-publish-concurrency",
+  "version": 3,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Publish versioned flags without lost concurrent edits, stale scheduled rollback or duplicate releases.\nPractices: Optimistic version conflicts, Explicit rebase, Scheduled idempotency, Publication ordering",
+  "theme": "Feature editors preserve each other's changes while scheduling reliable releases."
+ },
+ {
+  "id": "d14ff470-d80c-43e1-b1f2-da0454e3e13a",
+  "name": "pdk-geonode-dataset-delete-saga",
+  "version": 5,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Delete published vector datasets durably across GeoNode, GeoServer, GeoFence and PostGIS without erasing replacement uploads.\nPractices: Cross-service deletion saga, Access fencing, Incarnation-safe cleanup, Orphan reconciliation",
+  "theme": "Dataset owners retire publications without leaked feature access or accidental replacement deletion."
+ },
+ {
+  "id": "f899aba6-fc99-414f-93a5-2757218e9860",
+  "name": "pdk-feast-registry-snapshot-consistency",
+  "version": 4,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Serve coherent Feast registry snapshots with bounded freshness across SQL-backed feature servers.\nPractices: Transactional revisions, Snapshot consistency, Bounded cache freshness, Permission propagation",
+  "theme": "Feature-serving fleets observe current schemas and revoked permissions without torn metadata reads."
+ }
+]

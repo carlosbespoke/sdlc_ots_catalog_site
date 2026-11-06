@@ -41,14 +41,19 @@ def collect():
 def state(tid):
     ev = [w for w in W if w['task_id'] == tid and w.get('evaluation_id')]
     runs = [r for w in ev for r in RES.get(w['evaluation_id'], {}).get('runs', [])]
-    pending = any(not RES.get(w['evaluation_id'], {}).get('final') for w in ev)
+    pending_runs = sum(w.get('runs', 1) for w in ev if not RES.get(w['evaluation_id'], {}).get('final'))
+    pending = pending_runs > 0
     done = [r for r in runs if r['evaluation_status'] in ('completed', 'failed', 'errored', 'cancelled', 'error')]  # a running run reports passed=false
     graded = [r for r in done if not r['is_errored'] and (r['passed'] is not None or r['extracted_score'] is not None)]
     passed = any(r['passed'] or (r['extracted_score'] or 0) >= 0.999 for r in graded)
     errored = sum(1 for r in done if r['is_errored']) + sum(1 for w in ev if RES.get(w['evaluation_id'], {}).get('final') and not RES[w['evaluation_id']]['runs'])
-    return {'graded': len(graded), 'passed': passed, 'errored': errored, 'pending': pending, 'cost': sum(r['total_cost'] or 0 for r in runs)}
+    return {'graded': len(graded), 'passed': passed, 'errored': errored, 'pending': pending, 'pending_runs': pending_runs, 'cost': sum(r['total_cost'] or 0 for r in runs)}
 def needs(tid):
-    s = state(tid); return not s['passed'] and not s['pending'] and s['graded'] < MAX_GRADED and s['errored'] < MAX_ERRORED
+    s = state(tid)
+    if s['passed'] or s['errored'] >= MAX_ERRORED: return 0
+    if REST and s['graded'] >= 1: return max(0, MAX_GRADED - s['graded'] - s['pending_runs'])  # --rest: all remaining runs at once
+    return 0 if s['pending'] or s['graded'] >= MAX_GRADED else 1
+REST = '--rest' in sys.argv  # after a failed first run, start every remaining run in one evaluation (reviewer, 6 Nov)
 if '--collect' in sys.argv:
     collect(); S = {t: state(t) for t in R}
     print('tasks', len(S), 'passed', sum(s['passed'] for s in S.values()), 'pending', sum(s['pending'] for s in S.values()),
@@ -62,13 +67,13 @@ if '--submit' in sys.argv:
     todo = sorted([t for t in R if (only is None or t in only) and needs(t)], key=lambda t: int(R[t]['priority']))[:lim]
     wave = 1 + max([w['wave'] for w in W] or [0])
     for tid in todo:
-        r = R[tid]
+        r = R[tid]; n = needs(tid)
         act = (get(f'api/tasks/{tid}') or {}).get('current_version')
-        rec = {'wave': wave, 'task_id': tid, 'task': r['task'], 'catalog': r['catalog'], 'set': r['set'], 'version': r['version'], 'active_version': act, 'machine_type': r['machine_type']}
+        rec = {'wave': wave, 'runs': n, 'task_id': tid, 'task': r['task'], 'catalog': r['catalog'], 'set': r['set'], 'version': r['version'], 'active_version': act, 'machine_type': r['machine_type']}
         if r['version'] and str(act) != r['version']: rec['skipped'] = 'active version changed'; W.append(rec); print('SKIP', r['task']); continue
-        if DRY: print('DRY', wave, r['set'], r['catalog'], r['task'], r['machine_type']); continue
+        if DRY: print('DRY', wave, n, r['set'], r['catalog'], r['task'], r['machine_type']); continue
         try:
-            ev = h.evaluations.trigger(task_id=tid, model=r['codename'], runs=1, max_turns=int(r['max_turns']), max_tokens=int(r['max_tokens']),
+            ev = h.evaluations.trigger(task_id=tid, model=r['codename'], runs=n, max_turns=int(r['max_turns']), max_tokens=int(r['max_tokens']),
                                        agent_type=r['agent_type'], effort_tier=int(r['effort_tier']), machine_type=r['machine_type'], sandbox_backend=r['sandbox_backend'])
             rec['evaluation_id'] = getattr(ev, 'evaluation_id', None) or getattr(ev, 'id', None)
         except Exception as e: rec['error'] = str(e)[:400]

@@ -6,15 +6,19 @@ H = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); P = '/Users/car
 MM = json.load(open(f'{P}/ro_models.json')); SHOWN = {'google/gemini-4-argon', 'google/gemini-3.8-flash', 'z-ai/glm-5.3-flash'}
 os.makedirs(f'{H}/turns5', exist_ok=True)
 cache = {}
+AR = json.load(open(f'{H}/rollout_plan/argon_runs.json')) if os.path.exists(f'{H}/rollout_plan/argon_runs.json') else {}
+for v in AR.values():
+    for q in v:
+        if isinstance(q.get('turn_count'), (int, float)): cache[q['id']] = q
 for f in glob.glob(f'{P}/turns_*/*.json') + glob.glob(f'{P}/turns/*.json') + glob.glob(f'{H}/turns/*.json') + glob.glob(f'{H}/turns_glm/*.json'):
     try: runs = json.load(open(f)).get('runs', [])
     except Exception: continue
     for q in runs:
         if q.get('id') and isinstance(q.get('turn_count'), (int, float)): cache[q['id']] = q
-S = [t for t in json.load(open(f'{H}/cat/sel5.json')) if not os.path.exists(f"{H}/turns5/{t['id']}.json")]
+S = [t for t in json.load(open(f'{H}/cat/sel5.json')) if not os.path.exists(f"{H}/turns5/{t['id']}.json") or t['id'] in AR]  # tasks with new Argon runs are redone
 runs = {}
 for t in S:
-    rs = json.load(open(f"{H}/ro5/{t['id']}.json"))['rollouts']
+    rs = json.load(open(f"{H}/ro5/{t['id']}.json"))['rollouts'] + AR.get(t['id'], [])
     runs[t['id']] = [q for q in rs if MM.get(q['model']) in SHOWN and not q.get('is_errored') and (t['version'] is None or q.get('task_version_number') == t['version'])]
 need = [q['id'] for v in runs.values() for q in v if q['id'] not in cache]
 got = {}

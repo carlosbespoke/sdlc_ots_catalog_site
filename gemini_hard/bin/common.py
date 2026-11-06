@@ -13,9 +13,10 @@ REFRESH = {f[:-5]: json.load(open(f'{H}/ro3_refresh/{f}')) for f in os.listdir(f
 RO = {**RO_SNAP, **REFRESH}
 # 5 Nov selection (reviewer decision, 5 Nov): runs pulled 5 Nov (ro5/, all versions), kept at the 5 Nov sheet's selected version
 SEL5 = json.load(open(f'{H}/cat/sel5.json')) if os.path.exists(f'{H}/cat/sel5.json') else None
+_ARUNS = json.load(open(f'{H}/rollout_plan/argon_runs.json')) if os.path.exists(f'{H}/rollout_plan/argon_runs.json') else {}  # finished Argon rollout runs
 if SEL5:
     for _t in SEL5:
-        _r = json.load(open(f"{H}/ro5/{_t['id']}.json"))['rollouts']
+        _r = json.load(open(f"{H}/ro5/{_t['id']}.json"))['rollouts'] + _ARUNS.get(_t['id'], [])
         RO[_t['id']] = {'id': _t['id'], 'name': _t['name'], 'version': _t['version'],
                         'rollouts': [q for q in _r if _t['version'] is None or q.get('task_version_number') == _t['version']]}
 def mstats(tid, snap=False):
