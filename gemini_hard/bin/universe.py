@@ -261,6 +261,9 @@ if SEL5:
                       key=lambda t: (-(_g(t)[1] / _g(t)[0] if _g(t)[0] else 0), _g(t)[0], t['name']))[:_over]
         assert len(_cut) == _over, 'not enough GLM-only Debugging tasks to trim'
         _cut = {t['id'] for t in _cut}; UNI = [t for t in UNI if t['id'] not in _cut]
+    # then every task with no Gemini run is left out, so each task in the report has Gemini results (reviewer, 6 Nov)
+    assert not any(t['sample'] and t['status'] == 'glm5' for t in UNI), 'a sample has no Gemini runs'
+    UNI = [t for t in UNI if t['status'] != 'glm5']
     print('5 Nov selection:', len(UNI), collections.Counter(page(t['catalog']) for t in UNI), collections.Counter(t['status'] for t in UNI))
 def tier(t):
     return {'proven': 'Proven', 'ranked': 'Ranked', 'easy': 'Argon 80%+', 'gem5': 'Gemini runs', 'glm5': 'GLM-5.3 Flash 10% or less'}.get(t['status'], 'Likely')

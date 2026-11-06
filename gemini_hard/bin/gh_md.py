@@ -243,7 +243,7 @@ L.append('### Headroom for improvement\n')
 L.append(f"Across the {sum(1 for g, _ in AR if g)} samples, the chance that one Argon run passes (pass@1) is {pct(p1)}. On the {len(two)} samples with two or more graded Argon runs, the chance that at least one of two runs passes (pass@2) is {pct(p2)}. Each sample is weighted equally. Argon can often reach a working solution but does not get there reliably.\n")
 L.append(FM['headroom'] + '\n')
 L.append('## Pass rates by catalog\n')
-L.append("Each cell is a model's pass rate in one catalog: its passed runs over its graded runs there, with errored runs left out. GLM-5.3 Flash is shown beside the Gemini models so that every selected task has results.\n")
+L.append("Each cell is a model's pass rate in one catalog: its passed runs over its graded runs there, with errored runs left out. GLM-5.3 Flash is shown beside the Gemini models for comparison.\n")
 HM = list(allm)
 HEAT = {'models': HM, 'catalogs': [s_['name'] for _, s_ in index], 'minTasks': 5,
         'cells': [[j, HM.index(m['model']), m['graded'], [round(v, 4) for v in m['per_task_rates']], m['passed']] for j, (_, s_) in enumerate(index) for m in s_['models'] if m['per_task_rates']]}
