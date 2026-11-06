@@ -244,6 +244,12 @@ if SEL5:
              'batch': None, 'in_catalog': True, 'shortlist_no': None, 'old_shortlist': None, 'sample': '', 'sample_order': None,
              'models': {FLASH: [len(fr), sum(r['passed'] for r in fr), 0.0]}, 'argon': None, 'p_hard': None, 'status': 'gem5',
              'family_runs': {'source': fc['source'], 'runs': fr}, 'gemini_graded': len(fr), 'gemini_passed': sum(r['passed'] for r in fr), 'gemini_rate': 0.0, 'solved_by_other': False}
+        # the task's own runs of the shown models at its selected version (ro5/) count too (live check, 6 Nov)
+        _v = json.load(open(f"{H}/family5/{fc['id']}.json")).get('version')
+        for _q in json.load(open(f"{H}/ro5/{fc['id']}.json"))['rollouts'] if os.path.exists(f"{H}/ro5/{fc['id']}.json") else []:
+            _m = MM.get(_q['model'], _q['model'])
+            if _m not in (ARGON, GLMF) or _q.get('is_errored') or _q.get('passed') is None or (_v is not None and _q.get('task_version_number') != _v): continue
+            _o = t['models'].setdefault(_m, [0, 0, 0.0]); _o[2] = (_o[2] * _o[0] + (_q.get('extracted_score') or 0)) / (_o[0] + 1); _o[0] += 1; _o[1] += bool(_q['passed'])
         TASKS.append(t); UNI.append(t); _pb += 1
     # Diagnosis, Debugging, and Bug Fixing is trimmed to its target by dropping tasks with only GLM-5.3 Flash runs, easiest first
     # (highest GLM pass rate, then fewest runs); samples stay (reviewer, 6 Nov)

@@ -10,7 +10,7 @@ for e, v in RES.items():
     for x in v['runs']:
         if x['evaluation_status'] not in DONE: continue
         tid = v['task_id']; ver = PLAN[tid]['version']
-        out.setdefault(tid, []).append({'id': x['id'], 'model': 'umbra', 'passed': x['passed'], 'is_errored': x['is_errored'], 'extracted_score': x['extracted_score'],
+        out.setdefault(tid, []).append({'id': x['id'], 'model': 'umbra', 'passed': x['passed'], 'is_errored': x['is_errored'] or x['evaluation_status'] != 'completed', 'extracted_score': x['extracted_score'],
                                         'task_version_number': int(ver) if ver else x.get('task_version_number'), 'turn_count': x['turn_count'], 'evaluation_id': e})
 json.dump(out, open(f'{OUT}/argon_runs.json', 'w'), indent=1)
 print(len(out), 'tasks,', sum(map(len, out.values())), 'finished Argon runs')
