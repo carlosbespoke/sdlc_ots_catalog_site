@@ -5973,6 +5973,17 @@
   "theme": "A team needs a compatible replacement for a documented tool."
  },
  {
+  "id": "cd3ce10f-262f-43a7-94e2-852798083e84",
+  "name": "pdk-flagsmith-versioned-publish-concurrency",
+  "version": 3,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Publish versioned flags without lost concurrent edits, stale scheduled rollback or duplicate releases.\nPractices: Optimistic version conflicts, Explicit rebase, Scheduled idempotency, Publication ordering",
+  "theme": "Feature editors preserve each other's changes while scheduling reliable releases."
+ },
+ {
   "id": "ce72e51b-f372-4717-93c5-bef387fe0920",
   "name": "zint__zint.4896136",
   "version": 1,
@@ -6004,6 +6015,17 @@
   "via": "gemini",
   "what": "Delete published vector datasets durably across GeoNode, GeoServer, GeoFence and PostGIS without erasing replacement uploads.\nPractices: Cross-service deletion saga, Access fencing, Incarnation-safe cleanup, Orphan reconciliation",
   "theme": "Dataset owners retire publications without leaked feature access or accidental replacement deletion."
+ },
+ {
+  "id": "d170695b-87cc-41e2-b2df-3554fb92795d",
+  "name": "pdk-harbor-task-job-reconciliation-v3",
+  "version": 10,
+  "pipeline": "System Design",
+  "catalog": "System design",
+  "known": false,
+  "via": "gemini",
+  "what": "Reconcile Harbor task and job states after Redis loss or worker death without repeating already-started external work.\nPractices: Cross-store reconciliation, Worker liveness, Safe retry classification, Terminal-state recovery",
+  "theme": "Registry operators recover stuck scans and replications without duplicate external requests."
  },
  {
   "id": "d25ad000-0a7f-46ec-9455-797be4375aa0",

@@ -1,6 +1,6 @@
 {
  "cut": 0.8,
- "target": 435,
+ "target": 437,
  "lr": {
   "z-ai/glm-5.3-flash": {
    "0": 2.4561403508771926,
@@ -43,16 +43,16 @@
   {
    "slug": "system-design",
    "catalog": "System design",
-   "tasks": 73,
+   "tasks": 74,
    "argon_tasks": 15,
    "argon_hard": 9,
    "share": 0.6,
-   "estimate": 43.8,
-   "lo": 26.09490321225062,
-   "hi": 58.528313499705895,
-   "model_estimate": 39.55509591916657,
-   "universe": 50,
-   "proven": 41,
+   "estimate": 44.4,
+   "lo": 26.452367639815698,
+   "hi": 59.33007121887995,
+   "model_estimate": 40.175421565785456,
+   "universe": 52,
+   "proven": 43,
    "predicted": 9
   },
   {
@@ -131,7 +131,7 @@
    "predicted": 15
   }
  ],
- "extra_proven": 10,
+ "extra_proven": 11,
  "tasks": [
   {
    "id": "0705ebd2-5d30-405a-9dc6-5faa7b70049f",
@@ -60397,6 +60397,84 @@
    "flash_borrowed": null
   },
   {
+   "id": "cd3ce10f-262f-43a7-94e2-852798083e84",
+   "name": "pdk-flagsmith-versioned-publish-concurrency",
+   "catalog": "System design",
+   "domain": "System design / Versioned and collaborative state",
+   "category": "System design / Versioned and collaborative state",
+   "language": null,
+   "batch": null,
+   "in_catalog": false,
+   "shortlist_no": 86,
+   "old_shortlist": null,
+   "models": {
+    "z-ai/glm-5.3-flash": [
+     6,
+     2,
+     0.0
+    ],
+    "google/gemini-4-argon": [
+     3,
+     2,
+     0.6666666666666666
+    ]
+   },
+   "argon": {
+    "graded": 3,
+    "passed": 2,
+    "rate": 0.6666666666666666,
+    "score": 0.6666666666666666
+   },
+   "models_snap": {
+    "z-ai/glm-5.3-flash": [
+     6,
+     2,
+     0.3333333333333333
+    ]
+   },
+   "argon_snap": null,
+   "p_hard": 0.49017972377607627,
+   "evidence": 9,
+   "status": "gem5",
+   "gemini_graded": 3,
+   "gemini_passed": 2,
+   "gemini_rate": 0.6666666666666666,
+   "solved_by_other": true,
+   "sample": "",
+   "sample_order": null,
+   "tier": "Gemini runs",
+   "glm": {
+    "source": "own",
+    "runs": [
+     {
+      "id": "b1a4e4ee-5077-40bf-9117-59d5d31a9eac",
+      "passed": true
+     },
+     {
+      "id": "da1bffa1-2c00-4c6b-8bd3-a2a11c6d2c84",
+      "passed": true
+     },
+     {
+      "id": "b228ca8b-7204-45fa-b2cc-209eb178af2f",
+      "passed": false
+     },
+     {
+      "id": "53886001-5720-4f96-b8af-e5275f2808dd",
+      "passed": false
+     },
+     {
+      "id": "407df001-45db-46cd-a1dc-8aae7bf009fd",
+      "passed": false
+     },
+     {
+      "id": "42fb220e-5843-4c2c-9579-f337d3dd5d14",
+      "passed": false
+     }
+    ]
+   },
+   "flash_borrowed": null
+  },
+  {
    "id": "f899aba6-fc99-414f-93a5-2757218e9860",
    "name": "pdk-feast-registry-snapshot-consistency",
    "catalog": "System design",
@@ -68339,6 +68417,70 @@
      },
      {
       "id": "e0b4cac3-023f-4043-82e1-0b019ce3054f",
+      "passed": false
+     }
+    ]
+   },
+   "flash_borrowed": null
+  },
+  {
+   "id": "d170695b-87cc-41e2-b2df-3554fb92795d",
+   "name": "pdk-harbor-task-job-reconciliation-v3",
+   "catalog": "System design",
+   "domain": "Distributed systems & coordination",
+   "category": "Job scheduling",
+   "language": "Go",
+   "batch": null,
+   "in_catalog": true,
+   "shortlist_no": null,
+   "old_shortlist": null,
+   "models": {
+    "google/gemini-4-argon": [
+     4,
+     3,
+     0.0
+    ],
+    "z-ai/glm-5.3-flash": [
+     4,
+     1,
+     0.0
+    ]
+   },
+   "argon": {
+    "graded": 4,
+    "passed": 3,
+    "rate": 0.75,
+    "score": 0.0
+   },
+   "models_snap": {},
+   "argon_snap": null,
+   "p_hard": 0.6203256466188845,
+   "evidence": 8,
+   "status": "gem5",
+   "gemini_graded": 4,
+   "gemini_passed": 3,
+   "gemini_rate": 0.75,
+   "solved_by_other": true,
+   "sample": "",
+   "sample_order": null,
+   "tier": "Gemini runs",
+   "glm": {
+    "source": "own",
+    "runs": [
+     {
+      "id": "bddb78d6-8519-4102-a9d5-133392272e81",
+      "passed": true
+     },
+     {
+      "id": "aaaf159a-aefc-47c8-9eaf-e78f0fca221b",
+      "passed": false
+     },
+     {
+      "id": "fb2531e8-6128-4db0-8fe7-5972de89c9e4",
+      "passed": false
+     },
+     {
+      "id": "0cd908e3-31b5-47f1-b2f2-b660b0a4661f",
       "passed": false
      }
     ]

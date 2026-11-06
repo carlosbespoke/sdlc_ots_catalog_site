@@ -10,6 +10,7 @@ MAP = {r[0]: r[1] for r in list(wb['Horizon task ID mapping'].iter_rows(values_o
 GLM_MAX = 0.10
 ARUNS = json.load(open(f'{H}/rollout_plan/argon_runs.json')) if os.path.exists(f'{H}/rollout_plan/argon_runs.json') else {}  # finished Argon rollout runs (bin/merge_rollout5.py)
 ARGON_MAX = 0.60
+SD_PAGE, SD_ARGON_MAX = {'System design', 'Infrastructure as code'}, 0.80  # System design & IaC tops up with Argon above 60% and under 80% (reviewer, 6 Nov)
 EASY_MAX = 0.80  # no task any shown model passes more than 80% of the time (samples excepted)
 OLD = {t['id']: t for t in json.load(open(f'{H}/universe_nov02.json'))['tasks']}; OLDN = {t['name']: t for t in OLD.values()}
 SAMPLES = {t['id'] for t in OLD.values() if t.get('sample')}  # the 22 samples the client has stay in
@@ -30,10 +31,11 @@ for r in ROWS:
     g = lambda m: [q for q in runs if MM.get(q['model']) == m and not q.get('is_errored') and q.get('passed') is not None]
     a, f, l = g(ARGON), g(FLASH), g(GLMF)
     if not (a or f or (l and sum(bool(q['passed']) for q in l) / len(l) <= GLM_MAX)): continue
-    if a and sum(bool(q['passed']) for q in a) / len(a) > ARGON_MAX and tid not in SAMPLES: continue
-    if tid not in SAMPLES and any(x and sum(bool(q['passed']) for q in x) / len(x) > EASY_MAX for x in (f, l)): continue  # any model above 80%: left out (reviewer, 6 Nov)  # Argon above 60%: left out, except the client's samples (reviewer decision, 5 Nov)
     old = OLD.get(tid) or OLDN.get(r['Task'])
     cat = old['catalog'] if old and old['catalog'] in REPORT else PIPE.get(r.get('Original pipeline') or '')
+    ar = sum(bool(q['passed']) for q in a) / len(a) if a else 0
+    if a and ar > ARGON_MAX and tid not in SAMPLES and not (cat in SD_PAGE and ar < SD_ARGON_MAX): continue
+    if tid not in SAMPLES and any(x and sum(bool(q['passed']) for q in x) / len(x) > EASY_MAX for x in (f, l)): continue  # any model above 80%: left out (reviewer, 6 Nov)  # Argon above 60%: left out, except the client's samples (reviewer decision, 5 Nov)
     out.append({'id': tid, 'name': r['Task'], 'version': v, 'pipeline': r.get('Original pipeline'), 'catalog': cat, 'known': bool(old),
                 'via': 'gemini' if (a or f) else 'glm', 'what': r.get('What it does and what the agent practices'), 'theme': r.get('Client theme and capability')})
 json.dump(out, open(f'{H}/cat/sel5.json', 'w'), indent=1)
