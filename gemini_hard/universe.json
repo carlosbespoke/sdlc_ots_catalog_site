@@ -58,14 +58,14 @@
   {
    "slug": "debugging",
    "catalog": "Diagnosis, Debugging, and Bug Fixing",
-   "tasks": 441,
+   "tasks": 440,
    "argon_tasks": 27,
    "argon_hard": 7,
    "share": 0.25925925925925924,
-   "estimate": 114.33333333333333,
-   "lo": 58.08061914484249,
-   "hi": 197.03408307553514,
-   "model_estimate": 136.96864251891708,
+   "estimate": 114.07407407407408,
+   "lo": 57.94891706061382,
+   "hi": 196.587293771509,
+   "model_estimate": 136.66750248880308,
    "universe": 17,
    "proven": 9,
    "predicted": 8
@@ -103,14 +103,14 @@
   {
    "slug": "data-engineering",
    "catalog": "Data engineering",
-   "tasks": 19,
+   "tasks": 18,
    "argon_tasks": 17,
    "argon_hard": 5,
    "share": 0.29411764705882354,
-   "estimate": 5.588235294117647,
-   "lo": 2.5231608344557164,
-   "hi": 10.095371331980644,
-   "model_estimate": 5.812059966930573,
+   "estimate": 5.294117647058823,
+   "lo": 2.3903628958001524,
+   "hi": 9.564035998718504,
+   "model_estimate": 5.469066826793376,
    "universe": 5,
    "proven": 5,
    "predicted": 0
@@ -17803,6 +17803,33 @@
    "gemini_passed": 0,
    "gemini_rate": null,
    "solved_by_other": true,
+   "sample": "",
+   "sample_order": null,
+   "tier": "",
+   "glm": null,
+   "flash_borrowed": null
+  },
+  {
+   "id": "6b4492ab-dad8-49ad-89bd-bb72fbcb18c5",
+   "name": "fasthttp-zstd-decompression-optimization",
+   "catalog": "Optimization",
+   "domain": "Systems, hardware & accelerators",
+   "category": "Networking & HTTP",
+   "language": "Go",
+   "batch": "alpharecon-optimization",
+   "in_catalog": true,
+   "shortlist_no": null,
+   "old_shortlist": 12,
+   "models": {},
+   "argon": null,
+   "models_snap": {},
+   "argon_snap": null,
+   "p_hard": null,
+   "status": null,
+   "gemini_graded": 0,
+   "gemini_passed": 0,
+   "gemini_rate": null,
+   "solved_by_other": false,
    "sample": "",
    "sample_order": null,
    "tier": "",
@@ -42470,17 +42497,17 @@
     "google/gemini-3.8-flash": [
      3,
      3,
-     0.0
+     1.0
     ],
     "claude-opus-5-5": [
      1,
      1,
-     0.0
+     1.0
     ],
     "gpt-6-astra": [
      1,
      1,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
@@ -42514,39 +42541,15 @@
    "argon_snap": null,
    "p_hard": 0.5846507862104231,
    "evidence": 10,
-   "status": "gem5",
+   "status": "predicted",
    "gemini_graded": 3,
    "gemini_passed": 3,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "9b39d95b-7bf3-49fe-8e79-4ddf633e3110",
-      "passed": false
-     },
-     {
-      "id": "64e3fc4a-e8d6-4c3d-a3c6-cfd841964e09",
-      "passed": false
-     },
-     {
-      "id": "ec363081-0e4c-47dd-81de-3dcbd8610fed",
-      "passed": false
-     },
-     {
-      "id": "6d873dc6-5aa1-4a18-b0c8-21fad71724b7",
-      "passed": false
-     },
-     {
-      "id": "9b3c751e-d3b1-42df-8072-776967bdd454",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -51915,17 +51918,17 @@
     "google/gemini-3.8-flash": [
      3,
      3,
-     0.0
+     1.0
     ],
     "claude-opus-5-5": [
      1,
      1,
-     0.0
+     1.0
     ],
     "gpt-6-astra": [
      1,
      1,
-     0.0
+     1.0
     ],
     "z-ai/glm-5.3-flash": [
      5,
@@ -51959,39 +51962,15 @@
    "argon_snap": null,
    "p_hard": 0.5846507862104231,
    "evidence": 10,
-   "status": "gem5",
+   "status": "predicted",
    "gemini_graded": 3,
    "gemini_passed": 3,
    "gemini_rate": 1.0,
    "solved_by_other": true,
    "sample": "",
    "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "bfb481da-3fb9-4010-8a3f-7036e289423a",
-      "passed": false
-     },
-     {
-      "id": "eb5825ad-396a-4f04-baec-e580c195b5d9",
-      "passed": false
-     },
-     {
-      "id": "c113a4e5-efc7-4e7c-8f00-7ccf4fb5b3ff",
-      "passed": false
-     },
-     {
-      "id": "db1e3378-cc06-4931-88c8-2c9b7be7b7fb",
-      "passed": false
-     },
-     {
-      "id": "e8089f9b-bc83-45c4-94a0-1146f8d15316",
-      "passed": false
-     }
-    ]
-   },
+   "tier": "",
+   "glm": null,
    "flash_borrowed": null
   },
   {
@@ -60461,89 +60440,6 @@
    "flash_borrowed": null
   },
   {
-   "id": "0a47589a-cc3b-48b0-917e-bbd75cb9795c",
-   "name": "mangle-8edad8d3-blind30-ots",
-   "catalog": "Diagnosis, Debugging, and Bug Fixing",
-   "domain": "Languages & developer tooling",
-   "category": "Logic programming",
-   "language": "Go",
-   "batch": null,
-   "in_catalog": true,
-   "shortlist_no": null,
-   "old_shortlist": null,
-   "models": {
-    "google/gemini-3.8-flash": [
-     1,
-     1,
-     0.0
-    ],
-    "z-ai/glm-5.3-flash": [
-     10,
-     1,
-     0.0
-    ]
-   },
-   "argon": null,
-   "models_snap": {},
-   "argon_snap": null,
-   "p_hard": 0.301140030114003,
-   "evidence": 11,
-   "status": "gem5",
-   "gemini_graded": 1,
-   "gemini_passed": 1,
-   "gemini_rate": 1.0,
-   "solved_by_other": true,
-   "sample": "",
-   "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": {
-    "source": "own",
-    "runs": [
-     {
-      "id": "03e90145-1d40-4286-92e7-632c096bd98c",
-      "passed": false
-     },
-     {
-      "id": "7e95b35b-ae4e-46d6-97d6-2f0a127c0f3a",
-      "passed": true
-     },
-     {
-      "id": "2390b8f9-1913-4c71-a7ef-3bf618fc36f7",
-      "passed": false
-     },
-     {
-      "id": "fa0d21b1-ac6b-4ac9-8211-0c5b1f8fc5c2",
-      "passed": false
-     },
-     {
-      "id": "c654dc31-8b7d-4272-9bd2-d626ec66fbd8",
-      "passed": false
-     },
-     {
-      "id": "1b1a5e75-f6f0-42bd-83eb-5d096481c41c",
-      "passed": false
-     },
-     {
-      "id": "a42c9f9e-5c9e-45c8-bed5-01c4e1bef251",
-      "passed": false
-     },
-     {
-      "id": "e6402c24-3850-4a5c-ba08-588cb1d3d8d6",
-      "passed": false
-     },
-     {
-      "id": "dcb97ae6-b7b9-4b51-a736-188960d92990",
-      "passed": false
-     },
-     {
-      "id": "37d2eb64-14d3-435c-87e4-5930cdff89a1",
-      "passed": false
-     }
-    ]
-   },
-   "flash_borrowed": null
-  },
-  {
    "id": "0aad8df4-f2c8-4520-8fe9-6c9d92f872cc",
    "name": "ipython-core-canonical-ots",
    "catalog": "Diagnosis, Debugging, and Bug Fixing",
@@ -63768,55 +63664,6 @@
      }
     ]
    },
-   "flash_borrowed": null
-  },
-  {
-   "id": "0c6551eb-dc92-4d19-89fd-7be4d4102729",
-   "name": "db-migration-flaskbb-4x-rollback-drill",
-   "catalog": "Data engineering",
-   "domain": "Data engineering & databases",
-   "category": "Databases & storage engines",
-   "language": "Python",
-   "batch": null,
-   "in_catalog": true,
-   "shortlist_no": null,
-   "old_shortlist": null,
-   "models": {
-    "google/gemini-3.8-flash": [
-     3,
-     3,
-     0.0
-    ],
-    "claude-opus-5-5": [
-     1,
-     1,
-     0.0
-    ],
-    "gpt-6-astra": [
-     1,
-     1,
-     0.0
-    ],
-    "x-ai/grok-4.7": [
-     8,
-     0,
-     0.0
-    ]
-   },
-   "argon": null,
-   "models_snap": {},
-   "argon_snap": null,
-   "p_hard": 0.3429931401371973,
-   "evidence": 13,
-   "status": "gem5",
-   "gemini_graded": 3,
-   "gemini_passed": 3,
-   "gemini_rate": 1.0,
-   "solved_by_other": true,
-   "sample": "",
-   "sample_order": null,
-   "tier": "Gemini runs",
-   "glm": null,
    "flash_borrowed": null
   },
   {

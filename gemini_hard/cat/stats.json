@@ -8084,16 +8084,16 @@
   ],
   "title": "System design",
   "name": "System design & IaC",
-  "tasks": 52,
+  "tasks": 50,
   "groups": {
    "System design": 35,
-   "Infrastructure as code": 17
+   "Infrastructure as code": 15
   },
   "group_domain": {
    "Infrastructure as code": "State-preserving infrastructure changes"
   },
   "tiers": {
-   "Gemini runs": 41,
+   "Gemini runs": 39,
    "GLM-5.3 Flash 10% or less": 11
   },
   "not_in_catalog": 4,
@@ -8153,10 +8153,10 @@
    0.6
   ],
   "turns": {
-   "tasks_with_turns": 52,
-   "runs": 429,
-   "mean_of_task_means": 335.2188086671782,
-   "median_of_task_means": 281.125,
+   "tasks_with_turns": 50,
+   "runs": 413,
+   "mean_of_task_means": 344.3700610138653,
+   "median_of_task_means": 302.625,
    "long_horizon_tasks": 34,
    "threshold": 200,
    "task_means": [
@@ -8186,13 +8186,11 @@
     338.5833333333333,
     78.8,
     97.8,
-    93.375,
     106.83333333333333,
     95.2,
     310.0,
     328.8888888888889,
     108.27272727272727,
-    119.5,
     246.83333333333334,
     603.1666666666666,
     81.14285714285714,
@@ -8219,17 +8217,17 @@
     {
      "codename": "steppe",
      "model": "z-ai/glm-5.3-flash",
-     "runs": 210,
-     "tasks": 40,
-     "mean": 409.802435515873,
+     "runs": 200,
+     "tasks": 38,
+     "mean": 425.5183531746032,
      "tasks_200_plus": 26
     },
     {
      "codename": "kittiwake",
      "model": "google/gemini-3.8-flash",
-     "runs": 117,
-     "tasks": 22,
-     "mean": 223.71632231404962,
+     "runs": 111,
+     "tasks": 20,
+     "mean": 236.23795454545456,
      "tasks_200_plus": 11
     },
     {
@@ -8247,159 +8245,159 @@
   "domain": [
    {
     "super_group": "State-preserving infrastructure changes",
-    "tasks": 17,
-    "pct": 32.7,
+    "tasks": 15,
+    "pct": 30.0,
     "categories": [
      {
       "category": "Cloud infra: AWS platform stacks",
-      "tasks": 8,
-      "pct": 15.4
+      "tasks": 7,
+      "pct": 14.0
      },
      {
       "category": "Cloud infra: containers & self-hosted platforms",
-      "tasks": 6,
-      "pct": 11.5
+      "tasks": 5,
+      "pct": 10.0
      },
      {
       "category": "Cloud infra: serverless & event-driven",
       "tasks": 1,
-      "pct": 1.9
+      "pct": 2.0
      },
      {
       "category": "Cloud security & compliance",
       "tasks": 1,
-      "pct": 1.9
+      "pct": 2.0
      },
      {
       "category": "Secrets & access control",
       "tasks": 1,
-      "pct": 1.9
+      "pct": 2.0
      }
     ]
    },
    {
     "super_group": "Applications & business domains",
     "tasks": 11,
-    "pct": 21.2,
+    "pct": 22.0,
     "categories": [
      {
       "category": "Web applications",
       "tasks": 5,
-      "pct": 9.6
+      "pct": 10.0
      },
      {
       "category": "Payments & banking",
       "tasks": 4,
-      "pct": 7.7
+      "pct": 8.0
      },
      {
       "category": "Media processing",
       "tasks": 2,
-      "pct": 3.8
+      "pct": 4.0
      }
     ]
    },
    {
     "super_group": "Distributed systems & coordination",
     "tasks": 10,
-    "pct": 19.2,
+    "pct": 20.0,
     "categories": [
      {
       "category": "Messaging & event streaming",
       "tasks": 6,
-      "pct": 11.5
+      "pct": 12.0
      },
      {
       "category": "Job scheduling",
       "tasks": 3,
-      "pct": 5.8
+      "pct": 6.0
      },
      {
       "category": "Workflow automation",
       "tasks": 1,
-      "pct": 1.9
+      "pct": 2.0
      }
     ]
    },
    {
     "super_group": "Scientific & ML software",
     "tasks": 3,
-    "pct": 5.8,
+    "pct": 6.0,
     "categories": [
      {
       "category": "AI agents & retrieval",
       "tasks": 2,
-      "pct": 3.8
+      "pct": 4.0
      },
      {
       "category": "Graph algorithms",
       "tasks": 1,
-      "pct": 1.9
+      "pct": 2.0
      }
     ]
    },
    {
     "super_group": "Security",
     "tasks": 3,
-    "pct": 5.8,
+    "pct": 6.0,
     "categories": [
      {
       "category": "Secrets & access control",
       "tasks": 3,
-      "pct": 5.8
+      "pct": 6.0
      }
     ]
    },
    {
     "super_group": "Build, release & supply chain",
     "tasks": 3,
-    "pct": 5.8,
+    "pct": 6.0,
     "categories": [
      {
       "category": "Software supply chain",
       "tasks": 2,
-      "pct": 3.8
+      "pct": 4.0
      },
      {
       "category": "CI/CD",
       "tasks": 1,
-      "pct": 1.9
+      "pct": 2.0
      }
     ]
    },
    {
     "super_group": "Cloud infrastructure & IaC",
     "tasks": 2,
-    "pct": 3.8,
+    "pct": 4.0,
     "categories": [
      {
       "category": "Cloud infra: containers & self-hosted platforms",
       "tasks": 2,
-      "pct": 3.8
+      "pct": 4.0
      }
     ]
    },
    {
     "super_group": "Data engineering & databases",
     "tasks": 2,
-    "pct": 3.8,
+    "pct": 4.0,
     "categories": [
      {
       "category": "Data pipelines & ETL",
       "tasks": 2,
-      "pct": 3.8
+      "pct": 4.0
      }
     ]
    },
    {
     "super_group": "Languages & developer tooling",
     "tasks": 1,
-    "pct": 1.9,
+    "pct": 2.0,
     "categories": [
      {
       "category": "API tooling",
       "tasks": 1,
-      "pct": 1.9
+      "pct": 2.0
      }
     ]
    }
@@ -8407,87 +8405,87 @@
   "language": [
    {
     "value": "HCL (Terraform)",
-    "tasks": 16,
-    "pct": 30.8
+    "tasks": 14,
+    "pct": 28.0
    },
    {
     "value": "Go",
     "tasks": 13,
-    "pct": 25.0
+    "pct": 26.0
    },
    {
     "value": "TypeScript",
     "tasks": 10,
-    "pct": 19.2
+    "pct": 20.0
    },
    {
     "value": "Python",
     "tasks": 7,
-    "pct": 13.5
+    "pct": 14.0
    },
    {
     "value": "C#",
     "tasks": 6,
-    "pct": 11.5
+    "pct": 12.0
    }
   ],
   "role": [
    {
     "value": "Distributed Systems Engineer",
     "tasks": 22,
-    "pct": 42.3
+    "pct": 44.0
    },
    {
     "value": "Platform Engineer",
-    "tasks": 17,
-    "pct": 32.7
+    "tasks": 15,
+    "pct": 30.0
    },
    {
     "value": "Backend Engineer",
     "tasks": 4,
-    "pct": 7.7
+    "pct": 8.0
    },
    {
     "value": "Library / Backend Engineer",
     "tasks": 2,
-    "pct": 3.8
+    "pct": 4.0
    },
    {
     "value": "ML / AI Engineer",
     "tasks": 2,
-    "pct": 3.8
+    "pct": 4.0
    },
    {
     "value": "Cloud Security Engineer",
     "tasks": 2,
-    "pct": 3.8
+    "pct": 4.0
    },
    {
     "value": "Security Engineer",
     "tasks": 1,
-    "pct": 1.9
+    "pct": 2.0
    },
    {
     "value": "Data Engineer",
     "tasks": 1,
-    "pct": 1.9
+    "pct": 2.0
    },
    {
     "value": "SRE",
     "tasks": 1,
-    "pct": 1.9
+    "pct": 2.0
    }
   ],
   "seniority": [
    {
     "value": "Staff+",
     "tasks": 36,
-    "pct": 69.2
+    "pct": 72.0
    },
    {
     "value": "Senior",
-    "tasks": 16,
-    "pct": 30.8
+    "tasks": 14,
+    "pct": 28.0
    }
   ],
   "models": [
@@ -8535,15 +8533,15 @@
    {
     "codename": "kittiwake",
     "model": "google/gemini-3.8-flash",
-    "tasks": 23,
-    "rollouts": 148,
-    "graded": 117,
-    "passed": 24,
-    "pass_rate": 0.20512820512820512,
-    "error_rate": 0.20945945945945946,
-    "tasks_graded": 22,
+    "tasks": 21,
+    "rollouts": 135,
+    "graded": 111,
+    "passed": 18,
+    "pass_rate": 0.16216216216216217,
+    "error_rate": 0.17777777777777778,
+    "tasks_graded": 20,
     "tasks_0": 13,
-    "tasks_100": 4,
+    "tasks_100": 2,
     "tasks_20_80": 4,
     "per_task_rates": [
      0.0,
@@ -8559,10 +8557,8 @@
      0.0,
      1.0,
      0.0,
-     1.0,
      0.0,
      0.0,
-     1.0,
      0.0,
      0.6666666666666666,
      0.0,
@@ -8573,14 +8569,14 @@
    {
     "codename": "steppe",
     "model": "z-ai/glm-5.3-flash",
-    "tasks": 40,
-    "rollouts": 210,
-    "graded": 210,
+    "tasks": 38,
+    "rollouts": 200,
+    "graded": 200,
     "passed": 34,
-    "pass_rate": 0.1619047619047619,
+    "pass_rate": 0.17,
     "error_rate": 0.0,
-    "tasks_graded": 40,
-    "tasks_0": 22,
+    "tasks_graded": 38,
+    "tasks_0": 20,
     "tasks_100": 0,
     "tasks_20_80": 13,
     "per_task_rates": [
@@ -8604,11 +8600,9 @@
      0.0,
      0.0,
      0.0,
-     0.0,
      0.25,
      0.25,
      0.8,
-     0.0,
      0.14285714285714285,
      0.0,
      0.0,
@@ -9510,36 +9504,6 @@
     }
    },
    {
-    "sg": "State-preserving infrastructure changes",
-    "cat": "Cloud infra: containers & self-hosted platforms",
-    "lang": "HCL (Terraform)",
-    "sen": "Senior",
-    "scores": {
-     "google/gemini-3.8-flash": [
-      1,
-      1,
-      1
-     ],
-     "z-ai/glm-5.3-flash": [
-      0,
-      0,
-      0,
-      0,
-      0
-     ]
-    },
-    "turns": {
-     "google/gemini-3.8-flash": [
-      317,
-      3
-     ],
-     "z-ai/glm-5.3-flash": [
-      430,
-      5
-     ]
-    }
-   },
-   {
     "sg": "Data engineering & databases",
     "cat": "Data pipelines & ETL",
     "lang": "Go",
@@ -9679,36 +9643,6 @@
      ],
      "z-ai/glm-5.3-flash": [
       722,
-      5
-     ]
-    }
-   },
-   {
-    "sg": "State-preserving infrastructure changes",
-    "cat": "Cloud infra: AWS platform stacks",
-    "lang": "HCL (Terraform)",
-    "sen": "Senior",
-    "scores": {
-     "google/gemini-3.8-flash": [
-      1,
-      1,
-      1
-     ],
-     "z-ai/glm-5.3-flash": [
-      0,
-      0,
-      0,
-      0,
-      0
-     ]
-    },
-    "turns": {
-     "google/gemini-3.8-flash": [
-      274,
-      3
-     ],
-     "z-ai/glm-5.3-flash": [
-      682,
       5
      ]
     }
@@ -10257,24 +10191,24 @@
   ],
   "title": "Diagnosis, Debugging, and Bug Fixing",
   "name": "Diagnosis, Debugging, and Bug Fixing",
-  "tasks": 253,
+  "tasks": 252,
   "groups": {
-   "Diagnosis, Debugging, and Bug Fixing": 253
+   "Diagnosis, Debugging, and Bug Fixing": 252
   },
   "group_domain": {},
   "tiers": {
    "GLM-5.3 Flash 10% or less": 174,
-   "Gemini runs": 79
+   "Gemini runs": 78
   },
   "not_in_catalog": 0,
   "estimate": {
-   "tasks": 441,
+   "tasks": 440,
    "argon_tasks": 27,
    "argon_hard": 7,
    "share": 0.25925925925925924,
-   "estimate": 114.33333333333333,
-   "lo": 43.62235195461051,
-   "hi": 185.04431471205615,
+   "estimate": 114.07407407407408,
+   "lo": 43.52848161134693,
+   "hi": 184.61966653680122,
    "groups": [
     "Diagnosis, Debugging, and Bug Fixing"
    ]
@@ -10311,11 +10245,11 @@
    1.0
   ],
   "turns": {
-   "tasks_with_turns": 253,
-   "runs": 1407,
-   "mean_of_task_means": 474.79559057543247,
-   "median_of_task_means": 486.14285714285717,
-   "long_horizon_tasks": 235,
+   "tasks_with_turns": 252,
+   "runs": 1396,
+   "mean_of_task_means": 474.67212430426713,
+   "median_of_task_means": 485.32142857142856,
+   "long_horizon_tasks": 234,
    "threshold": 200,
    "task_means": [
     499.8,
@@ -10513,7 +10447,6 @@
     453.4,
     384.4,
     404.6,
-    505.90909090909093,
     229.6,
     292.6,
     406.4,
@@ -10578,18 +10511,18 @@
     {
      "codename": "steppe",
      "model": "z-ai/glm-5.3-flash",
-     "runs": 954,
-     "tasks": 187,
-     "mean": 454.82447160682455,
-     "tasks_200_plus": 182
+     "runs": 944,
+     "tasks": 186,
+     "mean": 454.5084741423451,
+     "tasks_200_plus": 181
     },
     {
      "codename": "kittiwake",
      "model": "google/gemini-3.8-flash",
-     "runs": 439,
-     "tasks": 74,
-     "mean": 532.4842342342342,
-     "tasks_200_plus": 61
+     "runs": 438,
+     "tasks": 73,
+     "mean": 533.9018264840183,
+     "tasks_200_plus": 60
     },
     {
      "codename": "umbra",
@@ -10607,7 +10540,7 @@
    {
     "super_group": "Scientific & ML software",
     "tasks": 70,
-    "pct": 27.7,
+    "pct": 27.8,
     "categories": [
      {
       "category": "AI agents & retrieval",
@@ -10648,8 +10581,8 @@
    },
    {
     "super_group": "Languages & developer tooling",
-    "tasks": 56,
-    "pct": 22.1,
+    "tasks": 55,
+    "pct": 21.8,
     "categories": [
      {
       "category": "CLI tooling",
@@ -10659,12 +10592,12 @@
      {
       "category": "General-purpose utility libraries",
       "tasks": 12,
-      "pct": 4.7
+      "pct": 4.8
      },
      {
       "category": "API tooling",
       "tasks": 11,
-      "pct": 4.3
+      "pct": 4.4
      },
      {
       "category": "Compilers & language runtimes",
@@ -10673,8 +10606,8 @@
      },
      {
       "category": "Logic programming",
-      "tasks": 3,
-      "pct": 1.2
+      "tasks": 2,
+      "pct": 0.8
      },
      {
       "category": "Text & NLP processing",
@@ -10686,12 +10619,12 @@
    {
     "super_group": "Applications & business domains",
     "tasks": 34,
-    "pct": 13.4,
+    "pct": 13.5,
     "categories": [
      {
       "category": "Web applications",
       "tasks": 13,
-      "pct": 5.1
+      "pct": 5.2
      },
      {
       "category": "Frontend & UI state",
@@ -10770,7 +10703,7 @@
      {
       "category": "Networking & HTTP",
       "tasks": 11,
-      "pct": 4.3
+      "pct": 4.4
      },
      {
       "category": "IoT & smart home",
@@ -10802,7 +10735,7 @@
    {
     "super_group": "Security",
     "tasks": 11,
-    "pct": 4.3,
+    "pct": 4.4,
     "categories": [
      {
       "category": "Secrets & access control",
@@ -10834,7 +10767,7 @@
    {
     "super_group": "Distributed systems & coordination",
     "tasks": 11,
-    "pct": 4.3,
+    "pct": 4.4,
     "categories": [
      {
       "category": "Messaging & event streaming",
@@ -10914,17 +10847,17 @@
    {
     "value": "Python",
     "tasks": 175,
-    "pct": 69.2
+    "pct": 69.4
    },
    {
     "value": "Go",
-    "tasks": 49,
-    "pct": 19.4
+    "tasks": 48,
+    "pct": 19.0
    },
    {
     "value": "C",
     "tasks": 11,
-    "pct": 4.3
+    "pct": 4.4
    },
    {
     "value": "Rust",
@@ -10946,7 +10879,7 @@
    {
     "value": "ML / AI Engineer",
     "tasks": 45,
-    "pct": 17.8
+    "pct": 17.9
    },
    {
     "value": "Developer Tools Engineer",
@@ -10966,15 +10899,15 @@
    {
     "value": "Systems Engineer",
     "tasks": 12,
-    "pct": 4.7
-   },
-   {
-    "value": "Compiler / Language Engineer",
-    "tasks": 10,
-    "pct": 4.0
+    "pct": 4.8
    },
    {
     "value": "Platform Engineer",
+    "tasks": 9,
+    "pct": 3.6
+   },
+   {
+    "value": "Compiler / Language Engineer",
     "tasks": 9,
     "pct": 3.6
    },
@@ -11048,12 +10981,12 @@
    {
     "value": "Senior",
     "tasks": 243,
-    "pct": 96.0
+    "pct": 96.4
    },
    {
     "value": "Staff+",
-    "tasks": 6,
-    "pct": 2.4
+    "tasks": 5,
+    "pct": 2.0
    },
    {
     "value": "Mid-Senior",
@@ -11065,12 +10998,12 @@
    {
     "codename": "umbra",
     "model": "google/gemini-4-argon",
-    "tasks": 20,
-    "rollouts": 32,
+    "tasks": 19,
+    "rollouts": 30,
     "graded": 14,
     "passed": 3,
     "pass_rate": 0.21428571428571427,
-    "error_rate": 0.5625,
+    "error_rate": 0.5333333333333333,
     "tasks_graded": 9,
     "tasks_0": 7,
     "tasks_100": 0,
@@ -11090,15 +11023,15 @@
    {
     "codename": "kittiwake",
     "model": "google/gemini-3.8-flash",
-    "tasks": 82,
-    "rollouts": 520,
-    "graded": 439,
-    "passed": 19,
-    "pass_rate": 0.04328018223234624,
-    "error_rate": 0.15576923076923077,
-    "tasks_graded": 74,
+    "tasks": 81,
+    "rollouts": 518,
+    "graded": 438,
+    "passed": 18,
+    "pass_rate": 0.0410958904109589,
+    "error_rate": 0.15444015444015444,
+    "tasks_graded": 73,
     "tasks_0": 56,
-    "tasks_100": 2,
+    "tasks_100": 1,
     "tasks_20_80": 0,
     "per_task_rates": [
      0.0,
@@ -11168,7 +11101,6 @@
      0.0,
      0.16666666666666666,
      0.0,
-     1.0,
      0.0,
      0.16666666666666666,
      0.16666666666666666,
@@ -11180,13 +11112,13 @@
    {
     "codename": "steppe",
     "model": "z-ai/glm-5.3-flash",
-    "tasks": 187,
-    "rollouts": 954,
-    "graded": 954,
-    "passed": 2,
-    "pass_rate": 0.0020964360587002098,
+    "tasks": 186,
+    "rollouts": 944,
+    "graded": 944,
+    "passed": 1,
+    "pass_rate": 0.001059322033898305,
     "error_rate": 0.0,
-    "tasks_graded": 187,
+    "tasks_graded": 186,
     "tasks_0": 185,
     "tasks_100": 0,
     "tasks_20_80": 1,
@@ -11325,7 +11257,6 @@
      0.0,
      0.0,
      0.0,
-     0.1,
      0.0,
      0.0,
      0.0,
@@ -15852,39 +15783,6 @@
    },
    {
     "sg": "Languages & developer tooling",
-    "cat": "Logic programming",
-    "lang": "Go",
-    "sen": "Staff+",
-    "scores": {
-     "google/gemini-3.8-flash": [
-      1
-     ],
-     "z-ai/glm-5.3-flash": [
-      0,
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-     ]
-    },
-    "turns": {
-     "google/gemini-3.8-flash": [
-      429,
-      1
-     ],
-     "z-ai/glm-5.3-flash": [
-      5136,
-      10
-     ]
-    }
-   },
-   {
-    "sg": "Languages & developer tooling",
     "cat": "Compilers & language runtimes",
     "lang": "Python",
     "sen": "Senior",
@@ -17133,27 +17031,27 @@
   ],
   "title": "Feature implementation",
   "name": "Feature implementation",
-  "tasks": 111,
+  "tasks": 110,
   "groups": {
    "Feature implementation": 104,
-   "Data engineering": 7
+   "Data engineering": 6
   },
   "group_domain": {
    "Data engineering": "Data engineering & databases"
   },
   "tiers": {
-   "Gemini runs": 105,
+   "Gemini runs": 104,
    "GLM-5.3 Flash 10% or less": 6
   },
   "not_in_catalog": 0,
   "estimate": {
-   "tasks": 145,
+   "tasks": 144,
    "argon_tasks": 27,
    "argon_hard": 13,
    "share": 0.48148148148148145,
-   "estimate": 106.38823529411765,
-   "lo": 76.26432297644999,
-   "hi": 131,
+   "estimate": 106.09411764705882,
+   "lo": 75.98660340080852,
+   "hi": 130,
    "groups": [
     "Feature implementation",
     "Data engineering"
@@ -17190,10 +17088,10 @@
    0.0
   ],
   "turns": {
-   "tasks_with_turns": 111,
-   "runs": 789,
-   "mean_of_task_means": 347.07804970746145,
-   "median_of_task_means": 344.5,
+   "tasks_with_turns": 110,
+   "runs": 786,
+   "mean_of_task_means": 349.25451682601414,
+   "median_of_task_means": 346.25,
    "long_horizon_tasks": 81,
    "threshold": 200,
    "task_means": [
@@ -17301,7 +17199,6 @@
     161.5,
     348.0,
     157.33333333333334,
-    107.66666666666667,
     375.0,
     246.75,
     116.75,
@@ -17315,9 +17212,9 @@
     {
      "codename": "kittiwake",
      "model": "google/gemini-3.8-flash",
-     "runs": 638,
-     "tasks": 101,
-     "mean": 357.2448744874488,
+     "runs": 635,
+     "tasks": 100,
+     "mean": 359.74065656565654,
      "tasks_200_plus": 73
     },
     {
@@ -17346,17 +17243,17 @@
    {
     "super_group": "Languages & developer tooling",
     "tasks": 27,
-    "pct": 24.3,
+    "pct": 24.5,
     "categories": [
      {
       "category": "CLI tooling",
       "tasks": 12,
-      "pct": 10.8
+      "pct": 10.9
      },
      {
       "category": "Compilers & language runtimes",
       "tasks": 7,
-      "pct": 6.3
+      "pct": 6.4
      },
      {
       "category": "API tooling",
@@ -17377,18 +17274,18 @@
    },
    {
     "super_group": "Data engineering & databases",
-    "tasks": 20,
-    "pct": 18.0,
+    "tasks": 19,
+    "pct": 17.3,
     "categories": [
-     {
-      "category": "Databases & storage engines",
-      "tasks": 9,
-      "pct": 8.1
-     },
      {
       "category": "Data formats & serialization",
       "tasks": 8,
-      "pct": 7.2
+      "pct": 7.3
+     },
+     {
+      "category": "Databases & storage engines",
+      "tasks": 8,
+      "pct": 7.3
      },
      {
       "category": "Data pipelines & ETL",
@@ -17405,12 +17302,12 @@
    {
     "super_group": "Systems, hardware & accelerators",
     "tasks": 17,
-    "pct": 15.3,
+    "pct": 15.5,
     "categories": [
      {
       "category": "Networking & HTTP",
       "tasks": 13,
-      "pct": 11.7
+      "pct": 11.8
      },
      {
       "category": "IoT & smart home",
@@ -17422,17 +17319,17 @@
    {
     "super_group": "Applications & business domains",
     "tasks": 14,
-    "pct": 12.6,
+    "pct": 12.7,
     "categories": [
      {
       "category": "Media processing",
       "tasks": 6,
-      "pct": 5.4
+      "pct": 5.5
      },
      {
       "category": "Web applications",
       "tasks": 6,
-      "pct": 5.4
+      "pct": 5.5
      },
      {
       "category": "Payments & banking",
@@ -17449,12 +17346,12 @@
    {
     "super_group": "Scientific & ML software",
     "tasks": 12,
-    "pct": 10.8,
+    "pct": 10.9,
     "categories": [
      {
       "category": "Machine learning & MLOps",
       "tasks": 7,
-      "pct": 6.3
+      "pct": 6.4
      },
      {
       "category": "AI agents & retrieval",
@@ -17471,12 +17368,12 @@
    {
     "super_group": "Cloud infrastructure & IaC",
     "tasks": 10,
-    "pct": 9.0,
+    "pct": 9.1,
     "categories": [
      {
       "category": "Cloud infra: containers & self-hosted platforms",
       "tasks": 8,
-      "pct": 7.2
+      "pct": 7.3
      },
      {
       "category": "Configuration management",
@@ -17536,64 +17433,64 @@
    {
     "value": "Go",
     "tasks": 71,
-    "pct": 64.0
+    "pct": 64.5
    },
    {
     "value": "Python",
-    "tasks": 40,
-    "pct": 36.0
+    "tasks": 39,
+    "pct": 35.5
    }
   ],
   "role": [
    {
     "value": "Library / Backend Engineer",
     "tasks": 27,
-    "pct": 24.3
+    "pct": 24.5
    },
    {
     "value": "Developer Tools Engineer",
     "tasks": 13,
-    "pct": 11.7
+    "pct": 11.8
    },
    {
     "value": "ML / AI Engineer",
     "tasks": 10,
-    "pct": 9.0
+    "pct": 9.1
    },
    {
     "value": "Systems Engineer",
     "tasks": 8,
-    "pct": 7.2
-   },
-   {
-    "value": "Database Engineer",
-    "tasks": 7,
-    "pct": 6.3
+    "pct": 7.3
    },
    {
     "value": "Platform Engineer",
     "tasks": 7,
-    "pct": 6.3
+    "pct": 6.4
    },
    {
     "value": "Compiler / Language Engineer",
     "tasks": 6,
-    "pct": 5.4
+    "pct": 5.5
    },
    {
     "value": "Media Software Engineer",
     "tasks": 6,
-    "pct": 5.4
+    "pct": 5.5
+   },
+   {
+    "value": "Database Engineer",
+    "tasks": 6,
+    "pct": 5.5
    },
    {
     "value": "Security Engineer",
     "tasks": 6,
-    "pct": 5.4
+    "pct": 5.5
    },
    {
     "value": "Data Engineer",
     "tasks": 6,
-    "pct": 5.4
+    "pct": 5.5
    },
    {
     "value": "Backend Engineer",
@@ -17630,12 +17527,12 @@
    {
     "value": "Senior",
     "tasks": 98,
-    "pct": 88.3
+    "pct": 89.1
    },
    {
     "value": "Staff+",
-    "tasks": 8,
-    "pct": 7.2
+    "tasks": 7,
+    "pct": 6.4
    },
    {
     "value": "Mid-Senior",
@@ -17677,15 +17574,15 @@
    {
     "codename": "kittiwake",
     "model": "google/gemini-3.8-flash",
-    "tasks": 102,
-    "rollouts": 699,
-    "graded": 638,
-    "passed": 18,
-    "pass_rate": 0.02821316614420063,
-    "error_rate": 0.08726752503576538,
-    "tasks_graded": 101,
+    "tasks": 101,
+    "rollouts": 693,
+    "graded": 635,
+    "passed": 15,
+    "pass_rate": 0.023622047244094488,
+    "error_rate": 0.0836940836940837,
+    "tasks_graded": 100,
     "tasks_0": 95,
-    "tasks_100": 3,
+    "tasks_100": 2,
     "tasks_20_80": 1,
     "per_task_rates": [
      0.0,
@@ -17787,8 +17684,7 @@
      0.0,
      0.0,
      0.0,
-     0.0,
-     1.0
+     0.0
     ]
    },
    {
@@ -20574,25 +20470,6 @@
     "turns": {
      "google/gemini-3.8-flash": [
       472,
-      3
-     ]
-    }
-   },
-   {
-    "sg": "Data engineering & databases",
-    "cat": "Databases & storage engines",
-    "lang": "Python",
-    "sen": "Staff+",
-    "scores": {
-     "google/gemini-3.8-flash": [
-      1,
-      1,
-      1
-     ]
-    },
-    "turns": {
-     "google/gemini-3.8-flash": [
-      323,
       3
      ]
     }

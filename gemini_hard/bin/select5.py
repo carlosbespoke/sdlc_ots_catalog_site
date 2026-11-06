@@ -9,6 +9,7 @@ ROWS = [dict(zip(hd, x)) for x in FC[6:] if len(x) > 1 and x[1]]
 MAP = {r[0]: r[1] for r in list(wb['Horizon task ID mapping'].iter_rows(values_only=True))[1:] if r and r[0]}
 GLM_MAX = 0.10
 ARGON_MAX = 0.60
+EASY_MAX = 0.80  # no task any shown model passes more than 80% of the time (samples excepted)
 OLD = {t['id']: t for t in json.load(open(f'{H}/universe_nov02.json'))['tasks']}; OLDN = {t['name']: t for t in OLD.values()}
 SAMPLES = {t['id'] for t in OLD.values() if t.get('sample')}  # the 22 samples the client has stay in
 # catalog group from the sheet's pipeline, for tasks the report did not have
@@ -28,7 +29,8 @@ for r in ROWS:
     g = lambda m: [q for q in runs if MM.get(q['model']) == m and not q.get('is_errored') and q.get('passed') is not None]
     a, f, l = g(ARGON), g(FLASH), g(GLMF)
     if not (a or f or (l and sum(bool(q['passed']) for q in l) / len(l) <= GLM_MAX)): continue
-    if a and sum(bool(q['passed']) for q in a) / len(a) > ARGON_MAX and tid not in SAMPLES: continue  # Argon above 60%: left out, except the client's samples (reviewer decision, 5 Nov)
+    if a and sum(bool(q['passed']) for q in a) / len(a) > ARGON_MAX and tid not in SAMPLES: continue
+    if tid not in SAMPLES and any(x and sum(bool(q['passed']) for q in x) / len(x) > EASY_MAX for x in (f, l)): continue  # any model above 80%: left out (reviewer, 6 Nov)  # Argon above 60%: left out, except the client's samples (reviewer decision, 5 Nov)
     old = OLD.get(tid) or OLDN.get(r['Task'])
     cat = old['catalog'] if old and old['catalog'] in REPORT else PIPE.get(r.get('Original pipeline') or '')
     out.append({'id': tid, 'name': r['Task'], 'version': v, 'pipeline': r.get('Original pipeline'), 'catalog': cat, 'known': bool(old),
