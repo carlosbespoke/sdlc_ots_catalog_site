@@ -19,18 +19,25 @@ def get(p, q=None):
     for a in range(8):
         try: return c.get(p, q)
         except Exception: time.sleep(2 + a)
+def _one(w):
+    e = w['evaluation_id']
+    st = (get(f'api/evaluations/{e}') or {}).get('status') or 'poll-error'
+    runs = []
+    for s in get(f'api/evaluations/{e}/rollouts', {}) or []:
+        for r in get(f"api/evaluations/{e}/tasks/{s['local_task_id']}/rollouts", {}) or []:
+            d = get(f"api/rollouts/{r['id']}") or {}; d = d.get('rollout', d)
+            runs.append({k: d.get(k) for k in ('id', 'evaluation_status', 'turn_count', 'task_version_number', 'passed', 'is_errored', 'extracted_score', 'total_cost', 'stop_reason')})
+    return e, {'task_id': w['task_id'], 'status': st, 'final': st in TERM, 'runs': runs}
 def collect():
-    for w in W:
-        e = w.get('evaluation_id')
-        if not e or RES.get(e, {}).get('final'): continue
-        st = (get(f'api/evaluations/{e}') or {}).get('status') or 'poll-error'
-        runs = []
-        for s in get(f'api/evaluations/{e}/rollouts', {}) or []:
-            for r in get(f"api/evaluations/{e}/tasks/{s['local_task_id']}/rollouts", {}) or []:
-                d = get(f"api/rollouts/{r['id']}") or {}; d = d.get('rollout', d)
-                runs.append({k: d.get(k) for k in ('id', 'evaluation_status', 'turn_count', 'task_version_number', 'passed', 'is_errored', 'extracted_score', 'total_cost', 'stop_reason')})
-        RES[e] = {'task_id': w['task_id'], 'status': st, 'final': st in TERM, 'runs': runs}
-    json.dump(RES, open(RES_P, 'w'), indent=1)
+    """Refresh every unfinished evaluation, 12 at a time; a lock file keeps two collectors from writing results.json at once."""
+    import fcntl, concurrent.futures as cf
+    with open(f'{OUT}/.collect.lock', 'w') as lk:
+        fcntl.flock(lk, fcntl.LOCK_EX)
+        RES.update(json.load(open(RES_P)) if os.path.exists(RES_P) else {})
+        todo = [w for w in W if w.get('evaluation_id') and not RES.get(w['evaluation_id'], {}).get('final')]
+        with cf.ThreadPoolExecutor(12) as ex:
+            for e, v in ex.map(_one, todo): RES[e] = v
+        json.dump(RES, open(RES_P, 'w'), indent=1)
 def state(tid):
     ev = [w for w in W if w['task_id'] == tid and w.get('evaluation_id')]
     runs = [r for w in ev for r in RES.get(w['evaluation_id'], {}).get('runs', [])]
