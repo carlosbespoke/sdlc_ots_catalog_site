@@ -1,0 +1,49 @@
+schema_version = "1.4"
+
+[[artifacts]]
+source = "/workspace/pulumi"
+exclude = [".git", "__pycache__", ".venv", "venv", "node_modules", ".pulumi"]
+
+[metadata]
+difficulty = "hard"
+category = "Infrastructure as Code"
+tags = ["iac", "pulumi", "terraform", "typescript", "aws", "migrate"]
+expert_time_estimate_minutes = 420
+display_description = "Port a 177-resource, six-module Terraform AWS ECS platform (15 AWS services and two key maps) to a Pulumi TypeScript program with one ComponentResource per module, Terraform-equivalent configuration and outputs, and previews that exactly match the bulk-imported production stack and Terraform under configuration changes"
+source_repository = "DNXLabs/terraform-aws-ecs"
+source_commit = "66d078ecc43a860ac25a556f7174676b9bb079ae"
+source_license = "Apache-2.0"
+language = "typescript"
+pulumi_version = "3.267.0"
+pulumi_aws_version = "6.83.0"
+terraform_version = "1.16.4"
+aws_provider_version = "5.100.0"
+grading = "0 if a gate fails (the program must type-check with the owned tsconfig.json, run unprivileged and offline, plan no changes against the production stack and against a copy with every generated ID swapped, register no banned option or lookup, and export the Terraform outputs) or a core check fails (adding or removing an availability zone or a workload service; changing the settings of existing availability zones or workload services; renaming the project or the environment; or reverting the drift); otherwise 1 only if all 17 checks pass (16 configuration changes and the drift revert), else 0 (binary); each check compares planned operations, planned resource state and stack outputs with the reference port of the Terraform configuration"
+
+[agent]
+timeout_sec = 21600.0
+user = "agent"
+network_mode = "no-network"
+
+[verifier]
+timeout_sec = 3600.0
+environment_mode = "separate"
+network_mode = "no-network"
+user = "root"
+
+[verifier.environment]
+build_timeout_sec = 1800.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 10240
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 1800.0
+memory_mb = 8192
+cpus = 4
+storage_mb = 20480
+network_mode = "no-network"
+workdir = "/workspace/pulumi"
+gpus = 0
+mcp_servers = []

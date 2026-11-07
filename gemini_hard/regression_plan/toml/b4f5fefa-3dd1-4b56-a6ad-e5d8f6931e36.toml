@@ -1,0 +1,59 @@
+schema_version = "1.3"
+artifacts = ["/logs/artifacts"]
+
+[task]
+name = "bespokelabsai/typeagent-py-30f-819ab603"
+description = "A pinned checkout of microsoft/typeagent-py has been altered by thirty single-line edits spread across search-term expansion, embedding and vector handling, property and knowledge lookups, on-disk persistence and reload, timestamp and caption parsing, speaker and name parsing, prompt assembly, credential handling, chat-model wrapping, and text chunking. The agent receives the faulted source tree with no test suite and only a prose report of externally visible misbehaviour: wrong values returned, calls that fail outright, filters that are ignored, and stores that stay empty after being loaded. It must localize each edit from behaviour alone, restore the intended behaviour, and name every function it repaired."
+authors = []
+keywords = ["diagnosis", "root-cause", "fault-chain", "python", "pytest"]
+
+[metadata]
+task_id = "typeagent-py-30f-819ab603"
+display_title = "typeagent-py: diagnosing 30 injected faults without a test suite"
+display_description = "A pinned checkout of microsoft/typeagent-py has been altered by thirty single-line edits spread across search-term expansion, embedding and vector handling, property and knowledge lookups, on-disk persistence and reload, timestamp and caption parsing, speaker and name parsing, prompt assembly, credential handling, chat-model wrapping, and text chunking. The agent receives the faulted source tree with no test suite and only a prose report of externally visible misbehaviour: wrong values returned, calls that fail outright, filters that are ignored, and stores that stay empty after being loaded. It must localize each edit from behaviour alone, restore the intended behaviour, and name every function it repaired."
+category = "bugfix"
+difficulty = "hard"
+language = "python"
+repository_url = "https://github.com/microsoft/typeagent-py.git"
+base_commit_hash = "4524f3e2c22d94d81fef8e0523d29d73609dbb7c"
+target_test = ""
+fault_count = 30
+fault_files = "src/typeagent/aitools/auth.py;src/typeagent/aitools/model_adapters.py;src/typeagent/aitools/utils.py;src/typeagent/aitools/vectorbase.py;src/typeagent/emails/email_import.py;src/typeagent/emails/email_message.py;src/typeagent/knowpro/answers.py;src/typeagent/knowpro/collections.py;src/typeagent/knowpro/convutils.py;src/typeagent/knowpro/fuzzyindex.py;src/typeagent/mcp/server.py;src/typeagent/podcasts/podcast_ingest.py;src/typeagent/storage/memory/collections.py;src/typeagent/storage/memory/messageindex.py;src/typeagent/storage/memory/propindex.py;src/typeagent/storage/memory/reltermsindex.py;src/typeagent/storage/memory/semrefindex.py;src/typeagent/storage/sqlite/collections.py;src/typeagent/storage/sqlite/messageindex.py;src/typeagent/storage/sqlite/propindex.py;src/typeagent/storage/sqlite/reltermsindex.py;src/typeagent/storage/sqlite/timestampindex.py;src/typeagent/transcripts/transcript.py;src/typeagent/transcripts/transcript_ingest.py"
+fault_ids = "05f22fc5,41877b2a,bae7353f,33d68f07,0e4bd434,8c3adcca,95557ec3,4456b530,ec79770a,ba331607,32599294,759141f6,690e6784,53f43d9a,39f59919,458073a3,0cef4b02,96e2ed1c,9903a8ec,98fbb654,0f317d4a,4f2b123d,6e435200,a25350db,1fea2847,4a7cc37e,d1be5394,b0528793,cae4fb1d,2f49977e"
+why_hard = "30 edits across 24 files, one per function, and the repository's own suite is the only thing that shows them"
+generated_by = "voyager-diagnosis-pipeline"
+
+# A separate verifier, rebuilt from the same Dockerfile in its own container. Grading
+# needs to see what the agent left behind, so the agent's working tree is collected and
+# extracted there. Sharing the agent's container instead put the git history, the
+# interpreter and the answer key all within its reach, and each one turned out to be a
+# way of scoring without doing the work.
+[verifier]
+environment_mode = "shared"
+user = "root"
+timeout_sec = 2400.0
+[[verifier.collect]]
+command = "bash -c 'mkdir -p /logs/artifacts && cd /workspace/repo && tar czf /logs/artifacts/worktree.tgz --exclude=./.git . ; cp -f /app/rca.json /logs/artifacts/rca.json 2>/dev/null || true ; cp -f /app/RESEARCH_AND_PLANNING.md /logs/artifacts/RESEARCH_AND_PLANNING.md 2>/dev/null || true'"
+service = "main"
+timeout_sec = 300
+# memory_mb was 4096 and is 8192. A pytest process was OOM killed at 2.09 GB inside a
+# 4 GB container while falcon's 4253 test suite ran, and a process killed partway through
+# collection reports a handful of tests and an error, which the reference solution gate
+# reads as a task defect. It does not reproduce when the box is quiet, so it presents as a
+# flaky gate. A limit is a cap and not a reservation, so raising it costs nothing on a
+# repository that does not need it. The one interaction to know about: containers all run
+# inside docker-limited.slice at MemoryMax=58G, so a high enough build concurrency can
+# still reach the slice limit, and the answer there is fewer concurrent builds rather than
+# a smaller per container cap.
+[agent]
+timeout_sec = 21600.0
+
+[environment]
+network_mode = "no-network"
+build_timeout_sec = 1800.0
+os = "linux"
+workdir = "/workspace/repo"
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

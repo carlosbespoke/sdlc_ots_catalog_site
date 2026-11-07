@@ -1,0 +1,32 @@
+schema_version = "1.1"
+artifacts = ["/logs/artifacts/model.patch"]
+[task]
+name = "authored/owncast-supervised-service-lifecycle-and-2024"
+description = ""
+authors = []
+keywords = []
+[metadata]
+task_id = "owncast-supervised-service-lifecycle-and-2024"
+display_title = "Supervised Service Lifecycle and Graceful Process Drain"
+repository_url = "https://github.com/owncast/owncast.git"
+base_commit_hash = "a430b89aff72084b0284d153957623dfa3c3ee67"
+language = "go"
+category = "feature_request"
+[verifier]
+environment_mode = "shared"
+timeout_sec = 2400
+[[verifier.collect]]
+command = "bash -lc 'cd /app && mkdir -p /logs/artifacts && git config --global --add safe.directory /app 2>/dev/null || true; git add -A 2>/dev/null || true; git diff --binary --cached a430b89aff72084b0284d153957623dfa3c3ee67 > /logs/artifacts/model.patch'"
+service = "main"
+timeout_sec = 60
+[agent]
+user = "agent"
+timeout_sec = 43200
+[environment]
+allow_internet = false
+network_mode = "no-network"
+build_timeout_sec = 1800
+cpus = 2
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0
