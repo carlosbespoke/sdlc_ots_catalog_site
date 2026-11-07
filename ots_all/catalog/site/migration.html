@@ -11,9 +11,9 @@
 <nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html"><span>System design</span><span class="count" aria-label="94 tasks">94</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html" aria-current="page"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-average-reward-across-the-catalog">Model average reward across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-statistics-numerical-methods-go">Example 1: Statistics &amp; numerical methods (Go)</a><a class="level-3" href="#example-2-graph-algorithms-go">Example 2: Graph algorithms (Go)</a><a class="level-3" href="#example-3-probabilistic-data-structures-go">Example 3: Probabilistic data structures (Go)</a></nav></aside>
 <div class="reading">
 <h2 id="executive-summary">Executive summary</h2>
-<div class="kpis"><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">26%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">0%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">59%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">26%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">0%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">61%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 <p>Each task asks the agent to port a Java or Rust library to Go or C++ behind fixed signatures, so that the original project's own tests, translated to the target language, pass against the port. The main languages are Go (89%) and C++ (11%).</p>
-<p>Every task has graded runs. The model with the most runs here, google/gemini-4-argon, has an average reward of 59% over 31 graded runs and scores 0 on every run of 20% of the 15 tasks it ran.</p>
+<p>Every task has graded runs. The model with the most runs here, google/gemini-4-argon, has an average reward of 61% over 36 graded runs and scores 0 on every run of 22% of the 18 tasks it ran.</p>
 <h2 id="why-this-catalog">Why this catalog</h2>
 <h3 id="problems-engineers-face">Problems engineers face</h3>
 <p>Engineers remove a dependency in one language by replacing it with a port in another. The hard part is exact behavioural equivalence without seeing the tests: numeric precision, bit-exact random sequences, parser and error-case fidelity, and the order of results. The target language adds its own rules, such as Go's RE2 regular expressions or C++ header conventions, and house constraints limit imports and naming.</p>
@@ -92,12 +92,12 @@
 <tbody>
 <tr>
 <td>google/gemini-4-argon</td>
-<td class="numeric">15</td>
-<td class="numeric">31</td>
-<td class="numeric">59%</td>
-<td class="numeric">20%</td>
-<td class="numeric">40%</td>
-<td class="numeric">40%</td>
+<td class="numeric">18</td>
+<td class="numeric">36</td>
+<td class="numeric">61%</td>
+<td class="numeric">22%</td>
+<td class="numeric">33%</td>
+<td class="numeric">39%</td>
 </tr>
 <tr>
 <td>z-ai/glm-5.3-flash</td>
@@ -137,7 +137,7 @@
 <tbody>
 <tr>
 <td>Average turn count</td>
-<td class="numeric">380.7</td>
+<td class="numeric">375.5</td>
 </tr>
 <tr>
 <td>Median turn count</td>
@@ -171,9 +171,9 @@
 <tbody>
 <tr>
 <td>google/gemini-4-argon</td>
-<td class="numeric">83%</td>
-<td class="numeric">277.5</td>
-<td class="numeric">71%</td>
+<td class="numeric">100%</td>
+<td class="numeric">286.5</td>
+<td class="numeric">72%</td>
 </tr>
 <tr>
 <td>z-ai/glm-5.3-flash</td>
@@ -496,7 +496,7 @@
 .cx-mini-bar{background:var(--ink);min-height:1px}.cx-mini-n{font:600 11px var(--sans);color:var(--ink);margin-top:3px}.cx-mini-lab{font:10px var(--sans);color:var(--muted)}
 @media (max-width:640px){.cx-row{grid-template-columns:minmax(0,1fr) 64px 64px 80px}.cx-grid5 .cx-row{grid-template-columns:minmax(0,1fr) 44px 60px 52px 52px 56px}.cx-meter{display:none}.cx-bar{grid-template-columns:minmax(90px,45%) 1fr 46px}}
 </style>
-<script type="application/json" data-chart-data>{"cross":true,"models":["google/gemini-4-argon","z-ai/glm-5.3-flash","google/gemini-3.8-flash"],"dims":{"g":["Applications & business domains","Data engineering & databases","Languages & developer tooling","Scientific & ML software"],"c":["CLI tooling","Collaborative documents","Compilers & language runtimes","Data formats & serialization","Graph algorithms","Media processing","Probabilistic data structures","Statistics & numerical methods"],"l":["C++","Go"],"s":["Senior"]},"tasks":[[3,4,1,0,{"0":[0,1],"1":[0,0,0,0],"2":[0,0,0,0,0]},{"0":[611,2],"1":[3814,4],"2":[2216,5]}],[2,2,1,0,{"2":[0],"0":[1]},{"2":[381,1],"0":[351,1]}],[1,3,1,0,{"2":[0],"0":[1,0,0]},{"2":[642,1],"0":[949,3]}],[3,4,1,0,{"0":[1]},{"0":[202,1]}],[1,3,1,0,{"2":[0],"0":[0]},{"2":[606,1],"0":[138,1]}],[2,2,1,0,{"0":[1,0]},{"0":[507,2]}],[2,2,1,0,{"1":[0,0.5136,0,0,0.6915]},{"1":[3000,5]}],[0,5,1,0,{"0":[1,1],"1":[0.5241,0,0.4147,0,0.5338]},{"0":[902,2],"1":[3000,5]}],[1,3,1,0,{"1":[0.16,0.0805,0.4583,0,0.5007]},{"1":[3000,5]}],[0,5,0,0,{"0":[0,1]},{"0":[347,2]}],[2,0,1,0,{"0":[1,1]},{"0":[429,2]}],[2,0,1,0,{"0":[1,1]},{"0":[837,2]}],[2,2,1,0,{"0":[0,0]},{"0":[1196,2]}],[3,7,1,0,{"2":[0],"0":[1,0,0]},{"2":[433,1],"0":[732,3]}],[0,5,1,0,{"1":[0.9034,0.619,0.3281,0.3514,0.48]},{"1":[3000,5]}],[0,1,0,0,{"0":[0,0]},{"0":[439,2]}],[3,6,1,0,{"0":[1,1,0,1]},{"0":[382,4]}],[0,5,1,0,{"0":[1,1]},{"0":[580,2]}]],"minTasks":5,"sat":0.8,"bin":50,"xmax":1000,"threshold":200}</script>
+<script type="application/json" data-chart-data>{"cross":true,"models":["google/gemini-4-argon","z-ai/glm-5.3-flash","google/gemini-3.8-flash"],"dims":{"g":["Applications & business domains","Data engineering & databases","Languages & developer tooling","Scientific & ML software"],"c":["CLI tooling","Collaborative documents","Compilers & language runtimes","Data formats & serialization","Graph algorithms","Media processing","Probabilistic data structures","Statistics & numerical methods"],"l":["C++","Go"],"s":["Senior"]},"tasks":[[3,4,1,0,{"0":[0,1],"1":[0,0,0,0],"2":[0,0,0,0,0]},{"0":[611,2],"1":[3814,4],"2":[2216,5]}],[2,2,1,0,{"2":[0],"0":[1]},{"2":[381,1],"0":[351,1]}],[1,3,1,0,{"2":[0],"0":[1,0,0]},{"2":[642,1],"0":[949,3]}],[3,4,1,0,{"0":[1]},{"0":[202,1]}],[1,3,1,0,{"2":[0],"0":[0]},{"2":[606,1],"0":[138,1]}],[2,2,1,0,{"0":[1,0,0]},{"0":[599,3]}],[2,2,1,0,{"1":[0,0.5136,0,0,0.6915],"0":[1]},{"1":[3000,5],"0":[587,1]}],[0,5,1,0,{"0":[1,1],"1":[0.5241,0,0.4147,0,0.5338]},{"0":[902,2],"1":[3000,5]}],[1,3,1,0,{"1":[0.16,0.0805,0.4583,0,0.5007],"0":[0]},{"1":[3000,5],"0":[239,1]}],[0,5,0,0,{"0":[0,1,1]},{"0":[628,3]}],[2,0,1,0,{"0":[1,1]},{"0":[429,2]}],[2,0,1,0,{"0":[1,1]},{"0":[837,2]}],[2,2,1,0,{"0":[0,0]},{"0":[1196,2]}],[3,7,1,0,{"2":[0],"0":[1,0,0]},{"2":[433,1],"0":[732,3]}],[0,5,1,0,{"1":[0.9034,0.619,0.3281,0.3514,0.48],"0":[0.9948]},{"1":[3000,5],"0":[513,1]}],[0,1,0,0,{"0":[0,0]},{"0":[439,2]}],[3,6,1,0,{"0":[1,1,0,1]},{"0":[382,4]}],[0,5,1,0,{"0":[1,1]},{"0":[580,2]}]],"minTasks":5,"sat":0.8,"bin":50,"xmax":1000,"threshold":200}</script>
 <script>// Interactive charts for the catalog site. Each page carries one JSON data block; charts on a page share a store,
 // so a click in one chart can filter the others. No element ids are used (the single-file build prefixes them),
 // everything is found through data attributes inside the page's own view.

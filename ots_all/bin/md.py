@@ -214,14 +214,14 @@ EX = {t['id']: (s['name'], i, t) for s in S.values() for i, t in enumerate(s['sh
 MODELS = [m for m, _ in sorted(allm.items(), key=lambda kv: -kv[1][0])]
 with open(f'{H}/ots_tasks.csv', 'w', newline='') as f:
     w = csv.writer(f)
-    w.writerow(['Task', 'Horizon task id', 'Task version', 'Catalog', 'Domain', 'Sub-domain', 'Language', 'Seniority', 'Sample', 'Graded runs', 'Average reward (all models)']
+    w.writerow(['Task', 'Horizon task id', 'Task version', 'Newer versions included', 'Catalog', 'Domain', 'Sub-domain', 'Language', 'Seniority', 'Sample', 'Graded runs', 'Average reward (all models)']
                + [f'{m} (average reward, graded runs)' for m in MODELS])
     for slug, cat in CATS:
         for t in sorted([t for t in TASKS if t['catalog'] == cat], key=lambda t: t['name']):
             r = ROWS.get(t['id']); c = NEWC.get(t['name'], {}); rr = runs(t['id']); g = sum(map(len, rr.values())); p = sum(x for v in rr.values() for x, _ in v)
             meta = (r['sg'], r['cat'], r['lang'], r['sen'].replace('–', '-')) if r else (c['sg'], c['cat'], c['lang'], c['sen'])
             ex = EX.get(t['id'])
-            w.writerow([t['name'], t['id'], RO[t['id']]['version'], cat, *meta, f"{ex[0]}, Example {ex[1]}: {ex[2]['task_id']}" if ex else '', g, f"{100 * p / g:.0f}%" if g else '']
+            w.writerow([t['name'], t['id'], RO[t['id']]['version'], ', '.join(map(str, RO[t['id']].get('extra_versions', []))), cat, *meta, f"{ex[0]}, Example {ex[1]}: {ex[2]['task_id']}" if ex else '', g, f"{100 * p / g:.0f}%" if g else '']
                        + [f"{100 * sum(x for x, _ in rr[m]) / len(rr[m]):.0f}%, {len(rr[m])}" if m in rr else '' for m in MODELS])
 with open(f'{H}/samples.csv', 'w', newline='') as f:
     w = csv.writer(f)

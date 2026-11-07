@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">82%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">56%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">74%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">82%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">39%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">78%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
 Each task extends or repairs a data library or pipeline so it keeps producing correct results after an upstream format or schema change, while old inputs still read the same. The main languages are Python (88%) and SQL (12%).
 
-Every task has graded runs. The model with the most runs here, google/gemini-4-argon, has an average reward of 74% over 34 graded runs and scores 0 on every run of 24% of the 17 tasks it ran.
+Every task has graded runs. The model with the most runs here, google/gemini-4-argon, has an average reward of 78% over 64 graded runs and scores 0 on every run of 18% of the 17 tasks it ran.
 
 ## Why this catalog
 
@@ -59,8 +59,8 @@ A model's average reward is average@k: on each task, the mean grader score over 
 
 | Model | Tasks run | Graded runs | Average reward | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
-| google/gemini-4-argon | 17 | 34 | 74% | 24% | 6% | 71% |
-| google/gemini-3.8-flash | 5 | 24 | 56% | 20% | 40% | 40% |
+| google/gemini-4-argon | 17 | 64 | 78% | 18% | 6% | 71% |
+| google/gemini-3.8-flash | 5 | 54 | 39% | 20% | 80% | 0% |
 | z-ai/glm-5.3-flash | 5 | 21 | 82% | 0% | 60% | 40% |
 
 <div class="cx" data-chart="reward">
@@ -74,9 +74,9 @@ A task's turn count is the average over its completed runs, from every model. A 
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 199.1 |
+| Average turn count | 191.6 |
 | Median turn count | 176.2 |
-| Range | 92 to 372 |
+| Range | 92 to 366 |
 | Long-horizon tasks (200+ turns) | 35% of tasks |
 
 <div class="cx" data-chart="turns" data-group="Domain">
@@ -86,8 +86,8 @@ A task's turn count is the average over its completed runs, from every model. A 
 
 | Model | % of tasks | Mean turns | % of runs with 200+ turns |
 |---|---:|---:|---:|
-| google/gemini-4-argon | 100% | 173.4 | 35% |
-| google/gemini-3.8-flash | 29% | 324.0 | 67% |
+| google/gemini-4-argon | 100% | 162.9 | 34% |
+| google/gemini-3.8-flash | 29% | 301.3 | 67% |
 | z-ai/glm-5.3-flash | 29% | 214.4 | 48% |
 
 ## Sample tasks
@@ -102,7 +102,7 @@ A task's turn count is the average over its completed runs, from every model. A 
 | Sub-domain | Databases & storage engines |
 | Language | Python |
 | Seniority | Mid-Senior |
-| Turn count | 375 (google/gemini-3.8-flash), 302 (z-ai/glm-5.3-flash), 236 (google/gemini-4-argon) |
+| Turn count | 310 (google/gemini-3.8-flash), 207 (google/gemini-4-argon), 302 (z-ai/glm-5.3-flash) |
 | Long horizon | yes |
 
 #### Prompt
@@ -125,9 +125,9 @@ Could you find what's wrong and fix it? There's no network here.
 
 | Model | Graded runs | Average reward |
 |---|---:|---:|
+| google/gemini-3.8-flash | 15 | 47% |
+| google/gemini-4-argon | 12 | 42% |
 | z-ai/glm-5.3-flash | 4 | 75% |
-| google/gemini-3.8-flash | 5 | 60% |
-| google/gemini-4-argon | 2 | 0% |
 
 #### Environment
 
@@ -143,7 +143,7 @@ Could you find what's wrong and fix it? There's no network here.
 | Sub-domain | Data pipelines & ETL |
 | Language | Python |
 | Seniority | Mid-Senior |
-| Turn count | 239 (z-ai/glm-5.3-flash), 556 (google/gemini-3.8-flash), 248 (google/gemini-4-argon) |
+| Turn count | 466 (google/gemini-3.8-flash), 198 (google/gemini-4-argon), 239 (z-ai/glm-5.3-flash) |
 | Long horizon | yes |
 
 #### Prompt
@@ -164,9 +164,9 @@ Please fix etlplus in /app. The existing tests in /app/tests and the ruff, pydoc
 
 | Model | Graded runs | Average reward |
 |---|---:|---:|
-| google/gemini-3.8-flash | 5 | 100% |
+| google/gemini-3.8-flash | 15 | 60% |
+| google/gemini-4-argon | 12 | 0% |
 | z-ai/glm-5.3-flash | 5 | 60% |
-| google/gemini-4-argon | 2 | 0% |
 
 #### Environment
 
@@ -182,7 +182,7 @@ Please fix etlplus in /app. The existing tests in /app/tests and the ruff, pydoc
 | Sub-domain | Data formats & serialization |
 | Language | Python |
 | Seniority | Mid-Senior |
-| Turn count | 186 (google/gemini-3.8-flash), 149 (z-ai/glm-5.3-flash), 84 (google/gemini-4-argon) |
+| Turn count | 162 (google/gemini-3.8-flash), 67 (google/gemini-4-argon), 149 (z-ai/glm-5.3-flash) |
 | Long horizon | no |
 
 #### Prompt
@@ -205,8 +205,8 @@ The environment has Python 3.12, installed project dependencies and no network. 
 
 | Model | Graded runs | Average reward |
 |---|---:|---:|
-| google/gemini-3.8-flash | 5 | 100% |
-| google/gemini-4-argon | 2 | 50% |
+| google/gemini-3.8-flash | 15 | 67% |
+| google/gemini-4-argon | 12 | 83% |
 | z-ai/glm-5.3-flash | 4 | 100% |
 
 #### Environment
@@ -262,7 +262,7 @@ The environment has Python 3.12, installed project dependencies and no network. 
 .cx-mini-bar{background:var(--ink);min-height:1px}.cx-mini-n{font:600 11px var(--sans);color:var(--ink);margin-top:3px}.cx-mini-lab{font:10px var(--sans);color:var(--muted)}
 @media (max-width:640px){.cx-row{grid-template-columns:minmax(0,1fr) 64px 64px 80px}.cx-grid5 .cx-row{grid-template-columns:minmax(0,1fr) 44px 60px 52px 52px 56px}.cx-meter{display:none}.cx-bar{grid-template-columns:minmax(90px,45%) 1fr 46px}}
 </style>
-<script type="application/json" data-chart-data>{"cross":true,"models":["google/gemini-4-argon","google/gemini-3.8-flash","z-ai/glm-5.3-flash"],"dims":{"g":["Applications & business domains","Data engineering & databases","Scientific & ML software"],"c":["Analytics engineering","Data formats & serialization","Data pipelines & ETL","Data validation","Databases & storage engines","Payments & banking","Scientific computing","Sports analytics"],"l":["Python","SQL"],"s":["Mid-Senior"]},"tasks":[[2,6,0,0,{"0":[1,1]},{"0":[256,2]}],[0,5,0,0,{"0":[1,1]},{"0":[252,2]}],[1,0,1,0,{"0":[1,1],"1":[0,0,1,0,0]},{"0":[145,2],"1":[608,5]}],[1,3,0,0,{"0":[1,1]},{"0":[481,2]}],[1,4,0,0,{"0":[0,0],"1":[1,1,0,1,0],"2":[1,0,1,1]},{"0":[473,2],"1":[1875,5],"2":[1206,4]}],[1,4,0,0,{"0":[0,0]},{"0":[418,2]}],[1,2,0,0,{"0":[1,1]},{"0":[244,2]}],[1,1,0,0,{"0":[1,1]},{"0":[361,2]}],[1,2,0,0,{"0":[1,1],"2":[1,1,1,1]},{"0":[373,2],"2":[653,4]}],[1,3,0,0,{"0":[1,1],"1":[0,0,0,0]},{"0":[612,2],"1":[1582,4]}],[1,2,0,0,{"0":[0,0],"2":[0,1,0,1,1],"1":[1,1,1,1,1]},{"0":[495,2],"2":[1193,5],"1":[2782,5]}],[1,0,1,0,{"0":[1,1],"2":[1,1,1,0]},{"0":[202,2],"2":[855,4]}],[1,4,0,0,{"0":[1,1]},{"0":[517,2]}],[2,7,0,0,{"0":[1,1]},{"0":[183,2]}],[1,0,0,0,{"0":[1,1]},{"0":[394,2]}],[1,1,0,0,{"0":[0,1],"1":[1,1,1,1,1],"2":[1,1,1,1]},{"0":[168,2],"1":[930,5],"2":[596,4]}],[1,2,0,0,{"0":[0,0]},{"0":[323,2]}]],"minTasks":5,"sat":0.8,"bin":50,"xmax":1000,"threshold":200}</script>
+<script type="application/json" data-chart-data>{"cross":true,"models":["google/gemini-4-argon","google/gemini-3.8-flash","z-ai/glm-5.3-flash"],"dims":{"g":["Applications & business domains","Data engineering & databases","Scientific & ML software"],"c":["Analytics engineering","Data formats & serialization","Data pipelines & ETL","Data validation","Databases & storage engines","Payments & banking","Scientific computing","Sports analytics"],"l":["Python","SQL"],"s":["Mid-Senior"]},"tasks":[[2,6,0,0,{"0":[1,1]},{"0":[256,2]}],[0,5,0,0,{"0":[1,1]},{"0":[252,2]}],[1,0,1,0,{"0":[1,1],"1":[0,0,1,0,0]},{"0":[145,2],"1":[608,5]}],[1,3,0,0,{"0":[1,1]},{"0":[481,2]}],[1,4,0,0,{"0":[0,0,0,0,0,1,1,1,1,0,1,0],"1":[1,1,0,1,0,1,0,0,0,1,1,0,0,0,1],"2":[1,0,1,1]},{"0":[2485,12],"1":[4650,15],"2":[1206,4]}],[1,4,0,0,{"0":[0,0]},{"0":[418,2]}],[1,2,0,0,{"0":[1,1]},{"0":[244,2]}],[1,1,0,0,{"0":[1,1]},{"0":[361,2]}],[1,2,0,0,{"0":[1,1],"2":[1,1,1,1]},{"0":[373,2],"2":[653,4]}],[1,3,0,0,{"0":[1,1],"1":[0,0,0,0]},{"0":[612,2],"1":[1582,4]}],[1,2,0,0,{"0":[0,0,0,0,0,0,0,0,0,0,0,0],"2":[0,1,0,1,1],"1":[1,1,1,1,1,1,1,1,1,0,0,0,0,0,0]},{"0":[2377,12],"2":[1193,5],"1":[6994,15]}],[1,0,1,0,{"0":[1,1],"2":[1,1,1,0]},{"0":[202,2],"2":[855,4]}],[1,4,0,0,{"0":[1,1]},{"0":[517,2]}],[2,7,0,0,{"0":[1,1]},{"0":[183,2]}],[1,0,0,0,{"0":[1,1]},{"0":[394,2]}],[1,1,0,0,{"0":[0,1,1,1,1,1,1,1,0,1,1,1],"1":[1,1,1,1,1,0,1,1,1,0,0,1,0,0,1],"2":[1,1,1,1]},{"0":[801,12],"1":[2436,15],"2":[596,4]}],[1,2,0,0,{"0":[0,0]},{"0":[323,2]}]],"minTasks":5,"sat":0.8,"bin":50,"xmax":1000,"threshold":200}</script>
 <script>// Interactive charts for the catalog site. Each page carries one JSON data block; charts on a page share a store,
 // so a click in one chart can filter the others. No element ids are used (the single-file build prefixes them),
 // everything is found through data attributes inside the page's own view.

@@ -1,4 +1,4 @@
-# Add the rollout campaign's runs (rollout_plan/: pilot, retries and main run) to the snapshot in ro/, at each task's report
+# Add the rollout campaigns' runs (rollout_plan/: pilot, retries and main run; ../gemini_hard/rollout_plan/: the 5 Nov Argon waves) to the snapshot in ro/, at each task's report
 # version. Only the campaign's own rollouts are added; every other run on these tasks stays as of SNAPSHOT. Errored and
 # ungraded runs are added too and left out by the usual rules. Run bin/fetch.py afterwards to fill their turn counts.
 import sys, os, json, time
@@ -19,6 +19,9 @@ def evals(o):  # every {evaluation_id, task_id} in pilot.json, at any depth
     elif isinstance(o, list):
         for v in o: yield from evals(v)
 E = list(evals(json.load(open(f'{OUT}/pilot.json')))) + json.load(open(f'{OUT}/launch.json'))
+# the 5 Nov Argon rollout run for the Gemini-hard catalog (../gemini_hard/rollout_plan/waves.json), on tasks in this snapshot
+E += [w for w in json.load(open(f'{H}/../gemini_hard/rollout_plan/waves.json'))
+      if w.get('evaluation_id') and os.path.exists(f"{H}/ro/{w['task_id']}.json")]
 ids = {}  # task id -> campaign rollout ids
 for e in E:
     for s in get(f"api/evaluations/{e['evaluation_id']}/rollouts", {}) or []:  # one entry per task in the evaluation

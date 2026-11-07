@@ -1,6 +1,6 @@
 import sys, os, json, re, collections
 P = '/Users/carlos/code/sdlc_final_samples/pipeline'; os.environ['B'] = P
-G = '/Users/carlos/code/sdlc_final_samples/gemini_hard'  # task list (universe.json), sample files, diagrams and checked prompts are shared with it
+G = '/Users/carlos/code/sdlc_final_samples/gemini_hard'  # sample files, diagrams and checked prompts are shared with it
 H = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, f'{P}/bin')
 from cat_common import load_rows, green, dedupe, shortlist
@@ -13,7 +13,7 @@ MM = {**json.load(open(f'{P}/ro_models.json')), 'helm': 'cohere/command-a', 'gra
 MM = {k: {'claude-opus-5-5': 'anthropic/claude-opus-5-5', 'gpt-6-astra': 'openai/gpt-6-astra'}.get(v, v) for k, v in MM.items()}
 from common_drop import DROPPED, EXCLUDED_TASKS
 SNAPSHOT = open(f'{H}/SNAPSHOT').read().strip()
-ALL_TASKS = json.load(open(f'{G}/universe.json'))['tasks']  # 1,356 tasks: the 2 Nov sheet's catalog plus the five new System design tasks
+ALL_TASKS = json.load(open(f'{os.path.dirname(os.path.dirname(os.path.abspath(__file__)))}/cat/universe.json'))['tasks']  # 1,356 tasks: the 2 Nov sheet's catalog plus the five new System design tasks, frozen from ../gemini_hard/universe.json at d30db8c (that file keeps changing)
 ALL_TASKS += json.load(open(f'{H}/cat/extra_tasks.json'))['tasks']  # 25 more from the 'Updated selection 120' tab
 # the 9 Optimization tasks are counted as System design (pages, pass rates, turn counts, CSV)
 ALL_TASKS = [{**t, 'catalog': 'System design'} if t['catalog'] == 'Optimization' else t for t in ALL_TASKS]

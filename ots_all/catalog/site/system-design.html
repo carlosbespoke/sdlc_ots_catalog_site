@@ -11,9 +11,9 @@
 <nav class="catalog-nav" aria-label="Catalogs"><a href="index.html"><span>Overview</span><span class="count" aria-label="1,305 tasks">1,305</span></a><a href="programbench.html"><span>ProgramBench</span><span class="count" aria-label="434 tasks">434</span></a><a href="system-design.html" aria-current="page"><span>System design</span><span class="count" aria-label="94 tasks">94</span></a><a href="debugging.html"><span>Diagnosis, Debugging, and Bug Fixing</span><span class="count" aria-label="324 tasks">324</span></a><a href="feature-implementation.html"><span>Feature implementation</span><span class="count" aria-label="117 tasks">117</span></a><a href="infrastructure-as-code.html"><span>Infrastructure as code</span><span class="count" aria-label="301 tasks">301</span></a><a href="data-engineering.html"><span>Data engineering</span><span class="count" aria-label="17 tasks">17</span></a><a href="migration.html"><span>Migration</span><span class="count" aria-label="18 tasks">18</span></a></nav><nav class="toc-links" aria-label="On this page"><a class="level-2" href="#executive-summary">Executive summary</a><a class="level-2" href="#why-this-catalog">Why this catalog</a><a class="level-3" href="#problems-engineers-face">Problems engineers face</a><a class="level-3" href="#how-the-tasks-reproduce-them">How the tasks reproduce them</a><a class="level-3" href="#typical-prompts">Typical prompts</a><a class="level-2" href="#domain-breakdown">Domain breakdown</a><a class="level-2" href="#language-and-seniority">Language and seniority</a><a class="level-3" href="#primary-language">Primary language</a><a class="level-3" href="#seniority">Seniority</a><a class="level-2" href="#model-average-reward-across-the-catalog">Model average reward across the catalog</a><a class="level-2" href="#turn-counts-and-long-horizon-tasks">Turn counts and long-horizon tasks</a><a class="level-2" href="#sample-tasks">Sample tasks</a><a class="level-3" href="#example-1-payments-banking-typescript">Example 1: Payments &amp; banking (TypeScript)</a><a class="level-3" href="#example-2-secrets-access-control-go">Example 2: Secrets &amp; access control (Go)</a><a class="level-3" href="#example-3-software-supply-chain-c">Example 3: Software supply chain (C#)</a><a class="level-3" href="#example-4-web-applications-typescript">Example 4: Web applications (TypeScript)</a><a class="level-3" href="#example-5-media-processing-typescript">Example 5: Media processing (TypeScript)</a><a class="level-3" href="#example-6-payments-banking-typescript">Example 6: Payments &amp; banking (TypeScript)</a></nav></aside>
 <div class="reading">
 <h2 id="executive-summary">Executive summary</h2>
-<div class="kpis"><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">37%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">47%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">37%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">60%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 <p>Each task changes a production service that must keep running. The agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and delivers the change as a patch. The main languages are Python (38%), TypeScript (24%) and Go (22%).</p>
-<p>Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, has an average reward of 37% over 418 graded runs and scores 0 on every run of 14% of the 80 tasks it ran.</p>
+<p>Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, has an average reward of 37% over 442 graded runs and scores 0 on every run of 14% of the 80 tasks it ran.</p>
 <h2 id="why-this-catalog">Why this catalog</h2>
 <h3 id="problems-engineers-face">Problems engineers face</h3>
 <p>Production systems fail in specific ways when they change while running. In services where several processes share state and any of them can stop, the failures are duplicate effects after retries, lost notifications, stale writers returning after a takeover, limits that hold in one process but not across instances, and partial state after a crash.</p>
@@ -104,29 +104,29 @@
 <tr>
 <td>z-ai/glm-5.3-flash</td>
 <td class="numeric">80</td>
-<td class="numeric">418</td>
+<td class="numeric">442</td>
 <td class="numeric">37%</td>
 <td class="numeric">14%</td>
 <td class="numeric">68%</td>
 <td class="numeric">4%</td>
 </tr>
 <tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">62</td>
+<td class="numeric">195</td>
+<td class="numeric">60%</td>
+<td class="numeric">26%</td>
+<td class="numeric">27%</td>
+<td class="numeric">47%</td>
+</tr>
+<tr>
 <td>google/gemini-3.8-flash</td>
 <td class="numeric">21</td>
-<td class="numeric">134</td>
+<td class="numeric">143</td>
 <td class="numeric">2%</td>
 <td class="numeric">86%</td>
 <td class="numeric">0%</td>
 <td class="numeric">0%</td>
-</tr>
-<tr>
-<td>google/gemini-4-argon</td>
-<td class="numeric">25</td>
-<td class="numeric">128</td>
-<td class="numeric">47%</td>
-<td class="numeric">28%</td>
-<td class="numeric">48%</td>
-<td class="numeric">24%</td>
 </tr>
 </tbody>
 </table>
@@ -148,15 +148,15 @@
 <tbody>
 <tr>
 <td>Average turn count</td>
-<td class="numeric">460.1</td>
+<td class="numeric">443.2</td>
 </tr>
 <tr>
 <td>Median turn count</td>
-<td class="numeric">425.0</td>
+<td class="numeric">409.8</td>
 </tr>
 <tr>
 <td>Range</td>
-<td>107 to 948</td>
+<td>107 to 931</td>
 </tr>
 <tr>
 <td>Long-horizon tasks (200+ turns)</td>
@@ -183,20 +183,20 @@
 <tr>
 <td>z-ai/glm-5.3-flash</td>
 <td class="numeric">85%</td>
-<td class="numeric">521.6</td>
-<td class="numeric">91%</td>
+<td class="numeric">522.1</td>
+<td class="numeric">92%</td>
+</tr>
+<tr>
+<td>google/gemini-4-argon</td>
+<td class="numeric">66%</td>
+<td class="numeric">321.5</td>
+<td class="numeric">81%</td>
 </tr>
 <tr>
 <td>google/gemini-3.8-flash</td>
 <td class="numeric">22%</td>
-<td class="numeric">277.8</td>
+<td class="numeric">276.2</td>
 <td class="numeric">66%</td>
-</tr>
-<tr>
-<td>google/gemini-4-argon</td>
-<td class="numeric">27%</td>
-<td class="numeric">310.0</td>
-<td class="numeric">77%</td>
 </tr>
 </tbody>
 </table>
@@ -755,7 +755,7 @@
 .cx-mini-bar{background:var(--ink);min-height:1px}.cx-mini-n{font:600 11px var(--sans);color:var(--ink);margin-top:3px}.cx-mini-lab{font:10px var(--sans);color:var(--muted)}
 @media (max-width:640px){.cx-row{grid-template-columns:minmax(0,1fr) 64px 64px 80px}.cx-grid5 .cx-row{grid-template-columns:minmax(0,1fr) 44px 60px 52px 52px 56px}.cx-meter{display:none}.cx-bar{grid-template-columns:minmax(90px,45%) 1fr 46px}}
 </style>
-<script type="application/json" data-chart-data>{"cross":true,"models":["z-ai/glm-5.3-flash","google/gemini-3.8-flash","google/gemini-4-argon"],"dims":{"g":["Applications & business domains","Build, release & supply chain","Cloud infrastructure & IaC","Data engineering & databases","Distributed systems & coordination","Languages & developer tooling","Observability & reliability","Scientific & ML software","Security","Systems, hardware & accelerators"],"c":["AI agents & retrieval","API tooling","CI/CD","Calendaring & recurrence","Cloud infra: containers & self-hosted platforms","Collaborative documents","Data pipelines & ETL","Databases & storage engines","Education tooling","Filesystems","Geospatial","Graph algorithms","IoT & smart home","Job scheduling","Machine learning & MLOps","Media processing","Medical imaging & healthcare","Messaging & event streaming","Monitoring & observability","Networking & HTTP","Payments & banking","Scientific computing","Secrets & access control","Software supply chain","Statistics & numerical methods","Web applications","Workflow automation"],"l":["C#","Go","Python","TypeScript"],"s":["Senior","Staff+"]},"tasks":[[0,25,0,1,{"2":[1,1,1,1,0],"0":[1,1,1,0]},{"2":[676,5],"0":[796,4]}],[0,20,2,1,{"0":[0,0,0,1]},{"0":[3790,4]}],[6,18,2,1,{"0":[1,0,0,1]},{"0":[2665,4]}],[7,11,1,1,{"1":[0,0,0,0,0,0,0,0,0,0,0]},{"1":[1209,11]}],[6,18,2,1,{"0":[0,1,1,0]},{"0":[2596,4]}],[0,25,2,1,{"1":[0,0,0,0,0,0]},{"1":[3231,6]}],[6,18,2,1,{"0":[1,0,1,0]},{"0":[2663,4]}],[0,25,0,1,{"0":[0,0,0,1]},{"0":[1618,4]}],[0,25,1,1,{"1":[0,0,0,0,1,0]},{"1":[1956,6]}],[8,22,0,1,{"0":[0,0,1,1]},{"0":[2779,4]}],[7,16,3,1,{"0":[1,0,0,0,0,0,0,0]},{"0":[5538,8]}],[7,0,2,1,{"1":[0,0,0,0,0,0]},{"1":[1549,6]}],[4,26,3,1,{"0":[0,1,0,1,1,0,1,1]},{"0":[6986,8]}],[0,20,2,1,{"1":[0,0,0,0,0,0,0,0,0,0,0,0]},{"1":[1848,12]}],[8,22,2,1,{"0":[0,0,0,0,0,0],"1":[0,0,0,0,0,0]},{"0":[1708,6],"1":[1352,6]}],[7,24,2,0,{"1":[0,0,0,0,0,0]},{"1":[1387,6]}],[0,20,3,1,{"2":[1,0,0,0,0],"0":[0,1,0,0,0,1]},{"2":[2128,5],"0":[4253,6]}],[1,2,2,1,{"0":[1,1,0,0]},{"0":[2542,4]}],[7,21,2,0,{"0":[0,0,0,0,0,0],"1":[0,0,0,0,0,0],"2":[0,0,0,0,0,0]},{"0":[1171,6],"1":[1537,6],"2":[957,6]}],[4,13,1,1,{"2":[0,0,0,0,0],"0":[0,0,0,0]},{"2":[3616,5],"0":[4000,4]}],[6,18,2,1,{"0":[0,1,0,0,1,0,1,1,1,1]},{"0":[6556,10]}],[0,25,3,1,{"0":[0,0,1,0]},{"0":[2352,4]}],[0,15,1,1,{"2":[0,0,0,0,0],"0":[0,0,0,0]},{"2":[1736,5],"0":[3246,4]}],[9,12,1,1,{"0":[1,1,1,1]},{"0":[1500,4]}],[0,25,0,1,{"0":[1,0,1,1]},{"0":[2778,4]}],[4,17,1,1,{"1":[0,0,0,0,0,0]},{"1":[1546,6]}],[9,19,1,0,{"1":[0,0,0,0,0,1],"0":[1,1,1,1]},{"1":[1735,6],"0":[1588,4]}],[0,25,0,1,{"2":[0,0,0,0,1],"0":[0,0,1,0]},{"2":[1718,5],"0":[1668,4]}],[0,20,3,1,{"2":[0,0,0,0,1],"0":[0,0,0,1,0,0]},{"2":[2068,5],"0":[4021,6]}],[4,26,1,1,{"0":[0,1,1,1]},{"0":[2185,4]}],[8,22,2,1,{"0":[1,0,0,1,0,1]},{"0":[3013,6]}],[4,17,0,1,{"0":[0,0,0,0]},{"0":[1181,4]}],[1,2,2,1,{"0":[1,0,1,1,1,0]},{"0":[4905,6]}],[0,25,2,1,{"2":[1,1,1,1,1],"0":[0,0,1,1]},{"2":[1236,5],"0":[1929,4]}],[0,5,3,1,{"2":[0,1,1,1,1],"0":[0,0,0,1,0]},{"2":[1536,5],"0":[1995,5]}],[0,25,0,1,{"2":[0,0,0,0,0],"0":[0,0,0,0]},{"2":[1375,5],"0":[2775,4]}],[9,19,1,0,{"1":[0,0,0,0,0,0],"2":[0,0,0,0,1]},{"1":[1769,6],"2":[1163,5]}],[1,23,1,1,{"2":[0,0,0,0,0],"0":[0,1,0,0]},{"2":[1176,5],"0":[1860,4]}],[0,25,1,1,{"2":[1,1,1,1,1],"0":[0,0,0,1,0,1]},{"2":[2393,5],"0":[2058,6]}],[0,5,2,1,{"0":[0,0,1,0,0,0]},{"0":[4545,6]}],[1,2,1,1,{"0":[0,0,0,0]},{"0":[1913,4]}],[2,4,1,1,{"0":[0,0,0,0,0,0],"1":[0,0,0,0,0,0]},{"0":[2803,6],"1":[1260,6]}],[7,14,2,0,{"1":[0,0,0,0,0,0],"0":[1,0,0,0],"2":[1,1,1,1,1,1]},{"1":[1406,6],"0":[1419,4],"2":[845,6]}],[7,24,2,0,{"1":[0,0,0,0,0,0]},{"1":[1574,6]}],[4,17,0,1,{"0":[0,1,0,0]},{"0":[733,4]}],[0,25,0,1,{"0":[0,1,0,0]},{"0":[1336,4]}],[0,25,0,1,{"0":[1,1,1,0]},{"0":[983,4]}],[7,14,2,0,{"1":[0,0,0,0,0,0],"0":[0,0,0,0,0],"2":[1,1,1,1,1,1]},{"1":[1785,6],"0":[2511,5],"2":[819,6]}],[0,25,3,1,{"0":[1,1,1,0,0,0]},{"0":[1772,6]}],[4,26,0,1,{"2":[1,1,1,1,1],"0":[0,1,0,0]},{"2":[2206,5],"0":[2001,4]}],[0,25,1,1,{"0":[0,1,1,1]},{"0":[2134,4]}],[7,24,2,0,{"0":[0,1,0,0,0,0],"1":[1,0,0,0,0,0],"2":[0,0,0,0,0,0]},{"0":[1145,6],"1":[1440,6],"2":[1262,6]}],[0,5,3,1,{"0":[1,0,0,1,0,0]},{"0":[3338,6]}],[3,6,1,1,{"1":[0,0,0,0,0,0]},{"1":[641,6]}],[9,9,1,1,{"0":[1,1,0,1]},{"0":[1180,4]}],[0,15,3,1,{"2":[0,1,1,1,1],"0":[0,0,0,1]},{"2":[1258,5],"0":[1532,4]}],[5,1,3,1,{"2":[0,0,0,0,0],"0":[0,0,0,1]},{"2":[1439,5],"0":[1521,4]}],[7,14,2,0,{"1":[0,0,0,0,0,0]},{"1":[2463,6]}],[6,18,1,1,{"0":[1,1,1,0]},{"0":[1968,4]}],[7,0,1,1,{"1":[0,0,0,0,0,0]},{"1":[1481,6]}],[0,25,2,1,{"0":[1,0,0,0]},{"0":[1758,4]}],[0,25,0,1,{"0":[0,1,0,0]},{"0":[1438,4]}],[3,6,2,1,{"2":[0,1,1,0,1],"0":[1,0,0,0,0,0,0]},{"2":[1681,5],"0":[5557,7]}],[0,25,3,1,{"0":[0,0,1,0,0,0,0,0]},{"0":[6120,8]}],[2,4,1,1,{"1":[0,0,0,0,0,0]},{"1":[5588,6]}],[8,22,1,1,{"2":[0,0,0,1,0],"0":[0,0,0,0]},{"2":[1826,5],"0":[2496,4]}],[0,25,3,1,{"2":[0,1,1,1],"0":[0,0,0,0]},{"2":[1721,4],"0":[2432,4]}],[1,23,0,1,{"2":[1,0,0,0,0],"0":[1,0,1,0,1,0]},{"2":[1014,5],"0":[3053,6]}],[0,20,3,1,{"2":[1,1,1,0,1],"0":[1,0,1,0]},{"2":[2060,5],"0":[3133,4]}],[3,7,1,1,{"2":[1,1,1,1,1],"0":[1,1,1,1]},{"2":[1775,5],"0":[1907,4]}],[3,7,2,1,{"1":[0,0,0]},{"1":[472,3]}],[3,7,3,1,{"0":[1,0,1,1,0,1]},{"0":[2193,6]}],[0,25,2,1,{"0":[1,0,1,0,1,1,0,1]},{"0":[4172,8]}],[8,22,3,1,{"0":[0,0,0,1,0,0,0,0,0,0,0,0]},{"0":[2479,12]}],[0,20,3,1,{"0":[1,0,1,0,0,0]},{"0":[4534,6]}],[0,25,2,1,{"0":[1,1,0,0,0,0]},{"0":[2673,6]}],[3,7,3,1,{"0":[0,1,0,0,0,1]},{"0":[2396,6]}],[0,5,2,1,{"0":[0,0,1,0,0,1]},{"0":[2404,6]}],[3,7,2,1,{"0":[1,0,1,0,1,1]},{"0":[1828,6]}],[3,7,0,1,{"0":[0,1,1,1]},{"0":[2526,4]}],[7,14,2,1,{"0":[0,1,1,0,0,1]},{"0":[4630,6]}],[0,8,2,1,{"0":[1,0,0,0,0,0]},{"0":[3990,6]}],[8,22,3,1,{"0":[1,1,0,0,0]},{"0":[3485,5]}],[7,10,2,1,{"0":[1,0,0,0,1,0]},{"0":[2709,6]}],[5,1,2,1,{"0":[1,1,0,0,0,0]},{"0":[3611,6]}],[7,14,2,1,{"0":[1,0,0,0,0,1]},{"0":[1897,6]}],[4,17,3,1,{"0":[0,0,0,0,0,1]},{"0":[2757,6]}],[0,25,2,1,{"0":[0,0,1,1,1,1]},{"0":[1623,6]}],[0,20,3,1,{"0":[0,0,0,0,0,1]},{"0":[3486,6]}],[0,20,3,1,{"0":[0,1,0,0,0,0]},{"0":[1684,6]}],[4,17,3,1,{"0":[0,1,0,0,1,1]},{"0":[3942,6]}],[0,3,2,1,{"0":[0,1,0,1,1,0]},{"0":[2017,6]}],[9,19,2,1,{"0":[1,0,0,0,0,0]},{"0":[4495,6]}],[4,17,3,1,{"0":[0,0,1,0]},{"0":[3063,4]}]],"minTasks":5,"sat":0.8,"bin":50,"xmax":1000,"threshold":200}</script>
+<script type="application/json" data-chart-data>{"cross":true,"models":["z-ai/glm-5.3-flash","google/gemini-4-argon","google/gemini-3.8-flash"],"dims":{"g":["Applications & business domains","Build, release & supply chain","Cloud infrastructure & IaC","Data engineering & databases","Distributed systems & coordination","Languages & developer tooling","Observability & reliability","Scientific & ML software","Security","Systems, hardware & accelerators"],"c":["AI agents & retrieval","API tooling","CI/CD","Calendaring & recurrence","Cloud infra: containers & self-hosted platforms","Collaborative documents","Data pipelines & ETL","Databases & storage engines","Education tooling","Filesystems","Geospatial","Graph algorithms","IoT & smart home","Job scheduling","Machine learning & MLOps","Media processing","Medical imaging & healthcare","Messaging & event streaming","Monitoring & observability","Networking & HTTP","Payments & banking","Scientific computing","Secrets & access control","Software supply chain","Statistics & numerical methods","Web applications","Workflow automation"],"l":["C#","Go","Python","TypeScript"],"s":["Senior","Staff+"]},"tasks":[[0,25,0,1,{"1":[1,1,1,1,0],"0":[1,1,1,0]},{"1":[676,5],"0":[796,4]}],[0,20,2,1,{"0":[0,0,0,1],"1":[1]},{"0":[3790,4],"1":[517,1]}],[6,18,2,1,{"0":[1,0,0,1],"1":[1]},{"0":[2665,4],"1":[247,1]}],[7,11,1,1,{"2":[0,0,0,0,0,0,0,0,0,0,0]},{"2":[1209,11]}],[6,18,2,1,{"0":[0,1,1,0]},{"0":[2596,4]}],[0,25,2,1,{"2":[0,0,0,0,0,0]},{"2":[3231,6]}],[6,18,2,1,{"0":[1,0,1,0,0,1,1,1,1,0,1,1,1,0,0,0,0,0,0,0,1,0,0,0,1,1,1,1]},{"0":[15375,28]}],[0,25,0,1,{"0":[0,0,0,1],"1":[1]},{"0":[1618,4],"1":[459,1]}],[0,25,1,1,{"2":[0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],"1":[0,0,0,0,0,0]},{"2":[4218,15],"1":[3165,6]}],[8,22,0,1,{"0":[0,0,1,1],"1":[1]},{"0":[2779,4],"1":[514,1]}],[7,16,3,1,{"0":[1,0,0,0,0,0,0,0],"1":[1]},{"0":[5538,8],"1":[634,1]}],[7,0,2,1,{"2":[0,0,0,0,0,0]},{"2":[1549,6]}],[4,26,3,1,{"0":[0,1,0,1,1,0,1,1]},{"0":[6986,8]}],[0,20,2,1,{"2":[0,0,0,0,0,0,0,0,0,0,0,0]},{"2":[1848,12]}],[8,22,2,1,{"0":[0,0,0,0,0,0],"2":[0,0,0,0,0,0],"1":[0,0,0]},{"0":[1708,6],"2":[1352,6],"1":[561,3]}],[7,24,2,0,{"2":[0,0,0,0,0,0]},{"2":[1387,6]}],[0,20,3,1,{"1":[1,0,0,0,0],"0":[0,1,0,0,0,1]},{"1":[2128,5],"0":[4253,6]}],[1,2,2,1,{"0":[1,1,0,0],"1":[1]},{"0":[2542,4],"1":[352,1]}],[7,21,2,0,{"0":[0,0,0,0,0,0],"2":[0,0,0,0,0,0],"1":[0,0,0,0,0,0]},{"0":[1171,6],"2":[1537,6],"1":[957,6]}],[4,13,1,1,{"1":[0,0,0,0,0],"0":[0,0,0,0]},{"1":[3616,5],"0":[4000,4]}],[6,18,2,1,{"0":[0,1,0,0,1,0,1,1,1,1]},{"0":[6556,10]}],[0,25,3,1,{"0":[0,0,1,0],"1":[1]},{"0":[2352,4],"1":[259,1]}],[0,15,1,1,{"1":[0,0,0,0,0],"0":[0,0,0,0]},{"1":[1736,5],"0":[3246,4]}],[9,12,1,1,{"0":[1,1,1,1]},{"0":[1500,4]}],[0,25,0,1,{"0":[1,0,1,1]},{"0":[2778,4]}],[4,17,1,1,{"2":[0,0,0,0,0,0]},{"2":[1546,6]}],[9,19,1,0,{"2":[0,0,0,0,0,1],"0":[1,1,1,1]},{"2":[1735,6],"0":[1588,4]}],[0,25,0,1,{"1":[0,0,0,0,1],"0":[0,0,1,0]},{"1":[1718,5],"0":[1668,4]}],[0,20,3,1,{"1":[0,0,0,0,1],"0":[0,0,0,1,0,0]},{"1":[2068,5],"0":[4021,6]}],[4,26,1,1,{"0":[0,1,1,1]},{"0":[2185,4]}],[8,22,2,1,{"0":[1,0,0,1,0,1],"1":[1]},{"0":[3013,6],"1":[309,1]}],[4,17,0,1,{"0":[0,0,0,0],"1":[0,0,0]},{"0":[1181,4],"1":[988,3]}],[1,2,2,1,{"0":[1,0,1,1,1,0]},{"0":[4905,6]}],[0,25,2,1,{"1":[1,1,1,1,1],"0":[0,0,1,1]},{"1":[1236,5],"0":[1929,4]}],[0,5,3,1,{"1":[0,1,1,1,1],"0":[0,0,0,1,0]},{"1":[1536,5],"0":[1995,5]}],[0,25,0,1,{"1":[0,0,0,0,0],"0":[0,0,0,0]},{"1":[1375,5],"0":[2775,4]}],[9,19,1,0,{"2":[0,0,0,0,0,0],"1":[0,0,0,0,1]},{"2":[1769,6],"1":[1163,5]}],[1,23,1,1,{"1":[0,0,0,0,0],"0":[0,1,0,0]},{"1":[1176,5],"0":[1860,4]}],[0,25,1,1,{"1":[1,1,1,1,1],"0":[0,0,0,1,0,1]},{"1":[2393,5],"0":[2058,6]}],[0,5,2,1,{"0":[0,0,1,0,0,0],"1":[1]},{"0":[4545,6],"1":[368,1]}],[1,2,1,1,{"0":[0,0,0,0],"1":[1]},{"0":[1913,4],"1":[354,1]}],[2,4,1,1,{"0":[0,0,0,0,0,0],"2":[0,0,0,0,0,0],"1":[0,0,0]},{"0":[2803,6],"2":[1260,6],"1":[672,3]}],[7,14,2,0,{"2":[0,0,0,0,0,0],"0":[1,0,0,0],"1":[1,1,1,1,1,1]},{"2":[1406,6],"0":[1419,4],"1":[845,6]}],[7,24,2,0,{"2":[0,0,0,0,0,0]},{"2":[1574,6]}],[4,17,0,1,{"0":[0,1,0,0],"1":[1]},{"0":[733,4],"1":[173,1]}],[0,25,0,1,{"0":[0,1,0,0],"1":[1]},{"0":[1336,4],"1":[180,1]}],[0,25,0,1,{"0":[1,1,1,0]},{"0":[983,4]}],[7,14,2,0,{"2":[0,0,0,0,0,0],"0":[0,0,0,0,0],"1":[1,1,1,1,1,1]},{"2":[1785,6],"0":[2511,5],"1":[819,6]}],[0,25,3,1,{"0":[1,1,1,0,0,0],"1":[1]},{"0":[1772,6],"1":[221,1]}],[4,26,0,1,{"1":[1,1,1,1,1],"0":[0,1,0,0]},{"1":[2206,5],"0":[2001,4]}],[0,25,1,1,{"0":[0,1,1,1]},{"0":[2134,4]}],[7,24,2,0,{"0":[0,1,0,0,0,0],"2":[1,0,0,0,0,0],"1":[0,0,0,0,0,0]},{"0":[1145,6],"2":[1440,6],"1":[1262,6]}],[0,5,3,1,{"0":[1,0,0,1,0,0],"1":[1]},{"0":[3338,6],"1":[534,1]}],[3,6,1,1,{"2":[0,0,0,0,0,0]},{"2":[641,6]}],[9,9,1,1,{"0":[1,1,0,1]},{"0":[1180,4]}],[0,15,3,1,{"1":[0,1,1,1,1],"0":[0,0,0,1]},{"1":[1258,5],"0":[1532,4]}],[5,1,3,1,{"1":[0,0,0,0,0],"0":[0,0,0,1]},{"1":[1439,5],"0":[1521,4]}],[7,14,2,0,{"2":[0,0,0,0,0,0]},{"2":[2463,6]}],[6,18,1,1,{"0":[1,1,1,0]},{"0":[1968,4]}],[7,0,1,1,{"2":[0,0,0,0,0,0]},{"2":[1481,6]}],[0,25,2,1,{"0":[1,0,0,0],"1":[0,0,0]},{"0":[1758,4],"1":[921,3]}],[0,25,0,1,{"0":[0,1,0,0],"1":[1]},{"0":[1438,4],"1":[299,1]}],[3,6,2,1,{"1":[0,1,1,0,1],"0":[1,0,0,0,0,0,0]},{"1":[1681,5],"0":[5557,7]}],[0,25,3,1,{"0":[0,0,1,0,0,0,0,0],"1":[0,0,0]},{"0":[6120,8],"1":[1506,3]}],[2,4,1,1,{"2":[0,0,0,0,0,0]},{"2":[5588,6]}],[8,22,1,1,{"1":[0,0,0,1,0],"0":[0,0,0,0]},{"1":[1826,5],"0":[2496,4]}],[0,25,3,1,{"1":[0,1,1,1],"0":[0,0,0,0]},{"1":[1721,4],"0":[2432,4]}],[1,23,0,1,{"1":[1,0,0,0,0],"0":[1,0,1,0,1,0]},{"1":[1014,5],"0":[3053,6]}],[0,20,3,1,{"1":[1,1,1,0,1],"0":[1,0,1,0]},{"1":[2060,5],"0":[3133,4]}],[3,7,1,1,{"1":[1,1,1,1,1],"0":[1,1,1,1]},{"1":[1775,5],"0":[1907,4]}],[3,7,2,1,{"2":[0,0,0]},{"2":[472,3]}],[3,7,3,1,{"0":[1,0,1,1,0,1]},{"0":[2193,6]}],[0,25,2,1,{"0":[1,0,1,0,1,1,0,1]},{"0":[4172,8]}],[8,22,3,1,{"0":[0,0,0,1,0,0,0,0,0,0,0,0]},{"0":[2479,12]}],[0,20,3,1,{"0":[1,0,1,0,0,0],"1":[1]},{"0":[4534,6],"1":[309,1]}],[0,25,2,1,{"0":[1,1,0,0,0,0],"1":[1,1,0]},{"0":[2673,6],"1":[1160,3]}],[3,7,3,1,{"0":[0,1,0,0,0,1],"1":[1]},{"0":[2396,6],"1":[134,1]}],[0,5,2,1,{"0":[0,0,1,0,0,1],"1":[1]},{"0":[2404,6],"1":[248,1]}],[3,7,2,1,{"0":[1,0,1,0,1,1]},{"0":[1828,6]}],[3,7,0,1,{"0":[0,1,1,1]},{"0":[2526,4]}],[7,14,2,1,{"0":[0,1,1,0,0,1],"1":[1,0,0]},{"0":[4630,6],"1":[1379,3]}],[0,8,2,1,{"0":[1,0,0,0,0,0],"1":[1]},{"0":[3990,6],"1":[238,1]}],[8,22,3,1,{"0":[1,1,0,0,0],"1":[1]},{"0":[3485,5],"1":[516,1]}],[7,10,2,1,{"0":[1,0,0,0,1,0],"1":[0,0,0]},{"0":[2709,6],"1":[802,3]}],[5,1,2,1,{"0":[1,1,0,0,0,0],"1":[0,0,0]},{"0":[3611,6],"1":[1097,3]}],[7,14,2,1,{"0":[1,0,0,0,0,1],"1":[1,0]},{"0":[1897,6],"1":[260,2]}],[4,17,3,1,{"0":[0,0,0,0,0,1],"1":[1]},{"0":[2757,6],"1":[177,1]}],[0,25,2,1,{"0":[0,0,1,1,1,1]},{"0":[1623,6]}],[0,20,3,1,{"0":[0,0,0,0,0,1],"1":[0,1,0]},{"0":[3486,6],"1":[1006,3]}],[0,20,3,1,{"0":[0,1,0,0,0,0],"1":[1]},{"0":[1684,6],"1":[310,1]}],[4,17,3,1,{"0":[0,1,0,0,1,1],"1":[1]},{"0":[3942,6],"1":[206,1]}],[0,3,2,1,{"0":[0,1,0,1,1,0],"1":[0,0,0]},{"0":[2017,6],"1":[1074,3]}],[9,19,2,1,{"0":[1,0,0,0,0,0],"1":[1,0,0]},{"0":[4495,6],"1":[865,3]}],[4,17,3,1,{"0":[0,0,1,0]},{"0":[3063,4]}]],"minTasks":5,"sat":0.8,"bin":50,"xmax":1000,"threshold":200}</script>
 <script>// Interactive charts for the catalog site. Each page carries one JSON data block; charts on a page share a store,
 // so a click in one chart can filter the others. No element ids are used (the single-file build prefixes them),
 // everything is found through data attributes inside the page's own view.

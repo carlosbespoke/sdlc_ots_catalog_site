@@ -19,7 +19,7 @@ for x in FC[6:]:
     if o.get('Task') and re.match(r'^\d+(\.0)?$', str(o.get('Selected task version') or '')): NOV[o['Task']] = int(float(o['Selected task version']))
 F = {o['name']: o for o in json.load(open(f'{P}/fullcat/full.json'))}
 KEEP = ('id', 'model', 'agent_type', 'effort', 'extracted_score', 'passed', 'is_errored', 'grader_ok', 'task_version_number', 'created_at')
-U = json.load(open(f'{G}/universe.json'))['tasks'] + json.load(open(f'{H}/cat/extra_tasks.json'))['tasks']
+U = json.load(open(f'{H}/cat/universe.json'))['tasks'] + json.load(open(f'{H}/cat/extra_tasks.json'))['tasks']  # frozen copy, see common.py
 for t in U:
     out = f"{H}/ro/{t['id']}.json"
     if os.path.exists(out): continue

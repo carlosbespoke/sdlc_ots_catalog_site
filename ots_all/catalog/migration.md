@@ -2,11 +2,11 @@
 
 ## Executive summary
 
-<div class="kpis"><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">26%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">0%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">59%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
+<div class="kpis"><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">26%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">0%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">61%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
 Each task asks the agent to port a Java or Rust library to Go or C++ behind fixed signatures, so that the original project's own tests, translated to the target language, pass against the port. The main languages are Go (89%) and C++ (11%).
 
-Every task has graded runs. The model with the most runs here, google/gemini-4-argon, has an average reward of 59% over 31 graded runs and scores 0 on every run of 20% of the 15 tasks it ran.
+Every task has graded runs. The model with the most runs here, google/gemini-4-argon, has an average reward of 61% over 36 graded runs and scores 0 on every run of 22% of the 18 tasks it ran.
 
 ## Why this catalog
 
@@ -59,7 +59,7 @@ A model's average reward is average@k: on each task, the mean grader score over 
 
 | Model | Tasks run | Graded runs | Average reward | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
 |---|---:|---:|---:|---:|---:|---:|
-| google/gemini-4-argon | 15 | 31 | 59% | 20% | 40% | 40% |
+| google/gemini-4-argon | 18 | 36 | 61% | 22% | 33% | 39% |
 | z-ai/glm-5.3-flash | 5 | 24 | 26% | 20% | 80% | 0% |
 | google/gemini-3.8-flash | 5 | 9 | 0% | 100% | 0% | 0% |
 
@@ -74,7 +74,7 @@ A task's turn count is the average over its completed runs, from every model. A 
 
 | Measure | Value |
 |---|---:|
-| Average turn count | 380.7 |
+| Average turn count | 375.5 |
 | Median turn count | 369.0 |
 | Range | 96 to 604 |
 | Long-horizon tasks (200+ turns) | 89% of tasks |
@@ -86,7 +86,7 @@ A task's turn count is the average over its completed runs, from every model. A 
 
 | Model | % of tasks | Mean turns | % of runs with 200+ turns |
 |---|---:|---:|---:|
-| google/gemini-4-argon | 83% | 277.5 | 71% |
+| google/gemini-4-argon | 100% | 286.5 | 72% |
 | z-ai/glm-5.3-flash | 28% | 658.9 | 100% |
 | google/gemini-3.8-flash | 28% | 475.3 | 100% |
 
@@ -273,7 +273,7 @@ A few things that will save you some pain:
 .cx-mini-bar{background:var(--ink);min-height:1px}.cx-mini-n{font:600 11px var(--sans);color:var(--ink);margin-top:3px}.cx-mini-lab{font:10px var(--sans);color:var(--muted)}
 @media (max-width:640px){.cx-row{grid-template-columns:minmax(0,1fr) 64px 64px 80px}.cx-grid5 .cx-row{grid-template-columns:minmax(0,1fr) 44px 60px 52px 52px 56px}.cx-meter{display:none}.cx-bar{grid-template-columns:minmax(90px,45%) 1fr 46px}}
 </style>
-<script type="application/json" data-chart-data>{"cross":true,"models":["google/gemini-4-argon","z-ai/glm-5.3-flash","google/gemini-3.8-flash"],"dims":{"g":["Applications & business domains","Data engineering & databases","Languages & developer tooling","Scientific & ML software"],"c":["CLI tooling","Collaborative documents","Compilers & language runtimes","Data formats & serialization","Graph algorithms","Media processing","Probabilistic data structures","Statistics & numerical methods"],"l":["C++","Go"],"s":["Senior"]},"tasks":[[3,4,1,0,{"0":[0,1],"1":[0,0,0,0],"2":[0,0,0,0,0]},{"0":[611,2],"1":[3814,4],"2":[2216,5]}],[2,2,1,0,{"2":[0],"0":[1]},{"2":[381,1],"0":[351,1]}],[1,3,1,0,{"2":[0],"0":[1,0,0]},{"2":[642,1],"0":[949,3]}],[3,4,1,0,{"0":[1]},{"0":[202,1]}],[1,3,1,0,{"2":[0],"0":[0]},{"2":[606,1],"0":[138,1]}],[2,2,1,0,{"0":[1,0]},{"0":[507,2]}],[2,2,1,0,{"1":[0,0.5136,0,0,0.6915]},{"1":[3000,5]}],[0,5,1,0,{"0":[1,1],"1":[0.5241,0,0.4147,0,0.5338]},{"0":[902,2],"1":[3000,5]}],[1,3,1,0,{"1":[0.16,0.0805,0.4583,0,0.5007]},{"1":[3000,5]}],[0,5,0,0,{"0":[0,1]},{"0":[347,2]}],[2,0,1,0,{"0":[1,1]},{"0":[429,2]}],[2,0,1,0,{"0":[1,1]},{"0":[837,2]}],[2,2,1,0,{"0":[0,0]},{"0":[1196,2]}],[3,7,1,0,{"2":[0],"0":[1,0,0]},{"2":[433,1],"0":[732,3]}],[0,5,1,0,{"1":[0.9034,0.619,0.3281,0.3514,0.48]},{"1":[3000,5]}],[0,1,0,0,{"0":[0,0]},{"0":[439,2]}],[3,6,1,0,{"0":[1,1,0,1]},{"0":[382,4]}],[0,5,1,0,{"0":[1,1]},{"0":[580,2]}]],"minTasks":5,"sat":0.8,"bin":50,"xmax":1000,"threshold":200}</script>
+<script type="application/json" data-chart-data>{"cross":true,"models":["google/gemini-4-argon","z-ai/glm-5.3-flash","google/gemini-3.8-flash"],"dims":{"g":["Applications & business domains","Data engineering & databases","Languages & developer tooling","Scientific & ML software"],"c":["CLI tooling","Collaborative documents","Compilers & language runtimes","Data formats & serialization","Graph algorithms","Media processing","Probabilistic data structures","Statistics & numerical methods"],"l":["C++","Go"],"s":["Senior"]},"tasks":[[3,4,1,0,{"0":[0,1],"1":[0,0,0,0],"2":[0,0,0,0,0]},{"0":[611,2],"1":[3814,4],"2":[2216,5]}],[2,2,1,0,{"2":[0],"0":[1]},{"2":[381,1],"0":[351,1]}],[1,3,1,0,{"2":[0],"0":[1,0,0]},{"2":[642,1],"0":[949,3]}],[3,4,1,0,{"0":[1]},{"0":[202,1]}],[1,3,1,0,{"2":[0],"0":[0]},{"2":[606,1],"0":[138,1]}],[2,2,1,0,{"0":[1,0,0]},{"0":[599,3]}],[2,2,1,0,{"1":[0,0.5136,0,0,0.6915],"0":[1]},{"1":[3000,5],"0":[587,1]}],[0,5,1,0,{"0":[1,1],"1":[0.5241,0,0.4147,0,0.5338]},{"0":[902,2],"1":[3000,5]}],[1,3,1,0,{"1":[0.16,0.0805,0.4583,0,0.5007],"0":[0]},{"1":[3000,5],"0":[239,1]}],[0,5,0,0,{"0":[0,1,1]},{"0":[628,3]}],[2,0,1,0,{"0":[1,1]},{"0":[429,2]}],[2,0,1,0,{"0":[1,1]},{"0":[837,2]}],[2,2,1,0,{"0":[0,0]},{"0":[1196,2]}],[3,7,1,0,{"2":[0],"0":[1,0,0]},{"2":[433,1],"0":[732,3]}],[0,5,1,0,{"1":[0.9034,0.619,0.3281,0.3514,0.48],"0":[0.9948]},{"1":[3000,5],"0":[513,1]}],[0,1,0,0,{"0":[0,0]},{"0":[439,2]}],[3,6,1,0,{"0":[1,1,0,1]},{"0":[382,4]}],[0,5,1,0,{"0":[1,1]},{"0":[580,2]}]],"minTasks":5,"sat":0.8,"bin":50,"xmax":1000,"threshold":200}</script>
 <script>// Interactive charts for the catalog site. Each page carries one JSON data block; charts on a page share a store,
 // so a click in one chart can filter the others. No element ids are used (the single-file build prefixes them),
 // everything is found through data attributes inside the page's own view.
