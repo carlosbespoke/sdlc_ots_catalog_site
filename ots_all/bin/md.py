@@ -44,9 +44,10 @@ def top(s):
     """The model with the most runs in the catalog: the one the headline average reward is about."""
     return next((m for m in s['models'] if m['graded']), None)
 def langs(s):
-    L_ = s['language'][:3]
+    L_ = [x for x in s['language'][:3] if x['pct'] >= 1]  # languages under 1% of tasks are not named
     choice = next((x for x in L_ if x['value'] == "Agent's choice"), None); rest = [x for x in L_ if x is not choice]
     named = ', '.join(f"{x['value']} ({x['pct']:.0f}%)" for x in rest[:-1]) + (' and ' if len(rest) > 1 else '') + (f"{rest[-1]['value']} ({rest[-1]['pct']:.0f}%)" if rest else '')
+    if choice and rest: named = named.replace(f"({rest[0]['pct']:.0f}%)", f"({rest[0]['pct']:.0f}% of all tasks)", 1)
     if choice: return f"In {choice['pct']:.0f}% of tasks the agent chooses the language; the most common fixed languages are {named}."
     return f"The language is {named}." if len(rest) == 1 else f"The main languages are {named}."
 nob = lambda x: '\n'.join(l for l in x.splitlines() if l.strip())  # raw HTML blocks must not contain blank lines
@@ -77,13 +78,13 @@ for slug, s in S.items():
     L.append('<div class="kpis">' + kpi(f"{n:,}", 'Tasks') + ''.join(kpi(pct(m['reward']), f"{m['model']} average reward" + (f" ({m['tasks_graded']} tasks)" if m['tasks_graded'] < MIN else ''))
              for m in sorted((m for m in s['models'] if m['tasks_graded']), key=lambda m: CARD_ORDER.index(m['model']))) + '</div>\n')
     L.append(W['work'] + ' ' + langs(s) + '\n')
-    cov = (f"Every task has graded runs." if s['tasks_graded'] == n else f"{s['tasks_graded']:,} of the {n:,} tasks have graded runs from at least one model.")
+    cov = '' if s['tasks_graded'] == n else f"{s['tasks_graded']:,} of the {n:,} tasks have graded runs from at least one model. "
     if tm:
-        fails = f" and scores 0 on every run of {pct(tm['tasks_0'] / tm['tasks_graded'])} of the {tm['tasks_graded']:,} tasks it ran" if tm['tasks_0'] else f" on the {tm['tasks_graded']:,} tasks it ran"
-        L.append(f"{cov} The model with the most runs here, {tm['model']}, has an average reward of {pct(tm['reward'])} over {tm['graded']:,} graded runs{fails}.\n")
-    L.append('## Why this catalog\n')
+        fails = f" On {pct(tm['tasks_0'] / tm['tasks_graded'])} of those tasks, every graded run received a score of zero." if tm['tasks_0'] else ''
+        L.append(f"{cov}{tm['model']} has the most runs in this catalog. It completed {tm['graded']:,} graded runs across {tm['tasks_graded']:,} tasks, with an average reward of {pct(tm['reward'])}.{fails}\n")
+    L.append('## Engineering problems and task setup\n')
     L.append('### Problems engineers face\n'); L.append(W['problems'] + '\n')
-    L.append('### How the tasks reproduce them\n'); L.append(W['how'] + '\n')
+    L.append('### Task setup\n'); L.append(W['how'] + '\n')
     L.append('### Typical prompts\n'); L.append('\n'.join(f'- {p}' for p in W['prompts']) + '\n')
     L.append('## Domain breakdown\n')
     d0 = s['domain'][0]
@@ -96,10 +97,10 @@ for slug, s in S.items():
         L.append(f'### {title}\n'); L.append(table([title, '% of catalog'], [[x['value'], f"{100 * x['tasks'] / n:.1f}%"] for x in s[key]]) + '\n')
     L.append('## Model average reward across the catalog\n')
     M = [m for m in s['models'] if m['tasks_graded'] >= MIN]; few = [m for m in s['models'] if 0 < m['tasks_graded'] < MIN]
-    L.append(f"A model's average reward is average@k: on each task, the mean grader score over its graded runs, with partial credit counted as scored; then the mean over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on {NUMW[MIN]} or more tasks for a row.\n")
+    L.append("For each task, we average the model's scores across its graded runs, including partial credit. We then average those task scores across all tasks the model ran. Runs that ended in an error are excluded. The score-range columns show selected ranges and do not cover every task.\n")
     if M:
         Q = lambda a, b: 'n/a' if not b else f"{100 * a / b:.0f}%"
-        L.append(table(['Model', 'Tasks run', 'Graded runs', 'Average reward', 'Tasks at 0%', 'Tasks at 20-80%', 'Tasks at 100%'],
+        L.append(table(['Model', 'Tasks run', 'Graded runs', 'Average reward', 'Tasks with 0% average reward', 'Tasks with 20% to 80% average reward', 'Tasks with 100% average reward'],
             [[m['model'], f"{m['tasks_graded']:,}", f"{m['graded']:,}", pct(m['reward']), Q(m['tasks_0'], m['tasks_graded']), Q(m['tasks_20_80'], m['tasks_graded']), Q(m['tasks_100'], m['tasks_graded'])] for m in M]) + '\n')
         sat = [m['model'] for m in M if m['tasks_100'] / m['tasks_graded'] >= 0.8]
         L.append(chart('reward', 'Per-task average reward by model'))
@@ -109,7 +110,7 @@ for slug, s in S.items():
     L.append('## Turn counts and long-horizon tasks\n')
     if TT['tasks_with_turns']:
         k = TT['tasks_with_turns']
-        L.append(f"A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is {TT['threshold']} or more turns. {k:,} of the {n:,} tasks have a completed run.\n")
+        L.append(f"A task's turn count is the average over its completed runs, from every model. In this report, a task is classified as long horizon if that average is at least {TT['threshold']} turns. " + (f"All {n:,} tasks have a completed run.\n" if k == n else f"{k:,} of the {n:,} tasks have a completed run.\n"))
         L.append(table(['Measure', 'Value'], [['Average turn count', f"{TT['mean_of_task_means']:.1f}"], ['Median turn count', f"{TT['median_of_task_means']:.1f}"],
             ['Range', f"{TT['min_task_mean']:.0f} to {TT['max_task_mean']:.0f}"], [f"Long-horizon tasks ({TT['threshold']}+ turns)", f"{100 * TT['long_horizon_tasks'] / k:.0f}% of tasks"]]) + '\n')
         L.append(chart('turns', 'Turns per task', ' data-group="Domain"'))
@@ -157,26 +158,26 @@ lp = lambda *ks: f"{100 * sum(LANG[k] for k in ks) / TOT:.0f}%"
 allt0 = [m for s_ in S.values() for m in s_['turns']['task_means']]
 T_ = {k: s_['tasks'] for k, s_ in S.items()}; TM = {k: s_['turns']['mean_of_task_means'] for k, s_ in S.items()}
 L.append('## Executive summary\n')
-L.append("This OTS catalog helps AI coding agents develop capabilities on long, senior-level software work: rebuilding whole programs, fixing faults in real codebases and changing live systems without breaking them.\n")
-L.append(f"The tasks fall into {NUMW[len(S)]} catalogs. In ProgramBench ({T_['programbench']} tasks) the agent rebuilds a program from how it behaves. "
-         f"In Debugging ({T_['debugging']}) it finds and fixes faults, and in Infrastructure as code ({T_['infrastructure-as-code']}) it restructures deployed Terraform without changing what runs. "
-         f"Feature implementation ({T_['feature-implementation']}) adds capabilities to existing libraries, and System design ({T_['system-design']}) keeps running services correct through crashes and retries. Data engineering ({T_['data-engineering']}) and Migration ({T_['migration']}) cover data pipelines and ports to another language.\n")
-L.append(f"Almost all tasks are senior engineering work in a few languages. Senior engineers are the target for {100 * SEN['Senior'] / TOT:.0f}% of tasks and staff engineers for {100 * SEN['Staff+'] / TOT:.0f}%. "
+L.append("This catalog contains long-horizon coding tasks designed to train AI agents on work typically done by senior engineers: rebuilding whole programs, fixing faults in real codebases and changing live systems without breaking them.\n")
+L.append(f"The tasks fall into {NUMW[len(S)]} catalogs. In ProgramBench ({T_['programbench']} tasks) the agent rebuilds a program based on how it behaves, or upgrades a repository to a newer release. "
+         f"In Diagnosis, Debugging, and Bug Fixing ({T_['debugging']}) it finds and fixes faults, and in Infrastructure as code ({T_['infrastructure-as-code']}) it restructures live Terraform without replacing any resource. "
+         f"In Feature implementation ({T_['feature-implementation']}) it adds capabilities to existing libraries. In System design ({T_['system-design']}) it keeps running services correct through crashes and retries. Data engineering ({T_['data-engineering']}) and Migration ({T_['migration']}) cover data pipelines and ports to another language.\n")
+L.append(f"Most tasks are rated at senior engineer level ({100 * SEN['Senior'] / TOT:.0f}%) or staff engineer level and above ({100 * SEN['Staff+'] / TOT:.0f}%). "
          f"Go, Terraform and Python account for {lp('Go', 'HCL (Terraform)', 'Python')} of tasks, and Rust, C and C++ for another {lp('Rust', 'C', 'C++')}.\n")
-L.append(f"The catalogs include long-horizon coding tasks. An agent averages {sum(allt0) / len(allt0):.0f} turns (one model reply plus its tool calls) on a task, and {100 * sum(m >= 200 for m in allt0) / len(allt0):.0f}% of tasks average 200 turns or more. "
-         f"ProgramBench and System design run longest, at about {round((TM['programbench'] + TM['system-design']) / 2, -1):.0f} turns. Infrastructure as code tasks are the shortest, at {TM['infrastructure-as-code']:.0f} turns.\n")
+L.append(f"Across the catalog, tasks average {sum(allt0) / len(allt0):.0f} turns per completed run. A turn consists of one model reply and its tool calls. In {100 * sum(m >= 200 for m in allt0) / len(allt0):.0f}% of tasks, the average is at least 200 turns. "
+         f"ProgramBench and System design require the most turns on average, at {TM['programbench']:.0f} and {TM['system-design']:.0f} respectively. Infrastructure as code tasks are the shortest, at {TM['infrastructure-as-code']:.0f} turns.\n")
 L.append('## Catalogs\n')
 tt = lambda s: f"{s['turns']['mean_of_task_means']:.0f}" if s['turns']['tasks_with_turns'] else 'n/a'
 L.append(table(['Catalog', 'Tasks', 'What the tasks do', 'Average turn count'],
     [[f"[{s['name']}]({slug}.md)", f"{s['tasks']:,}", TXT[slug]['one'], tt(s)] for slug, s in S.items()]
     + [['**Total**', f"**{TOT:,}**", '', '']], align='lrlr') + '\n')
-L.append('## Benchmarks each catalog lifts\n')
+L.append('## Related benchmarks\n')
 L.append(TXT['_bench_intro'] + '\n')
 BENCH = TXT['_bench_columns']
 L.append(table(['Catalog'] + BENCH, [[s_['name']] + ['✓' if b in TXT[k].get('bench_map', []) else '' for b in BENCH] for k, s_ in S.items() if TXT[k].get('bench_map')],
                align='l' + 'c' * len(BENCH)) + '\n')
 L.append('## Model average reward\n')
-L.append("Each cell is a model's average reward in one catalog (average@k): on each task, the mean grader score over its graded runs, partial credit included; then the mean over the tasks it ran there.\n")
+L.append("The chart shows each model's average reward in each catalog. To measure it, we average the grader's score over a model's runs on each task, including partial credit. Then we average across the total number of tasks that the model ran.\n")
 HM = [m for m, _ in sorted(allm.items(), key=lambda kv: -kv[1][0])]
 HEAT = {'models': HM, 'catalogs': [s_['name'] for s_ in S.values()], 'minTasks': S['programbench']['min_tasks'],
         'cells': [[j, HM.index(m['model']), m['graded'], [round(v, 4) for v in m['per_task_rates']]] for j, s_ in enumerate(S.values()) for m in s_['models'] if m['model'] in HM and m['per_task_rates']]}

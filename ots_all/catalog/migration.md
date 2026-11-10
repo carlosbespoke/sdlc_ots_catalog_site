@@ -4,19 +4,19 @@
 
 <div class="kpis"><div class="kpi"><div class="kpi-value">18</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">26%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">0%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">61%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
-Each task asks the agent to port a Java or Rust library to Go or C++ behind fixed signatures, so that the original project's own tests, translated to the target language, pass against the port. The main languages are Go (89%) and C++ (11%).
+The Migration catalog asks the agent to port a Java or Rust library to Go or C++, using function signatures we provide, so that the original project's own tests, translated to the target language, pass against the port. The main languages are Go (89%) and C++ (11%).
 
-Every task has graded runs. The model with the most runs here, google/gemini-4-argon, has an average reward of 61% over 36 graded runs and scores 0 on every run of 22% of the 18 tasks it ran.
+google/gemini-4-argon has the most runs in this catalog. It completed 36 graded runs across 18 tasks, with an average reward of 61%. On 22% of those tasks, every graded run received a score of zero.
 
-## Why this catalog
+## Engineering problems and task setup
 
 ### Problems engineers face
 
-Engineers remove a dependency in one language by replacing it with a port in another. The hard part is exact behavioural equivalence without seeing the tests: numeric precision, bit-exact random sequences, parser and error-case fidelity, and the order of results. The target language adds its own rules, such as Go's RE2 regular expressions or C++ header conventions, and house constraints limit imports and naming.
+Engineers remove a dependency in one language by replacing it with a port in another. The port must match the original library's behaviour without access to the tests. This includes numeric precision and exact random sequences, as well as parsing, error handling and result order. The target language adds its own rules, such as Go's RE2 regular expressions or C++ header conventions, and the task also restricts imports and specifies naming rules.
 
-### How the tasks reproduce them
+### Task setup
 
-Each task provides the original source as a reference, a skeleton in the target language with final signatures and stub bodies, and a `mig-check` tool that compares the skeleton, builds and vets the port. The original project's tests, translated to the target language, are withheld and run after the session within per-test time and memory limits.
+Each task provides the original source as a reference, a skeleton in the target language with final signatures and stub bodies, and a `mig-check` tool that compares the port with the supplied skeleton, builds it and runs code checks. The original project's tests, translated to the target language, are withheld and run after the session within per-test time and memory limits.
 
 ### Typical prompts
 
@@ -55,9 +55,9 @@ The tasks span four domains. The largest, Languages & developer tooling, makes u
 
 ## Model average reward across the catalog
 
-A model's average reward is average@k: on each task, the mean grader score over its graded runs, with partial credit counted as scored; then the mean over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+For each task, we average the model's scores across its graded runs, including partial credit. We then average those task scores across all tasks the model ran. Runs that ended in an error are excluded. The score-range columns show selected ranges and do not cover every task.
 
-| Model | Tasks run | Graded runs | Average reward | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
+| Model | Tasks run | Graded runs | Average reward | Tasks with 0% average reward | Tasks with 20% to 80% average reward | Tasks with 100% average reward |
 |---|---:|---:|---:|---:|---:|---:|
 | google/gemini-4-argon | 18 | 36 | 61% | 22% | 33% | 39% |
 | z-ai/glm-5.3-flash | 5 | 24 | 26% | 20% | 80% | 0% |
@@ -70,7 +70,7 @@ A model's average reward is average@k: on each task, the mean grader score over 
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 18 of the 18 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. In this report, a task is classified as long horizon if that average is at least 200 turns. All 18 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|

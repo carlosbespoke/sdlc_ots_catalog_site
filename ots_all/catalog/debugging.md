@@ -4,25 +4,27 @@
 
 <div class="kpis"><div class="kpi"><div class="kpi-value">324</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">28%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">5%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">73%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
-Each task gives the agent a codebase that misbehaves and a description of the symptoms or the documentation it should follow. The agent finds the faulty code, fixes it without breaking what already works, and in some tasks writes a report naming each root cause. The main languages are Python (54%), Go (32%) and C (7%).
+The Diagnosis, Debugging and Bug Fixing catalog provides the agent a faulty codebase and a description of the symptoms in the codebase, or the documentation it should follow. The agent finds the faulty code and fixes it, while keeping existing behaviour working, and in some tasks writes a report naming each root cause. The main languages are Python (54%), Go (32%) and C (7%).
 
-Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, has an average reward of 28% over 1,426 graded runs and scores 0 on every run of 51% of the 263 tasks it ran.
+z-ai/glm-5.3-flash has the most runs in this catalog. It completed 1,426 graded runs across 263 tasks, with an average reward of 28%. On 51% of those tasks, every graded run received a score of zero.
 
-## Why this catalog
+## Engineering problems and task setup
 
 ### Problems engineers face
 
-Maintainers are handed code that is wrong in several places and must find the causes without a test suite to lean on. In the diagnosis tasks, many undocumented edits break unrelated features at once. In the documentation-drift tasks, the code still runs but contradicts its own documentation. Some tasks start from a single production symptom with a hidden root cause.
+Maintainers are handed code that is wrong in several places and must find the causes without a test suite. In the documentation-drift tasks, the code still runs but contradicts its own documentation. Some tasks start from a single production symptom with a hidden root cause.
 
-### How the tasks reproduce them
+### Task setup
 
-Each task ships a pinned checkout of an open-source project, with the tests withheld and no network. The prompt describes the symptoms or names the documentation in scope, never the location of the faults. Most diagnosis tasks also ask for `/app/rca.json`, which lists the file and function of each edit and is compared with an answer key. Drift tasks treat the documentation as the authority and forbid editing it. Hidden tests check the repairs and the behaviour that was already correct.
+Each task starts with a fixed version of an open-source project, with no access to tests or the network. The prompt describes the symptoms or specifies the relevant documentation without revealing where the faults are.
+
+Most diagnosis tasks also require an `/app/rca.json` file that identifies the file and function for each edit. This is checked against an answer key. For drift tasks, the documentation defines the expected behaviour and cannot be edited. Hidden tests check that the repairs work and that previously correct behaviour still works.
 
 ### Typical prompts
 
 - A first-person list of symptoms grouped by feature, with no file or function named, ending in a request to fix and report.
 - A stated number of undocumented edits and a JSON schema for the root-cause report.
-- A library description with the source paths and documentation pages in scope, and the rule that documentation outranks code.
+- A library description with the source paths and documentation pages in scope, and the requirement to make the code match the documentation without editing the documentation.
 
 ## Domain breakdown
 
@@ -59,9 +61,9 @@ The tasks span ten domains. The largest, Scientific & ML software, makes up 24% 
 
 ## Model average reward across the catalog
 
-A model's average reward is average@k: on each task, the mean grader score over its graded runs, with partial credit counted as scored; then the mean over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+For each task, we average the model's scores across its graded runs, including partial credit. We then average those task scores across all tasks the model ran. Runs that ended in an error are excluded. The score-range columns show selected ranges and do not cover every task.
 
-| Model | Tasks run | Graded runs | Average reward | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
+| Model | Tasks run | Graded runs | Average reward | Tasks with 0% average reward | Tasks with 20% to 80% average reward | Tasks with 100% average reward |
 |---|---:|---:|---:|---:|---:|---:|
 | z-ai/glm-5.3-flash | 263 | 1,426 | 28% | 51% | 40% | 0% |
 | google/gemini-3.8-flash | 75 | 455 | 5% | 76% | 3% | 0% |
@@ -74,7 +76,7 @@ A model's average reward is average@k: on each task, the mean grader score over 
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 324 of the 324 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. In this report, a task is classified as long horizon if that average is at least 200 turns. All 324 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|

@@ -4,19 +4,24 @@
 
 <div class="kpis"><div class="kpi"><div class="kpi-value">301</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">66%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">67%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">85%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
-Each task restructures infrastructure code that is already deployed. The agent splits a flat Terraform stack into modules with stable keys, componentizes a CDK app or moves a stack to Pulumi, so that the plan against production state changes nothing that is running. The main languages are HCL (Terraform) (99%), TypeScript (1%) and Python (0%).
+In the IaC catalog, the agent restructures the code for live infrastructure, e.g., splitting a flat Terraform stack into modules. The task requires a plan against recorded production state that changes resource addresses only, without changing the deployed resources. The main languages are HCL (Terraform) (99%) and TypeScript (1%).
 
-Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, has an average reward of 66% over 1,601 graded runs and scores 0 on every run of 3% of the 295 tasks it ran.
+z-ai/glm-5.3-flash has the most runs in this catalog. It completed 1,601 graded runs across 295 tasks, with an average reward of 66%. On 3% of those tasks, every graded run received a score of zero.
 
-## Why this catalog
+## Engineering problems and task setup
 
 ### Problems engineers face
 
-Platform engineers restructure infrastructure code that is already running, and the change must reach production as address moves only, because the team cannot plan against a live account. The most common case is a flat Terraform root module that has to become local modules with `for_each` keys. Others replace positional `count` with stable keys, extract reusable components from an app that builds everything inline, move a stack between tools while the preview stays clean, or bring a stack under a policy pack without replacing resources.
+Platform engineers often restructure Terraform for live infrastructure. The change must not replace any resource, so the plan should show only resources moving to new addresses. The most common case is a flat Terraform root module that has to become local modules with `for_each` keys. Other cases include the following:
 
-### How the tasks reproduce them
+- Replace positional `count` with stable keys.
+- Extract reusable components from an app that builds everything inline.
+- Move a stack between tools while the preview shows no changes.
+- Bring a stack under a policy pack without replacing resources.
 
-Each task ships a copy of the stack with its recorded production state or recorded templates, an offline toolchain and no network. The instruction states module ownership, key rules, root variables with today's defaults and outputs. After the session, a separate verifier with its own pristine state plans the agent's configuration with refresh disabled and expects moves only, then plans hidden changes such as an added key, a removed key or a changed entry. Most tasks score zero when a gate fails.
+### Task setup
+
+Each task ships a copy of the stack with its recorded production state or recorded templates, an offline toolchain and no network. The prompt specifies which resources belong in each module and how their keys should be assigned. It also defines the root variables, their existing defaults, and the required outputs. After the session, a separate verifier runs a plan using the agent's configuration and a clean copy of the recorded state, with refresh disabled. It checks that the plan contains only resource address moves. It then tests additional changes that were not disclosed to the agent, such as adding or removing a key or changing an entry. For most tasks, a run receives zero if any check fails. The reported task scores are averages across graded runs, so a task can have an intermediate average score even when individual runs are scored on a pass-or-fail basis.
 
 ### Typical prompts
 
@@ -57,9 +62,9 @@ The tasks span two domains. The largest, Cloud infrastructure & IaC, makes up 99
 
 ## Model average reward across the catalog
 
-A model's average reward is average@k: on each task, the mean grader score over its graded runs, with partial credit counted as scored; then the mean over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+For each task, we average the model's scores across its graded runs, including partial credit. We then average those task scores across all tasks the model ran. Runs that ended in an error are excluded. The score-range columns show selected ranges and do not cover every task.
 
-| Model | Tasks run | Graded runs | Average reward | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
+| Model | Tasks run | Graded runs | Average reward | Tasks with 0% average reward | Tasks with 20% to 80% average reward | Tasks with 100% average reward |
 |---|---:|---:|---:|---:|---:|---:|
 | z-ai/glm-5.3-flash | 295 | 1,601 | 66% | 3% | 88% | 0% |
 | google/gemini-4-argon | 74 | 122 | 85% | 8% | 11% | 73% |
@@ -72,7 +77,7 @@ A model's average reward is average@k: on each task, the mean grader score over 
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 301 of the 301 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. In this report, a task is classified as long horizon if that average is at least 200 turns. All 301 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|

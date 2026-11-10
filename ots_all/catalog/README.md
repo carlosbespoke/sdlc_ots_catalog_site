@@ -4,13 +4,13 @@
 
 ## Executive summary
 
-This OTS catalog helps AI coding agents develop capabilities on long, senior-level software work: rebuilding whole programs, fixing faults in real codebases and changing live systems without breaking them.
+This catalog contains long-horizon coding tasks designed to train AI agents on work typically done by senior engineers: rebuilding whole programs, fixing faults in real codebases and changing live systems without breaking them.
 
-The tasks fall into seven catalogs. In ProgramBench (434 tasks) the agent rebuilds a program from how it behaves. In Debugging (324) it finds and fixes faults, and in Infrastructure as code (301) it restructures deployed Terraform without changing what runs. Feature implementation (117) adds capabilities to existing libraries, and System design (94) keeps running services correct through crashes and retries. Data engineering (17) and Migration (18) cover data pipelines and ports to another language.
+The tasks fall into seven catalogs. In ProgramBench (434 tasks) the agent rebuilds a program based on how it behaves, or upgrades a repository to a newer release. In Diagnosis, Debugging, and Bug Fixing (324) it finds and fixes faults, and in Infrastructure as code (301) it restructures live Terraform without replacing any resource. In Feature implementation (117) it adds capabilities to existing libraries. In System design (94) it keeps running services correct through crashes and retries. Data engineering (17) and Migration (18) cover data pipelines and ports to another language.
 
-Almost all tasks are senior engineering work in a few languages. Senior engineers are the target for 86% of tasks and staff engineers for 13%. Go, Terraform and Python account for 67% of tasks, and Rust, C and C++ for another 22%.
+Most tasks are rated at senior engineer level (86%) or staff engineer level and above (13%). Go, Terraform and Python account for 67% of tasks, and Rust, C and C++ for another 22%.
 
-The catalogs include long-horizon coding tasks. An agent averages 353 turns (one model reply plus its tool calls) on a task, and 66% of tasks average 200 turns or more. ProgramBench and System design run longest, at about 450 turns. Infrastructure as code tasks are the shortest, at 113 turns.
+Across the catalog, tasks average 353 turns per completed run. A turn consists of one model reply and its tool calls. In 66% of tasks, the average is at least 200 turns. ProgramBench and System design require the most turns on average, at 459 and 443 respectively. Infrastructure as code tasks are the shortest, at 113 turns.
 
 ## Catalogs
 
@@ -25,7 +25,7 @@ The catalogs include long-horizon coding tasks. An agent averages 353 turns (one
 | [Migration](migration.md) | 18 | Port Java and Rust libraries to Go or C++ with identical behaviour. | 375 |
 | **Total** | **1,305** |  |  |
 
-## Benchmarks each catalog lifts
+## Related benchmarks
 
 Our catalogs enable models to climb on different benchmarks, including but not limited to the following:
 
@@ -40,7 +40,7 @@ Our catalogs enable models to climb on different benchmarks, including but not l
 
 ## Model average reward
 
-Each cell is a model's average reward in one catalog (average@k): on each task, the mean grader score over its graded runs, partial credit included; then the mean over the tasks it ran there.
+The chart shows each model's average reward in each catalog. To measure it, we average the grader's score over a model's runs on each task, including partial credit. Then we average across the total number of tasks that the model ran.
 
 <div class="cx" data-chart="heat">
 <div class="fig-head"><span class="lab">Interactive figure</span><h4>Average reward by model and catalog</h4></div>

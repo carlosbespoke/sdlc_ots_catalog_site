@@ -4,19 +4,19 @@
 
 <div class="kpis"><div class="kpi"><div class="kpi-value">434</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">8%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">1%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">38%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
-Each task asks the agent to make software behave exactly like a reference version. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from a reference program and its documentation. In the upgrade tasks the agent brings an existing repository up to the reference's newer release by changing its code. In 19% of tasks the agent chooses the language; the most common fixed languages are Rust (26%) and Go (23%).
+In each ProgramBench task, we ask the agent to make software behave exactly like a reference version. In the reimplementation tasks the agent writes a new program from scratch, in a language of its choice, from the reference program and its documentation. In upgrade tasks, the agent changes an existing repository to match the behaviour of a newer reference release. In 19% of tasks the agent chooses the language; the most common fixed languages are Rust (26% of all tasks) and Go (23%).
 
-Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, has an average reward of 1% over 2,407 graded runs and scores 0 on every run of 93% of the 353 tasks it ran.
+google/gemini-3.8-flash has the most runs in this catalog. It completed 2,407 graded runs across 353 tasks, with an average reward of 1%. On 93% of those tasks, every graded run received a score of zero.
 
-## Why this catalog
+## Engineering problems and task setup
 
 ### Problems engineers face
 
-Engineers often have to make software behave exactly like a version they cannot reuse: rebuilding a tool whose source is unavailable, or bringing an old codebase up to a newer release. In both cases the specification is observable behaviour. The hard part is inferring the rules from outputs and documentation, then matching exit codes, output, file effects and numeric precision without seeing the tests.
+Engineers often have to make software behave exactly like a version they cannot reuse: rebuilding a tool whose source is unavailable, or bringing an old codebase up to a newer release. In both cases, the agent must determine the required behaviour from the documentation and by running the reference program. The hard part is inferring the rules from outputs and documentation, then matching exit codes, output, file effects and numeric precision without seeing the tests.
 
-### How the tasks reproduce them
+### Task setup
 
-Every task runs offline, and hidden tests compare the result with a reference program the agent can run but not read. For a reimplementation, the agent writes a source project and a `compile.sh` from the reference and its documentation. For an upgrade, the agent changes an existing repository in `/app/repo`, which is built with a fixed `/opt/task/build.sh`.
+Each task runs without network access. The agent can run the reference program to observe its behaviour but cannot inspect its code. Hidden tests check whether the agent's implementation matches that behaviour. For a reimplementation, the agent writes the program's source code and a `compile.sh` build script, using the reference program and its documentation. For an upgrade, the agent changes an existing repository in `/app/repo`, which is built with a fixed `/opt/task/build.sh`.
 
 ### Typical prompts
 
@@ -58,9 +58,9 @@ The tasks span eight domains. The largest, Languages & developer tooling, makes 
 
 ## Model average reward across the catalog
 
-A model's average reward is average@k: on each task, the mean grader score over its graded runs, with partial credit counted as scored; then the mean over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+For each task, we average the model's scores across its graded runs, including partial credit. We then average those task scores across all tasks the model ran. Runs that ended in an error are excluded. The score-range columns show selected ranges and do not cover every task.
 
-| Model | Tasks run | Graded runs | Average reward | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
+| Model | Tasks run | Graded runs | Average reward | Tasks with 0% average reward | Tasks with 20% to 80% average reward | Tasks with 100% average reward |
 |---|---:|---:|---:|---:|---:|---:|
 | google/gemini-3.8-flash | 353 | 2,407 | 1% | 93% | 0% | 0% |
 | z-ai/glm-5.3-flash | 123 | 584 | 8% | 56% | 13% | 0% |
@@ -73,7 +73,7 @@ A model's average reward is average@k: on each task, the mean grader score over 
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 434 of the 434 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. In this report, a task is classified as long horizon if that average is at least 200 turns. All 434 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|

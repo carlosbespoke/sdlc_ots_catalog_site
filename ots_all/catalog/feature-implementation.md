@@ -4,19 +4,19 @@
 
 <div class="kpis"><div class="kpi"><div class="kpi-value">117</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">29%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">&lt;1%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">27%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
-Each task asks the agent to add a capability to an existing open-source library or service, specified as the public types and functions to deliver, while existing callers see no change. The main languages are Go (71%), Python (27%) and C# (1%).
+In this catalog, the agent must add a feature to an existing library or service, while existing features continue to behave as before. The main languages are Go (71%) and Python (27%).
 
-Every task has graded runs. The model with the most runs here, google/gemini-3.8-flash, has an average reward of <1% over 651 graded runs and scores 0 on every run of 98% of the 100 tasks it ran.
+google/gemini-3.8-flash has the most runs in this catalog. It completed 651 graded runs across 100 tasks, with an average reward of <1%. On 98% of those tasks, every graded run received a score of zero.
 
-## Why this catalog
+## Engineering problems and task setup
 
 ### Problems engineers face
 
-Maintainers add a capability that runs through many code paths of an unfamiliar library or service, while existing callers must see no change. Typical requests add an opt-in mode or policy, keep information the library currently drops, or make a subsystem safe under concurrency and failure.
+Maintainers add a feature that affects several parts of the code of an unfamiliar library or service, while existing callers must see no change. Typical requests add an opt-in mode or policy, keep information the library currently drops, or make a subsystem behave correctly during concurrent operations and failures.
 
-### How the tasks reproduce them
+### Task setup
 
-Each task pins an open-source repository, mostly Go or Python, in an offline container and gives a written specification of the new behaviour. The agent's edits are collected as a diff against the base commit. After the session, hidden acceptance tests check the new behaviour and the project's existing tests check that nothing else changed.
+Each task pins an open-source repository, mostly Go or Python, in an offline container and gives a written specification of the new behaviour. The agent's edits are collected as a diff against the base commit. After the session, hidden acceptance tests check the new behaviour and the project's existing tests check that previously supported behaviour still works.
 
 ### Typical prompts
 
@@ -57,9 +57,9 @@ The tasks span nine domains. The largest, Languages & developer tooling, makes u
 
 ## Model average reward across the catalog
 
-A model's average reward is average@k: on each task, the mean grader score over its graded runs, with partial credit counted as scored; then the mean over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+For each task, we average the model's scores across its graded runs, including partial credit. We then average those task scores across all tasks the model ran. Runs that ended in an error are excluded. The score-range columns show selected ranges and do not cover every task.
 
-| Model | Tasks run | Graded runs | Average reward | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
+| Model | Tasks run | Graded runs | Average reward | Tasks with 0% average reward | Tasks with 20% to 80% average reward | Tasks with 100% average reward |
 |---|---:|---:|---:|---:|---:|---:|
 | google/gemini-3.8-flash | 100 | 651 | <1% | 98% | 0% | 0% |
 | z-ai/glm-5.3-flash | 29 | 148 | 29% | 52% | 48% | 0% |
@@ -72,7 +72,7 @@ A model's average reward is average@k: on each task, the mean grader score over 
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 117 of the 117 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. In this report, a task is classified as long horizon if that average is at least 200 turns. All 117 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|

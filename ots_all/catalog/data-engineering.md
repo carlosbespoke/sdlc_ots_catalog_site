@@ -4,23 +4,23 @@
 
 <div class="kpis"><div class="kpi"><div class="kpi-value">17</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">82%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">39%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">78%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
-Each task extends or repairs a data library or pipeline so it keeps producing correct results after an upstream format or schema change, while old inputs still read the same. The main languages are Python (88%) and SQL (12%).
+In Data Engineering tasks, the agent must extend or repair a data library or pipeline so it keeps producing correct results after an upstream format or schema change, while preserving how the library or pipeline handles existing inputs. The main languages are Python (88%) and SQL (12%).
 
-Every task has graded runs. The model with the most runs here, google/gemini-4-argon, has an average reward of 78% over 64 graded runs and scores 0 on every run of 18% of the 17 tasks it ran.
+google/gemini-4-argon has the most runs in this catalog. It completed 64 graded runs across 17 tasks, with an average reward of 78%. On 18% of those tasks, every graded run received a score of zero.
 
-## Why this catalog
+## Engineering problems and task setup
 
 ### Problems engineers face
 
-Data engineers repair pipelines after an upstream feed changes shape. A vendor or connector changes its format and the next run produces wrong data without failing: exports start resending changed records, files change encoding or layout, sheets arrive in another locale, or a schema changes in the middle of an incremental load. The fix must give the same results on reruns and keep existing tests passing.
+After an upstream feed changes its format or schema, a pipeline may fail or produce incorrect results. For example, exports start resending changed records, files change encoding or layout, sheets arrive in another locale, or a schema changes in the middle of an incremental load. The fix must give the same results on reruns and keep existing tests passing.
 
-### How the tasks reproduce them
+### Task setup
 
-Each task is a public repository at a pinned commit in `/app`, with a Python virtual environment and, where needed, dbt and DuckDB. Sample inputs such as CSV, Parquet, XML or SQLite files sit in `/data` or in the project, and there is no network. The prompt gives the symptom and the required behaviour, not the faulty code. After the session, a verifier applies the agent's diff, runs the repository's own checks and a hidden suite as an unprivileged user.
+Each task is a public repository at a pinned commit in `/app`, with a Python virtual environment and, where needed, dbt and DuckDB. Sample inputs such as CSV, Parquet, XML or SQLite files sit in `/data` or in the project, and there is no network. The prompt gives the symptom and the required behaviour, not the faulty code. After the session, a verifier applies the agent's diff, runs the repository's own checks and a hidden test suite, both as a user without admin rights.
 
 ### Typical prompts
 
-- A first-person production symptom after a vendor or connector change, with sample files in `/data`.
+- A description of a production problem following a vendor or connector change, with sample files in `/data`.
 - A behaviour spec in prose with edge cases, defaults and idempotence rules, ending with a request to fix the library without breaking existing tests.
 - An opt-in feature request for a parser or loader, with defaults that must not change.
 
@@ -55,9 +55,9 @@ The tasks span three domains. The largest, Data engineering & databases, makes u
 
 ## Model average reward across the catalog
 
-A model's average reward is average@k: on each task, the mean grader score over its graded runs, with partial credit counted as scored; then the mean over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+For each task, we average the model's scores across its graded runs, including partial credit. We then average those task scores across all tasks the model ran. Runs that ended in an error are excluded. The score-range columns show selected ranges and do not cover every task.
 
-| Model | Tasks run | Graded runs | Average reward | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
+| Model | Tasks run | Graded runs | Average reward | Tasks with 0% average reward | Tasks with 20% to 80% average reward | Tasks with 100% average reward |
 |---|---:|---:|---:|---:|---:|---:|
 | google/gemini-4-argon | 17 | 64 | 78% | 18% | 6% | 71% |
 | google/gemini-3.8-flash | 5 | 54 | 39% | 20% | 80% | 0% |
@@ -70,7 +70,7 @@ A model's average reward is average@k: on each task, the mean grader score over 
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 17 of the 17 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. In this report, a task is classified as long horizon if that average is at least 200 turns. All 17 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|

@@ -4,19 +4,25 @@
 
 <div class="kpis"><div class="kpi"><div class="kpi-value">94</div><div class="kpi-label">Tasks</div></div><div class="kpi"><div class="kpi-value">37%</div><div class="kpi-label">z-ai/glm-5.3-flash average reward</div></div><div class="kpi"><div class="kpi-value">2%</div><div class="kpi-label">google/gemini-3.8-flash average reward</div></div><div class="kpi"><div class="kpi-value">60%</div><div class="kpi-label">google/gemini-4-argon average reward</div></div></div>
 
-Each task changes a production service that must keep running. The agent makes a multi-process service hold its guarantees through crashes, retries, races and returning stale writers, and delivers the change as a patch. The main languages are Python (38%), TypeScript (24%) and Go (22%).
+System design tasks ask the agent to change a service, that runs as several processes that share data, while the service keeps running. The changes must preserve correct behaviour when processes fail or restart. The agent submits the changes as a patch. The main languages are Python (38%), TypeScript (24%) and Go (22%).
 
-Every task has graded runs. The model with the most runs here, z-ai/glm-5.3-flash, has an average reward of 37% over 442 graded runs and scores 0 on every run of 14% of the 80 tasks it ran.
+z-ai/glm-5.3-flash has the most runs in this catalog. It completed 442 graded runs across 80 tasks, with an average reward of 37%. On 14% of those tasks, every graded run received a score of zero.
 
-## Why this catalog
+## Engineering problems and task setup
 
 ### Problems engineers face
 
-Production systems fail in specific ways when they change while running. In services where several processes share state and any of them can stop, the failures are duplicate effects after retries, lost notifications, stale writers returning after a takeover, limits that hold in one process but not across instances, and partial state after a crash.
+When engineers change a running service whose processes share data, they face this common set of failures:
 
-### How the tasks reproduce them
+- Duplicate effects after retries.
+- Lost notifications.
+- A process resumes writing after another process has taken over its role.
+- Each process enforces a limit independently, allowing the service as a whole to exceed it.
+- A crash leaves an operation only partly applied.
 
-Each task pins an open-source repository at a base commit, with a short specification that often sets time limits. The agent runs the needed databases, caches or brokers locally and delivers a patch. After the session, hidden tests kill or pause processes, cut connections and confirm that existing behaviour still works.
+### Task setup
+
+Each task uses an open-source repository at a fixed commit, with a short specification that often sets time limits. The agent runs the needed databases, caches or brokers locally and delivers a patch. After the session, hidden tests kill or pause processes, cut connections and confirm that existing behaviour still works.
 
 ### Typical prompts
 
@@ -57,9 +63,9 @@ The tasks span ten domains. The largest, Applications & business domains, makes 
 
 ## Model average reward across the catalog
 
-A model's average reward is average@k: on each task, the mean grader score over its graded runs, with partial credit counted as scored; then the mean over the tasks it ran. Runs that errored are left out. Models are listed by number of runs, and a model needs graded runs on five or more tasks for a row.
+For each task, we average the model's scores across its graded runs, including partial credit. We then average those task scores across all tasks the model ran. Runs that ended in an error are excluded. The score-range columns show selected ranges and do not cover every task.
 
-| Model | Tasks run | Graded runs | Average reward | Tasks at 0% | Tasks at 20-80% | Tasks at 100% |
+| Model | Tasks run | Graded runs | Average reward | Tasks with 0% average reward | Tasks with 20% to 80% average reward | Tasks with 100% average reward |
 |---|---:|---:|---:|---:|---:|---:|
 | z-ai/glm-5.3-flash | 80 | 442 | 37% | 14% | 68% | 4% |
 | google/gemini-4-argon | 62 | 195 | 60% | 26% | 27% | 47% |
@@ -72,7 +78,7 @@ A model's average reward is average@k: on each task, the mean grader score over 
 
 ## Turn counts and long-horizon tasks
 
-A task's turn count is the average over its completed runs, from every model. A task is long horizon when that average is 200 or more turns. 94 of the 94 tasks have a completed run.
+A task's turn count is the average over its completed runs, from every model. In this report, a task is classified as long horizon if that average is at least 200 turns. All 94 tasks have a completed run.
 
 | Measure | Value |
 |---|---:|
