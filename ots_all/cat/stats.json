@@ -12739,15 +12739,15 @@
  "system-design": {
   "title": "System design",
   "name": "System design",
-  "tasks": 94,
-  "tasks_graded": 94,
+  "tasks": 182,
+  "tasks_graded": 182,
   "min_tasks": 5,
   "turns": {
-   "tasks_with_turns": 94,
-   "runs": 780,
-   "mean_of_task_means": 443.21065204611824,
-   "median_of_task_means": 409.80555555555554,
-   "long_horizon_tasks": 88,
+   "tasks_with_turns": 182,
+   "runs": 1408,
+   "mean_of_task_means": 449.6631235477874,
+   "median_of_task_means": 429.08730158730157,
+   "long_horizon_tasks": 173,
    "threshold": 200,
    "task_means": [
     163.55555555555554,
@@ -12843,24 +12843,112 @@
     592.5714285714286,
     343.44444444444446,
     595.5555555555555,
-    765.75
+    765.75,
+    440.42857142857144,
+    209.83333333333334,
+    154.85714285714286,
+    241.85714285714286,
+    478.44444444444446,
+    449.85714285714283,
+    283.85714285714283,
+    292.8333333333333,
+    457.0,
+    383.42857142857144,
+    836.2857142857143,
+    298.1818181818182,
+    432.2857142857143,
+    382.5,
+    671.5,
+    482.8333333333333,
+    450.0,
+    473.8333333333333,
+    361.6666666666667,
+    456.6666666666667,
+    272.2857142857143,
+    207.16666666666666,
+    244.16666666666666,
+    153.0,
+    78.66666666666667,
+    700.6666666666666,
+    510.1666666666667,
+    541.3333333333334,
+    418.14285714285717,
+    315.8333333333333,
+    260.14285714285717,
+    255.36363636363637,
+    218.27272727272728,
+    599.0,
+    870.1666666666666,
+    433.2857142857143,
+    556.0,
+    540.5714285714286,
+    471.0,
+    333.3636363636364,
+    772.5,
+    315.1666666666667,
+    476.3333333333333,
+    410.77777777777777,
+    376.6666666666667,
+    339.7142857142857,
+    506.90909090909093,
+    666.0,
+    699.0,
+    517.8888888888889,
+    598.0909090909091,
+    772.7142857142857,
+    743.6666666666666,
+    495.3333333333333,
+    654.6666666666666,
+    280.3333333333333,
+    376.6666666666667,
+    327.14285714285717,
+    403.8,
+    448.1666666666667,
+    291.0,
+    387.77777777777777,
+    445.0,
+    452.0,
+    269.6,
+    331.54545454545456,
+    307.2,
+    490.1666666666667,
+    594.75,
+    331.75,
+    593.6,
+    732.3333333333334,
+    627.7777777777778,
+    399.55555555555554,
+    896.4,
+    371.4,
+    583.0,
+    766.4,
+    451.7142857142857,
+    696.5714285714286,
+    489.0,
+    380.0,
+    381.22222222222223,
+    798.0,
+    534.2857142857143,
+    514.375,
+    345.75,
+    316.42857142857144
    ],
    "max_task_mean": 931.3333333333334,
-   "min_task_mean": 106.83333333333333,
+   "min_task_mean": 78.66666666666667,
    "by_model": [
     {
      "model": "z-ai/glm-5.3-flash",
-     "runs": 442,
-     "tasks": 80,
-     "mean": 522.0565610859728,
-     "runs_200_plus": 405
+     "runs": 956,
+     "tasks": 168,
+     "mean": 500.1119246861925,
+     "runs_200_plus": 874
     },
     {
      "model": "google/gemini-4-argon",
-     "runs": 195,
-     "tasks": 62,
-     "mean": 321.5282051282051,
-     "runs_200_plus": 157
+     "runs": 309,
+     "tasks": 110,
+     "mean": 323.76375404530745,
+     "runs_200_plus": 247
     },
     {
      "model": "google/gemini-3.8-flash",
@@ -12876,206 +12964,221 @@
   "domain": [
    {
     "super_group": "Applications & business domains",
-    "tasks": 37,
-    "pct": 39.4,
+    "tasks": 79,
+    "pct": 43.4,
     "categories": [
      {
       "category": "Web applications",
-      "tasks": 21,
-      "pct": 22.3
+      "tasks": 46,
+      "pct": 25.3
      },
      {
       "category": "Payments & banking",
-      "tasks": 8,
-      "pct": 8.5
+      "tasks": 14,
+      "pct": 7.7
      },
      {
       "category": "Collaborative documents",
-      "tasks": 4,
-      "pct": 4.3
+      "tasks": 12,
+      "pct": 6.6
+     },
+     {
+      "category": "Education tooling",
+      "tasks": 3,
+      "pct": 1.6
      },
      {
       "category": "Media processing",
       "tasks": 2,
-      "pct": 2.1
-     },
-     {
-      "category": "Education tooling",
-      "tasks": 1,
       "pct": 1.1
      },
      {
       "category": "Calendaring & recurrence",
       "tasks": 1,
-      "pct": 1.1
-     }
-    ]
-   },
-   {
-    "super_group": "Scientific & ML software",
-    "tasks": 14,
-    "pct": 14.9,
-    "categories": [
-     {
-      "category": "Machine learning & MLOps",
-      "tasks": 5,
-      "pct": 5.3
+      "pct": 0.5
      },
      {
-      "category": "Statistics & numerical methods",
-      "tasks": 3,
-      "pct": 3.2
-     },
-     {
-      "category": "AI agents & retrieval",
-      "tasks": 2,
-      "pct": 2.1
-     },
-     {
-      "category": "Graph algorithms",
+      "category": "Games & game engines",
       "tasks": 1,
-      "pct": 1.1
-     },
-     {
-      "category": "Medical imaging & healthcare",
-      "tasks": 1,
-      "pct": 1.1
-     },
-     {
-      "category": "Scientific computing",
-      "tasks": 1,
-      "pct": 1.1
-     },
-     {
-      "category": "Geospatial",
-      "tasks": 1,
-      "pct": 1.1
+      "pct": 0.5
      }
     ]
    },
    {
     "super_group": "Distributed systems & coordination",
-    "tasks": 10,
-    "pct": 10.6,
+    "tasks": 25,
+    "pct": 13.7,
     "categories": [
      {
       "category": "Messaging & event streaming",
-      "tasks": 6,
-      "pct": 6.4
+      "tasks": 13,
+      "pct": 7.1
      },
      {
       "category": "Workflow automation",
-      "tasks": 3,
-      "pct": 3.2
+      "tasks": 8,
+      "pct": 4.4
      },
      {
       "category": "Job scheduling",
-      "tasks": 1,
-      "pct": 1.1
+      "tasks": 4,
+      "pct": 2.2
      }
     ]
    },
    {
-    "super_group": "Data engineering & databases",
-    "tasks": 8,
-    "pct": 8.5,
+    "super_group": "Scientific & ML software",
+    "tasks": 22,
+    "pct": 12.1,
     "categories": [
      {
-      "category": "Databases & storage engines",
-      "tasks": 6,
-      "pct": 6.4
+      "category": "Machine learning & MLOps",
+      "tasks": 8,
+      "pct": 4.4
      },
      {
-      "category": "Data pipelines & ETL",
-      "tasks": 2,
-      "pct": 2.1
-     }
-    ]
-   },
-   {
-    "super_group": "Security",
-    "tasks": 6,
-    "pct": 6.4,
-    "categories": [
-     {
-      "category": "Secrets & access control",
-      "tasks": 6,
-      "pct": 6.4
-     }
-    ]
-   },
-   {
-    "super_group": "Observability & reliability",
-    "tasks": 5,
-    "pct": 5.3,
-    "categories": [
-     {
-      "category": "Monitoring & observability",
+      "category": "Geospatial",
       "tasks": 5,
-      "pct": 5.3
+      "pct": 2.7
+     },
+     {
+      "category": "Statistics & numerical methods",
+      "tasks": 3,
+      "pct": 1.6
+     },
+     {
+      "category": "Medical imaging & healthcare",
+      "tasks": 2,
+      "pct": 1.1
+     },
+     {
+      "category": "AI agents & retrieval",
+      "tasks": 2,
+      "pct": 1.1
+     },
+     {
+      "category": "Graph algorithms",
+      "tasks": 1,
+      "pct": 0.5
+     },
+     {
+      "category": "Scientific computing",
+      "tasks": 1,
+      "pct": 0.5
      }
     ]
    },
    {
     "super_group": "Build, release & supply chain",
-    "tasks": 5,
-    "pct": 5.3,
+    "tasks": 13,
+    "pct": 7.1,
     "categories": [
      {
-      "category": "CI/CD",
-      "tasks": 3,
-      "pct": 3.2
+      "category": "Software supply chain",
+      "tasks": 8,
+      "pct": 4.4
      },
      {
-      "category": "Software supply chain",
-      "tasks": 2,
-      "pct": 2.1
+      "category": "CI/CD",
+      "tasks": 5,
+      "pct": 2.7
+     }
+    ]
+   },
+   {
+    "super_group": "Data engineering & databases",
+    "tasks": 12,
+    "pct": 6.6,
+    "categories": [
+     {
+      "category": "Databases & storage engines",
+      "tasks": 6,
+      "pct": 3.3
+     },
+     {
+      "category": "Data pipelines & ETL",
+      "tasks": 5,
+      "pct": 2.7
+     },
+     {
+      "category": "Analytics engineering",
+      "tasks": 1,
+      "pct": 0.5
      }
     ]
    },
    {
     "super_group": "Systems, hardware & accelerators",
-    "tasks": 5,
-    "pct": 5.3,
+    "tasks": 10,
+    "pct": 5.5,
     "categories": [
      {
       "category": "Networking & HTTP",
-      "tasks": 3,
-      "pct": 3.2
+      "tasks": 7,
+      "pct": 3.8
      },
      {
       "category": "IoT & smart home",
-      "tasks": 1,
+      "tasks": 2,
       "pct": 1.1
      },
      {
       "category": "Filesystems",
       "tasks": 1,
-      "pct": 1.1
+      "pct": 0.5
+     }
+    ]
+   },
+   {
+    "super_group": "Observability & reliability",
+    "tasks": 9,
+    "pct": 4.9,
+    "categories": [
+     {
+      "category": "Monitoring & observability",
+      "tasks": 8,
+      "pct": 4.4
+     },
+     {
+      "category": "Rate limiting",
+      "tasks": 1,
+      "pct": 0.5
+     }
+    ]
+   },
+   {
+    "super_group": "Security",
+    "tasks": 7,
+    "pct": 3.8,
+    "categories": [
+     {
+      "category": "Secrets & access control",
+      "tasks": 7,
+      "pct": 3.8
      }
     ]
    },
    {
     "super_group": "Cloud infrastructure & IaC",
-    "tasks": 2,
-    "pct": 2.1,
+    "tasks": 3,
+    "pct": 1.6,
     "categories": [
      {
       "category": "Cloud infra: containers & self-hosted platforms",
-      "tasks": 2,
-      "pct": 2.1
+      "tasks": 3,
+      "pct": 1.6
      }
     ]
    },
    {
     "super_group": "Languages & developer tooling",
     "tasks": 2,
-    "pct": 2.1,
+    "pct": 1.1,
     "categories": [
      {
       "category": "API tooling",
       "tasks": 2,
-      "pct": 2.1
+      "pct": 1.1
      }
     ]
    }
@@ -13083,97 +13186,97 @@
   "language": [
    {
     "value": "Python",
-    "tasks": 36,
-    "pct": 38.3
+    "tasks": 72,
+    "pct": 39.6
    },
    {
     "value": "TypeScript",
-    "tasks": 23,
-    "pct": 24.5
+    "tasks": 66,
+    "pct": 36.3
    },
    {
     "value": "Go",
-    "tasks": 21,
-    "pct": 22.3
+    "tasks": 25,
+    "pct": 13.7
    },
    {
     "value": "C#",
-    "tasks": 14,
-    "pct": 14.9
+    "tasks": 19,
+    "pct": 10.4
    }
   ],
   "role": [
    {
     "value": "Distributed Systems Engineer",
-    "tasks": 71,
-    "pct": 75.5
+    "tasks": 159,
+    "pct": 87.4
    },
    {
     "value": "Performance Engineer",
     "tasks": 9,
-    "pct": 9.6
+    "pct": 4.9
    },
    {
     "value": "Backend Engineer",
     "tasks": 5,
-    "pct": 5.3
+    "pct": 2.7
    },
    {
     "value": "Library / Backend Engineer",
     "tasks": 2,
-    "pct": 2.1
+    "pct": 1.1
    },
    {
     "value": "ML / AI Engineer",
     "tasks": 2,
-    "pct": 2.1
+    "pct": 1.1
    },
    {
     "value": "Platform Engineer",
     "tasks": 2,
-    "pct": 2.1
+    "pct": 1.1
    },
    {
     "value": "Security Engineer",
     "tasks": 1,
-    "pct": 1.1
+    "pct": 0.5
    },
    {
     "value": "Data Engineer",
     "tasks": 1,
-    "pct": 1.1
+    "pct": 0.5
    },
    {
     "value": "Systems Engineer",
     "tasks": 1,
-    "pct": 1.1
+    "pct": 0.5
    }
   ],
   "seniority": [
    {
     "value": "Staff+",
-    "tasks": 85,
-    "pct": 90.4
+    "tasks": 173,
+    "pct": 95.1
    },
    {
     "value": "Senior",
     "tasks": 9,
-    "pct": 9.6
+    "pct": 4.9
    }
   ],
   "models": [
    {
     "model": "z-ai/glm-5.3-flash",
-    "tasks": 80,
-    "rollouts": 476,
-    "graded": 442,
-    "passed": 161,
-    "reward": 0.3657440476190476,
-    "error_rate": 0.07142857142857142,
-    "tasks_graded": 80,
-    "tasks_0": 11,
-    "tasks_100": 3,
-    "tasks_20_80": 54,
+    "tasks": 168,
+    "rollouts": 1026,
+    "graded": 956,
+    "passed": 372,
+    "reward": 0.38261891877963305,
+    "error_rate": 0.0682261208576998,
+    "tasks_graded": 168,
+    "tasks_0": 17,
+    "tasks_100": 4,
+    "tasks_20_80": 116,
     "per_task_rates": [
      0.75,
      0.25,
@@ -13254,21 +13357,109 @@
      0.5,
      0.5,
      0.16666666666666666,
-     0.25
+     0.25,
+     0.3333333333333333,
+     0.16666666666666666,
+     0.16666666666666666,
+     0.16666666666666666,
+     0.5,
+     0.16666666666666666,
+     0.3333333333333333,
+     0.5,
+     0.5,
+     0.3333333333333333,
+     0.3333333333333333,
+     0.5454545454545454,
+     0.16666666666666666,
+     0.6666666666666666,
+     0.6666666666666666,
+     0.6666666666666666,
+     0.5,
+     0.16666666666666666,
+     0.6666666666666666,
+     0.5,
+     0.5,
+     0.6666666666666666,
+     0.6666666666666666,
+     0.6666666666666666,
+     0.16666666666666666,
+     0.6666666666666666,
+     0.3333333333333333,
+     0.3333333333333333,
+     0.5,
+     0.6666666666666666,
+     0.3333333333333333,
+     0.16666666666666666,
+     0.3333333333333333,
+     0.16666666666666666,
+     0.16666666666666666,
+     0.3333333333333333,
+     0.16666666666666666,
+     0.16666666666666666,
+     0.5,
+     0.16666666666666666,
+     0.0,
+     0.6666666666666666,
+     0.6666666666666666,
+     0.16666666666666666,
+     0.6666666666666666,
+     0.5,
+     0.3333333333333333,
+     0.4,
+     0.0,
+     0.3333333333333333,
+     0.16666666666666666,
+     0.16666666666666666,
+     0.6666666666666666,
+     0.6666666666666666,
+     0.6666666666666666,
+     0.3333333333333333,
+     0.5,
+     0.5,
+     0.6,
+     0.3333333333333333,
+     0.6666666666666666,
+     0.6666666666666666,
+     0.16666666666666666,
+     0.6666666666666666,
+     0.4,
+     0.3333333333333333,
+     0.6,
+     0.4,
+     0.625,
+     0.75,
+     0.2,
+     0.5,
+     0.25,
+     0.25,
+     0.0,
+     0.5,
+     0.0,
+     0.0,
+     0.25,
+     0.25,
+     1.0,
+     0.5,
+     0.25,
+     0.125,
+     0.0,
+     0.25,
+     0.875,
+     0.5
     ]
    },
    {
     "model": "google/gemini-4-argon",
-    "tasks": 64,
-    "rollouts": 207,
-    "graded": 195,
-    "passed": 89,
-    "reward": 0.5954301075268816,
-    "error_rate": 0.057971014492753624,
-    "tasks_graded": 62,
-    "tasks_0": 16,
-    "tasks_100": 29,
-    "tasks_20_80": 17,
+    "tasks": 112,
+    "rollouts": 323,
+    "graded": 309,
+    "passed": 152,
+    "reward": 0.636969696969697,
+    "error_rate": 0.043343653250773995,
+    "tasks_graded": 110,
+    "tasks_0": 27,
+    "tasks_100": 58,
+    "tasks_20_80": 25,
     "per_task_rates": [
      0.8,
      1.0,
@@ -13331,7 +13522,55 @@
      1.0,
      1.0,
      0.0,
-     0.3333333333333333
+     0.3333333333333333,
+     1.0,
+     1.0,
+     1.0,
+     0.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     0.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     0.0,
+     1.0,
+     0.0,
+     0.4,
+     0.3333333333333333,
+     1.0,
+     0.0,
+     0.3333333333333333,
+     0.0,
+     0.6,
+     1.0,
+     1.0,
+     0.0,
+     1.0,
+     0.0,
+     1.0,
+     0.6,
+     1.0,
+     1.0,
+     0.8,
+     1.0,
+     0.0,
+     0.3333333333333333,
+     1.0,
+     1.0,
+     1.0,
+     0.0,
+     0.75,
+     0.0
     ]
    },
    {
@@ -16320,6 +16559,2330 @@
     "turns": {
      "z-ai/glm-5.3-flash": [
       3063,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      320,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      2763,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data pipelines & ETL",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      1259,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Messaging & event streaming",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      85,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      999,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Observability & reliability",
+    "cat": "Monitoring & observability",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      109,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1584,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      0,
+      1,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      771,
+      3
+     ],
+     "z-ai/glm-5.3-flash": [
+      3535,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Collaborative documents",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      237,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      2912,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "CI/CD",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      86,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1901,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Collaborative documents",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      1,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      1757,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Collaborative documents",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      1,
+      0,
+      0,
+      1,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      176,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      3937,
+      8
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Job scheduling",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      1,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      134,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      2550,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Collaborative documents",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      261,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      5593,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Messaging & event streaming",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      3280,
+      11
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "CI/CD",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      251,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      2775,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Networking & HTTP",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      1,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2295,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Messaging & event streaming",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      4029,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      1,
+      1,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2897,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Messaging & event streaming",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      0,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      259,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      2891,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2843,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Games & game engines",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      1,
+      1,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2170,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Cloud infrastructure & IaC",
+    "cat": "Cloud infra: containers & self-hosted platforms",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      1,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2740,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Networking & HTTP",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      1,
+      1,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      157,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1749,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Messaging & event streaming",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      0,
+      1,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      1243,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Observability & reliability",
+    "cat": "Monitoring & observability",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      1,
+      1,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      1465,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Collaborative documents",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      1,
+      0,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      918,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Messaging & event streaming",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      472,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      0,
+      1,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      4204,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Job scheduling",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      3061,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Observability & reliability",
+    "cat": "Rate limiting",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      0,
+      0,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      947,
+      3
+     ],
+     "z-ai/glm-5.3-flash": [
+      3925,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      1,
+      1,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      286,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      2641,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Medical imaging & healthcare",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      1,
+      1,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      1895,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      1,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      120,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1701,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      1091,
+      5
+     ],
+     "z-ai/glm-5.3-flash": [
+      1718,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      586,
+      5
+     ],
+     "z-ai/glm-5.3-flash": [
+      1815,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Workflow automation",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      480,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      3713,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Software supply chain",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      5221,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Software supply chain",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      464,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      2569,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Workflow automation",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      991,
+      3
+     ],
+     "z-ai/glm-5.3-flash": [
+      4013,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Networking & HTTP",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      233,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      3551,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Geospatial",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      1,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      788,
+      3
+     ],
+     "z-ai/glm-5.3-flash": [
+      3451,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Machine learning & MLOps",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      1,
+      0,
+      1,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      918,
+      5
+     ],
+     "z-ai/glm-5.3-flash": [
+      2749,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Geospatial",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      4635,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      1,
+      0,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      1891,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Messaging & event streaming",
+    "lang": "Go",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      1,
+      1,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2858,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Geospatial",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      0,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      666,
+      3
+     ],
+     "z-ai/glm-5.3-flash": [
+      3031,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Machine learning & MLOps",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      1,
+      1,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2260,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Observability & reliability",
+    "cat": "Monitoring & observability",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      1,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      125,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      2253,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      0,
+      0,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      2558,
+      5
+     ],
+     "z-ai/glm-5.3-flash": [
+      3018,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "IoT & smart home",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      0,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      1937,
+      3
+     ],
+     "z-ai/glm-5.3-flash": [
+      3391,
+      5
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Geospatial",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      4194,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Software supply chain",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      805,
+      3
+     ],
+     "z-ai/glm-5.3-flash": [
+      3856,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      1,
+      1,
+      1,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      2311,
+      5
+     ],
+     "z-ai/glm-5.3-flash": [
+      4268,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      271,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      5138,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      1,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      4462,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Payments & banking",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      0,
+      1,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2972,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Software supply chain",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      0,
+      1,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      3928,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      1682,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Scientific & ML software",
+    "cat": "Machine learning & MLOps",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      1,
+      1,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2260,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Education tooling",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      1,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      123,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      2167,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Education tooling",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      0,
+      0,
+      1,
+      1,
+      1,
+      0,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      4038,
+      10
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Payments & banking",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2689,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Payments & banking",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      1,
+      1,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      1746,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Security",
+    "cat": "Secrets & access control",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      3490,
+      9
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Collaborative documents",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2670,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      1,
+      1,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2712,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Payments & banking",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      1348,
+      5
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      1041,
+      5
+     ],
+     "z-ai/glm-5.3-flash": [
+      2606,
+      6
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      1,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      1536,
+      5
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Collaborative documents",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      1,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      213,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      2728,
+      5
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      4758,
+      8
+     ]
+    }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data pipelines & ETL",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2654,
+      8
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Collaborative documents",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2968,
+      5
+     ]
+    }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Data pipelines & ETL",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      955,
+      2
+     ],
+     "z-ai/glm-5.3-flash": [
+      3439,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Software supply chain",
+    "lang": "Go",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      2281,
+      5
+     ],
+     "z-ai/glm-5.3-flash": [
+      3369,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      0,
+      1,
+      1,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      1808,
+      5
+     ],
+     "z-ai/glm-5.3-flash": [
+      1788,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Job scheduling",
+    "lang": "Go",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      646,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      3836,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Data engineering & databases",
+    "cat": "Analytics engineering",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      280,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1577,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "C#",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1,
+      1,
+      0,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      2101,
+      5
+     ],
+     "z-ai/glm-5.3-flash": [
+      3146,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Workflow automation",
+    "lang": "C#",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      661,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      3171,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Systems, hardware & accelerators",
+    "cat": "Networking & HTTP",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      868,
+      3
+     ],
+     "z-ai/glm-5.3-flash": [
+      2294,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Workflow automation",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      1,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      2153,
+      3
+     ],
+     "z-ai/glm-5.3-flash": [
+      2723,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "C#",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      1467,
+      3
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      286,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1614,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Payments & banking",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1,
+      1,
+      1,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      1841,
+      5
+     ],
+     "z-ai/glm-5.3-flash": [
+      1590,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Payments & banking",
+    "lang": "Python",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      279,
+      1
+     ],
+     "z-ai/glm-5.3-flash": [
+      6903,
+      8
+     ]
+    }
+   },
+   {
+    "sg": "Distributed systems & coordination",
+    "cat": "Workflow automation",
+    "lang": "C#",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      1164,
+      3
+     ],
+     "z-ai/glm-5.3-flash": [
+      2576,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Build, release & supply chain",
+    "cat": "Software supply chain",
+    "lang": "Go",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      1,
+      1,
+      1,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      1,
+      0,
+      0,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      1637,
+      4
+     ],
+     "z-ai/glm-5.3-flash": [
+      2478,
+      4
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "TypeScript",
+    "sen": "Staff+",
+    "scores": {
+     "z-ai/glm-5.3-flash": [
+      1,
+      1,
+      1,
+      1,
+      0,
+      1,
+      1,
+      1
+     ]
+    },
+    "turns": {
+     "z-ai/glm-5.3-flash": [
+      2766,
+      8
+     ]
+    }
+   },
+   {
+    "sg": "Applications & business domains",
+    "cat": "Web applications",
+    "lang": "C#",
+    "sen": "Staff+",
+    "scores": {
+     "google/gemini-4-argon": [
+      0,
+      0,
+      0
+     ],
+     "z-ai/glm-5.3-flash": [
+      0,
+      1,
+      1,
+      0
+     ]
+    },
+    "turns": {
+     "google/gemini-4-argon": [
+      585,
+      3
+     ],
+     "z-ai/glm-5.3-flash": [
+      1630,
       4
      ]
     }
